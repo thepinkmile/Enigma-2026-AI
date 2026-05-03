@@ -57,11 +57,20 @@ Recent locked work:
 - `7829f8a` — `Normalize design document refdes`
 - `1c2a505` — `Reset doc metadata versions`
 - `4e36234` — `Close encoder split review`
-- the current working tree carries the Power Module military-battery connector candidate note, the
-  generated Glenair datasheet markdown, and the repo-local state sync for battery-review closeout
 - **Pass 1 review cycle complete** — 42 findings resolved across all 11 boards + integration;
   all user decisions D-1 through D-7 actioned; new datasheets for Bourns SMBJ18A-Q and
-  CTS 435F12012IET generated; two new markdown datasheets; all files lint-clean
+  CTS 435F12012IET generated; all files lint-clean
+- **Pass 2 review cycle complete** — all findings F-42–F-66 resolved; audit trail in
+  `.copilot/review-report.md`
+- **Pass 3 review cycle complete** — 19 fixes (F-67–F-87) across 15 files; signal renames,
+  new DRs, Mouser PNs corrected; audit trail appended to review-report.md
+- **Rotor RefDes renames and reallocate** — variant A/B suffix convention (U3A/U3B, etc.),
+  consecutive renumber (R1-R6 gap closed), all design docs and BOM updated; DEC-052 logged
+- **Pass 4 review cycle complete** — 10 fixes (F-88–F-97) + EXT-P4-2 standoffs applied; DF40
+  connector swap across AM/CTL/EXT (ERM8/ERF8 retired for AM attachment); DR-EXT-10 retired;
+  new datasheets: Hirose DF40, Würth 9774035151R, TE 1-1674231-1, TI CSD17578Q5A; all lint-clean
+- **Character normalisation complete** — approved character matrix in `.copilot/allowed-character-matrix.md`;
+  74 `design/` files normalised; German ALL-CAPS umlaut exception documented; lint-clean; `d226689`
 
 ---
 
@@ -69,13 +78,15 @@ Recent locked work:
 
 | ID | Status | Scope |
 | ---- | -------- | ------- |
-| `review-cycle-pass3` | **complete** | Pass 3 electronics review fixes complete; all 19 fixes (F-67–F-87) applied and lint-clean; audit trail appended to review-report.md; checkpoint 100 created; awaiting "Let's lock this in" |
-| `bom-description-strip` | **complete** | All 11 board spec Component columns stripped; Consolidated_BOM.md 205 Description/Usage cells stripped + 4 new Rotor N=26 rows + Section 2 ROT-A/B→ROT-26/64 rename + 5 qty corrections; all_boards_bom.json 201 descriptions stripped + Rotor board field rename; all files lint-clean; checkpoint 090 written; awaiting "Let's lock this in" |
-| `extension-mechanical-usage` | pending | Mechanical Extension usage is now aligned to local AM-based carry regeneration, but detailed switch / linkage geometry still needs later mechanical design |
+| `review-cycle-pass3` | **done** | Pass 3 electronics review fixes complete and committed; all 19 fixes (F-67–F-87) applied; audit trail in review-report.md |
+| `review-cycle-pass4` | **done** | Pass 4 electronics review fixes complete and committed; 10 fixes (F-88–F-97) + EXT-P4-2 standoffs; DF40 swap; audit trail in review-report.md |
+| `char-normalise-directives` | **done** | Approved character matrix created; 74 design files normalised; German ALL-CAPS umlaut exception documented; committed `d226689` |
+| `bom-description-strip` | **done** | All 11 board spec Component columns stripped; Consolidated_BOM.md rebuilt; all files lint-clean |
+| `review-cycle-pass5` | **pending** | Next step: verify Pass 3 + Rotor RefDes + Pass 4 fixes, then run Pass 5 review on all boards |
+| `extension-mechanical-usage` | pending | Detailed switch/linkage geometry for Extension boundary carry still needed; architectural answer (shared AM) is locked but physical linkage spec is not |
 | `coupon-testing-review` | pending | Add and review board-level coupons and PAS-oriented test coverage so production boards do not retain test-only hardware |
-| `battery-connector-final-review` | pending | Re-confirm the chosen military battery connector details during the final deep-dive/manual review, especially the 6-pin contact assignment, `BATT_PRES_N` position, reserved contact behavior, cable selection, and interposer fit |
-| `general-pin-mapping-schematic-capture` | pending | Create one shared schematic-capture workstream for unresolved exact package pin/pad assignments, AM service-header preservation, and bias-network details across the AM STM32, Stator mux U7, and the Encoder / Stator / Rotor CPLD packages, aligned with the planned KiCAD project and shared library setup |
-| `rerun-deep-reviews` | pending | Run the final cross-discipline deep-review cycle only near Version 1 closeout, after the electrical, mechanical, and software design work is complete and each board has a full KiCAD project with production Gerbers exported |
+| `battery-connector-final-review` | **blocked** | Re-confirm Glenair `807-216-00ZNU6-6DY` contact assignment, `BATT_PRES_N` position, cable, and interposer fit; check ODU AMC NP lead — awaiting supplier response |
+| `rerun-deep-reviews` | pending | Final pre-V1 cross-discipline deep-review — run only once electrical, mechanical, and software work are complete and each board has a full KiCAD project with exported production Gerbers |
 
 ---
 
@@ -83,16 +94,16 @@ Recent locked work:
 
 | Board | Status |
 | ------- | -------- |
-| Power Module | In Review (Pass 3 fixes applied) |
-| Stator | In Review (Pass 3 fixes applied) |
-| Reflector | In Review (Pass 3 fixes applied) |
-| Extension | In Review (Pass 3 fixes applied) |
-| JDB | In Review (Pass 2 fixes applied) |
-| Controller | In Review (Pass 3 fixes applied) |
-| Encoder | In Review (Pass 3 fixes applied) |
-| Rotor | In Review (Pass 3 fixes applied) |
-| User Settings Module | In Review (Pass 3 fixes applied) |
-| Actuation Module | In Review (Pass 3 fixes applied) |
+| Power Module | In Review (Pass 4 fixes applied) |
+| Stator | In Review (Pass 4 fixes applied) |
+| Reflector | In Review (Pass 3 fixes applied; no Pass 4 changes) |
+| Extension | In Review (Pass 4 fixes applied; DF40 receptacle swap) |
+| JDB | In Review (Pass 2 fixes applied; no Pass 3/4 changes) |
+| Controller | In Review (Pass 4 fixes applied; DF40 receptacle swap) |
+| Encoder | In Review (Pass 3 fixes applied; no Pass 4 changes) |
+| Rotor | In Review (Pass 3 fixes applied; RefDes renames done) |
+| User Settings Module | In Review (Pass 3 fixes applied; no Pass 4 changes) |
+| Actuation Module | In Review (Pass 4 fixes applied; DF40 plug swap) |
 
 ---
 
@@ -103,15 +114,57 @@ Start the next clean session by reading **in this order**:
 1. `.copilot/agent-directives.md` — **load every directive as a standing memory rule before any other work**
 2. `.copilot/plan.md`
 3. `.copilot/handoff.md`
-4. `.copilot/todo-list.md` — canonical deferred-work and open-action tracker for the project
-5. `.copilot/checkpoints/100-pass3-electronics-review-fixes-complete.md` (latest checkpoint)
+4. `.copilot/todo-list.md` — populate the in-session SQL `todos`/`todo_deps` tables from the
+   "SQL Reconstruction Reference" section at the bottom of that file
+5. `.copilot/checkpoints/107-session-state-sync-pre-reboot.md` (latest checkpoint)
+6. `.copilot/review-report.md` (for full Pass 1–4 audit trail)
 
-`Settings_Board` → `User_Settings_Module` rename complete and committed (DEC-051).
-Before next steps:
+### Ordered work for next session
 
-- Begin Pass 3 has been completed. All 19 fixes applied and committed.
+#### Step 1 — Verify Pass 3 fixes and Rotor RefDes changes
 
-Read `.copilot/review-report.md` for the running audit trail.
+Read `.copilot/checkpoints/100-pass3-electronics-review-fixes-complete.md`.
+Check that every fix F-67–F-87 is present in the current design files:
+
+- Signal renames: `LED_nPWR`→`LED_PWR_N`, `I2C1`→`I2C-1`, `DEV_CLRN`→`DEV_CLR_N`,
+  `ACTUATE_REQUEST`→`ACTUATE_REQUEST_N`, `FR-SBD-`/`DR-SBD-`→`FR-USM-`/`DR-USM-`
+- New DRs: DR-EXT-14/15, DR-PM-14, DR-CTL-17, DR-ENC-05, DR-USM-11
+- Mouser PNs corrected in 3 files
+
+Then read checkpoints 096, 097, 102 and confirm Rotor RefDes state:
+
+- U3A/U3B variant naming, C16A/B C17A/B C22A-C25A/B L5A-L8A/B throughout
+  `Design_Spec.md`, `Board_Layout.md`, `Rotor_26_Char_Design.md`, `Rotor_64_Char_Design.md`, `Consolidated_BOM.md`
+- R1–R6 gap-free numbering (no R2–R7 gap); confirmed in all three files
+
+#### Step 2 — Verify Pass 4 fixes
+
+Read `.copilot/checkpoints/103-pass4-wrap-up-complete-ext-p4-2-unblocked.md`
+and `.copilot/checkpoints/104-df40-swap-all-files-complete.md`.
+Check that every fix F-88–F-97 plus EXT-P4-2 standoffs and the DF40 swap are present:
+
+- F-88: `I2C1_SDA/SCL`→`I2C_SDA/SCL` in CTL Board_Layout
+- F-89: `6.0 mil`→`0.20 mm (7.87 mil)` in CTL Design_Spec
+- F-90: DR-EXT-13 pin 2→pin 15 in EXT Design_Spec
+- F-91: PM BOM note range rewritten
+- F-93: `KEY_CM5_ACTIVE_N`→`KEY_CM5_ACTIVE` in STA Board_Layout
+- F-94: DR-STA-12/15 pull-ups + §3 bullets in STA Design_Spec
+- F-95: `ACTUATION_HOME`→`ACTUATION_HOME_N` in AM Board_Layout
+- F-96: C4 BOM note + DEC-046 cross-ref in AM Design_Spec
+- F-97: `ROTOR_EN`→`ROTOR_EN_N` in System_Architecture
+- EXT-P4-2: `Wurth 9774040151R` standoffs BOM row in EXT Design_Spec
+- DF40 swap: AM J1 (DF40C plug), EXT J9 / CTL J11 (DF40HC receptacles), retired J10/J16;
+  standoffs 9774035151R (3.5mm) on EXT MH5-8 / CTL MH5-8; BOM updated
+
+#### Step 3 — Run Review Pass 5
+
+Launch Pass 5 using the multi-agent review process defined in `agent-directives.md`.
+Load all 10 board specs + integration doc fresh; apply all current agent directives as memories.
+Target: identify any remaining inconsistencies after Passes 1–4 and the RefDes/DF40 changes.
+Append findings to `.copilot/review-report.md` as F-98 onwards.
+
+Mark `interim-electronics-review-1` done after Steps 1-2 verify clean.
+Mark `review-cycle-pass5` in-progress before launching the review agents.
 
 ---
 

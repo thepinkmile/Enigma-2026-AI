@@ -205,13 +205,61 @@ Key changes:
 - Nexperia vs NXP: `74HC157PW-Q100,118` now correctly shows **Nexperia** in the consolidated BOM.
 - LMQ61460AFSQRJRRQ1 Mouser PN `595-Q61460AFSQRJRRQ1` confirmed correct (Mouser drops "LM" prefix).
 
+## 2026-05-xx Pass 3 electronics review complete (checkpoints 100–101)
+
+19 findings (F-67–F-87) resolved across 15 files. Key changes:
+
+- Signal renames: `LED_nPWR`→`LED_PWR_N`, `I2C1`→`I2C-1`, `DEV_CLRN`→`DEV_CLR_N`,
+  `ACTUATE_REQUEST`→`ACTUATE_REQUEST_N`; requirement-ID prefix `FR/DR-SBD-`→`FR/DR-USM-`
+- New DRs: DR-EXT-14/15 (connector locking + keying), DR-PM-14 (rail sequencing),
+  DR-CTL-17 (DF40 insertion force), DR-ENC-05 (FDC pull-up), DR-USM-11 (debounce)
+- 5 new deferred todos added to `todo-list.md`
+
+## 2026-05-xx Rotor RefDes renames (checkpoints 096–097, 102)
+
+- Variant suffix convention: `U3`→`U3A` (Board A), `U3`→`U3B` (Board B); bypass caps and
+  all associated refs (C16A/B, C17A/B, C22A-C25A/B, L5A-L8A/B) renamed throughout
+- Consecutive renumber: former R2–R7 gap closed → R1–R6; all BOM and design files updated
+- DEC-052 logged in `design/Design_Log.md`
+- Files updated: `Rotor/Design_Spec.md`, `Rotor/Board_Layout.md`, `Rotor_26_Char_Design.md`,
+  `Rotor_64_Char_Design.md`, `Consolidated_BOM.md`
+
+## 2026-05-xx Pass 4 electronics review complete (checkpoints 103–105)
+
+10 findings (F-88–F-97) + additional EXT-P4-2 standoffs + DF40 connector swap:
+
+- F-88: CTL `I2C1_SDA/SCL`→`I2C_SDA/SCL`; F-89: CTL trace-width note mm/mil corrected
+- F-90: EXT DR-EXT-13 pin 2→pin 15; F-91: PM BOM note range rewritten
+- F-93: STA `KEY_CM5_ACTIVE_N`→`KEY_CM5_ACTIVE` ×2; F-94: STA DR-STA-12/15 pull-up docs
+- F-95: AM `ACTUATION_HOME`→`ACTUATION_HOME_N`; F-96: AM C4 BOM note + DEC-046 cross-ref
+- F-97: System_Architecture `ROTOR_EN`→`ROTOR_EN_N`
+- EXT-P4-2: Würth `9774040151R` M2.5×4.0mm SMT standoffs BOM row added
+- **DF40 swap:** Samtec ERM8/ERF8 replaced across AM/CTL/EXT with Hirose DF40C-20DP-0.4V(51)
+  (plug on AM J1) and DF40HC(3.5)-20DS-0.4V(51) (receptacle on EXT J9, CTL J11). AM J2, EXT J10,
+  CTL J16 retired. M2.5×3.5mm Würth `9774035151R` standoffs on CTL MH5-8 / EXT MH5-8.
+  DR-EXT-10 retired connector row removed.
+- New datasheets: Hirose DF40 catalog, Würth 9774035151R, TE 1-1674231-1, TI CSD17578Q5A
+
+## 2026-05-xx Character normalisation complete (checkpoint 106, commit d226689)
+
+- Approved character matrix created: `.copilot/allowed-character-matrix.md`
+- 74 `design/` files normalised; em/en dashes→`-`, curly quotes→ASCII, `✅`/`✓`→`✔`,
+  `×`→`x`, `½`→`1/2`, `″`→`"`
+- German ALL-CAPS umlaut exception: `Ä`, `Ö`, `Ü` permitted in display-label strings
+  (e.g. `GRENZFLÄCHE`); documented in character matrix
+- Box-drawing characters permitted in `Board_Layout.md` files only
+- `.copilot/checkpoints/` files exempt from normalisation rules
+- New directive added to `agent-directives.md` pointing to character matrix
+
 ## Next return summary
 
-When resuming, read `.copilot/checkpoints/082-pass1-committed-pass2-launched.md` for current state.
+When resuming, read `.copilot/checkpoints/107-session-state-sync-pre-reboot.md` for current state.
 
-Next checkpoint will be **083**.
+Next checkpoint will be **108**.
 
-**Immediate next action:** Pass 2 review cycle is running. Await results from all three batches, then run the single fix agent.
+**Immediate next action:** Verify Pass 3, Rotor RefDes changes, and Pass 4 fixes against current
+design files (Steps 1–2 of the plan), then run Review Pass 5 (Step 3). See plan.md §Next Session
+Start Point for the full ordered work plan.
 
 ## 2026-05-xx Pass 1 review cycle complete (checkpoint 081)
 
