@@ -224,7 +224,7 @@ rotor passes TTD to the **next rotor's TDI** directly via J4 pin 6 → next Roto
 | `TMS` | J1 pin 4 / J8 pin 3 -> U1 | Dedicated JTAG mode input; forwarded to Board B and onwards to J4 |
 | `TDI` | J1 pin 6 (`TTD`) -> U1 | Incoming serial JTAG data from the previous stage; connector name stays `TTD` for stack clarity |
 | `TDO` | U1 -> J8 pin 5 / J4 pin 6 (`TTD`) | Outgoing serial JTAG data to the next stage |
-| `DEV_CLR_N` / reset input | J1 pin 8 (`SYS_RESET_N`) / J8 pin 4 -> U1 | Active-low device reset; held high locally by R5 (vendor name `DEV_CLRN` renamed `DEV_CLR_N` per GRS active-low naming convention) |
+| `DEV_CLR_N` / reset input | J1 pin 8 (`SYS_RESET_N`) / J8 pin 4 -> U1 | Active-low device reset; held high locally by R4 (vendor name `DEV_CLRN` renamed `DEV_CLR_N` per GRS active-low naming convention) |
 
 ### 6.2 General-purpose signal groups
 

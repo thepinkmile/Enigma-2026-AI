@@ -321,11 +321,11 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
   placed at each rotor hop; `TTD` exits the CPLD and continues straight to J4 pin 6. Cable-driving
   damping is reserved for the ribbon-port interfaces on the Stator / Encoder boards, while the
   Reflector retains the single 22 Ω end-of-chain damping resistor on `TTD_RETURN`.
-* **Pull Resistors (R2–R5, 10kΩ, per CPLD):**
-  * **TMS (R2):** 10kΩ pull-up to 3V3_ENIG — ensures JTAG TAP resets to Test-Logic-Reset on power-up.
-  * **TDI (R3):** 10kΩ pull-up to 3V3_ENIG — holds TDI at logic-1 (BYPASS) when not actively driven.
-  * **TCK (R4):** 10kΩ pull-down to GND — prevents spurious clocking when TCK is floating.
-  * **SYS\_RESET\_N (R5):** 10kΩ pull-up to 3V3_ENIG — active-low; pull-up holds CPLD out of reset by default.
+* **Pull Resistors (R1–R4, 10kΩ, per CPLD):**
+  * **TMS (R1):** 10kΩ pull-up to 3V3_ENIG — ensures JTAG TAP resets to Test-Logic-Reset on power-up.
+  * **TDI (R2):** 10kΩ pull-up to 3V3_ENIG — holds TDI at logic-1 (BYPASS) when not actively driven.
+  * **TCK (R3):** 10kΩ pull-down to GND — prevents spurious clocking when TCK is floating.
+  * **SYS\_RESET\_N (R4):** 10kΩ pull-up to 3V3_ENIG — active-low; pull-up holds CPLD out of reset by default.
   These are present on every rotor board. With 30 rotors, 30 sets of pull resistors exist in the full stack;
   this is intentional and consistent with making each rotor independently safe in any stack position.
 * **Shielding:** 4-layer PCB with solid GND plane (L2) to isolate digital switching from the high-accuracy capacitive encoder.
@@ -534,8 +534,8 @@ are reserved so the same 1×5 keyed header footprint can be retained across both
 | J11–J13 | 1×5 2.54mm male pin header THT | PH1-05-UA | Adam Tech | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | — | manually-fit | Yes | Pending | 3 |
 | J14 | 1×7 2.54mm male pin header THT | PH1-07-UA | Adam Tech | 2057-PH1-07-UA-ND | 737-PH1-07-UA | C3331618 | — | manually-fit | Yes | Pending | 1 |
 | L1–L4 | 18µH ±10% SRF 28MHz 0603 | CWF1610A-180K | Bourns | 118-CWF1610A-180KCT-ND | 652-CWF1610A-180K | — | Global sourcing | — | Yes | Pending | 4 |
-| R2–R5 | 10kΩ ±1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | — | — | Yes | Pending | 4 |
-| R6–R7 | 4.7kΩ ±1% AEC-Q200 0402 | SG73S1ERTTP4701F | KOA Speer | 2019-SG73S1ERTTP4701FTR-ND | 660-SG73S1ERTTP4701F | C6483673 | — | — | Yes | Pending | 2 |
+| R1–R4 | 10kΩ ±1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | — | — | Yes | Pending | 4 |
+| R5–R6 | 4.7kΩ ±1% AEC-Q200 0402 | SG73S1ERTTP4701F | KOA Speer | 2019-SG73S1ERTTP4701FTR-ND | 660-SG73S1ERTTP4701F | C6483673 | — | — | Yes | Pending | 2 |
 | SW1–SW3 | 6-pos DIP switch 2.54mm THT | 219-6LPSTR | CTS | 119-219-6LPSTRCT-ND | 774-2196LPSTR | C2842671 | — | — | Yes | Pending | 3 |
 | U1 | MAX II 570 LEs CPLD TQFP-100 | EPM570T100I5N | Intel (Altera) | 544-2281-ND | 989-EPM570T100I5N | C27319 | — | — | Yes | Pending | 1 |
 | U2 | 4-ch cap sensor I²C 0x2A 16-VQFN | FDC2114RGHR | Texas Instruments | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | — | JLCPCB MOQ 2 | Yes | Pending | 1 |
@@ -545,7 +545,7 @@ are reserved so the same 1×5 keyed header footprint can be retained across both
 > listed in **`design/Electronics/Rotor/Rotor_26_Char_Design.md`** §8. N=64 rotor variant components
 > (C16B, C17B, C22B–C25B, L5B–L8B, U3B) are listed in **`design/Electronics/Rotor/Rotor_64_Char_Design.md`** §8.
 >
-> **Support-network scope note:** `R6/R7` and `C14-C15` capture the local I²C-bias and `VDD`-bypass
+> **Support-network scope note:** `R5/R6` and `C14-C15` capture the local I²C-bias and `VDD`-bypass
 > requirements for the populated FDC2114 devices. Resonant front-end parts (`L1–L4`, `C18–C21`)
 > are fully sourced above (Bourns CWF1610A-180K 18 µH inductors and YAGEO AC0402FRNPO9BN330 33 pF
 > resonant capacitors; dummy LC tanks on all unused FDC2114 channels per TI application note).

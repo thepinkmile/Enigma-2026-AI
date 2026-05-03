@@ -60,7 +60,7 @@
 | PM: R15 | ERA-3ARB103V | P10KBDCT-ND | 667-ERA-3ARB103V | C465746 | — | 1 | — | — | — | — | — | — | — | — | — | — | 1 | 10.0kΩ 0.1% 0603 [Panasonic] | Yes | Pending |
 | PM: R17 | ERJ-3EKF7153V | P715KHCT-ND | 667-ERJ-3EKF7153V | C403339 | — | 1 | — | — | — | — | — | — | — | — | — | — | 1 | 715kΩ 1% 0603 [Panasonic] | Yes | Pending |
 | PM: R24 | ERJ-3EKF8662V | P86.6KHCT-ND | 667-ERJ-3EKF8662V | C403381 | — | 1 | — | — | — | — | — | — | — | — | — | — | 1 | 86.6kΩ 1% 0603 [Panasonic] | Yes | Pending |
-| PM: R25,R27,R34-R36,R39,R40,R43,R44; JDB: R3-R5; USM: R78-R80; ENC: R2-R5; AM: R4,R5; STA: R2-R6,R16-R26,R39-R41; ROT-26: R2-R5; ROT-64: R2-R5 | ERJ-2RKF1002X | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | — | 9 | — | 3 | 3 | 4 | 2 | 19 | — | — | 4 | 4 | 48 | 10kΩ 1% 0402 [Panasonic] | Yes | Pending |
+| PM: R25,R27,R34-R36,R39,R40,R43,R44; JDB: R3-R5; USM: R78-R80; ENC: R2-R5; AM: R4,R5; STA: R2-R6,R16-R26,R39-R41; ROT-26: R1-R4; ROT-64: R1-R4 | ERJ-2RKF1002X | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | — | 9 | — | 3 | 3 | 4 | 2 | 19 | — | — | 4 | 4 | 48 | 10kΩ 1% 0402 [Panasonic] | Yes | Pending |
 | PM: R26 | ERJ-2RKF8202X | P82.0KLCT-ND | 667-ERJ-2RKF8202X | C400641 | — | 1 | — | — | — | — | — | — | — | — | — | — | 1 | 82.0kΩ 1% 0402 [Panasonic] | Yes | Pending |
 | PM: R28 | ERJ-3EKF2743V | P274KHCT-ND | 667-ERJ-3EKF2743V | C403126 | — | 1 | — | — | — | — | — | — | — | — | — | — | 1 | 274kΩ 1% 0603 [Panasonic] | Yes | Pending |
 | PM: R30 | ERA-2AEB3322X | P33.2KDCCT-ND | 667-ERA-2AEB3322X | C2087909 | — | 1 | — | — | — | — | — | — | — | — | — | — | 1 | 33.2kΩ 1% 0402 [Panasonic] | Yes | Pending |
@@ -144,7 +144,7 @@
 | ROT-26: C18-C21,C22A-C25A; ROT-64: C18-C21,C22B-C25B | AC0402FRNPO9BN330 | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | — | — | — | — | — | — | — | — | — | — | 8 | 8 | 8 | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 [YAGEO] | Yes | ✔ |
 | ROT-26: J14; ROT-64: J14 | PH1-07-UA | 2057-PH1-07-UA-ND | 737-PH1-07-UA | C3331618 | — | — | — | — | — | — | — | — | — | — | 1 | 1 | 2 | 1x7 2.54mm male THT [Adam Tech] | Yes | ✔ |
 | ROT-26: L1-L4,L5A-L8A; ROT-64: L1-L4,L5B-L8B | CWF1610A-180K | 118-CWF1610A-180KCT-ND | 652-CWF1610A-180K | — | Global sourcing | — | — | — | — | — | — | — | — | — | 8 | 8 | 8 | 18µH ±10% SRF 28MHz 0603 [Bourns] | Yes | ✔ |
-| ROT-26: R6,R7; ROT-64: R6,R7 | SG73S1ERTTP4701F | 2019-SG73S1ERTTP4701FTR-ND | 660-SG73S1ERTTP4701F | C6483673 | — | — | — | — | — | — | — | — | — | — | 2 | 2 | 4 | 4.7kΩ ±1% AEC-Q200 0402 [KOA Speer] | Yes | ✔ |
+| ROT-26: R5,R6; ROT-64: R5,R6 | SG73S1ERTTP4701F | 2019-SG73S1ERTTP4701FTR-ND | 660-SG73S1ERTTP4701F | C6483673 | — | — | — | — | — | — | — | — | — | — | 2 | 2 | 4 | 4.7kΩ ±1% AEC-Q200 0402 [KOA Speer] | Yes | ✔ |
 | ROT-26: SW1,SW2,SW3; ROT-64: SW1,SW2,SW3 | 219-6LPSTR | 119-219-6LPSTRCT-ND | 774-2196LPSTR | C2842671 | — | — | — | — | — | — | — | — | — | — | 3 | 3 | 6 | 6-pos DIP switch 2.54mm THT [CTS] | Yes | ✔ |
 | ROT-26: U2,U3A; ROT-64: U2,U3B | FDC2114RGHR | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | — | — | — | — | — | — | — | — | — | — | 2 | 2 | 2 | 4-ch cap sensor I²C 16-VQFN; JLCPCB MOQ 2 [Texas Instruments] | Yes | ✔ |
 | ROT-26: J10; ROT-64: J10 | RS1-07-G | 2057-RS1-07-G-ND | 737-RS1-07-G | C3321543 | — | — | — | — | — | — | — | — | — | — | 1 | 1 | 2 | 1x7 2.54mm female socket THT [Adam Tech] | Yes | ✔ |

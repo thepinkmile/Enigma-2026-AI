@@ -268,6 +268,6 @@ as findings until the referenced pre-condition is complete.
   quantity as a review finding at any severity level. MOQ constraints are addressed at procurement
   time, not design time.
 
-- **ROT-MOQ — Rotor R6/R7 pull-up resistors:** KOA Speer SG73S1ERTTP4701F 4.7kΩ carries Mouser
+- **ROT-MOQ — Rotor R5/R6 pull-up resistors:** KOA Speer SG73S1ERTTP4701F 4.7kΩ carries Mouser
   MOQ 10,000 and JLCPCB MOQ 49. Accepted for the current batch-build plan. Do not raise as a
   BOM-MOQ finding.
