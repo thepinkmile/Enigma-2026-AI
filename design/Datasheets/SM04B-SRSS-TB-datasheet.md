@@ -100,7 +100,7 @@ A±0.1
 Connectoroutline
 (0.4)
 Note:1.ThePCboardlayoutfigureshownisviewedfromtheconnectormountingsurface.
-2. Dimension A: See “Header” section on page 3.
+2. Dimension A: See "Header" section on page 3.
 3.Tolerance for thePCBpatternpitch shallbe ± 0.05,and shall not accumulatemore than± 0.1.
 4.Theabovedimensionsarereferencevalues.PleasecontactJSTfordetails.
 JST

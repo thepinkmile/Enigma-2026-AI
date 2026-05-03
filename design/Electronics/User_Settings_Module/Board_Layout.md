@@ -20,8 +20,8 @@ The active architecture is:
 - `U1` (`MCP23017 @ 0x23`) reads the 10 configuration toggles plus `CFG_APPLY_N`
 - `U2` (`MCP23017 @ 0x24`) drives the 5 Bank 1 BSS138 pre-driver gates and the Bank 1 RGB rail gates
 - `U3` (`MCP23017 @ 0x25`) drives the 7 Bank 2 BSS138 pre-driver gates and the Bank 2 RGB rail gates
-- `Q1–Q6` (BSS138 NMOS) are shared colour-rail low-side switches (3 per bank: R/G/B)
-- `Q7–Q18` (BSS138 NMOS) are per-anode pre-drivers; `Q19–Q30` (PMOS, Cat B) are per-anode high-side switches;
+- `Q1-Q6` (BSS138 NMOS) are shared colour-rail low-side switches (3 per bank: R/G/B)
+- `Q7-Q18` (BSS138 NMOS) are per-anode pre-drivers; `Q19-Q30` (PMOS, Cat B) are per-anode high-side switches;
   each pair sits in the signal path between the MCP23017 GPIO and the LED anode
 
 All three LED colour channels are routed and driven; CM5 selects the active bank colour according to
@@ -45,15 +45,15 @@ TOP EDGE / ENCLOSURE PANEL FACE
 - **Left edge:** `J1` 6-pin JST PH connector, cable exit toward Stator `J13`
 - **Centre-left:** `U1`, switch pull-downs, `R11`, `C4`
 - **Centre / centre-right:** `U2` and `U3`, LED series resistors, per-anode two-stage switches
-  (`Q7–Q18` BSS138 pre-drivers + `Q19–Q30` PMOS high-side, Cat B), and anode-routing fanout
-- **Right edge:** 6 RGB BSS138 colour-rail transistors (`Q1–Q6`) with adjacent gate resistors
-  (`R12–R17`)
+  (`Q7-Q18` BSS138 pre-drivers + `Q19-Q30` PMOS high-side, Cat B), and anode-routing fanout
+- **Right edge:** 6 RGB BSS138 colour-rail transistors (`Q1-Q6`) with adjacent gate resistors
+  (`R12-R17`)
 
 ---
 
-## 3. J1 — Stator Harness Connector
+## 3. J1 - Stator Harness Connector
 
-**Connector:** `B6B-PH-K-S(LF)(SN)` — 6-pin JST PH 2.0mm, vertical THT  
+**Connector:** `B6B-PH-K-S(LF)(SN)` - 6-pin JST PH 2.0mm, vertical THT  
 **Mating connector:** Stator `J13`  
 **Cable:** 6-wire harness, 100mm recommended
 
@@ -70,7 +70,7 @@ TOP EDGE / ENCLOSURE PANEL FACE
 
 ---
 
-## 4. U1 — MCP23017 @ 0x23
+## 4. U1 - MCP23017 @ 0x23
 
 **Package:** SOIC-28  
 **Role:** Reads the 10 configuration toggles and `CFG_APPLY_N`
@@ -81,24 +81,24 @@ TOP EDGE / ENCLOSURE PANEL FACE
 | GPA | [1] | `CFG_ROUTE[1]` | Input | 10k pull-down | Bank 1 routing config bit 1 (`SW2`) |
 | GPA | [2] | `CFG_ROUTE[2]` | Input | 10k pull-down | Bank 1 routing config bit 2 (`SW3`) |
 | GPA | [3] | `CFG_ROUTE[3]` | Input | 10k pull-down | Bank 1 routing config bit 3 (`SW4`) |
-| GPA | [4:7] | — | — | — | Spare |
+| GPA | [4:7] | - | - | - | Spare |
 | GPB | [0] | `CFG_REFMAP[0]` | Input | 10k pull-down | Bank 2 reflector-map bit 0 (`SW5`) |
 | GPB | [1] | `CFG_REFMAP[1]` | Input | 10k pull-down | Bank 2 reflector-map bit 1 (`SW6`) |
 | GPB | [2] | `CFG_REFMAP[2]` | Input | 10k pull-down | Bank 2 reflector-map bit 2 (`SW7`) |
 | GPB | [3] | `CFG_REFMAP[3]` | Input | 10k pull-down | Bank 2 reflector-map bit 3 (`SW8`) |
 | GPB | [4] | `CFG_REFMAP[4]` | Input | 10k pull-down | Bank 2 reflector-map bit 4 (`SW9`) |
 | GPB | [5] | `CFG_REFMAP[5]` | Input | 10k pull-down | Bank 2 reflector-map bit 5 (`SW10`) |
-| GPB | [6] | — | — | — | Spare |
+| GPB | [6] | - | - | - | Spare |
 | GPB | [7] | `CFG_APPLY_N` | Input | 10k pull-up | Active-low momentary pushbutton (`SW11`) |
 
 ---
 
 ## 5. LED Drive Expanders
 
-### 5.1 U2 — MCP23017 @ 0x24
+### 5.1 U2 - MCP23017 @ 0x24
 
-> **Note:** GPA[0:4] each drive a BSS138 pre-driver gate (Q7–Q11) via 1 kΩ (R54–R58); the BSS138
-> pulls its paired PMOS gate (Q19–Q23) low, enabling the 5V_MAIN high-side switch to the LED anode.
+> **Note:** GPA[0:4] each drive a BSS138 pre-driver gate (Q7-Q11) via 1 kΩ (R54-R58); the BSS138
+> pulls its paired PMOS gate (Q19-Q23) low, enabling the 5V_MAIN high-side switch to the LED anode.
 
 | Port | Pin | Signal | Direction | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -110,12 +110,12 @@ TOP EDGE / ENCLOSURE PANEL FACE
 | GPA | [5] | `BNK1_R` | Output | Drives `Q1` gate (Bank 1 red colour-rail) |
 | GPA | [6] | `BNK1_G` | Output | Drives `Q2` gate (Bank 1 green colour-rail) |
 | GPA | [7] | `BNK1_B` | Output | Drives `Q3` gate (Bank 1 blue colour-rail) |
-| GPB | [7:0] | — | — | Spare |
+| GPB | [7:0] | - | - | Spare |
 
-### 5.2 U3 — MCP23017 @ 0x25
+### 5.2 U3 - MCP23017 @ 0x25
 
-> **Note:** GPA[0:6] each drive a BSS138 pre-driver gate (Q12–Q18) via 1 kΩ (R59–R65); the BSS138
-> pulls its paired PMOS gate (Q24–Q30) low, enabling the 5V_MAIN high-side switch to the LED anode.
+> **Note:** GPA[0:6] each drive a BSS138 pre-driver gate (Q12-Q18) via 1 kΩ (R59-R65); the BSS138
+> pulls its paired PMOS gate (Q24-Q30) low, enabling the 5V_MAIN high-side switch to the LED anode.
 
 | Port | Pin | Signal | Direction | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -129,7 +129,7 @@ TOP EDGE / ENCLOSURE PANEL FACE
 | GPA | [7] | `BNK2_R` | Output | Drives `Q4` gate (Bank 2 red colour-rail) |
 | GPB | [0] | `BNK2_G` | Output | Drives `Q5` gate (Bank 2 green colour-rail) |
 | GPB | [1] | `BNK2_B` | Output | Drives `Q6` gate (Bank 2 blue colour-rail) |
-| GPB | [2:7] | — | — | Spare |
+| GPB | [2:7] | - | - | Spare |
 
 ---
 
@@ -177,19 +177,19 @@ CM5 firmware normally selects one colour rail per bank at a time:
 
 | Physical item | Switch input | LED anode output | Bank colour rail source |
 | :--- | :--- | :--- | :--- |
-| `D1` Bank 1 source-status LED | — | `U2.GPA[0]` (`LED_B1_SRC_A`) | `U2.GPA[5:7]` |
+| `D1` Bank 1 source-status LED | - | `U2.GPA[0]` (`LED_B1_SRC_A`) | `U2.GPA[5:7]` |
 | `SW1` / `D2` | `U1.GPA[0]` (`CFG_ROUTE[0]`) | `U2.GPA[1]` (`LED_B1_0_A`) | `U2.GPA[5:7]` |
 | `SW2` / `D3` | `U1.GPA[1]` (`CFG_ROUTE[1]`) | `U2.GPA[2]` (`LED_B1_1_A`) | `U2.GPA[5:7]` |
 | `SW3` / `D4` | `U1.GPA[2]` (`CFG_ROUTE[2]`) | `U2.GPA[3]` (`LED_B1_2_A`) | `U2.GPA[5:7]` |
 | `SW4` / `D5` | `U1.GPA[3]` (`CFG_ROUTE[3]`) | `U2.GPA[4]` (`LED_B1_3_A`) | `U2.GPA[5:7]` |
-| `D6` Bank 2 source-status LED | — | `U3.GPA[0]` (`LED_B2_SRC_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
+| `D6` Bank 2 source-status LED | - | `U3.GPA[0]` (`LED_B2_SRC_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
 | `SW5` / `D7` | `U1.GPB[0]` (`CFG_REFMAP[0]`) | `U3.GPA[1]` (`LED_B2_0_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
 | `SW6` / `D8` | `U1.GPB[1]` (`CFG_REFMAP[1]`) | `U3.GPA[2]` (`LED_B2_1_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
 | `SW7` / `D9` | `U1.GPB[2]` (`CFG_REFMAP[2]`) | `U3.GPA[3]` (`LED_B2_2_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
 | `SW8` / `D10` | `U1.GPB[3]` (`CFG_REFMAP[3]`) | `U3.GPA[4]` (`LED_B2_3_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
 | `SW9` / `D11` | `U1.GPB[4]` (`CFG_REFMAP[4]`) | `U3.GPA[5]` (`LED_B2_4_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
 | `SW10` / `D12` | `U1.GPB[5]` (`CFG_REFMAP[5]`) | `U3.GPA[6]` (`LED_B2_5_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
-| `SW11` | `U1.GPB[7]` (`CFG_APPLY_N`) | — | — |
+| `SW11` | `U1.GPB[7]` (`CFG_APPLY_N`) | - | - |
 
 ---
 
@@ -213,8 +213,8 @@ CM5 firmware normally selects one colour rail per bank at a time:
 - Keep `SDA` / `SCL` as a matched short pair from `J1` to the three expanders
 - Route the `5V_MAIN` feed and pin-6 return wider than logic traces
 - Place one 100nF decoupler at each MCP23017 supply pin cluster
-- Keep colour-rail gate resistors (R12–R17) adjacent to the six colour-rail BSS138s (Q1–Q6)
-- Place each BSS138 pre-driver (Q7–Q18) and its paired PMOS (Q19–Q30) in a tight pair directly
+- Keep colour-rail gate resistors (R12-R17) adjacent to the six colour-rail BSS138s (Q1-Q6)
+- Place each BSS138 pre-driver (Q7-Q18) and its paired PMOS (Q19-Q30) in a tight pair directly
   in the anode signal path between the MCP23017 GPIO fanout and the LED anode; keep PMOS source
   via short and direct to the `5V_MAIN` plane
 

@@ -1,4 +1,4 @@
-# Lightboard Assembly — Mechanical Design Specification
+# Lightboard Assembly - Mechanical Design Specification
 
 **Status:** Draft
 **Project:** Enigma-NG
@@ -24,7 +24,7 @@ Stator through its own 20-pin IDC ribbon on the dedicated `LBD_DEC` port.
 
 The lightboard mirrors the same **40-position physical layout** used by the keyboard assembly.
 
-* **Printable indicator positions (×38):** `[a-z0-9+=]`.
+* **Printable indicator positions (x38):** `[a-z0-9+=]`.
 * **Alphabetic case handling:** uppercase alphabetic outputs illuminate the matching alphabetic
   indicator position rather than a separate uppercase-only physical position.
 * **Layout pairing:** keyboard and lightboard panel geometry should remain visually aligned so the

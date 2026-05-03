@@ -39,11 +39,11 @@ ____________________________________________________________
 
 ## 3. Data Link Pinout (20-Pin Connector)
 
-> **Connector Definition Owner:** `Stator/Board_Layout.md — J4/J5/J6/J7/J8/J9`.
+> **Connector Definition Owner:** `Stator/Board_Layout.md - J4/J5/J6/J7/J8/J9`.
 > The pin table below is reproduced here for layout reference. In case of conflict, the Stator
 > definition is authoritative.
 
-This is a 2×10 (20-pin) 2.54 mm shrouded box header with polarisation key. It connects to one of
+This is a 2x10 (20-pin) 2.54 mm shrouded box header with polarisation key. It connects to one of
 the six matching headers on the Stator.
 
 | Pin | Signal | Direction | Notes |
@@ -56,25 +56,25 @@ the six matching headers on the Stator.
 | 6 | ENC_DATA[4] | Role-dependent | Generic 6-bit service bus |
 | 7 | ENC_DATA[5] | Role-dependent | Generic 6-bit service bus |
 | 8 | ENC_ACTIVE_N | Role-dependent | HID activity sideband; unused roles shall idle HIGH |
-| 9 | GND | — | `ENC_ACTIVE_N` / JTAG group separator |
+| 9 | GND | - | `ENC_ACTIVE_N` / JTAG group separator |
 | 10 | TCK | Stator->Encoder | JTAG clock |
-| 11 | GND | — | TCK/TMS inter-pin shield |
+| 11 | GND | - | TCK/TMS inter-pin shield |
 | 12 | TMS | Stator->Encoder | JTAG mode select |
-| 13 | GND | — | TMS/TDO inter-pin shield |
+| 13 | GND | - | TMS/TDO inter-pin shield |
 | 14 | TDO | Encoder->Stator | JTAG data out |
-| 15 | GND | — | TDO/TDI inter-pin shield |
+| 15 | GND | - | TDO/TDI inter-pin shield |
 | 16 | TDI | Stator->Encoder | JTAG data in |
-| 17 | GND | — | TDI/SYS_RESET_N shield |
+| 17 | GND | - | TDI/SYS_RESET_N shield |
 | 18 | SYS_RESET_N | Stator->Encoder | Active-low CPLD reset |
-| 19 | GND | — | Power return / trailing shield |
+| 19 | GND | - | Power return / trailing shield |
 | 20 | 3V3_ENIG | Stator->Encoder | Power supply |
 
-**Power capacity:** 2 × 3V3_ENIG pins × 1 A/pin = 2.0 A. One Encoder Module estimated load ~104 mA
-(1× EPM570 CPLD + 1× status LED + local margin) — substantial connector margin.
+**Power capacity:** 2 x 3V3_ENIG pins x 1 A/pin = 2.0 A. One Encoder Module estimated load ~104 mA
+(1x EPM570 CPLD + 1x status LED + local margin) - substantial connector margin.
 
 ---
 
-## 4. U1 — Encoder CPLD Signal Map (Logical Pin Budget)
+## 4. U1 - Encoder CPLD Signal Map (Logical Pin Budget)
 
 > This is the board-authoritative **logical** signal map for U1. The local MAX II handbook confirms
 > `EPM570T100` package availability in TQFP-100, but it points printed device pin-outs to external
@@ -93,7 +93,7 @@ the six matching headers on the Stator.
 | `TMS` | J2 pin 12 -> U1 | Dedicated JTAG mode input |
 | `TDI` | J2 pin 16 -> U1 | Dedicated JTAG serial input from the Stator-managed chain |
 | `TDO` | U1 -> R6 -> J2 pin 14 | Dedicated JTAG serial output back to the Stator-managed chain |
-| `DEV_CLR_N` / reset input | J2 pin 18 (`SYS_RESET_N`) -> U1 | Active-low device reset; held high locally by R5 (vendor pin name `DEV_CLRN` — see `design/Standards/Global_Routing_Spec.md §10`) |
+| `DEV_CLR_N` / reset input | J2 pin 18 (`SYS_RESET_N`) -> U1 | Active-low device reset; held high locally by R5 (vendor pin name `DEV_CLRN` - see `design/Standards/Global_Routing_Spec.md §10`) |
 
 ### 4.2 General-purpose signal groups
 
@@ -111,7 +111,7 @@ lines + 1 activity sideband + 1 LED**, plus the dedicated JTAG / reset pins abov
 
 ---
 
-## 5. Routing — Trace Width Specifications
+## 5. Routing - Trace Width Specifications
 
 **Board specs:** 4-layer / 2oz finished copper (JLC04161H-7628).  
 L1 = signal (JTAG/routing); L2 = GND plane; L3 = 3V3_ENIG power pour; L4 = secondary routing /
@@ -122,7 +122,7 @@ For 2oz external: ~0.15 mm/A. The 3V3_ENIG inner pour (L3) handles board load wi
 constraints. See `Global_Routing_Spec.md §1.1` for the full current-category table.
 
 **Encoder board current budget:**  
-1× EPM570T100I5N CPLD @ 50 mA; 1× status LED @ 4 mA; misc = ~50 mA; total worst-case:
+1x EPM570T100I5N CPLD @ 50 mA; 1x status LED @ 4 mA; misc = ~50 mA; total worst-case:
 **104 mA** from the 3V3_ENIG rail supplied via J2.
 
 ### 5.1 Trace Width Table
@@ -130,10 +130,10 @@ constraints. See `Global_Routing_Spec.md §1.1` for the full current-category ta
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | Signal (`ENC_DATA`, key lines, lamp lines, jack lines) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic; CPLD I/O; spade-terminal traces |
-| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | — | 0.127 mm | **0.127 mm (5 mil)** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016 |
+| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016 |
 | 3V3_ENIG power (J2 pin 1/20 -> CPLD + LED) | 104 mA | 0.016 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | Canonical 3V3_ENIG width |
-| 3V3_ENIG distribution (inner power pour) | 104 mA | — | pour | **copper pour** | L3 | Full uninterrupted 2oz plane |
-| GND return (inner GND pour) | — | — | pour | **copper pour** | L2 | Reference plane under all CI traces on L1 |
+| 3V3_ENIG distribution (inner power pour) | 104 mA | - | pour | **copper pour** | L3 | Full uninterrupted 2oz plane |
+| GND return (inner GND pour) | - | - | pour | **copper pour** | L2 | Reference plane under all CI traces on L1 |
 
 ### 5.2 Notes
 

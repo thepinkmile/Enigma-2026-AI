@@ -24,31 +24,31 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 
 ### Part number and ordering information
 
-- Product specification / ORDERING INFORMATION - GLOBAL PART NUMBER / All part numbers are identified by the series, size, tolerance, TC  material, / packing style, voltage, process  code, termina…
-- ORDERING INFORMATION - GLOBAL PART NUMBER / All part numbers are identified by the series, size, tolerance, TC  material, / packing style, voltage, process  code, termination and capacitance val…
+- Product specification / ORDERING INFORMATION - GLOBAL PART NUMBER / All part numbers are identified by the series, size, tolerance, TC  material, / packing style, voltage, process  code, termina...
+- ORDERING INFORMATION - GLOBAL PART NUMBER / All part numbers are identified by the series, size, tolerance, TC  material, / packing style, voltage, process  code, termination and capacitance val...
 
 ### Pin, pad, and connection designations
 
-- please contact local sale before order. / (3) PACKING STYLE (SEE TABLE. 12 FOR DETAIL) / R = Paper/PE taping reel; Reel 7 inch / K = Blister taping reel; Reel 7 inch / P = Paper/PE taping reel; …
-- (3) PACKING STYLE (SEE TABLE. 12 FOR DETAIL) / R = Paper/PE taping reel; Reel 7 inch / K = Blister taping reel; Reel 7 inch / P = Paper/PE taping reel; Reel 13 inch / F = Blister taping reel; Re…
+- please contact local sale before order. / (3) PACKING STYLE (SEE TABLE. 12 FOR DETAIL) / R = Paper/PE taping reel; Reel 7 inch / K = Blister taping reel; Reel 7 inch / P = Paper/PE taping reel; ...
+- (3) PACKING STYLE (SEE TABLE. 12 FOR DETAIL) / R = Paper/PE taping reel; Reel 7 inch / K = Blister taping reel; Reel 7 inch / P = Paper/PE taping reel; Reel 13 inch / F = Blister taping reel; Re...
 - R = Paper/PE taping reel; Reel 7 inch / K = Blister taping reel; Reel 7 inch / P = Paper/PE taping reel; Reel 13 inch / F = Blister taping reel; Reel 13 inch / (4) TC MATERIAL
 - K = Blister taping reel; Reel 7 inch / P = Paper/PE taping reel; Reel 13 inch / F = Blister taping reel; Reel 13 inch / (4) TC MATERIAL / NPO
 -  The capacitors are 100% / performed  by automatic optical / inspection  prior to taping. / NPO(< 10 pF)
 - 7.0 / 3.7 / 22 Terminal Strength / With the component mounted on a PCB obtained with the / device to be tested, apply a 17.7N (1.8Kg) force to the side of
 - inspection of the mechanical / integrity of the device body, / terminals and body/terminal / junction. / Before, during and after the
-- Fig. 8   Infrared soldering, forced gas convection reflow soldering  - Temperature/time profile for SnPb solders / Solid line: Typical process (terminal temperature) / Dotted lines: Process limi…
+- Fig. 8   Infrared soldering, forced gas convection reflow soldering  - Temperature/time profile for SnPb solders / Solid line: Typical process (terminal temperature) / Dotted lines: Process limi...
 - Solid line: Typical process (terminal temperature) / Dotted lines: Process limits - bottom process limit (terminal temperature) & upper process limit / (top surface temperature).
 - ca. 2 C/s / DT < 150 C / Fig. 10   Double wave soldering for SnPb and lead -free SnAgCu solder  - Temperature/time profile (terminal temperature) / 0 50 100 150 200 250 300 350 400
-- Fig. 9   Infrared soldering, forced gas convection reflow soldering  - Temperature/time profile for lead -free SnAgCu solders / Solid line: Typical process (terminal temperature) / Dotted lines:…
-- prevention equipment, crime prevention equipment, Electric heating apparatus, bu rning equipment, Highly / public information network equipment, data -processing equipment , Medical devices, Mil…
+- Fig. 9   Infrared soldering, forced gas convection reflow soldering  - Temperature/time profile for lead -free SnAgCu solders / Solid line: Typical process (terminal temperature) / Dotted lines:...
+- prevention equipment, crime prevention equipment, Electric heating apparatus, bu rning equipment, Highly / public information network equipment, data -processing equipment , Medical devices, Mil...
 
 ### Specifications, ratings, and operating conditions
 
-- 0.2 pF to  680nF / Product Specification – January 21, 2026  V.25 / Automotive grade NPO/X7R/X7S 6.3 V to 2000 V
+- 0.2 pF to  680nF / Product Specification - January 21, 2026  V.25 / Automotive grade NPO/X7R/X7S 6.3 V to 2000 V
 - Surface-Mount Ceramic Multilayer Capacitors / Product specification / ORDERING INFORMATION - GLOBAL PART NUMBER
-- ORDERING INFORMATION - GLOBAL PART NUMBER / All part numbers are identified by the series, size, tolerance, TC  material, / packing style, voltage, process  code, termination and capacitance val…
-- ORDERING INFORMATION - GLOBAL PART NUMBER / All part numbers are identified by the series, size, tolerance, TC  material, / packing style, voltage, process  code, termination and capacitance val…
-- 0201 (0603) / 0402 (1005) / 0603 (1608) / 0805 (2012) / 1206 (3216)/ 1210 (3225) / / 1812 (4532) / 2220 (5750) / (2) TOLERANCE / Note: Capacitance tolerance ±5% doesn’t available for full X7R ra…
+- ORDERING INFORMATION - GLOBAL PART NUMBER / All part numbers are identified by the series, size, tolerance, TC  material, / packing style, voltage, process  code, termination and capacitance val...
+- ORDERING INFORMATION - GLOBAL PART NUMBER / All part numbers are identified by the series, size, tolerance, TC  material, / packing style, voltage, process  code, termination and capacitance val...
+- 0201 (0603) / 0402 (1005) / 0603 (1608) / 0805 (2012) / 1206 (3216)/ 1210 (3225) / / 1812 (4532) / 2220 (5750) / (2) TOLERANCE / Note: Capacitance tolerance ±5% doesn’t available for full X7R ra...
 - (2) TOLERANCE / Note: Capacitance tolerance ±5% doesn’t available for full X7R range, / please contact local sale before order. / (3) PACKING STYLE (SEE TABLE. 12 FOR DETAIL)
 - X7R / X7S / (5) RATED VOLTAGE / 6) PROCESS
 - SCOPE / This specification describes / Automotive grade chip capacitors / with lead -free terminations  and
@@ -58,12 +58,12 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 - Surface-Mount Ceramic Multilayer Capacitors / Product specification / CAP. 0805
 - Surface-Mount Ceramic Multilayer Capacitors / Product specification / Table 7 Size 1206
 - Surface-Mount Ceramic Multilayer Capacitors / Product specification / ELECTRICAL CHARACTERISTICS
-- Product specification / ELECTRICAL CHARACTERISTICS / NP0/X7R DIELECTRIC CAPACITORS; NI/SIN TERMINATIONS / Unless otherwise specified, all test and measurements shall be made under standard  atmo…
+- Product specification / ELECTRICAL CHARACTERISTICS / NP0/X7R DIELECTRIC CAPACITORS; NI/SIN TERMINATIONS / Unless otherwise specified, all test and measurements shall be made under standard  atmo...
 - Surface-Mount Ceramic Multilayer Capacitors / Product specification / SOLDERING CONDITIONS
 - Surface-Mount Ceramic Multilayer Capacitors / Product specification / NO AEC-Q200 TEST TEST METHOD REQUIREMENTS
 - 24 ± 1 hour at room temp / Temperature: 125 °C / Specified stress voltage applied for 1,000 hours: / Applied 2.0 x Ur for 6.3V to 100V \* / High voltage series follows with below
 - Specified stress voltage applied for 1,000 hours: / Applied 2.0 x Ur for 6.3V to 100V \* / High voltage series follows with below / stress condition: / Applied 1.5 x Ur for 200V, 250V series
-- \* IRx Cr ≥ 10Ω.F. / 0603/25V/>220nF / 9 External Visual Any applicable method using ×  10 magnification In accordance with specification / 10 Physical Dimension Verify physical dimensions to th…
+- \* IRx Cr ≥ 10Ω.F. / 0603/25V/>220nF / 9 External Visual Any applicable method using x  10 magnification In accordance with specification / 10 Physical Dimension Verify physical dimensions to th...
 
 ### Dimensions, package, and mechanical information
 
@@ -72,14 +72,14 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 - (1)(2) NPO, 1210, 630V ~1000V, 4.7nF ~22nF / OUTLINES / For dimension see Table 1
 - OUTLINES / For dimension see Table 1 / Fig. 2   Surface mounted multilayer
 - Fig. 2   Surface mounted multilayer / ceramic capacitor dimension / Automotive grade NPO/X7R/X7S 6.3 V to 2000 V
-- 0603/25V/>220nF / 9 External Visual Any applicable method using ×  10 magnification In accordance with specification / 10 Physical Dimension Verify physical dimensions to the applicable device s…
-- 9 External Visual Any applicable method using ×  10 magnification In accordance with specification / 10 Physical Dimension Verify physical dimensions to the applicable device specification.  In …
+- 0603/25V/>220nF / 9 External Visual Any applicable method using x  10 magnification In accordance with specification / 10 Physical Dimension Verify physical dimensions to the applicable device s...
+- 9 External Visual Any applicable method using x  10 magnification In accordance with specification / 10 Physical Dimension Verify physical dimensions to the applicable device specification.  In ...
 - X7R/X7S: ± 10% / Dimension(mm) / Type / a
 - Magnification of 20X or greater / may be employed for / inspection of the mechanical / integrity of the device body, / terminals and body/terminal
 - Fig. 5 Paper/PE tape / PAPER/PE TAPE SPECIFICATION / Table 13 Dimensions of paper/PE tape for relevant chip size; see Fig.5 / SIZE / CODE
 - BLISTER TAPE SPECIFICATION / Table 14 Dimensions of blister tape for relevant chip size; see Fig.6 / SIZE
 - W2 / HBK039 / Table15 Reel dimensions; see Fig.7 / TAPE WIDTH
-- An improper combination of soldering, substrate and chip size can lead to a damaging of the component. The / risk increases with the chip size and with temperature fluctuations (>100 °C). / Ther…
+- An improper combination of soldering, substrate and chip size can lead to a damaging of the component. The / risk increases with the chip size and with temperature fluctuations (>100 °C). / Ther...
 - pattern / occupied area / Fig. 11   D iscrete capacitors recommended dimensions  of footprint / FOOTPRINT DIMENSIONS
 - Fig. 11   D iscrete capacitors recommended dimensions  of footprint / FOOTPRINT DIMENSIONS / Table 17 Reflow soldering; for footprint dimensions see Fig.11 / SIZE
 - FOOTPRINT DIMENSIONS / Table 17 Reflow soldering; for footprint dimensions see Fig.11 / SIZE / CODE
@@ -93,19 +93,19 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 - IR / Within initial specified value / 14 Vibration / 5 g’s for 20 minutes, 12 cycles each of 3 orientations. / Test from 10-2000 Hz.
 - (1)  NPO / Temperature Coefficient shall be calculated from the formula / as below / Temp, Coefficient =
 - ∆T:  100°C (=125°C -25°C) / (2)  X7R/X7S / Capacitance Change shall be calculated from the formula as / below / ∆C =
-- (top surface temperature). / SIZE Temp(ºC) DURATION (SEC.) PREHEATING TEMP(º C) ATMOSPHERE / 0201/0402/0603/0805/1206  350 max.  3 max.  150 min.  air / 1210/1808/1812/2220  280 max.  3 max.  15…
-- merchantability. / YAGEO products are designed for general purpose applications under normal operation and usage conditions. / Please contact YAGEO for the applications listed below which requir…
-- prevention equipment, crime prevention equipment, Electric heating apparatus, bu rning equipment, Highly / public information network equipment, data -processing equipment , Medical devices, Mil…
+- (top surface temperature). / SIZE Temp(ºC) DURATION (SEC.) PREHEATING TEMP(º C) ATMOSPHERE / 0201/0402/0603/0805/1206  350 max.  3 max.  150 min.  air / 1210/1808/1812/2220  280 max.  3 max.  15...
+- merchantability. / YAGEO products are designed for general purpose applications under normal operation and usage conditions. / Please contact YAGEO for the applications listed below which requir...
+- prevention equipment, crime prevention equipment, Electric heating apparatus, bu rning equipment, Highly / public information network equipment, data -processing equipment , Medical devices, Mil...
 
 ### Reference designs, applications, and examples
 
 - 2 significant digits+number of zeros / The 3rd digit signifies the multiplying factor, and letter R is decimal point / Example: 121 = 12 x 101 = 120 pF / SCOPE
 - used for automotive equipment s. / APPLICATIONS / All general purpose applications / under normal operation and
 - APPLICATIONS / All general purpose applications / under normal operation and / usage conditions for automotive
-- YAGEO  makes no representation, warranty, and/or guarantee about the fitness of its products for any / particular purpose or the continuing production of any of its products. To the maximum exte…
-- merchantability. / YAGEO products are designed for general purpose applications under normal operation and usage conditions. / Please contact YAGEO for the applications listed below which requir…
-- YAGEO products are designed for general purpose applications under normal operation and usage conditions. / Please contact YAGEO for the applications listed below which require especially high r…
-- public information network equipment, data -processing equipment , Medical devices, Military equipment, Power / generation control equipment, Safety equipment, Traffic signal equipment, Transpor…
+- YAGEO  makes no representation, warranty, and/or guarantee about the fitness of its products for any / particular purpose or the continuing production of any of its products. To the maximum exte...
+- merchantability. / YAGEO products are designed for general purpose applications under normal operation and usage conditions. / Please contact YAGEO for the applications listed below which requir...
+- YAGEO products are designed for general purpose applications under normal operation and usage conditions. / Please contact YAGEO for the applications listed below which require especially high r...
+- public information network equipment, data -processing equipment , Medical devices, Military equipment, Power / generation control equipment, Safety equipment, Traffic signal equipment, Transpor...
 
 ## Page-by-Page Extracted Content
 
@@ -120,7 +120,7 @@ NP0/X7R/X7S
 6.3 V TO 2000 V
 0.2 pF to  680nF
 
-Product Specification – January 21, 2026  V.25
+Product Specification - January 21, 2026  V.25
 ```
 
 ### Page 2
@@ -143,7 +143,7 @@ packing style, voltage, process  code, termination and capacitance value.
 GLOBAL  PART  NUMBER
 AC   XXXX    X    X    XXX    X    B    X    XXX
               (1)      (2)  (3)    (4)     (5)         (6)    (7)
-(1) SIZE – INCH BASED (METRIC)
+(1) SIZE - INCH BASED (METRIC)
 0201 (0603) / 0402 (1005) / 0603 (1608) / 0805 (2012) / 1206 (3216)/ 1210 (3225) /
 1812 (4532) / 2220 (5750)
 (2) TOLERANCE
@@ -746,12 +746,12 @@ X7R/X7S  0201 0402 0603 0805 1206 1210 1812
 630V     220pF to 10nF    ≤ 2.5%
 1KV     220pF to 1nF    ≤ 2.5%
 Insulation resistance after 1 minute at Ur (DC)
- NPO (general) I.R. ≥ 100 GΩ or I.R. × C ≥ 1000 Ω.F. whichever is less
+ NPO (general) I.R. ≥ 100 GΩ or I.R. x C ≥ 1000 Ω.F. whichever is less
 1206/250V to 630V >1nF, 1210/630V & 1KV >1nF
-I.R. ≥ 10 GΩ or I.R. × C ≥ 500 Ω.F. whichever is less
+I.R. ≥ 10 GΩ or I.R. x C ≥ 500 Ω.F. whichever is less
  X7R (general)
 
-I.R. ≥ 10 GΩ or I.R. × C ≥ 500 Ω.F. whichever is less
+I.R. ≥ 10 GΩ or I.R. x C ≥ 500 Ω.F. whichever is less
 
 I.R. x C ≥ 100 Ω.F. :
 0201 / 6.3V / 15nF to 100nF
@@ -761,10 +761,10 @@ I.R. X C ≥ 50 Ω.F. :
 0402 / 10V to 16V / > 100nF
  X7S  (general)
 0402/10V to 25V/>100nF
-I.R. ≥ 1 GΩ or I.R. × C ≥ 100 Ω.F. whichever is less
+I.R. ≥ 1 GΩ or I.R. x C ≥ 100 Ω.F. whichever is less
 I.R. X C ≥ 50 Ω.F.
 Operating temperature range:
-NP0/X7R/X7S –55 °C to +125 °C
+NP0/X7R/X7S -55 °C to +125 °C
 ```
 
 ### Page 12
@@ -793,7 +793,7 @@ for solderability at 245 °C during 2 seconds.  The test condition for no leachi
 NO AEC-Q200 TEST TEST METHOD REQUIREMENTS
 4 Temperature Cycling
 Preconditioning, Class II only :
-150 +0/–10 °C for 1 hour, then keep for
+150 +0/-10 °C for 1 hour, then keep for
 24 ± 1 hours at room temperature
 
 1000 cycles with following detail:
@@ -884,7 +884,7 @@ Measurement at least 24 hours after test conclusion.
 
 Note: If the capacitance value is less than the minimum value
 permitted, then after the other measurements have been
-made the capacitor shall be preconditioned according to “IEC
+made the capacitor shall be preconditioned according to "IEC
 60384 and then the requirement shall be met.
 * Note : Applied 1.5 x Ur for 6.3V to 100V
 0402/X7S/10V~25V/>100nF
@@ -913,7 +913,7 @@ whichever is less *
    0402/10V-16V/>100nF
 * IRx Cr ≥ 10Ω.F.
    0603/25V/>220nF
-9 External Visual Any applicable method using ×  10 magnification In accordance with specification
+9 External Visual Any applicable method using x  10 magnification In accordance with specification
 10 Physical Dimension Verify physical dimensions to the applicable device specification.  In accordance with specification
 13 Mechanical Shock
 Three shocks in each direction shall be applied along the three
@@ -957,7 +957,7 @@ Product specification
 
 NO AEC-Q200 TEST TEST METHOD REQUIREMENTS
 15 Resistance to Soldering Heat
-Preconditioning, class II only : 150 +0/–10 °C for 1 hour, then
+Preconditioning, class II only : 150 +0/-10 °C for 1 hour, then
 keep for 24 ± 1 hours at room temperature
 Follow MIL-STD-202 method 210 condition k, time above 217
 deg-C , 60s to 150s.
@@ -1146,7 +1146,7 @@ Surface-Mount Ceramic Multilayer Capacitors
 Product specification
 
 21 Board Flex
-Part mounted on a 100mm ×  40mm FR4 PCB board, which is
+Part mounted on a 100mm x  40mm FR4 PCB board, which is
 1.6± 0.2 mm thick and has a layer-thickness 35µm± 10 µm.
 Part should be mounted using the following soldering reflow
 profile.
@@ -1595,7 +1595,7 @@ Version 17 Jan. 14, 2022 - - Add 1206/NPO/2000V/10pF to 47pF
 Version 16 Nov. 17, 2021 - - Add 1206/X7R/500V to 1000V/220pF to 1nF
 Version 15 Oct. 12, 2021 - - Add 0603/NPO/25V/50V/2.7nF to 10nF
 - I.R. for NPO change to " I.R. ≥ 100 GΩ or I.R.
-×  C ≥ 1000Ω.F.
+x  C ≥ 1000Ω.F.
 whichever is less"
 Version 14 Aug. 09, 2021 - - Add 1206/NPO/1kV/10pF to 220pF
  1206/X7R/1kV/1nF
@@ -1661,7 +1661,7 @@ Product specification
 
 LEGAL DISCLAIMER
 
-YAGEO , its distributors and agents (collectively, “ YAGEO ”), hereby disclaims any and all liabilities for any
+YAGEO , its distributors and agents (collectively, " YAGEO "), hereby disclaims any and all liabilities for any
 errors, inaccuracies or incompleteness contained in any product related information, including but not limited
 to product specifications, datasheets, pictures and/or graphics. YAGEO  may make changes, modifications and/or
 improvements to product related information at any time and without notice.

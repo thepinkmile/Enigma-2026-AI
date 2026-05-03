@@ -10,22 +10,22 @@
 ## Reviewed Summary
 
 - **Part in use:** TE Connectivity BMC-Q2AY0600M, catalog order code 2-2176748-1
-- **Series:** BMC-Q — Industrial / Automotive Grade Multilayer Chip Beads
+- **Series:** BMC-Q - Industrial / Automotive Grade Multilayer Chip Beads
 - **Qualification:** AEC-Q200 Grade 1, MSL1; environmental tests per MIL-STD-202
   Methods 108 (thermal cycling), 103 (humidity), 213 (mechanical shock), 204 (vibration)
-- **Package:** 0805 (2.0 × 1.2 mm body, BMC-Q2A size code)
+- **Package:** 0805 (2.0 x 1.2 mm body, BMC-Q2A size code)
 - **Current variant:** Ultra High Current (M suffix)
 
-### Electrical Characteristics — BMC-Q2AY0600M
+### Electrical Characteristics - BMC-Q2AY0600M
 
 | Parameter | Value |
 | :--- | :--- |
 | Impedance @ 100 MHz | 600 Ω ±25% |
 | DC Resistance (DCR) max | 0.100 Ω (100 mΩ) |
 | Rated current max | 2000 mA |
-| Operating temperature | −40 °C to +125 °C |
+| Operating temperature | -40 °C to +125 °C |
 
-### Package / Mechanical — BMC-Q2A (0805)
+### Package / Mechanical - BMC-Q2A (0805)
 
 | Dimension | Value (mm) |
 | :--- | :--- |
@@ -56,8 +56,8 @@ BMC-Q2AY0600M.
 
 ## Extraction Notes
 
-- Pages 1–7 contain electrical tables and qualification data.
-- Pages 8–9 contain construction diagrams and packaging specifications.
+- Pages 1-7 contain electrical tables and qualification data.
+- Pages 8-9 contain construction diagrams and packaging specifications.
 - Page 10 contains the ordering information table with part number decode.
 - "No military" commercial disclaimer present; note that environmental qualification
   testing explicitly references MIL-STD-202 test methods (see page 3).
@@ -216,7 +216,7 @@ MSL: 1 (unlimited floor life at ≤30°C / 60% RH)
 
 Environmental Test Conditions:
 Test                Method          Condition
-Thermal cycle       MIL-STD-202-108  −40°C to +125°C, 1000 cycles
+Thermal cycle       MIL-STD-202-108  -40°C to +125°C, 1000 cycles
 Moisture/humidity   MIL-STD-202-103  85°C/85%RH, 1000h
 Mechanical shock    MIL-STD-202-213  1500 g
 Vibration           MIL-STD-202-204  50 g
@@ -255,10 +255,10 @@ BMC-Q2C   1204         1.20    4.50    1.50
 ```text
 Packaging Quantity & Reel Specifications (Unit: mm)
 Type      Size (Inch)  ΦA       ΦB       ΦC        W              Quantity (EA)
-BMC-Q1E   0402         178 ±2   57 ±2    12.5 ±1.5  8 +1.5/−0     10,000
-BMC-Q1J   0603         178 ±2   57 ±2    12.5 ±1.5  8 +1.5/−0     4,000
-BMC-Q2A   0805         178 ±2   57 ±2    12.5 ±1.5  8 +1.5/−0     4,000
-BMC-Q2C   1204         178 ±2   57 ±2    12.5 ±1.5  8 +1.5/−0     4,000
+BMC-Q1E   0402         178 ±2   57 ±2    12.5 ±1.5  8 +1.5/-0     10,000
+BMC-Q1J   0603         178 ±2   57 ±2    12.5 ±1.5  8 +1.5/-0     4,000
+BMC-Q2A   0805         178 ±2   57 ±2    12.5 ±1.5  8 +1.5/-0     4,000
+BMC-Q2C   1204         178 ±2   57 ±2    12.5 ±1.5  8 +1.5/-0     4,000
 ```
 
 ### Page 10

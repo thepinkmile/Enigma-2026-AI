@@ -73,16 +73,16 @@ RECOMENDEDPCBLAYOUT
 B
 B
 .100[2.54]
-.100[2.54]—
+.100[2.54]-
 SPECIFICATION:
 Material:
 Insulator: PBT,rated UL-94V-0
 A=.100[2.54]X No.of Positions /2 +.300 [7.60]
 Contacts: Brass
 Contact Plating:
-B=.100[2.54]× No.of Positions /2 +.200[5.08]
+B=.100[2.54]x No.of Positions /2 +.200[5.08]
 Gold Flash over Nickel underplate overall
-C =.100 [2.54] × No.of Spaces
+C =.100 [2.54] x No.of Spaces
 Electrical:
 OperatingVoltage:250V AC max.
 ADAM TECH

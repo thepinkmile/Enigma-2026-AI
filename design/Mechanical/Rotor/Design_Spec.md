@@ -36,7 +36,7 @@ Total outer diameter matches the original Enigma machine (~100mm) for authentic 
 | Internal board gap | ~11.8mm | Between inner faces of boards |
 | Character engraving radius | r=50mm | On outer cylindrical face of shroud |
 | Capacitive sensor electrode radius | r=44mm | On PCB flat face |
-| Central shaft hole diameter (both PCBs) | Ø10mm nominal (TBD) | Through-hole, 8–12mm range; confirmed once rotor actuation shaft diameter is fixed |
+| Central shaft hole diameter (both PCBs) | Ø10mm nominal (TBD) | Through-hole, 8-12mm range; confirmed once rotor actuation shaft diameter is fixed |
 | Central keep-out zone radius (both PCBs) | r ≥ 6mm | No copper, components, or traces within 6mm of board centre; driven by shaft clearance |
 
 ---
@@ -53,8 +53,8 @@ All mechanical parts must be manufactured to the tolerances specified below.
 | PCB outer diameter | Ø92mm | ±0.2mm | JLCPCB PCB fabrication |
 | PCB thickness | 1.6mm | ±0.1mm | PCB fabrication standard |
 | Board gap | ~11.8mm | ±0.5mm | IDC connector + PCB thickness stack |
-| Capacitive sensor gap (PCB face to shroud flange) | 0.5mm | ±0.15mm | Controlled by bearing precision — critical for FDC2114 sensor reliability |
-| Gray code slot angular position | — | ±0.1° | CNC milled, per-slot angular tolerance |
+| Capacitive sensor gap (PCB face to shroud flange) | 0.5mm | ±0.15mm | Controlled by bearing precision - critical for FDC2114 sensor reliability |
+| Gray code slot angular position | - | ±0.1° | CNC milled, per-slot angular tolerance |
 | Gray code slot depth | 0.5mm | ±0.05mm | Milled into shroud flange inner face |
 | Character engraving depth | 0.4mm | ±0.1mm | Milled on shroud outer cylindrical face |
 | Character engraving width | per-character | ±0.1mm | CNC |
@@ -70,13 +70,13 @@ All mechanical parts must be manufactured to the tolerances specified below.
 
 ## 4. Shroud Design
 
-* **Material:** Aluminium alloy (grade TBD — suggest 6061-T6 for machinability and surface finish)
+* **Material:** Aluminium alloy (grade TBD - suggest 6061-T6 for machinability and surface finish)
 * **Manufacturing:** CNC machined
 * **Style:** Dish-shaped outer shell. Board A PCB and chassis mount inside the dish. A cover
   plate (Board B side) screws down from the Board B side.
 * **Bearing mechanism:** Rolling-pin style cylindrical bearings around the inner circumference
   of the shroud. Bearing pockets machined into the shroud inner wall.
-* **Rolling elements:** Must use ceramic or nylon rolling elements — **electrically isolating
+* **Rolling elements:** Must use ceramic or nylon rolling elements - **electrically isolating
   required**. The aluminium shroud must remain electrically floating relative to PCB ground.
   Metal rolling elements must NOT be used.
 * **Outer face:** Characters engraved on the outer cylindrical face at r=50mm. Engraving depth
@@ -106,7 +106,7 @@ components).
 * **Track A** (bits[5:3]): milled into inner face of shroud **dish** (Board A side flange)
 * **Track B** (bits[2:0]): milled into inner face of shroud **cover** (Board B side flange)
 * 3 sensor electrodes per track (6 total, 3 per PCB)
-* Encoding: standard 6-bit reflected (binary) Gray code — perfect Gray code, zero multi-bit
+* Encoding: standard 6-bit reflected (binary) Gray code - perfect Gray code, zero multi-bit
   transitions including wrap-around
 * Arc per segment at r=44mm: 4.32mm
 
@@ -120,7 +120,7 @@ components).
 * Board B side flange: no encoder slots (plain inner face)
 * 5 sensor electrodes on Board A only (4 read by U2, addr 0x2A, STGC bits[3:0]; 1 read by U3,
   addr 0x2B, STGC bit[4]; both FDC2114RGHR ICs on Board A)
-* Encoding: Single-Track Gray Code (STGC) — nearest achievable to Gray code for N=26
+* Encoding: Single-Track Gray Code (STGC) - nearest achievable to Gray code for N=26
   (non-power-of-2)
 * Arc per segment at r=44mm: 10.63mm
 
@@ -132,10 +132,10 @@ components).
 ## 6. Internal Header Assembly
 
 * **Connector type:** Eight single-row 2.54mm THT pin headers, four per board face. Board A:
-  J7 (Adam Tech RS1-05-G 1×5 female), J8 (Adam Tech RS1-05-G 1×5 female), J11 (Adam Tech
-  PH1-05-UA 1×5 male), J14 (Adam Tech PH1-07-UA 1×7 male). Board B: J9 (Adam Tech RS1-05-G
-  1×5 female), J10 (Adam Tech RS1-07-G 1×7 female), J12 (Adam Tech PH1-05-UA 1×5 male), J13
-  (Adam Tech PH1-05-UA 1×5 male). Mixed gender provides physical keying.
+  J7 (Adam Tech RS1-05-G 1x5 female), J8 (Adam Tech RS1-05-G 1x5 female), J11 (Adam Tech
+  PH1-05-UA 1x5 male), J14 (Adam Tech PH1-07-UA 1x7 male). Board B: J9 (Adam Tech RS1-05-G
+  1x5 female), J10 (Adam Tech RS1-07-G 1x7 female), J12 (Adam Tech PH1-05-UA 1x5 male), J13
+  (Adam Tech PH1-05-UA 1x5 male). Mixed gender provides physical keying.
 * **Keying:** Board A carries J11 and J14 as male and J7 and J8 as female; Board B carries
   the inverse (J12/J13 male, J9/J10 female). The unique 7-pin footprint of J10/J14 makes
   incorrect board orientation geometrically impossible.
@@ -160,18 +160,18 @@ rod (shaft) that passes through **both** Board A and Board B via an NPTH centre 
 
 **Design intent:**
 
-* The rotor stack connectors (J1–J6 ERM8/ERF8 series) are signal/power connectors and must **not**
+* The rotor stack connectors (J1-J6 ERM8/ERF8 series) are signal/power connectors and must **not**
   be used as the primary mechanical weight-bearing interface between rotors. The central shaft is the
   sole weight-bearing support.
 * The shaft passes through the full rotor stack; all rotors within a group slide onto the shaft and
-  are retained by the same shaft mechanism (design TBD — pending Rotor Actuation Assembly spec).
+  are retained by the same shaft mechanism (design TBD - pending Rotor Actuation Assembly spec).
 
 **PCB hole specification:**
 
 | Parameter | Value | Notes |
 | :--- | :--- | :--- |
 | Hole type | NPTH (non-plated through-hole) | Shaft must be electrically isolated from PCB copper |
-| Nominal diameter | Ø10mm TBD | Final size confirmed once actuation shaft diameter is fixed (8–12mm range) |
+| Nominal diameter | Ø10mm TBD | Final size confirmed once actuation shaft diameter is fixed (8-12mm range) |
 | Location | Board centre (0,0) | Concentric with PCB outer diameter |
 | Keep-out zone | r ≥ 6mm from centre | No copper, components, traces, or vias within this zone |
 

@@ -223,7 +223,7 @@ Click to View Pricing, Inventory, Delivery & Lifecycle Information:
 
 ```text
 Series 807 Mighty Mouse NW 
-“The Nett Warrior Connector”
+"The Nett Warrior Connector"
 Crimp • PC Tail • Solder Cup • Pigtail Assemblies
 NEW 10 AMP CONFIGURATIONS
 INTERCONNECT  
@@ -279,10 +279,10 @@ hub and cable systems. Contacts are capable of carrying 10 amps of current acros
 separate channels with less than 30°C of temperature rise. Electrical resistance remains 
 consistent across 2000 mating cycles. Best of all, Glenair has integrated the new 10 
 Amp contact connectors into our next-generation STAR-PAN NG platform, ensuring 
-intelligent, system-wide handling of warfighter electronic equipment—for both 10 
+intelligent, system-wide handling of warfighter electronic equipment-for both 10 
 Amp-capable devices as well as lower-power legacy hardware.
-Glenair STAR-PAN NG hubs and cables—now equipped with 10 Amp Crown Ring contact 
-receptacles—are smart devices capable of managing next-generation high-power 
+Glenair STAR-PAN NG hubs and cables-now equipped with 10 Amp Crown Ring contact 
+receptacles-are smart devices capable of managing next-generation high-power 
 equipment as well as lower-power legacy devices.
 ```
 
@@ -516,7 +516,7 @@ Facsimile:
 sales@glenair.jp
 Glenair Italia S.p.A.
 Via Del Lavoro, 7 
-40057 Quarto Inferiore – 
+40057 Quarto Inferiore - 
 Granarolo dell’Emilia
 Bologna, Italy
 Glenair Korea 

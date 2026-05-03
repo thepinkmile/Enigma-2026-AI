@@ -1,4 +1,4 @@
-# SaiBuy.Ltd 6.35 mm Mono Switched Jack Socket — Pseudo Datasheet
+# SaiBuy.Ltd 6.35 mm Mono Switched Jack Socket - Pseudo Datasheet
 
 **Status:** Pseudo datasheet derived from marketplace listing metadata  
 **Source Listing:** eBay item `334364197440`  

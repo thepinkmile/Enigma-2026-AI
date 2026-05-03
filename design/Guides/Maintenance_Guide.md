@@ -20,7 +20,7 @@ The Controller board contains an RTC backup battery (ML2032/CR2032 coin cell).
 
 * **CR2032 (non-rechargeable):** Standard fit. The BAT54 protection diode (D1) must remain in circuit.
 * **ML2032 (rechargeable):** Only if D1 is removed and the Linux OS `dtparam=rtc_bbat_vchg` parameter is enabled. See `design/Software/Linux_OS/` for software configuration.
-* **Service interval:** >25 years under normal use. Battery replacement is a service-by-disassembly task — not field-replaceable in situ.
+* **Service interval:** >25 years under normal use. Battery replacement is a service-by-disassembly task - not field-replaceable in situ.
 
 ## 2. Internal Indicators
 

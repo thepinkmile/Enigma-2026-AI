@@ -44,12 +44,12 @@ diagnostics.
 | :--- | :--- | :--- | :--- |
 | DR-AM-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | `Board_Layout.md` |
 | DR-AM-02 | Host dock connector | J1 = Hirose DF40C-20DP-0.4V(51) (module-side 20-pin plug, 0.4mm pitch); host uses matching DF40HC(3.5)-20DS-0.4V(51) receptacle; stacking height = 3.5mm; carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` on a single connector | §3.1; BOM J1 |
-| DR-AM-03 | AM mounting holes | MH1–MH4 shall be M2.5mm NPTH through-holes with copper annular ring using the KiCAD built-in `MountingHole_Pad` footprint (no purchasable BOM component); pads shall be connected to `GND`. Matching 3.5mm SMT standoffs (9774035151R) on the host board (EXT MH5–MH8 or CTL MH5–MH8). Placement shall follow the asymmetric pattern: MH1 (top-left) and MH3 (bottom-left) at 7 mm from the left edge and 7 mm from the top and bottom edges respectively; MH2 (top-right) and MH4 (bottom-right) at 7 mm from the right edge and 12 mm from the top and bottom edges respectively. This non-square pattern enforces a single valid mating orientation, compensating for the polarity-free DF40 connector body. Exact coordinates to be confirmed at PCB layout stage | `Board_Layout.md`; §3.1 |
+| DR-AM-03 | AM mounting holes | MH1-MH4 shall be M2.5mm NPTH through-holes with copper annular ring using the KiCAD built-in `MountingHole_Pad` footprint (no purchasable BOM component); pads shall be connected to `GND`. Matching 3.5mm SMT standoffs (9774035151R) on the host board (EXT MH5-MH8 or CTL MH5-MH8). Placement shall follow the asymmetric pattern: MH1 (top-left) and MH3 (bottom-left) at 7 mm from the left edge and 7 mm from the top and bottom edges respectively; MH2 (top-right) and MH4 (bottom-right) at 7 mm from the right edge and 12 mm from the top and bottom edges respectively. This non-square pattern enforces a single valid mating orientation, compensating for the polarity-free DF40 connector body. Exact coordinates to be confirmed at PCB layout stage | `Board_Layout.md`; §3.1 |
 | DR-AM-04 | Servo loom header | J3 = Adam Tech PH1-05-UA, manually fitted post-PCBA; only pins 1-3 are active in Rev A | §3.3; BOM J3 |
 | DR-AM-05 | Home-switch loom header | J4 = Adam Tech PH1-05-UA, manually fitted post-PCBA; twisted-pair wiring required for the active signal and return | §3.4; BOM J4 |
 | DR-AM-06 | Local controller architecture | U1 shall be a small 3.3V local controller with native hardware PWM, at least 2 digital inputs, at least 4 spare / LED-capable GPIOs, power-on reset, and a package suitable for low-profile service-module assembly | §4; BOM U1 |
 | DR-AM-07 | Diagnostics LED parts and placement | Reuse the existing green 0402 status LED and 330Ω 0402 resistor already used on Encoder boards, but place the LED footprints at the visible board edge on the PCBA side so their light remains observable when the AM is installed upside-down | BOM D1-D3, R1-R3; `Board_Layout.md` |
-| DR-AM-08 | Home-input biasing | `ACTUATION_HOME_N` uses a local 10kΩ pull-up to `3V3_ENIG` plus a 1µF local RC debounce capacitor — RC time constant 10 ms | BOM R4, C1 |
+| DR-AM-08 | Home-input biasing | `ACTUATION_HOME_N` uses a local 10kΩ pull-up to `3V3_ENIG` plus a 1µF local RC debounce capacitor - RC time constant 10 ms | BOM R4, C1 |
 | DR-AM-09 | Mounting orientation | Module is intended to mount upside-down from the host board, similar to the JDB service-board approach | `Board_Layout.md` |
 | DR-AM-10 | SWD service connector | J5 = Adam Tech PH1-05-UA, manually fitted 1x5 2.54mm SWD header using the common compact 5-pin STM32/ST-LINK flying-lead order (`VTref`, `SWCLK`, `GND`, `SWDIO`, `NRST`) | §3.5; BOM J5 |
 | DR-AM-11 | Inter-board component envelope | All PCBA-fitted parts on the enclosed connector-facing side of the AM shall remain low profile and shall not exceed 2.0 mm installed height above the PCB; all manual-fit loom / service headers remain on the opposite side | `Board_Layout.md`; §4 |
@@ -62,8 +62,8 @@ diagnostics.
 | DR-AM-18 | `ACTUATE_REQUEST_N` pull-up policy | The `ACTUATE_REQUEST_N` signal on `J1 pin 15` shall be held HIGH by the STM32G071K8T3TR internal GPIO pull-up (PUPDR = `0b01`) only; no external pull-up resistor shall be fitted on the AM hardware | §3.1 J1 pin 15; BOM (no external pull-up component) |
 | DR-AM-19 | STM32G071K8T3TR LQFP-32 supply topology | The LQFP-32 package has a single combined VDD/VDDA pin (pin 4); all decoupling caps C2, C3, and C7 shall target pin 4 exclusively; no separate VDDA pin exists in this package | §4; BOM C2-C3, C7 |
 
-> **Note — Minimum board size guidance (non-binding):** The DR-AM-03 asymmetric mounting hole pattern
-> implies a minimum board height of approximately **26 mm** (right-pair 12 mm insets × 2 plus 1 mm
+> **Note - Minimum board size guidance (non-binding):** The DR-AM-03 asymmetric mounting hole pattern
+> implies a minimum board height of approximately **26 mm** (right-pair 12 mm insets x 2 plus 1 mm
 > edge clearance each side) and a minimum board width of approximately **28 mm** (7 mm insets each
 > side plus clearance for the DF40C connector body). These are guidance values only; final dimensions
 > shall be determined during schematic capture and PCB layout.
@@ -74,45 +74,45 @@ diagnostics.
 
 **Module-side part:** Hirose **DF40C-20DP-0.4V(51)** (plug, 20-pin, 0.4mm pitch, ~1.14mm above PCB)  
 **Host-side mating part:** Hirose **DF40HC(3.5)-20DS-0.4V(51)** (receptacle, 20-pin, 3.5mm stacking height)  
-**Board-to-board gap:** 3.5mm (clearance to DR-AM-11 2.0mm limit: 1.5mm ✓)
+**Board-to-board gap:** 3.5mm (clearance to DR-AM-11 2.0mm limit: 1.5mm ✔)
 
 > ⚠️ **Polarity note:** The DF40 connector body is mechanically polarity-free (Hirose Note 4). Correct
-> mating orientation is enforced by the asymmetric standoff hole pattern (MH1–MH4; see DR-AM-03 and
+> mating orientation is enforced by the asymmetric standoff hole pattern (MH1-MH4; see DR-AM-03 and
 > `Board_Layout.md`). Pin 1 is defined as the top-left pin when the AM is viewed from its component side
 > (connector-facing side) with the short standoff-pair edge on the left. Verify against the silkscreen
 > pin-1 marker on both AM and host board before installation.
 
 **Current budget:**  Rated 0.3 A per contact.  
-`5V_MAIN`: 5 pins × 0.3 A = 1.5 A available (≥ 3× SG90 stall current headroom ✓).  
-`3V3_ENIG`: 2 pins × 0.3 A = 0.6 A available.  
+`5V_MAIN`: 5 pins x 0.3 A = 1.5 A available (≥ 3x SG90 stall current headroom ✔).  
+`3V3_ENIG`: 2 pins x 0.3 A = 0.6 A available.  
 `ACTUATE_REQUEST_N`: logic signal only (< 5 mA).
 
 `ACTUATE_REQUEST_N` is **active-low**. The host asserts a request by pulling the line LOW. The idle-HIGH
-bias is provided by the STM32 internal GPIO pull-up (PUPDR = `0b01`) configured in firmware — no external
+bias is provided by the STM32 internal GPIO pull-up (PUPDR = `0b01`) configured in firmware - no external
 pull-up resistor is fitted on the AM hardware.
 
 | Pin | Signal | Direction | Notes |
 | :--- | :--- | :--- | :--- |
 | 1 | 5V_MAIN | Host → AM | Servo supply |
-| 2 | GND | — | Servo power return |
+| 2 | GND | - | Servo power return |
 | 3 | 5V_MAIN | Host → AM | Servo supply |
-| 4 | GND | — | Servo power return |
+| 4 | GND | - | Servo power return |
 | 5 | 5V_MAIN | Host → AM | Servo supply |
-| 6 | GND | — | Servo power return |
+| 6 | GND | - | Servo power return |
 | 7 | 5V_MAIN | Host → AM | Servo supply |
-| 8 | GND | — | Servo power return |
+| 8 | GND | - | Servo power return |
 | 9 | 5V_MAIN | Host → AM | Servo supply |
-| 10 | GND | — | Servo power return |
+| 10 | GND | - | Servo power return |
 | 11 | 3V3_ENIG | Host → AM | Logic rail |
-| 12 | GND | — | Logic return |
+| 12 | GND | - | Logic return |
 | 13 | 3V3_ENIG | Host → AM | Logic rail |
-| 14 | GND | — | Logic return |
+| 14 | GND | - | Logic return |
 | 15 | ACTUATE_REQUEST_N | Host → AM | Active-low request input |
-| 16 | GND | — | Signal return / guard |
-| 17 | GND | — | Signal return / guard |
-| 18 | GND | — | Signal return / guard |
-| 19 | GND | — | Signal return / guard |
-| 20 | GND | — | Signal return / guard |
+| 16 | GND | - | Signal return / guard |
+| 17 | GND | - | Signal return / guard |
+| 18 | GND | - | Signal return / guard |
+| 19 | GND | - | Signal return / guard |
+| 20 | GND | - | Signal return / guard |
 
 ### 3.2 J2 - Host Trigger Dock *(Retired)*
 
@@ -194,7 +194,7 @@ normal UART bootloader sequence is straightforward:
 
 > **NRST filter capacitor (C6):** The `NRST` line carries a 100 nF X7R filter capacitor (C6) to GND,
 > placed adjacent to U1's NRST pin per STM32G071 datasheet Figure 23 to suppress voltage spikes on the
-> reset line. C6 uses the same approved part as C1–C3.
+> reset line. C6 uses the same approved part as C1-C3.
 
 ### 3.8 SW2 - Local `BOOT0` Button
 
@@ -291,17 +291,17 @@ pinouts, mechanical constraints, and BOM.
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C1 | 1µF X7R 50V 0805 | C0805C105K5RACTU | Kemet | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | — | — | Yes | Pending | 1 |
-| C2-C3, C6-C7 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | — | — | Yes | Pending | 4 |
-| C4 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | — | 50V rating retained per DEC-046. | Yes | Pending | 1 |
-| C5 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | — | — | Yes | Pending | 1 |
-| D1-D3 | Green SMD LED diagnostic 0402 | 150060VS75000 | Würth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | — | — | Yes | Pending | 3 |
-| J1 | 20-pin 0.4mm pitch BtB plug | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | — | — | Yes | Pending | 1 |
-| J3-J6 | 1x5 2.54mm male THT | PH1-05-UA | Adam Tech | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | — | manually-fit | Yes | Pending | 4 |
-| R1-R3 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | — | — | Yes | Pending | 3 |
-| R4-R5 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | — | — | Yes | Pending | 2 |
-| SW1-SW2 | SPST NO tactile THT | B3F-1070 | Omron | SW406-ND | 653-B3F-1070 | C726011 | — | — | Yes | Pending | 2 |
-| U1 | Local actuation controller LQFP32 | STM32G071K8T3TR | STMicroelectronics | 497-STM32G071K8T3TR-ND | 511-STM32G071K8T3TR | — | Global sourcing | JLCPCB consignment only | Yes | Pending | 1 |
+| C1 | 1µF X7R 50V 0805 | C0805C105K5RACTU | Kemet | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | - | Yes | Pending | 1 |
+| C2-C3, C6-C7 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 4 |
+| C4 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | 50V rating retained per DEC-046. | Yes | Pending | 1 |
+| C5 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | Pending | 1 |
+| D1-D3 | Green SMD LED diagnostic 0402 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | Yes | Pending | 3 |
+| J1 | 20-pin 0.4mm pitch BtB plug | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | Yes | Pending | 1 |
+| J3-J6 | 1x5 2.54mm male THT | PH1-05-UA | Adam Tech | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | manually-fit | Yes | Pending | 4 |
+| R1-R3 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | Yes | Pending | 3 |
+| R4-R5 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | Pending | 2 |
+| SW1-SW2 | SPST NO tactile THT | B3F-1070 | Omron | SW406-ND | 653-B3F-1070 | C726011 | - | - | Yes | Pending | 2 |
+| U1 | Local actuation controller LQFP32 | STM32G071K8T3TR | STMicroelectronics | 497-STM32G071K8T3TR-ND | 511-STM32G071K8T3TR | - | Global sourcing | JLCPCB consignment only | Yes | Pending | 1 |
 
 The servo motor and the home switch are off-board electromechanical items and are therefore specified
 by the host mechanical assembly rather than as AM PCB-fitted BOM rows.
@@ -309,8 +309,8 @@ by the host mechanical assembly rather than as AM PCB-fitted BOM rows.
 ## 7. Thermal & ESD
 
 * **Thermal:** No active cooling required on the AM. U1 (STM32G071K8T3TR LQFP-32) dissipates well below 100 mW; no heatsinking required.
-* **ESD — J1 (DF40C host dock, no TVS required):** J1 mates to the host board (Extension J9 or Controller J11).
+* **ESD - J1 (DF40C host dock, no TVS required):** J1 mates to the host board (Extension J9 or Controller J11).
   It is not operator-accessible during live rotor swap and is explicitly outside DEC-048 scope per `Extension/Design_Spec.md §5`.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.
-* **ESD — J3–J6 (manual-fit loom/service headers, no TVS required):** All remaining connectors (Adam Tech PH1-05-UA) are internal assembly headers; not accessible under live conditions.
+* **ESD - J3-J6 (manual-fit loom/service headers, no TVS required):** All remaining connectors (Adam Tech PH1-05-UA) are internal assembly headers; not accessible under live conditions.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.

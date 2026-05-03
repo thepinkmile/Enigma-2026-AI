@@ -43,23 +43,23 @@ daemon over I²C.
 | FR-USM-02 | Allow CM5 firmware / GUI presets to override the user-intent configuration on a per-bank basis | CM5 decides authority in software, drives the final applied config on the Stator, and reflects source state back to the Settings indicators via `CFG_ROUTE_CM5_ACTIVE` / `CFG_REFMAP_CM5_ACTIVE` | §5 LED Control Logic; Stator/Design_Spec.md FR-STA-08/09 |
 | FR-USM-03 | Provide visual feedback via RGB LED illumination showing configuration source and active bit state | Green = user-intent forwarded; Red = CM5-defined override active; per-bank shared colour rails + per-bit individual LED anode drive with per-colour cathode-return resistors | §5 LED Control Logic |
 | FR-USM-04 | Provide a momentary `CFG_APPLY_N` pushbutton that requests Stator CPLD configuration reload | CM5 daemon polls U1 GPB[7]; active-low; 10kΩ pull-up + 100nF X7R 0402 debounce cap. A board-mounted tactile switch actuated through the enclosure is acceptable; the switch itself need not be panel-mount. | §6 `CFG_APPLY_N` Button |
-| FR-USM-05 | Connect to the Stator Board via a 6-wire I²C harness (`3V3_ENIG`, `5V_MAIN`, 2× `GND`, `SDA`, `SCL`) | J1 = 6-pin JST PH 2.0mm connector; shares Stator I²C-1 bus; `5V_MAIN` powers the indicator LEDs | §7 Interconnects; BOM J1 |
+| FR-USM-05 | Connect to the Stator Board via a 6-wire I²C harness (`3V3_ENIG`, `5V_MAIN`, 2x `GND`, `SDA`, `SCL`) | J1 = 6-pin JST PH 2.0mm connector; shares Stator I²C-1 bus; `5V_MAIN` powers the indicator LEDs | §7 Interconnects; BOM J1 |
 
 #### Design Requirements
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
 | DR-USM-01 | PCB stackup | 4-layer, 2oz finished copper (JLCPCB JLC04161H-7628) | §8 PCB Fabrication |
-| DR-USM-02 | Switch + indicator type | 10× E-Switch 200MSP1T2B4M2QE panel-mount SPDT latching toggle switches plus 12× Kingbright WP154A4SEJ3VBDZGW/CA common-anode RGB through-hole LEDs; 10 LEDs mirror config bits and 2 LEDs indicate CM5-vs-user authority | §3 Configuration Bank Descriptions; BOM SW1-SW10, D1-D12 |
-| DR-USM-03 | Switch input expander | U1 = MCP23017T-E/SO @ 0x23; SOIC-28; contiguous after the Stator expander block | §4 I²C Devices — U1; BOM U1 |
-| DR-USM-04 | LED control expanders | U2 = MCP23017T-E/SO @ 0x24 (Bank 1); U3 = MCP23017T-E/SO @ 0x25 (Bank 2); SOIC-28; per-indicator anodes plus shared RGB bank rails | §4 I²C Devices — U2, U3; §5 LED Control Logic; BOM U2, U3 |
-| DR-USM-05 | LED colour-rail transistors | 6× BSS138 SOT-23 N-channel MOSFETs (`Q1-Q6`); gate driven via 1kΩ resistor; GPIO HIGH = transistor ON | §5 LED Control Logic; BOM Q1-Q6 |
-| DR-USM-06 | LED power supply | `5V_MAIN` from the Stator via J1 pin 2; full RGB operation at 5V uses 150Ω red and 100Ω green/blue series resistors; LED anodes connect to `5V_MAIN` via per-anode PMOS high-side switches (Q19–Q30) — see DR-USM-10 | §7 Interconnects — J1; §5 LED Control Logic; BOM R18-R53, Q7-Q30, R54-R77 |
+| DR-USM-02 | Switch + indicator type | 10x E-Switch 200MSP1T2B4M2QE panel-mount SPDT latching toggle switches plus 12x Kingbright WP154A4SEJ3VBDZGW/CA common-anode RGB through-hole LEDs; 10 LEDs mirror config bits and 2 LEDs indicate CM5-vs-user authority | §3 Configuration Bank Descriptions; BOM SW1-SW10, D1-D12 |
+| DR-USM-03 | Switch input expander | U1 = MCP23017T-E/SO @ 0x23; SOIC-28; contiguous after the Stator expander block | §4 I²C Devices - U1; BOM U1 |
+| DR-USM-04 | LED control expanders | U2 = MCP23017T-E/SO @ 0x24 (Bank 1); U3 = MCP23017T-E/SO @ 0x25 (Bank 2); SOIC-28; per-indicator anodes plus shared RGB bank rails | §4 I²C Devices - U2, U3; §5 LED Control Logic; BOM U2, U3 |
+| DR-USM-05 | LED colour-rail transistors | 6x BSS138 SOT-23 N-channel MOSFETs (`Q1-Q6`); gate driven via 1kΩ resistor; GPIO HIGH = transistor ON | §5 LED Control Logic; BOM Q1-Q6 |
+| DR-USM-06 | LED power supply | `5V_MAIN` from the Stator via J1 pin 2; full RGB operation at 5V uses 150Ω red and 100Ω green/blue series resistors; LED anodes connect to `5V_MAIN` via per-anode PMOS high-side switches (Q19-Q30) - see DR-USM-10 | §7 Interconnects - J1; §5 LED Control Logic; BOM R18-R53, Q7-Q30, R54-R77 |
 | DR-USM-07 | `CFG_APPLY_N` button | SW11 = Omron B3F-1070 or equivalent SPST NO through-hole tactile switch, active-low; mounted on the User Settings Module and actuated through the enclosure by a mechanical plunger/cap; 10kΩ pull-up to 3V3_ENIG + 100nF debounce cap; U1 GPB[7] | §6 `CFG_APPLY_N` Button; BOM SW11, R11, C4 |
 | DR-USM-08 | I²C connector | J1 = 6-pin JST PH 2.0mm B6B-PH-K-S(LF)(SN); pins: `3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`; harness to Stator J13 | §7 Interconnects; BOM J1 |
-| DR-USM-09 | Switch input pull-downs | 10× 10kΩ 0603 pull-down resistors on all toggle-switch inputs to U1 (GPA[3:0], GPB[5:0]); HIGH when closed | §4 I²C Devices — U1; BOM R1-R10 |
-| DR-USM-10 | Per-anode LED high-side switch | 12× two-stage per-anode high-side switch: MCP23017 GPIO → 1 kΩ gate resistor (R54–R65) → BSS138 NMOS pre-driver (Q7–Q18); BSS138 drain pulls PMOS gate low; 47 kΩ pull-up (R66–R77) from PMOS gate to `5V_MAIN`; PMOS source at `5V_MAIN`, drain to LED anode; GPIO HIGH → LED ON (non-inverted logic); this topology isolates the MCP23017 3.3 V GPIO from direct-driving 5 V LED anodes | §5 LED Control Logic; BOM Q7-Q30, R54-R77 |
-| DR-USM-11 | Mounting holes | MH1–MH4 shall be M2.5mm through-hole mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to the local GND_CHASSIS net per `design/Standards/Global_Routing_Spec.md §4` | §2 Core Features (GND_CHASSIS section) |
+| DR-USM-09 | Switch input pull-downs | 10x 10kΩ 0603 pull-down resistors on all toggle-switch inputs to U1 (GPA[3:0], GPB[5:0]); HIGH when closed | §4 I²C Devices - U1; BOM R1-R10 |
+| DR-USM-10 | Per-anode LED high-side switch | 12x two-stage per-anode high-side switch: MCP23017 GPIO → 1 kΩ gate resistor (R54-R65) → BSS138 NMOS pre-driver (Q7-Q18); BSS138 drain pulls PMOS gate low; 47 kΩ pull-up (R66-R77) from PMOS gate to `5V_MAIN`; PMOS source at `5V_MAIN`, drain to LED anode; GPIO HIGH → LED ON (non-inverted logic); this topology isolates the MCP23017 3.3 V GPIO from direct-driving 5 V LED anodes | §5 LED Control Logic; BOM Q7-Q30, R54-R77 |
+| DR-USM-11 | Mounting holes | MH1-MH4 shall be M2.5mm through-hole mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to the local GND_CHASSIS net per `design/Standards/Global_Routing_Spec.md §4` | §2 Core Features (GND_CHASSIS section) |
 
 ---
 
@@ -82,7 +82,7 @@ daemon over I²C.
 * **`CFG_APPLY_N` Button:** Momentary pushbutton requests a Stator-only configuration reload via the
   CM5 daemon. CM5 reads the user-intent switch state, writes the final config to U8 on the
   Stator, and pulses the Stator-side `CFG_APPLY_N` output low.
-* **I²C-Only Interface:** 6-wire harness to Stator (`3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`) — no parallel signal wiring.
+* **I²C-Only Interface:** 6-wire harness to Stator (`3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`) - no parallel signal wiring.
 
 ### GND_CHASSIS Single-Point Bond
 
@@ -97,7 +97,7 @@ chassis-bond point.
 
 ## 3. Configuration Bank Descriptions
 
-### Bank 1 — Plugboard Routing (`CFG_ROUTE[3:0]` + `CFG_ROUTE_CM5_ACTIVE`)
+### Bank 1 - Plugboard Routing (`CFG_ROUTE[3:0]` + `CFG_ROUTE_CM5_ACTIVE`)
 
 Bank 1 provides a 4-bit user-intent image of the logical `CFG_ROUTE[3:0]` bus, selecting the active
 routing case from 16 configurations synthesised into the Stator CPLD fabric. `CFG_ROUTE[1:0]`
@@ -110,7 +110,7 @@ used to colour the Bank 1 indicators: LOW = user-intent forwarded (green), HIGH 
 override active (red).
 
 Pull-down resistors (10kΩ, one per switch signal) hold each input at logic-0 when the
-corresponding switch is open. On the Stator, R16–R19 provide the corresponding pull-downs on the
+corresponding switch is open. On the Stator, R16-R19 provide the corresponding pull-downs on the
 logical `CFG_ROUTE[3:0]` CPLD input pins to maintain a safe all-zero default before CM5 initialises
 U8.
 
@@ -120,24 +120,24 @@ Stator-only configuration reload.
 
 | `CFG_ROUTE` Index (`CFG_ROUTE[3]:CFG_ROUTE[2]:CFG_ROUTE[1]:CFG_ROUTE[0]`) | Plugboard Pass 1 (`J6/J7`) insertion point | Plugboard Pass 2 (`J8/J9`) insertion point | Historical reference |
 | :--- | :--- | :--- | :--- |
-| 0 (0000) | None | None | No plugboard — straight through |
+| 0 (0000) | None | None | No plugboard - straight through |
 | 1 (0001) | Pre-Rotor 1 | None | Single pre-Rotor 1 pass |
 | 2 (0010) | At Reflector | None | Later Enigma models (single reflector pass) |
 | 3 (0011) | Post-Rotor 1 return | None | Single post-Rotor 1 pass |
-| 4 (0100) | None | Pre-Rotor 1 | — |
+| 4 (0100) | None | Pre-Rotor 1 | - |
 | 5 (0101) | Pre-Rotor 1 | Pre-Rotor 1 | Cascaded pre-Rotor 1 |
-| 6 (0110) | At Reflector | Pre-Rotor 1 | — |
-| 7 (0111) | Post-Rotor 1 return | Pre-Rotor 1 | — |
-| 8 (1000) | None | At Reflector | — |
-| 9 (1001) | Pre-Rotor 1 | At Reflector | — |
+| 6 (0110) | At Reflector | Pre-Rotor 1 | - |
+| 7 (0111) | Post-Rotor 1 return | Pre-Rotor 1 | - |
+| 8 (1000) | None | At Reflector | - |
+| 9 (1001) | Pre-Rotor 1 | At Reflector | - |
 | 10 (1010) | At Reflector | At Reflector | Cascaded at Reflector |
-| 11 (1011) | Post-Rotor 1 return | At Reflector | — |
-| 12 (1100) | None | Post-Rotor 1 return | — |
+| 11 (1011) | Post-Rotor 1 return | At Reflector | - |
+| 12 (1100) | None | Post-Rotor 1 return | - |
 | 13 (1101) | Pre-Rotor 1 | Post-Rotor 1 return | Original Enigma (pre-war) |
-| 14 (1110) | At Reflector | Post-Rotor 1 return | — |
+| 14 (1110) | At Reflector | Post-Rotor 1 return | - |
 | 15 (1111) | Post-Rotor 1 return | Post-Rotor 1 return | Cascaded post-Rotor 1 |
 
-### Bank 2 — Reflector Mapping (`CFG_REFMAP[5:0]` + `CFG_REFMAP_CM5_ACTIVE`)
+### Bank 2 - Reflector Mapping (`CFG_REFMAP[5:0]` + `CFG_REFMAP_CM5_ACTIVE`)
 
 Bank 2 provides a 6-bit user-intent image of the logical `CFG_REFMAP[5:0]` bus used by the Stator
 CPLD to select the reflector-map index. The physical Reflector board remains mandatory and always
@@ -150,9 +150,9 @@ override active (red).
 
 | Bit | Switch | Function |
 | :--- | :--- | :--- |
-| `CFG_REFMAP[5:0]` | SW5-SW10 | **6-bit map index** (0–63): selects which involutory map to load from CPLD UFM at configuration load; indices 0–20 are currently allocated |
+| `CFG_REFMAP[5:0]` | SW5-SW10 | **6-bit map index** (0-63): selects which involutory map to load from CPLD UFM at configuration load; indices 0-20 are currently allocated |
 
-Pull-down resistors R21–R26 on the Stator CPLD `CFG_REFMAP[5:0]` input pins hold each input at
+Pull-down resistors R21-R26 on the Stator CPLD `CFG_REFMAP[5:0]` input pins hold each input at
 logic-0 when U8 is uninitialised (default map index = 0).
 
 When Bank 2 is latched, the Stator CPLD loads the selected map and applies it at the reflection
@@ -162,10 +162,10 @@ boundary while the physical Reflector board remains in the active ENC signal pat
 
 | Index | Map | Notes |
 | :--- | :--- | :--- |
-| 0 | UKW-A equivalent | Historical Enigma Reflector A (26-char; entries 26–63 = identity for 64-char variant) |
-| 1 | UKW-B equivalent | Historical Enigma Reflector B — most common WWII Enigma variant |
-| 2 | UKW-C equivalent | Historical Enigma Reflector C — later wartime variant |
-| 3–20 | Custom | User-defined involutory maps via JTAG programming |
+| 0 | UKW-A equivalent | Historical Enigma Reflector A (26-char; entries 26-63 = identity for 64-char variant) |
+| 1 | UKW-B equivalent | Historical Enigma Reflector B - most common WWII Enigma variant |
+| 2 | UKW-C equivalent | Historical Enigma Reflector C - later wartime variant |
+| 3-20 | Custom | User-defined involutory maps via JTAG programming |
 
 ---
 
@@ -173,11 +173,11 @@ boundary while the physical Reflector board remains in the active ENC signal pat
 
 All User Settings Module I²C devices share the Stator I²C-1 bus via J1 → Stator J13.
 
-### U1 — MCP23017T-E/SO @ 0x23
+### U1 - MCP23017T-E/SO @ 0x23
 
 Reads the 10 toggle-switch states and the active-low `CFG_APPLY_N` momentary button.
 
-**Address:** 0x23 — MCP23017 base 0x20; A2=LOW, A1=HIGH, A0=HIGH → 0x20 | 0b011 = 0x23
+**Address:** 0x23 - MCP23017 base 0x20; A2=LOW, A1=HIGH, A0=HIGH → 0x20 | 0b011 = 0x23
 
 | Port | Pin | Signal | Direction | Pull | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -185,14 +185,14 @@ Reads the 10 toggle-switch states and the active-low `CFG_APPLY_N` momentary but
 | GPA | [1] | CFG_ROUTE[1] | Input | 10kΩ pull-down | Routing config bit 1 |
 | GPA | [2] | CFG_ROUTE[2] | Input | 10kΩ pull-down | Routing config bit 2 |
 | GPA | [3] | CFG_ROUTE[3] | Input | 10kΩ pull-down | Routing config bit 3 |
-| GPA | [4:7] | — | Input | — | Spare (reserved future use) |
+| GPA | [4:7] | - | Input | - | Spare (reserved future use) |
 | GPB | [0] | CFG_REFMAP[0] | Input | 10kΩ pull-down | Reflector-map config bit 0 |
 | GPB | [1] | CFG_REFMAP[1] | Input | 10kΩ pull-down | Reflector-map config bit 1 |
 | GPB | [2] | CFG_REFMAP[2] | Input | 10kΩ pull-down | Reflector-map config bit 2 |
 | GPB | [3] | CFG_REFMAP[3] | Input | 10kΩ pull-down | Reflector-map config bit 3 |
 | GPB | [4] | CFG_REFMAP[4] | Input | 10kΩ pull-down | Reflector-map config bit 4 |
 | GPB | [5] | CFG_REFMAP[5] | Input | 10kΩ pull-down | Reflector-map config bit 5 |
-| GPB | [6] | — | Input | — | Spare (reserved future use) |
+| GPB | [6] | - | Input | - | Spare (reserved future use) |
 | GPB | [7] | CFG_APPLY_N | Input | 10kΩ pull-up to 3V3_ENIG | Active-low momentary; 100nF X7R debounce cap to GND |
 
 > All toggle-switch signal inputs (GPA[3:0], GPB[5:0]) use 10kΩ pull-down resistors: open/off switch = logic-0.
@@ -203,12 +203,12 @@ Reads the 10 toggle-switch states and the active-low `CFG_APPLY_N` momentary but
 > left unconnected in Rev A. Panel orientation shall make the lever-up / marked-ON position select
 > the `3V3_ENIG` throw so the asserted state always reads logic-1.
 >
-### U2 — MCP23017T-E/SO @ 0x24
+### U2 - MCP23017T-E/SO @ 0x24
 
 Drives Bank 1 LED high-side switch trigger signals (1 source-status LED + 4 config LEDs) via dedicated
-BSS138 NMOS pre-drivers (Q7–Q11), and Bank 1 RGB colour-rail low-side transistor gates (Q1–Q3).
+BSS138 NMOS pre-drivers (Q7-Q11), and Bank 1 RGB colour-rail low-side transistor gates (Q1-Q3).
 
-**Address:** 0x24 — MCP23017 base 0x20; A2=HIGH, A1=LOW, A0=LOW → 0x20 | 0b100 = 0x24
+**Address:** 0x24 - MCP23017 base 0x20; A2=HIGH, A1=LOW, A0=LOW → 0x20 | 0b100 = 0x24
 
 | Port | Pin | Signal | Direction | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -220,23 +220,23 @@ BSS138 NMOS pre-drivers (Q7–Q11), and Bank 1 RGB colour-rail low-side transist
 | GPA | [5] | BNK1_R | Output | Bank 1 red cathode rail; drives gate of Q1; HIGH = red rail active |
 | GPA | [6] | BNK1_G | Output | Bank 1 green cathode rail; drives gate of Q2; HIGH = green rail active |
 | GPA | [7] | BNK1_B | Output | Bank 1 blue cathode rail; drives gate of Q3; HIGH = blue rail active |
-| GPB | [7:0] | — | — | Spare (reserved future use) |
+| GPB | [7:0] | - | - | Spare (reserved future use) |
 
-> LED anode signals drive the gates of BSS138 NMOS pre-drivers (Q7–Q11) through 1 kΩ gate resistors
-> (R54–R58). Each BSS138 drain pulls down the gate of a PMOS high-side switch (Q19–Q23); 47 kΩ pull-ups
-> (R66–R70) hold the PMOS gates HIGH when the BSS138 is OFF, keeping the PMOS OFF and the anode
+> LED anode signals drive the gates of BSS138 NMOS pre-drivers (Q7-Q11) through 1 kΩ gate resistors
+> (R54-R58). Each BSS138 drain pulls down the gate of a PMOS high-side switch (Q19-Q23); 47 kΩ pull-ups
+> (R66-R70) hold the PMOS gates HIGH when the BSS138 is OFF, keeping the PMOS OFF and the anode
 > floating. GPIO HIGH → BSS138 ON → PMOS gate ≈0 V → PMOS ON → LED anode driven to `5V_MAIN`. Each
 > LED's red, green, and blue cathodes return through current-limiting resistors (`R_LED_R` = 150Ω,
-> `R_LED_G` = 100Ω, `R_LED_B` = 100Ω) to the shared bank colour rails switched by Q1–Q3.
-> 100 kΩ pull-down resistors (R87–R91 on Q7–Q11 gates; R81–R86 on Q1–Q6 gates) hold BSS138 gates LOW
+> `R_LED_G` = 100Ω, `R_LED_B` = 100Ω) to the shared bank colour rails switched by Q1-Q3.
+> 100 kΩ pull-down resistors (R87-R91 on Q7-Q11 gates; R81-R86 on Q1-Q6 gates) hold BSS138 gates LOW
 > during GPIO Hi-Z at power-up, preventing spurious transistor turn-on.
 >
-### U3 — MCP23017T-E/SO @ 0x25
+### U3 - MCP23017T-E/SO @ 0x25
 
 Drives Bank 2 LED high-side switch trigger signals (1 source-status LED + 6 config LEDs) via dedicated
-BSS138 NMOS pre-drivers (Q12–Q18), and Bank 2 RGB colour-rail low-side transistor gates (Q4–Q6).
+BSS138 NMOS pre-drivers (Q12-Q18), and Bank 2 RGB colour-rail low-side transistor gates (Q4-Q6).
 
-**Address:** 0x25 — MCP23017 base 0x20; A2=HIGH, A1=LOW, A0=HIGH → 0x20 | 0b101 = 0x25
+**Address:** 0x25 - MCP23017 base 0x20; A2=HIGH, A1=LOW, A0=HIGH → 0x20 | 0b101 = 0x25
 
 | Port | Pin | Signal | Direction | Description |
 | :--- | :--- | :--- | :--- | :--- |
@@ -250,14 +250,14 @@ BSS138 NMOS pre-drivers (Q12–Q18), and Bank 2 RGB colour-rail low-side transis
 | GPA | [7] | BNK2_R | Output | Bank 2 red cathode rail; drives gate of Q4; HIGH = red rail active |
 | GPB | [0] | BNK2_G | Output | Bank 2 green cathode rail; drives gate of Q5; HIGH = green rail active |
 | GPB | [1] | BNK2_B | Output | Bank 2 blue cathode rail; drives gate of Q6; HIGH = blue rail active |
-| GPB | [2:7] | — | — | Spare (reserved future use) |
+| GPB | [2:7] | - | - | Spare (reserved future use) |
 
-> LED anode signals drive the gates of BSS138 NMOS pre-drivers (Q12–Q18) through 1 kΩ gate resistors
-> (R59–R65). Each BSS138 drain pulls down the gate of a PMOS high-side switch (Q24–Q30); 47 kΩ pull-ups
-> (R71–R77) hold the PMOS gates HIGH when the BSS138 is OFF. GPIO HIGH → BSS138 ON → PMOS gate ≈0 V →
+> LED anode signals drive the gates of BSS138 NMOS pre-drivers (Q12-Q18) through 1 kΩ gate resistors
+> (R59-R65). Each BSS138 drain pulls down the gate of a PMOS high-side switch (Q24-Q30); 47 kΩ pull-ups
+> (R71-R77) hold the PMOS gates HIGH when the BSS138 is OFF. GPIO HIGH → BSS138 ON → PMOS gate ≈0 V →
 > PMOS ON → LED anode driven to `5V_MAIN`. Cathodes return through current-limiting resistors to the
-> shared Bank 2 colour rails switched by Q4–Q6.
-> 100 kΩ pull-down resistors (R92–R98 on Q12–Q18 gates; R81–R86 on Q1–Q6 gates) hold BSS138 gates LOW
+> shared Bank 2 colour rails switched by Q4-Q6.
+> 100 kΩ pull-down resistors (R92-R98 on Q12-Q18 gates; R81-R86 on Q1-Q6 gates) hold BSS138 gates LOW
 > during GPIO Hi-Z at power-up, preventing spurious transistor turn-on.
 >
 
@@ -277,7 +277,7 @@ Full RGB capability with software-selectable colors per bank:
 
 > Software can select any RGB color by enabling the appropriate color-rail transistor. Only one
 > color is active per bank at any time, so the definitive worst-case indicator-rail budget is
-> **240mA total**: Bank 1 = 5 LEDs × 20mA = 100mA max, Bank 2 = 7 LEDs × 20mA = 140mA max.
+> **240mA total**: Bank 1 = 5 LEDs x 20mA = 100mA max, Bank 2 = 7 LEDs x 20mA = 140mA max.
 >
 ### Per-Bit Illumination
 
@@ -318,7 +318,7 @@ SW11 is a board-mounted momentary tactile switch (SPST, active-low) connected to
 U1 GPB[7]. The switch itself does not need to be panel-mount; the enclosure may use a
 simple plunger or cap to mechanically actuate the switch through the panel opening.
 
-* **Pull-up:** 10kΩ to 3V3_ENIG (R11) — idle state = logic HIGH.
+* **Pull-up:** 10kΩ to 3V3_ENIG (R11) - idle state = logic HIGH.
 * **Debounce:** 100nF X7R 0402 capacitor to GND (C4; RC τ = 1ms).
 * **Operation:** CM5 enigma daemon polls GPB[7] during its main loop. On detecting LOW (button
   pressed, after debounce), the daemon:
@@ -336,7 +336,7 @@ automatic polling intervals.
 
 ## 7. Interconnects
 
-### J1 — I²C Connector to Stator Board
+### J1 - I²C Connector to Stator Board
 
 | Pin | Signal | Notes |
 | :--- | :--- | :--- |
@@ -347,14 +347,14 @@ automatic polling intervals.
 | 5 | SCL | I²C clock; shared Stator I²C-1 bus |
 | 6 | GND | LED cathode ground return; high-current return path |
 
-**Connector:** JST B6B-PH-K-S(LF)(SN) — 6-pin JST PH 2.0mm THT
+**Connector:** JST B6B-PH-K-S(LF)(SN) - 6-pin JST PH 2.0mm THT
 (Mouser: 306-B6B-PH-K-SLFSN, DigiKey: 455-1708-ND, JLCPCB: C131342)
 
 **Cable:** 6-wire harness (100mm recommended); matching JST PHR-6 crimp housing on both ends. Use 28AWG for pins 2 and 6 (power path) and 30AWG for pins 1, 3, 4, 5 (logic/signals).
 
-**Mating connector on Stator:** J13 — same JST PH 2.0mm 6-pin part.
+**Mating connector on Stator:** J13 - same JST PH 2.0mm 6-pin part.
 
-**Why 2× GND pins?**
+**Why 2x GND pins?**
 
 * Pin 3 (GND): Low-current logic return for MCP23017s (~80mA total)
 * Pin 6 (GND): High-current LED return (up to 240mA max, ~120mA typical)
@@ -372,7 +372,7 @@ automatic polling intervals.
 * **Surface finish:** ENIG
 * **Min trace/space:** 0.1mm / 0.1mm
 * **Min drill:** 0.2mm
-* **JTAG chain:** None — User Settings Module is not in any JTAG chain.
+* **JTAG chain:** None - User Settings Module is not in any JTAG chain.
 
 ---
 
@@ -388,21 +388,21 @@ automatic polling intervals.
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C1-C4 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | — | — | Yes | Pending | 4 |
-| C5-C14 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | — | — | Yes | Pending | 10 |
-| D1-D12 | 5mm common-anode RGB THT | WP154A4SEJ3VBDZGW/CA | Kingbright | 754-2029-ND | 604-WP154A43VBDZGWCA | C7151795 | — | — | Yes | Pending | 12 |
-| J1 | 6-pin JST PH 2.0mm THT | B6B-PH-K-S(LF)(SN) | JST | 455-1708-ND | 306-B6B-PH-K-SLFSN | C131342 | — | — | Yes | Pending | 1 |
-| Q1-Q18 | N-MOSFET 50V 200mA SOT-23 | BSS138 | onsemi | BSS138CT-ND | 512-BSS138 | C52895 | — | — | Yes | Pending | 18 |
-| Q19-Q30 | P-MOSFET AEC-Q101 SOT-23 | SQ2319ADS-T1_BE3 | Vishay | 742-SQ2319ADS-T1_BE3CT-ND | 78-SQ2319ADS-T1_BE3 | C3280190 | — | — | Yes | Pending | 12 |
-| R1-R11 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | — | — | Yes | Pending | 11 |
-| R12-R17,R54-R65 | 1kΩ 1% 0402 | ERJ-2RKF1001X | Panasonic | P1.00KLCT-ND | 667-ERJ-2RKF1001X | C242161 | — | — | Yes | Pending | 18 |
-| R18-R29 | 150Ω 1% 0603 | ERJ-3EKF1500V | Panasonic | P150HCT-ND | 667-ERJ-3EKF1500V | C400650 | — | — | Yes | Pending | 12 |
-| R30-R53 | 100Ω 1% 0603 | ERJ-3EKF1000V | Panasonic | P100HCT-ND | 667-ERJ-3EKF1000V | C193336 | — | — | Yes | Pending | 24 |
-| R66-R77 | 47kΩ ±0.5% AEC-Q200 0402 | SG73S1ERTTP4702D | KOA Speer | 2019-SG73S1ERTTP4702DTR-ND ⚠️ MOQ 10000 | 660-SG73S1ERTTP4702D | C5915648 ⚠️ MOQ 40 | — | JLCPCB MOQ 40 | Yes | Pending | 12 |
+| C1-C4 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 4 |
+| C5-C14 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | Pending | 10 |
+| D1-D12 | 5mm common-anode RGB THT | WP154A4SEJ3VBDZGW/CA | Kingbright | 754-2029-ND | 604-WP154A43VBDZGWCA | C7151795 | - | - | Yes | Pending | 12 |
+| J1 | 6-pin JST PH 2.0mm THT | B6B-PH-K-S(LF)(SN) | JST | 455-1708-ND | 306-B6B-PH-K-SLFSN | C131342 | - | - | Yes | Pending | 1 |
+| Q1-Q18 | N-MOSFET 50V 200mA SOT-23 | BSS138 | onsemi | BSS138CT-ND | 512-BSS138 | C52895 | - | - | Yes | Pending | 18 |
+| Q19-Q30 | P-MOSFET AEC-Q101 SOT-23 | SQ2319ADS-T1_BE3 | Vishay | 742-SQ2319ADS-T1_BE3CT-ND | 78-SQ2319ADS-T1_BE3 | C3280190 | - | - | Yes | Pending | 12 |
+| R1-R11 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 11 |
+| R12-R17,R54-R65 | 1kΩ 1% 0402 | ERJ-2RKF1001X | Panasonic | P1.00KLCT-ND | 667-ERJ-2RKF1001X | C242161 | - | - | Yes | Pending | 18 |
+| R18-R29 | 150Ω 1% 0603 | ERJ-3EKF1500V | Panasonic | P150HCT-ND | 667-ERJ-3EKF1500V | C400650 | - | - | Yes | Pending | 12 |
+| R30-R53 | 100Ω 1% 0603 | ERJ-3EKF1000V | Panasonic | P100HCT-ND | 667-ERJ-3EKF1000V | C193336 | - | - | Yes | Pending | 24 |
+| R66-R77 | 47kΩ ±0.5% AEC-Q200 0402 | SG73S1ERTTP4702D | KOA Speer | 2019-SG73S1ERTTP4702DTR-ND ⚠️ MOQ 10000 | 660-SG73S1ERTTP4702D | C5915648 ⚠️ MOQ 40 | - | JLCPCB MOQ 40 | Yes | Pending | 12 |
 | R81-R98 | 100kΩ 1% 0402 | ERJ-2RKF1003X | Panasonic | P100KLCT-ND | 667-ERJ-2RKF1003X | Global sourcing / consignment | Global sourcing | no JLCPCB stock | Yes | Pending | 18 |
-| SW1-SW10 | SPDT latching toggle panel-mount THT | 200MSP1T2B4M2QE | E-Switch | EG5525-ND | 612-200MSP1T2B4M2QE | C5491263 | — | — | Yes | Pending | 10 |
-| SW11 | SPST NO tactile THT | B3F-1070 | Omron | SW406-ND | 653-B3F-1070 | C726011 | — | — | Yes | Pending | 1 |
-| U1-U3 | I²C GPIO expander SOIC-28 | MCP23017T-E/SO | Microchip Technology | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | — | — | Yes | Pending | 3 |
+| SW1-SW10 | SPDT latching toggle panel-mount THT | 200MSP1T2B4M2QE | E-Switch | EG5525-ND | 612-200MSP1T2B4M2QE | C5491263 | - | - | Yes | Pending | 10 |
+| SW11 | SPST NO tactile THT | B3F-1070 | Omron | SW406-ND | 653-B3F-1070 | C726011 | - | - | Yes | Pending | 1 |
+| U1-U3 | I²C GPIO expander SOIC-28 | MCP23017T-E/SO | Microchip Technology | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | - | - | Yes | Pending | 3 |
 
 ---
 
@@ -421,8 +421,8 @@ automatic polling intervals.
 
 | Load | Typical (mA) | Max (mA) | Notes |
 | :--- | :---: | :---: | :--- |
-| Bank 1 LEDs (5× @ 20mA) | 60 | 100 | Typical assumes ~12mA per LED average; max = 5 × 20mA = 100mA with one active colour rail |
-| Bank 2 LEDs (7× @ 20mA) | 84 | 140 | Typical assumes ~12mA per LED average; max = 7 × 20mA = 140mA with one active colour rail |
+| Bank 1 LEDs (5x @ 20mA) | 60 | 100 | Typical assumes ~12mA per LED average; max = 5 x 20mA = 100mA with one active colour rail |
+| Bank 2 LEDs (7x @ 20mA) | 84 | 140 | Typical assumes ~12mA per LED average; max = 7 x 20mA = 140mA with one active colour rail |
 | **Total indicator rail** | **144 mA** | **240 mA** | Definitive max = 100mA + 140mA; one active colour per bank, all 12 LEDs illuminated |
 
 **User Settings Module 5V_MAIN Allocation:**
@@ -436,24 +436,24 @@ automatic polling intervals.
 
 | Category | Quantity | Notes |
 | :--- | :---: | :--- |
-| **Toggle Switches** | 10 | E-Switch 200MSP1T2B4M2QE — SPDT latching panel-mount |
-| **RGB LEDs** | 12 | Kingbright WP154A4SEJ3VBDZGW/CA — 5mm common-anode THT |
+| **Toggle Switches** | 10 | E-Switch 200MSP1T2B4M2QE - SPDT latching panel-mount |
+| **RGB LEDs** | 12 | Kingbright WP154A4SEJ3VBDZGW/CA - 5mm common-anode THT |
 | **MCP23017 I²C Expanders** | 3 | U1, U2, U3 |
-| **BSS138 MOSFETs (colour-rail low-side)** | 6 | Q1/G/B, Q4/G/B — shared colour-rail cathode switches |
-| **BSS138 MOSFETs (per-anode pre-driver)** | 12 | Q7–Q18 — one per LED anode; drives PMOS high-side gate |
-| **PMOS MOSFETs (per-anode high-side switch)** | 12 | Q19–Q30 — Vishay SQ2319ADS-T1_BE3; source at 5V_MAIN, drain to LED anode |
-| **0603 LED path resistors** | 36 | 12× red (150Ω), 12× green (100Ω), 12× blue (100Ω) |
+| **BSS138 MOSFETs (colour-rail low-side)** | 6 | Q1/G/B, Q4/G/B - shared colour-rail cathode switches |
+| **BSS138 MOSFETs (per-anode pre-driver)** | 12 | Q7-Q18 - one per LED anode; drives PMOS high-side gate |
+| **PMOS MOSFETs (per-anode high-side switch)** | 12 | Q19-Q30 - Vishay SQ2319ADS-T1_BE3; source at 5V_MAIN, drain to LED anode |
+| **0603 LED path resistors** | 36 | 12x red (150Ω), 12x green (100Ω), 12x blue (100Ω) |
 | **0603 Resistors (switch pull-down)** | 10 | 10kΩ pull-downs on all toggle-switch inputs |
-| **0402 Resistors (colour-rail gate)** | 6 | R12–R17: 1kΩ colour-rail MOSFET gate resistors |
-| **0402 Resistors (per-anode gate)** | 12 | R54–R65: 1kΩ BSS138 pre-driver gate resistors |
-| **0402 Resistors (PMOS pull-up)** | 12 | R66–R77: KOA Speer SG73S1ERTTP4702D 47 kΩ ±0.5% PMOS gate pull-ups |
-| **0402 Resistors (BSS138 gate pull-down)** | 18 | R81–R98: 100kΩ Panasonic ERJ-2RKF1003X — holds gates LOW at power-up Hi-Z |
+| **0402 Resistors (colour-rail gate)** | 6 | R12-R17: 1kΩ colour-rail MOSFET gate resistors |
+| **0402 Resistors (per-anode gate)** | 12 | R54-R65: 1kΩ BSS138 pre-driver gate resistors |
+| **0402 Resistors (PMOS pull-up)** | 12 | R66-R77: KOA Speer SG73S1ERTTP4702D 47 kΩ ±0.5% PMOS gate pull-ups |
+| **0402 Resistors (BSS138 gate pull-down)** | 18 | R81-R98: 100kΩ Panasonic ERJ-2RKF1003X - holds gates LOW at power-up Hi-Z |
 | **0603 Resistors (misc)** | 1 | R11: 10kΩ `CFG_APPLY_N` pull-up |
-| **0402 Capacitors (decoupling)** | 3 | 100nF X7R for 3× MCP23017s |
+| **0402 Capacitors (decoupling)** | 3 | 100nF X7R for 3x MCP23017s |
 | **0402 Capacitors (debounce)** | 1 | C4: 100nF X7R `CFG_APPLY_N` debounce |
-| **0805 Capacitors (power-entry bulk)** | 10 | C5–C14: 10µF X7R 25V Samsung CL21B106KAYQNNE — 5× on `3V3_ENIG`, 5× on `5V_MAIN` power-entry nodes; satisfies §3 bulk-entry bank rule |
+| **0805 Capacitors (power-entry bulk)** | 10 | C5-C14: 10µF X7R 25V Samsung CL21B106KAYQNNE - 5x on `3V3_ENIG`, 5x on `5V_MAIN` power-entry nodes; satisfies §3 bulk-entry bank rule |
 | **JST PH Connectors** | 1 | J1: 6-pin B6B-PH-K-S(LF)(SN) to Stator |
-| **Pushbutton Switch** | 1 | SW11 — Omron B3F-1070 SPST NO through-hole tactile switch |
+| **Pushbutton Switch** | 1 | SW11 - Omron B3F-1070 SPST NO through-hole tactile switch |
 
 **Total unique part numbers:** ~20
 **Total component count:** ~153
@@ -467,13 +467,13 @@ automatic polling intervals.
 The User Settings Module uses a **hybrid topology**: shared colour-rail low-side switches for RGB selection
 combined with per-anode high-side switches for individual LED illumination control:
 
-* **Colour-rail low-side stage (Q1–Q6):** 6× BSS138 N-channel MOSFETs switch each RGB cathode rail to
-  GND — 3 per bank (red, green, blue). MCP23017 GPIO drives gate directly through 1 kΩ resistors
-  (R12–R17). GPIO HIGH = transistor ON = colour rail active.
+* **Colour-rail low-side stage (Q1-Q6):** 6x BSS138 N-channel MOSFETs switch each RGB cathode rail to
+  GND - 3 per bank (red, green, blue). MCP23017 GPIO drives gate directly through 1 kΩ resistors
+  (R12-R17). GPIO HIGH = transistor ON = colour rail active.
 
-* **Per-anode high-side stage (Q7–Q30):** 12× two-stage circuits (one per LED anode) consisting of:
-  1. BSS138 NMOS pre-driver (Q7–Q18) — gate driven by MCP23017 GPIO through 1 kΩ resistor (R54–R65)
-  2. PMOS high-side switch (Q19–Q30) — gate held HIGH by 47 kΩ pull-up (R66–R77) to `5V_MAIN`;
+* **Per-anode high-side stage (Q7-Q30):** 12x two-stage circuits (one per LED anode) consisting of:
+  1. BSS138 NMOS pre-driver (Q7-Q18) - gate driven by MCP23017 GPIO through 1 kΩ resistor (R54-R65)
+  2. PMOS high-side switch (Q19-Q30) - gate held HIGH by 47 kΩ pull-up (R66-R77) to `5V_MAIN`;
      BSS138 drain pulls gate LOW to enable PMOS. PMOS source at `5V_MAIN`, drain to LED anode.
 
   GPIO HIGH → BSS138 ON → PMOS gate ≈0 V → PMOS ON → LED anode at `5V_MAIN`. Logic is non-inverted;
@@ -483,7 +483,7 @@ combined with per-anode high-side switches for individual LED illumination contr
   The MCP23017 GPIO output maximum is 3.3 V and cannot source current into a 5 V-supply anode directly.
   The two-stage high-side topology resolves this without requiring firmware changes or rail compromise.
 
-* **Power-up behaviour:** 100 kΩ pull-down resistors (R81–R98) hold all 18 BSS138 gates LOW during
+* **Power-up behaviour:** 100 kΩ pull-down resistors (R81-R98) hold all 18 BSS138 gates LOW during
   MCP23017 Hi-Z at power-up, preventing spurious transistor turn-on and ensuring LED anodes remain
   de-energised until the CM5 drives the expanders.
 

@@ -21,7 +21,7 @@ TOP VIEW (L1) - 4-Layer (DEC-017) / 2oz Copper
 |   [ FT232H IC ] <--- High-Speed USB to MPSSE Bridge                                    |
 |   (Main IC for JTAG Blaster, 12MHz Crystal Attached)                                   |
 |                                                                                        |
-|   [ JTAG HEADER ] <--- 10-Pin Single-Row Open Header (1×10)                            |
+|   [ JTAG HEADER ] <--- 10-Pin Single-Row Open Header (1x10)                            |
 |   (Opposite Side, 2.54mm Pitch, Interleaved GND Pinout)                                |
 |                                                                                        |
 |   [ DATA PLATE ] <--- Inverted White Silkscreen on L4 (B.Silkscreen / exterior face)   |
@@ -42,7 +42,7 @@ TOP VIEW (L1) - 4-Layer (DEC-017) / 2oz Copper
 
 > **Connector Definition Owner:** This board. All other boards connecting to the JTAG Daughterboard cross-reference here.
 >
-## 3. JTAG Header Pinout (J2 — 10-Pin, Interleaved GND)
+## 3. JTAG Header Pinout (J2 - 10-Pin, Interleaved GND)
 
 ```text
 PIN | SIGNAL          | DESCRIPTION
@@ -59,7 +59,7 @@ PIN | SIGNAL          | DESCRIPTION
 10  | GND             | Ground
 ```
 
-## 4. INPUT Header Pinout (J1 — 5-Pin)
+## 4. INPUT Header Pinout (J1 - 5-Pin)
 
 ```text
 PIN | SIGNAL          | DESCRIPTION
@@ -71,7 +71,7 @@ PIN | SIGNAL          | DESCRIPTION
 5   | GND             | Ground
 ```
 
-## 5. PCB Stackup — JLC04161H-7628 (4-Layer)
+## 5. PCB Stackup - JLC04161H-7628 (4-Layer)
 
 **Stackup:** JLC04161H-7628 (JLCPCB standard 4-layer)
 
@@ -84,17 +84,17 @@ PIN | SIGNAL          | DESCRIPTION
 
 ## 6. Grounding Notes
 
-GND_CHASSIS is not implemented on the JDB — see DEC-023. Mounting holes connect to GND (circuit return).
+GND_CHASSIS is not implemented on the JDB - see DEC-023. Mounting holes connect to GND (circuit return).
 
 ---
 
-## 7. Routing — Trace Width Specifications
+## 7. Routing - Trace Width Specifications
 
 **Board specs:** 4-layer / 2oz finished copper (JLC04161H-7628).
 L1 = GND plane (component side); L2 = all signal traces (inner layer); L3 = power pours; L4 = GND pour.
 
 **IPC-2221A basis (2oz copper, 10°C rise, 25°C ambient):**
-External: ~0.15 mm/A. Internal: multiply by 2.5× for same thermal rise.
+External: ~0.15 mm/A. Internal: multiply by 2.5x for same thermal rise.
 See Global_Routing_Spec.md §1.1 for the full current-category table.
 
 ### 7.1 Trace Width Table
@@ -103,10 +103,10 @@ See Global_Routing_Spec.md §1.1 for the full current-category table.
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 5V_USB (J1 pin 1 → FT232H VCC) | 400 mA | 0.06 mm | 0.50 mm | **0.50 mm** | L1 + L3 pour | FT232H absolute max VCC draw; power-rail minimum applies |
 | 3V3_ENIG (J1 pin 2 → FT232H VCCIO) | 15 mA | 0.002 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | VCCIO domain; 3V3_ENIG canonical 0.80 mm (Global_Routing_Spec §1.1) |
-| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | — | 0.127 mm | **0.127 mm (5 mil)** | L2 (inner) | JDB inverted stackup (DEC-017): L2 is immediately below the L1 GND plane (buried microstrip, h ≈ 0.087 mm); 0.127 mm achieves ≈50 Ω, equivalent to outer-layer microstrip. Compliant — inverted stackup (L1=GND) places L2 immediately adjacent to the L1 GND reference plane, achieving equivalent controlled impedance per DEC-016 via buried-microstrip topology. |
-| USB D+ / D− differential pair | signal | — | 0.15 mm | **0.15 mm (6 mil)** | L2 (inner) | 90 Ω differential USB 2.0; must be length-matched to within 0.1 mm; routed as a tightly-coupled pair |
-| GND pours (outer layers) | — | — | pour | **copper pour** | L1 + L4 | Both outer layers = solid GND; provides dual-sided shielding for L2 signals |
-| Power pours (inner power layer) | ≤ 400 mA | — | pour | **copper pour** | L3 | Separate pour zones for 5V_USB and 3V3_ENIG |
+| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L2 (inner) | JDB inverted stackup (DEC-017): L2 is immediately below the L1 GND plane (buried microstrip, h ≈ 0.087 mm); 0.127 mm achieves ≈50 Ω, equivalent to outer-layer microstrip. Compliant - inverted stackup (L1=GND) places L2 immediately adjacent to the L1 GND reference plane, achieving equivalent controlled impedance per DEC-016 via buried-microstrip topology. |
+| USB D+ / D- differential pair | signal | - | 0.15 mm | **0.15 mm (6 mil)** | L2 (inner) | 90 Ω differential USB 2.0; must be length-matched to within 0.1 mm; routed as a tightly-coupled pair |
+| GND pours (outer layers) | - | - | pour | **copper pour** | L1 + L4 | Both outer layers = solid GND; provides dual-sided shielding for L2 signals |
+| Power pours (inner power layer) | ≤ 400 mA | - | pour | **copper pour** | L3 | Separate pour zones for 5V_USB and 3V3_ENIG |
 
 ### 7.2 Notes
 
@@ -117,5 +117,5 @@ See Global_Routing_Spec.md §1.1 for the full current-category table.
   impedance. This calculation is identical to the outer-layer microstrip at the same h value;
   applicable here because L2 is immediately adjacent to the L1 GND plane (DEC-017 inverted stackup).
   See `design/Electronics/Investigations/JTAG_Integrity.md §3.1`.
-* USB D+/D− traces at 0.15 mm over the L1 GND plane yield approximately 90 Ω differential
-  on the JLC04161H-7628 inner signal layer — correct for USB 2.0 Full Speed.
+* USB D+/D- traces at 0.15 mm over the L1 GND plane yield approximately 90 Ω differential
+  on the JLC04161H-7628 inner signal layer - correct for USB 2.0 Full Speed.

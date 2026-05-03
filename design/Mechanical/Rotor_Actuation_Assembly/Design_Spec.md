@@ -1,4 +1,4 @@
-# Rotor Actuation Assembly — Mechanical Design Specification
+# Rotor Actuation Assembly - Mechanical Design Specification
 
 **Status:** Draft
 **Project:** Enigma-NG
@@ -11,8 +11,8 @@
 
 ## 1. Overview
 
-The Rotor Actuation Assembly translates each keypress — whether initiated by a human operator or
-by a CM5-generated virtual keypress — into a single, precisely-stepped advance of the rotor stack.
+The Rotor Actuation Assembly translates each keypress - whether initiated by a human operator or
+by a CM5-generated virtual keypress - into a single, precisely-stepped advance of the rotor stack.
 The mechanism is modelled directly on the original Enigma machine's stepping mechanism, preserving
 the authentic carry behaviour while accommodating the additional servo actuation path for
 autonomous operation.
@@ -49,7 +49,7 @@ contact the depression bar.
 
 ## 4. Servo Actuation
 
-The **Miuzei Metal Gearbox 90 servo** (4.8–6V, mounted local to the mechanism) provides the powered
+The **Miuzei Metal Gearbox 90 servo** (4.8-6V, mounted local to the mechanism) provides the powered
 actuation path.
 
 * The servo drives an arm that contacts the same depression bar as the keyboard key levers.
@@ -94,8 +94,8 @@ mechanism**.
 
 ## 7. Carry Mechanism
 
-Rotor carry — the advance of higher-order rotors when a lower-order rotor completes a full
-revolution — is **mechanical within a contiguous 5-rotor group**.
+Rotor carry - the advance of higher-order rotors when a lower-order rotor completes a full
+revolution - is **mechanical within a contiguous 5-rotor group**.
 
 * Carry is triggered by the notch positions machined on each rotor shroud, engaging with the
   carry mechanism of the adjacent higher-order rotor.

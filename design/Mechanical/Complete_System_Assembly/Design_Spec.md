@@ -1,4 +1,4 @@
-# Complete System Assembly — Mechanical Design Specification
+# Complete System Assembly - Mechanical Design Specification
 
 **Status:** Draft
 **Project:** Enigma-NG
@@ -31,13 +31,13 @@ The following table lists every component category present in the assembled mach
 | Lightboard Assembly | 1 | Lightboard panel, indicator harness, Encoder Module (`LBD_DEC`) | `Lightboard_Assembly/Design_Spec.md` |
 | Plugboard Assembly | 1 | Two plugboard passes, four Encoder Modules, patch cables | `Plugboard_Assembly/Design_Spec.md` |
 | Reflector | 1 | Mandatory passive turnaround sub-assembly; reflection mapping is owned by the Stator CPLD | `Reflector/Design_Spec.md` |
-| Extension (optional) | 0–N | Extension board for multi-stack rotor configurations | `Extension/Design_Spec.md` |
+| Extension (optional) | 0-N | Extension board for multi-stack rotor configurations | `Extension/Design_Spec.md` |
 | Power Module | 1 | Standalone power supply sub-assembly (LTC3350, eFuse, INA219, supercaps) | `Power_Module/Design_Spec.md` |
 | Controller Board | 1 | CM5 carrier board (CM5 module, JDB hat, PM dock, Stator dock, Ethernet / PoE entry, Actuation Module host interface) | `Controller/Design_Spec.md` (Electronics) |
 | Main Enclosure | 1 | Chassis, panels, cable routing, EMI bonding, fan | `Main_Enclosure/Design_Spec.md` |
 | Servo Motor | 1-6 | Miuzei Metal Gearbox 90 (5V, 3-pin), one per fitted Actuation Module | `Rotor_Actuation_Assembly/Design_Spec.md` |
 | Actuation Home Switch | 1-6 | SPST NO momentary (Omron SS-01GL13 or equivalent), one per fitted Actuation Module | `design/Electronics/Actuation_Module/Design_Spec.md` |
-| User Settings Module | 1 | Panel-mount configuration switch PCB (12× SPDT toggles, 12× discrete RGB indicators, + CFG_APPLY button); mounts to right side top face of Main Enclosure; connects to Stator via I²C ribbon | `User_Settings_Module/Design_Spec.md` (Electronics) |
+| User Settings Module | 1 | Panel-mount configuration switch PCB (12x SPDT toggles, 12x discrete RGB indicators, + CFG_APPLY button); mounts to right side top face of Main Enclosure; connects to Stator via I²C ribbon | `User_Settings_Module/Design_Spec.md` (Electronics) |
 | Cable Harnesses | TBD | 20-pin encoder IDC ribbons, reflector cable, fan cable, User Settings Module I²C ribbon, switch / battery harnesses | Each sub-assembly doc |
 | Connectors | TBD | TE PM dock, Molex Stator dock, ERF8/ERM8 rotor-family BtB, JST PH servo, JST SH fan, 20-pin IDC encoder, etc. | Per sub-assembly BOM |
 
@@ -49,8 +49,8 @@ steps are detailed in each referenced document; this section defines integration
 | Step | Sub-Assembly | Notes |
 | :--- | :--- | :--- |
 | 1 | Power Module | Standalone build; test on bench before integration. Delivers 5V_MAIN and 3V3_ENIG. |
-| 2 | Stator Board | Install ICs (CPLD, MCP23017 ×3, INA219), passives, connectors. Bench-test I²C expanders before stack assembly. |
-| 3 | Rotors (×30) | Build all 30 rotor modules. Verify ERM8 header alignment and encoder slot clearance before stacking. |
+| 2 | Stator Board | Install ICs (CPLD, MCP23017 x3, INA219), passives, connectors. Bench-test I²C expanders before stack assembly. |
+| 3 | Rotors (x30) | Build all 30 rotor modules. Verify ERM8 header alignment and encoder slot clearance before stacking. |
 | 4 | Rotor groups onto Stator | Press Rotor 1 ERM8 headers into Stator ERF8 sockets. Build the first 5-rotor group, then insert an Extension before each further 5-rotor group as required. Verify JTAG daisy-chain continuity at each group boundary. |
 | 5 | Rotor Actuation Assembly | Install depression bar, pivot lever, actuation arm, sprung retention bar. Fit the Controller-local Actuation Module and connect its servo and home-switch looms. |
 | 6 | Keyboard Assembly | Build keyboard panel + `KBD_ENC` Encoder Module. Connect IDC ribbon to the Stator keyboard encoder port. |
@@ -63,7 +63,7 @@ steps are detailed in each referenced document; this section defines integration
 | 13 | Main Enclosure final assembly | Route all cable harnesses. Install panels. Fit fan. Secure EMI bonding. Final torque fasteners. |
 
 > **Note on the JTAG Daughterboard (JDB):** The JDB is a PCB hat that mounts directly on the
-> Controller Board. It has no independent mechanical assembly step — it is installed as part of
+> Controller Board. It has no independent mechanical assembly step - it is installed as part of
 > Step 10 (Controller Board install) before the Controller is fitted in the Main Enclosure.
 > See `design/Electronics/JTAG_Daughterboard/Design_Spec.md` for electrical details.
 >
@@ -86,8 +86,8 @@ steps are detailed in each referenced document; this section defines integration
 
 | Document | Description |
 | :--- | :--- |
-| `design/Electronics/User_Settings_Module/Design_Spec.md` | User Settings Module electrical specification — panel switches, LED expanders, I²C interface |
-| `design/Electronics/Stator/Design_Spec.md` | Stator Board electrical specification — J13 I²C connector to User Settings Module |
-| `design/Mechanical/Main_Enclosure/Design_Spec.md` | Main Enclosure — User Settings Module panel cutout requirements |
+| `design/Electronics/User_Settings_Module/Design_Spec.md` | User Settings Module electrical specification - panel switches, LED expanders, I²C interface |
+| `design/Electronics/Stator/Design_Spec.md` | Stator Board electrical specification - J13 I²C connector to User Settings Module |
+| `design/Mechanical/Main_Enclosure/Design_Spec.md` | Main Enclosure - User Settings Module panel cutout requirements |
 | `design/Guides/Maintenance_Guide.md` | Maintenance procedures referencing assembly steps |
 | `design/Guides/User_Manual.md` | User-facing assembly and operation guide |

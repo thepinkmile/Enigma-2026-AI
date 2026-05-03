@@ -1,4 +1,4 @@
-# Plugboard Assembly — Mechanical Design Specification
+# Plugboard Assembly - Mechanical Design Specification
 
 **Status:** Draft
 **Project:** Enigma-NG

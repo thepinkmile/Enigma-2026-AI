@@ -28,8 +28,8 @@ TOP VIEW (L1 / component side / enclosed side; intended to mount upside-down fro
 ```
 
 > **Mounting hole asymmetry:** MH1/MH3 (left pair) sit 7 mm from the left edge and 7 mm from the
-> top/bottom edges — close to the left corners. MH2/MH4 (right pair) sit 7 mm from the right edge
-> and 12 mm from the top/bottom edges — inset further from the right corners. Only one physical
+> top/bottom edges - close to the left corners. MH2/MH4 (right pair) sit 7 mm from the right edge
+> and 12 mm from the top/bottom edges - inset further from the right corners. Only one physical
 > orientation aligns all four standoffs simultaneously. See DR-AM-03.
 
 ```text
@@ -50,7 +50,7 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
 
 * J1 is a single 20-pin Hirose DF40C-20DP-0.4V(51) plug centred on the connector-facing side, carrying
   power (`5V_MAIN`, `3V3_ENIG`) and the trigger signal (`ACTUATE_REQUEST_N`) on one connector. Four M2.5mm
-  NPTH mounting holes with copper annular ring (MH1–MH4, `MountingHole_Pad` footprint, net = `GND`) mate with 3.5mm standoffs (9774035151R) on the host board.
+  NPTH mounting holes with copper annular ring (MH1-MH4, `MountingHole_Pad` footprint, net = `GND`) mate with 3.5mm standoffs (9774035151R) on the host board.
 * J3 and J4 are bottom-edge manual-fit Dupont-style headers. They are intentionally excluded from the
   automated PCBA flow.
 * J5 and J6 are manual-fit service headers. J5 is the primary SWD header and J6 is the separate
@@ -79,7 +79,7 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
   power path. The AM therefore keeps the reduced daughterboard-capacitor approach, but adds an explicit
   5V local reservoir cap rather than relying only on upstream host-board bulk capacitance.
 * **Connector orientation (DF40 polarity-free body):** The DF40 connector body can mate in two orientations
-  (180° rotated). MH1–MH4 shall be placed in an asymmetric (non-square) pattern so that only one physical
+  (180° rotated). MH1-MH4 shall be placed in an asymmetric (non-square) pattern so that only one physical
   orientation of the AM aligns all four standoffs simultaneously. The silkscreen pin-1 triangle marker on
   both the AM and the host board shall indicate the correct mating direction. Pin 1 is defined as the
   top-left pin when the AM is viewed from its component side (connector-facing side) with the short
@@ -89,7 +89,7 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
   STM32G071K8T3TR LQFP32 package is 1.60 mm max height and the 0402 passives / LEDs are substantially
   lower.
 * **Minimum board size guidance (non-binding):** The DR-AM-03 asymmetric mounting hole pattern implies a
-  minimum board height of approximately **26 mm** (right-pair 12 mm insets × 2 plus 1 mm edge clearance
+  minimum board height of approximately **26 mm** (right-pair 12 mm insets x 2 plus 1 mm edge clearance
   each side) and a minimum board width of approximately **28 mm** (7 mm insets each side plus clearance
   for the DF40C connector body). These are guidance values only; final dimensions shall be confirmed at
   PCB layout stage.

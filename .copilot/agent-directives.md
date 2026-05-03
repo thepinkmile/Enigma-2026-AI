@@ -1,4 +1,4 @@
-# Agent Directives — Enigma-NG
+﻿# Agent Directives — Enigma-NG
 
 This file is the canonical list of standing rules and directives that govern how GitHub Copilot
 (and any other AI agent) must behave when working on this repository. These rules take precedence
@@ -109,16 +109,16 @@ Any finding that requires a file change must be returned as a finding and action
 
 **NEVER modify any file in the repository unless:**
 
-1. The user has explicitly instructed implementation with a clear directive such as “apply this”,
-   “implement it”, “make the changes”, “go ahead”, or equivalent. Discussion, evaluation, and design
+1. The user has explicitly instructed implementation with a clear directive such as "apply this",
+   "implement it", "make the changes", "go ahead", or equivalent. Discussion, evaluation, and design
    decisions do **NOT** constitute implementation approval.
 2. The working tree is **clean** (no other uncommitted changes) at the point the changes begin,
    OR the user has explicitly confirmed awareness that existing uncommitted changes are present.
 
 **ALWAYS apply changes in a single isolated scope at a time:**
 
-- Complete one logical unit of change (e.g. one board’s spec file, one BOM row update) and pause.
-- Do not cascade into related files or “tidy up while you’re there” without separate approval.
+- Complete one logical unit of change (e.g. one board's spec file, one BOM row update) and pause.
+- Do not cascade into related files or "tidy up while you're there" without separate approval.
 - This allows the user to review and commit each change individually for a clean, meaningful git history.
 
 ---
@@ -153,6 +153,15 @@ is `v.0.1.0`.
   explicitly says schematic capture and layout have started. They are irrelevant at the pre-layout stage.
 - Connector and mechanical-drawing datasheet markdowns can remain lightweight; fuller detail can
   wait until the initial KiCAD library generation or mechanical modeling phases.
+
+---
+
+## Character Usage Rules
+
+All non-ASCII characters used in design documents (any file outside `.copilot/`) must appear in the
+approved table in `.copilot/allowed-character-matrix.md`. Before using any non-ASCII character not
+already listed, stop and ask the user for explicit approval. The `.copilot/` directory itself is not
+strictly bound by this rule, but new agent-authored content there should follow it as best practice.
 
 ---
 

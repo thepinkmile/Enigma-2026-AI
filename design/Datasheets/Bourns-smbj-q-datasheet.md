@@ -24,49 +24,49 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 
 ### Part number and ordering information
 
-- Note 3. 8.3 ms Single Half-Sine Wave duty cycle = 4 pulses maximum per minute (unidirectional units only). / \*RoHS Directive 2015/863, Mar 31, 2015 and Annex. / \*\*”Q” part number sufﬁx indicates
+- Note 3. 8.3 ms Single Half-Sine Wave duty cycle = 4 pulses maximum per minute (unidirectional units only). / \*RoHS Directive 2015/863, Mar 31, 2015 and Annex. / \*\*"Q" part number sufﬁx indicates
 - Current / (8/20 μs) / Part No. Marking Part No. Marking Min. Max. @ IT / (mA) / VRWM
-- SMBJ200A-Q PVQ SMBJ200CA-Q EVQ 224 247 1.0 200 1.0 324 1.9 421.2 9.5 / SMBJ220A-Q PXQ SMBJ220CA-Q EXQ 246 272 1.0 220 1.0 356 1.7 462.8 8.5 / Notes:  1. Suffix ‘A’ denotes a 5 % tolerance unidir…
-- SMBJ220A-Q PXQ SMBJ220CA-Q EXQ 246 272 1.0 220 1.0 356 1.7 462.8 8.5 / Notes:  1. Suffix ‘A’ denotes a 5 % tolerance unidirectional device. / 2.  Suffix ‘CA’ denotes a 5 % tolerance bidirectiona…
+- SMBJ200A-Q PVQ SMBJ200CA-Q EVQ 224 247 1.0 200 1.0 324 1.9 421.2 9.5 / SMBJ220A-Q PXQ SMBJ220CA-Q EXQ 246 272 1.0 220 1.0 356 1.7 462.8 8.5 / Notes:  1. Suffix ‘A’ denotes a 5 % tolerance unidir...
+- SMBJ220A-Q PXQ SMBJ220CA-Q EXQ 246 272 1.0 220 1.0 356 1.7 462.8 8.5 / Notes:  1. Suffix ‘A’ denotes a 5 % tolerance unidirectional device. / 2.  Suffix ‘CA’ denotes a 5 % tolerance bidirectiona...
 - DIMENSIONS: MM / (INCHES) / Typical Part Marking / YWW / XXX
 - Working Peak Reverse Voltage / 5 ~ 220 = 5 ~ 220 V RWM (Volts) / Suffix / A = 5 % Tolerance Unidirectional Device / CA = 5 % Tolerance Bidirectional Device
 - A = 5 % Tolerance Unidirectional Device / CA = 5 % Tolerance Bidirectional Device / AEC-Q101 Suffix / Q    = AEC-Q101 Compliant, 13-inch Reel / QH = AEC-Q101 Compliant, 7-inch Reel
 
 ### Pin, pad, and connection designations
 
-- Storage Temperature Range T STG -55 to +150 °C / 1. Non-repetitive current pulse, per Pulse Waveform graph and derated above T A = 25 °C per Pulse Derating Curve. / 2. Mounted on 5.0 mm 2 (0.03 …
+- Storage Temperature Range T STG -55 to +150 °C / 1. Non-repetitive current pulse, per Pulse Waveform graph and derated above T A = 25 °C per Pulse Derating Curve. / 2. Mounted on 5.0 mm 2 (0.03 ...
 - @ VRWM / Maximum / Clamping / Voltage / @ Ipp
 - (10/1000 μs) / Maximum / Clamping / Voltage / @ Ipp
-- HUK[OL\\ZLYYLNHYKPUN[OL\\ZLHUKSL]LSVMZ\\JO[LZ[PUN[OLHIV]LWYV]PZPVUZHWWSPJHISL[V)V\\YUZ® standard products shall / also apply to such Bourns® custom products. / Users shall not s…
-- HWWS`[VHSS\\ZLZHUKHWWSPJH[PVUZ[OH[]PVSH[LUH[PVUHSVYPU[LYUH[PVUHSWYVOPIP[PVUZPUJS\\KPUNLTIHYNVZVYPU[LYUH[PVUHS / YLN\\SH[PVUZ-\\Y[OLY)V\\YUZ® products and Bourns technology …
+- HUK[OL\\ZLYYLNHYKPUN[OL\\ZLHUKSL]LSVMZ\\JO[LZ[PUN[OLHIV]LWYV]PZPVUZHWWSPJHISL[V)V\\YUZ® standard products shall / also apply to such Bourns® custom products. / Users shall not s...
+- HWWS`[VHSS\\ZLZHUKHWWSPJH[PVUZ[OH[]PVSH[LUH[PVUHSVYPU[LYUH[PVUHSWYVOPIP[PVUZPUJS\\KPUNLTIHYNVZVYPU[LYUH[PVUHS / YLN\\SH[PVUZ-\\Y[OLY)V\\YUZ® products and Bourns technology ...
 
 ### Specifications, ratings, and operating conditions
 
 - SMBJ-Q Transient Voltage Suppressor Diode Series / \*RoHS and / \*\*AEC-Q101 COMPLIANT
 - Features / ■ Surface Mount SMB package / ■ Standoff Voltage: 5 to 220 volts / ■ Power Dissipation: 600 watts / ■ RoHS compliant\*
 - ■ Protection of power buses / ■ Protection of I/O interfaces / ■ Overvoltage transient protection / ■ Entertainment applications / ■ Comfort applications
-- UL File Number: E153537 / General Information / Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format.…
-- General Information / Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / S…
-- Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / Suppressor series offer…
-- applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / Suppressor series offers a choice of Working Peak Reverse Voltage from 5 V up to 220 V. / Typical fast r…
-- Bourns® Chip Diodes conform to JEDEC standards, are easy to handle with standard pick / and place equipment and the flat configuration minimizes roll away. / Electrical Characteristics (@ TA = 2…
-- Parameter Symbol Value Unit / Minimum Peak Pulse Power Dissipation (TP = 1 ms) (Note 1,2) PPK 600 Watts / Peak Forward Surge Current / 8.3 ms Single Half Sine Wave Superimposed on Rated Load / (…
-- Operating Temperature Range T J -55 to +150 °C / Storage Temperature Range T STG -55 to +150 °C / 1. Non-repetitive current pulse, per Pulse Waveform graph and derated above T A = 25 °C per Puls…
-- The Americas: Tel: +1-951 781-5500 • Email: <americus@bourns.com> / <www.bourns.com> / SMBJ-Q Transient Voltage Suppressor Diode Series / Electrical Characteristics (@ TA = 25 °C Unless Otherwis…
-- <www.bourns.com> / SMBJ-Q Transient Voltage Suppressor Diode Series / Electrical Characteristics (@ TA = 25 °C Unless Otherwise Noted) / Unidirectional Device Bidirectional Device Breakdown Volt…
-- SMBJ-Q Transient Voltage Suppressor Diode Series / Electrical Characteristics (@ TA = 25 °C Unless Otherwise Noted) / Unidirectional Device Bidirectional Device Breakdown Voltage / VBR (Volts) /…
+- UL File Number: E153537 / General Information / Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format....
+- General Information / Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / S...
+- Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / Suppressor series offer...
+- applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / Suppressor series offers a choice of Working Peak Reverse Voltage from 5 V up to 220 V. / Typical fast r...
+- Bourns® Chip Diodes conform to JEDEC standards, are easy to handle with standard pick / and place equipment and the flat configuration minimizes roll away. / Electrical Characteristics (@ TA = 2...
+- Parameter Symbol Value Unit / Minimum Peak Pulse Power Dissipation (TP = 1 ms) (Note 1,2) PPK 600 Watts / Peak Forward Surge Current / 8.3 ms Single Half Sine Wave Superimposed on Rated Load / (...
+- Operating Temperature Range T J -55 to +150 °C / Storage Temperature Range T STG -55 to +150 °C / 1. Non-repetitive current pulse, per Pulse Waveform graph and derated above T A = 25 °C per Puls...
+- The Americas: Tel: +1-951 781-5500 • Email: <americus@bourns.com> / <www.bourns.com> / SMBJ-Q Transient Voltage Suppressor Diode Series / Electrical Characteristics (@ TA = 25 °C Unless Otherwis...
+- <www.bourns.com> / SMBJ-Q Transient Voltage Suppressor Diode Series / Electrical Characteristics (@ TA = 25 °C Unless Otherwise Noted) / Unidirectional Device Bidirectional Device Breakdown Volt...
+- SMBJ-Q Transient Voltage Suppressor Diode Series / Electrical Characteristics (@ TA = 25 °C Unless Otherwise Noted) / Unidirectional Device Bidirectional Device Breakdown Voltage / VBR (Volts) /...
 - Peak / Reverse / Voltage / Maximum / Reverse
 - Maximum / Clamping / Voltage / @ Ipp / (10/1000 μs)
 - Peak / Pulse / Current / (10/1000 μs) / Maximum
 - Maximum / Clamping / Voltage / @ Ipp / (8/20 μs)
 - Peak / Pulse / Current / (8/20 μs) / Part No. Marking Part No. Marking Min. Max. @ IT
-- SMBJ200A-Q PVQ SMBJ200CA-Q EVQ 224 247 1.0 200 1.0 324 1.9 421.2 9.5 / SMBJ220A-Q PXQ SMBJ220CA-Q EXQ 246 272 1.0 220 1.0 356 1.7 462.8 8.5 / Notes:  1. Suffix ‘A’ denotes a 5 % tolerance unidir…
-- SMBJ220A-Q PXQ SMBJ220CA-Q EXQ 246 272 1.0 220 1.0 356 1.7 462.8 8.5 / Notes:  1. Suffix ‘A’ denotes a 5 % tolerance unidirectional device. / 2.  Suffix ‘CA’ denotes a 5 % tolerance bidirectiona…
+- SMBJ200A-Q PVQ SMBJ200CA-Q EVQ 224 247 1.0 200 1.0 324 1.9 421.2 9.5 / SMBJ220A-Q PXQ SMBJ220CA-Q EXQ 246 272 1.0 220 1.0 356 1.7 462.8 8.5 / Notes:  1. Suffix ‘A’ denotes a 5 % tolerance unidir...
+- SMBJ220A-Q PXQ SMBJ220CA-Q EXQ 246 272 1.0 220 1.0 356 1.7 462.8 8.5 / Notes:  1. Suffix ‘A’ denotes a 5 % tolerance unidirectional device. / 2.  Suffix ‘CA’ denotes a 5 % tolerance bidirectiona...
 
 ### Dimensions, package, and mechanical information
 
 - GRADE / Features / ■ Surface Mount SMB package / ■ Standoff Voltage: 5 to 220 volts / ■ Power Dissipation: 600 watts
-- General Information / Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / S…
+- General Information / Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / S...
 - Pulse Rating Curve Steady State Power Derating Curve / SMBJ-Q Transient Voltage Suppressor Diode Series / Product Dimensions Recommended Footprint / B / G
 - E / A / Dimension SMB (DO-214AA) / A 4.06 - 4.57 / (0.160 - 0.180)
 - H 0.76 - 1.52 / (0.030 - 0.060) / DIMENSIONS: MM / (INCHES) / DIMENSIONS: MM
@@ -77,7 +77,7 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 
 ### Formulas, equations, and configurable calculations
 
-- Typical fast response times are less than 1.0 picosecond from 0 V to Breakdown Voltage. / Bourns® Chip Diodes conform to JEDEC standards, are easy to handle with standard pick / and place equipm…
+- Typical fast response times are less than 1.0 picosecond from 0 V to Breakdown Voltage. / Bourns® Chip Diodes conform to JEDEC standards, are easy to handle with standard pick / and place equipm...
 
 ### Reference designs, applications, and examples
 
@@ -85,14 +85,14 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 - ■ Protection of I/O interfaces / ■ Overvoltage transient protection / ■ Entertainment applications / ■ Comfort applications / ■ Telecom, computer, industrial and
 - ■ Overvoltage transient protection / ■ Entertainment applications / ■ Comfort applications / ■ Telecom, computer, industrial and / consumer electronics applications
 - ■ Comfort applications / ■ Telecom, computer, industrial and / consumer electronics applications / Additional Information / Click these links for more information:
-- General Information / Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / S…
-- \*\*”Q” part number sufﬁx indicates AEC-Q101 compliance. / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in their speciﬁc applications. / Th…
-- Note 2. Suffix ‘CA’ denotes a 5 % tolerance bidirectional device. / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in their speciﬁc applications.…
-- SMBJ-Q Transient Voltage Suppressor Diode Series / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in their speciﬁc applications. / The produc…
-- ESD Classification (HBM)...............................................................3B / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in…
-- Quantity per Reel --  500  3,000 / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in their speciﬁc applications. / The products described her…
-- and complete before placing orders for Bourns® products. / The characteristics and parameters of a Bourns® product set forth in its data sheet are based on laboratory conditions, and / statement…
-- The characteristics and parameters of a Bourns® product set forth in its data sheet are based on laboratory conditions, and / statements regarding the suitability of products for certain types o…
+- General Information / Bourns offers Transient Voltage Suppressor Diodes for surge and ESD protection / applications, in compact chip package DO-214AA (SMB) size format. The Transient Voltage / S...
+- \*\*"Q" part number sufﬁx indicates AEC-Q101 compliance. / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in their speciﬁc applications. / Th...
+- Note 2. Suffix ‘CA’ denotes a 5 % tolerance bidirectional device. / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in their speciﬁc applications....
+- SMBJ-Q Transient Voltage Suppressor Diode Series / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in their speciﬁc applications. / The produc...
+- ESD Classification (HBM)...............................................................3B / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in...
+- Quantity per Reel --  500  3,000 / Speciﬁcations are subject to change without notice. / Users should verify actual device performance in their speciﬁc applications. / The products described her...
+- and complete before placing orders for Bourns® products. / The characteristics and parameters of a Bourns® product set forth in its data sheet are based on laboratory conditions, and / statement...
+- The characteristics and parameters of a Bourns® product set forth in its data sheet are based on laboratory conditions, and / statements regarding the suitability of products for certain types o...
 
 ## Page-by-Page Extracted Content
 
@@ -148,7 +148,7 @@ Storage Temperature Range T STG -55 to +150 °C
 2. Mounted on 5.0 mm 2 (0.03 mm thick) copper pads to each terminal.
 3. 8.3 ms Single Half-Sine Wave duty cycle = 4 pulses maximum per minute (unidirectional units only).
 *RoHS Directive 2015/863, Mar 31, 2015 and Annex.
-**”Q” part number sufﬁx indicates AEC-Q101 compliance.
+**"Q" part number sufﬁx indicates AEC-Q101 compliance.
 Speciﬁcations are subject to change without notice.
 Users should verify actual device performance in their speciﬁc applications.
 The products described herein and this document are subject to speciﬁc legal disclaimers as set forth on the last page of this document, and at
@@ -544,28 +544,28 @@ MYVT[OLKH[HZOLL[JOHYHJ[LYPZ[PJZHUKWHYHTL[LYZK\L[VP[OLJVTIPUH[PVUVM
 PU[OL\ZLY»ZHWWSPJH[PVUVYPP[OLLU]PYVUTLU[VM[OL\ZLYHWWSPJH[PVUP[ZLSM;OLJOHYHJ[LYPZ[PJZHUKWHYHTL[LYZVMH)V\YUZ®
 WYVK\J[HSZVJHUHUKKV]HY`PUKPɈLYLU[HWWSPJH[PVUZHUKHJ[\HSWLYMVYTHUJLTH`]HY`V]LY[PTL<ZLYZZOV\SKHS^H`Z]LYPM`
 the actual performance of the Bourns
-®WYVK\J[PU[OLPYZWLJPÄJKL]PJLZHUKHWWSPJH[PVUZHUKTHRL[OLPYV^UPUKLWLUKLU[
+®WYVK\J[PU[OLPYZWLJPAJKL]PJLZHUKHWWSPJH[PVUZHUKTHRL[OLPYV^UPUKLWLUKLU[
 Q\KNTLU[ZYLNHYKPUN[OLHTV\U[VMHKKP[PVUHS[LZ[THYNPU[VKLZPNUPU[V[OLPYKL]PJLVYHWWSPJH[PVU[VJVTWLUZH[LMVY
 KPɈLYLUJLZIL[^LLUSHIVYH[VY`HUKYLHS^VYSKJVUKP[PVUZ
 <USLZZ)V\YUZOHZL_WSPJP[S`KLZPNUH[LKHUPUKP]PK\HS)V\YUZ® product as meeting the requirements of a particular industry
-Z[HUKHYKLN0:6;:  VYHWHY[PJ\SHYX\HSPÄJH[PVULN<3SPZ[LKVYYLJVNUPaLK)V\YUZPZUV[YLZWVUZPISLMVYHU`
-MHPS\YLVMHUPUKP]PK\HS)V\YUZ®WYVK\J[[VTLL[[OLYLX\PYLTLU[ZVMZ\JOPUK\Z[Y`Z[HUKHYKVYWHY[PJ\SHYX\HSPÄJH[PVU<ZLYZ
+Z[HUKHYKLN0:6;:  VYHWHY[PJ\SHYX\HSPAJH[PVULN<3SPZ[LKVYYLJVNUPaLK)V\YUZPZUV[YLZWVUZPISLMVYHU`
+MHPS\YLVMHUPUKP]PK\HS)V\YUZ®WYVK\J[[VTLL[[OLYLX\PYLTLU[ZVMZ\JOPUK\Z[Y`Z[HUKHYKVYWHY[PJ\SHYX\HSPAJH[PVU<ZLYZ
 of Bourns® products are responsible for ensuring compliance with safety-related requirements and standards applicable to
 [OLPYKL]PJLZVYHWWSPJH[PVUZ
 Bourns®WYVK\J[ZHYLUV[YLJVTTLUKLKH\[OVYPaLKVYPU[LUKLKMVY\ZLPUU\JSLHYSPMLZH]PUNSPMLJYP[PJHSVYSPMLZ\Z[HPUPUN
 HWWSPJH[PVUZUVYPUHU`V[OLYHWWSPJH[PVUZ^OLYLMHPS\YLVYTHSM\UJ[PVUTH`YLZ\S[PUWLYZVUHSPUQ\Y`KLH[OVYZL]LYLWYVWLY[`
-VYLU]PYVUTLU[HSKHTHNL<USLZZL_WYLZZS`HUKZWLJPÄJHSS`HWWYV]LKPU^YP[PUNI`[^VH\[OVYPaLK)V\YUZYLWYLZLU[H[P]LZ
+VYLU]PYVUTLU[HSKHTHNL<USLZZL_WYLZZS`HUKZWLJPAJHSS`HWWYV]LKPU^YP[PUNI`[^VH\[OVYPaLK)V\YUZYLWYLZLU[H[P]LZ
 on a case-by-case basis, use of any Bourns
 ®WYVK\J[ZPUZ\JO\UH\[OVYPaLKHWWSPJH[PVUZTPNO[UV[ILZHMLHUK[O\ZPZH[
-[OL\ZLY»ZZVSLYPZR3PMLJYP[PJHSHWWSPJH[PVUZPUJS\KLKL]PJLZPKLU[PÄLKI`[OL<:-VVKHUK+Y\N(KTPUPZ[YH[PVUHZ*SHZZ000
-KL]PJLZHUKNLULYHSS`LX\P]HSLU[JSHZZPÄJH[PVUZV\[ZPKLVM[OL<UP[LK:[H[LZ
-)V\YUZL_WYLZZS`PKLU[PÄLZ[OVZL)V\YUZ
+[OL\ZLY»ZZVSLYPZR3PMLJYP[PJHSHWWSPJH[PVUZPUJS\KLKL]PJLZPKLU[PALKI`[OL<:-VVKHUK+Y\N(KTPUPZ[YH[PVUHZ*SHZZ000
+KL]PJLZHUKNLULYHSS`LX\P]HSLU[JSHZZPAJH[PVUZV\[ZPKLVM[OL<UP[LK:[H[LZ
+)V\YUZL_WYLZZS`PKLU[PALZ[OVZL)V\YUZ
 ®Z[HUKHYKWYVK\J[Z[OH[HYLZ\P[HISLMVY\ZLPUH\[VTV[P]LHWWSPJH[PVUZVUZ\JO
-WYVK\J[Z»KH[HZOLL[ZPU[OLZLJ[PVULU[P[SLK¸(WWSPJH[PVUZ¹<USLZZL_WYLZZS`HUKZWLJPÄJHSS`HWWYV]LKPU^YP[PUNI`[^V
+WYVK\J[Z»KH[HZOLL[ZPU[OLZLJ[PVULU[P[SLK¸(WWSPJH[PVUZ¹<USLZZL_WYLZZS`HUKZWLJPAJHSS`HWWYV]LKPU^YP[PUNI`[^V
 H\[OVYPaLK)V\YUZYLWYLZLU[H[P]LZVUHJHZLI`JHZLIHZPZ\ZLVMHU`V[OLY)V\YUZ®Z[HUKHYKWYVK\J[ZPUHUH\[VTV[P]L
 HWWSPJH[PVUTPNO[UV[ILZHMLHUK[O\ZPZUV[YLJVTTLUKLKH\[OVYPaLKVYPU[LUKLKHUKPZH[[OL\ZLY»ZZVSLYPZR0M)V\YUZ
-L_WYLZZS`PKLU[PÄLZHZ\IJH[LNVY`VMH\[VTV[P]LHWWSPJH[PVUPU[OLKH[HZOLL[MVYP[ZZ[HUKHYKWYVK\J[ZZ\JOHZPUMV[HPUTLU[
-VYSPNO[PUNZ\JOPKLU[PÄJH[PVUTLHUZ[OH[)V\YUZOHZYL]PL^LKP[ZZ[HUKHYKWYVK\J[HUKOHZKL[LYTPULK[OH[PMZ\JO)V\YUZ
+L_WYLZZS`PKLU[PALZHZ\IJH[LNVY`VMH\[VTV[P]LHWWSPJH[PVUPU[OLKH[HZOLL[MVYP[ZZ[HUKHYKWYVK\J[ZZ\JOHZPUMV[HPUTLU[
+VYSPNO[PUNZ\JOPKLU[PAJH[PVUTLHUZ[OH[)V\YUZOHZYL]PL^LKP[ZZ[HUKHYKWYVK\J[HUKOHZKL[LYTPULK[OH[PMZ\JO)V\YUZ
 ®
 Z[HUKHYKWYVK\J[PZJVUZPKLYLKMVYWV[LU[PHS\ZLPUH\[VTV[P]LHWWSPJH[PVUZP[ZOV\SKVUS`IL\ZLKPUZ\JOZ\IJH[LNVY`VM
 H\[VTV[P]LHWWSPJH[PVUZ(U`YLMLYLUJL[V)V\YUZ
@@ -573,8 +573,8 @@ H\[VTV[P]LHWWSPJH[PVUZ(U`YLMLYLUJL[V)V\YUZ
 VY¸H\[VTV[P]LNYHKL¹KVLZUV[I`P[ZLSMTLHU[OH[)V\YUZOHZHWWYV]LKZ\JOWYVK\J[MVY\ZLPUHUH\[VTV[P]LHWWSPJH[PVU
 Bourns®Z[HUKHYKWYVK\J[ZHYLUV[[LZ[LK[VJVTWS`^P[O<UP[LK:[H[LZ-LKLYHS(]PH[PVU(KTPUPZ[YH[PVUZ[HUKHYKZNLULYHSS`
 VYHU`V[OLYNLULYHSS`LX\P]HSLU[NV]LYUTLU[HSVYNHUPaH[PVUZ[HUKHYKHWWSPJHISL[VWYVK\J[ZKLZPNULKVYTHU\MHJ[\YLKMVY
-\ZLPUHPYJYHM[VYZWHJLHWWSPJH[PVUZ)V\YUZL_WYLZZS`PKLU[PÄLZ)V\YUZ® standard products that are suitable for use in aircraft
-VYZWHJLHWWSPJH[PVUZVUZ\JOWYVK\J[Z»KH[HZOLL[ZPU[OLZLJ[PVULU[P[SLK¸(WWSPJH[PVUZ¹<USLZZL_WYLZZS`HUKZWLJPÄJHSS`
+\ZLPUHPYJYHM[VYZWHJLHWWSPJH[PVUZ)V\YUZL_WYLZZS`PKLU[PALZ)V\YUZ® standard products that are suitable for use in aircraft
+VYZWHJLHWWSPJH[PVUZVUZ\JOWYVK\J[Z»KH[HZOLL[ZPU[OLZLJ[PVULU[P[SLK¸(WWSPJH[PVUZ¹<USLZZL_WYLZZS`HUKZWLJPAJHSS`
 HWWYV]LKPU^YP[PUNI`[^VH\[OVYPaLK)V\YUZYLWYLZLU[H[P]LZVUHJHZLI`JHZLIHZPZ\ZLVMHU`V[OLY)V\YUZ
 ® standard
 WYVK\J[PUHUHPYJYHM[VYZWHJLHWWSPJH[PVUTPNO[UV[ILZHMLHUK[O\ZPZUV[YLJVTTLUKLKH\[OVYPaLKVYPU[LUKLKHUKPZH[
@@ -593,8 +593,8 @@ exported or re-exported to countries subject to international sanctions or embar
 WYPVYH\[OVYPaH[PVUMYVT)V\YUZHUKVY[OL<:.V]LYUTLU[ILYLZVSK[YHUZMLYYLKVYYLL_WVY[LK[VHU`WHY[`UV[LSPNPISL
 [VYLJLP]L<:JVTTVKP[PLZZVM[^HYLHUK[LJOUPJHSKH[H
 ; V[OLTH_PT\TL_[LU[WLYTP[[LKI`HWWSPJHISLSH^)V\YUZKPZJSHPTZPHU`HUKHSSSPHIPSP[`MVYZWLJPHSW\UP[P]LJVUZLX\LU[PHS
-PUJPKLU[HSVYPUKPYLJ[KHTHNLZVYSVZ[YL]LU\LZVYSVZ[WYVÄ[ZHUKPPHU`HUKHSSPTWSPLK^HYYHU[PLZPUJS\KPUNPTWSPLK^HYYHU[PLZ
-VMÄ[ULZZMVYWHY[PJ\SHYW\YWVZLUVUPUMYPUNLTLU[HUKTLYJOHU[HIPSP[`
+PUJPKLU[HSVYPUKPYLJ[KHTHNLZVYSVZ[YL]LU\LZVYSVZ[WYVA[ZHUKPPHU`HUKHSSPTWSPLK^HYYHU[PLZPUJS\KPUNPTWSPLK^HYYHU[PLZ
+VMA[ULZZMVYWHY[PJ\SHYW\YWVZLUVUPUMYPUNLTLU[HUKTLYJOHU[HIPSP[`
 )RU\RXUFRQYHQLHQFHFRSLHVRIWKLV/HJDO'LVFODLPHU1RWLFHZLWK*HUPDQ6SDQLVK-DSDQHVH7UDGLWLRQDO&KLQHVHDQG6LPSOLÀHG&KLQHVH
 bilingual versions are available at:
 Web Page: http://www.bourns.com/legal/disclaimers-terms-and-policies

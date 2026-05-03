@@ -1,4 +1,4 @@
-# Gadgetskingdom / uxcell DPDT Keyboard Switch — Pseudo Datasheet
+# Gadgetskingdom / uxcell DPDT Keyboard Switch - Pseudo Datasheet
 
 **Status:** Pseudo datasheet derived from marketplace listing metadata
 **Project:** Enigma-NG
@@ -49,8 +49,8 @@ The following values were extracted directly from the eBay listing HTML:
 | Pin pitch | 4 mm |
 | End width | 9 mm |
 | Mounting pillar distance | 5 mm |
-| Cap mounting part | 8 mm × 3.3 mm |
-| Overall size | 42 mm × 9.7 mm × 18 mm |
+| Cap mounting part | 8 mm x 3.3 mm |
+| Overall size | 42 mm x 9.7 mm x 18 mm |
 | Materials | Plastic, metal |
 | Pack quantity | 2 pieces |
 

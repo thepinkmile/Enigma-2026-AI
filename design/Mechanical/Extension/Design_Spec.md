@@ -1,6 +1,6 @@
 # Extension Mechanical Design Specification
 
-**Status:** Stub — pending detailed mechanical design
+**Status:** Stub - pending detailed mechanical design
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0

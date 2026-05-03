@@ -25,16 +25,16 @@
 | --- | --- |
 | Voltage Rating | 30V DC max |
 | **Current Rating** | **6A per contact** |
-| **Operating Temperature** | **−20°C to +80°C** |
-| Thermal shock qualification | −40°C / 30 min ↔ +85°C / 30 min × 5 cycles — passes (ΔR ≤ 20 mΩ) |
+| **Operating Temperature** | **-20°C to +80°C** |
+| Thermal shock qualification | -40°C / 30 min ↔ +85°C / 30 min x 5 cycles - passes (ΔR ≤ 20 mΩ) |
 | Temperature rise at rated current | 30°C max at 6A |
-| Contact resistance — initial | 30 mΩ max |
-| Contact resistance — ΔR after tests | 20 mΩ max |
+| Contact resistance - initial | 30 mΩ max |
+| Contact resistance - ΔR after tests | 20 mΩ max |
 | Dielectric withstanding voltage | 1 kVAC for 1 min; leakage ≤ 0.5 mA |
 | Insulation resistance | 1,000 MΩ min (initial); 100 MΩ min (after tests) |
 
-> **DEFSTAN temperature note:** The operating rating lower bound (−20°C) does not cover the
-> DEFSTAN design target (−40°C). The thermal shock test to −40°C is cited as supporting evidence.
+> **DEFSTAN temperature note:** The operating rating lower bound (-20°C) does not cover the
+> DEFSTAN design target (-40°C). The thermal shock test to -40°C is cited as supporting evidence.
 > See `Certification_Evidence.md §5.1` for the full exception record.
 
 ## Extraction Notes
@@ -90,7 +90,7 @@ M
 5
 + 0.1
 10-01.4-0.05
-0.1×Y
+0.1xY
 基板取付推奖寸法
 RECOMMENDED P.C.BOARD LAYOUT
 P.C.BOARDTHK0.8~1.2
@@ -111,7 +111,7 @@ SIDE)
 M
 ：
 仕上：Ni下地
-接触部金×y≠
+接触部金xy≠
 半田付部金
 0.8
 COLOR;BLACK

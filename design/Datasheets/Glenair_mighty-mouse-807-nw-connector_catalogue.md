@@ -30,8 +30,8 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 
 - with current and legacy Nett / Warrior hardware /  Original 6-pin Nett Warrior / plugs and receptacles /  Backward-compatible
 - plugs and receptacles /  Backward-compatible / 7-pin series with USB-C / power integration and / delivery
-- C4ISR equipment / Today’s warfighters demand quick battery charging and reliable radio operation. / Glenair pioneered the original 6-pin Nett Warrior connector, as well as a second- / generation…
-- Today’s warfighters demand quick battery charging and reliable radio operation. / Glenair pioneered the original 6-pin Nett Warrior connector, as well as a second- / generation 7-pin series with…
+- C4ISR equipment / Today’s warfighters demand quick battery charging and reliable radio operation. / Glenair pioneered the original 6-pin Nett Warrior connector, as well as a second- / generation...
+- Today’s warfighters demand quick battery charging and reliable radio operation. / Glenair pioneered the original 6-pin Nett Warrior connector, as well as a second- / generation 7-pin series with...
 - SERIES 807 MIGHTY MOUSE NW CONNECTOR LINE: HOW-TO-ORDER / Series 807 NW / Plugs (6 pin) Crimp PC Tail Solder / Cup In-Line / Rear
 - 807-216-00ZNU6-6DY X X / Series 807 NW / Plugs (7 pin) Crimp PC Tail Solder / Cup In-Line / Rear
 - 3 / 21 / Original NSN-Listed 6-Pin / (Nett Warrior Program / / NATO STANAG 4695 Approved)
@@ -41,27 +41,27 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 
 - CONNECTOR LINE / All designs backward-compatible / with current and legacy Nett / Warrior hardware /  Original 6-pin Nett Warrior
 - delivery /  New 10 Amp receptacles / for higher-current soldier / battery, radio, and PAN / C4ISR equipment
-- generation 7-pin series with USB-C power integration and delivery. Now Glenair is / introducing a signature 10 Amp Crown Ring contact-equipped version for higher- / current applications that eas…
-- introducing a signature 10 Amp Crown Ring contact-equipped version for higher- / current applications that easily integrates into US / NATO, Nett Warrior, and STAR-PAN / hub and cable systems. C…
+- generation 7-pin series with USB-C power integration and delivery. Now Glenair is / introducing a signature 10 Amp Crown Ring contact-equipped version for higher- / current applications that eas...
+- introducing a signature 10 Amp Crown Ring contact-equipped version for higher- / current applications that easily integrates into US / NATO, Nett Warrior, and STAR-PAN / hub and cable systems. C...
 
 ### Dimensions, package, and mechanical information
 
-- QUALIFIED / © 2022 Glenair, Inc • 1211 Air Way, Glendale, CA 91201 • 818-247-6000 • <www.glenair.com> • U.S. CAGE code 06324 • STAR-PAN ™  Tactical Interconnect Solutions / Dimensions are subjec…
-- equipment as well as lower-power legacy devices. / © 2022 Glenair, Inc • 1211 Air Way, Glendale, CA 91201 • 818-247-6000 • <www.glenair.com> • U.S. CAGE code 06324 • STAR-PAN ™  Tactical Interco…
+- QUALIFIED / © 2022 Glenair, Inc • 1211 Air Way, Glendale, CA 91201 • 818-247-6000 • <www.glenair.com> • U.S. CAGE code 06324 • STAR-PAN ™  Tactical Interconnect Solutions / Dimensions are subjec...
+- equipment as well as lower-power legacy devices. / © 2022 Glenair, Inc • 1211 Air Way, Glendale, CA 91201 • 818-247-6000 • <www.glenair.com> • U.S. CAGE code 06324 • STAR-PAN ™  Tactical Interco...
 
 ### Formulas, equations, and configurable calculations
 
-- “The Nett Warrior Connector” / Crimp • PC Tail • Solder Cup • Pigtail Assemblies / NEW 10 AMP CONFIGURATIONS / INTERCONNECT / SOLUTIONS
+- "The Nett Warrior Connector" / Crimp • PC Tail • Solder Cup • Pigtail Assemblies / NEW 10 AMP CONFIGURATIONS / INTERCONNECT / SOLUTIONS
 -  Backward-compatible / 7-pin series with USB-C / power integration and / delivery /  New 10 Amp receptacles
-- battery, radio, and PAN / C4ISR equipment / Today’s warfighters demand quick battery charging and reliable radio operation. / Glenair pioneered the original 6-pin Nett Warrior connector, as well…
-- Today’s warfighters demand quick battery charging and reliable radio operation. / Glenair pioneered the original 6-pin Nett Warrior connector, as well as a second- / generation 7-pin series with…
-- separate channels with less than 30°C of temperature rise. Electrical resistance remains / consistent across 2000 mating cycles. Best of all, Glenair has integrated the new 10 / Amp contact conn…
-- Amp-capable devices as well as lower-power legacy hardware. / Glenair STAR-PAN NG hubs and cables—now equipped with 10 Amp Crown Ring contact / receptacles—are smart devices capable of managing …
+- battery, radio, and PAN / C4ISR equipment / Today’s warfighters demand quick battery charging and reliable radio operation. / Glenair pioneered the original 6-pin Nett Warrior connector, as well...
+- Today’s warfighters demand quick battery charging and reliable radio operation. / Glenair pioneered the original 6-pin Nett Warrior connector, as well as a second- / generation 7-pin series with...
+- separate channels with less than 30°C of temperature rise. Electrical resistance remains / consistent across 2000 mating cycles. Best of all, Glenair has integrated the new 10 / Amp contact conn...
+- Amp-capable devices as well as lower-power legacy hardware. / Glenair STAR-PAN NG hubs and cables-now equipped with 10 Amp Crown Ring contact / receptacles-are smart devices capable of managing ...
 
 ### Reference designs, applications, and examples
 
 - miniature connectors for dismounted / soldier battery charging, radio, and / PAN applications, NSN stock-listed. / PUSH-PULL QDC SERIES 807 MIGHTY MOUSE NW / CONNECTOR LINE
-- generation 7-pin series with USB-C power integration and delivery. Now Glenair is / introducing a signature 10 Amp Crown Ring contact-equipped version for higher- / current applications that eas…
+- generation 7-pin series with USB-C power integration and delivery. Now Glenair is / introducing a signature 10 Amp Crown Ring contact-equipped version for higher- / current applications that eas...
 
 ## Page-by-Page Extracted Content
 
@@ -69,7 +69,7 @@ It preserves design-relevant extracted snippets first, followed by page-by-page 
 
 ```text
 Series 807 Mighty Mouse NW
-“The Nett Warrior Connector”
+"The Nett Warrior Connector"
 Crimp • PC Tail • Solder Cup • Pigtail Assemblies
 NEW 10 AMP CONFIGURATIONS
 INTERCONNECT
@@ -125,10 +125,10 @@ hub and cable systems. Contacts are capable of carrying 10 amps of current acros
 separate channels with less than 30°C of temperature rise. Electrical resistance remains
 consistent across 2000 mating cycles. Best of all, Glenair has integrated the new 10
 Amp contact connectors into our next-generation STAR-PAN NG platform, ensuring
-intelligent, system-wide handling of warfighter electronic equipment—for both 10
+intelligent, system-wide handling of warfighter electronic equipment-for both 10
 Amp-capable devices as well as lower-power legacy hardware.
-Glenair STAR-PAN NG hubs and cables—now equipped with 10 Amp Crown Ring contact
-receptacles—are smart devices capable of managing next-generation high-power
+Glenair STAR-PAN NG hubs and cables-now equipped with 10 Amp Crown Ring contact
+receptacles-are smart devices capable of managing next-generation high-power
 equipment as well as lower-power legacy devices.
 ```
 
@@ -362,7 +362,7 @@ Facsimile:
 sales@glenair.jp
 Glenair Italia S.p.A.
 Via Del Lavoro, 7
-40057 Quarto Inferiore –
+40057 Quarto Inferiore -
 Granarolo dell’Emilia
 Bologna, Italy
 Glenair Korea

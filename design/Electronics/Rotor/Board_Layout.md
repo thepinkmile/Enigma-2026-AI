@@ -15,19 +15,19 @@ For mechanical tolerances and shroud assembly details, see
 ## 1. Split Board Architecture Overview
 
 Each rotor assembly consists of two circular PCBs (Board A and Board B), each Ø92mm, separated
-by an 11.8mm gap and connected by four single-row 2.54mm THT headers (J7 1×5, J8 1×5,
-J9 1×5, J10 1×7; 22 pins total; mixed gender for keying).The two boards are mechanically
+by an 11.8mm gap and connected by four single-row 2.54mm THT headers (J7 1x5, J8 1x5,
+J9 1x5, J10 1x7; 22 pins total; mixed gender for keying).The two boards are mechanically
 retained inside the aluminium shroud (Ø100mm outer face, 4mm radial wall, Ø92mm inner). Total
 rotor thickness is ~15mm.
 
 ---
 
-## 2. Board A — Input Side (Ø92mm)
+## 2. Board A - Input Side (Ø92mm)
 
 Board A faces the input (upstream) side of the rotor stack.
 
 ```text
-4-Layer / 2oz Copper / ENIG / Circular Ø92mm — BOARD A (INPUT SIDE)
+4-Layer / 2oz Copper / ENIG / Circular Ø92mm - BOARD A (INPUT SIDE)
 
                         TOP (outer face, faces upstream)
          __________________________________________________
@@ -58,34 +58,34 @@ Board A faces the input (upstream) side of the rotor stack.
 | :--- | :--- | :--- |
 | U1 | EPM570T100I5N CPLD | Centre of board |
 | U2 | FDC2114RGHR | Track A capacitive encoder IC (I²C addr 0x2A); r~40mm |
-| U3A | FDC2114RGHR | STGC bit[4] sensor IC (I²C addr 0x2B); Board A, N=26 builds only — NOT POPULATED for N=64 |
-| L1–L4 | Bourns CWF1610A-180K — 18 µH unshielded 0603 chip inductor | U2 CH0–CH3 resonant tank inductors — placed adjacent to U2, one per channel; pair with C18–C21 |
-| L5A–L8A | Bourns CWF1610A-180K — same part as L1–L4 | U3A CH0–CH3 resonant tank inductors (includes dummy LC for unused channels) — **N=26 only, NOT POPULATED for N=64** |
-| C18–C21 | YAGEO AC0402FRNPO9BN330 — 33 pF C0G/NP0 ±1% MLCC | U2 CH0–CH3 resonant tank capacitors — in parallel with L1–L4 between INxA/INxB |
-| C22A–C25A | YAGEO AC0402FRNPO9BN330 — same part as C18–C21 | U3A CH0–CH3 resonant tank capacitors — **N=26 only, NOT POPULATED for N=64** |
-| S0–S2 | Sensor electrodes (Track A) | Bare Cu pads at r=44mm, N=64 bits[5:3]; or S0–S4 for N=26 |
-| SW1 | 6-pos DIP — ring setting | Input side only |
-| SW2 | 6-pos DIP — forward map select | Input side |
-| J1 | ERM8-005 male | JTAG input (10-pin 2×5, 0.8mm pitch) |
-| J2 | ERM8-005 male | Power input (10-pin 2×5, 0.8mm pitch) |
-| J3 | ERM8-010 male | ENC data input (20-pin 2×10, 0.8mm pitch) |
-| J7 | Adam Tech RS1-05-G (female 1×5) | Inner face; manually assembled post-JLCPCB SMT |
-| J8 | Adam Tech RS1-05-G (female 1×5) | Inner face; manually assembled post-JLCPCB SMT |
-| J11 | Adam Tech PH1-05-UA (male 1×5) | Inner face; manually assembled post-JLCPCB SMT |
-| J14 | Adam Tech PH1-07-UA (male 1×7) | Inner face; manually assembled post-JLCPCB SMT |
-| U5 | TPD4E05U06QDQARQ1— 4-ch ESD array | J1 JTAG entry ESD; channels: TDI, TMS, TCK (1 spare) |
-| U6 | TPD4E05U06QDQARQ1 — 4-ch ESD array | J3 ENC input ESD, array 1 of 3; ENC_IN[3:0] |
-| U7 | TPD4E05U06QDQARQ1 — 4-ch ESD array | J3 ENC input ESD, array 2 of 3; ENC_IN[5:4], ENC_OUT[1:0] |
-| U8 | TPD4E05U06QDQARQ1 — 4-ch ESD array | J3 ENC input ESD, array 3 of 3; ENC_OUT[5:2] |
+| U3A | FDC2114RGHR | STGC bit[4] sensor IC (I²C addr 0x2B); Board A, N=26 builds only - NOT POPULATED for N=64 |
+| L1-L4 | Bourns CWF1610A-180K - 18 µH unshielded 0603 chip inductor | U2 CH0-CH3 resonant tank inductors - placed adjacent to U2, one per channel; pair with C18-C21 |
+| L5A-L8A | Bourns CWF1610A-180K - same part as L1-L4 | U3A CH0-CH3 resonant tank inductors (includes dummy LC for unused channels) - **N=26 only, NOT POPULATED for N=64** |
+| C18-C21 | YAGEO AC0402FRNPO9BN330 - 33 pF C0G/NP0 ±1% MLCC | U2 CH0-CH3 resonant tank capacitors - in parallel with L1-L4 between INxA/INxB |
+| C22A-C25A | YAGEO AC0402FRNPO9BN330 - same part as C18-C21 | U3A CH0-CH3 resonant tank capacitors - **N=26 only, NOT POPULATED for N=64** |
+| S0-S2 | Sensor electrodes (Track A) | Bare Cu pads at r=44mm, N=64 bits[5:3]; or S0-S4 for N=26 |
+| SW1 | 6-pos DIP - ring setting | Input side only |
+| SW2 | 6-pos DIP - forward map select | Input side |
+| J1 | ERM8-005 male | JTAG input (10-pin 2x5, 0.8mm pitch) |
+| J2 | ERM8-005 male | Power input (10-pin 2x5, 0.8mm pitch) |
+| J3 | ERM8-010 male | ENC data input (20-pin 2x10, 0.8mm pitch) |
+| J7 | Adam Tech RS1-05-G (female 1x5) | Inner face; manually assembled post-JLCPCB SMT |
+| J8 | Adam Tech RS1-05-G (female 1x5) | Inner face; manually assembled post-JLCPCB SMT |
+| J11 | Adam Tech PH1-05-UA (male 1x5) | Inner face; manually assembled post-JLCPCB SMT |
+| J14 | Adam Tech PH1-07-UA (male 1x7) | Inner face; manually assembled post-JLCPCB SMT |
+| U5 | TPD4E05U06QDQARQ1- 4-ch ESD array | J1 JTAG entry ESD; channels: TDI, TMS, TCK (1 spare) |
+| U6 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J3 ENC input ESD, array 1 of 3; ENC_IN[3:0] |
+| U7 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J3 ENC input ESD, array 2 of 3; ENC_IN[5:4], ENC_OUT[1:0] |
+| U8 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J3 ENC input ESD, array 3 of 3; ENC_OUT[5:2] |
 
 ---
 
-## 3. Board B — Output Side (Ø92mm)
+## 3. Board B - Output Side (Ø92mm)
 
 Board B faces the output (downstream) side of the rotor stack.
 
 ```text
-4-Layer / 2oz Copper / ENIG / Circular Ø92mm — BOARD B (OUTPUT SIDE)
+4-Layer / 2oz Copper / ENIG / Circular Ø92mm - BOARD B (OUTPUT SIDE)
 
                     TOP (inner face, faces Board A)
           [ J10 F ]  [ J12 M ]  [ J13 M ]  [ J9 F ]
@@ -115,21 +115,21 @@ Board B faces the output (downstream) side of the rotor stack.
 | Ref | Component | Notes |
 | :--- | :--- | :--- |
 | U3B | FDC2114RGHR | Track B capacitive encoder IC (I²C addr 0x2B); r~40mm; **not populated for N=26** |
-| L5B–L8B | Bourns CWF1610A-180K — same part as L1–L4 | U3B CH0–CH3 resonant tank inductors (includes dummy LC for unused channels) — **N=64 only, NOT POPULATED for N=26** |
-| C22B–C25B | YAGEO AC0402FRNPO9BN330 — same part as C18–C21 | U3B CH0–CH3 resonant tank capacitors — **N=64 only, NOT POPULATED for N=26** |
-| S3–S5 | Sensor electrodes (Track B) | Bare Cu pads at r=44mm, N=64 bits[2:0]; not present for N=26 |
-| SW3 | 6-pos DIP — return map select | Output side |
-| J4 | ERF8-005 female | JTAG output (10-pin 2×5, 0.8mm pitch) |
-| J5 | ERF8-005 female | Power output (10-pin 2×5, 0.8mm pitch) |
-| J6 | ERF8-010 female | ENC data output (20-pin 2×10, 0.8mm pitch) |
-| J9 | Adam Tech RS1-05-G (female 1×5) | Inner face; manually assembled post-JLCPCB SMT |
-| J10 | Adam Tech RS1-07-G (female 1×7) | Inner face; manually assembled post-JLCPCB SMT |
-| J12 | Adam Tech PH1-05-UA (male 1×5) | Inner face; manually assembled post-JLCPCB SMT |
-| J13 | Adam Tech PH1-05-UA (male 1×5) | Inner face; manually assembled post-JLCPCB SMT |
-| U9 | TPD4E05U06QDQARQ1 — 4-ch ESD array | J4 JTAG exit ESD; channels: TDO, TMS, TCK (1 spare) |
-| U10 | TPD4E05U06QDQARQ1 — 4-ch ESD array | J6 ENC output ESD, array 1 of 3; ENC_IN[3:0] |
-| U11 | TPD4E05U06QDQARQ1 — 4-ch ESD array | J6 ENC output ESD, array 2 of 3; ENC_IN[5:4], ENC_OUT[1:0] |
-| U12 | TPD4E05U06QDQARQ1 — 4-ch ESD array | J6 ENC output ESD, array 3 of 3; ENC_OUT[5:2] |
+| L5B-L8B | Bourns CWF1610A-180K - same part as L1-L4 | U3B CH0-CH3 resonant tank inductors (includes dummy LC for unused channels) - **N=64 only, NOT POPULATED for N=26** |
+| C22B-C25B | YAGEO AC0402FRNPO9BN330 - same part as C18-C21 | U3B CH0-CH3 resonant tank capacitors - **N=64 only, NOT POPULATED for N=26** |
+| S3-S5 | Sensor electrodes (Track B) | Bare Cu pads at r=44mm, N=64 bits[2:0]; not present for N=26 |
+| SW3 | 6-pos DIP - return map select | Output side |
+| J4 | ERF8-005 female | JTAG output (10-pin 2x5, 0.8mm pitch) |
+| J5 | ERF8-005 female | Power output (10-pin 2x5, 0.8mm pitch) |
+| J6 | ERF8-010 female | ENC data output (20-pin 2x10, 0.8mm pitch) |
+| J9 | Adam Tech RS1-05-G (female 1x5) | Inner face; manually assembled post-JLCPCB SMT |
+| J10 | Adam Tech RS1-07-G (female 1x7) | Inner face; manually assembled post-JLCPCB SMT |
+| J12 | Adam Tech PH1-05-UA (male 1x5) | Inner face; manually assembled post-JLCPCB SMT |
+| J13 | Adam Tech PH1-05-UA (male 1x5) | Inner face; manually assembled post-JLCPCB SMT |
+| U9 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J4 JTAG exit ESD; channels: TDO, TMS, TCK (1 spare) |
+| U10 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J6 ENC output ESD, array 1 of 3; ENC_IN[3:0] |
+| U11 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J6 ENC output ESD, array 2 of 3; ENC_IN[5:4], ENC_OUT[1:0] |
+| U12 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J6 ENC output ESD, array 3 of 3; ENC_OUT[5:2] |
 
 ---
 
@@ -151,7 +151,7 @@ Board B faces the output (downstream) side of the rotor stack.
   Aluminium shroud (Ø100mm outer, Ø92mm inner, 4mm radial wall)
   Shroud dish flange (Board A side): Track A Gray code slots milled on inner face
   Shroud cover flange (Board B side): Track B Gray code slots milled on inner face (N=64 only)
-  Rolling-pin cylindrical bearings (ceramic or nylon) around circumference — electrically isolating
+  Rolling-pin cylindrical bearings (ceramic or nylon) around circumference - electrically isolating
   Shroud outer cylindrical face: characters engraved at r=50mm
   Central metal shaft: passes through both PCBs; NPTH + copper keep-out; shaft electrically isolated from all PCB nets
 ```
@@ -167,8 +167,8 @@ Board B faces the output (downstream) side of the rotor stack.
 | Board gap (Board A inner to Board B inner) | ~11.8mm |
 | Total rotor thickness | ~15mm |
 | Sensor electrode radius | r=44mm |
-| Shroud–electrode gap | 0.5mm ±0.15mm |
-| Central shaft hole (NPTH, both PCBs) | Ø10mm nominal (8–12mm TBD) |
+| Shroud-electrode gap | 0.5mm ±0.15mm |
+| Central shaft hole (NPTH, both PCBs) | Ø10mm nominal (8-12mm TBD) |
 | Central copper keep-out zone | r ≥ 6mm from board centre |
 
 ---
@@ -176,9 +176,9 @@ Board B faces the output (downstream) side of the rotor stack.
 ## 5. Rotor Interface Connectors
 >
 > **Connector Definition Owner:** This board. All other boards hosting rotor interface connectors
-> (Stator J1–J3, Extension J1–J6, Reflector J1–J3) cross-reference here.
+> (Stator J1-J3, Extension J1-J6, Reflector J1-J3) cross-reference here.
 
-Each rotor position uses **three connectors** — one for ENC data in, one for ENC data out, and one for power/JTAG.
+Each rotor position uses **three connectors** - one for ENC data in, one for ENC data out, and one for power/JTAG.
 These three connectors must be **positionally identical** across every board that mates with rotors
 (Stator input side, Extension mid-stack, Reflector final output) to allow any rotor to mate at any position.
 
@@ -188,17 +188,17 @@ These three connectors must be **positionally identical** across every board tha
 >
 ### 5.1 Connector Summary
 
-Each rotor carries **six connectors** — three male ERM8 headers on the input side (J1–J3) and three female
-ERF8 sockets on the output side (J4–J6). See `Rotor/Design_Spec.md §3.4` for the authoritative pinout tables.
+Each rotor carries **six connectors** - three male ERM8 headers on the input side (J1-J3) and three female
+ERF8 sockets on the output side (J4-J6). See `Rotor/Design_Spec.md §3.4` for the authoritative pinout tables.
 
 | Designator | Type | Part | Pins | Function |
 | :--- | :--- | :--- | :--- | :--- |
-| J1 | ERM8-005 male | 200-ERM8005050SDVKTR | 10 (2×5) | JTAG input |
-| J2 | ERM8-005 male | 200-ERM8005050SDVKTR | 10 (2×5) | Power input |
-| J3 | ERM8-010 male | 200-ERM8010050SDVKTR | 20 (2×10) | Encoder data input |
-| J4 | ERF8-005 female | 200-ERF8005050SDVKTR | 10 (2×5) | JTAG output → next rotor J1 |
-| J5 | ERF8-005 female | 200-ERF8005050SDVKTR | 10 (2×5) | Power output → next rotor J2 |
-| J6 | ERF8-010 female | 200-ERF8010050SDVKTR | 20 (2×10) | Encoder data output → next rotor J3 |
+| J1 | ERM8-005 male | 200-ERM8005050SDVKTR | 10 (2x5) | JTAG input |
+| J2 | ERM8-005 male | 200-ERM8005050SDVKTR | 10 (2x5) | Power input |
+| J3 | ERM8-010 male | 200-ERM8010050SDVKTR | 20 (2x10) | Encoder data input |
+| J4 | ERF8-005 female | 200-ERF8005050SDVKTR | 10 (2x5) | JTAG output → next rotor J1 |
+| J5 | ERF8-005 female | 200-ERF8005050SDVKTR | 10 (2x5) | Power output → next rotor J2 |
+| J6 | ERF8-010 female | 200-ERF8010050SDVKTR | 20 (2x10) | Encoder data output → next rotor J3 |
 
 ### 5.2 TTD Routing Note
 
@@ -208,7 +208,7 @@ rotor passes TTD to the **next rotor's TDI** directly via J4 pin 6 → next Roto
 
 ---
 
-## 6. U1 — Rotor CPLD Signal Map (Logical Pin Budget)
+## 6. U1 - Rotor CPLD Signal Map (Logical Pin Budget)
 
 > This is the board-authoritative **logical** signal map for Rotor Board A `U1`. The local MAX II
 > handbook confirms `EPM570T100` package availability in TQFP-100, but it points printed device
@@ -249,7 +249,7 @@ not consume extra board-level I/O pins.
 
 ---
 
-## 7. Routing — Trace Width Specifications
+## 7. Routing - Trace Width Specifications
 
 **Board specs:** 4-layer / 2oz finished copper (JLC04161H-7628).
 L1 = signal (JTAG/routing); L2 = GND plane; L3 = 3V3_ENIG power pour; L4 = secondary routing / data plate.
@@ -259,14 +259,14 @@ For 2oz external: ~0.15 mm/A. The 3V3_ENIG inner pour (L3) handles bus current w
 See Global_Routing_Spec.md §1.1 for the full current-category table.
 
 **Rotor power analysis (pass-through sizing):**
-Each rotor draws 50 mA (EPM570) + 2 × 2.1 mA (FDC2114 pair U2/U3B or U2/U3A) = **54.2 mA ≈ 55 mA** locally.
+Each rotor draws 50 mA (EPM570) + 2 x 2.1 mA (FDC2114 pair U2/U3B or U2/U3A) = **54.2 mA ≈ 55 mA** locally.
 The J2 power input connector daisy-chains 3V3_ENIG through J5 to the next rotor within the same
 mini-stack. Each mini-stack contains a maximum of **5 rotors**; 3V3_ENIG is re-injected fresh at
 each mini-stack boundary by an Extension Board (via its J5, fed from the Extension Port J7).
-All rotor PCBs are **identical**, so traces must be sized for the worst case — **Rotor 1** of any
+All rotor PCBs are **identical**, so traces must be sized for the worst case - **Rotor 1** of any
 mini-stack, which receives power for all 5 rotors in its group.
 Using the 55 mA design budget, Rotor 1 carries **275 mA** through its J2 connector and passes
-4 × 55 mA = **220 mA** to Rotor 2 via J5.
+4 x 55 mA = **220 mA** to Rotor 2 via J5.
 
 | Rotor position in mini-stack | J2 input current | Local draw | J5 output current |
 | :--- | :--- | :--- | :--- |
@@ -274,7 +274,7 @@ Using the 55 mA design budget, Rotor 1 carries **275 mA** through its J2 connect
 | Rotor 3 (mid-stack) | 165 mA | 55 mA | 110 mA |
 | Rotor 5 (last in mini-stack) | 55 mA | 55 mA | 0 A |
 
-IPC calculation for worst-case 275 mA at 2oz external: 0.275 × 0.15 mm = 0.04 mm → **0.80 mm**
+IPC calculation for worst-case 275 mA at 2oz external: 0.275 x 0.15 mm = 0.04 mm → **0.80 mm**
 (3V3_ENIG canonical width per Global_Routing_Spec §1.1; consistent with PM, Stator, and Extension
 Board 3V3_ENIG trunk traces).
 
@@ -282,12 +282,12 @@ Board 3V3_ENIG trunk traces).
 
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Signal (ENC_IN/OUT, FDC2114 I2C SDA/SCL, SYS_RESET_N) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic; CPLD data I/O; I2C to FDC2114 capacitive encoder; SYS_RESET_N is a slow-logic CPLD reset sourced from Stator U7 GPA[7] — not a CI signal |
-| JTAG signals: TCK, TMS, TTD in/out (CI) | signal | — | 0.127 mm | **0.127 mm (5 mil)** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer — no inner-layer minimum conflict. |
+| Signal (ENC_IN/OUT, FDC2114 I2C SDA/SCL, SYS_RESET_N) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic; CPLD data I/O; I2C to FDC2114 capacitive encoder; SYS_RESET_N is a slow-logic CPLD reset sourced from Stator U7 GPA[7] - not a CI signal |
+| JTAG signals: TCK, TMS, TTD in/out (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. |
 | 3V3_ENIG local draw (J2 → CPLD + FDC2114 supply) | 55 mA | 0.008 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | 3V3_ENIG canonical 0.80 mm (Global_Routing_Spec §1.1); local IC supply only |
 | 3V3_ENIG pass-through rail (J2 input → J5 output bus) | 275 mA (Rotor 1 of mini-stack; 5 rotors max) | 0.04 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | Canonical 3V3_ENIG trunk width (Global_Routing_Spec §1.1); Rotor 1 worst case for a 5-rotor mini-stack; feeds L3 pour via thermal vias between J2 and J5 |
-| 3V3_ENIG distribution (inner power pour) | up to 275 mA | — | pour | **copper pour** | L3 | Full uninterrupted 2oz plane; primary distribution across the board |
-| GND return (inner GND pour) | — | — | pour | **copper pour** | L2 | Reference plane; must be solid and uninterrupted under all CI traces on L1 |
+| 3V3_ENIG distribution (inner power pour) | up to 275 mA | - | pour | **copper pour** | L3 | Full uninterrupted 2oz plane; primary distribution across the board |
+| GND return (inner GND pour) | - | - | pour | **copper pour** | L2 | Reference plane; must be solid and uninterrupted under all CI traces on L1 |
 
 ### 7.2 Notes
 
@@ -299,9 +299,9 @@ Board 3V3_ENIG trunk traces).
   unterminated; no series termination resistor is used on this board.
 * **3V3_ENIG power rail:** The L3 copper pour is the primary current path. L1 surface traces at
   0.80 mm connect J2/J5 connector pads to the L3 pour via thermal vias. All rotor boards share
-  the same PCB layout — the 0.80 mm canonical width provides substantial margin above the 275 mA
+  the same PCB layout - the 0.80 mm canonical width provides substantial margin above the 275 mA
   mini-stack worst case (IPC minimum: 0.04 mm). 3V3_ENIG is re-injected at each mini-stack boundary
-  by an Extension Board, so no rotor ever passes more than 5 × 55 mA = 275 mA through J2.
+  by an Extension Board, so no rotor ever passes more than 5 x 55 mA = 275 mA through J2.
 
 ---
 
@@ -309,13 +309,13 @@ Board 3V3_ENIG trunk traces).
 
 ### 8.1 Central Shaft Keep-Out
 
-A central NPTH (non-plated through-hole) of Ø10mm nominal (8–12mm TBD) is required at the board
+A central NPTH (non-plated through-hole) of Ø10mm nominal (8-12mm TBD) is required at the board
 centre of **both** Board A and Board B to accommodate the rotor support shaft.
 
 | Zone | Radius from centre | Constraint |
 | :--- | :--- | :--- |
-| Shaft hole | 0–5mm | NPTH — no copper barrel, no plating |
-| Keep-out (clearance) | 5–6mm | No copper, pads, vias, or silkscreen |
+| Shaft hole | 0-5mm | NPTH - no copper barrel, no plating |
+| Keep-out (clearance) | 5-6mm | No copper, pads, vias, or silkscreen |
 | Routing may begin | r > 6mm | Components and traces permitted outside this boundary |
 
 **Rationale:** The shaft is a metal rod and must remain electrically isolated from all PCB nets.

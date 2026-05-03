@@ -13,34 +13,34 @@
 
 The Enigma-NG system comprises the following boards:
 
-- **Controller Board (CM5)** — Raspberry Pi CM5 carrier and the mechanical motherboard of the machine.
+- **Controller Board (CM5)** - Raspberry Pi CM5 carrier and the mechanical motherboard of the machine.
   Hosts the external RJ45, Ethernet ESD/magnetics, PoE front-end, HDMI, USB 3.0, the dock
   interfaces to both the Power Module and the Stator, and the host dock for the primary Actuation
   Module.
-- **Power Module** — Removable power-conditioning / UPS cartridge. Accepts local USB-C and battery
+- **Power Module** - Removable power-conditioning / UPS cartridge. Accepts local USB-C and battery
   inputs plus a regulated PoE-derived auxiliary feed from the Controller; generates `5V_MAIN` and
   `3V3_ENIG`, manages hold-up energy, and remains the only intentional `GND` ↔ `GND_CHASSIS` bond.
-- **Stator** — Removable vertical daughterboard mounted from the enclosure wall. Receives power and
+- **Stator** - Removable vertical daughterboard mounted from the enclosure wall. Receives power and
   logic from the Controller through two hybrid blind-mate connectors; fans power and JTAG into the
   rotor stack and hosts the routing / reflector CPLD.
-- **User Settings Module** — Panel-mount switch and RGB indicator board on the shared Stator `I2C-1` bus;
+- **User Settings Module** - Panel-mount switch and RGB indicator board on the shared Stator `I2C-1` bus;
   provides user-facing routing/reflector configuration input.
-- **Rotors (×30)** — Arranged in groups of 5, chaining directly output-to-input. An Extension Board sits
+- **Rotors (x30)** - Arranged in groups of 5, chaining directly output-to-input. An Extension Board sits
   between each group of 5 to re-buffer broadcast signals.
-- **Extension Board (up to ×5 within Rev A power budget)** — Bridges between rotor groups;
+- **Extension Board (up to x5 within Rev A power budget)** - Bridges between rotor groups;
   re-buffers TCK and TMS, passes the reflector-boundary service harness, and hosts one local
   Actuation Module. Minimum configuration: Stator → [5 Rotors] → Reflector (0 Extensions,
   5 rotors). Full build: 6 groups of 5 rotors separated by 5 Extension boards, terminated by the
   Reflector (30 rotors total).
-- **Actuation Module (×1 Controller-local + up to ×5 Extension-local)** — Shared service board that
+- **Actuation Module (x1 Controller-local + up to x5 Extension-local)** - Shared service board that
   performs local servo homing, one-shot request capture, and servo PWM generation.
-- **Reflector** — Mandatory end-of-chain turnaround board after the final rotor; provides the physical
+- **Reflector** - Mandatory end-of-chain turnaround board after the final rotor; provides the physical
   `ENC` return path and routes `TTD_RETURN` back to the Stator while the selected reflection map is
   applied by the Stator CPLD.
-- **Encoder Modules (×6)** — 1 `KBD_ENC`, 1 `LBD_DEC`, and 4 plugboard modules
+- **Encoder Modules (x6)** - 1 `KBD_ENC`, 1 `LBD_DEC`, and 4 plugboard modules
   (`PLG_PASS1_DEC`, `PLG_PASS1_ENC`, `PLG_PASS2_DEC`, `PLG_PASS2_ENC`). Connect to the Stator in
   three banks of two identical 20-pin IDC ports.
-- **JTAG Daughterboard** — USB Blaster II implementation for programming CPLDs.
+- **JTAG Daughterboard** - USB Blaster II implementation for programming CPLDs.
 
 ### Physical Chain
 
@@ -53,7 +53,7 @@ The Enigma-NG system comprises the following boards:
                 |                |
            Power Module     Stator + AM
                                  |
-                          J1–J3 Rotor 1
+                          J1-J3 Rotor 1
                                  -
                              Rotor 5
                                  |
@@ -87,9 +87,9 @@ The Controller ↔ Power Module dock uses three 10-position TE 2.5 mm board-to-b
 
 Functional allocation:
 
-- **J1:** `3 × 5V_MAIN`, `2 × 3V3_ENIG`, `5 × GND`
-- **J2:** `3 × VIN_POE_12V`, `7 × GND`
-- **J3:** `I2C_SDA`, `I2C_SCL`, `PM_IO_INT_N`, `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT`, `LED_PWR_N`, `3 × GND`
+- **J1:** `3 x 5V_MAIN`, `2 x 3V3_ENIG`, `5 x GND`
+- **J2:** `3 x VIN_POE_12V`, `7 x GND`
+- **J3:** `I2C_SDA`, `I2C_SCL`, `PM_IO_INT_N`, `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT`, `LED_PWR_N`, `3 x GND`
 
 **Reference datasheets:** [`TE-1-1674231-1-datasheet.md`](../Datasheets/TE-1-1674231-1-datasheet.md),
 [`TE-1123684-7-datasheet.md`](../Datasheets/TE-1123684-7-datasheet.md)
@@ -105,9 +105,9 @@ The Controller ↔ Stator dock uses two Molex EXTreme Guardian HD hybrid connect
 
 Functional allocation:
 
-- **J4 power blades:** `4 × 5V_MAIN`, `1 × GND`
+- **J4 power blades:** `4 x 5V_MAIN`, `1 x GND`
 - **J4 signal field:** additional `GND` returns / guards
-- **J5 power blades:** `4 × 3V3_ENIG`, `1 × GND`
+- **J5 power blades:** `4 x 3V3_ENIG`, `1 x GND`
 - **J5 signal field:** guarded `TCK`, `TMS`, `TDI`, `TTD_RETURN`, `I2C_SDA`, `I2C_SCL`, with all
   remaining signal contacts tied to `GND`
 
@@ -124,8 +124,8 @@ specification rates them at 4.5 A/contact.
 
 All rotor-stack interconnects remain on the Samtec Edge-Rate series 0.8 mm board-to-board connectors:
 
-- **ERM8** — male header (originating / input side of a connection)
-- **ERF8** — female socket (receiving / output side of a connection)
+- **ERM8** - male header (originating / input side of a connection)
+- **ERF8** - female socket (receiving / output side of a connection)
 
 These connectors are used only for the rotor / extension / reflector chain.
 
@@ -142,8 +142,8 @@ The Power Module produces two rails from three upstream sources:
 
 Generated rails:
 
-- **5V_MAIN** — Up to 12A; dual-phase interleaved `LMQ61460-Q1`
-- **3V3_ENIG** — Clean 3.3V; `TPS75733KTTRG3` LDO post-regulator
+- **5V_MAIN** - Up to 12A; dual-phase interleaved `LMQ61460-Q1`
+- **3V3_ENIG** - Clean 3.3V; `TPS75733KTTRG3` LDO post-regulator
 
 ### Grounding Rule
 
@@ -187,7 +187,7 @@ Controller J5
   -> Controller J5
 ```
 
-### TCK and TMS — Broadcast Signals
+### TCK and TMS - Broadcast Signals
 
 **TCK** and **TMS** are broadcast signals. They leave the Controller via the Stator `J5` logic dock
 and then propagate through the rotor chain in parallel.
@@ -195,7 +195,7 @@ and then propagate through the rotor chain in parallel.
 ### Extension Board Signal Buffering
 
 Every 5 rotors, an Extension board re-buffers **TCK** and **TMS** using a `74LVC2G125` dual-buffer IC
-(U1). **TTD is NOT buffered at Extensions** — it is a serial chain signal and must pass uninterrupted
+(U1). **TTD is NOT buffered at Extensions** - it is a serial chain signal and must pass uninterrupted
 through each CPLD.
 
 ### Signal Integrity

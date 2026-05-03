@@ -1,4 +1,4 @@
-# Rotor CPLD Logic Requirements — FDC2114 Configuration
+# Rotor CPLD Logic Requirements - FDC2114 Configuration
 
 **Status:** Draft
 **Project:** Enigma-NG
@@ -36,11 +36,11 @@ multi-channel devices (U2, and where populated U3/U4) receive the same baseline 
 
 | Register | Address | Value (hex) | Field / Setting | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| `DRIVE_CURRENT_CH0` | 0x1E | 0x7C00 | `IDRIVE = 0b01111`, `INIT_DRIVE = 0b0` | Baseline drive current — lab validate (**LT-001**) |
+| `DRIVE_CURRENT_CH0` | 0x1E | 0x7C00 | `IDRIVE = 0b01111`, `INIT_DRIVE = 0b0` | Baseline drive current - lab validate (**LT-001**) |
 | `DRIVE_CURRENT_CH1` | 0x1F | 0x7C00 | As above | All channels same baseline |
 | `DRIVE_CURRENT_CH2` | 0x20 | 0x7C00 | As above | All channels same baseline |
 | `DRIVE_CURRENT_CH3` | 0x21 | 0x7C00 | As above | All channels same baseline |
-| `MUX_CONFIG` | 0x1B | 0x020D | `DEGLITCH = 0b101` (10 MHz), `AUTOSCAN_EN = 1`, `RR_SEQUENCE = 0b01` (CH0–CH1) | Adjust `RR_SEQUENCE` per active channel count; deglitch lab validate (**LT-002**) |
+| `MUX_CONFIG` | 0x1B | 0x020D | `DEGLITCH = 0b101` (10 MHz), `AUTOSCAN_EN = 1`, `RR_SEQUENCE = 0b01` (CH0-CH1) | Adjust `RR_SEQUENCE` per active channel count; deglitch lab validate (**LT-002**) |
 | `CONFIG` | 0x1A | 0x1601 | `ACTIVE_CHAN = 0b00` (start CH0), `SLEEP_MODE_EN = 0`, `RP_OVERRIDE_EN = 0`, `SENSOR_ACTIVATE_SEL = 1` | Continuous conversion, internal oscillator active |
 | `RESET_DEV` | 0x1C | 0x8000 | Full device reset | Issue once on power-up before writing other registers |
 
@@ -56,7 +56,7 @@ internal oscillator (~43.35 MHz). Reasons for this choice:
 
 - Avoids external crystal BOM cost and PCB footprint on a space-constrained circular board.
 - Internal oscillator frequency is well above the ~6.5 MHz nominal resonant frequency of the
-  LC tank (18 µH + 33 pF), satisfying the >4× oversampling requirement.
+  LC tank (18 µH + 33 pF), satisfying the >4x oversampling requirement.
 - Absolute frequency accuracy of the conversion clock is not critical; relative change detection
   (presence/absence of aluminium shroud segment) is sufficient for Gray-code position decoding.
 - Confirmed viable by TI FDC2114 datasheet §8 (internal oscillator specification).
@@ -67,7 +67,7 @@ Design decision recorded in `design/Design_Log.md` as **DEC-044**.
 
 ## 3. J9 I²C Bus
 
-The J9 bus spans Board A and Board B via the 1×5 inner-face header pair (J9 [Board A] male,
+The J9 bus spans Board A and Board B via the 1x5 inner-face header pair (J9 [Board A] male,
 J9 [Board B] female). Pin 3 = SCL, Pin 4 = SDA (3.3V logic levels, pulled up via R6/R7 on Board A).
 I²C addresses: U2 = 0x2A, U3 = 0x2B (Board A, N=26 only), U4 = 0x2B (Board B, N=64 only).
 
@@ -78,13 +78,13 @@ I²C addresses: U2 = 0x2A, U3 = 0x2B (Board A, N=26 only), U4 = 0x2B (Board B, N
 
 1. On power-up, issue `RESET_DEV` (0x1C = 0x8000) to all FDC2114 devices.
 2. Write baseline register map (§2.1) to each populated device.
-3. Enter continuous polling loop: read `DATA_CH0_MSB`/`DATA_CH0_LSB` (addresses 0x00–0x07)
+3. Enter continuous polling loop: read `DATA_CH0_MSB`/`DATA_CH0_LSB` (addresses 0x00-0x07)
    for each active channel on each populated device.
 4. Decode raw conversion values to detect sensor threshold crossing (presence of Al shroud slot).
 5. Assemble Gray-coded bit vector and drive Encoder output lines.
 
 Threshold calibration values are stored in CPLD configuration (loaded via JTAG). Initial
-baseline values require lab bench validation — see `design/Procedures/Lab_Tests.md`.
+baseline values require lab bench validation - see `design/Procedures/Lab_Tests.md`.
 
 ---
 

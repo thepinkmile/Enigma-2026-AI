@@ -25,16 +25,16 @@
 | --- | --- |
 | Voltage Rating | 30V DC max |
 | **Current Rating** | **6A per contact** |
-| **Operating Temperature** | **−20°C to +80°C** |
-| Thermal shock qualification | −40°C / 30 min ↔ +85°C / 30 min × 5 cycles — passes (ΔR ≤ 20 mΩ) |
+| **Operating Temperature** | **-20°C to +80°C** |
+| Thermal shock qualification | -40°C / 30 min ↔ +85°C / 30 min x 5 cycles - passes (ΔR ≤ 20 mΩ) |
 | Temperature rise at rated current | 30°C max at 6A |
-| Contact resistance — initial | 30 mΩ max |
-| Contact resistance — ΔR after tests | 20 mΩ max |
+| Contact resistance - initial | 30 mΩ max |
+| Contact resistance - ΔR after tests | 20 mΩ max |
 | Dielectric withstanding voltage | 1 kVAC for 1 min; leakage ≤ 0.5 mA |
 | Insulation resistance | 1,000 MΩ min (initial); 100 MΩ min (after tests) |
 
-> **DEFSTAN temperature note:** The operating rating lower bound (−20°C) does not cover the
-> DEFSTAN design target (−40°C). The thermal shock test to −40°C is cited as supporting evidence.
+> **DEFSTAN temperature note:** The operating rating lower bound (-20°C) does not cover the
+> DEFSTAN design target (-40°C). The thermal shock test to -40°C is cited as supporting evidence.
 > See `Certification_Evidence.md §5.1` for the full exception record.
 
 ## Extraction Notes
@@ -83,7 +83,7 @@ D
 1.4
 32.7
 5
-2.5×10=25
+2.5x10=25
 ±0.
 0.8
 基板取付参考寸法
@@ -103,7 +103,7 @@ R1
 116742311の指位置
 MATERIAL
 ·HOUSING:6T NYLON、UL94V-O、BLACK
-0.2×45°
+0.2x45°
 1.5
 ·CONTACT:COPPER ALLOY
 2.5

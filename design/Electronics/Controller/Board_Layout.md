@@ -13,8 +13,8 @@
 
 The Controller is the fixed motherboard of the enclosure and carries both removable-board docks:
 
-- **J1 / J2 / J3** — three TE 10-position connectors to the Power Module
-- **J4 / J5** — two Molex EXTreme Guardian HD hybrid connectors to the Stator
+- **J1 / J2 / J3** - three TE 10-position connectors to the Power Module
+- **J4 / J5** - two Molex EXTreme Guardian HD hybrid connectors to the Stator
 
 ```text
 rear edge of Controller
@@ -27,13 +27,13 @@ rear edge of Controller
 
 ## 2. Controller ↔ Power Module Dock
 
-### 2.1 J1 — Main Regulated Rails
+### 2.1 J1 - Main Regulated Rails
 
 | Allocation | Notes |
 | :--- | :--- |
-| `3 × 5V_MAIN` | Primary regulated 5V feed from PM to Controller |
-| `2 × 3V3_ENIG` | Clean logic rail feed from PM to Controller |
-| `5 × GND` | Shared return path |
+| `3 x 5V_MAIN` | Primary regulated 5V feed from PM to Controller |
+| `2 x 3V3_ENIG` | Clean logic rail feed from PM to Controller |
+| `5 x GND` | Shared return path |
 
 **Connector family:** TE `1-1674231-1` (Controller receptacle) ↔ `1123684-7` (PM plug), 10 positions,
 2.5 mm pitch, 6 A/contact.
@@ -41,14 +41,14 @@ rear edge of Controller
 **Reference datasheets:** [`TE-1-1674231-1-datasheet.md`](../../Datasheets/TE-1-1674231-1-datasheet.md),
 [`TE-1123684-7-datasheet.md`](../../Datasheets/TE-1123684-7-datasheet.md)
 
-### 2.2 J2 — PoE Auxiliary Feed
+### 2.2 J2 - PoE Auxiliary Feed
 
 | Allocation | Notes |
 | :--- | :--- |
-| `3 × VIN_POE_12V` | Regulated PoE-derived 12V-class auxiliary feed from Controller PoE front-end into PM OR-ing stage |
-| `7 × GND` | Shared return path |
+| `3 x VIN_POE_12V` | Regulated PoE-derived 12V-class auxiliary feed from Controller PoE front-end into PM OR-ing stage |
+| `7 x GND` | Shared return path |
 
-### 2.3 J3 — Low-Speed Control / Telemetry
+### 2.3 J3 - Low-Speed Control / Telemetry
 
 | Signal | Direction | Notes |
 | :--- | :--- | :--- |
@@ -59,24 +59,24 @@ rear edge of Controller
 | `ROTOR_EN_N` | CTRL -> PM | Direct 3V3_ENIG LDO enable control |
 | `PWR_BUT` | PM -> CTRL | Direct CM5 PMIC power-button path |
 | `LED_PWR_N` | CTRL -> PM | Direct CM5 power-state indication for the SW2 hardware LED logic |
-| `3 × GND` | — | Guards / return path |
+| `3 x GND` | - | Guards / return path |
 
 ---
 
 ## 3. Controller ↔ Stator Dock
 
-### 3.1 J4 — 5V_MAIN-Biased Hybrid Dock
+### 3.1 J4 - 5V_MAIN-Biased Hybrid Dock
 
 | Contact group | Allocation |
 | :--- | :--- |
-| Power blades | `4 × 5V_MAIN`, `1 × GND` |
+| Power blades | `4 x 5V_MAIN`, `1 x GND` |
 | Signal field | additional `GND` guards / returns |
 
-### 3.2 J5 — 3V3_ENIG + JTAG / I2C Hybrid Dock
+### 3.2 J5 - 3V3_ENIG + JTAG / I2C Hybrid Dock
 
 | Contact group | Allocation |
 | :--- | :--- |
-| Power blades | `4 × 3V3_ENIG`, `1 × GND` |
+| Power blades | `4 x 3V3_ENIG`, `1 x GND` |
 | Signal field | guarded `TCK`, `TMS`, `TDI`, `TTD_RETURN`, `I2C_SDA`, `I2C_SCL`, remaining signal contacts = `GND` |
 
 **Connector family:** Molex `2195630015` receptacle on Controller ↔ `2195620015` plug on Stator.
@@ -131,12 +131,12 @@ The Controller is the only board that must be inserted as the enclosure referenc
 The Power Module and Stator then dock into it as mechanically independent service modules.
 
 For the shared **Actuation Module**, the Controller shall reserve the mounted-module shadow as a
-**no-component placement zone** except for J11, MH5–MH8, and the routing / copper needed to reach them.
+**no-component placement zone** except for J11, MH5-MH8, and the routing / copper needed to reach them.
 See **§6** for connector ownership, net-to-net mapping, standoff GND net, and PCB layout dependency.
 
 ---
 
-## 6. J11 — Actuation Module Host Dock
+## 6. J11 - Actuation Module Host Dock
 
 > **Connector Definition Owner:** `AM Design_Spec.md §3.1`.
 > This board provides the mating receptacle (J11). Full connector pinout is defined and owned by
@@ -151,11 +151,11 @@ See **§6** for connector ownership, net-to-net mapping, standoff GND net, and P
 >
 > `ACTUATE_REQUEST_N` is sourced from CM5 GPIO 8 as an active-low output pulse.
 >
-> **⚠ PCB Layout Dependency:** J11 and MH5–MH8 positions cannot be finalised until AM schematic
-> capture and PCB layout are complete. MH5–MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
+> **⚠ PCB Layout Dependency:** J11 and MH5-MH8 positions cannot be finalised until AM schematic
+> capture and PCB layout are complete. MH5-MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
 > connect to `GND`.
 
 - **J11:** Single 20-pin Hirose DF40HC(3.5)-20DS-0.4V(51) AM host socket (stacking height = 3.5mm).
   A silkscreen pin-1 marker is required on both the Controller and AM boards.
-- **MH5–MH8:** Four M2.5×3.5mm SMT standoffs (9774035151R); positions mirror `AM Design_Spec.md
-  DR-AM-03`; pads connected to `GND`; no-component placement zone (except J11, MH5–MH8, and routing).
+- **MH5-MH8:** Four M2.5x3.5mm SMT standoffs (9774035151R); positions mirror `AM Design_Spec.md
+  DR-AM-03`; pads connected to `GND`; no-component placement zone (except J11, MH5-MH8, and routing).

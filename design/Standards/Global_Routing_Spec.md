@@ -14,7 +14,7 @@
 * **Mitres:** Sharp 45/90-degree corners are strictly prohibited to ensure signal integrity and reduce EMI.
 * **Internal Layers:** 10 mil minimum width for signal traces on multi-layer boards.
   * **CI Exception:** Controlled-impedance traces targeting 50 Ω (per DEC-016) shall be routed at the
-    width calculated for the target stackup — typically **0.127 mm (5 mil)** on outer layers over a
+    width calculated for the target stackup - typically **0.127 mm (5 mil)** on outer layers over a
     contiguous GND plane (microstrip). This overrides the 10 mil minimum for CI-designated JTAG and
     differential signal nets only.
 * **Clearance:** 10 mil minimum spacing to reduce crosstalk and noise.
@@ -23,21 +23,21 @@
 ### 1.1 Trace Width Standards
 
 **Basis:** IPC-2221A, 2oz finished copper (system-wide per §2), 10°C rise, 25°C ambient.
-For 2oz external traces: ~0.15 mm per amp (calculated from IPC-2221A with A = w × 2.76 mil, k = 0.048).
-Internal signal traces: use 2.5× the external minimum width for equivalent thermal performance.
+For 2oz external traces: ~0.15 mm per amp (calculated from IPC-2221A with A = w x 2.76 mil, k = 0.048).
+Internal signal traces: use 2.5x the external minimum width for equivalent thermal performance.
 
-| Category | Current Range | Min Width — External (2oz) | Min Width — Internal (2oz) | Notes |
+| Category | Current Range | Min Width - External (2oz) | Min Width - Internal (2oz) | Notes |
 | :--- | :--- | :--- | :--- | :--- |
 | Signal / CI | < 0.5 A | 0.20 mm | 0.254 mm (10 mil); CI exception (DEC-016) applies to outer layers only | Logic, I2C, GPIO; JTAG/diff CI at 0.127 mm on outer layers per DEC-016 |
-| Low-power supply | 0.5 A – 1.0 A | 0.50 mm | 0.75 mm | 3V3 feeds to low-draw loads |
-| Medium supply | 1.0 A – 3.0 A | 0.50 mm – 1.00 mm | 1.00 mm – 2.00 mm | 12 V feeds |
+| Low-power supply | 0.5 A - 1.0 A | 0.50 mm | 0.75 mm | 3V3 feeds to low-draw loads |
+| Medium supply | 1.0 A - 3.0 A | 0.50 mm - 1.00 mm | 1.00 mm - 2.00 mm | 12 V feeds |
 | 3V3_ENIG (canonical) | ≤ 3.0 A | 0.80 mm (system-wide fixed) | copper pour (L3) | Fixed at 0.80 mm on ALL boards regardless of local load; inner L3 pour carries bus current. Any 3V3_ENIG surface trace below 0.80 mm is non-conformant. |
-| High-current | 3.0 A – 5.5 A | 1.00 mm – 1.50 mm | copper pour | 5 V/12 V power inputs, OR-ing rails |
+| High-current | 3.0 A - 5.5 A | 1.00 mm - 1.50 mm | copper pour | 5 V/12 V power inputs, OR-ing rails |
 | Very high current | > 5.5 A | 2.00 mm + copper pour | copper pour | 5V_MAIN bus; teardrops + 20 mil spokes mandatory per §2.1 |
 
 > * All power rails > 3 A: dedicated inner-layer copper pour mandatory in addition to surface traces.
 > * All GND returns: copper pour on dedicated inner layer(s); no GND path via single narrow trace.
-> * Widths above are minimums — wider is always preferred where board space allows.
+> * Widths above are minimums - wider is always preferred where board space allows.
 >
 ## 2. Manufacturing & Mask
 
@@ -72,13 +72,13 @@ Internal signal traces: use 2.5× the external minimum width for equivalent ther
 
 These rules apply to all boards in the Enigma-NG system unless a board's design spec explicitly documents an exemption.
 
-* **CPLD Decoupling Rule:** All Intel MAX II TQFP-100 CPLDs (EPM240T100I5N and EPM570T100I5N) require **8× 100nF (0.1µF) X7R** decoupling capacitors, one per VCC pin, placed within 2 mm of each pin.
-* **Bulk Entry Bank Rule:** All boards must place **5× 10µF X7R 25V (0805)** bulk decoupling
+* **CPLD Decoupling Rule:** All Intel MAX II TQFP-100 CPLDs (EPM240T100I5N and EPM570T100I5N) require **8x 100nF (0.1µF) X7R** decoupling capacitors, one per VCC pin, placed within 2 mm of each pin.
+* **Bulk Entry Bank Rule:** All boards must place **5x 10µF X7R 25V (0805)** bulk decoupling
   capacitors **per board, per power rail** (one 5-cap bank per distinct power rail present on the
   board), placed at the rail entry point in a **Symmetrical Star/Spoke pattern**.
   Standard part: Samsung CL21B106KAYQNNE (10µF ±10% X7R 25V 0805; Mouser 187-CL21B106KAYQNNE; DigiKey 1276-CL21B106KAYQNNECT-ND; JLCPCB C3039694).
-  Voltage derating: 25V ÷ 3.3V ≈ 7.6× (3V3\_ENIG) and 25V ÷ 5.0V = 5.0× (5V\_MAIN) — both exceed the mandatory 2× minimum.
-  * Exception: The JTAG Daughterboard is exempt from this rule — see `JTAG_Daughterboard/Design_Spec.md` DR-JDB-11.
+  Voltage derating: 25V ÷ 3.3V ≈ 7.6x (3V3\_ENIG) and 25V ÷ 5.0V = 5.0x (5V\_MAIN) - both exceed the mandatory 2x minimum.
+  * Exception: The JTAG Daughterboard is exempt from this rule - see `JTAG_Daughterboard/Design_Spec.md` DR-JDB-11.
 
 ### 3.1. Common RGB Sink-Stage Pattern
 
@@ -100,7 +100,7 @@ Every IC shall have a dedicated local 100nF X7R 50V 0402 bypass capacitor on its
 placed within 1mm of the IC on the same layer.
 
 * **Standard part:** Samsung CL05B104KB5NNNC (Mouser: 187-CL05B104KB5NNNC,
-  DigiKey: 1276-1009-1-ND, JLCPCB: C1525) — same as the RTC bypass capacitors in the Controller BOM.
+  DigiKey: 1276-1009-1-ND, JLCPCB: C1525) - same as the RTC bypass capacitors in the Controller BOM.
 * **Placement:** Within 1mm of the IC supply pin on the same layer; connect directly to the Vcc
   pad with the shortest possible trace before joining the power plane.
 * **Shared bypass:** Two adjacent ICs whose Vcc pins are ≤2mm apart may share one capacitor;
@@ -145,7 +145,7 @@ Every board design specification shall explicitly list its mounting holes (desig
 location). The BOM treatment depends on hole purpose:
 
 * **Plain chassis mounting holes** (board-to-enclosure): Use the KiCAD built-in `MountingHole`
-  footprint. These are physical PCB features only — no purchasable component exists and **no BOM
+  footprint. These are physical PCB features only - no purchasable component exists and **no BOM
   row shall be added** for them.
 * **Module attachment standoffs** (board-to-Module): Where a Module (e.g. CM5 = Compute Module 5,
   AM = Actuation Module) is mechanically secured to the host board, SMT standoff components are
@@ -176,7 +176,7 @@ defined on the Power Module only.**
   GND_CHASSIS. Multiple bond points create ground loops, which are a leading cause of common-mode
   radiated emissions and conducted susceptibility failures.
 * **Placement:** The single bond point must be located as close as possible to the incoming power
-  rails — at the boundary between the "dirty" (external/input) side and the "clean" (internal
+  rails - at the boundary between the "dirty" (external/input) side and the "clean" (internal
   signal) side of the system.
 * **Implementation:** A dedicated 0Ω link, copper bridge, or direct via connection at the defined
   bond point. Mark clearly on silkscreen and schematic.
@@ -217,7 +217,7 @@ To maintain a unified "Museum-Grade" look, every board must feature the V1.0 Dat
   panel-accessible connectors) must be protected with an appropriate TVS/ESD suppressor. The specific device, protected nets, working
   voltage, package, and MPN shall be documented in the owning board design specification.
 * **Hot-swappable / service-accessible connectors:** Board-to-board connectors on assemblies that are inserted or removed during
-  servicing while the system may be powered (e.g., Rotor ERM8/ERF8 connectors for rotor hot-swap — see DEC-045) are treated as
+  servicing while the system may be powered (e.g., Rotor ERM8/ERF8 connectors for rotor hot-swap - see DEC-045) are treated as
   equivalent to external connectors and **must** be protected with an appropriate TVS/ESD suppressor. The specific device, protected
   nets, working voltage, package, and MPN shall be documented in the owning board design specification.
 * **Internal connectors:** Board-to-board connectors (Samtec ERM8/ERF8 BtB stacks **used in a non-hot-swappable context**), inter-board ribbon and harness connectors
@@ -225,7 +225,7 @@ To maintain a unified "Museum-Grade" look, every board must feature the V1.0 Dat
   whose mating occurs exclusively inside the closed enclosure during normal operation do **not** require TVS/ESD protection. Internal signal integrity relies
   on enclosure shielding and the system GND plane.
 * **Do not add UNSOURCED ESD placeholders for internal-only boards.** Boards that carry only internal connectors shall state "No
-  TVS/ESD protection required — all connectors are internal to the enclosure, per `Global_Routing_Spec.md §9`" in their Thermal &
+  TVS/ESD protection required - all connectors are internal to the enclosure, per `Global_Routing_Spec.md §9`" in their Thermal &
   ESD section.
 
 ## 10. Vendor Pin Name Mapping

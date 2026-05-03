@@ -1,4 +1,4 @@
-﻿# Enigma-NG Design Decision Log
+# Enigma-NG Design Decision Log
 
 **Status:** Active
 **Project:** Enigma-NG
@@ -14,9 +14,9 @@ Entries are numbered sequentially as **DEC-NNN**. Where a decision supersedes a 
 
 ---
 
-## DEC-001 — 3V3_ENIG Used Throughout; 3V3_SYSTEM Removed from BtB Interconnect
+## DEC-001 - 3V3_ENIG Used Throughout; 3V3_SYSTEM Removed from BtB Interconnect
 
-- **Status:** Obsolete — superseded by DEC-037
+- **Status:** Obsolete - superseded by DEC-037
 - **Date:** 2025
 - **Category:** Electrical
 - **Area:** Power Module, Controller Board, Link-Alpha connector
@@ -33,7 +33,7 @@ I2C pull-ups, BATT_PRES_N pull-up, reset pull-up) is powered by `3V3_ENIG`, gene
   dependency and complicate sequencing.
 
 - Generating `3V3_ENIG` locally on the Power Module gives a clean, independently-controlled 3.3V supply that is always present when the Power Module is powered, regardless of CM5 boot state.
-- Removing `3V3_SYSTEM` from the Link-Alpha connector freed pins 21–24, which were reallocated to extend the 5V_MAIN delivery cluster and GND return path.
+- Removing `3V3_SYSTEM` from the Link-Alpha connector freed pins 21-24, which were reallocated to extend the 5V_MAIN delivery cluster and GND return path.
 
 ### Alternatives Considered
 
@@ -42,14 +42,14 @@ I2C pull-ups, BATT_PRES_N pull-up, reset pull-up) is powered by `3V3_ENIG`, gene
 
 ### Impact
 
-- Pins 21–22: Reassigned from 3V3_SYSTEM → **5V_MAIN** (supplemental power pins)
-- Pins 23–24: Reassigned from 3V3_SYSTEM → **GND** (supplemental return path)
-- Combined 5V_MAIN capacity: 18 pins × 0.5A = **9A** (was 16 pins = 8A)
+- Pins 21-22: Reassigned from 3V3_SYSTEM → **5V_MAIN** (supplemental power pins)
+- Pins 23-24: Reassigned from 3V3_SYSTEM → **GND** (supplemental return path)
+- Combined 5V_MAIN capacity: 18 pins x 0.5A = **9A** (was 16 pins = 8A)
 - Legacy Controller probe-access concept Pin 14: Reassigned from 3V3_SYSTEM → **SW_LED_CTRL (GPIO 20)** (subsequently updated; see DEC-009)
 
 ---
 
-## DEC-002 — PoE Option A2 Selected: Coilcraft POE600F-12LD
+## DEC-002 - PoE Option A2 Selected: Coilcraft POE600F-12LD
 
 - **Status:** Decided
 - **Date:** 2025
@@ -63,15 +63,15 @@ The PoE transformer T2 uses a **Coilcraft POE600F-12LD** off-the-shelf ACF trans
 
 ### Rationale
 
-- Replaces a custom-wound transformer design (Option A: 15V, 8–16 week lead time, ~£35–46 BOM) with a catalogue part available from Coilcraft Direct.
+- Replaces a custom-wound transformer design (Option A: 15V, 8-16 week lead time, ~£35-46 BOM) with a catalogue part available from Coilcraft Direct.
 - Off-the-shelf: **£3.54 qty-1, ~£1.86 volume**, in stock. Lead time: days not weeks.
-- Same ACF topology as the custom design — only feedback resistors change. No PCB layout changes to high-current paths.
-- 12V output falls within the TPS25980 eFuse UVLO/OVLO window (11V – 16.9V) with no additional buck stage needed.
+- Same ACF topology as the custom design - only feedback resistors change. No PCB layout changes to high-current paths.
+- 12V output falls within the TPS25980 eFuse UVLO/OVLO window (11V - 16.9V) with no additional buck stage needed.
 
 ### Alternatives Considered
 
 - **Option A (Custom T2, 15V):** Higher voltage headroom. Rejected: custom winding, long lead time, cost.
-- **Option C (Silvertel Ag59812-LPB integrated module):** Higher integration, 95% efficiency, ~£19–27. Rejected: higher cost, fixed form factor, less flexibility for thermal management, vendor
+- **Option C (Silvertel Ag59812-LPB integrated module):** Higher integration, 95% efficiency, ~£19-27. Rejected: higher cost, fixed form factor, less flexibility for thermal management, vendor
 
   lock-in.
 
@@ -91,7 +91,7 @@ The PoE transformer T2 uses a **Coilcraft POE600F-12LD** off-the-shelf ACF trans
 
 ---
 
-## DEC-003 — PoE Output 12V; OR-ing Priority Logic Required
+## DEC-003 - PoE Output 12V; OR-ing Priority Logic Required
 
 - **Status:** Decided
 - **Date:** 2025
@@ -111,12 +111,12 @@ drives the LM74700-Q1 gate control low when PoE is live, disabling the USB-C pat
 
 ### Constraints
 
-- PoE UVLO: 11V. eFuse UVLO: 11V. No margin at UVLO floor — PoE cable must be within 1V drop budget.
-- eFuse ILIM utilisation at 12V worst case: 4.67A / 7A = **66.7%** ✓ (within 75% derating target).
+- PoE UVLO: 11V. eFuse UVLO: 11V. No margin at UVLO floor - PoE cable must be within 1V drop budget.
+- eFuse ILIM utilisation at 12V worst case: 4.67A / 7A = **66.7%** ✔ (within 75% derating target).
 
 ---
 
-## DEC-004 — Supercap Charge Current 0.5A Under PoE
+## DEC-004 - Supercap Charge Current 0.5A Under PoE
 
 - **Status:** Superseded by DEC-029 (cell specification updated; 0.5A charge current constraint retained)
 - **Date:** 2025
@@ -126,22 +126,22 @@ drives the LM74700-Q1 gate control low when PoE is live, disabling the USB-C pat
 ### Decision
 
 When running on PoE (802.3bt Type 4, 72W budget), the supercap charge current is reduced to **0.5A** (vs. up to 2A on USB-C/Battery).
-This limits peak PoE utilisation to 73.9% (53.2W / 72W) — within the 75% design rule ✓ (see Certification_Evidence §3.5).
+This limits peak PoE utilisation to 73.9% (53.2W / 72W) - within the 75% design rule ✔ (see Certification_Evidence §3.5).
 
 ### Rationale
 
 - Full 2A supercap charging on PoE would push utilisation to ~98%, leaving <2W margin for transient loads.
-- 0.5A charge current charges the **8× 25F** supercap bank (2S4P, 50F total — Abracon ADCR-T02R7SA256MB) in approximately 9 minutes from depleted.
-- Normal system usage is expected to exceed 30–45 minutes per session (startup + configuration + use), making a 2-minute charge time acceptable.
+- 0.5A charge current charges the **8x 25F** supercap bank (2S4P, 50F total - Abracon ADCR-T02R7SA256MB) in approximately 9 minutes from depleted.
+- Normal system usage is expected to exceed 30-45 minutes per session (startup + configuration + use), making a 2-minute charge time acceptable.
 - This limitation should be documented in the User Manual with guidance that maximum system load is not recommended during the initial PoE power-up window.
 
 ### Constraints
 
-- Steady-state PoE load (after caps charged): 50.3W / 72W = **69.9%** utilisation ✓
+- Steady-state PoE load (after caps charged): 50.3W / 72W = **69.9%** utilisation ✔
 
 ---
 
-## DEC-005 — TPS25980 eFuse Replaces TPS259474L
+## DEC-005 - TPS25980 eFuse Replaces TPS259474L
 
 - **Status:** Decided
 - **Date:** 2025
@@ -154,31 +154,31 @@ The input eFuse uses a **TPS25980** (7A ILIM, silicon-fixed 16.9V OVLO) rather t
 
 ### Rationale
 
-- TPS259474L 5.5A limit is insufficient for worst-case USB-C 15V path at 75W: 75W / 15V = 5.0A + 10% derating = 5.5A — already at the device limit with no headroom.
+- TPS259474L 5.5A limit is insufficient for worst-case USB-C 15V path at 75W: 75W / 15V = 5.0A + 10% derating = 5.5A - already at the device limit with no headroom.
 - TPS25980 (TPS259804ONRGER) provides 7A ILIM (programmed via R3 = 210 Ω) and silicon-fixed 16.9V OVLO, which neatly caps the battery charge voltage window.
 
 ### OVLO Constraint
 
-- eFuse OVLO is **16.9V silicon-fixed** (TPS259804ONRGER — no external programming resistor).
+- eFuse OVLO is **16.9V silicon-fixed** (TPS259804ONRGER - no external programming resistor).
 - BMS must be configured for **4.1V/cell maximum charge (16.4V for 4S)** to maintain a ≥0.5V margin.
 - BMS configurations using 4.2V/cell (16.8V) are not compatible with this eFuse and must not be used.
 
-### ⚠️ Variant Lock — Do NOT change this MPN
+### ⚠️ Variant Lock - Do NOT change this MPN
 
 The TPS25980 family uses a digit after `TPS25980` to select the OVLO behaviour:
 
 | Variant | OVLO | Status |
 | --- | --- | --- |
-| **TPS259804ONRGER** | **16.9V silicon-fixed** | ✅ **CORRECT — use this** |
-| TPS259807 | No OVLO feature | ❌ WRONG — do not use |
-| TPS259803 | No OVLO feature | ❌ WRONG — do not use |
+| **TPS259804ONRGER** | **16.9V silicon-fixed** | ✔ **CORRECT - use this** |
+| TPS259807 | No OVLO feature | ❌ WRONG - do not use |
+| TPS259803 | No OVLO feature | ❌ WRONG - do not use |
 
 This variant has been erroneously swapped to TPS259807 in previous review rounds.
 The `04` digit must not be changed without explicit documented justification.
 
 ---
 
-## DEC-006 — STUSB4500 Negotiates 15V/5A (75W)
+## DEC-006 - STUSB4500 Negotiates 15V/5A (75W)
 
 - **Status:** Decided
 - **Date:** 2025
@@ -197,7 +197,7 @@ The STUSB4500 standalone PD sink is programmed to negotiate **15V/5A (75W)** fro
 
 ---
 
-## DEC-007 — Dual Interleaved LMQ61460-Q1 5V Buck (12A)
+## DEC-007 - Dual Interleaved LMQ61460-Q1 5V Buck (12A)
 
 - **Status:** Decided
 - **Date:** 2025
@@ -216,9 +216,9 @@ Two **LMQ61460-Q1** buck regulators are used in a **dual interleaved** configura
 
 ---
 
-## DEC-008 — TPS25750 Emulates 5V/5A PD Profile to CM5
+## DEC-008 - TPS25750 Emulates 5V/5A PD Profile to CM5
 
-> ⚠️ **Superseded by DEC-012** — TPS25750 replaced with TPS25751DREFR. See DEC-012.
+> ⚠️ **Superseded by DEC-012** - TPS25750 replaced with TPS25751DREFR. See DEC-012.
 
 - **Status:** Superseded by DEC-012
 - **Date:** 2025
@@ -236,7 +236,7 @@ The TPS25750 PD emulator advertises a **5V/5A** profile to the CM5 internal USB-
 
 ---
 
-## DEC-009 — Legacy Controller Probe-Access Pin 14 Reassigned to SW_LED_CTRL
+## DEC-009 - Legacy Controller Probe-Access Pin 14 Reassigned to SW_LED_CTRL
 
 - **Status:** Decided
 - **Date:** 2025 (GND); superseded by final design (SW_LED_CTRL)
@@ -261,15 +261,15 @@ bring-up probe point.
 ### Rationale
 
 - `3V3_SYSTEM` is no longer available at the Power Module side of this debug header.
-- `SW_LED_CTRL` is a useful bring-up observation point — it shows whether the CM5 has taken control
+- `SW_LED_CTRL` is a useful bring-up observation point - it shows whether the CM5 has taken control
   of the RGB LED from the hardware oscillator fallback path.
-- GND is freely available on pins 19–20; a redundant GND at pin 14 added no diagnostic value.
+- GND is freely available on pins 19-20; a redundant GND at pin 14 added no diagnostic value.
 
 ---
 
-## DEC-010 — INC-14 DEFERRED: Legacy Probe-Access ESD Protection (Post-Prototype)
+## DEC-010 - INC-14 DEFERRED: Legacy Probe-Access ESD Protection (Post-Prototype)
 
-- **Status:** Deferred — Accepted risk for prototype stage
+- **Status:** Deferred - Accepted risk for prototype stage
 - **Date:** 2025
 - **Category:** Electrical
 - **Area:** Historical Controller bring-up probe-access concept
@@ -301,16 +301,16 @@ No TVS diodes or series resistors are added to those bring-up-only signals at th
 
 ---
 
-## DEC-011 — All Power Rails on Power Module; 3V3_ENIG Serves Rotor Stack
+## DEC-011 - All Power Rails on Power Module; 3V3_ENIG Serves Rotor Stack
 
-- **Status:** ✅ RESOLVED
+- **Status:** ✔ RESOLVED
 - **Date:** 2025
 - **Category:** Electrical
 - **Area:** Power Module islands, Controller Board routing, rotor stack power source
 
 ### Decision
 
-All power rails are generated on the **Power Module**. The Controller Board's role is purely to **route** power rails onward to downstream boards — it does not generate any rails itself. The rotor
+All power rails are generated on the **Power Module**. The Controller Board's role is purely to **route** power rails onward to downstream boards - it does not generate any rails itself. The rotor
 stack is powered by the existing **3V3_ENIG** rail (TPS75733KTTRG3 LDO, 3A). There is no separate Rotor Buck; the erroneous "3.3V/5A Rotor Buck" specification was a confusion with the 5V/5A CM5 rail and
 has been removed.
 
@@ -322,7 +322,7 @@ has been removed.
 - 3V3_ENIG (3A) covers all 3.3V consumers: CPLDs, USB-JTAG, I2C logic, control signals, and the rotor stack.
 - Settings Board RGB indicators are powered from 5V_MAIN via the Stator/Settings 6-pin harness; only
   their control logic remains on 3V3_ENIG.
-- ROTOR_EN (CM5 GPIO 16) enables/disables the 3V3_ENIG LDO for sequenced rotor power-up — a control signal only.
+- ROTOR_EN (CM5 GPIO 16) enables/disables the 3V3_ENIG LDO for sequenced rotor power-up - a control signal only.
 
 ### Architectural Rule (permanent)
 
@@ -343,21 +343,21 @@ has been removed.
 
 ---
 
-## DEC-012 — U4 TPS25750 Replaced with TPS25751DREFR (NRND Resolution)
+## DEC-012 - U4 TPS25750 Replaced with TPS25751DREFR (NRND Resolution)
 
-- **Status:** ✅ RESOLVED
+- **Status:** ✔ RESOLVED
 - **Date:** 2026-04-03
 - **Category:** Electrical
 - **Area:** Power Module U4, schematic, PCB footprint
 
 ### Decision
 
-Replace **TPS25750** (NRND — Not Recommended for New Designs) with **TPS25751DREFR** (PD3.1 certified DRP controller, WQFN-38 6×4mm).
+Replace **TPS25750** (NRND - Not Recommended for New Designs) with **TPS25751DREFR** (PD3.1 certified DRP controller, WQFN-38 6x4mm).
 
 ### Rationale
 
 - PD emulation for U4 is required: the Raspberry Pi CM5 must negotiate a 5V/5A (25W) contract from the USB-C PD source to prevent the OS from issuing under-voltage warnings and throttling the system.
-- The TPS25751D variant includes the integrated 20V/5A bi-directional power path and a 5V/3A source switch in one package — appropriate for DRP operation that can advertise and deliver the 5V/5A
+- The TPS25751D variant includes the integrated 20V/5A bi-directional power path and a 5V/3A source switch in one package - appropriate for DRP operation that can advertise and deliver the 5V/5A
 
   profile to the CM5.
 
@@ -366,39 +366,39 @@ Replace **TPS25750** (NRND — Not Recommended for New Designs) with **TPS25751D
 
 ### Impact
 
-- **Package**: TPS25750 was QFN-28; TPS25751DREFR is WQFN-38 6×4mm. KiCad symbol and footprint to be created when schematic capture begins.
+- **Package**: TPS25750 was QFN-28; TPS25751DREFR is WQFN-38 6x4mm. KiCad symbol and footprint to be created when schematic capture begins.
 - Mouser: `595-TPS25751DREFR`; DigiKey: `296-TPS25751DREFRCT-ND`; JLCPCB: `C30169739`.
 
 ---
 
-## DEC-013 — L3 EMI Inductor Changed to Bourns SRP1265A-100M
+## DEC-013 - L3 EMI Inductor Changed to Bourns SRP1265A-100M
 
-- **Status:** ✅ RESOLVED
+- **Status:** ✔ RESOLVED
 - **Date:** 2026-04-03
 - **Category:** Electrical
 - **Area:** Power Module L3, PCB footprint
 
 ### Decision
 
-Replace **Würth 7447789100** with **Bourns SRP1265A-100M** as L3 (EMI DM Pi-filter inductor).
+Replace **Wurth 7447789100** with **Bourns SRP1265A-100M** as L3 (EMI DM Pi-filter inductor).
 
 ### Rationale
 
-- Würth 7447789100 is not available in any public distributor catalog (not found at DigiKey, Mouser, Farnell, or on the Würth public website). Sourcing without a Würth rep contact is not feasible.
+- Wurth 7447789100 is not available in any public distributor catalog (not found at DigiKey, Mouser, Farnell, or on the Wurth public website). Sourcing without a Wurth rep contact is not feasible.
 - Bourns SRP1265A-100M is a direct functional equivalent: 10µH, **15.5A Isat** (exceeds 14.5A target with 21% headroom), DCR=16.5mΩ max (better than the original 20mΩ spec), shielded molded SMD.
 - Widely stocked: Farnell ~2,741 pcs; Mouser (`652-SRP1265A-100M`); DigiKey (`SRP1265A-100MCT-ND`).
 
 ### Impact
 
-- ⚠️ **Package footprint change**: SRP1265A-100M is 13.5×12.5×6.2mm vs 7447789100's 12.5×12.5×6.0mm. PCB land pattern for L3 must use the Bourns 13.5×12.5mm footprint. Clearance to adjacent
+- ⚠️ **Package footprint change**: SRP1265A-100M is 13.5x12.5x6.2mm vs 7447789100's 12.5x12.5x6.0mm. PCB land pattern for L3 must use the Bourns 13.5x12.5mm footprint. Clearance to adjacent
 
   components should be checked during layout.
 
 ---
 
-## DEC-014 — Controller Board Uses ERF8 (Female) on Both BtB Connectors for Blind-Mate Assembly
+## DEC-014 - Controller Board Uses ERF8 (Female) on Both BtB Connectors for Blind-Mate Assembly
 
-- **Status:** ✅ RESOLVED
+- **Status:** ✔ RESOLVED
 - **Date:** 2026-04-04
 - **Category:** Electrical
 - **Area:** Controller J1 (Link-Alpha), Controller J2 (Link-Beta), Consolidated BOM connector inventory
@@ -410,8 +410,8 @@ The mating male plugs are fitted to the Power Module (J1, ERM8-040) and the Stat
 
 ### Rationale
 
-During mechanical assembly, the Controller Board slides into the enclosure and must simultaneously engage with two boards along its back edge
-— the Power Module (J1) to one side and the Stator (J2) to the other.
+During mechanical assembly, the Controller Board slides into the enclosure and must simultaneously engage
+with two boards along its back edge - the Power Module (J1) to one side and the Stator (J2) to the other.
 Using female sockets on the Controller allows guided blind-mate engagement in a single insertion motion,
 with the mating male pins on the peripheral boards providing positive alignment.
 Placing male headers on the Controller would require both peripheral boards to be precisely pre-positioned before the Controller could be inserted,
@@ -430,13 +430,13 @@ significantly complicating assembly.
 
 - Controller BOM J2 updated from ERM8 (male) to ERF8 (female); JLCPCB C-number to be verified.
 - Controller §2 narrative updated to reflect ERF8 on Link-Beta.
-- No electrical impact — connector is signal-transparent; pin assignments unchanged.
+- No electrical impact - connector is signal-transparent; pin assignments unchanged.
 
 ---
 
-## DEC-015 — LINK-BETA Connector Reduced from 80-pin to 40-pin (ERF8-020 / ERM8-020)
+## DEC-015 - LINK-BETA Connector Reduced from 80-pin to 40-pin (ERF8-020 / ERM8-020)
 
-- **Status:** ✅ RESOLVED
+- **Status:** ✔ RESOLVED
 - **Date:** 2026-04-04
 - **Category:** Electrical
 - **Area:** Controller Board (J2), Stator Board (J8), Consolidated BOM
@@ -450,49 +450,49 @@ post-reduction allocation; the current active allocation is defined by **DEC-037
 
 | Pin | Signal | Direction | Notes |
 | :--- | :--- | :--- | :--- |
-| 1 | GND | — | JTAG leading shield |
+| 1 | GND | - | JTAG leading shield |
 | 2 | TCK | CTRL→Stator | JTAG clock |
-| 3 | GND | — | TCK/TMS inter-pin shield |
+| 3 | GND | - | TCK/TMS inter-pin shield |
 | 4 | TMS | CTRL→Stator | JTAG mode select |
-| 5 | GND | — | TMS/TDI inter-pin shield |
+| 5 | GND | - | TMS/TDI inter-pin shield |
 | 6 | TDI | CTRL→Stator | JTAG data in |
-| 7 | GND | — | TDI/SPARE inter-pin shield |
-| 8 | SPARE | — | Freed by DEC-031 (was SYS_RESET_N — migrated to I²C U7 GPA[7] @ 0x21) |
-| 9 | GND | — | JTAG trailing shield |
-| 10 | GND | — | Isolation moat pin 1 |
-| 11 | GND | — | Isolation moat pin 2 |
-| 12 | SPARE | — | Freed by DEC-031 (was ENC_IN[0] — migrated to I²C U6 @ 0x20) |
-| 13 | SPARE | — | Freed by DEC-031 (was ENC_IN[1]) |
-| 14 | SPARE | — | Freed by DEC-031 (was ENC_IN[2]) |
-| 15 | SPARE | — | Freed by DEC-031 (was ENC_IN[3]) |
-| 16 | SPARE | — | Freed by DEC-031 (was ENC_IN[4]) |
-| 17 | SPARE | — | Freed by DEC-031 (was ENC_IN[5]) |
-| 18 | GND | — | Inter-group shield |
-| 19 | SPARE | — | Freed by DEC-031 (was ENC_OUT[0] — migrated to I²C U6 @ 0x20) |
-| 20 | SPARE | — | Freed by DEC-031 (was ENC_OUT[1]) |
-| 21 | SPARE | — | Freed by DEC-031 (was ENC_OUT[2]) |
-| 22 | SPARE | — | Freed by DEC-031 (was ENC_OUT[3]) |
-| 23 | SPARE | — | Freed by DEC-031 (was ENC_OUT[4]) |
-| 24 | SPARE | — | Freed by DEC-031 (was ENC_OUT[5]) |
-| 25 | GND | — | ENC_OUT / TTD_RETURN shield |
+| 7 | GND | - | TDI/SPARE inter-pin shield |
+| 8 | SPARE | - | Freed by DEC-031 (was SYS_RESET_N - migrated to I²C U7 GPA[7] @ 0x21) |
+| 9 | GND | - | JTAG trailing shield |
+| 10 | GND | - | Isolation moat pin 1 |
+| 11 | GND | - | Isolation moat pin 2 |
+| 12 | SPARE | - | Freed by DEC-031 (was ENC_IN[0] - migrated to I²C U6 @ 0x20) |
+| 13 | SPARE | - | Freed by DEC-031 (was ENC_IN[1]) |
+| 14 | SPARE | - | Freed by DEC-031 (was ENC_IN[2]) |
+| 15 | SPARE | - | Freed by DEC-031 (was ENC_IN[3]) |
+| 16 | SPARE | - | Freed by DEC-031 (was ENC_IN[4]) |
+| 17 | SPARE | - | Freed by DEC-031 (was ENC_IN[5]) |
+| 18 | GND | - | Inter-group shield |
+| 19 | SPARE | - | Freed by DEC-031 (was ENC_OUT[0] - migrated to I²C U6 @ 0x20) |
+| 20 | SPARE | - | Freed by DEC-031 (was ENC_OUT[1]) |
+| 21 | SPARE | - | Freed by DEC-031 (was ENC_OUT[2]) |
+| 22 | SPARE | - | Freed by DEC-031 (was ENC_OUT[3]) |
+| 23 | SPARE | - | Freed by DEC-031 (was ENC_OUT[4]) |
+| 24 | SPARE | - | Freed by DEC-031 (was ENC_OUT[5]) |
+| 25 | GND | - | ENC_OUT / TTD_RETURN shield |
 | 26 | TTD_RETURN | Stator→CTRL | JTAG TDO short-path return (bypasses rotor stack) |
-| 27 | GND | — | TTD_RETURN shield |
-| 28–35 | 3V3_ENIG | PM→Stator | Power pass-through from Link-Alpha; 8 pins × 0.5A = 4.0A |
-| 36–40 | GND | — | Power return (5 pins) |
+| 27 | GND | - | TTD_RETURN shield |
+| 28-35 | 3V3_ENIG | PM→Stator | Power pass-through from Link-Alpha; 8 pins x 0.5A = 4.0A |
+| 36-40 | GND | - | Power return (5 pins) |
 
 ### Rationale
 
-Logic boards downstream of the Stator (Encoder, Reflector, Extension) are 3V3-only — they require
+Logic boards downstream of the Stator (Encoder, Reflector, Extension) are 3V3-only - they require
 no 5V_MAIN rail. Removing 5V_MAIN from LINK-BETA and rationalising the signal set results in exactly
 40 signals. The JTAG block has 5 internal GND shield pins (self-shielded at low-moderate MHz), so only
-a 2-pin GND moat is needed between JTAG and the data zone. 8 × 3V3_ENIG pins deliver 4.0A — adequate
+a 2-pin GND moat is needed between JTAG and the data zone. 8 x 3V3_ENIG pins deliver 4.0A - adequate
 for the worst-case 30-rotor stack (2.11 A per Power_Budgets.md). 5 GND return pins plus the 10 other GND pins throughout the
 connector provide adequate return paths.
 
 ### Poka-Yoke Safety Note
 
 The 80-pin LINK-ALPHA (ERF8-040) and 40-pin LINK-BETA (ERF8-020) on the Controller Board are
-**physically incompatible** — the mating connectors cannot be inserted into the wrong socket. This
+**physically incompatible** - the mating connectors cannot be inserted into the wrong socket. This
 provides a mechanical safeguard against mismating during prototype bring-up.
 
 ### Alternatives Considered
@@ -509,14 +509,14 @@ connector on the Stator increases stack height with no benefit.
 ### Cross-ref
 
 DEC-014 (gender assignment rationale remains valid; part numbers updated). DEC-031
-(pins 8, 12–17, and 19–24 freed — SYS_RESET_N and ENC_IN/OUT migrated to I²C).
+(pins 8, 12-17, and 19-24 freed - SYS_RESET_N and ENC_IN/OUT migrated to I²C).
 DEC-036 (freed monitor block reallocated into grouped 5V_MAIN / 3V3_ENIG / GND rails).
 
 ---
 
-## DEC-016 — JTAG Controlled Impedance and Series Termination
+## DEC-016 - JTAG Controlled Impedance and Series Termination
 
-- **Status:** ✅ ADOPTED
+- **Status:** ✔ ADOPTED
 - **Date:** 2026-04-05
 - **Category:** Electrical
 - **Area:** Controller Board, Stator Board, Encoder Board, Reflector Board (noted), Extension Board (noted)
@@ -541,24 +541,24 @@ See `design/Electronics/Investigations/JTAG_Integrity.md`.
 
 | Board | Refs | Value | Purpose |
 | :--- | :--- | :--- | :--- |
-| Controller | R4, R5, R6 | 33 Ω 0603 | ~~TCK / TMS / TDI series R after 74LVC2G125 buffer, before LINK-BETA~~ **Moved to JDB — see DEC-024** |
-| Stator | R7–R9 | 75 Ω 0603 | TCK → J4 / J5 / J6 encoder port outputs |
-| Stator | R10–R12 | 75 Ω 0603 | TMS → J4 / J5 / J6 encoder port outputs |
-| Stator | R13–R15 | 75 Ω 0603 | TDI chain drive: Stator CPLD TDO→J4, J4 return→J5, J5 return→J6 |
+| Controller | R4, R5, R6 | 33 Ω 0603 | ~~TCK / TMS / TDI series R after 74LVC2G125 buffer, before LINK-BETA~~ **Moved to JDB - see DEC-024** |
+| Stator | R7-R9 | 75 Ω 0603 | TCK → J4 / J5 / J6 encoder port outputs |
+| Stator | R10-R12 | 75 Ω 0603 | TMS → J4 / J5 / J6 encoder port outputs |
+| Stator | R13-R15 | 75 Ω 0603 | TDI chain drive: Stator CPLD TDO→J4, J4 return→J5, J5 return→J6 |
 | Encoder | R7 | 33 Ω 0402 | CPLD1 TDO → CPLD2 TDI (intra-board, match 50 Ω PCB trace) |
 | Encoder | R8 | 75 Ω 0402 | CPLD2 TDO → J2 connector (ribbon cable drive back to Stator) |
-| JDB | R6, R7, R8 | 33 Ω 0402 | TCK / TMS (after U5 buffer) / TDI series damping — before J2 JTAG header |
+| JDB | R6, R7, R8 | 33 Ω 0402 | TCK / TMS (after U5 buffer) / TDI series damping - before J2 JTAG header |
 
 > **Update (detailed design):** U5 (SN74LVC2G125DCUR buffer) and series damping resistors relocated
 > from Controller to JDB during detailed design. LINK-BETA is confirmed as a direct Board-to-Board
 > connector (no cable), so 33 Ω series damping applies throughout (not 75 Ω cable-driving rule).
-> Controller JTAG lines (TCK, TMS, TDI, TTD_RETURN, VREF) are pass-through — routed directly from
+> Controller JTAG lines (TCK, TMS, TDI, TTD_RETURN, VREF) are pass-through - routed directly from
 > JDB hat-header to LINK-BETA without active components. See DEC-024.
 
 **Trace width rule added to all 4-layer and 6-layer boards:** 0.127 mm (5 mil) for all JTAG signal
 traces on outer layers over a GND plane.
 
-**2-layer boards (Reflector, Extension):** Controlled impedance not practical — 50 Ω would require
+**2-layer boards (Reflector, Extension):** Controlled impedance not practical - 50 Ω would require
 a 2.82 mm trace (see `design/Electronics/Investigations/JTAG_Integrity.md §4`). Series termination at cable-driving ends of adjacent
 boards provides sufficient protection. Existing Reflector R1 (22 Ω) retained as end-of-chain damping.
 
@@ -569,16 +569,16 @@ boards provides sufficient protection. Existing Reflector R1 (22 Ω) retained as
 ### Rationale
 
 Achieving 100 Ω PCB traces (to perfectly match the IDC ribbon cable impedance) is physically
-impossible on JLCPCB standard 4-layer/6-layer stackups — the required trace width is negative
+impossible on JLCPCB standard 4-layer/6-layer stackups - the required trace width is negative
 (see calculation in `design/Electronics/Investigations/JTAG_Integrity.md §4`). The 50 Ω + 75 Ω hybrid approach provides the best
 achievable impedance match to the cable while remaining within manufacturing design rules.
 
 ### Alternatives Considered
 
-- **No termination (Option A):** Rejected — multiple re-reflections at 10 MHz risk false TCK edges.
+- **No termination (Option A):** Rejected - multiple re-reflections at 10 MHz risk false TCK edges.
 - **50 Ω PCB + 33 Ω series R (Option B):** Acceptable but leaves 33% reflection at PCB-to-cable
   transition unabsorbed.
-- **100 Ω PCB + 82 Ω series R (Option C, ideal):** Rejected — not achievable on standard stackup.
+- **100 Ω PCB + 82 Ω series R (Option C, ideal):** Rejected - not achievable on standard stackup.
 
 ### Cost Impact
 
@@ -587,9 +587,9 @@ prototype; trace widths self-calculated and within ±10% of target. See `design/
 
 ---
 
-## DEC-017 — Minimum 4-Layer Stackup for All Non-Controller Boards
+## DEC-017 - Minimum 4-Layer Stackup for All Non-Controller Boards
 
-- **Status:** ✅ ADOPTED
+- **Status:** ✔ ADOPTED
 - **Date:** 2026-04-05
 - **Category:** Electrical
 - **Area:** Reflector Board, Extension Board (all other boards already compliant)
@@ -605,12 +605,12 @@ differential pair requirements, and the Power Module for high-current power deli
 
 | Layer | Function |
 | :--- | :--- |
-| L1 | Signal (JTAG, data routing) — top |
-| L2 | GND plane — solid contiguous copper |
+| L1 | Signal (JTAG, data routing) - top |
+| L2 | GND plane - solid contiguous copper |
 | L3 | 3V3_ENIG power plane |
-| L4 | Signal (data routing, branding data plate) — bottom |
+| L4 | Signal (data routing, branding data plate) - bottom |
 
-> **Exception — JTAG Daughterboard:** The JDB uses an inverted stackup: L1=GND plane + SMT
+> **Exception - JTAG Daughterboard:** The JDB uses an inverted stackup: L1=GND plane + SMT
 > component pads (component side, faces Controller), L2=signal traces, L3=power pours,
 > L4=GND shield (exterior face). This inversion places components on the face that mates
 > with the Controller Board hat-headers, consistent with single-side JLCPCB assembly.
@@ -627,11 +627,11 @@ differential pair requirements, and the Power Module for high-current power deli
 
 | Board | Stackup | Notes |
 | :--- | :--- | :--- |
-| Stator | 4-Layer JLC04161H-7628 | ✅ Unchanged |
-| Encoder | 4-Layer JLC04161H-7628 | ✅ Unchanged |
-| Rotor | 4-Layer JLC04161H-7628 | ✅ Unchanged |
-| Controller | 6-Layer JLC06161H-2116 | ✅ Exception — high-speed stackup retained |
-| Power Module | 6-Layer JLC06161H-2116 | ✅ Exception — high-current power delivery stackup retained |
+| Stator | 4-Layer JLC04161H-7628 | ✔ Unchanged |
+| Encoder | 4-Layer JLC04161H-7628 | ✔ Unchanged |
+| Rotor | 4-Layer JLC04161H-7628 | ✔ Unchanged |
+| Controller | 6-Layer JLC06161H-2116 | ✔ Exception - high-speed stackup retained |
+| Power Module | 6-Layer JLC06161H-2116 | ✔ Exception - high-current power delivery stackup retained |
 
 ### Impact
 
@@ -655,28 +655,28 @@ historical), and `§8` trace table have been updated accordingly.
 
 ### Alternatives Considered
 
-- **Retain 2-layer Reflector/Extension:** Rejected — inconsistent stackup creates impedance
+- **Retain 2-layer Reflector/Extension:** Rejected - inconsistent stackup creates impedance
   discontinuities in the JTAG chain and leaves an uncontrolled segment at the reflector end.
-- **Use different 4-layer stackup per board:** Rejected — non-uniform dielectric parameters would
+- **Use different 4-layer stackup per board:** Rejected - non-uniform dielectric parameters would
   require separate trace width calculations per board and add unnecessary design complexity.
 
 ---
 
-## DEC-018 — Connector Pinout Ownership Model
+## DEC-018 - Connector Pinout Ownership Model
 
 - **Status:** Adopted
 - **Date:** 2026-04-05
 - **Category:** Electrical
-- **Area:** All Boards — Documentation Architecture
+- **Area:** All Boards - Documentation Architecture
 
 ### Decision
 
-Each multi-board connector interface shall have a single **Definition Owner** — the board whose
+Each multi-board connector interface shall have a single **Definition Owner** - the board whose
 `Board_Layout.md` (or `Design_Spec.md` where no Board_Layout exists) contains the authoritative
 pin-by-pin table for that interface. All other boards that mate with that connector must
 **not** duplicate the pin table; instead they include a short cross-reference note of the form:
 
-> **Connector Definition Owner:** `[OwnerBoard]/Board_Layout.md — [Section]`. This board uses the
+> **Connector Definition Owner:** `[OwnerBoard]/Board_Layout.md - [Section]`. This board uses the
 > mating connector. See BOM for part number.
 
 This rule prevents the class of drift errors where two boards define the same connector differently
@@ -687,11 +687,11 @@ definition is authoritative.
 
 | Interface | Connector(s) | Definition Owner | Authoritative Section |
 | :--- | :--- | :--- | :--- |
-| **LINK-ALPHA** | PM J1 ↔ Controller J1 (80-pin ERM8/ERF8) | **Power Module** | `Power_Module/Board_Layout.md — LINK-ALPHA` |
-| **LINK-BETA** | Controller J2 ↔ Stator J8 (40-pin ERM8/ERF8) | **Controller** | `Controller/Board_Layout.md — LINK-BETA` |
-| **Reflector/Extension Link** | Stator J10 ↔ Extension J7/J8 ↔ Reflector J4 (16-pin 2×8) | **Stator** | `Stator/Board_Layout.md — J10` |
-| **Encoder Ports** | Stator J4/J5/J6/J7/J8/J9 ↔ Encoder J2 (20-pin 2×10) | **Stator** | `Stator/Board_Layout.md — J4–J9` |
-| **Rotor Interface** | Stator J1–J3 ↔ Rotor 1 → … → Rotor 30 → Reflector J1–J3 (serial chain; Extension J1–J6 at group boundaries) | **Rotor** | `Rotor/Design_Spec.md §3.4` |
+| **LINK-ALPHA** | PM J1 ↔ Controller J1 (80-pin ERM8/ERF8) | **Power Module** | `Power_Module/Board_Layout.md - LINK-ALPHA` |
+| **LINK-BETA** | Controller J2 ↔ Stator J8 (40-pin ERM8/ERF8) | **Controller** | `Controller/Board_Layout.md - LINK-BETA` |
+| **Reflector/Extension Link** | Stator J10 ↔ Extension J7/J8 ↔ Reflector J4 (16-pin 2x8) | **Stator** | `Stator/Board_Layout.md - J10` |
+| **Encoder Ports** | Stator J4/J5/J6/J7/J8/J9 ↔ Encoder J2 (20-pin 2x10) | **Stator** | `Stator/Board_Layout.md - J4-J9` |
+| **Rotor Interface** | Stator J1-J3 ↔ Rotor 1 → ... → Rotor 30 → Reflector J1-J3 (serial chain; Extension J1-J6 at group boundaries) | **Rotor** | `Rotor/Design_Spec.md §3.4` |
 | **JTAG Daughterboard headers** | JDB J1 (USB 5-pin) + J2 (JTAG 10-pin) | **JTAG Daughterboard** | `JTAG_Daughterboard/Board_Layout.md` |
 
 ### Rationale
@@ -704,27 +704,27 @@ definition is authoritative.
   and TTD_RETURN carried on this cable. Extension and Reflector are passive pass-throughs or endpoints.
 - **Encoder Ports → Stator:** The Stator drives all three encoder cables and has the complete chain
   routing logic for TDI/TDO sequencing across J4/J5/J6. The Encoder boards are the downstream receivers.
-- **Rotor Interface → Rotor:** The Rotor defines its own physical interface — both the connector
+- **Rotor Interface → Rotor:** The Rotor defines its own physical interface - both the connector
   type (mechanical) and the signal mapping. Stator, Extension, and Reflector must comply with the
   Rotor's mechanical interface, not the other way round.
 - **JTAG Daughterboard → itself:** Self-contained module with no cross-board mating conflicts.
 
 ### Alternatives Considered
 
-- **Central `Interfaces.md` document:** Rejected — separates pin definitions from the board they belong
+- **Central `Interfaces.md` document:** Rejected - separates pin definitions from the board they belong
   to, making it harder to keep in sync during incremental design changes. Per-board ownership with
   cross-references is more maintainable.
-- **Both sides document the full table:** Rejected — this is the exact pattern that caused the REF-03
+- **Both sides document the full table:** Rejected - this is the exact pattern that caused the REF-03
   Pin 2 conflict and the REF-01 16/20-pin mismatch found in the April 2026 deep-dive review.
 
 ---
 
-## DEC-019 — PoE Transformer Topology: ACF (Option A) Selected
+## DEC-019 - PoE Transformer Topology: ACF (Option A) Selected
 
-- **Status:** ✅ Adopted
+- **Status:** ✔ Adopted
 - **Date:** 2026-04-05
 - **Category:** Electrical
-- **Area:** Power Module — T2 transformer, TPS23730 operating mode, input EMI filter
+- **Area:** Power Module - T2 transformer, TPS23730 operating mode, input EMI filter
 
 ### Decision
 
@@ -739,12 +739,12 @@ No change is made to the T2 transformer, the TPS23730 mode configuration, or the
 
 ### Rationale
 
-A thorough search confirmed that **no ACF PoE isolation transformer for 60W / 36–57V input is stocked
+A thorough search confirmed that **no ACF PoE isolation transformer for 60W / 36-57V input is stocked
 by any mainstream authorised distributor** (DigiKey, Mouser, Farnell, Arrow). The Coilcraft POE600F
 family was co-developed with TI specifically for the TPS23730 reference design; no competing catalogue
 part exists.
 
-The only standard-distributor alternative identified was the **Bourns PDC060-FD20A12S** — a standard
+The only standard-distributor alternative identified was the **Bourns PDC060-FD20A12S** - a standard
 flyback transformer available from DigiKey. Switching to this part (Option B) would have required:
 
 - Disabling TPS23730 `ACF_GD` (ACF gate drive pin)
@@ -756,37 +756,37 @@ After detailed EMI/EMC analysis, Option B was rejected on technical grounds. Key
 
 | Criterion | Option A (ACF) | Option B (Flyback) |
 | :--- | :--- | :--- |
-| Primary switching | ZVS — no hard dV/dt event | Hard switching — fast dV/dt |
-| Drain spike at turn-off | None — energy recycled by clamp | Present — RCD clamp clips but does not eliminate |
-| CM/DM conducted EMI | Low | 15–25 dB higher before input filter |
+| Primary switching | ZVS - no hard dV/dt event | Hard switching - fast dV/dt |
+| Drain spike at turn-off | None - energy recycled by clamp | Present - RCD clamp clips but does not eliminate |
+| CM/DM conducted EMI | Low | 15-25 dB higher before input filter |
 | Input EMI filter size | Smaller / fewer components | Larger / more complex |
-| CISPR 32 Class B margin | Comfortable | Tight — may require design iteration |
-| Efficiency | 88–92% | 85–90% |
-| Extra dissipation | — | ~1–2W at full load |
-| PSR aux winding verified | ✅ TI reference design | ⚠️ Unverified for Bourns PDC060 |
+| CISPR 32 Class B margin | Comfortable | Tight - may require design iteration |
+| Efficiency | 88-92% | 85-90% |
+| Extra dissipation | - | ~1-2W at full load |
+| PSR aux winding verified | ✔ TI reference design | ⚠️ Unverified for Bourns PDC060 |
 
 The Coilcraft direct-order model is accepted as a specialist procurement path, consistent with
 industry practice for catalogue magnetics.
 
 ### Alternatives Considered
 
-- **Bourns PDC060-FD20A12S (Option B — flyback PSR):** Rejected — hard-switching topology causes
+- **Bourns PDC060-FD20A12S (Option B - flyback PSR):** Rejected - hard-switching topology causes
   significantly higher conducted and radiated EMI, requires a larger input EMI filter, does not
   eliminate procurement complexity (shifts effort from transformer sourcing to filter design),
-  and adds ~1–2W thermal load to an already thermally constrained module.
-- **Würth WE-FB range:** Rejected — entire range has a maximum input voltage of 36V (insufficient
-  for PoE 36–57V input) and is keyed to Linear Technology LT-series controllers.
-- **Change PoE controller ecosystem:** Not evaluated — would constitute a major redesign and is
+  and adds ~1-2W thermal load to an already thermally constrained module.
+- **Wurth WE-FB range:** Rejected - entire range has a maximum input voltage of 36V (insufficient
+  for PoE 36-57V input) and is keyed to Linear Technology LT-series controllers.
+- **Change PoE controller ecosystem:** Not evaluated - would constitute a major redesign and is
   out of scope.
 
 ---
 
-## DEC-020 — GND_CHASSIS Rib Clearway ENIG Bond
+## DEC-020 - GND_CHASSIS Rib Clearway ENIG Bond
 
-- **Status:** Accepted — 2026-04-08
+- **Status:** Accepted - 2026-04-08
 - **Date:** 2026-04-08
 - **Category:** Electrical
-- **Area:** Power Module — Supercap Block Assembly & Board Layout
+- **Area:** Power Module - Supercap Block Assembly & Board Layout
 - **References:** QUE-001, Certification_Evidence.md §2.2
 
 ### Decision
@@ -809,14 +809,14 @@ The 3.0mm rib clearway gaps between supercap cells shall have:
 
 ### Rationale
 
-The combined structure — aluminium Can lid, compression ribs, conductive gasket, PCB ENIG strip, and
-GND_CHASSIS copper pour — forms a near-complete Faraday cage around the supercap block, improving
+The combined structure - aluminium Can lid, compression ribs, conductive gasket, PCB ENIG strip, and
+GND_CHASSIS copper pour - forms a near-complete Faraday cage around the supercap block, improving
 shielding of the high-capacitance energy storage element from the rest of the board.
 
 ### Compatibility with single-point GND_CHASSIS bond rule
 
 The single-point rule governs signal GND → GND_CHASSIS crossings. Rib contact bonds are
-enclosure-to-GND_CHASSIS connections — both within the chassis domain — and do not create additional
+enclosure-to-GND_CHASSIS connections - both within the chassis domain - and do not create additional
 signal-to-chassis bonds. The rule is maintained.
 
 ### Other boards
@@ -827,28 +827,28 @@ metal chassis dimensions are finalised. Stator/Encoder/Rotor mechanical designs 
 
 ---
 
-## DEC-021 — Supercapacitor Bank Upgrade: 2×2 2S2P → 2×3 2S3P
+## DEC-021 - Supercapacitor Bank Upgrade: 2x2 2S2P → 2x3 2S3P
 
 - **Status:** Superseded by DEC-029 (arrangement 2S3P retained; cell capacitance updated 22F → 25F Abracon)
 - **Date:** 2026-04-08
 - **Category:** Electrical
-- **Area:** Power Module — Supercap Bank, Board Layout, Hold-up Specification
+- **Area:** Power Module - Supercap Bank, Board Layout, Hold-up Specification
 - **References:** DR-PM-07, DR-PM-09, DEC-020
 
 ### Decision
 
-The supercapacitor bank is upgraded from a 2×2 (4-cell, 2S2P) to a **2×3 (6-cell, 2S3P)** arrangement,
+The supercapacitor bank is upgraded from a 2x2 (4-cell, 2S2P) to a **2x3 (6-cell, 2S3P)** arrangement,
 with the inter-cell air gap increased from 2.0mm to **3.0mm**.
 
 | Parameter | Previous | New |
 | :--- | :--- | :--- |
-| Cell count | 4 (C_SC1–4) | 6 (C_SC1–6) |
-| Arrangement | 2×2 | 2×3 |
+| Cell count | 4 (C_SC1-4) | 6 (C_SC1-6) |
+| Arrangement | 2x2 | 2x3 |
 | Configuration | 2S2P | 2S3P |
 | Inter-cell gap | 2.0mm | 3.0mm |
 | Cell pitch | 14mm | 15mm |
-| Block footprint | 28mm × 28mm | 30mm × 45mm |
-| Shadow zone | 32mm × 32mm | 34mm × 49mm |
+| Block footprint | 28mm x 28mm | 30mm x 45mm |
+| Shadow zone | 32mm x 32mm | 34mm x 49mm |
 | Effective capacitance | 22F at 5.4V | 33F at 5.4V |
 | Hold-up energy | 72.4J | 108.6J |
 | Hold-up duration @ 5W | ≥14.5s | ≥21.7s |
@@ -856,16 +856,16 @@ with the inter-cell air gap increased from 2.0mm to **3.0mm**.
 
 ### Rationale
 
-- **50% more hold-up:** 33F vs 22F provides ≥21.7 seconds at 5W — a more comfortable shutdown window
+- **50% more hold-up:** 33F vs 22F provides ≥21.7 seconds at 5W - a more comfortable shutdown window
   and headroom for higher CM5 load profiles at prototype bring-up.
 - **LTC3350 compatibility:** No IC change required. LTC3350 is configured for 2 cells in series;
-  each series position now has 3×22F in parallel (66F per position). CELLS register unchanged.
+  each series position now has 3x22F in parallel (66F per position). CELLS register unchanged.
   RICHARGE (0.5A charge current limit) unchanged; charge time increases ~3 minutes from depleted.
 - **Wider gap (3mm):** The increased inter-cell gap from 2.0mm to 3.0mm provides adequate clearance
   for the 2-mil Kapton tape wrap (DEC-020), the conductive elastomer gasket strip, and the aluminium
   enclosure compression ribs, while maintaining margin for manufacturing tolerances.
 - **Board space:** The Power Module board dimensions are not yet fixed; the design is being built
-  around this component block. The increased footprint (30mm × 45mm vs 28mm × 28mm) is accepted.
+  around this component block. The increased footprint (30mm x 45mm vs 28mm x 28mm) is accepted.
 
 > **Post-decision update (2026-04-08, checkpoint 025):** The 22F generic cells specified above
 > were subsequently replaced with **Abracon ADCR-T02R7SA256MB (25F/2.7V)** when a verified in-stock
@@ -875,12 +875,12 @@ with the inter-cell air gap increased from 2.0mm to **3.0mm**.
 
 ---
 
-## DEC-022 — JDB FT232H Clock Source: Dedicated 12MHz SMD Crystal Selected
+## DEC-022 - JDB FT232H Clock Source: Dedicated 12MHz SMD Crystal Selected
 
-- **Status:** Obsolete — superseded by DEC-037
+- **Status:** Obsolete - superseded by DEC-037
 - **Date:** 2026-04-06
 - **Category:** Electrical
-- **Area:** JTAG Daughterboard — Clock Source (FT232H)
+- **Area:** JTAG Daughterboard - Clock Source (FT232H)
 
 ### Decision
 
@@ -891,7 +891,7 @@ Dedicated 12MHz SMD passive crystal (Y1) on the JDB PCB. CM5 GPCLK0 option rejec
 During JDB detailed design review, two issues were identified:
 
 1. The original design incorrectly specified a **24MHz HC-49 through-hole crystal**. The FT232H datasheet requires a **12MHz**
-   reference — its internal PLL multiplies 12MHz × 40 to generate 480MHz for USB Hi-Speed operation. 24MHz is outside specification.
+   reference - its internal PLL multiplies 12MHz x 40 to generate 480MHz for USB Hi-Speed operation. 24MHz is outside specification.
 2. An alternative was considered: routing a clock from the **CM5 GPCLK0 output (GPIO4)** to the FT232H OSCI pin instead of a dedicated on-board crystal.
 
 ### Options Considered
@@ -901,32 +901,32 @@ During JDB detailed design review, two issues were identified:
 | A | CM5 GPCLK0 (GPIO4) routed through Controller hat-header to FT232H OSCI | **Rejected** |
 | B | Dedicated 12MHz passive SMD crystal (Y1) on JDB PCB | **Selected** |
 
-**Option A — Rejected reasons:**
+**Option A - Rejected reasons:**
 
 - Signal path: CM5 GPIO4 → Controller board → hat-header pin → JDB OSCI is long and noise-prone
 - GPIO clock jitter from BCM is unsuitable as a USB PLL reference clock
-- Creates a CM5 boot-order dependency — FT232H cannot enumerate on USB until CM5 configures GPCLK0
+- Creates a CM5 boot-order dependency - FT232H cannot enumerate on USB until CM5 configures GPCLK0
 - Adds routing and firmware complexity with no benefit over a $0.07 crystal
 
-**Option B — Selected:**
+**Option B - Selected:**
 
 - Standard FTDI reference design approach; clean stable clock source
 - No boot dependency; FT232H enumerates immediately on USB connect
 - Component: **YXC X322512MSB4SI** (JLCPCB C9002), SMD3225-4P, 12MHz, 20pF, ±20ppm, Basic part
-- Crystal load capacitors: C10–C11 = 33pF C0G 0402 (sets 20pF load capacitance)
+- Crystal load capacitors: C10-C11 = 33pF C0G 0402 (sets 20pF load capacitance)
 
 ### Impact
 
-- `design/Electronics/JTAG_Daughterboard/Design_Spec.md`: Y1 corrected to 12MHz SMD3225-4P (C9002); C10–C11 added; text references updated.
+- `design/Electronics/JTAG_Daughterboard/Design_Spec.md`: Y1 corrected to 12MHz SMD3225-4P (C9002); C10-C11 added; text references updated.
 
 ---
 
-## DEC-023 — JDB GND_CHASSIS Omitted; Mounting Holes Tied to GND
+## DEC-023 - JDB GND_CHASSIS Omitted; Mounting Holes Tied to GND
 
 - **Status:** Decided
 - **Date:** 2026-04-06
 - **Category:** Electrical
-- **Area:** JTAG Daughterboard — Grounding & EMC
+- **Area:** JTAG Daughterboard - Grounding & EMC
 
 ### Decision
 
@@ -942,13 +942,13 @@ via, or `GND_CHASSIS` net is present on the JDB.
 
 `GND_CHASSIS` exists to bond a PCB to the metal enclosure for EMC shielding, ESD protection, and safety earth. None of those functions apply to the JDB because:
 
-1. **No chassis surface** — the JDB is an internal daughterboard that floats above the Controller
+1. **No chassis surface** - the JDB is an internal daughterboard that floats above the Controller
    board on hat-header pins and conductive standoffs. It has no metal enclosure surface it can
    directly bond to.
-2. **EMC envelope already provided** — the Controller board beneath it carries a correctly implemented `GND_CHASSIS` net bonded to the system enclosure. The JDB sits entirely within that envelope.
-3. **No external connections** — the JDB has no cables or connectors that exit the enclosure, so there are no ESD entry points that would require chassis bonding at the JDB level.
-4. **Low-EMI device** — the FT232H operates at USB 2.0 speeds on an internal point-to-point link. It generates no significant conducted or radiated emissions that would require additional chassis shielding.
-5. **Daisy-chaining adds no value** — connecting JDB `GND_CHASSIS` via standoffs to Controller
+2. **EMC envelope already provided** - the Controller board beneath it carries a correctly implemented `GND_CHASSIS` net bonded to the system enclosure. The JDB sits entirely within that envelope.
+3. **No external connections** - the JDB has no cables or connectors that exit the enclosure, so there are no ESD entry points that would require chassis bonding at the JDB level.
+4. **Low-EMI device** - the FT232H operates at USB 2.0 speeds on an internal point-to-point link. It generates no significant conducted or radiated emissions that would require additional chassis shielding.
+5. **Daisy-chaining adds no value** - connecting JDB `GND_CHASSIS` via standoffs to Controller
    `GND_CHASSIS` would create an additional path to chassis earth but no new bond point, adding
    PCB complexity for zero measurable EMC benefit.
 
@@ -956,22 +956,22 @@ via, or `GND_CHASSIS` net is present on the JDB.
 
 - Include **mounting holes** on the JDB for mechanical stability.
 - Standoffs are conductive (metal); this incidentally bonds the JDB mounting hole copper pours to the Controller board mechanically.
-- Mounting hole copper pours connect to **GND** (circuit return) — not to a separate `GND_CHASSIS` net.
+- Mounting hole copper pours connect to **GND** (circuit return) - not to a separate `GND_CHASSIS` net.
 - This is consistent with standard practice for small internal sub-modules (e.g. Arduino shields, FPGA daughter cards).
 
 ### Alternatives Considered
 
 - **Standoff bonding to Controller GND_CHASSIS:** Technically implementable but adds a separate net, a copper pour, and design rules for no measurable EMC gain on a low-EMI internal board. Rejected.
-- **No mounting holes at all:** Rejected — mechanical retention via standoffs is required to prevent the board from flexing on the hat-headers during connector insertion/removal.
+- **No mounting holes at all:** Rejected - mechanical retention via standoffs is required to prevent the board from flexing on the hat-headers during connector insertion/removal.
 
 ---
 
-## DEC-024 — JDB is Complete JTAG Master; Controller JTAG Lines Are Pass-Through
+## DEC-024 - JDB is Complete JTAG Master; Controller JTAG Lines Are Pass-Through
 
 - **Status:** Decided
 - **Date:** 2026-04-06
 - **Category:** Electrical
-- **Area:** JTAG Architecture — Controller and JTAG Daughterboard
+- **Area:** JTAG Architecture - Controller and JTAG Daughterboard
 
 ### Decision
 
@@ -982,7 +982,7 @@ board routes JTAG lines (TCK, TMS, TDI, TTD_RETURN, VREF) as pass-through from t
 to the LINK-BETA BtB connector without any active components.
 
 LINK-BETA is a direct Board-to-Board connector (no cable). Therefore 33 Ω series damping (matched
-to 50 Ω PCB trace impedance) applies throughout — not the 75 Ω cable-driving resistors specified
+to 50 Ω PCB trace impedance) applies throughout - not the 75 Ω cable-driving resistors specified
 for ribbon cable connections. See DEC-016 for the full 75 Ω / 33 Ω rationale.
 
 ### Rationale
@@ -1006,12 +1006,12 @@ for ribbon cable connections. See DEC-016 for the full 75 Ω / 33 Ω rationale.
 
 ---
 
-## DEC-025 — CM5 Shutdown Mechanism: Hardware-Driven; LTC3350 Software Support Deferred
+## DEC-025 - CM5 Shutdown Mechanism: Hardware-Driven; LTC3350 Software Support Deferred
 
-- **Status:** Deferred — Software PoC Stage
+- **Status:** Deferred - Software PoC Stage
 - **Date:** 2026-04-09
 - **Category:** Software
-- **Area:** Software / Linux OS — CM5 Power Management Shutdown Path
+- **Area:** Software / Linux OS - CM5 Power Management Shutdown Path
 
 ### Decision
 
@@ -1030,7 +1030,7 @@ The PWR_GD GPIO (GPIO 27, MCP121T-450E output) is rail-health telemetry only and
   dedicated CM5 GPIO.
 - Driver or service development still requires the physical hardware to be available for testing
   and validation.
-- The system is designed for operational sessions of 15–30 minutes or longer. The hold-up window
+- The system is designed for operational sessions of 15-30 minutes or longer. The hold-up window
   (≥33.5 s) is a generous safety margin; an unplanned shutdown from a fully-charged state is expected
   to be harmless. Deferring the driver to the PoC stage does not create a risk for hardware bring-up.
 - Placeholder notes in design/Software/Linux_OS/Power_Management.md document the intended
@@ -1045,14 +1045,14 @@ The PWR_GD GPIO (GPIO 27, MCP121T-450E output) is rail-health telemetry only and
 
 ---
 
-## DEC-026 — Rotor Position Encoder: AS5600 Replaced with Single-Track Capacitive Encoder
+## DEC-026 - Rotor Position Encoder: AS5600 Replaced with Single-Track Capacitive Encoder
 
 > ⚠️ Partially superseded by DEC-028 for dual-track N=64 architecture, Ø92mm PCB diameter, and aluminium shroud milled slots. Retained for historical context.
 
 - **Status:** Accepted
 - **Date:** 2026-04-12
 - **Category:** Hardware
-- **Area:** Rotor Board — Position Sensing (§2.1)
+- **Area:** Rotor Board - Position Sensing (§2.1)
 
 ### Decision
 
@@ -1060,37 +1060,37 @@ The AMS AS5600 magnetic encoder (originally specified in DR-ROT-03) is replaced 
 **single-track absolute capacitive encoder** implemented entirely on the rotor PCB. The rotating
 shroud flanges carry milled aluminium slots (air gap = low capacitance); K capacitive sensor pads on the PCB read the track
 as a K-bit code. A combinational lookup table in the CPLD VHDL maps the raw sensor code to a
-binary rotor position (0 to N−1). The SW1 modulo-N adder (ring setting) operates on the decoded
-binary value. No external adder hardware is required — the decode and add are pure CPLD logic.
+binary rotor position (0 to N-1). The SW1 modulo-N adder (ring setting) operates on the decoded
+binary value. No external adder hardware is required - the decode and add are pure CPLD logic.
 
 Three **Texas Instruments FDC2114RGHR** footprints are defined across the split rotor pair;
 each rotor variant populates two of them:
 
-- U2 (address 0x2A): Track A — bits[5:3] (N=64) or STGC bits[3:0] (N=26).
+- U2 (address 0x2A): Track A - bits[5:3] (N=64) or STGC bits[3:0] (N=26).
 - U3 (address 0x2B): Board A STGC bit[4] (N=26 only). NOT POPULATED for N=64.
-- U4 (address 0x2B): Track B — bits[2:0] (N=64 only). NOT POPULATED for N=26.
+- U4 (address 0x2B): Track B - bits[2:0] (N=64 only). NOT POPULATED for N=26.
 - CPLD implements I²C master to read pad states.
 
-#### Track patterns (verified — all N codes unique)
+#### Track patterns (verified - all N codes unique)
 
 - **26-char (K=5, N=26):** `00000100011001010011101111`
   Sensors at 0°, 13.846°, 27.692°, 41.538°, 55.385° from reference; arc/segment ≈ 10.63mm at r=44mm.
   Invalid codes (between-character / jam): 11, 13, 21, 22, 26, 31.
-- **64-char (K=6, N=64):** Replaced by dual-track 3+3 reflected binary Gray code — see `Rotor_64_Char_Design.md §7` and DEC-028.
+- **64-char (K=6, N=64):** Replaced by dual-track 3+3 reflected binary Gray code - see `Rotor_64_Char_Design.md §7` and DEC-028.
   Sensors at 0°, 5.625°, 11.25°, 16.875°, 22.5°, 28.125° from reference; arc/segment ≈ 4.32mm at r=44mm.
   All 64 six-bit codes are valid (standard 6-bit reflected binary Gray code; XOR-chain decode; no invalid-code jam detection required).
 
-PCB outer diameter Ø92mm (inside Ø100mm aluminium shroud) — per DEC-028
+PCB outer diameter Ø92mm (inside Ø100mm aluminium shroud) - per DEC-028
 
 ### Rationale
 
 - **AS5600 incompatible with single-track Gray code intent:** AS5600 is a single-magnet absolute
-  angle sensor — it requires a single magnet on the rotating part and returns a 12-bit angle value.
+  angle sensor - it requires a single magnet on the rotating part and returns a 12-bit angle value.
   It does not implement Gray code sensing and was architecturally inconsistent with the original
   design intent stated in §1 ("single-track grey encoder").
 - **No magnet pocket on shroud:** The AS5600 requires a diametrically magnetised magnet (~6mm dia)
   embedded in or attached to the rotating shroud, adding manufacturing complexity. The capacitive
-  approach requires only milled aluminium slot patterns on the rotating shroud — no embedded components.
+  approach requires only milled aluminium slot patterns on the rotating shroud - no embedded components.
 - **All sensing electronics on PCB:** Capacitive pads and FDC2114 ICs are standard PCB components.
   The shroud is a passive mechanical part.
 - **Reliable at slow rotation rates:** The rotors step at human-typing speed (≤10 char/s). The
@@ -1108,19 +1108,19 @@ PCB outer diameter Ø92mm (inside Ø100mm aluminium shroud) — per DEC-028
 - `design/Electronics/Rotor/Rotor_64_Char_Design.md`: §5 ring setting updated; §7 added
   (geometry, track pattern, STGC→position lookup table).
 - `design/Electronics/Rotor/Board_Layout.md`: ASCII diagram updated; PCB Ø92mm (per DEC-028).
-- `design/Electronics/Consolidated_BOM.md`: AS5600 row replaced with 2× FDC2114RGHR per rotor
+- `design/Electronics/Consolidated_BOM.md`: AS5600 row replaced with 2x FDC2114RGHR per rotor
   (60 units total across 30 rotors).
-- `design/Electronics/Reflector/STGC_Generator.py`: Original script location noted — should be
+- `design/Electronics/Reflector/STGC_Generator.py`: Original script location noted - should be
   relocated to `design/Electronics/Rotor/` in a future tidy-up commit.
 
 ---
 
-## DEC-027 — Rotor Position Readback via JTAG Virtual JTAG (USER0 UDR)
+## DEC-027 - Rotor Position Readback via JTAG Virtual JTAG (USER0 UDR)
 
 - **Status:** Accepted
 - **Date:** 2026-04-12
 - **Category:** Hardware / Firmware
-- **Area:** Rotor Board CPLD — JTAG Interface; GUI App position display
+- **Area:** Rotor Board CPLD - JTAG Interface; GUI App position display
 
 ### Decision
 
@@ -1147,7 +1147,7 @@ operates continuously and independently of JTAG state.
   The CM5 software can therefore poll all 30 positions by iterating through the chain.
 - **GUI App feedback requires position data:** The GUI App Design_Spec requires real-time display
   of rotor positions. Virtual JTAG is the only defined data path from rotor CPLDs to the CM5 for
-  this purpose — no I²C, SPI, or dedicated signal lines exist between the rotors and the CM5.
+  this purpose - no I²C, SPI, or dedicated signal lines exist between the rotors and the CM5.
 - **Non-intrusive to cipher operation:** The `VIRTUAL_JTAG` megafunction is fully synchronous
   with the JTAG clock domain and does not gate or interrupt the cipher substitution logic running
   on the CPLD system clock.
@@ -1167,24 +1167,24 @@ operates continuously and independently of JTAG state.
 
 ---
 
-## DEC-028 — Split dual-board rotor architecture
+## DEC-028 - Split dual-board rotor architecture
 
 - **Status:** Accepted
 - **Date:** 2026-04-14
 - **Category:** Hardware
-- **Area:** Rotor Board — Physical Architecture; PCB Assembly; Position Encoder
+- **Area:** Rotor Board - Physical Architecture; PCB Assembly; Position Encoder
 
 ### Decision
 
 The rotor is split into two circular PCBs (Board A input side, Board B output side), each
-Ø92mm, connected by four single-row 2.54mm THT headers (H_SW3 1×7, H_PWR 1×5, H_JTAG 1×5,
-H_SENS 1×5; 22 pins total; mixed gender for physical keying). This resolves the
+Ø92mm, connected by four single-row 2.54mm THT headers (H_SW3 1x7, H_PWR 1x5, H_JTAG 1x5,
+H_SENS 1x5; 22 pins total; mixed gender for physical keying). This resolves the
 JLCPCB single-side SMT assembly constraint and simultaneously defines the rotor physical
 thickness (~15mm with an 11.8mm board gap). Board A carries the CPLD (U1 EPM570T100I5N),
 FDC2114 U2 (Track A encoder, bits[5:3] for N=64 or all 5 sensors for N=26), SW1 (ring
-setting DIP), SW2 (forward map select DIP), and J1–J3 (ERM8 male, input side). Board B
-carries FDC2114 U3 (Track B, bits[2:0], N=64 only — not populated for N=26), SW3 (return
-map select DIP), and J4–J6 (ERF8 female, output side). These internal headers are manually
+setting DIP), SW2 (forward map select DIP), and J1-J3 (ERM8 male, input side). Board B
+carries FDC2114 U3 (Track B, bits[2:0], N=64 only - not populated for N=26), SW3 (return
+map select DIP), and J4-J6 (ERF8 female, output side). These internal headers are manually
 assembled post-JLCPCB SMT pick-and-place.
 
 The aluminium shroud (Ø100mm outer, 4mm radial wall → Ø92mm inner) floats electrically,
@@ -1214,11 +1214,11 @@ populated.
 
 ### Alternatives Considered
 
-- **Single-board with back-side hand-soldering:** rejected — complex, unreliable, not
+- **Single-board with back-side hand-soldering:** rejected - complex, unreliable, not
   consistent with high-volume JLCPCB assembly.
-- **Magnetic encoder on shroud:** rejected — adds active or passive magnetic components to
+- **Magnetic encoder on shroud:** rejected - adds active or passive magnetic components to
   the shroud, increasing mechanical complexity and cost.
-- **Optical encoder:** rejected — requires more complex shroud features (apertures or
+- **Optical encoder:** rejected - requires more complex shroud features (apertures or
   reflective strips) and additional LED/photodiode components on the PCB inner face.
 
 ### Impact
@@ -1237,19 +1237,19 @@ populated.
 
 ---
 
-## DEC-029 — Supercapacitor Hold-Up Specification: 25F Abracon Cells, 2S4P, ≥20 s at 15W
+## DEC-029 - Supercapacitor Hold-Up Specification: 25F Abracon Cells, 2S4P, ≥20 s at 15W
 
-- **Status:** Accepted — 2026-04-14
+- **Status:** Accepted - 2026-04-14
 - **Date:** 2026-04-14
 - **Category:** Electrical
-- **Area:** Power Module — Supercap Bank, Hold-up Specification
+- **Area:** Power Module - Supercap Bank, Hold-up Specification
 - **Supersedes:** DEC-004 (cell reference), DEC-021 (cell capacitance and count)
-- **References:** DR-PM-07, DR-PM-09, BOM C_SC1–8
+- **References:** DR-PM-07, DR-PM-09, BOM C_SC1-8
 
 ### Decision
 
 The supercapacitor hold-up **minimum requirement is ≥20 seconds** at a **15W shutdown load**
-(CM5 typical operating current: 5V × 3A = 15W). The confirmed cell selection (Abracon
+(CM5 typical operating current: 5V x 3A = 15W). The confirmed cell selection (Abracon
 ADCR-T02R7SA256MB, 25F/2.7V) in a **2S4P (8-cell)** arrangement provides ≥33.5 seconds.
 
 > ⚠️ **Cell lock:** Cells are **Abracon ADCR-T02R7SA256MB, 25F/2.7V** in **2S4P (8 cells)**.
@@ -1259,9 +1259,9 @@ ADCR-T02R7SA256MB, 25F/2.7V) in a **2S4P (8-cell)** arrangement provides ≥33.5
 
 ### Correct Load Figure
 
-> ⚠️ The CM5 draws **5V × 3A = 15W** during typical operation. When a power-loss event
+> ⚠️ The CM5 draws **5V x 3A = 15W** during typical operation. When a power-loss event
 > occurs, the CM5 is running at this load and continues to draw it throughout the OS shutdown
-> sequence (~10–15 s). Earlier documents used 5W (1A) which significantly overstated margin.
+> sequence (~10-15 s). Earlier documents used 5W (1A) which significantly overstated margin.
 > **All hold-up calculations must use 15W** as the minimum design load.
 
 ### Configuration
@@ -1270,30 +1270,30 @@ ADCR-T02R7SA256MB, 25F/2.7V) in a **2S4P (8-cell)** arrangement provides ≥33.5
 | :--- | :--- |
 | Cell part number | Abracon ADCR-T02R7SA256MB |
 | Cell capacitance | 25F / 2.7V each |
-| Configuration | 2S4P — 8 cells total (C_SC1–C_SC8) |
+| Configuration | 2S4P - 8 cells total (C_SC1-C_SC8) |
 | Effective capacitance | 50F at 5.4V |
 | Charge voltage (2S) | 5.4V |
-| Block footprint | 37mm × 77mm (2 columns × 4 rows, 20mm pitch) |
-| Shadow zone | 41mm × 81mm |
+| Block footprint | 37mm x 77mm (2 columns x 4 rows, 20mm pitch) |
+| Shadow zone | 41mm x 81mm |
 
 ### Hold-Up Calculation
 
 Usable energy from a capacitor bank discharged from V\_hi to V\_lo:
 
-> **E = ½ × C × (V\_hi² − V\_lo²)**
+> **E = 1/2 x C x (V\_hi² - V\_lo²)**
 
-Load power during shutdown: **P = 15W** (CM5 at 5V × 3A typical).
+Load power during shutdown: **P = 15W** (CM5 at 5V x 3A typical).
 
-Hold-up duration: **t = E × η / P**
+Hold-up duration: **t = E x η / P**
 
-#### Conservative model (pure-buck — LTC3350 loses regulation at V\_lo ≈ 4.75V)
+#### Conservative model (pure-buck - LTC3350 loses regulation at V\_lo ≈ 4.75V)
 
 | Step | Calculation | Result |
 | :--- | :--- | :--- |
-| Usable energy | ½ × 50 × (5.4² − 4.75²) | 164.9J |
+| Usable energy | 1/2 x 50 x (5.4² - 4.75²) | 164.9J |
 | Hold-up @ 15W | 164.9J / 15W | **11.0 s ❌** |
 
-This model is unrealistic — the LTC3350 is a 4-switch synchronous buck-boost, not a simple
+This model is unrealistic - the LTC3350 is a 4-switch synchronous buck-boost, not a simple
 buck. It is shown here only to illustrate that relying on the cap voltage staying above the
 output voltage is not sufficient at this load.
 
@@ -1304,19 +1304,19 @@ Minimum practical V\_CAP of ~2.0V protects cells from over-discharge (1.0V/cell 
 
 | Step | Calculation | Result |
 | :--- | :--- | :--- |
-| Stored energy (V\_lo = 2.0V) | ½ × 50 × (5.4² − 2.0²) | 629J |
-| Delivered (η = 80%) | 629J × 0.80 | **503J** |
-| Hold-up @ 15W | 503J / 15W | **≥33.5 s ✅** |
+| Stored energy (V\_lo = 2.0V) | 1/2 x 50 x (5.4² - 2.0²) | 629J |
+| Delivered (η = 80%) | 629J x 0.80 | **503J** |
+| Hold-up @ 15W | 503J / 15W | **≥33.5 s ✔** |
 
 #### Sensitivity to LTC3350 efficiency at 15W load
 
 | Efficiency | Delivered energy | Hold-up | Pass ≥20 s? |
 | :--- | :--- | :--- | :--- |
-| 85% | 535J | 35.6 s | ✅ |
-| 80% | 503J | 33.5 s | ✅ |
-| 75% | 472J | 31.5 s | ✅ |
-| 67% | 421J | 28.1 s | ✅ |
-| 48% (minimum) | 302J | 20.1 s | ✅ (edge) |
+| 85% | 535J | 35.6 s | ✔ |
+| 80% | 503J | 33.5 s | ✔ |
+| 75% | 472J | 31.5 s | ✔ |
+| 67% | 421J | 28.1 s | ✔ |
+| 48% (minimum) | 302J | 20.1 s | ✔ (edge) |
 
 The ≥20 s rule is satisfied even if converter efficiency degrades to ~48%, which is far below
 any credible operating point for a synchronous buck-boost at these voltages and currents.
@@ -1327,13 +1327,13 @@ any credible operating point for a synchronous buck-boost at these voltages and 
   efficiency → 25.2 s. This passes the 20 s rule but leaves only 26% margin. 2S4P (50F)
   delivers 503J → 33.5 s, a 68% margin, providing meaningful headroom against LTC3350
   efficiency variation, higher CM5 loads during bring-up, and supercap aging.
-- **Why 15W?** The CM5 module draws 5V × 3A under typical operating load. When power is lost,
-  the OS shutdown sequence takes ~10–15 s during which the CM5 continues at near-full load.
+- **Why 15W?** The CM5 module draws 5V x 3A under typical operating load. When power is lost,
+  the OS shutdown sequence takes ~10-15 s during which the CM5 continues at near-full load.
   Using 5W (1A) as the design load significantly understates the required hold-up margin and
   was an error in DEC-004 and DEC-021.
-- **0.5A PoE charge current (from DEC-004) retained:** charge power = 5.4V × 0.5A = 2.7W,
+- **0.5A PoE charge current (from DEC-004) retained:** charge power = 5.4V x 0.5A = 2.7W,
   unaffected by the cell count increase. Charge time from fully depleted ≈ **9 minutes**
-  (100F per series position × 2.7V / 0.5A = 540 s). PoE utilisation calculations in
+  (100F per series position x 2.7V / 0.5A = 540 s). PoE utilisation calculations in
   Certification\_Evidence are unaffected.
 
 ### Constraints
@@ -1341,52 +1341,52 @@ any credible operating point for a synchronous buck-boost at these voltages and 
 - Do not change the cell MPN, cell count, or configuration without re-running the hold-up
   calculation at **15W** against the ≥20 s rule and updating DR-PM-07, DR-PM-09, and this DEC.
 - LTC3350 CELLS register must remain configured for 2 series cells (CELLS = 0x01).
-- PCB shadow zone: 41mm × 81mm. No traces on L1–L6 within this zone (enclosure rib clearway).
+- PCB shadow zone: 41mm x 81mm. No traces on L1-L6 within this zone (enclosure rib clearway).
 
 ---
 
-## DEC-030 — 5V_MAIN Backup Switchover Transient Fix (R14, R30, C35)
+## DEC-030 - 5V_MAIN Backup Switchover Transient Fix (R14, R30, C35)
 
 - **Status:** Accepted
 - **Date:** 2026-04-14
 - **Category:** Electrical
-- **Area:** Power Module — LTC3350 Backup Switchover, 5V_MAIN Bulk Capacitance
+- **Area:** Power Module - LTC3350 Backup Switchover, 5V_MAIN Bulk Capacitance
 
 ### Issue
 
 At 3A load (CM5 typical draw), the existing 5V_MAIN bulk capacitance (C9=22µF + C10=22µF +
 C13=10µF = 54µF total) provides only 2.59µs before PWR_GD deasserts
-(54µF × 144mV / 3A). The LTC3350 at default 200kHz (5µs/cycle) gets only 0.52 cycles
-to complete backup switchover — INSUFFICIENT.
+(54µF x 144mV / 3A). The LTC3350 at default 200kHz (5µs/cycle) gets only 0.52 cycles
+to complete backup switchover - INSUFFICIENT.
 
 ### Root Cause Analysis
 
 - Old R14 = 28.7kΩ → backup threshold = 4.644V; PWR_GD deassert = 4.50V; gap = 144mV
 - LTC3350 RT=INTVCC (no resistor) = 200kHz → 5µs/cycle
-- 54µF × 144mV / 3A = 2.59µs = 0.52 cycles → FAILS
+- 54µF x 144mV / 3A = 2.59µs = 0.52 cycles → FAILS
 
 ### Fix (three combined changes)
 
-1. **R14: 28.7kΩ → 30.1kΩ** — raises backup threshold to 4.812V; new gap = 312mV
-2. **R30: new 33.2kΩ resistor** (LTC3350 RT pin to GND) — sets switching frequency to 400kHz (2.5µs/cycle)
-3. **C35: 2× Samsung CL32B226KAJNNNE** (22µF 25V X7R 1210) in parallel = 44µF additional bulk on 5V_MAIN
+1. **R14: 28.7kΩ → 30.1kΩ** - raises backup threshold to 4.812V; new gap = 312mV
+2. **R30: new 33.2kΩ resistor** (LTC3350 RT pin to GND) - sets switching frequency to 400kHz (2.5µs/cycle)
+3. **C35: 2x Samsung CL32B226KAJNNNE** (22µF 25V X7R 1210) in parallel = 44µF additional bulk on 5V_MAIN
 
 ### Result with Fix
 
 - Total bulk = 54µF + 44µF = 98µF
-- Time window = 98µF × 312mV / 3A = **10.2µs**
-- Cycles at 400kHz = 10.2µs / 2.5µs = **4.1 cycles ✓**
-- False-trigger headroom: 5V×0.98 − 4.812V = 88mV (LTC3350 ~12µs deglitch filters brief dips)
+- Time window = 98µF x 312mV / 3A = **10.2µs**
+- Cycles at 400kHz = 10.2µs / 2.5µs = **4.1 cycles ✔**
+- False-trigger headroom: 5Vx0.98 - 4.812V = 88mV (LTC3350 ~12µs deglitch filters brief dips)
 
 ### Component Selection Rationale for C35
 
-- **Selected: 2× Samsung CL32B226KAJNNNE** (22µF 25V X7R 1210, existing BOM part)
-  - ESR ≈ 10mΩ (negligible, stable −55°C to +125°C)
-  - Uses existing qualified BOM part — no new component qualification needed
+- **Selected: 2x Samsung CL32B226KAJNNNE** (22µF 25V X7R 1210, existing BOM part)
+  - ESR ≈ 10mΩ (negligible, stable -55°C to +125°C)
+  - Uses existing qualified BOM part - no new component qualification needed
   - 4.1 cycles margin at all operating temperatures
 - Evaluated and rejected: HZA107M025X16T-F (CDE hybrid polymer-Al, 30mΩ ESR, 4.56 cycles at
-  +20°C but marginal 2.1 cycles at −40°C — not selected as existing BOM part is sufficient)
-- Evaluated and rejected: KEMET T495X107K025ATA150 (MnO₂ tantalum, 150mΩ ESR — V_ESR = 450mV
+  +20°C but marginal 2.1 cycles at -40°C - not selected as existing BOM part is sufficient)
+- Evaluated and rejected: KEMET T495X107K025ATA150 (MnO₂ tantalum, 150mΩ ESR - V_ESR = 450mV
   at 3A, EXCEEDS entire 312mV budget; also MnO₂ tantalum short-circuit failure mode is unsafe
   in low-impedance power supply)
 
@@ -1398,12 +1398,12 @@ to complete backup switchover — INSUFFICIENT.
 
 ---
 
-## DEC-031 — CM5 Virtual Keyboard (Key Injection) Feature Architecture
+## DEC-031 - CM5 Virtual Keyboard (Key Injection) Feature Architecture
 
 - **Status:** Decided
 - **Date:** 2026-04-14
 - **Category:** Electrical / Firmware
-- **Area:** Stator Board — I²C Expanders, Servo, External Keyboard Source Mux
+- **Area:** Stator Board - I²C Expanders, Servo, External Keyboard Source Mux
 - **Author:** Izzyonstage & GitHub Copilot
 
 ### Summary
@@ -1422,19 +1422,19 @@ inject keypresses without human intervention.
 Add three I²C expanders to the Stator board on the shared I²C-1 bus:
 
 1. **MCP23017 @ 0x20 (U6):** 16-bit GPIO expander for ENC_IN/ENC_OUT monitoring. Replaces
-   CM5 GPIO 4–15 (12 pins freed).
+   CM5 GPIO 4-15 (12 pins freed).
    - GPA[5:0] = ENC_IN[5:0] monitor (inputs)
    - GPB[5:0] = ENC_OUT[5:0] monitor (inputs)
    - GPA[6:7], GPB[6:7] = spare
 
 2. **MCP23017 @ 0x21 (U7):** 16-bit GPIO expander for virtual key data injection, external
-    keyboard-source mux control, and SYS_RESET_N (replaces CM5 GPIO 26 — 1 pin freed).
-    - GPA[5:0] = CM5_KEY_DATA[5:0] (outputs — 6-bit virtual key data bus)
-    - GPA[6] = KEY_CM5_ACTIVE (output — mux select: 0=physical keyboard, 1=CM5 virtual)
-    - GPA[7] = SYS_RESET_N (output — system-wide CPLD reset)
+    keyboard-source mux control, and SYS_RESET_N (replaces CM5 GPIO 26 - 1 pin freed).
+    - GPA[5:0] = CM5_KEY_DATA[5:0] (outputs - 6-bit virtual key data bus)
+    - GPA[6] = KEY_CM5_ACTIVE (output - mux select: 0=physical keyboard, 1=CM5 virtual)
+    - GPA[7] = SYS_RESET_N (output - system-wide CPLD reset)
     - GPB[7:0] = spare / reserved
 
-### Rationale for MCP23017 (×2)
+### Rationale for MCP23017 (x2)
 
 - 32 GPIO total provides headroom for future I/O expansion.
 - SYS_RESET_N migration to expander reduces LINK-BETA pin count and frees CM5 GPIO 26.
@@ -1455,15 +1455,15 @@ Add three I²C expanders to the Stator board on the shared I²C-1 bus:
 
 ### Net Effect on LINK-BETA
 
-- **Freed (13 pins):** ENC_IN[5:0] (×6), ENC_OUT[5:0] (×6), SYS_RESET_N (×1).
-- **Freed:** pins 8 (SYS_RESET_N), 12–17 (ENC_IN[5:0]), and 19–24 (ENC_OUT[5:0]) were freed by this decision.
+- **Freed (13 pins):** ENC_IN[5:0] (x6), ENC_OUT[5:0] (x6), SYS_RESET_N (x1).
+- **Freed:** pins 8 (SYS_RESET_N), 12-17 (ENC_IN[5:0]), and 19-24 (ENC_OUT[5:0]) were freed by this decision.
 - **Later reuse:** DEC-036 reallocated the former monitor block into grouped LINK-BETA power rails
   (5V_MAIN, 3V3_ENIG, and GND) once the Stator-side 5V needs were formalised.
 - R6 pull-up (10kΩ to 3V3_ENIG) on Stator keeps SYS_RESET_N HIGH at power-up (CPLDs out of reset).
 
 ### Net Effect on CM5 GPIO
 
-- **Freed (13 pins):** GPIO 4–15 (ENC monitoring), GPIO 26 (SYS_RESET_N).
+- **Freed (13 pins):** GPIO 4-15 (ENC monitoring), GPIO 26 (SYS_RESET_N).
 - No new CM5 GPIO assignments required.
 
 ### I²C Bus Address Map (no conflicts)
@@ -1484,12 +1484,12 @@ Add three I²C expanders to the Stator board on the shared I²C-1 bus:
 
 ---
 
-## DEC-032 — Settings Board: Panel-Mount Configuration Controls with CM5 Override
+## DEC-032 - Settings Board: Panel-Mount Configuration Controls with CM5 Override
 
 - **Status:** Decided
 - **Date:** 2026-04-14
 - **Category:** Electrical / HMI
-- **Area:** Stator Board — Configuration Interface; new Settings Board PCB
+- **Area:** Stator Board - Configuration Interface; new Settings Board PCB
 - **Author:** Izzyonstage & GitHub Copilot
 
 ### Summary
@@ -1516,7 +1516,7 @@ Additionally, the CM5 has no way to programmatically override the configuration.
    - U2 (MCP23017 @ 0x24): drives Bank 1 LED anodes + Bank 1 colour rails
    - U3 (MCP23017 @ 0x25): drives Bank 2 LED anodes + Bank 2 colour rails
 3. Add U8 (MCP23017 @ 0x22) to the Stator Board. Its outputs drive the CPLD configuration
-   input pins directly (`CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]`). Pull-downs R16–R26 are retained on the CPLD
+   input pins directly (`CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]`). Pull-downs R16-R26 are retained on the CPLD
    input pins to hold safe defaults (all-zero) at power-up before CM5 initialises U8.
 4. CM5 firmware (enigma daemon):
    - Reads U1 to get user-intent config state
@@ -1540,10 +1540,10 @@ Additionally, the CM5 has no way to programmatically override the configuration.
 
 | Address | Device | Location |
 | :--- | :--- | :--- |
-| 0x22 | MCP23017 (U8) | Stator — CPLD config output driver |
-| 0x23 | MCP23017 (U1) | Settings Board — switch input reader |
-| 0x24 | MCP23017 (U2) | Settings Board — Bank 1 LED anode + colour rail driver |
-| 0x25 | MCP23017 (U3) | Settings Board — Bank 2 LED anode + colour rail driver |
+| 0x22 | MCP23017 (U8) | Stator - CPLD config output driver |
+| 0x23 | MCP23017 (U1) | Settings Board - switch input reader |
+| 0x24 | MCP23017 (U2) | Settings Board - Bank 1 LED anode + colour rail driver |
+| 0x25 | MCP23017 (U3) | Settings Board - Bank 2 LED anode + colour rail driver |
 
 ### Rationale
 
@@ -1551,7 +1551,7 @@ Additionally, the CM5 has no way to programmatically override the configuration.
 - I²C-centric wiring between Settings Board and Stator keeps the cable harness minimal vs 10+
   parallel signal wires; the active harness is now a 6-wire JST PH link carrying `3V3_ENIG`,
   `5V_MAIN`, `GND`, `SDA`, `SCL`, and a dedicated LED return GND.
-- Retaining R16–R26 pull-downs ensures the CPLD receives a safe all-zero default at power-up
+- Retaining R16-R26 pull-downs ensures the CPLD receives a safe all-zero default at power-up
   (no plugboard insertion, physical reflector pass-through) before the CM5 writes the desired config.
 - CM5 remains the single authority arbiter, allowing GUI presets to forward or override the Settings
   Board user-intent image while still exposing that authority state through the indicators.
@@ -1575,12 +1575,12 @@ Additionally, the CM5 has no way to programmatically override the configuration.
 
 ---
 
-## DEC-033 — DSI1 Display Connector Provision for Optional Lid Touchscreen
+## DEC-033 - DSI1 Display Connector Provision for Optional Lid Touchscreen
 
 - **Status:** Decided
 - **Date:** 2026-04-14
 - **Category:** Electrical / HMI
-- **Area:** Controller Board — CM5 display interface; Main Enclosure lid
+- **Area:** Controller Board - CM5 display interface; Main Enclosure lid
 - **Author:** Izzyonstage & GitHub Copilot
 
 ### Summary
@@ -1594,37 +1594,37 @@ without an external monitor. The Display Add-on Board design is deferred.
 The Enigma-NG currently relies on an external HDMI monitor and USB HID devices for system
 management and GUI display. With the CM5 virtual keyboard injection (DEC-031) and Settings Board
 (DEC-032) features, the machine is capable of autonomous operation. Adding a lid-mounted touchscreen
-completes the self-contained package — the only remaining external peripheral would be a keyboard
+completes the self-contained package - the only remaining external peripheral would be a keyboard
 and mouse for system administration tasks.
 
 ### Decision
 
 1. Add J9 (Amphenol F52Q-1A7H1-11015, 15-pin 1.0mm pitch ZIF/FPC connector) to the Controller Board to expose
-   the CM5 DSI1 4-lane interface (CLK +/−, D0–D3 +/−).
-2. Route DSI1 differential pairs on L3 (100 Ω differential stripline — same rule as HDMI/USB).
+   the CM5 DSI1 4-lane interface (CLK +/-, D0-D3 +/-).
+2. Route DSI1 differential pairs on L3 (100 Ω differential stripline - same rule as HDMI/USB).
    Traces run from CM5 mezzanine connector pins to J9 near the CM5 socket.
 3. Touch I²C (capacitive touch controller SDA/SCL) is routed via the I²C-1 bus already present
    on the Controller Board.
 4. `J9` is the only Controller-side display connector fixed in the current scope. Any future
    display power or auxiliary touch wiring remains deferred with the display add-on board definition.
-5. The HDMI port (J4) is retained and unaffected — J9 is additive.
+5. The HDMI port (J4) is retained and unaffected - J9 is additive.
 6. Display Add-on Board design (lid mounting frame, FPC cable assembly, backlight driver if
    required, touch controller interface) is **deferred** to a future design phase.
 
 ### Display Interface
 
 - **Interface:** MIPI DSI1 (4-lane)
-- **Differential impedance:** 100 Ω (same as HDMI — no new routing rules)
-- **Connector:** Amphenol F52Q-1A7H1-11015 — 15-pin 1.0mm pitch right-angle ZIF/FPC
+- **Differential impedance:** 100 Ω (same as HDMI - no new routing rules)
+- **Connector:** Amphenol F52Q-1A7H1-11015 - 15-pin 1.0mm pitch right-angle ZIF/FPC
 - **Cable:** Thin FPC routed through lid hinge area (far superior to HDMI cable for hinge flexing)
 - **Touch input:** Capacitive touch controller I²C on I²C-1 bus (existing bus, no new wires required)
 - **Supported sizes:** DSI1 4-lane supports displays up to 10" at full resolution (e.g., RPi official 10" touchscreen)
 
 ### Rationale
 
-- DSI1 FPC cable is thin and flexible — ideal for routing through a lid hinge without fatigue.
+- DSI1 FPC cable is thin and flexible - ideal for routing through a lid hinge without fatigue.
 - Retaining HDMI preserves external monitor compatibility for development and maintenance.
-- The 100 Ω differential rule is already established on L3 for HDMI — no new stackup or impedance work needed.
+- The 100 Ω differential rule is already established on L3 for HDMI - no new stackup or impedance work needed.
 - Provisioning the connector now (no extra cost, trivial PCB area) avoids a board revision later if the display add-on is adopted.
 - I²C-1 bus already has spare address space for a touch controller (e.g., FT5426 at 0x38 or similar).
 
@@ -1632,12 +1632,12 @@ and mouse for system administration tasks.
 
 - **Controller Board:** J9 added; ~10 new 100 Ω diff traces on L3; small ZIF footprint on L1 near CM5
 - **Main Enclosure:** Lid requires provision for display mounting and FPC hinge routing (see `Main_Enclosure/Design_Spec.md`)
-- **Display Add-on Board:** Deferred — to be designed as a separate optional add-on
+- **Display Add-on Board:** Deferred - to be designed as a separate optional add-on
 - **Firmware / OS:** Standard RPi DSI1 display driver; no custom firmware changes needed for basic display output
 
 ---
 
-## DEC-034 — Switch Hardware Refresh: Settings Board Toggle + Discrete RGB LED, Ruggedized PM SW1
+## DEC-034 - Switch Hardware Refresh: Settings Board Toggle + Discrete RGB LED, Ruggedized PM SW1
 
 - **Status:** Decided
 - **Date:** 2026-04-16
@@ -1701,7 +1701,7 @@ spade-terminal wiring.
 
 ---
 
-## DEC-035 — HID Keyboard and Lightboard Use a 40-Position QWERTY-Derived Layout for the 64-Character Code Space
+## DEC-035 - HID Keyboard and Lightboard Use a 40-Position QWERTY-Derived Layout for the 64-Character Code Space
 
 - **Status:** Decided
 - **Date:** 2026-04-17
@@ -1762,7 +1762,7 @@ uppercase-only key positions that were never part of the intended user-facing la
 
 ---
 
-## DEC-036 — LINK-BETA Former Monitor Pins Reallocated as Grouped Power Rails
+## DEC-036 - LINK-BETA Former Monitor Pins Reallocated as Grouped Power Rails
 
 - **Status:** Decided
 - **Date:** 2026-04-18
@@ -1789,42 +1789,42 @@ Retain the 40-pin LINK-BETA connector and apply this active allocation:
 
 | Pin | Signal | Direction | Notes |
 | :--- | :--- | :--- | :--- |
-| 1 | GND | — | JTAG leading shield |
+| 1 | GND | - | JTAG leading shield |
 | 2 | TCK | CTRL→Stator | JTAG clock |
-| 3 | GND | — | TCK/TMS inter-pin shield |
+| 3 | GND | - | TCK/TMS inter-pin shield |
 | 4 | TMS | CTRL→Stator | JTAG mode select |
-| 5 | GND | — | TMS/TDI inter-pin shield |
+| 5 | GND | - | TMS/TDI inter-pin shield |
 | 6 | TDI | CTRL→Stator | JTAG data in |
-| 7 | GND | — | TDI/GND inter-pin shield |
-| 8 | GND | — | Extra JTAG trailing/guard ground |
-| 9 | GND | — | JTAG trailing shield |
-| 10 | GND | — | Isolation moat pin 1 |
-| 11 | GND | — | Isolation moat pin 2 |
+| 7 | GND | - | TDI/GND inter-pin shield |
+| 8 | GND | - | Extra JTAG trailing/guard ground |
+| 9 | GND | - | JTAG trailing shield |
+| 10 | GND | - | Isolation moat pin 1 |
+| 11 | GND | - | Isolation moat pin 2 |
 | 12 | I2C1_SDA | Bidir | Shared Stator/Settings I²C-1 data extension |
 | 13 | I2C1_SCL | Bidir | Shared Stator/Settings I²C-1 clock extension |
 | 14 | 5V_MAIN | PM→Stator | Grouped 5V_MAIN feed |
 | 15 | 5V_MAIN | PM→Stator | Grouped 5V_MAIN feed |
 | 16 | 5V_MAIN | PM→Stator | Grouped 5V_MAIN feed |
 | 17 | 5V_MAIN | PM→Stator | Grouped 5V_MAIN feed |
-| 18 | GND | — | 5V_MAIN return moat |
+| 18 | GND | - | 5V_MAIN return moat |
 | 19 | 3V3_ENIG | PM→Stator | Additional 3V3_ENIG feed |
 | 20 | 3V3_ENIG | PM→Stator | Additional 3V3_ENIG feed |
 | 21 | 3V3_ENIG | PM→Stator | Additional 3V3_ENIG feed |
-| 22 | GND | — | Grouped return for the mixed-power block |
-| 23 | GND | — | Grouped return for the mixed-power block |
-| 24 | GND | — | Grouped return for the mixed-power block |
-| 25 | GND | — | TTD_RETURN leading shield |
+| 22 | GND | - | Grouped return for the mixed-power block |
+| 23 | GND | - | Grouped return for the mixed-power block |
+| 24 | GND | - | Grouped return for the mixed-power block |
+| 25 | GND | - | TTD_RETURN leading shield |
 | 26 | TTD_RETURN | Stator→CTRL | JTAG TDO short-path return |
-| 27 | GND | — | TTD_RETURN trailing shield |
-| 28–35 | 3V3_ENIG | PM→Stator | Existing 3V3_ENIG pass-through block |
-| 36–40 | GND | — | Main power return block |
+| 27 | GND | - | TTD_RETURN trailing shield |
+| 28-35 | 3V3_ENIG | PM→Stator | Existing 3V3_ENIG pass-through block |
+| 36-40 | GND | - | Main power return block |
 
 ### Rationale
 
 - The connector footprint, mating safety, and stack geometry from DEC-015 stay unchanged.
 - Grouping all four 5V_MAIN pins together simplifies routing and clearly separates the 5V branch
   from the I²C and JTAG regions.
-- 4 × 5V_MAIN pins provide **2.0A connector capacity**, giving ample headroom above the current
+- 4 x 5V_MAIN pins provide **2.0A connector capacity**, giving ample headroom above the current
   0.74A downstream budget (Settings Board indicators + servo).
 - The extra 3V3_ENIG pins make LINK-BETA electrically overprovisioned, so the upstream 3.0A LDO
   remains the only practical 3V3 limit.
@@ -1832,7 +1832,7 @@ Retain the 40-pin LINK-BETA connector and apply this active allocation:
 ### Impact
 
 - Controller / Stator LINK-BETA tables updated to grouped 5V_MAIN, 3V3_ENIG, and GND allocations
-- Settings Board and Stator docs updated to source `5V_MAIN` from LINK-BETA pins **14–17**
+- Settings Board and Stator docs updated to source `5V_MAIN` from LINK-BETA pins **14-17**
 - Historical Controller probe-access concept repurposed from unused spare pads to power/I²C
   bring-up probes
 
@@ -1844,7 +1844,7 @@ DEC-015 (40-pin connector retained). DEC-031 (freed the former monitor pins). DE
 
 ---
 
-## DEC-037 — LINK-BETA Pin Map Regrouped Around Dedicated JTAG and I2C Guard Bands
+## DEC-037 - LINK-BETA Pin Map Regrouped Around Dedicated JTAG and I2C Guard Bands
 
 - **Status:** Decided
 - **Date:** 2026-04-18
@@ -1873,11 +1873,11 @@ Adopt this LINK-BETA allocation as the active mapping:
 
 | Pin | Signal | Direction | Notes |
 | :--- | :--- | :--- | :--- |
-| 1 | GND | — | Front power return / guard |
-| 2 | GND | — | Front power return / guard |
+| 1 | GND | - | Front power return / guard |
+| 2 | GND | - | Front power return / guard |
 | 3 | 5V_MAIN | PM→Stator | Grouped 5V_MAIN feed |
 | 4 | 5V_MAIN | PM→Stator | Grouped 5V_MAIN feed |
-| 5 | GND | — | Front power return / guard |
+| 5 | GND | - | Front power return / guard |
 | 6 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
 | 7 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
 | 8 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
@@ -1885,22 +1885,22 @@ Adopt this LINK-BETA allocation as the active mapping:
 | 10 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
 | 11 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
 | 12 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
-| 13 | GND | — | Front 3V3 return / guard |
-| 14 | GND | — | Front 3V3 return / guard |
+| 13 | GND | - | Front 3V3 return / guard |
+| 14 | GND | - | Front 3V3 return / guard |
 | 15 | TCK | CTRL→Stator | JTAG clock |
-| 16 | GND | — | TCK/TMS guard |
+| 16 | GND | - | TCK/TMS guard |
 | 17 | TMS | CTRL→Stator | JTAG mode select |
-| 18 | GND | — | TMS/TDI guard |
+| 18 | GND | - | TMS/TDI guard |
 | 19 | TDI | CTRL→Stator | JTAG data in |
-| 20 | GND | — | TDI/TTD_RETURN guard |
+| 20 | GND | - | TDI/TTD_RETURN guard |
 | 21 | TTD_RETURN | Stator→CTRL | JTAG TDO short-path return |
-| 22 | GND | — | TTD_RETURN trailing guard |
-| 23 | GND | — | JTAG/I2C isolation ground |
+| 22 | GND | - | TTD_RETURN trailing guard |
+| 23 | GND | - | JTAG/I2C isolation ground |
 | 24 | I2C1_SDA | Bidir | Shared Stator/Settings I²C-1 data extension |
-| 25 | GND | — | SDA/SCL guard |
+| 25 | GND | - | SDA/SCL guard |
 | 26 | I2C1_SCL | Bidir | Shared Stator/Settings I²C-1 clock extension |
-| 27 | GND | — | I2C/rear-power isolation ground |
-| 28 | GND | — | Rear power guard |
+| 27 | GND | - | I2C/rear-power isolation ground |
+| 28 | GND | - | Rear power guard |
 | 29 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
 | 30 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
 | 31 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
@@ -1908,19 +1908,19 @@ Adopt this LINK-BETA allocation as the active mapping:
 | 33 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
 | 34 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
 | 35 | 3V3_ENIG | PM→Stator | Grouped 3V3_ENIG feed |
-| 36 | GND | — | Rear 3V3 return / guard |
+| 36 | GND | - | Rear 3V3 return / guard |
 | 37 | 5V_MAIN | PM→Stator | Grouped 5V_MAIN feed |
 | 38 | 5V_MAIN | PM→Stator | Grouped 5V_MAIN feed |
-| 39 | GND | — | Rear power return / guard |
-| 40 | GND | — | Rear power return / guard |
+| 39 | GND | - | Rear power return / guard |
+| 40 | GND | - | Rear power return / guard |
 
 ### Rationale
 
 - Preserves a dedicated guarded JTAG block and keeps `TTD_RETURN` adjacent to the other JTAG nets.
 - Preserves a separately guarded I2C pair instead of burying it inside a mixed power cluster.
-- Keeps **4 × `5V_MAIN` pins = 2.0A connector capacity**, which remains above the current
+- Keeps **4 x `5V_MAIN` pins = 2.0A connector capacity**, which remains above the current
   **0.74A** downstream Stator-side 5V budget.
-- Expands LINK-BETA to **14 × `3V3_ENIG` pins = 7.0A connector capacity**, so the connector remains
+- Expands LINK-BETA to **14 x `3V3_ENIG` pins = 7.0A connector capacity**, so the connector remains
   comfortably above the upstream **3.0A** LDO limit.
 - Removes active-doc wording distinctions like "additional" or "pass-through" from the pin map; the
   table is now a straightforward interface definition.
@@ -1949,7 +1949,7 @@ DEC-015 (40-pin connector retained), DEC-031 (functions moved off the connector)
 
 ---
 
-## DEC-038 — Controller-Centric Dock Architecture Replaces Legacy Link-Alpha / Link-Beta Backplane
+## DEC-038 - Controller-Centric Dock Architecture Replaces Legacy Link-Alpha / Link-Beta Backplane
 
 - **Status:** Decided
 - **Date:** 2026-04-19
@@ -2012,9 +2012,9 @@ Active partition:
 
 | Link | Function | Allocation |
 | :--- | :--- | :--- |
-| `J1A` | main regulated rails | `3 × 5V_MAIN`, `2 × 3V3_ENIG`, `5 × GND` |
-| `J1B` | PoE auxiliary handoff | `3 × VIN_POE_12V`, `7 × GND` |
-| `J1C` | low-speed control / telemetry | `I2C1_SDA`, `I2C1_SCL`, `PM_IO_INT_N`, `PWR_GD`, `ROTOR_EN`, `PWR_BUT`, `4 × GND` |
+| `J1A` | main regulated rails | `3 x 5V_MAIN`, `2 x 3V3_ENIG`, `5 x GND` |
+| `J1B` | PoE auxiliary handoff | `3 x VIN_POE_12V`, `7 x GND` |
+| `J1C` | low-speed control / telemetry | `I2C1_SDA`, `I2C1_SCL`, `PM_IO_INT_N`, `PWR_GD`, `ROTOR_EN`, `PWR_BUT`, `4 x GND` |
 
 #### 4. Controller ↔ Stator dock uses two Molex hybrid connectors
 
@@ -2025,9 +2025,9 @@ Use the Molex EXTreme Guardian HD pair:
 
 Active partition:
 
-- **5V dock (`J2A`)**: `4 × 5V_MAIN` power blades, `1 × GND` power blade, signal field used as extra
+- **5V dock (`J2A`)**: `4 x 5V_MAIN` power blades, `1 x GND` power blade, signal field used as extra
   `GND` returns / guards
-- **3V3 / logic dock (`J2B`)**: `4 × 3V3_ENIG` power blades, `1 × GND` power blade, guarded signal field
+- **3V3 / logic dock (`J2B`)**: `4 x 3V3_ENIG` power blades, `1 x GND` power blade, guarded signal field
   carrying `TCK`, `TMS`, `TDI`, `TTD_RETURN`, `I2C1_SDA`, and `I2C1_SCL`; all remaining signal contacts tied to `GND`
 
 This retains the JTAG cluster on the `3V3_ENIG` / logic-biased connector and gives the Stator two
@@ -2096,11 +2096,11 @@ create a second galvanic bond to system ground.
   remains co-located with the rotor depression bar in the vertical-Stator enclosure layout.
   The following Stator requirements were retired as a result (IDs at time of retirement; the active
   spec has since been renumbered to close the gaps):
-  - **FR-STA-11** (servo PWM output, original numbering) — superseded by Controller-local direct CM5 GPIO PWM.
-  - **FR-STA-12** (SERVO\_HOME sensing, original numbering) — superseded by Controller-local home-switch input.
-  - **DR-STA-13** (I²C PWM driver, original numbering) — servo PWM generation moved to direct CM5 GPIO.
-  - **DR-STA-14** (servo connector, original numbering) — connector ownership moved to the Controller.
-  - **DR-STA-15** (SERVO\_HOME switch, original numbering) — home-switch ownership moved to the Controller.
+  - **FR-STA-11** (servo PWM output, original numbering) - superseded by Controller-local direct CM5 GPIO PWM.
+  - **FR-STA-12** (SERVO\_HOME sensing, original numbering) - superseded by Controller-local home-switch input.
+  - **DR-STA-13** (I²C PWM driver, original numbering) - servo PWM generation moved to direct CM5 GPIO.
+  - **DR-STA-14** (servo connector, original numbering) - connector ownership moved to the Controller.
+  - **DR-STA-15** (SERVO\_HOME switch, original numbering) - home-switch ownership moved to the Controller.
 - PM GPIO / SW1 RGB runtime control moves to `PCA9534APWR @ 0x3F`.
 - Power-budget and overview documents must stop referencing Samtec Link-Alpha / Link-Beta as active
   PM/Stator bottlenecks.
@@ -2111,12 +2111,12 @@ DEC-014, DEC-015, DEC-031, DEC-034, DEC-037.
 
 ---
 
-## DEC-039 — Enclosure-Connected Boards Use GND_CHASSIS; Daughterboards Are Exempt
+## DEC-039 - Enclosure-Connected Boards Use GND_CHASSIS; Daughterboards Are Exempt
 
 - **Status:** Decided
 - **Date:** 2026-04-20
 - **Category:** Electrical / EMC
-- **Area:** All boards — grounding, mounting, and enclosure bonding
+- **Area:** All boards - grounding, mounting, and enclosure bonding
 - **Author:** Izzyonstage & GitHub Copilot
 
 ### Summary
@@ -2196,17 +2196,17 @@ mounting-hole grounding or accidental secondary bond points.
 
 ### Cross-ref
 
-DEC-020, DEC-023, DEC-038, `design/Standards/Global_Routing_Spec.md §4–§5`,
+DEC-020, DEC-023, DEC-038, `design/Standards/Global_Routing_Spec.md §4-§5`,
 `design/Standards/Certification_Evidence.md §2.2`.
 
 ---
 
-## DEC-040 — Diagnostics Banks Removed from Active Design Specs Pending Coupon Review
+## DEC-040 - Diagnostics Banks Removed from Active Design Specs Pending Coupon Review
 
 - **Status:** Decided
 - **Date:** 2026-04-25
 - **Category:** Documentation / Test-access strategy
-- **Area:** All boards — active design specs, board layouts, and future coupon planning
+- **Area:** All boards - active design specs, board layouts, and future coupon planning
 - **Author:** Izzyonstage & GitHub Copilot
 
 ### Summary
@@ -2241,7 +2241,7 @@ production-board design.
      active design definition.
 
 3. **Revisit test-access details only during the coupon work item.**
-   - Any future removable coupon implementation is to be reviewed later under **OWI-001 — Test
+   - Any future removable coupon implementation is to be reviewed later under **OWI-001 - Test
      Coupons per Board**.
    - Per-board coupon signal selection, geometry, connector choices, and any related probe-access
      strategy are deferred until that dedicated review.
@@ -2280,7 +2280,7 @@ DEC-009, DEC-010, QUE-002, OWI-001, OWI-002, `design/Standards/Certification_Evi
 
 ---
 
-## DEC-041 — Encoder Modules Use EPM570 with Digital Debounce and Role-by-Programming
+## DEC-041 - Encoder Modules Use EPM570 with Digital Debounce and Role-by-Programming
 
 - **Status:** Decided
 - **Date:** 2026-04-26
@@ -2301,7 +2301,7 @@ The prior Encoder direction left the active design in a fragmented state:
 
 - Encoder boards were the only active MAX II boards still specified around the smaller `EPM240`
   device while Rotor and Stator already used `EPM570`
-- encode-role boards required a large role-specific RC population (`64 × 10 kΩ` + `64 × 100 nF`)
+- encode-role boards required a large role-specific RC population (`64 x 10 kΩ` + `64 x 100 nF`)
   even though the same PCB was intended to stay generic
 - role-identifying population differences made bulk manufacturing and board identification less
   robust than a single common programmable hardware standard
@@ -2377,7 +2377,7 @@ DEC-016, DEC-035, `design/Electronics/Encoder/Design_Spec.md`,
 
 ---
 
-## DEC-042 — Encoder Port Pin 8 Carries HID-Local `ENC_ACTIVE_N`
+## DEC-042 - Encoder Port Pin 8 Carries HID-Local `ENC_ACTIVE_N`
 
 - **Status:** Decided
 - **Date:** 2026-04-26
@@ -2461,7 +2461,7 @@ DEC-041, `design/Electronics/Stator/Design_Spec.md`,
 
 ---
 
-## DEC-043 — Shared Actuation Module Replaces Direct Controller Servo GPIO
+## DEC-043 - Shared Actuation Module Replaces Direct Controller Servo GPIO
 
 - **Status:** Decided
 - **Date:** 2026-04-26
@@ -2556,15 +2556,15 @@ DEC-038, `design/Electronics/Actuation_Module/Design_Spec.md`,
 `design/Mechanical/Rotor_Actuation_Assembly/Design_Spec.md`.
 
 > **QUE-002 supersession note:** DEC-043 supersedes the pin count stated in QUE-002 Question 3.
-> QUE-002 Q3 referenced "Stator J10 (16-pin 2×8)" — that was the pre-DEC-043 connector width.
-> J10 is now a **20-pin 2×10 BHR-20-VUA** shrouded box header. The mating connectors on Extension
-> (J7/J8) and Reflector (J4) are identical 20-pin 2×10 BHR-20-VUA headers. Standard 20-wire 2.54mm
+> QUE-002 Q3 referenced "Stator J10 (16-pin 2x8)" - that was the pre-DEC-043 connector width.
+> J10 is now a **20-pin 2x10 BHR-20-VUA** shrouded box header. The mating connectors on Extension
+> (J7/J8) and Reflector (J4) are identical 20-pin 2x10 BHR-20-VUA headers. Standard 20-wire 2.54mm
 > IDC ribbon cable assemblies are suitable for all three; no break-off PCB coupons are required for
 > these links (QUE-002 coupons apply only to Samtec ERF8/ERM8 0.8mm-pitch connectors).
 
 ---
 
-## DEC-044— FDC2114 Internal Oscillator Selected (CLKIN → GND)
+## DEC-044- FDC2114 Internal Oscillator Selected (CLKIN → GND)
 
 - **Status:** Decided
 - **Date:** 2026-04-26
@@ -2599,7 +2599,7 @@ Use the FDC2114 internal oscillator (CLKIN → GND). This means:
   circular board (Ø92mm with CPLD, FDC2114, sensor electrodes, DIP switches, and connectors).
 - The internal oscillator frequency (~43.35 MHz) is well above the ~6.5 MHz nominal resonant
   frequency of the LC tank (18 µH + 33 pF), satisfying the FDC2114 requirement for the
-  conversion clock to be >4× the sensor resonant frequency.
+  conversion clock to be >4x the sensor resonant frequency.
 - Absolute frequency accuracy of the conversion clock is not critical for this application.
   Gray-code position detection requires only relative threshold crossing detection (presence or
   absence of an aluminium shroud slot), not absolute frequency measurement.
@@ -2629,7 +2629,7 @@ Use the FDC2114 internal oscillator (CLKIN → GND). This means:
 
 ---
 
-## DEC-045 — Rotor Samtec ERM8/ERF8 Connectors Require ESD Protection
+## DEC-045 - Rotor Samtec ERM8/ERF8 Connectors Require ESD Protection
 
 - **Status:** Decided
 - **Date:** 2026-04-28
@@ -2652,7 +2652,7 @@ the ERM8/ERF8 mating faces accessible during servicing, exposing them to ESD eve
 handling.
 
 The Samtec connectors were originally specified for the PM/Stator interconnect (an internal,
-non-hot-swappable path) — this was incorrect. They are now correctly used for rotor external
+non-hot-swappable path) - this was incorrect. They are now correctly used for rotor external
 connections (between individually removable/serviceable rotor modules).
 
 ### Decision
@@ -2663,7 +2663,7 @@ connector families.
 
 ### Rationale
 
-- Rotors are explicitly designed to be hot-swappable (Samtec ERM8/ERF8 rated for high mating cycles — §2.3).
+- Rotors are explicitly designed to be hot-swappable (Samtec ERM8/ERF8 rated for high mating cycles - §2.3).
 - ESD events at the mating face during live insertion are a realistic threat to CPLD, FDC2114, and JTAG chain integrity.
 - The relevant boundary for ESD protection is "accessible during servicing" not merely "external to the enclosure at all times."
 - This is consistent with the §9 principle extended to servicing access rather than just permanent physical exposure.
@@ -2678,11 +2678,11 @@ connector families.
 ### Impact
 
 - `design/Standards/Global_Routing_Spec.md §9`: Added hot-swappable/service-accessible connector clause.
-- `design/Electronics/Rotor/Design_Spec.md §6`: ESD arrays documented. Selected device: TPD4E05U06QDQARQ1 (U5–U12);
-  U5–U8 protect Board A connectors J1 and J3; U9–U12 protect Board B connectors J4 and J6. 8 per rotor pair × 30 = 240 system total.
+- `design/Electronics/Rotor/Design_Spec.md §6`: ESD arrays documented. Selected device: TPD4E05U06QDQARQ1 (U5-U12);
+  U5-U8 protect Board A connectors J1 and J3; U9-U12 protect Board B connectors J4 and J6. 8 per rotor pair x 30 = 240 system total.
   JTAG signals corrected: J1 Board A = TDI/TMS/TCK (3 lines, 1 spare); J4 Board B = TDO/TMS/TCK (3 lines, 1 spare); nTRST not routed.
-  Encoder signals corrected: J3/J6 carry ENC_IN[5:0] + ENC_OUT[5:0] (12 lines) — phantom signals ENC_ACTIVE_N and ENC_CLK removed.
-- `design/Electronics/Consolidated_BOM.md`: TPD4E05U06QDQARQ1 row updated — ROT (×1) = 8, ROT Total (×30) = 240, System Total = 244.
+  Encoder signals corrected: J3/J6 carry ENC_IN[5:0] + ENC_OUT[5:0] (12 lines) - phantom signals ENC_ACTIVE_N and ENC_CLK removed.
+- `design/Electronics/Consolidated_BOM.md`: TPD4E05U06QDQARQ1 row updated - ROT (x1) = 8, ROT Total (x30) = 240, System Total = 244.
 
 ### Cross-ref
 
@@ -2691,7 +2691,7 @@ connector families.
 
 ---
 
-## DEC-046 — Bypass/Decoupling Capacitor Voltage Rating: 50V Retained on All Non-PM Boards
+## DEC-046 - Bypass/Decoupling Capacitor Voltage Rating: 50V Retained on All Non-PM Boards
 
 - **Status:** Decided
 - **Date:** 2026-04-29
@@ -2719,21 +2719,21 @@ The Power Module retains 50V for all capacitors on its input/battery path, which
 ### Rationale
 
 **Power Module (input-side caps):** 50V is required. The PM input rail reaches ~16.9V; 50V provides
->3× voltage margin, meeting the X7R DC bias derating requirement. A 25V cap would give only 1.5×
-margin — insufficient for X7R ceramics.
+>3x voltage margin, meeting the X7R DC bias derating requirement. A 25V cap would give only 1.5x
+margin - insufficient for X7R ceramics.
 
-**All other boards (bypass/decoupling caps):** 25V is technically sufficient (5V_MAIN gives 5×
+**All other boards (bypass/decoupling caps):** 25V is technically sufficient (5V_MAIN gives 5x
 margin at 25V). However:
 
 1. The standard approved parts (`CL05B104KB5NNNC` 100nF 0402, `C0805C105K5RACTU` 1µF 0805) are
    already approved, priced, and used consistently across every board. Changing them requires
    sourcing and approving new part numbers.
-2. No existing approved 25V part matches these capacitance values — the approved 25V parts
+2. No existing approved 25V part matches these capacitance values - the approved 25V parts
    (`CL21B106KAYQNNE` 10µF 0805, `CL32B226KAJNNNE` 22µF 1210, etc.) are all different values used
    for bulk/reservoir purposes.
-3. The 100nF 0402 bypass cap is one of the cheapest passive components in the design (~£0.002–0.003
-   each at JLCPCB volumes). The cost delta between 25V and 50V variants is negligible — fractions of
-   a penny per unit — and the total BOM saving across even a 500-unit build would be immaterial.
+3. The 100nF 0402 bypass cap is one of the cheapest passive components in the design (~£0.002-0.003
+   each at JLCPCB volumes). The cost delta between 25V and 50V variants is negligible - fractions of
+   a penny per unit - and the total BOM saving across even a 500-unit build would be immaterial.
 4. Consistency across the design has positive value: a single approved bypass cap part used
    everywhere reduces procurement complexity and qualification overhead.
 
@@ -2750,7 +2750,7 @@ margin at 25V). However:
 No document changes required. This decision records the rationale for the existing 50V specification
 to prevent future reviews from re-raising it as an issue.
 
-- `design/Electronics/Consolidated_BOM.md`: No change — existing 50V parts remain the standard.
+- `design/Electronics/Consolidated_BOM.md`: No change - existing 50V parts remain the standard.
 - `design/Standards/Global_Routing_Spec.md`: No change.
 
 ### Cross-ref
@@ -2760,7 +2760,7 @@ to prevent future reviews from re-raising it as an issue.
 
 ---
 
-## DEC-047 — OR-ing MOSFET Corrected to CSD17578Q5A
+## DEC-047 - OR-ing MOSFET Corrected to CSD17578Q5A
 
 - **Status:** Decided
 - **Date:** 2025-07-05
@@ -2777,7 +2777,7 @@ This has been corrected to **CSD17578Q5A**.
 
 Q1, Q2, and Q3 (LM74700-Q1 ideal-diode OR-ing MOSFETs) were listed as CSD17483F4T with a
 description of "30V 10A SON-8". The local datasheet (`csd17483f4-datasheet.md`) confirmed this part
-is actually a 1.5A / 260mΩ / PICOSTAR YJC 3-pin FemtoFET — completely unsuitable for an OR-ing
+is actually a 1.5A / 260mΩ / PICOSTAR YJC 3-pin FemtoFET - completely unsuitable for an OR-ing
 application handling multi-ampere input currents.
 
 ### Decision
@@ -2787,7 +2787,7 @@ Replace CSD17483F4T with **CSD17578Q5A** (TI NexFET N-channel MOSFET):
 - V_DSS: 30V
 - I_D: 25A continuous (package limited), 59A (silicon limited)
 - R_DS(on): 5.9mΩ @ V_GS = 10V; 7.9mΩ @ V_GS = 4.5V
-- Package: SON 5×6mm
+- Package: SON 5x6mm
 - DigiKey: `296-48512-1-ND` | Mouser: `595-CSD17578Q5A` | JLCPCB: `C2871447`
 
 ### Rationale
@@ -2801,7 +2801,7 @@ source) are fully compatible with this device's ±20V V_GS limit.
 
 | Alternative | Reason rejected |
 | :--- | :--- |
-| Retain CSD17483F4T | Incorrect part — 1.5A FemtoFET cannot handle OR-ing path currents |
+| Retain CSD17483F4T | Incorrect part - 1.5A FemtoFET cannot handle OR-ing path currents |
 | Other SON-8 OR-ing MOSFETs | CSD17578Q5A already approved and datasheet verified; no need to evaluate alternatives |
 
 ### Impact
@@ -2817,12 +2817,12 @@ source) are fully compatible with this device's ±20V V_GS limit.
 
 ---
 
-## DEC-048 — ESD Protection Extended to Host-Side Rotor-Facing BtB Connectors
+## DEC-048 - ESD Protection Extended to Host-Side Rotor-Facing BtB Connectors
 
 - **Status:** Approved
 - **Date:** 2026-04-30
 - **Category:** ESD / Protection Strategy
-- **Area:** Stator, Extension, Reflector — Rotor-Facing BtB Connectors
+- **Area:** Stator, Extension, Reflector - Rotor-Facing BtB Connectors
 - **Author:** Izzyonstage & GitHub Copilot
 
 ### Summary
@@ -2846,29 +2846,29 @@ Power connectors (power-only BtB pairs) and all internal IDC/ribbon/harness/dock
 
 Board-level implementation:
 
-- **Stator:** U9 (J1 JTAG), U10–U12 (J3 ENC) — 4 arrays total.
-- **Extension:** U2 (J1 JTAG in), U3–U5 (J3 ENC in), U6 (J4 JTAG out), U7–U9 (J6 ENC out) — 8 arrays total.
-- **Reflector:** U1 (J1 JTAG), U2–U4 (J3 ENC) — 4 arrays total.
+- **Stator:** U9 (J1 JTAG), U10-U12 (J3 ENC) - 4 arrays total.
+- **Extension:** U2 (J1 JTAG in), U3-U5 (J3 ENC in), U6 (J4 JTAG out), U7-U9 (J6 ENC out) - 8 arrays total.
+- **Reflector:** U1 (J1 JTAG), U2-U4 (J3 ENC) - 4 arrays total.
 
 Internal connectors explicitly excluded from this decision:
 
 - All power-only BtB connector pairs on any board.
-- Stator J4–J13 (IDC encoder ports, Extension Port ribbon, Controller docks, Settings harness).
+- Stator J4-J13 (IDC encoder ports, Extension Port ribbon, Controller docks, Settings harness).
 - Extension J7/J8 (Extension Port BHR-20-VUA ribbons) and J9/J10 (AM service docks).
 - Reflector J4 (TTD_RETURN ribbon).
 
 ### Rationale
 
 Rotors are a user-handled, hot-swappable component. During installation or removal, both sides of the connector interface are
-simultaneously accessible. Protecting only the rotor side is insufficient — a real ESD event from an operator to an unprotected
+simultaneously accessible. Protecting only the rotor side is insufficient - a real ESD event from an operator to an unprotected
 host socket would destroy the host board as readily as a rotor. Extending the same TPD4E05U06QDQARQ1 device used on rotors
 to the host-side connector faces closes the remaining ESD risk at minimal BOM cost (16 additional arrays across 3 boards).
 
 ### Impact
 
-- `design/Electronics/Stator/Design_Spec.md`: Added FR-STA-13, DR-STA-16; §8 ESD section rewritten; BOM U9–U12 added.
-- `design/Electronics/Extension/Design_Spec.md`: Added FR-EXT-07, DR-EXT-13; §5 ESD section rewritten; BOM U2–U9 added.
-- `design/Electronics/Reflector/Design_Spec.md`: Added FR-REF-05, DR-REF-06; §5 renamed to Thermal & ESD; BOM U1–U4 added.
+- `design/Electronics/Stator/Design_Spec.md`: Added FR-STA-13, DR-STA-16; §8 ESD section rewritten; BOM U9-U12 added.
+- `design/Electronics/Extension/Design_Spec.md`: Added FR-EXT-07, DR-EXT-13; §5 ESD section rewritten; BOM U2-U9 added.
+- `design/Electronics/Reflector/Design_Spec.md`: Added FR-REF-05, DR-REF-06; §5 renamed to Thermal & ESD; BOM U1-U4 added.
 - `design/Electronics/Consolidated_BOM.md`: Section 1 and Section 2 updated.
 
 ### Cross-ref
@@ -2878,34 +2878,34 @@ DEC-045 (Rotor ESD), `design/Electronics/Stator/Design_Spec.md §8`,
 
 ---
 
-## DEC-049 — Rotor Internal Headers Renamed to J-Convention; Connector Count Updated to 8; BOM Unified
+## DEC-049 - Rotor Internal Headers Renamed to J-Convention; Connector Count Updated to 8; BOM Unified
 
 - **Status:** Accepted
 - **Date:** 2026-05-01
 - **Category:** Hardware
-- **Area:** Rotor Board — Internal Interconnect; BOM Structure
+- **Area:** Rotor Board - Internal Interconnect; BOM Structure
 - **Amends:** DEC-028 (original internal header definition)
 
 ### Decision
 
 The four internal rotor interconnect headers previously designated H_SW3, H_PWR, H_JTAG, and
-H_SENS are renamed to J7–J14 to follow the established J-prefix convention for all connectors
+H_SENS are renamed to J7-J14 to follow the established J-prefix convention for all connectors
 across the project. The configuration is updated to **eight connectors** (four per board face):
-Board A J7/J8 1×5 female RS1-05-G, J11 1×5 male PH1-05-UA, J14 1×7 male PH1-07-UA;
-Board B J9 1×5 female RS1-05-G, J10 1×7 female RS1-07-G, J12/J13 1×5 male PH1-05-UA;
+Board A J7/J8 1x5 female RS1-05-G, J11 1x5 male PH1-05-UA, J14 1x7 male PH1-07-UA;
+Board B J9 1x5 female RS1-05-G, J10 1x7 female RS1-07-G, J12/J13 1x5 male PH1-05-UA;
 **44 pins total**. The Rotor BOM is unified into a single table (rather than split Board A /
 Board B) to reflect that rotor boards are manufactured as a single v-scored panel.
 
 ### Rationale
 
 - H_SW3/H_PWR/H_JTAG/H_SENS naming was functional rather than positional and inconsistent with all other connector RefDes conventions in the project.
-- Enumerating connectors as J7–J14 aligns with the J-prefix standard and makes RefDes unambiguous in BOMs and schematics.
+- Enumerating connectors as J7-J14 aligns with the J-prefix standard and makes RefDes unambiguous in BOMs and schematics.
 - The connector count of 8 (4 per board face) correctly reflects the physical geometry: each board face independently connects to its mating face, requiring its own set of male/female headers.
 - A unified BOM table accurately represents the manufacturing reality: the two halves are produced as a single v-scored panel at JLCPCB, separated only during mechanical assembly.
 
 ### Impact
 
-- `design/Electronics/Rotor/Design_Spec.md`: §3.4 J_INT headers updated from H_SW3/H_PWR/H_JTAG/H_SENS to J7–J14 with revised pinouts; BOM unified into single table, FR/DR updated.
+- `design/Electronics/Rotor/Design_Spec.md`: §3.4 J_INT headers updated from H_SW3/H_PWR/H_JTAG/H_SENS to J7-J14 with revised pinouts; BOM unified into single table, FR/DR updated.
 - `design/Electronics/Consolidated_BOM.md`: Internal headers updated to J7/J8 RS1-05-G female
   (Board A), J11 PH1-05-UA male, J14 PH1-07-UA male, J9 RS1-05-G female (Board B),
   J10 RS1-07-G female, J12/J13 PH1-05-UA male; 8 headers per rotor assembly (240 total for
@@ -2917,7 +2917,7 @@ DEC-028 (original split-board architecture and header definition).
 
 ---
 
-## DEC-050 — Encoder Blade Terminal RefDes Corrected from BT to J Convention
+## DEC-050 - Encoder Blade Terminal RefDes Corrected from BT to J Convention
 
 - **Status:** Active
 - **Date:** 2026-05-01
@@ -2927,7 +2927,7 @@ DEC-028 (original split-board architecture and header definition).
 ### Decision
 
 The 64 PCB spade blade terminals (Keystone 1285-ST) on the Encoder board have been
-renamed from `BT1`–`BT64` to `J3`–`J66`.
+renamed from `BT1`-`BT64` to `J3`-`J66`.
 
 ### Rationale
 
@@ -2940,24 +2940,24 @@ terminal bank begins at J3.
 
 ### Alternatives Considered
 
-- `XT` (external terminal) — used by some EDA conventions but `J` is more widely recognised
+- `XT` (external terminal) - used by some EDA conventions but `J` is more widely recognised
   and consistent with all other connector RefDes in this project.
-- Retain `BT` — rejected: collides with the IPC battery prefix and conflicts with `BT1` on
+- Retain `BT` - rejected: collides with the IPC battery prefix and conflicts with `BT1` on
   the Controller board.
 
 ### Impact
 
-- `design/Electronics/Encoder/Design_Spec.md` — BOM row and §4 interconnects text updated.
-- `design/Electronics/Encoder/Board_Layout.md` — signal group table updated.
-- `design/Software/CPLD_Logic/Encoder_Logic.md` — all `BT1`–`BT64` references updated.
-- `design/Electronics/Consolidated_BOM.md` — Encoder row RefDes updated.
-- `design/Datasheets/SaiBuy_Ltd_6p35mm_Mono_Jack_Pseudo_Datasheet.md` — system-level
-  wiring notes updated; decode-half now references `J3`–`J66` on the decode Encoder board
-  and encode-half references `J3`–`J66` on the encode Encoder board.
+- `design/Electronics/Encoder/Design_Spec.md` - BOM row and §4 interconnects text updated.
+- `design/Electronics/Encoder/Board_Layout.md` - signal group table updated.
+- `design/Software/CPLD_Logic/Encoder_Logic.md` - all `BT1`-`BT64` references updated.
+- `design/Electronics/Consolidated_BOM.md` - Encoder row RefDes updated.
+- `design/Datasheets/SaiBuy_Ltd_6p35mm_Mono_Jack_Pseudo_Datasheet.md` - system-level
+  wiring notes updated; decode-half now references `J3`-`J66` on the decode Encoder board
+  and encode-half references `J3`-`J66` on the encode Encoder board.
 
 ---
 
-## DEC-051 — Settings Board Renamed to User Settings Module (Board Code SBD → USM)
+## DEC-051 - Settings Board Renamed to User Settings Module (Board Code SBD → USM)
 
 - **Status:** Active
 - **Date:** 2026-05-02
@@ -2982,9 +2982,9 @@ ambiguity with the term "settings" as used in the GUI application.
 
 ### Alternatives Considered
 
-- Retain "Settings Board" — rejected: inconsistent with module naming convention applied
+- Retain "Settings Board" - rejected: inconsistent with module naming convention applied
   to all other subsystems.
-- "Input Module" or "Panel Module" — considered but rejected: "User Settings Module" more
+- "Input Module" or "Panel Module" - considered but rejected: "User Settings Module" more
   precisely describes the function (user-facing configuration controls).
 
 ### Superseded Naming
@@ -2992,10 +2992,10 @@ ambiguity with the term "settings" as used in the GUI application.
 The following historical design log entries use the old name "Settings Board". They are
 retained as-is as a historical record; their naming is superseded by this decision:
 
-- **DEC-032** — *Settings Board: Panel-Mount Configuration Controls with CM5 Override* —
+- **DEC-032** - *Settings Board: Panel-Mount Configuration Controls with CM5 Override* -
   all "Settings Board" references in this entry now refer to the User Settings Module.
-- **DEC-034** — *Switch Hardware Refresh: Settings Board Toggle + Discrete RGB LED,
-  Ruggedized PM SW1* — all "Settings Board" references in this entry now refer to the
+- **DEC-034** - *Switch Hardware Refresh: Settings Board Toggle + Discrete RGB LED,
+  Ruggedized PM SW1* - all "Settings Board" references in this entry now refer to the
   User Settings Module.
 - Other prior DEC entries and checkpoint files that mention "Settings Board" in prose or
   board-area fields retain their original wording as historical records.
@@ -3004,38 +3004,38 @@ retained as-is as a historical record; their naming is superseded by this decisi
 
 - `design/Electronics/Settings_Board/` directory renamed to
   `design/Electronics/User_Settings_Module/` (git history preserved via `git mv`).
-- `design/Electronics/User_Settings_Module/Design_Spec.md` — title and all prose updated.
-- `design/Electronics/User_Settings_Module/Board_Layout.md` — title and all prose updated.
-- `design/Electronics/Consolidated_BOM.md` — board code `SBD` → `USM`; column header
+- `design/Electronics/User_Settings_Module/Design_Spec.md` - title and all prose updated.
+- `design/Electronics/User_Settings_Module/Board_Layout.md` - title and all prose updated.
+- `design/Electronics/Consolidated_BOM.md` - board code `SBD` → `USM`; column header
   `SBD Qty` → `USM Qty`; all 18 `SBD:` RefDes prefixes updated to `USM:`.
-- `design/Electronics/all_boards_bom.json` — all `"board": "Settings Board"` entries updated.
+- `design/Electronics/all_boards_bom.json` - all `"board": "Settings Board"` entries updated.
 - `design/Electronics/Boards_Overview.md`, `Electrical_Design.md`, `System_Architecture.md`,
   `Power_Budgets.md`, `Controller/Design_Spec.md`, `Power_Module/Design_Spec.md`,
-  `Reflector/Design_Spec.md`, `Stator/Design_Spec.md`, `Stator/Board_Layout.md` — prose
+  `Reflector/Design_Spec.md`, `Stator/Design_Spec.md`, `Stator/Board_Layout.md` - prose
   and cross-references updated.
 - `design/Mechanical/Complete_System_Assembly/Design_Spec.md`,
-  `design/Mechanical/Main_Enclosure/Design_Spec.md` — prose references updated.
+  `design/Mechanical/Main_Enclosure/Design_Spec.md` - prose references updated.
 
 ---
 
-## DEC-052 — Variant-Specific FDC2114 RefDes Use A/B Suffix Convention
+## DEC-052 - Variant-Specific FDC2114 RefDes Use A/B Suffix Convention
 
 - **Status:** Active
 - **Date:** 2025-07-10
 - **Category:** Architecture
-- **Area:** Rotor Board — Position Sensing (FDC2114 sensor ICs and associated passives)
+- **Area:** Rotor Board - Position Sensing (FDC2114 sensor ICs and associated passives)
 
 ### Decision
 
 Variant-specific FDC2114 sensor components on the Rotor board are assigned RefDes with an A or B
 suffix to indicate which PCB sub-board they are physically located on:
 
-- **Board A (N=26 variant):** `U3A`, `C16A`, `C17A`, `C22A`–`C25A`, `L5A`–`L8A`
-- **Board B (N=64 variant):** `U3B`, `C16B`, `C17B`, `C22B`–`C25B`, `L5B`–`L8B`
+- **Board A (N=26 variant):** `U3A`, `C16A`, `C17A`, `C22A`-`C25A`, `L5A`-`L8A`
+- **Board B (N=64 variant):** `U3B`, `C16B`, `C17B`, `C22B`-`C25B`, `L5B`-`L8B`
 
 The B-suffix base numbers mirror the A-suffix base numbers exactly, making the pairing
 immediately readable. The always-fitted sensor (`U2`) and its bypass and resonant front-end
-components (`C14`, `C15`, `C18`–`C21`, `L1`–`L4`) retain plain RefDes with no suffix as they
+components (`C14`, `C15`, `C18`-`C21`, `L1`-`L4`) retain plain RefDes with no suffix as they
 are fitted on all variants.
 
 In KiCAD the A and B suffixes are unique RefDes. Two project variants are defined:
@@ -3058,32 +3058,32 @@ sequence is kept consecutive with no gaps.
 
 - **U3 / U4 (no suffix):** Used prior to this decision. Abandoned because schematic and PCB
   layout tools require unique RefDes; U3 and U4 appeared confusingly similar to Controller
-  Board RefDes (U4–U6) documented elsewhere.
+  Board RefDes (U4-U6) documented elsewhere.
 - **Separate schematic/layout per variant:** Rejected; doubles maintenance burden and makes
   shared JTAG and data routing harder to manage.
 
 ### Impact
 
-- `design/Electronics/Rotor/Design_Spec.md` — all occurrences of `U3`/`U4` for the Rotor
+- `design/Electronics/Rotor/Design_Spec.md` - all occurrences of `U3`/`U4` for the Rotor
   board updated to `U3A`/`U3B`; bypass and tank passive RefDes updated throughout.
-- `design/Electronics/Rotor/Board_Layout.md` — Board A and Board B tables updated.
-- `design/Electronics/Rotor/Rotor_26_Char_Design.md` — variant spec updated.
-- `design/Electronics/Rotor/Rotor_64_Char_Design.md` — variant spec updated.
-- `design/Electronics/Consolidated_BOM.md` — rows for C16/C17, C18–C21, C22–C25, L5–L8,
+- `design/Electronics/Rotor/Board_Layout.md` - Board A and Board B tables updated.
+- `design/Electronics/Rotor/Rotor_26_Char_Design.md` - variant spec updated.
+- `design/Electronics/Rotor/Rotor_64_Char_Design.md` - variant spec updated.
+- `design/Electronics/Consolidated_BOM.md` - rows for C16/C17, C18-C21, C22-C25, L5-L8,
   and U3/U4 updated; System Qty corrected for mutually-exclusive rows.
 
 ---
 
-## DEC-053 — Extension Port Connector Upgraded from BHR-20-VUA (20-pin) to 2BHR-30-VUA (30-pin)
+## DEC-053 - Extension Port Connector Upgraded from BHR-20-VUA (20-pin) to 2BHR-30-VUA (30-pin)
 
 - **Status:** Active
 - **Date:** 2025-07-10
 - **Category:** Electrical / Connector Selection
-- **Area:** Extension Port — Stator J10, Reflector J4, Extension J7/J8
+- **Area:** Extension Port - Stator J10, Reflector J4, Extension J7/J8
 
 ### Decision
 
-Replace the Adam Tech BHR-20-VUA (20-pin 2×10) with the Adam Tech 2BHR-30-VUA (30-pin 2×15) on
+Replace the Adam Tech BHR-20-VUA (20-pin 2x10) with the Adam Tech 2BHR-30-VUA (30-pin 2x15) on
 all Extension Port instances (Stator J10, Reflector J4, Extension J7, Extension J8). The approved
 30-pin pinout is symmetric end-to-end:
 
@@ -3106,8 +3106,8 @@ all Extension Port instances (Stator J10, Reflector J4, Extension J7, Extension 
 | 29 | 5V_MAIN | 30 | 5V_MAIN |
 
 The layout is symmetric: columns 1↔15, 2↔14, 3↔13 are identical; the signal blocks
-(ENC_OUT pins 7–12, ENC_IN pins 19–24) are positionally mirrored about the centre pair
-(pins 15–16). A keyed (polarised) variant is retained. The connector is from the same Adam Tech
+(ENC_OUT pins 7-12, ENC_IN pins 19-24) are positionally mirrored about the centre pair
+(pins 15-16). A keyed (polarised) variant is retained. The connector is from the same Adam Tech
 BHR/2BHR series as the previous BHR-20-VUA (same 3 A/pin contact rating, same housing family).
 
 ### Rationale
@@ -3115,21 +3115,21 @@ BHR/2BHR series as the previous BHR-20-VUA (same 3 A/pin contact rating, same ho
 Current-capacity analysis of the 20-pin connector revealed three worst-case violations at full system
 build (30 rotors, 5 Extension boards) against the IPC-2221 28 AWG IDC ribbon limit of ~1 A/conductor:
 
-- `3V3_ENIG`: 30 × 55 mA = **1.65 A** via a single pin → 1.65 A/conductor — exceeds limit.
-- `5V_MAIN`: 5 extensions × 500 mA = **2.50 A** via 2 pins → 1.25 A/conductor — exceeds limit.
-- `GND` return: 4.15 A total via 2 dedicated GND pins → 2.08 A/conductor — exceeds limit.
+- `3V3_ENIG`: 30 x 55 mA = **1.65 A** via a single pin → 1.65 A/conductor - exceeds limit.
+- `5V_MAIN`: 5 extensions x 500 mA = **2.50 A** via 2 pins → 1.25 A/conductor - exceeds limit.
+- `GND` return: 4.15 A total via 2 dedicated GND pins → 2.08 A/conductor - exceeds limit.
 
 The 30-pin connector resolves all three:
 
-- `3V3_ENIG`: 1.65 A ÷ 4 pins = **0.41 A/conductor** ✅
-- `5V_MAIN`: 2.50 A ÷ 4 pins = **0.63 A/conductor** ✅
-- `GND` return: 4.15 A ÷ 8 pins = **0.52 A/conductor** ✅
+- `3V3_ENIG`: 1.65 A ÷ 4 pins = **0.41 A/conductor** ✔
+- `5V_MAIN`: 2.50 A ÷ 4 pins = **0.63 A/conductor** ✔
+- `GND` return: 4.15 A ÷ 8 pins = **0.52 A/conductor** ✔
 
 All rails are within the 1 A/conductor 28 AWG IDC ribbon limit. The 2BHR-30-VUA connector pin rating
 (3 A/pin) is not the binding constraint; the IDC ribbon cable is. The symmetric, mirrored layout
 satisfies an aesthetic consistency preference.
 
-### Approved Part Numbers — 2BHR-30-VUA
+### Approved Part Numbers - 2BHR-30-VUA
 
 | Supplier | Part Number |
 | --- | --- |
@@ -3139,15 +3139,15 @@ satisfies an aesthetic consistency preference.
 
 ### Impact
 
-- `design/Electronics/Stator/Board_Layout.md §1 J10` — authoritative pinout rewritten to 30-pin; pending-review note removed.
-- `design/Electronics/Stator/Design_Spec.md` — FR-STA-04, DR-STA-05, §4 Interconnects, §8 ESD, BOM updated.
-- `design/Electronics/Extension/Board_Layout.md` — §2/§3 section headings, cross-reference notes, §5/§5.2 power notes, §7 ESD reference updated.
-- `design/Electronics/Extension/Design_Spec.md` — DR-EXT-08, DR-EXT-12, §2 Connectivity pin references, §5 ESD reference, BOM J7/J8 updated.
-- `design/Electronics/Reflector/Design_Spec.md` — DR-REF-03, §2/§3 connector descriptions, JTAG warning block pin references, §4 power entry note, BOM J4 updated.
-- `design/Electronics/Consolidated_BOM.md` — BHR-20-VUA row split; new 2BHR-30-VUA row added.
-- `design/Electronics/System_Architecture.md` — JTAG chain diagram pin references updated.
-- `design/Electronics/Investigations/JTAG_Integrity.md` — TTD_RETURN ribbon diagram pin references updated.
-- `design/Electronics/Rotor/Board_Layout.md` — TTD_RETURN routing note updated.
+- `design/Electronics/Stator/Board_Layout.md §1 J10` - authoritative pinout rewritten to 30-pin; pending-review note removed.
+- `design/Electronics/Stator/Design_Spec.md` - FR-STA-04, DR-STA-05, §4 Interconnects, §8 ESD, BOM updated.
+- `design/Electronics/Extension/Board_Layout.md` - §2/§3 section headings, cross-reference notes, §5/§5.2 power notes, §7 ESD reference updated.
+- `design/Electronics/Extension/Design_Spec.md` - DR-EXT-08, DR-EXT-12, §2 Connectivity pin references, §5 ESD reference, BOM J7/J8 updated.
+- `design/Electronics/Reflector/Design_Spec.md` - DR-REF-03, §2/§3 connector descriptions, JTAG warning block pin references, §4 power entry note, BOM J4 updated.
+- `design/Electronics/Consolidated_BOM.md` - BHR-20-VUA row split; new 2BHR-30-VUA row added.
+- `design/Electronics/System_Architecture.md` - JTAG chain diagram pin references updated.
+- `design/Electronics/Investigations/JTAG_Integrity.md` - TTD_RETURN ribbon diagram pin references updated.
+- `design/Electronics/Rotor/Board_Layout.md` - TTD_RETURN routing note updated.
 
 ---
 
@@ -3157,11 +3157,11 @@ Questions raised during design review that are deferred pending further investig
 
 ---
 
-## QUE-001 — Exposed ENIG on Rib Clearway for GND_CHASSIS EMI Bonding
+## QUE-001 - Exposed ENIG on Rib Clearway for GND_CHASSIS EMI Bonding
 
-- **Status:** Closed — resolved by DEC-020 (2026-04-08)
+- **Status:** Closed - resolved by DEC-020 (2026-04-08)
 - **Raised:** 2026-04-04
-- **Area:** Power Module / All Boards — PCB Finish & EMC
+- **Area:** Power Module / All Boards - PCB Finish & EMC
 
 ### Background
 
@@ -3177,26 +3177,26 @@ This is a standard EMC bonding technique used in Eurocard/VME card-cage designs.
 
 If accepted, the following updates would be made:
 
-1. **Power Module Design_Spec.md §4** — Add bullet:
+1. **Power Module Design_Spec.md §4** - Add bullet:
    > - **Rib Clearway ENIG Bond:** A solder mask opening (exposed ENIG) is placed in the 2.0mm rib clearway gap on the top copper layer, connected to GND_CHASSIS.
    >   Contact with the aluminium enclosure rib creates a distributed chassis ground bond at the supercap block location.
 
-2. **Power Module Board_Layout.md** — Add keepout note:
-   > Rib clearway gap: solder mask open, GND_CHASSIS copper strip, min 1.5mm wide × full rib depth.
+2. **Power Module Board_Layout.md** - Add keepout note:
+   > Rib clearway gap: solder mask open, GND_CHASSIS copper strip, min 1.5mm wide x full rib depth.
 
-3. **All other boards (Controller, Stator, Encoder)** — Assess whether their enclosure ribs also warrant the same treatment and add matching callouts if so.
+3. **All other boards (Controller, Stator, Encoder)** - Assess whether their enclosure ribs also warrant the same treatment and add matching callouts if so.
 
-4. **DEC-020** — Create a decision entry recording the EMC rationale, referencing the single-point GND_CHASSIS bond rule in Certification_Evidence.md §2.2.
+4. **DEC-020** - Create a decision entry recording the EMC rationale, referencing the single-point GND_CHASSIS bond rule in Certification_Evidence.md §2.2.
 
 ### Considerations
 
 | Factor | Note |
 | ------ | ---- |
-| Contact reliability | ENIG is ideal — hard, oxidation-resistant, consistent contact resistance |
-| Enclosure material | Aluminium — no galvanic corrosion risk with ENIG |
-| GND_CHASSIS topology | Single-point bond already defined (Cert_Evidence §2.2); rib contact adds distributed HF bond — compatible if star-point rule maintained for DC |
+| Contact reliability | ENIG is ideal - hard, oxidation-resistant, consistent contact resistance |
+| Enclosure material | Aluminium - no galvanic corrosion risk with ENIG |
+| GND_CHASSIS topology | Single-point bond already defined (Cert_Evidence §2.2); rib contact adds distributed HF bond - compatible if star-point rule maintained for DC |
 | Mechanical tolerance | Rib must be tight-fitting or spring-loaded to ensure reliable electrical contact |
-| Other boards | Only applies where enclosure ribs contact the PCB — needs mechanical review per board |
+| Other boards | Only applies where enclosure ribs contact the PCB - needs mechanical review per board |
 
 ### Resolution
 
@@ -3207,11 +3207,11 @@ Controller noted as using 3D-printed prototype chassis with future metal chassis
 
 ---
 
-## QUE-002 — Prototype Bench-Testing Cable Strategy for Rotor Stack Connectors
+## QUE-002 - Prototype Bench-Testing Cable Strategy for Rotor Stack Connectors
 
-- **Status:** CLOSED — 2026-04-08
+- **Status:** CLOSED - 2026-04-08
 - **Raised:** 2026-04-05
-- **Area:** All Boards — Rotor Interface Connectors (ERF8/ERM8 0.8mm pitch) & Extension/Reflector Links
+- **Area:** All Boards - Rotor Interface Connectors (ERF8/ERM8 0.8mm pitch) & Extension/Reflector Links
 
 ### Resolution
 
@@ -3225,16 +3225,16 @@ testing without full stack assembly.
 
 | ERx8 Connector | Pins | IDC Header |
 | :--- | :---: | :--- |
-| ERM8-005 / ERF8-005 | 10 (2×5) | 2×5 IDC box header, 2.54mm pitch |
-| ERM8-010 / ERF8-010 | 20 (2×10) | 2×10 IDC box header, 2.54mm pitch |
-| ERM8-020 / ERF8-020 | 40 (2×20) | 2×20 IDC box header, 2.54mm pitch |
+| ERM8-005 / ERF8-005 | 10 (2x5) | 2x5 IDC box header, 2.54mm pitch |
+| ERM8-010 / ERF8-010 | 20 (2x10) | 2x10 IDC box header, 2.54mm pitch |
+| ERM8-020 / ERF8-020 | 40 (2x20) | 2x20 IDC box header, 2.54mm pitch |
 
 **Per-board coupon provision:**
 
-- **Rotor:** 6 coupons — J1 (ERM8-005), J2 (ERM8-005), J3 (ERM8-010), J4 (ERF8-005), J5 (ERF8-005), J6 (ERF8-010)
-- **Stator:** 4 coupons — J8 (ERM8-020) + J1/J2/J3 for Slot 1 test (ERF8-005 ×2, ERF8-010 ×1)
-- **Extension:** 6 coupons — J1 (ERM8-005), J2 (ERM8-005), J3 (ERM8-010), J4 (ERF8-005), J5 (ERF8-005), J6 (ERF8-010)
-- **Reflector:** 3 coupons — J1 (ERM8-005), J2 (ERM8-005), J3 (ERM8-010)
+- **Rotor:** 6 coupons - J1 (ERM8-005), J2 (ERM8-005), J3 (ERM8-010), J4 (ERF8-005), J5 (ERF8-005), J6 (ERF8-010)
+- **Stator:** 4 coupons - J8 (ERM8-020) + J1/J2/J3 for Slot 1 test (ERF8-005 x2, ERF8-010 x1)
+- **Extension:** 6 coupons - J1 (ERM8-005), J2 (ERM8-005), J3 (ERM8-010), J4 (ERF8-005), J5 (ERF8-005), J6 (ERF8-010)
+- **Reflector:** 3 coupons - J1 (ERM8-005), J2 (ERM8-005), J3 (ERM8-010)
 
 For final assembly the coupons are snapped off at the mousebite perforations and the ERx8 connectors mate
 directly board-to-board. Coupon IDC connector selection (shrouded box header part numbers) and exact
@@ -3261,10 +3261,10 @@ readily available.
    or Mouser for the ERF8-005 and ERF8-010 series? If not, what is the preferred bench-testing strategy
    (e.g., small bridge PCBs, short rigid extender boards, or FPC/FFC with pitch adapter)?
 2. **Connector selection review:** Confirm that ERF8/ERM8 is still the correct family for the final
-   design before committing to prototype PCB orders — alternative connector families may offer
+   design before committing to prototype PCB orders - alternative connector families may offer
    cable-assembly options without changing the electrical design.
 3. **2.54mm IDC cables:** Confirm standard IDC ribbon cable lengths and sources for Stator J10
-   (16-pin 2×8) and Stator J4-J9 encoder ports (20-pin 2×10).
+   (16-pin 2x8) and Stator J4-J9 encoder ports (20-pin 2x10).
 
 ### Note
 
@@ -3274,13 +3274,13 @@ family change is required for prototype cabling, the affected documents are:
 `Stator/Design_Spec.md`, `Extension/Design_Spec.md`, `Reflector/Design_Spec.md`, `Rotor/Design_Spec.md`,
 `Consolidated_BOM.md`, and the Design_Log connector inventory.
 
-> **Amendment — DEC-043:** Question 3 referenced "Stator J10 (16-pin 2×8)" — this is stale.
-> J10 was widened to **20-pin 2×10 BHR-20-VUA** by DEC-043. The Reflector/Extension link connectors
+> **Amendment - DEC-043:** Question 3 referenced "Stator J10 (16-pin 2x8)" - this is stale.
+> J10 was widened to **20-pin 2x10 BHR-20-VUA** by DEC-043. The Reflector/Extension link connectors
 > (Stator J10, Extension J7/J8, Reflector J4) are all 2.54mm-pitch shrouded IDC BHR-20-VUA headers
 > for which standard 20-wire IDC ribbon cable assemblies are commercially available. These connectors
 > are **not** Samtec ERF8/ERM8 0.8mm-pitch connectors; they do **not** require break-off PCB coupons
 > and are outside the scope of the ERF8/ERM8 bench-test coupon strategy. Cable lengths and sourcing
-> for these links can be confirmed at prototype procurement — no design-phase action required.
+> for these links can be confirmed at prototype procurement - no design-phase action required.
 
 ---
 
@@ -3290,30 +3290,30 @@ This section records all INC (inconsistency) items tracked during the design pro
 
 | INC | Area | Description | Original Value | Corrected Value | Status |
 | ----- | ------ | ------------- | ---------------- | ----------------- | -------- |
-| INC-01 | Power Module eFuse | UVLO/OVLO thresholds inconsistent between README and Design_Spec | README: 12V UVLO / 16V OVP | 11.0V UVLO / 16.9V OVLO (per Design_Spec §5) | ✅ Resolved — README corrected |
-| INC-02 | Power Module eFuse | eFuse current limit insufficient for 75W USB-C path. TPS259474L max 5.5A with no headroom at 5.0A worst case | TPS259474L (5.5A ILIM) | TPS25980 (7A ILIM, 16.9V OVLO, VQFN-24). See DEC-005 | ✅ Resolved — DEC-005 |
-| INC-03 | Power Module 5V Buck | Single buck insufficient for CM5 25W + other loads | LM61460-Q1 (6A) | Dual LMQ61460-Q1 interleaved (12A total). See DEC-007 | ✅ Resolved — DEC-007 |
-| INC-04 | Power Module PD Emulator | TPS25750 PDO listed as "5V/6A" — not a valid USB-C PD current at 5V | "5V/6A" (invalid) | 5V/5A (25W maximum at 5V per USB-C PD spec). See DEC-008 | ✅ Resolved — DEC-008 |
-| INC-05 | Link-Alpha BtB Connector | 3V3_SYSTEM routed from CM5 to Power Module on pins 21–24 for RJ45 LED anodes — cross-domain dependency | 3V3_SYSTEM on pins 21–24 (input from CM5) | Removed. 3V3_ENIG generated locally on Power Module. Pins 21–22 → 5V_MAIN; pins 23–24 → GND. See DEC-001 | ✅ Resolved — DEC-001 |
-| INC-06 | Power Module PoE | Ag5300 PoE module only supports 802.3at (25.5W PD) — insufficient for full system load ~42W | Ag5300 (802.3at, 25.5W) | Discrete: TPS2372-4 + TPS23730 + Coilcraft POE600F-12LD (802.3bt Type 4 / Class 8, 72W system; T2 transformer = 60W). See DEC-002 | ✅ Resolved — DEC-002 |
-| INC-07 | Power Module / Controller | "3.3V/5A Rotors Buck" placed on Controller Board in README; contradicts central power generation principle | README: Rotor Buck on Controller Board | All rails on Power Module. Rotor stack uses 3V3_ENIG. See DEC-011 | ✅ Resolved — DEC-011 |
-| INC-08 | Power Module I2C | I2C pull-ups (SDA/SCL 4.7kΩ) tied to 3V3_SYSTEM — invalid once 3V3_SYSTEM removed from Power Module | Pull-ups to 3V3_SYSTEM | Pull-ups moved to 3V3_ENIG | ✅ Resolved |
-| INC-09 | Power Module Design_Spec | Internal conflict: §1 stated "16.5V OVP"; §5 stated "17V OVLO" — two different values in same document | §1: 16.5V OVP | 16.9V OVLO (consistent with TPS25980 fixed OVLO variant; §1 corrected) | ✅ Resolved — auto-resolved (16.5V reference not found in any current file) |
-| INC-10 | Power Module BOM | Reference designator collision: R1–R3 used for both eFuse ladder resistors AND I2C/reset pull-ups in the same document | R1–R3 dual-use | eFuse ladder: R1/R2/R3. I2C pull-ups: R7/R8. Reset pull-up: R9 | ✅ Resolved — designators renamed |
-| INC-11 | Power Module Battery | BATT_PRES_N pull-up R6 tied to 3V3_SYSTEM — invalid once 3V3_SYSTEM removed | R6 pull-up to 3V3_SYSTEM | R6 pull-up moved to 3V3_ENIG | ✅ Resolved |
-| INC-12 | Link-Alpha BtB Connector | Power cluster labelled "6A Delivery Cluster" — outdated after dual 12A buck upgrade and pin reallocation | "6A Delivery Cluster" (16 pins) | 9A delivery (18 pins × 0.5A/pin after reallocation). Label updated | ✅ Resolved |
-| INC-13 | Power Module USB-C | STUSB4500 specified to negotiate 15V/3A (45W) — only 56.7% eFuse utilisation violation at worst-case 42.5W load | STUSB4500: 15V/3A (45W) | STUSB4500: 15V/5A (75W). See DEC-006 | ✅ Resolved — DEC-006 |
-| INC-14 | Controller probe-access concept | Historical Controller bring-up probe pads had no ESD protection while exposed ENIG pads were still present in the concept design | No ESD on bring-up probe pads | Fixed probe-access pads removed from the active board design; any future coupon-based probe access will need a new ESD review | ✅ Resolved — pads removed from active design |
-| INC-15 | Controller/Power Module | Internal conflict in Board_Layout.md: bullet list said I2C=pins 35–40, 3V3_ENIG=pins 41–44; ASCII diagram said I2C=35–38, 3V3_ENIG=39–44 | Bullets: I2C 35–40; 3V3_ENIG 41–44 | ASCII diagram authoritative: I2C 35–38, 3V3_ENIG 39–44 (6 pins at 51.4% utilisation) | ✅ Resolved — ASCII diagram is authoritative |
-| INC-16 | Board_Layout.md ETH LED diagram | ETH LED diagram showed PIN 27 = ETH_LED_ACT; main pin map shows pins 27–30 = GND Isolation Moat | Diagram: PIN 27 = ETH_LED_ACT | Correct: PIN 26 = ETH_LED_ACT; PIN 27 = GND Moat | ✅ Resolved |
-| INC-17 | Power Module Battery | eFuse OVLO margin: with 16.9V OVLO and 4.2V/cell BMS (16.8V max), only 0.1V margin — risk of nuisance trips | BMS max 4.2V/cell (16.8V); OVLO 16.9V; margin 0.1V | BMS must use 4.1V/cell max (16.4V total for 4S), giving 0.5V margin. Added to Design_Spec §2. See DEC-005 | ✅ Resolved |
-| INC-18 | Power Module Design_Spec | Battery BMS charge voltage not specified in design spec — required to protect against OVLO nuisance trips | No BMS charge spec | Added: "BMS max charge voltage = 4.1V/cell (16.4V for 4S)" to Power Module §2 Battery Interface | ✅ Resolved |
-| INC-19 | Power Module PoE | Ag5300/Ag53000 is 802.3at only (25.5W PD). No 802.3bt Type 4 PCB module found. Architecture change required: Type 3 (51W) insufficient; Type 4 (72W) required | Ag5300/Ag53000 (802.3at SIL module) | Discrete two-stage: TPS2372-4 (PD) + TPS23730 + POE600F-12LD (ACF transformer). See DEC-002 | ✅ Resolved — DEC-002 |
-| INC-20 | Power Module Supercap | Supercap charge path had no current limiting — would cause excessive inrush and violate 75% utilisation rule under PoE | Supercap directly on 5V_MAIN bus | LTC3350 soft-charge via RICHARGE resistor; 0.5A limit under PoE. See DEC-004 | ✅ Resolved — DEC-004 |
-| INC-21 | Power Module J2 | Component selection locked: RJ45 MagJack | — | Würth 7499111121A (SMT, shielded, 2-LED, 10/100/1000) | ✅ Locked |
-| INC-22 | Power Module ESD | Component selection locked: Ethernet ESD arrays | — | 2× TI TPD4E05U06QDQARQ1 (0.8pF, ±15kV, −40°C to +125°C, U-DFN-10). DigiKey: 296-40696-1-ND; Mouser: 595-PD4E05U06QDQARQ1; JLCPCB: C81353 | ✅ Locked |
-| INC-23 | Power Module Bob Smith | Component selection locked: Bob Smith termination network | — | 4× 75Ω 0402 ±1% resistors + 1× 10nF Y1-class capacitor to GND_CHASSIS | ✅ Locked |
-| INC-24 | All Boards | Encoder detailed design review phase complete. Two consecutive clean passes (R56 + R57) achieved across all 24 design documents. Key corrections during cycle: GPIO 20/24 swap propagated to all files (R50/R55); LDO load 2.20A→2.11A propagated to all files (R50–R53); Power_Budgets.md CSS2H build qty corrected to 3; JTAG topology (BtB vs ribbon) documented in JTAG_Integrity.md, Extension Design_Spec, Reflector Design_Spec. Extension U1 buffer (SN74LVC2G125DCUR) confirmed correct and intentional. | — | — | ✅ Phase complete |
+| INC-01 | Power Module eFuse | UVLO/OVLO thresholds inconsistent between README and Design_Spec | README: 12V UVLO / 16V OVP | 11.0V UVLO / 16.9V OVLO (per Design_Spec §5) | ✔ Resolved - README corrected |
+| INC-02 | Power Module eFuse | eFuse current limit insufficient for 75W USB-C path. TPS259474L max 5.5A with no headroom at 5.0A worst case | TPS259474L (5.5A ILIM) | TPS25980 (7A ILIM, 16.9V OVLO, VQFN-24). See DEC-005 | ✔ Resolved - DEC-005 |
+| INC-03 | Power Module 5V Buck | Single buck insufficient for CM5 25W + other loads | LM61460-Q1 (6A) | Dual LMQ61460-Q1 interleaved (12A total). See DEC-007 | ✔ Resolved - DEC-007 |
+| INC-04 | Power Module PD Emulator | TPS25750 PDO listed as "5V/6A" - not a valid USB-C PD current at 5V | "5V/6A" (invalid) | 5V/5A (25W maximum at 5V per USB-C PD spec). See DEC-008 | ✔ Resolved - DEC-008 |
+| INC-05 | Link-Alpha BtB Connector | 3V3_SYSTEM routed from CM5 to Power Module on pins 21-24 for RJ45 LED anodes - cross-domain dependency | 3V3_SYSTEM on pins 21-24 (input from CM5) | Removed. 3V3_ENIG generated locally on Power Module. Pins 21-22 → 5V_MAIN; pins 23-24 → GND. See DEC-001 | ✔ Resolved - DEC-001 |
+| INC-06 | Power Module PoE | Ag5300 PoE module only supports 802.3at (25.5W PD) - insufficient for full system load ~42W | Ag5300 (802.3at, 25.5W) | Discrete: TPS2372-4 + TPS23730 + Coilcraft POE600F-12LD (802.3bt Type 4 / Class 8, 72W system; T2 transformer = 60W). See DEC-002 | ✔ Resolved - DEC-002 |
+| INC-07 | Power Module / Controller | "3.3V/5A Rotors Buck" placed on Controller Board in README; contradicts central power generation principle | README: Rotor Buck on Controller Board | All rails on Power Module. Rotor stack uses 3V3_ENIG. See DEC-011 | ✔ Resolved - DEC-011 |
+| INC-08 | Power Module I2C | I2C pull-ups (SDA/SCL 4.7kΩ) tied to 3V3_SYSTEM - invalid once 3V3_SYSTEM removed from Power Module | Pull-ups to 3V3_SYSTEM | Pull-ups moved to 3V3_ENIG | ✔ Resolved |
+| INC-09 | Power Module Design_Spec | Internal conflict: §1 stated "16.5V OVP"; §5 stated "17V OVLO" - two different values in same document | §1: 16.5V OVP | 16.9V OVLO (consistent with TPS25980 fixed OVLO variant; §1 corrected) | ✔ Resolved - auto-resolved (16.5V reference not found in any current file) |
+| INC-10 | Power Module BOM | Reference designator collision: R1-R3 used for both eFuse ladder resistors AND I2C/reset pull-ups in the same document | R1-R3 dual-use | eFuse ladder: R1/R2/R3. I2C pull-ups: R7/R8. Reset pull-up: R9 | ✔ Resolved - designators renamed |
+| INC-11 | Power Module Battery | BATT_PRES_N pull-up R6 tied to 3V3_SYSTEM - invalid once 3V3_SYSTEM removed | R6 pull-up to 3V3_SYSTEM | R6 pull-up moved to 3V3_ENIG | ✔ Resolved |
+| INC-12 | Link-Alpha BtB Connector | Power cluster labelled "6A Delivery Cluster" - outdated after dual 12A buck upgrade and pin reallocation | "6A Delivery Cluster" (16 pins) | 9A delivery (18 pins x 0.5A/pin after reallocation). Label updated | ✔ Resolved |
+| INC-13 | Power Module USB-C | STUSB4500 specified to negotiate 15V/3A (45W) - only 56.7% eFuse utilisation violation at worst-case 42.5W load | STUSB4500: 15V/3A (45W) | STUSB4500: 15V/5A (75W). See DEC-006 | ✔ Resolved - DEC-006 |
+| INC-14 | Controller probe-access concept | Historical Controller bring-up probe pads had no ESD protection while exposed ENIG pads were still present in the concept design | No ESD on bring-up probe pads | Fixed probe-access pads removed from the active board design; any future coupon-based probe access will need a new ESD review | ✔ Resolved - pads removed from active design |
+| INC-15 | Controller/Power Module | Internal conflict in Board_Layout.md: bullet list said I2C=pins 35-40, 3V3_ENIG=pins 41-44; ASCII diagram said I2C=35-38, 3V3_ENIG=39-44 | Bullets: I2C 35-40; 3V3_ENIG 41-44 | ASCII diagram authoritative: I2C 35-38, 3V3_ENIG 39-44 (6 pins at 51.4% utilisation) | ✔ Resolved - ASCII diagram is authoritative |
+| INC-16 | Board_Layout.md ETH LED diagram | ETH LED diagram showed PIN 27 = ETH_LED_ACT; main pin map shows pins 27-30 = GND Isolation Moat | Diagram: PIN 27 = ETH_LED_ACT | Correct: PIN 26 = ETH_LED_ACT; PIN 27 = GND Moat | ✔ Resolved |
+| INC-17 | Power Module Battery | eFuse OVLO margin: with 16.9V OVLO and 4.2V/cell BMS (16.8V max), only 0.1V margin - risk of nuisance trips | BMS max 4.2V/cell (16.8V); OVLO 16.9V; margin 0.1V | BMS must use 4.1V/cell max (16.4V total for 4S), giving 0.5V margin. Added to Design_Spec §2. See DEC-005 | ✔ Resolved |
+| INC-18 | Power Module Design_Spec | Battery BMS charge voltage not specified in design spec - required to protect against OVLO nuisance trips | No BMS charge spec | Added: "BMS max charge voltage = 4.1V/cell (16.4V for 4S)" to Power Module §2 Battery Interface | ✔ Resolved |
+| INC-19 | Power Module PoE | Ag5300/Ag53000 is 802.3at only (25.5W PD). No 802.3bt Type 4 PCB module found. Architecture change required: Type 3 (51W) insufficient; Type 4 (72W) required | Ag5300/Ag53000 (802.3at SIL module) | Discrete two-stage: TPS2372-4 (PD) + TPS23730 + POE600F-12LD (ACF transformer). See DEC-002 | ✔ Resolved - DEC-002 |
+| INC-20 | Power Module Supercap | Supercap charge path had no current limiting - would cause excessive inrush and violate 75% utilisation rule under PoE | Supercap directly on 5V_MAIN bus | LTC3350 soft-charge via RICHARGE resistor; 0.5A limit under PoE. See DEC-004 | ✔ Resolved - DEC-004 |
+| INC-21 | Power Module J2 | Component selection locked: RJ45 MagJack | - | Wurth 7499111121A (SMT, shielded, 2-LED, 10/100/1000) | ✔ Locked |
+| INC-22 | Power Module ESD | Component selection locked: Ethernet ESD arrays | - | 2x TI TPD4E05U06QDQARQ1 (0.8pF, ±15kV, -40°C to +125°C, U-DFN-10). DigiKey: 296-40696-1-ND; Mouser: 595-PD4E05U06QDQARQ1; JLCPCB: C81353 | ✔ Locked |
+| INC-23 | Power Module Bob Smith | Component selection locked: Bob Smith termination network | - | 4x 75Ω 0402 ±1% resistors + 1x 10nF Y1-class capacitor to GND_CHASSIS | ✔ Locked |
+| INC-24 | All Boards | Encoder detailed design review phase complete. Two consecutive clean passes (R56 + R57) achieved across all 24 design documents. Key corrections during cycle: GPIO 20/24 swap propagated to all files (R50/R55); LDO load 2.20A→2.11A propagated to all files (R50-R53); Power_Budgets.md CSS2H build qty corrected to 3; JTAG topology (BtB vs ribbon) documented in JTAG_Integrity.md, Extension Design_Spec, Reflector Design_Spec. Extension U1 buffer (SN74LVC2G125DCUR) confirmed correct and intentional. | - | - | ✔ Phase complete |
 
 ---
 
@@ -3326,76 +3326,76 @@ changes have inadvertently altered connector placement, orientation, or mating r
 
 | Ref | Description | Part / Series | MPN | Mouser PN | DigiKey PN | Notes |
 | ----- | ------------- | --------------- | ----- | ----------- | ------------ | ------- |
-| J1 | Link-Alpha BtB — 80-pin socket to Controller Board | Samtec ERM8-040-05.0-S-DV-K-TR | ERM8-040 | 200-ERM8040050SDVKTR | SAM8613CT-ND | Male header (ERM8). Mating female on Controller (ERF8). Gold-plated, 0.5A/pin |
-| J2 | RJ45 MagJack with integrated magnetics | Würth 7499111121A | 7499111121A | 710-7499111121A | 1297-1070-5-ND | SMT, shielded, 2 integrated LEDs (green/yellow), 10/100/1000 PoE compatible |
-| J3 | Battery connector — 5-pin Micro-Fit 3.0 THT vertical | Molex 43650-0519 | 43650-0519 | 538-43650-0519 | WM14587-ND | 5-circuit, 1-row, gold contacts, board lock, 3mm pitch. ⚠️ MPN corrected (43045-0512 does not exist) |
+| J1 | Link-Alpha BtB - 80-pin socket to Controller Board | Samtec ERM8-040-05.0-S-DV-K-TR | ERM8-040 | 200-ERM8040050SDVKTR | SAM8613CT-ND | Male header (ERM8). Mating female on Controller (ERF8). Gold-plated, 0.5A/pin |
+| J2 | RJ45 MagJack with integrated magnetics | Wurth 7499111121A | 7499111121A | 710-7499111121A | 1297-1070-5-ND | SMT, shielded, 2 integrated LEDs (green/yellow), 10/100/1000 PoE compatible |
+| J3 | Battery connector - 5-pin Micro-Fit 3.0 THT vertical | Molex 43650-0519 | 43650-0519 | 538-43650-0519 | WM14587-ND | 5-circuit, 1-row, gold contacts, board lock, 3mm pitch. ⚠️ MPN corrected (43045-0512 does not exist) |
 
 ### Controller Board
 
 | Ref | Description | Part / Series | MPN | Mouser PN | DigiKey PN | Notes |
 | ----- | ------------- | --------------- | ----- | ----------- | ------------ | ------- |
-| J1 | Link-Alpha BtB — 80-pin socket to Power Module | Samtec ERF8-040-05.0-S-DV-K-TR | ERF8-040 | 200-ERF8040050SDVKTR | SAM8621CT-ND | Female socket (ERF8). Mating male on Power Module (ERM8) |
-| J2 | Link-Beta BtB — 40-pin socket to Stator Board | Samtec ERF8-020-05.0-S-DV-K-TR | ERF8-020 | 200-ERF8020050SDVKTR | SAM8619CT-ND | Female socket (ERF8). Mating male on Stator (ERM8-020). 40-pin per DEC-015 |
-| J3 | USB 3.0 — Dual-stacked Type-A port | Molex 48406-0003 | 48406-0003 | 538-0484060003 | WM1394-ND | Dual-stack Type-A, 5.0mm protrusion through chassis |
-| J4 | HDMI — Full-size Type-A | TE Connectivity 2007435-1 | 2007435-1 | 571-2007435-1 | A125057-ND | Full-size HDMI Type-A, 5.0mm protrusion through chassis |
-| — | JTAG Daughterboard link (to FT232H board) | 1×5 INPUT header + 1×10 JTAG header | — | — | — | 2.54mm ENIG male headers on Controller. JDB female headers mate here. USB 2.0 to CM5 internally |
+| J1 | Link-Alpha BtB - 80-pin socket to Power Module | Samtec ERF8-040-05.0-S-DV-K-TR | ERF8-040 | 200-ERF8040050SDVKTR | SAM8621CT-ND | Female socket (ERF8). Mating male on Power Module (ERM8) |
+| J2 | Link-Beta BtB - 40-pin socket to Stator Board | Samtec ERF8-020-05.0-S-DV-K-TR | ERF8-020 | 200-ERF8020050SDVKTR | SAM8619CT-ND | Female socket (ERF8). Mating male on Stator (ERM8-020). 40-pin per DEC-015 |
+| J3 | USB 3.0 - Dual-stacked Type-A port | Molex 48406-0003 | 48406-0003 | 538-0484060003 | WM1394-ND | Dual-stack Type-A, 5.0mm protrusion through chassis |
+| J4 | HDMI - Full-size Type-A | TE Connectivity 2007435-1 | 2007435-1 | 571-2007435-1 | A125057-ND | Full-size HDMI Type-A, 5.0mm protrusion through chassis |
+| - | JTAG Daughterboard link (to FT232H board) | 1x5 INPUT header + 1x10 JTAG header | - | - | - | 2.54mm ENIG male headers on Controller. JDB female headers mate here. USB 2.0 to CM5 internally |
 
 ### Stator Board
 
 | Ref | Description | Part / Series | MPN | Mouser PN | DigiKey PN | Notes |
 | ----- | ------------- | --------------- | ----- | ----------- | ------------ | ------- |
-| J1-J3 | Rotor 1 interface sockets (1 slot × 3 connectors: JTAG ERF8-005, Power ERF8-005, ENC ERF8-010) — cross-ref Rotor/Design_Spec.md §3.4 | ERF8-005 (J1+J2) / ERF8-010 (J3) | 200-ERF8005050SDVKTR (J1+J2) / 200-ERF8010050SDVKTR (J3) | SAM13517CT-ND (J1+J2 CT) / SAM8618CT-ND (J3 CT) | C7273978 (J1+J2) / C3646170 (J3) | ERF8 0.8mm pitch female sockets. Rotor 1 input side only (serial chain — not 30 slots). J1 pin 6 = TTD (outgoing TDI). |
-| J4-J9 | Encoder port headers (×6: `KBD_ENC`, `LBD_DEC`, `PLG_PASS1_DEC`, `PLG_PASS1_ENC`, `PLG_PASS2_DEC`, `PLG_PASS2_ENC`) — 20-pin 2×10 shrouded box header | Adam Tech BHR-20-VUA / 2BHR-20-VUA (2×10, 2.54mm) | BHR-20-VUA | 737-BHR-20-VUA | 2057-BHR-20-VUA-ND | THT, shrouded, keyed. Pinout definition owner — see Stator/Board_Layout.md J4–J9. JLCPCB C17340054 uses 2BHR-20-VUA MPN. |
-| J10 | Extension/Reflector Link — 16-pin shrouded box header | Adam Tech BHR-16-VUA (2×8, 2.54mm) | BHR-16-VUA | 737-BHR-16-VUA | 2057-BHR-16-VUA-ND | THT, shrouded. Power, reflector-boundary aliases, TTD_RETURN (pin 15). Pinout definition owner — see Stator/Board_Layout.md J10. JLCPCB C17692295 |
-| J8 | Link-Beta BtB — 40-pin plug to Controller Board | Samtec ERM8-020-05.0-S-DV-K-TR | ERM8-020 | 200-ERM8020050SDVKTR | SAM8611CT-ND | Male plug (ERM8). Mating female on Controller (ERF8-020). 40-pin per DEC-015 |
-| — | JTAG Aux header | 2×5 2.54mm shrouded | — | — | — | Pin pattern: GND\|TCK\|GND\|TMS\|GND\|TDI\|GND\|SYS_RESET_N\|GND |
+| J1-J3 | Rotor 1 interface sockets (1 slot x 3 connectors: JTAG ERF8-005, Power ERF8-005, ENC ERF8-010) - cross-ref Rotor/Design_Spec.md §3.4 | ERF8-005 (J1+J2) / ERF8-010 (J3) | 200-ERF8005050SDVKTR (J1+J2) / 200-ERF8010050SDVKTR (J3) | SAM13517CT-ND (J1+J2 CT) / SAM8618CT-ND (J3 CT) | C7273978 (J1+J2) / C3646170 (J3) | ERF8 0.8mm pitch female sockets. Rotor 1 input side only (serial chain - not 30 slots). J1 pin 6 = TTD (outgoing TDI). |
+| J4-J9 | Encoder port headers (x6: `KBD_ENC`, `LBD_DEC`, `PLG_PASS1_DEC`, `PLG_PASS1_ENC`, `PLG_PASS2_DEC`, `PLG_PASS2_ENC`) - 20-pin 2x10 shrouded box header | Adam Tech BHR-20-VUA / 2BHR-20-VUA (2x10, 2.54mm) | BHR-20-VUA | 737-BHR-20-VUA | 2057-BHR-20-VUA-ND | THT, shrouded, keyed. Pinout definition owner - see Stator/Board_Layout.md J4-J9. JLCPCB C17340054 uses 2BHR-20-VUA MPN. |
+| J10 | Extension/Reflector Link - 16-pin shrouded box header | Adam Tech BHR-16-VUA (2x8, 2.54mm) | BHR-16-VUA | 737-BHR-16-VUA | 2057-BHR-16-VUA-ND | THT, shrouded. Power, reflector-boundary aliases, TTD_RETURN (pin 15). Pinout definition owner - see Stator/Board_Layout.md J10. JLCPCB C17692295 |
+| J8 | Link-Beta BtB - 40-pin plug to Controller Board | Samtec ERM8-020-05.0-S-DV-K-TR | ERM8-020 | 200-ERM8020050SDVKTR | SAM8611CT-ND | Male plug (ERM8). Mating female on Controller (ERF8-020). 40-pin per DEC-015 |
+| - | JTAG Aux header | 2x5 2.54mm shrouded | - | - | - | Pin pattern: GND\|TCK\|GND\|TMS\|GND\|TDI\|GND\|SYS_RESET_N\|GND |
 
-### Rotor Board (×30)
+### Rotor Board (x30)
 
 | Ref | Description | Part / Series | MPN | Mouser PN | DigiKey PN | JLCPCB Part # | Notes |
 | ----- | ------------- | --------------- | ----- | ----------- | ------------ | ------- | ------- |
-| J1 | JTAG input — ERM8 male header (input side; plugs into Stator J1 ERF8 or Extension J4 ERF8) | Samtec ERM8-005-05.0-S-DV-K-TR (10-pin, 0.8mm pitch) | ERM8-005 | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Male (ERM8). Input side. Authority: Rotor/Design_Spec.md §3.4 |
-| J2 | Power input — ERM8 male header (3V3_ENIG ×5, GND ×5) | Samtec ERM8-005-05.0-S-DV-K-TR (10-pin, 0.8mm pitch) | ERM8-005 | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Male (ERM8). Input power side |
-| J3 | ENC Data input — ERM8 male header (ENC_IN/ENC_OUT + GND) | Samtec ERM8-010-05.0-S-DV-K-TR (20-pin, 0.8mm pitch) | ERM8-010 | 200-ERM8010050SDVKTR | SAM8610CT-ND | C374877 | Male (ERM8). Input ENC data |
-| J4 | JTAG output — ERF8 female socket (output side; receives next Rotor J1, Reflector J1, or Extension J1 ERM8 male) | Samtec ERF8-005-05.0-S-DV-K-TR (10-pin, 0.8mm pitch) | ERF8-005 | 200-ERF8005050SDVKTR | SAM13517CT-ND | C7273978 | Female (ERF8). Output side. R1 (75Ω) in TTD output path |
-| J5 | Power output — ERF8 female socket (3V3_ENIG ×5, GND ×5) | Samtec ERF8-005-05.0-S-DV-K-TR (10-pin, 0.8mm pitch) | ERF8-005 | 200-ERF8005050SDVKTR | SAM13517CT-ND | C7273978 | Female (ERF8). Output power side |
-| J6 | ENC Data output — ERF8 female socket (ENC_IN/ENC_OUT + GND) | Samtec ERF8-010-05.0-S-DV-K-TR (20-pin, 0.8mm pitch) | ERF8-010 | 200-ERF8010050SDVKTR | SAM8618CT-ND | C3646170 | Female (ERF8). Output ENC data |
+| J1 | JTAG input - ERM8 male header (input side; plugs into Stator J1 ERF8 or Extension J4 ERF8) | Samtec ERM8-005-05.0-S-DV-K-TR (10-pin, 0.8mm pitch) | ERM8-005 | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Male (ERM8). Input side. Authority: Rotor/Design_Spec.md §3.4 |
+| J2 | Power input - ERM8 male header (3V3_ENIG x5, GND x5) | Samtec ERM8-005-05.0-S-DV-K-TR (10-pin, 0.8mm pitch) | ERM8-005 | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Male (ERM8). Input power side |
+| J3 | ENC Data input - ERM8 male header (ENC_IN/ENC_OUT + GND) | Samtec ERM8-010-05.0-S-DV-K-TR (20-pin, 0.8mm pitch) | ERM8-010 | 200-ERM8010050SDVKTR | SAM8610CT-ND | C374877 | Male (ERM8). Input ENC data |
+| J4 | JTAG output - ERF8 female socket (output side; receives next Rotor J1, Reflector J1, or Extension J1 ERM8 male) | Samtec ERF8-005-05.0-S-DV-K-TR (10-pin, 0.8mm pitch) | ERF8-005 | 200-ERF8005050SDVKTR | SAM13517CT-ND | C7273978 | Female (ERF8). Output side. R1 (75Ω) in TTD output path |
+| J5 | Power output - ERF8 female socket (3V3_ENIG x5, GND x5) | Samtec ERF8-005-05.0-S-DV-K-TR (10-pin, 0.8mm pitch) | ERF8-005 | 200-ERF8005050SDVKTR | SAM13517CT-ND | C7273978 | Female (ERF8). Output power side |
+| J6 | ENC Data output - ERF8 female socket (ENC_IN/ENC_OUT + GND) | Samtec ERF8-010-05.0-S-DV-K-TR (20-pin, 0.8mm pitch) | ERF8-010 | 200-ERF8010050SDVKTR | SAM8618CT-ND | C3646170 | Female (ERF8). Output ENC data |
 
 ### Encoder Board
 
 | Ref | Description | Part / Series | MPN | Mouser PN | DigiKey PN | Notes |
 | ----- | ------------- | --------------- | ----- | ----------- | ------------ | ------- |
-| J1 (×64) | Plugboard cipher jack sockets (one per key/lamp position) | 6.35mm (¼″) mono switched panel-mount jack socket — already purchased (eBay: SaiBuy.Ltd item 334364197440) | — | — | — | THT panel-mount. 64× per board (26 input + 26 output + 10 plugboard positions + 2 spare). Purchased. |
-| J2 | Data link to Stator — 20-pin 2×10 shrouded box header | Adam Tech BHR-20-VUA / 2BHR-20-VUA (2×10, 2.54mm) | BHR-20-VUA | 737-BHR-20-VUA | 2057-BHR-20-VUA-ND | Mating connector for Stator J4–J9. Cross-ref: Stator/Board_Layout.md J4–J9. JLCPCB C17340054 uses 2BHR-20-VUA MPN. |
+| J1 (x64) | Plugboard cipher jack sockets (one per key/lamp position) | 6.35mm (¼") mono switched panel-mount jack socket - already purchased (eBay: SaiBuy.Ltd item 334364197440) | - | - | - | THT panel-mount. 64x per board (26 input + 26 output + 10 plugboard positions + 2 spare). Purchased. |
+| J2 | Data link to Stator - 20-pin 2x10 shrouded box header | Adam Tech BHR-20-VUA / 2BHR-20-VUA (2x10, 2.54mm) | BHR-20-VUA | 737-BHR-20-VUA | 2057-BHR-20-VUA-ND | Mating connector for Stator J4-J9. Cross-ref: Stator/Board_Layout.md J4-J9. JLCPCB C17340054 uses 2BHR-20-VUA MPN. |
 
 ### Reflector Board
 
 | Ref | Description | Part / Series | MPN | Mouser PN | DigiKey PN | JLCPCB Part # | Notes |
 | ----- | ------------- | --------------- | ----- | ----------- | ------------ | ------- | ------- |
-| J1 | Rotor 30 output — JTAG (ERM8-005, 10-pin **male**, 0.8mm pitch) | Samtec ERM8-005-05.0-S-DV-K-TR | ERM8-005-05.0-S-DV-K-TR | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Plugs into Rotor 30 J4 (ERF8-005 female). Definition owner: Rotor/Design_Spec.md §3.4 |
-| J2 | Rotor 30 output — Power (ERM8-005, 10-pin **male**, 0.8mm pitch) | Samtec ERM8-005-05.0-S-DV-K-TR | ERM8-005-05.0-S-DV-K-TR | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Plugs into Rotor 30 J5 (ERF8-005 female). Definition owner: Rotor/Design_Spec.md §3.4 |
-| J3 | Rotor 30 output — ENC Data (ERM8-010, 20-pin **male**, 0.8mm pitch) | Samtec ERM8-010-05.0-S-DV-K-TR | ERM8-010-05.0-S-DV-K-TR | 200-ERM8010050SDVKTR | SAM8610CT-ND | C374877 | Plugs into Rotor 30 J6 (ERF8-010 female). Definition owner: Rotor/Design_Spec.md §3.4 |
-| J4 | Interconnect to Stator/Extension — 16-pin shrouded box header | Adam Tech BHR-16-VUA (2×8, 2.54mm) | BHR-16-VUA | 737-BHR-16-VUA | 2057-BHR-16-VUA-ND | JLCPCB C17692295 | Mating connector for **Stator J10** (or Extension J7/J8). Carries TTD_RETURN on pin 15. |
+| J1 | Rotor 30 output - JTAG (ERM8-005, 10-pin **male**, 0.8mm pitch) | Samtec ERM8-005-05.0-S-DV-K-TR | ERM8-005-05.0-S-DV-K-TR | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Plugs into Rotor 30 J4 (ERF8-005 female). Definition owner: Rotor/Design_Spec.md §3.4 |
+| J2 | Rotor 30 output - Power (ERM8-005, 10-pin **male**, 0.8mm pitch) | Samtec ERM8-005-05.0-S-DV-K-TR | ERM8-005-05.0-S-DV-K-TR | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Plugs into Rotor 30 J5 (ERF8-005 female). Definition owner: Rotor/Design_Spec.md §3.4 |
+| J3 | Rotor 30 output - ENC Data (ERM8-010, 20-pin **male**, 0.8mm pitch) | Samtec ERM8-010-05.0-S-DV-K-TR | ERM8-010-05.0-S-DV-K-TR | 200-ERM8010050SDVKTR | SAM8610CT-ND | C374877 | Plugs into Rotor 30 J6 (ERF8-010 female). Definition owner: Rotor/Design_Spec.md §3.4 |
+| J4 | Interconnect to Stator/Extension - 16-pin shrouded box header | Adam Tech BHR-16-VUA (2x8, 2.54mm) | BHR-16-VUA | 737-BHR-16-VUA | 2057-BHR-16-VUA-ND | JLCPCB C17692295 | Mating connector for **Stator J10** (or Extension J7/J8). Carries TTD_RETURN on pin 15. |
 
 ### Extension Board
 
 | Ref | Description | Part / Series | MPN | Mouser PN | DigiKey PN | JLCPCB Part # | Notes |
 | ----- | ------------- | --------------- | ----- | ----------- | ------------ | ------- | ------- |
-| J1 | Rotor group input — JTAG (ERM8-005, 10-pin **male**, 0.8mm pitch) | Samtec ERM8-005-05.0-S-DV-K-TR | ERM8-005-05.0-S-DV-K-TR | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Plugs into previous rotor group's last rotor J4 (ERF8-005 female). Cross-ref: Rotor/Design_Spec.md §3.4 |
-| J2 | Rotor group input — Power (ERM8-005, 10-pin **male**, 0.8mm pitch) | Samtec ERM8-005-05.0-S-DV-K-TR | ERM8-005-05.0-S-DV-K-TR | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Plugs into previous rotor group's last rotor J5 (ERF8-005 female). |
-| J3 | Rotor group input — ENC Data (ERM8-010, 20-pin **male**, 0.8mm pitch) | Samtec ERM8-010-05.0-S-DV-K-TR | ERM8-010-05.0-S-DV-K-TR | 200-ERM8010050SDVKTR | SAM8610CT-ND | C374877 | Plugs into previous rotor group's last rotor J6 (ERF8-010 female). |
-| J4 | Rotor group output — JTAG (ERF8-005, 10-pin female, 0.8mm pitch) | Samtec ERF8-005-05.0-S-DV-K-TR | ERF8-005-05.0-S-DV-K-TR | 200-ERF8005050SDVKTR | SAM13517CT-ND | C7273978 | Receives next rotor group's first rotor J1 (ERM8-005 male). Cross-ref: Rotor/Design_Spec.md §3.4 |
-| J5 | Rotor group output — Power (ERF8-005, 10-pin female, 0.8mm pitch) | Samtec ERF8-005-05.0-S-DV-K-TR | ERF8-005-05.0-S-DV-K-TR | 200-ERF8005050SDVKTR | SAM13517CT-ND | C7273978 | Receives next rotor group's first rotor J2 (ERM8-005 male). |
-| J6 | Rotor group output — ENC Data (ERF8-010, 20-pin female, 0.8mm pitch) | Samtec ERF8-010-05.0-S-DV-K-TR | ERF8-010-05.0-S-DV-K-TR | 200-ERF8010050SDVKTR | SAM8618CT-ND | C3646170 | Receives next rotor group's first rotor J3 (ERM8-010 male). |
-| J7 | Extension Port IN — 16-pin 2×8 shrouded box header | Adam Tech BHR-16-VUA (2×8, 2.54mm) | BHR-16-VUA | 737-BHR-16-VUA | 2057-BHR-16-VUA-ND | JLCPCB C17692295 | Mating connector for Stator J10 (or previous Extension J8). Cross-ref: Stator/Board_Layout.md J10 |
-| J8 | Extension Port OUT — 16-pin 2×8 shrouded box header | Adam Tech BHR-16-VUA (2×8, 2.54mm) | BHR-16-VUA | 737-BHR-16-VUA | 2057-BHR-16-VUA-ND | JLCPCB C17692295 | Feeds next Extension J7 or Reflector J4. Cross-ref: Stator/Board_Layout.md J10 |
+| J1 | Rotor group input - JTAG (ERM8-005, 10-pin **male**, 0.8mm pitch) | Samtec ERM8-005-05.0-S-DV-K-TR | ERM8-005-05.0-S-DV-K-TR | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Plugs into previous rotor group's last rotor J4 (ERF8-005 female). Cross-ref: Rotor/Design_Spec.md §3.4 |
+| J2 | Rotor group input - Power (ERM8-005, 10-pin **male**, 0.8mm pitch) | Samtec ERM8-005-05.0-S-DV-K-TR | ERM8-005-05.0-S-DV-K-TR | 200-ERM8005050SDVKTR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | C3649741 | Plugs into previous rotor group's last rotor J5 (ERF8-005 female). |
+| J3 | Rotor group input - ENC Data (ERM8-010, 20-pin **male**, 0.8mm pitch) | Samtec ERM8-010-05.0-S-DV-K-TR | ERM8-010-05.0-S-DV-K-TR | 200-ERM8010050SDVKTR | SAM8610CT-ND | C374877 | Plugs into previous rotor group's last rotor J6 (ERF8-010 female). |
+| J4 | Rotor group output - JTAG (ERF8-005, 10-pin female, 0.8mm pitch) | Samtec ERF8-005-05.0-S-DV-K-TR | ERF8-005-05.0-S-DV-K-TR | 200-ERF8005050SDVKTR | SAM13517CT-ND | C7273978 | Receives next rotor group's first rotor J1 (ERM8-005 male). Cross-ref: Rotor/Design_Spec.md §3.4 |
+| J5 | Rotor group output - Power (ERF8-005, 10-pin female, 0.8mm pitch) | Samtec ERF8-005-05.0-S-DV-K-TR | ERF8-005-05.0-S-DV-K-TR | 200-ERF8005050SDVKTR | SAM13517CT-ND | C7273978 | Receives next rotor group's first rotor J2 (ERM8-005 male). |
+| J6 | Rotor group output - ENC Data (ERF8-010, 20-pin female, 0.8mm pitch) | Samtec ERF8-010-05.0-S-DV-K-TR | ERF8-010-05.0-S-DV-K-TR | 200-ERF8010050SDVKTR | SAM8618CT-ND | C3646170 | Receives next rotor group's first rotor J3 (ERM8-010 male). |
+| J7 | Extension Port IN - 16-pin 2x8 shrouded box header | Adam Tech BHR-16-VUA (2x8, 2.54mm) | BHR-16-VUA | 737-BHR-16-VUA | 2057-BHR-16-VUA-ND | JLCPCB C17692295 | Mating connector for Stator J10 (or previous Extension J8). Cross-ref: Stator/Board_Layout.md J10 |
+| J8 | Extension Port OUT - 16-pin 2x8 shrouded box header | Adam Tech BHR-16-VUA (2x8, 2.54mm) | BHR-16-VUA | 737-BHR-16-VUA | 2057-BHR-16-VUA-ND | JLCPCB C17692295 | Feeds next Extension J7 or Reflector J4. Cross-ref: Stator/Board_Layout.md J10 |
 
 ### JTAG Daughterboard (FT232H)
 
 | Ref | Description | Part / Series | Notes |
 | ----- | ------------- | --------------- | ------- |
-| J1 | INPUT header — 5V_USB, 3V3_ENIG, D+, D−, GND | 1×5 2.54mm female IDC | Power in (5V_USB + 3V3_ENIG) + internal USB 2.0 to CM5 via hat-header |
-| J2 | JTAG OUTPUT header (10-pin interleaved GND) | 1×10 2.54mm female IDC | TCK/GND/TDI/GND/TDO/GND/TMS/GND/VREF/GND |
+| J1 | INPUT header - 5V_USB, 3V3_ENIG, D+, D-, GND | 1x5 2.54mm female IDC | Power in (5V_USB + 3V3_ENIG) + internal USB 2.0 to CM5 via hat-header |
+| J2 | JTAG OUTPUT header (10-pin interleaved GND) | 1x10 2.54mm female IDC | TCK/GND/TDI/GND/TDO/GND/TMS/GND/VREF/GND |
 
 ---
 
@@ -3408,7 +3408,7 @@ changes have inadvertently altered connector placement, orientation, or mating r
 
 The following items have been identified as future tasks. They are not yet scheduled but must not be forgotten.
 
-### OWI-001 — Test Coupons per Board
+### OWI-001 - Test Coupons per Board
 
 Add test coupon footprints to each board design to simplify manufacturing test and functional verification.
 Each board must be specified independently, as the relevant test signals and accessible nets will differ per board.
@@ -3416,19 +3416,19 @@ Diagnostic-bank style bring-up access should be relocated onto these removable c
 so full prototype and service test coverage is retained without carrying extra test-only hardware into the
 final assembled machine.
 
-### OWI-002 — PAS Definitions per Board
+### OWI-002 - PAS Definitions per Board
 
 Define Provisional Acceptance Specifications (PAS) for each board, covering:
 
-- **Basic board testing** — power-on checks, continuity, short detection.
-- **Functional testing via coupons** — using coupon connections to real external devices to verify board functionality
+- **Basic board testing** - power-on checks, continuity, short detection.
+- **Functional testing via coupons** - using coupon connections to real external devices to verify board functionality
   end-to-end (e.g. JTAG chain continuity, signal integrity, CPLD programming verification).
-- **Bring-up access strategy** — PAS definitions should prefer removable coupon-based access for
+- **Bring-up access strategy** - PAS definitions should prefer removable coupon-based access for
   bring-up probes, rather than requiring permanent on-board probe features in the finished product.
 
 Each board must be specified independently.
 
-### OWI-003 — VHDL Pseudo-Code and CPLD Configuration Plans
+### OWI-003 - VHDL Pseudo-Code and CPLD Configuration Plans
 
 For each CPLD in the system, create:
 
@@ -3436,4 +3436,4 @@ For each CPLD in the system, create:
 - Pseudo-code or annotated VHDL stubs ready for handoff to software development.
 - Notes on how the VHDL can be exercised during PAS testing (OWI-002) to verify functional correctness.
 
-Boards with CPLDs requiring this work: Encoder (×2), Stator (×1), Rotor (×1 per rotor, ×30 total).
+Boards with CPLDs requiring this work: Encoder (x2), Stator (x1), Rotor (x1 per rotor, x30 total).

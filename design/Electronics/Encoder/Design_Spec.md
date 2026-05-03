@@ -13,12 +13,12 @@ The Encoder Module is a **single-sided generic 64-line interface board**. Each P
 Intel MAX II CPLD, one bank of 64 spade terminals, one 20-pin IDC data-link connector, and the
 shared JTAG chain connection on that same cable. The same PCB is reused in six system roles:
 
-- `KBD_ENC` — keyboard encode module
-- `LBD_DEC` — lightboard decode module
-- `PLG_PASS1_DEC` — plugboard pass 1 decode module
-- `PLG_PASS1_ENC` — plugboard pass 1 encode module
-- `PLG_PASS2_DEC` — plugboard pass 2 decode module
-- `PLG_PASS2_ENC` — plugboard pass 2 encode module
+- `KBD_ENC` - keyboard encode module
+- `LBD_DEC` - lightboard decode module
+- `PLG_PASS1_DEC` - plugboard pass 1 decode module
+- `PLG_PASS1_ENC` - plugboard pass 1 encode module
+- `PLG_PASS2_DEC` - plugboard pass 2 decode module
+- `PLG_PASS2_ENC` - plugboard pass 2 encode module
 
 The **20-pin ribbon pinout does not change between board roles**. Role is determined by the
 programmed CPLD image, not by connector rewiring. The board itself exposes only the generic
@@ -68,9 +68,9 @@ The HID path is split mechanically and electrically:
 | :--- | :--- | :--- | :--- |
 | DR-ENC-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §9 PCB Fabrication & Stackup |
 | DR-ENC-02 | CPLD | Intel MAX II EPM570T100I5N (TQFP-100) | §3 Single-Module Architecture; BOM U1 |
-| DR-ENC-03 | Stator interface connector | 20-pin 2×10 IDC (mates with one Stator encoder port) | §4 Interconnects; BOM J2 |
+| DR-ENC-03 | Stator interface connector | 20-pin 2x10 IDC (mates with one Stator encoder port) | §4 Interconnects; BOM J2 |
 | DR-ENC-04 | Supply voltage | 3.3V via the 3V3_ENIG power rail | §2 Power Requirements; BOM J2 |
-| DR-ENC-05 | Mounting holes | MH1–MH4 shall be M2.5mm through-hole mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to the local GND_CHASSIS net per `design/Standards/Global_Routing_Spec.md §4` | §2 GND_CHASSIS Single-Point Bond |
+| DR-ENC-05 | Mounting holes | MH1-MH4 shall be M2.5mm through-hole mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to the local GND_CHASSIS net per `design/Standards/Global_Routing_Spec.md §4` | §2 GND_CHASSIS Single-Point Bond |
 
 ## 2. Power Requirements
 
@@ -103,7 +103,7 @@ by `design/Software/CPLD_Logic/Encoder_Logic.md`.
 | **Decode role** (`LBD_DEC`, `PLG_PASS1_DEC`, `PLG_PASS2_DEC`) | `ENC_DATA[5:0]` consumed from Stator | Board drives one of 64 lines | Decodes 6-bit input into a one-of-64 asserted output; `LBD_DEC` additionally blanks outputs when `ENC_ACTIVE_N` is HIGH |
 | **Encode role** (`KBD_ENC`, `PLG_PASS1_ENC`, `PLG_PASS2_ENC`) | `ENC_DATA[5:0]` driven back to Stator | Board reads one of 64 lines | Encodes one asserted line into a 6-bit output; `KBD_ENC` additionally drives `ENC_ACTIVE_N` LOW while a debounced keypress is active |
 
-### Signal Flow — Plugboard Pass
+### Signal Flow - Plugboard Pass
 
 ```text
 Stator alias `ENC_OUT_PLGx[5:0]`
@@ -117,7 +117,7 @@ Stator alias `ENC_OUT_PLGx[5:0]`
 Stator alias `ENC_IN_PLGx[5:0]`
 ```
 
-### Signal Flow — HID
+### Signal Flow - HID
 
 ```text
 Keyboard Assembly:                    Lightboard Assembly:
@@ -135,8 +135,8 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 
 ## 4. Interconnects
 
-- **Data Link (J2):** 20-pin (2×10) 2.54 mm shrouded box header with polarisation key.
-  > **Connector Definition Owner:** `Stator/Board_Layout.md — J4/J5/J6/J7/J8/J9`.
+- **Data Link (J2):** 20-pin (2x10) 2.54 mm shrouded box header with polarisation key.
+  > **Connector Definition Owner:** `Stator/Board_Layout.md - J4/J5/J6/J7/J8/J9`.
   > See `design/Electronics/Stator/Board_Layout.md` for the authoritative pin table.
   > `ENC_ACTIVE_N` is the generic pin-8 sideband. Active HID roles use it; unused roles shall leave
   > it HIGH / inactive.
@@ -145,7 +145,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 - **Keyboard Switches:** see `design/Mechanical/Keyboard_Assembly/Design_Spec.md`.
 - **Lightboard Harness:** see `design/Mechanical/Lightboard_Assembly/Design_Spec.md`.
 - **Plugboard Jack Sockets:** see `design/Mechanical/Plugboard_Assembly/Design_Spec.md`.
-- **PCB Spade Terminal Bank (J3–J66):** 6.35 mm (1/4") straight vertical PCB-mount male blade
+- **PCB Spade Terminal Bank (J3-J66):** 6.35 mm (1/4") straight vertical PCB-mount male blade
   tabs.
   - **Decode role:** wired to lightboard lamps or to plugboard jack Tip + Switch terminals.
   - **Encode role:** wired to keyboard switch outputs or to plugboard jack Sleeve terminals.
@@ -159,7 +159,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 - **Trace Width:** all JTAG signal traces on L1 shall be routed at **0.127 mm (5 mil)** over the L2
   GND plane, targeting **50 Ω controlled impedance** per DEC-016. See
   `design/Electronics/Investigations/JTAG_Integrity.md`.
-- **Pull Resistors (×4, placed near U1):**
+- **Pull Resistors (x4, placed near U1):**
   - **TMS:** 10 kΩ pull-up to 3V3_ENIG (R2)
   - **TDI:** 10 kΩ pull-up to 3V3_ENIG (R3)
   - **TCK:** 10 kΩ pull-down to GND (R4)
@@ -224,7 +224,7 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 
 - **Thermal:** vias under the Intel MAX II EPM570T100I5N CPLD power pins / thermal area as required
   by layout review.
-- **ESD:** No ESD protection arrays required — all signal interfaces are internal IDC ribbon
+- **ESD:** No ESD protection arrays required - all signal interfaces are internal IDC ribbon
   connections within the sealed enclosure. Per `design/Standards/Global_Routing_Spec.md §9`.
 
 ## 9. PCB Fabrication & Stackup
@@ -244,17 +244,17 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| J3-J66 | 6.35mm PCB spade blade terminals THT vertical | 1285-ST | Keystone Electronics | 36-1285-ST-ND | 534-1285-ST | C5370868 | — | — | Yes | Pending | 64 |
-| C1-C8 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | — | — | Yes | Pending | 8 |
-| C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | — | — | Yes | Pending | 5 |
-| D1 | Green SMD LED Vf≈2.0V 0402 | 150060VS75000 | Würth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | — | — | Yes | Pending | 1 |
-| J1 | 6.35mm mono jack sockets panel-mount | — | generic | — | — | — | eBay SaiBuy.Ltd | eBay sourcing only | N/A | N/A | 1 |
-| J2 | 20-pin 2×10 2.54mm shrouded THT | BHR-20-VUA | Adam Tech | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | — | — | Yes | Pending | 1 |
-| R1 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | — | — | Yes | Pending | 1 |
-| R2-R5 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | — | — | Yes | Pending | 4 |
-| R6 | 75Ω 1% 0402 | ERJ-2RKF75R0X | Panasonic | P75.0LCT-ND | 667-ERJ-2RKF75R0X | C413061 | — | — | Yes | Pending | 1 |
-| SW1-SW40 | DPDT 6-pin momentary switches panel-mount | — | generic | — | — | — | eBay gadgetskingdom | eBay sourcing only | N/A | N/A | 40 |
-| U1 | MAX II 570 LEs CPLD TQFP-100 | EPM570T100I5N | Intel (Altera) | 544-2281-ND | 989-EPM570T100I5N | C27319 | — | — | Yes | Pending | 1 |
+| J3-J66 | 6.35mm PCB spade blade terminals THT vertical | 1285-ST | Keystone Electronics | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | Yes | Pending | 64 |
+| C1-C8 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 8 |
+| C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | Pending | 5 |
+| D1 | Green SMD LED Vf≈2.0V 0402 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | Yes | Pending | 1 |
+| J1 | 6.35mm mono jack sockets panel-mount | - | generic | - | - | - | eBay SaiBuy.Ltd | eBay sourcing only | N/A | N/A | 1 |
+| J2 | 20-pin 2x10 2.54mm shrouded THT | BHR-20-VUA | Adam Tech | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | Yes | Pending | 1 |
+| R1 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | Yes | Pending | 1 |
+| R2-R5 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | Pending | 4 |
+| R6 | 75Ω 1% 0402 | ERJ-2RKF75R0X | Panasonic | P75.0LCT-ND | 667-ERJ-2RKF75R0X | C413061 | - | - | Yes | Pending | 1 |
+| SW1-SW40 | DPDT 6-pin momentary switches panel-mount | - | generic | - | - | - | eBay gadgetskingdom | eBay sourcing only | N/A | N/A | 40 |
+| U1 | MAX II 570 LEs CPLD TQFP-100 | EPM570T100I5N | Intel (Altera) | 544-2281-ND | 989-EPM570T100I5N | C27319 | - | - | Yes | Pending | 1 |
 
 **Quantity notes:**
 

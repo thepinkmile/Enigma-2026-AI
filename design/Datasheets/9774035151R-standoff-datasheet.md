@@ -1,9 +1,9 @@
-# 9774035151R — Würth Elektronik WA-SMSI SMT Steel Spacer M2.5×3.5mm
+# 9774035151R - Wurth Elektronik WA-SMSI SMT Steel Spacer M2.5x3.5mm
 
 ## Source
 
 - **Source PDF:** [9774040151R-standoff-datasheet.pdf](9774040151R-standoff-datasheet.pdf)
-  (shared with 9774040151R — same WA-SMSI series datasheet covers all height variants)
+  (shared with 9774040151R - same WA-SMSI series datasheet covers all height variants)
 - **Reference markdown:** [9774040151R-standoff-datasheet.md](9774040151R-standoff-datasheet.md)
 - **Manufacturer product page:** <https://www.we-online.com/en/components/products/WA-SMSI>
 
@@ -19,11 +19,11 @@
 
 Used as the four SMT standoffs on the Actuation Module (AM) carrier interface.
 Provides the 3.5mm stacking height required by the DF40HC(3.5)-20DS-0.4V(51) receptacle on the Controller and Extension boards.
-Standoff mounting holes (MH1–MH4) are tied to GND and also form the asymmetric keying pattern for the AM module (see AM Design_Spec.md DR-AM-03).
+Standoff mounting holes (MH1-MH4) are tied to GND and also form the asymmetric keying pattern for the AM module (see AM Design_Spec.md DR-AM-03).
 
 ## Key Specifications
 
-The 9774035151R is a variant of the Würth 97740 WA-SMSI series.
+The 9774035151R is a variant of the Wurth 97740 WA-SMSI series.
 All construction, material, and mechanical properties are identical to the 4.0mm variant (9774040151R) except for the **stacking height L = 3.5mm**.
 
 | Property | Value |
@@ -37,7 +37,7 @@ All construction, material, and mechanical properties are identical to the 4.0mm
 | Base diameter | 5.7 mm |
 | Material | Steel |
 | Plating | Tin (RoHS compliant) |
-| Operating temperature | −55 to +125 °C |
+| Operating temperature | -55 to +125 °C |
 | Net | GND (tied at PCB mounting hole pad) |
 
 For full land pattern, solder profile, packaging, and mechanical drawings see
