@@ -180,7 +180,7 @@ within 1 mm of each VDD pin.
 - **U6** (I²C address 0x20) — Encoder-bus activity monitoring: reads `ENC_ACTIVE_N` sidebands from
   all six encoder ports (J4–J9) and presents them to the CM5 over I²C.
 - **U7** (I²C address 0x21) — Virtual key injection, keyboard source selection, and system reset:
-  drives `CM5_KEY_DATA[5:0]`, `KEY_CM5_ACTIVE_N` (keyboard source select), and `SYS_RESET_N`
+  drives `CM5_KEY_DATA[5:0]`, `KEY_CM5_ACTIVE` (keyboard source select), and `SYS_RESET_N`
   broadcast to the CPLD and all downstream boards.
 
 ---
@@ -188,7 +188,7 @@ within 1 mm of each VDD pin.
 ## 8. U4 / U5 — Keyboard Source MUX
 
 **Component:** 74HC157PW-Q100,118, TSSOP-16 (both).  
-**Placement:** Near U7 (they share the `KEY_CM5_ACTIVE_N` select line) and near U1 CPLD input pins
+**Placement:** Near U7 (they share the `KEY_CM5_ACTIVE` select line) and near U1 CPLD input pins
 for the selected keyboard bus.
 
 A pair of quad 2-to-1 multiplexers that select between the physical keyboard encoder input

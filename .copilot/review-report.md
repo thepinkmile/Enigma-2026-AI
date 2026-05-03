@@ -373,6 +373,73 @@ No new stand-alone findings in Pass 2 beyond integration items captured under IN
 | Severity | Ref | Finding | Detail |
 | :--- | :--- | :--- | :--- |
 | LOW | INT-MIN-001 | `ACTUATE_REQUEST` signal missing `_N` suffix throughout | Signal is active-LOW; GRS naming conventions require the `_N` suffix. Appeared without suffix in Controller, Extension, and Software AM specs. |
+
+---
+
+## Pass 4 — Review Findings
+
+**Completed:** 2026-05-07
+
+### Batch 1 — Power Module and Actuation Module
+
+| Severity | Ref | Finding | Detail |
+| :--- | :--- | :--- | :--- |
+| MEDIUM | PM-P4-1 | BOM note range incorrect | BOM note cross-reference range in the Power Module spec was malformed and did not reflect the correct component span. Rewritten to give accurate component descriptions. |
+| LOW | PM-P4-2 | `§1 PCB Architecture` missing mounting holes table | GRS requires all PCBs to document mounting holes. The Power Module §1 section had no mounting holes subsection. Table added: 4x M3 (3.2 mm drill), PTH non-plated, GND_CHASSIS, no BOM entry. |
+| MEDIUM | AM-P4-1 | `ACTUATION_HOME` missing `_N` suffix in Board_Layout.md | Signal is active-LOW (pull-up to 3V3, normally low when triggered); Board_Layout.md connector table used bare name without `_N` suffix at two locations. |
+| LOW | AM-P4-2 | C4 BOM note missing DEC-046 cross-reference | C4 is rated 50V on a 5V rail. The BOM note previously had no explanation. DEC-046 records the decision to retain 50V-rated components rather than add unique 25V parts. Cross-reference added. |
+
+### Batch 2 — Controller and Extension
+
+| Severity | Ref | Finding | Detail |
+| :--- | :--- | :--- | :--- |
+| LOW | CTL-P4-1 | Stale signal name `I2C1_SDA/SCL` in Board_Layout.md | Pass 3 (F-78) renamed all `I2C1_*` signal names to `I2C_SDA/I2C_SCL`. One location in Controller Board_Layout.md §2 was missed. |
+| LOW | CTL-P4-2 | Mixed imperial units in Controller Design_Spec.md §8 | Track width stated as `6.0 mil` (imperial). GRS and all other specs use metric. Corrected to `0.20 mm (7.87 mil)`. |
+| MEDIUM | EXT-P4-1 | `SYS_RESET_N` pin number incorrect in DR-EXT-13 | DR-EXT-13 described the SYS_RESET_N signal as connecting via "pin 2" on J9/J10. Correct pin is 15. |
+| LOW | EXT-P4-2 | AM attachment standoffs absent from Extension BOM | Controller BOM correctly lists Wurth 9774040151R M2.5x4.0mm standoffs for AM attachment (MH1-MH4). Extension hosts the same ERF8-005-05.0-S-DV-K-TR receptacles (J9/J10) but had no matching standoff BOM row. Fix deferred pending connector mated-height confirmation from local datasheets. |
+
+### Batch 3 — Stator and System Integration
+
+| Severity | Ref | Finding | Detail |
+| :--- | :--- | :--- | :--- |
+| MEDIUM | STA-P4-1 | `KEY_CM5_ACTIVE_N` incorrect suffix in Board_Layout.md | Signal is active-HIGH (CM5 asserts high when active); the `_N` suffix implies active-low and is wrong. Two occurrences in Board_Layout.md J1 connector table corrected to `KEY_CM5_ACTIVE`. |
+| HIGH | STA-P4-2 | BOM shows 19x 10kOhm resistors; only 16 documented in spec | BOM row `R2-R6, R16-R26` accounts for 16 resistors. Three (R39, R40, R41) were undocumented. Deep-dive identified: R39/R40/R41 are MCP23017 /RESET pull-ups (one per U6/U7/U8); R20 (within R16-R26 range) is the CFG_APPLY_N pull-up on U8 GPA[4]. Separate pull-ups are required because U7 GPA[7] drives SYS_RESET_N -- tying U7 /RESET to SYS_RESET_N would create a circular dependency. DR-STA-12 and DR-STA-15 updated; new section bullet added for MCP23017 /RESET pull-ups. |
+| MEDIUM | INT-P4-1 | `ROTOR_EN` missing `_N` suffix in System_Architecture.md | Signal is active-LOW (rotor boards enabled when asserted low). System_Architecture.md used bare `ROTOR_EN` at two locations. Corrected to `ROTOR_EN_N`. |
+
+---
+
+## Pass 4 -- Fix Log
+
+**Completed:** 2026-05-07
+
+| Fix # | Ref | File(s) | Change |
+| :--- | :--- | :--- | :--- |
+| F-88 | CTL-P4-1 | `design/Electronics/Controller/Board_Layout.md` | Replaced `I2C1_SDA/SCL` with `I2C_SDA/SCL` in §2 connector table. |
+| F-89 | CTL-P4-2 | `design/Electronics/Controller/Design_Spec.md` | Replaced `6.0 mil` with `0.20 mm (7.87 mil)` in §8 routing rules. |
+| F-90 | EXT-P4-1 | `design/Electronics/Extension/Design_Spec.md` | Corrected DR-EXT-13 pin number: `pin 2` -> `pin 15` for SYS_RESET_N. |
+| F-91 | PM-P4-1 | `design/Electronics/Power_Module/Design_Spec.md` | BOM note range rewritten to accurately describe the affected components. |
+| F-92 | PM-P4-2 | `design/Electronics/Power_Module/Design_Spec.md` | Added `#### Mounting Holes` subsection to §1 PCB Architecture: 4x M3 (3.2 mm drill), PTH non-plated, GND_CHASSIS, no BOM entry. |
+| F-93 | STA-P4-1 | `design/Electronics/Stator/Board_Layout.md` | Replaced `KEY_CM5_ACTIVE_N` with `KEY_CM5_ACTIVE` at two locations in J1 connector table. |
+| F-94 | STA-P4-2 | `design/Electronics/Stator/Design_Spec.md` | DR-STA-12 updated: added R39/R40/R41 MCP23017 /RESET pull-up entries with circular-dependency rationale; cross-ref updated to `BOM U6, U7, U8, R39, R40, R41`. DR-STA-15 updated: added R20 CFG_APPLY_N pull-up rationale; cross-ref updated to `BOM U8, U3, R20`. §3 body: new MCP23017 /RESET pull-ups bullet (R39-R41) added; Reset/Apply path bullet expanded with R20 power-up hold role. |
+| F-95 | AM-P4-1 | `design/Electronics/Actuation_Module/Board_Layout.md` | Replaced `ACTUATION_HOME` with `ACTUATION_HOME_N` at two locations in J1/J2 connector tables. |
+| F-96 | AM-P4-2 | `design/Electronics/Actuation_Module/Design_Spec.md` | Added `50V rating retained per DEC-046.` to C4 BOM note. |
+| F-97 | INT-P4-1 | `design/Electronics/System_Architecture.md` | Replaced `ROTOR_EN` with `ROTOR_EN_N` at two locations. |
+| -- | EXT-P4-2 | `design/Electronics/Extension/Design_Spec.md` | DEFERRED -- Wurth 9774040151R M2.5x4.0mm standoffs BOM row; blocked on connector mated-height confirmation. Resolution confirmed from Controller Board ground truth (same ERF8 receptacles, M2.5x4.0mm standoffs already specified). Apply before Pass 5. |
+
+### Pass 4 Result
+
+All 10 actionable items resolved (11 findings; 1 deferred to pre-Pass-5):
+
+- **10 fixed** (F-88 through F-97)
+- **1 deferred** (EXT-P4-2 -- standoff BOM row; mated-height ground truth confirmed, application pending)
+
+All 9 modified files pass markdownlint with zero violations.
+
+### Pass 4 Refactoring Notes
+
+| Scope | Old Name | New Name | Notes |
+| :--- | :--- | :--- | :--- |
+| Stator Board_Layout signal | `KEY_CM5_ACTIVE_N` | `KEY_CM5_ACTIVE` | F-93: signal is active-HIGH; `_N` suffix was incorrect. Suppression entry added to agent-directives.md to prevent future false-positive flags. |
 | LOW | INT-MIN-002 | Extension Design_Spec.md contains phantom reference to AM R6 | Extension spec referenced AM component "(R6)" which does not exist on the AM BOM — stale residual from an earlier design iteration. |
 
 ---

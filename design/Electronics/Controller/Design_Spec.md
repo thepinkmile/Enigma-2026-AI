@@ -49,7 +49,7 @@ source is active.
 | FR-CTL-06 | Maintain RTC operation across power cycles using a CR2032 backup battery | Non-rechargeable; service by disassembly | §5 RTC Backup Battery; BOM BT1, D1 (BAT54) |
 | FR-CTL-07 | Route power, JTAG, and I²C between the Controller and the Stator board | Via `J4/J5` hybrid docks | §2 Dock Interfaces; BOM J4/J5 |
 | FR-CTL-08 | Provide DSI1 display interface connector for optional lid-mounted touchscreen add-on | DSI1 4-lane FPC connector (J9) on Controller Board; display add-on board to be designed separately | §8 Connectivity; BOM J9 |
-| FR-CTL-09 | Host one shared Actuation Module for the main depression-bar actuation path | Controller provides AM power and a single active-low `ACTUATE_REQUEST_N` control line; homing, PWM generation, and diagnostics are local to the AM | §6 CM5 GPIO Mapping Matrix; §8 Connectivity; BOM J11, J16 |
+| FR-CTL-09 | Host one shared Actuation Module for the main depression-bar actuation path | Controller provides AM power and a single active-low `ACTUATE_REQUEST_N` control line; homing, PWM generation, and diagnostics are local to the AM | §6 CM5 GPIO Mapping Matrix; §8 Connectivity; BOM J11 |
 
 #### Design Requirements
 
@@ -66,10 +66,9 @@ source is active.
 | DR-CTL-09 | PM status / SW1 LED interface | Controller must expose the shared `I2C-1` bus plus one optional interrupt input (`PM_IO_INT_N`) to the PM-local `PCA9534A @ 0x3F`, which virtualises `POE_STAT`, `USB_STAT`, `BATT_PRES_N`, `SYS_FAULT`, and runtime `SW_LED_R/G/B + SW_LED_CTRL`. | §4.1 I²C Bus Topology; §6 CM5 GPIO Mapping Matrix |
 | DR-CTL-10 | OS/firmware configuration | All firmware configuration requirements (including RTC charging disable) are specified in the Linux OS design spec. See `design/Software/Linux_OS/`. | design/Software/Linux_OS/ |
 | DR-CTL-11 | DSI1 connector | J9 = Amphenol F52Q-1A7H1-11015, 15-pin 1.0mm pitch right-angle ZIF/FPC connector; DSI1 4-lane: CLK+/−, D0+/−, D1+/−, D2+/−, D3+/− = 10 differential signals; 100 Ω differential impedance; route on L3 (stripline, same as HDMI); capacitive touch I²C may share the existing I²C-1 controller interface when the deferred display add-on is defined | §8 Connectivity; BOM J9 |
-| DR-CTL-12 | Actuation Module power dock | J11 = Samtec ERF8-005-05.0-S-DV-K-TR socket; host-side mating dock for the AM power connector; carries grouped `5V_MAIN`, `3V3_ENIG`, and `GND` returns | §8 Connectivity; BOM J11 |
-| DR-CTL-13 | Actuation Module trigger dock | J16 = Samtec ERF8-005-05.0-S-DV-K-TR socket; host-side mating dock for the AM trigger connector; carries active-low `ACTUATE_REQUEST_N` plus guard / return pins | §8 Connectivity; BOM J16 |
+| DR-CTL-12 | Actuation Module host dock | J11 = Hirose DF40HC(3.5)-20DS-0.4V(51) receptacle (20-pin, 0.4mm pitch, 3.5mm stacking height); host-side mating connector for AM J1 (DF40C-20DP-0.4V(51)); carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` on a single connector | §8 Connectivity; BOM J11 |
 | DR-CTL-14 | Actuation-request GPIO usage | `ACTUATE_REQUEST_N` uses CM5 GPIO 8 as an active-low host control output. The former direct `SERVO_PWM` / `SERVO_HOME` CM5 ownership is retired in favour of the shared Actuation Module architecture. | §6 CM5 GPIO Mapping Matrix |
-| DR-CTL-15 | Actuation Module host envelope | The Controller area beneath the installed AM shall be a no-component placement zone except for J11 / J16 and the copper / vias needed to route them; do not crowd the module with nearby tall parts or enclosure features that would trap heat or block service access | §8.6; §8.7; `Board_Layout.md` |
+| DR-CTL-15 | Actuation Module host envelope | The Controller area beneath the installed AM shall be a no-component placement zone except for J11 and four M2.5×3.5mm SMT standoffs (MH5–MH8, 9774035151R) and the copper / vias needed to route J11; standoff placement shall follow the pattern defined in `AM Design_Spec.md DR-AM-03`; MH5–MH8 positions shall mirror the AM mounting hole pattern; MH5–MH8 pads shall be connected to `GND`; do not crowd the module with nearby tall parts or enclosure features that would trap heat or block service access. **PCB layout for J11 and MH5–MH8 cannot be finalised until AM schematic capture and PCB layout are complete.** | §8.6; `Board_Layout.md` |
 | DR-CTL-16 | Power switch Vcc bypass capacitors | U2 (TPS2065CDBVR) and U3 (AP2331W-7) shall each have a dedicated 100nF X7R 50V 0402 bypass capacitor on their Vcc pin, placed within 1mm of the IC per `Global_Routing_Spec.md §3.2` | BOM: C13 (U2 bypass), C14 (U3 bypass) |
 | DR-CTL-17 | PoE IC bypass capacitors | U9 (TPS2372-4RGWR) and U10 (TPS23730RMTR) shall each have a dedicated 100nF X7R 50V 0402 bypass capacitor on their VCC pin, placed within 1mm of the IC per `Global_Routing_Spec.md §3.2`. BOM: C24 (U9 bypass), C28 (U10 bypass) | BOM C24, C28 |
 
@@ -212,7 +211,7 @@ All GPIOs are referenced to **3V3_ENIG**. BCM2712 silicon limit: 50mA aggregate 
 | **5** | **PM_IO_INT_N** | Input | 3.3V | Optional interrupt input from the PM-local `PCA9534A @ 0x3F`, used to wake the power-management daemon for PM status changes. |
 | **6** | **USB_FAULT** | Input | 3.3V | Active Low: USB power fault from on-board TPS2065C (local to Controller; no BtB pin required). |
 | **7** | **PWR_GD** | Input | 3.3V | Direct PM rail-health telemetry only — HIGH while `5V_MAIN` ≥ 4.50V; does NOT trigger shutdown. Routed on `J3`. |
-| **8** | **ACTUATE_REQUEST_N** | Output | 3.3V | Active-low request pulse into the Controller-local Actuation Module trigger dock (`J16`). |
+| **8** | **ACTUATE_REQUEST_N** | Output | 3.3V | Active-low request pulse into the Controller-local Actuation Module host dock (`J11`). |
 
 > **GPIO matrix scope note:** `PWR_BUT` and `LED_PWR_N` are **not** CM5 GPIO signals and are
 > deliberately absent from this table. `PWR_BUT` connects directly to the CM5 PMIC dedicated
@@ -359,28 +358,35 @@ The JTAG Daughterboard mounts as a hat on the Controller via two 2.54mm headers.
   stage; any future display power and touch-side auxiliary wiring stays deferred with the display
   add-on definition.
 
-### 8.6. Actuation Module Power Dock (J11)
+### 8.6. Actuation Module Host Dock (J11)
 
-* **Part:** Samtec ERF8-005-05.0-S-DV-K-TR — 10-pin 2x5 female 0.8mm Edge Rate socket.
-* **Function:** Host-side mating connector for the shared Actuation Module `J1` power dock.
-* **Allocation:** Grouped `5V_MAIN`, one `3V3_ENIG` logic feed, and multiple `GND` returns per
-  `Actuation_Module/Design_Spec.md`.
-* **Placement intent:** Adjacent to the local rotor actuation linkage, but without taking servo
-  mechanical load.
+> **Connector Definition Owner:** `AM Design_Spec.md §3.1`.
+> This board provides the mating receptacle (J11). Full connector pinout is defined and owned by
+> the Actuation Module. Net connections from this board to the mounted AM:
+>
+> | CTL Net | AM Net |
+> | --- | --- |
+> | `5V_MAIN` | `5V_MAIN` |
+> | `3V3_ENIG` | `3V3_ENIG` |
+> | `GND` | `GND` |
+> | `ACTUATE_REQUEST_N` | `ACTUATE_REQUEST_N` |
+>
+> `ACTUATE_REQUEST_N` is sourced from CM5 GPIO 8 as an active-low output pulse. The Actuation Module
+> performs local homing, one-shot latching, and servo PWM generation.
+>
+> **⚠ PCB Layout Dependency:** J11 and MH5–MH8 positions cannot be finalised until AM schematic
+> capture and PCB layout are complete. MH5–MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
+> connect to `GND`.
+
+* **Part:** Hirose DF40HC(3.5)-20DS-0.4V(51) — 20-pin 0.4mm pitch BtB receptacle, 3.5mm stacking
+  height.
+* **Polarity enforcement:** The DF40 connector body is polarity-free (Note 4 in Hirose datasheet);
+  asymmetric placement of MH5–MH8 standoffs (per `AM Design_Spec.md DR-AM-03`) is mandatory to
+  enforce a single valid mating orientation. A silkscreen pin-1 marker is required on both boards.
+* **Standoffs:** MH5–MH8 = four 9774035151R (M2.5×3.5mm SMT) provide mechanical support and set the
+  3.5mm board-to-board spacing; pads connected to `GND`.
 * **Host-board envelope:** Reserve the AM footprint shadow on the Controller as a no-component zone
-  except for J11 and the routing / copper needed to feed it, so the inverted AM keeps its full
-  board-to-board clearance and does not become thermally boxed-in.
-
-### 8.7. Actuation Module Trigger Dock (J16)
-
-* **Part:** Samtec ERF8-005-05.0-S-DV-K-TR — 10-pin 2x5 female 0.8mm Edge Rate socket.
-* **Function:** Host-side mating connector for the shared Actuation Module `J2` trigger dock.
-* **Control path:** CM5 GPIO 8 provides an active-low `ACTUATE_REQUEST_N` pulse to this connector.
-  The Actuation Module performs local homing, one-shot latching, and servo PWM generation.
-* **Pin policy:** One active trigger pin plus generous `GND` / guard allocation, matching the
-  serviceability requirement.
-* **Host-board envelope:** Keep the same AM footprint shadow clear around J16; only J11 / J16 and
-  their routing belong inside the mounted-module area.
+  except for J11, MH5–MH8, and the routing / copper needed to feed them.
 
 ## 9. PCB Fabrication & Stackup
 
@@ -413,7 +419,7 @@ The JTAG Daughterboard mounts as a hat on the Controller via two 2.54mm headers.
 | **5V_MAIN power rail** | N/A (Low Drop) | 78.7 mil (2.00 mm) min + inner pour — 8.76A worst-case; Very High Current (> 5.5A) per Global_Routing_Spec §1.1 | L1 surface + L4 inner pour |
 | **Ethernet/HDMI** | 100Ω Differential | 4.5 mil / 8.5 mil | L3 (Stripline) |
 | **JTAG signals** | 50Ω Single-ended | 5.0 mil (0.127 mm) | L6 |
-| **Logic/I2C** | N/A | 6.0 mil | L1 |
+| **Logic/I2C** | N/A | 0.20 mm (7.87 mil) | L1 |
 | **USB 2.0** | 90Ω Differential | 5.5 mil / 7.5 mil | L3 (Stripline) |
 | **USB 3.0** | 90Ω Differential | 5.5 mil / 7.5 mil | L3 (Stripline) |
 
@@ -461,7 +467,8 @@ Estimated Controller-local power dissipation at system peak load:
 | J8 | RJ45 w/ magnetics/PoE long-body THT | 7499111121A | Würth Elektronik | 1297-1070-5-ND | 710-7499111121A | C5523983 | — | — | Yes | Pending | 1 |
 | J9 | DSI1 15-pin 1.0mm ZIF | F52Q-1A7H1-11015 | Amphenol | 609-F52Q-1A7H1-11015CT-ND | 649-F52Q-1A7H1-11015 | C3169095 | — | — | Yes | Pending | 1 |
 | J10 | 4-pin SH 1.0mm fan SMT | SM04B-SRSS-TB(LF)(SN) | JST | 455-SM04B-SRSS-TBCT-ND | 306-SM04BSRSSTBLFSN | C160404 | — | — | Yes | Pending | 1 |
-| J11, J16 | 10-pin 2x5 0.8mm socket SMT | ERF8-005-05.0-S-DV-K-TR | Samtec | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | — | — | Yes | Pending | 2 |
+| J11 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack | DF40HC(3.5)-20DS-0.4V(51) | Hirose | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | — | — | Yes | Pending | 1 |
+| MH5-MH8 | M2.5×3.5mm SMT standoff | 9774035151R | Würth Elektronik | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | — | AM mounting standoffs | Yes | Pending | 4 |
 | J12 | 1x5 2.54mm female socket THT | RS1-05-G | Adam Tech | 2057-RS1-05-G-ND | 737-RS1-05-G | C3321119 | — | — | Yes | Pending | 1 |
 | J13 | 1x10 2.54mm female socket THT | RS1-10-G | Adam Tech | 2057-RS1-10-G-ND | 737-RS1-10-G | C3320525 | — | — | Yes | Pending | 1 |
 | J14-J15 | CM5 SO-DIMM 100-pin 4mm | 10164227-1004A1RLF | Amphenol | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | — | — | Yes | Pending | 2 |

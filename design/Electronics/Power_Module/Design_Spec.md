@@ -100,6 +100,12 @@ Controller Board via dock connector `J1`.
     supercap block. See DEC-020.
 * **Routing Keep-out:** 41mm × 81mm shadow zone on L1–L6 beneath the Supercap Block — only GND_CHASSIS copper and Type VII thermal vias permitted within this zone.
 
+#### Mounting Holes
+
+| Count | Size | Type | Net | BOM Entry |
+| :--- | :--- | :--- | :--- | :--- |
+| 4 | M3 (3.2 mm drill) | PTH, non-plated | GND_CHASSIS | None |
+
 ### 2. Power & UPS Hub
 
 * **Storage:** LTC3350-managed supercap bank — 8× Abracon ADCR-T02R7SA256MB (25F/2.7V, THT radial can, 16.0mm dia × 25.0mm height) in 2S4P configuration on 5V_MAIN bus. Total: 50F at 5.4V. Hold-up
@@ -637,8 +643,9 @@ Estimated PM-local power dissipation at system peak load:
 > * **R1 ERJ-3EKF2323V (232kΩ)** — Corrected from 732kΩ (calculation error). R1 = 28700 × (11/1.21 − 1) = 232kΩ
 > for 11V UVLO threshold with R2 = 28.7kΩ. E96 standard value 232kΩ. Panasonic ERJ-3EKF series 1% thick-film.
 > Mouser 667-ERJ-3EKF2323V / DigiKey P232KHCT-ND / JLCPCB C403086.
-> * **R1–R2, R4–R13 ERJ-3EKF series** — eFuse programming resistors R1/R2 and general resistors (R4–R13) are Panasonic **1% thick-film** (ERJ-3EKF). The IC UVLO reference tolerance (±1.7%) dominates
-> the UVLO accuracy budget; 1% vs 0.1% resistors are indistinguishable in practice. For pull-ups, LED limiters, and charge current set resistors, 1% tolerance is fully adequate.
+> * **R1, R2, R6–R11, R16, R17, R22, R24, R28, R29 ERJ-3EKF series** — UVLO dividers (R1/R2), pull-ups, LED limiters, and charge current set resistors
+>   are Panasonic **1% thick-film** (ERJ-3EKF 0603). The IC UVLO reference tolerance (±1.7%) dominates
+> the UVLO accuracy budget; 1% vs 0.1% resistors are indistinguishable in practice. 1% tolerance is fully adequate for pull-ups, LED limiters, and charge current set resistors.
 > * **R3 ERA-3VEB2100V (210Ω, 0.1% Thin-Film)** — R3 is the eFuse ILIM resistor. Unlike R1/R2 (UVLO divider), ILIM accuracy directly sets the overcurrent trip threshold;
 > 0.1% Thin-Film (ERA-3VEB series) is required. R3 must NOT be substituted with 1% Thick-Film.
 > * **R12 CSS2H-2512R-R010ELF** — **Critical PN correction**: the original `L100ELF` suffix codes 100µΩ (L-prefix = µΩ range); for 10mΩ (0.010Ω) the correct Bourns code is `R010ELF` (R-prefix = Ω

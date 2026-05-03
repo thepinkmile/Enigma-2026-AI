@@ -33,7 +33,7 @@ group without Controller-side live servo control.
 | FR-EXT-03 | Pass 3V3_ENIG power and encoder data bus transparently between rotor groups | Power: J7 → J5 (J2 power pins NC); ENC data: J3/J6 pass-through | §2 Connectivity; BOM J5 (ERF8-005), J3, J6 (ERM8/ERF8-010) |
 | FR-EXT-04 | Connect on the input side to a Stator or upstream rotor group | J1–J3 (ERM8 male input headers) | §2 Connectivity; BOM J1–J3 (ERM8-005/010) |
 | FR-EXT-05 | Connect on the output side to a downstream rotor group | J4–J6 (ERF8 female output sockets) | §2 Connectivity; BOM J4–J6 (ERF8-005/010) |
-| FR-EXT-06 | Host one Actuation Module to regenerate an Extension-boundary carry event into one local servo step | J9 = AM power dock, J10 = AM trigger dock; non-homing switch (or CM5 GPIO) asserts `ACTUATE_REQUEST_N` into the AM | §2 Connectivity; BOM J9, J10 |
+| FR-EXT-06 | Host one Actuation Module to regenerate an Extension-boundary carry event into one local servo step | J9 = single 20-pin DF40HC(3.5) AM host dock; non-homing switch (or CM5 GPIO) asserts `ACTUATE_REQUEST_N` into the AM | §2 Connectivity; BOM J9 |
 | FR-EXT-07 | Protect rotor-facing BtB connectors (J1/J3 in, J4/J6 out) from ESD during live rotor swap | TVS/ESD arrays on all 4 rotor-facing connectors per DEC-048 | §5 Thermal & ESD; BOM U2–U9 |
 
 #### Design Requirements
@@ -48,9 +48,8 @@ group without Controller-side live servo control.
 | DR-EXT-06 | Buffer bypass capacitor | C6 = 100 nF 0402 within 2 mm of U1 VCC pin (L1) | §4 PCB Fabrication & Stackup; BOM C6 (100nF X7R) |
 | DR-EXT-07 | System quantity | Up to ×5 Extension boards per system (Rev A power budget); Rev A prototype uses ×1 | §1 Overview; System_Architecture.md |
 | DR-EXT-08 | Extension Port connector family | J7/J8 = Adam Tech 2BHR-30-VUA 30-pin 2×15 shrouded headers. Per DEC-053 | §2 Connectivity; BOM J7, J8 |
-| DR-EXT-09 | Actuation Module power dock | J9 = Samtec ERF8-005-05.0-S-DV-K-TR socket; host-side mating connector for AM J1 | §2 Connectivity; BOM J9 |
-| DR-EXT-10 | Actuation Module trigger dock | J10 = Samtec ERF8-005-05.0-S-DV-K-TR socket; host-side mating connector for AM J2 | §2 Connectivity; BOM J10 |
-| DR-EXT-11 | Actuation Module host envelope | The Extension area beneath the installed AM shall be a no-component placement zone except for J9 / J10 and the copper / vias needed to route them; do not crowd the module with nearby tall parts or enclosure walls that would trap heat or obstruct service access | §2 Connectivity; `Board_Layout.md` |
+| DR-EXT-09 | Actuation Module host dock | J9 = Hirose DF40HC(3.5)-20DS-0.4V(51) receptacle (20-pin, 0.4mm pitch, 3.5mm stacking height); host-side mating connector for AM J1 (DF40C-20DP-0.4V(51)); carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` | §2 Connectivity; BOM J9 |
+| DR-EXT-11 | Actuation Module host envelope | The Extension area beneath the installed AM shall be a no-component placement zone except for J9 and four M2.5×3.5mm SMT standoffs (MH5–MH8, 9774035151R) and the copper / vias needed to route J9; standoff placement shall follow the pattern defined in `AM Design_Spec.md DR-AM-03`; MH5–MH8 positions shall mirror the AM mounting hole pattern; MH5–MH8 pads shall be connected to `GND`; do not crowd the module with nearby tall parts or enclosure walls that would trap heat or obstruct service access. **PCB layout for J9 and MH5–MH8 cannot be finalised until AM schematic capture and PCB layout are complete.** | §2 Connectivity; `Board_Layout.md` |
 | DR-EXT-12 | 5V_MAIN entry decoupling bank | C7–C11 (5× 10µF X7R 25V 0805) shall be placed at the 5V_MAIN entry point (J7 pins 1–2 and 29–30) using a star/spoke topology matching the 3V3_ENIG entry bank (C1–C5); both rails must be locally decoupled at the Extension Port entry | §2 Connectivity; §5 Thermal & ESD; BOM C7–C11 |
 | DR-EXT-13 | ESD protection — rotor-facing BtB connectors | U2–U5 (J1/J3 in) + U6–U9 (J4/J6 out); 8× TPD4E05U06QDQARQ1 within 3mm of mating edge per DEC-048 | §5 Thermal & ESD; BOM U2–U9 |
 | DR-EXT-14 | 3V3_ENIG entry decoupling bank | C1–C5 (5× 10µF X7R 25V 0805) shall be placed at the 3V3_ENIG entry point (J7 pins 3–4 and 27–28) using a star/spoke topology per `design/Standards/Global_Routing_Spec.md §3`; both supply rails must be locally decoupled at the Extension Port entry | §2 Connectivity; BOM C1–C5 |
@@ -130,17 +129,30 @@ group without Controller-side live servo control.
   they are NOT placed on the BtB rotor stack interface. See
   `design/Electronics/Investigations/JTAG_Integrity.md` and DEC-016.
   TCK and TMS are actively re-buffered by U1 (see JTAG Signal Buffering above).
-* **SYS_RESET_N:** Received via Extension Port pin 2; broadcast to all local rotor CPLDs in this group.
-* **Actuation Module host docks:** The Extension provides two local host sockets for one shared
-  Actuation Module:
-  * **J9** - AM power dock (`5V_MAIN`, `3V3_ENIG`, `GND`)
-  * **J10** - AM trigger dock (`ACTUATE_REQUEST_N` + guards / returns)
-  * The mounted AM footprint on the Extension is a no-component zone apart from J9 / J10 themselves
-    and the routing / copper needed to reach them.
-  * `ACTUATE_REQUEST_N` is an active-low GPIO signal sourced either from the CM5 on the Controller
-    Board or from the non-homing switch on the Extension Board itself. The line is held HIGH by the
-    STM32G071K8T3TR internal GPIO pull-up on the Actuation Module (no external pull-up resistor is
-    fitted). Exact switch mounting geometry remains owned by the mechanical design.
+* **SYS_RESET_N:** Received via Extension Port pin 15; broadcast to all local rotor CPLDs in this group.
+* **Actuation Module host dock:** The Extension provides a single host socket for one shared
+  Actuation Module.
+  > **Connector Definition Owner:** `AM Design_Spec.md §3.1`.
+  > This board provides the mating receptacle (J9). Full connector pinout is defined and owned by
+  > the Actuation Module. Net connections from this board to the mounted AM:
+  >
+  > | EXT Net | AM Net |
+  > | --- | --- |
+  > | `5V_MAIN` | `5V_MAIN` |
+  > | `3V3_ENIG` | `3V3_ENIG` |
+  > | `GND` | `GND` |
+  > | `ACTUATE_REQUEST_N` | `ACTUATE_REQUEST_N` |
+  >
+  > `ACTUATE_REQUEST_N` is sourced from the non-homing switch on this board or from the CM5 on
+  > the Controller Board. Held HIGH by the STM32G071K8T3TR internal GPIO pull-up; no external
+  > pull-up fitted.
+  >
+  > **⚠ PCB Layout Dependency:** J9 and MH5–MH8 positions cannot be finalised until AM schematic
+  > capture and PCB layout are complete. MH5–MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
+  > connect to `GND`.
+* **J9** — single 20-pin Hirose DF40HC(3.5)-20DS-0.4V(51) AM host socket (stacking height = 3.5mm)
+* **MH5–MH8** — four M2.5×3.5mm SMT standoffs (9774035151R); positions mirror `AM Design_Spec.md
+  DR-AM-03`; pads connected to `GND`; no-component placement zone (except J9, MH5–MH8, and routing)
 * **Cross-ref:** For interconnect pinouts on power (3V3_ENIG/GND), `ENC_OUT_REF` / `ENC_IN_REF`, and
   JTAG TTD_RETURN lines used for reflector loopback/plugboard mapping, See:
   * `Stator/Design_Spec.md`
@@ -183,7 +195,7 @@ group without Controller-side live servo control.
 * **ESD — all other connectors (no TVS required):**
   * J2 (Power in, ERM8-005) and J5 (Power out, ERF8-005): power rail (3V3_ENIG / GND) only — no signal protection required (explicitly outside DEC-048 scope — power-only rails, no signal data).
   * J7, J8 (Extension Port ribbons, 2BHR-30-VUA): internal IDC connectors; not accessible during live rotor swap.
-  * J9, J10 (AM service docks, ERF8-005): service-only; not operator-swapped under live conditions (explicitly outside DEC-048 scope).
+  * J9 (AM service dock, DF40HC(3.5)-20DS): service-only; not operator-swapped under live conditions (explicitly outside DEC-048 scope).
   Per `design/Standards/Global_Routing_Spec.md §9`.
 
 ## 6. Bill of Materials
@@ -194,7 +206,9 @@ group without Controller-side live servo control.
 | C6 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | — | — | Yes | Pending | 1 |
 | J1, J2 | 10-pin 2x5 0.8mm male SMT | ERM8-005-05.0-S-DV-K-TR | Samtec | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | — | — | Yes | Pending | 2 |
 | J3 | 20-pin 2x10 0.8mm male SMT | ERM8-010-05.0-S-DV-K-TR | Samtec | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | — | — | Yes | Pending | 1 |
-| J4, J5, J9, J10 | 10-pin 2x5 0.8mm female SMT | ERF8-005-05.0-S-DV-K-TR | Samtec | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | — | — | Yes | Pending | 4 |
+| J4, J5 | 10-pin 2x5 0.8mm female SMT | ERF8-005-05.0-S-DV-K-TR | Samtec | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | — | — | Yes | Pending | 2 |
+| J9 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack | DF40HC(3.5)-20DS-0.4V(51) | Hirose | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | — | AM host dock | Yes | Pending | 1 |
+| MH5-MH8 | M2.5×3.5mm SMT standoff | 9774035151R | Würth Elektronik | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | — | AM mounting standoffs | Yes | Pending | 4 |
 | J6 | 20-pin 2x10 0.8mm female SMT | ERF8-010-05.0-S-DV-K-TR | Samtec | SAM8618CT-ND | 200-ERF8010050SDVKTR | C3646170 | — | — | Yes | Pending | 1 |
 | J7, J8 | 30-pin 2x15 2.54mm shrouded box THT | 2BHR-30-VUA | Adam Tech | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | — | Per DEC-053 | Yes | Pending | 2 |
 | U1 | Dual 3-state buffer VSSOP-8 | SN74LVC2G125DCUR | Texas Instruments | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | — | — | Yes | Pending | 1 |

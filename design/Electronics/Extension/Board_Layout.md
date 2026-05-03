@@ -23,8 +23,8 @@ TOP VIEW (L1) - 4-Layer / 2oz Copper / ENIG
 |   (J1-J3: input side ERM8 male; J4-J6: output side ERF8 female)             |
 |                                                                             |
 |   [ JTAG BUFFER (U1) ] <--- SN74LVC2G125DCUR, TCK+TMS re-drive for output   |
-|   [ J9 / J10: AM HOST DOCKS ] <--- Power + Trigger sockets for shared AM    |
-|                                                                             |
+|   [ J9: AM HOST DOCK (DF40HC 20-pin) ] <--- Single dock + MH5–MH8 standoffs |
+|                                                           for shared AM     |
 |   [ J8: EXTENSION PORT OUT ] <--- 30-pin 2×15 shrouded, to next stage       |
 |                                                                             |
 |   [ DATA PLATE ] <--- Inverted White Silkscreen on L4                       |
@@ -71,15 +71,28 @@ Mark clearly on silkscreen: `ERM8/ERF8 / 0.8mm / NICHT 2.54mm`.
 
 ---
 
-## 5. J9 / J10 — Actuation Module Host Docks
+## 5. J9 — Actuation Module Host Dock
 
-* **J9:** AM power dock host socket (ERF8-005) - routes `5V_MAIN`, `3V3_ENIG`, and grouped returns
-  from the Extension Port power entry.
-* **J10:** AM trigger dock host socket (ERF8-005) - routes the local active-low `ACTUATE_REQUEST_N`
-  source into the AM.
+> **Connector Definition Owner:** `AM Design_Spec.md §3.1`.
+> This board provides the mating receptacle (J9). Full connector pinout is defined and owned by
+> the Actuation Module. Net connections from this board to the mounted AM:
+>
+> | EXT Net | AM Net |
+> | --- | --- |
+> | `5V_MAIN` | `5V_MAIN` |
+> | `3V3_ENIG` | `3V3_ENIG` |
+> | `GND` | `GND` |
+> | `ACTUATE_REQUEST_N` | `ACTUATE_REQUEST_N` |
+>
+> **⚠ PCB Layout Dependency:** J9 and MH5–MH8 positions cannot be finalised until AM schematic
+> capture and PCB layout are complete. MH5–MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
+> connect to `GND`.
+
+* **J9:** Single 20-pin Hirose DF40HC(3.5)-20DS-0.4V(51) AM host socket (stacking height = 3.5mm).
+* **MH5–MH8:** Four M2.5×3.5mm SMT standoffs (9774035151R); positions mirror `AM Design_Spec.md
+  DR-AM-03`; pads connected to `GND`; no-component placement zone (except J9, MH5–MH8, and routing).
 * The mounted AM footprint on the Extension shall be kept as a **no-component placement zone** except
-  for J9 / J10 and the routing / copper needed to reach them. This preserves the inverted module's
-  clearance and keeps its manual-fit loom / service headers accessible after installation.
+  for J9, MH5–MH8 and the routing / copper needed to reach them.
 
 ## 6. Routing — Trace Width Specifications
 
@@ -137,5 +150,5 @@ supported). All Extension boards share an identical PCB layout; traces are sized
 
 * **Rotor-facing connectors (TVS required):** All Samtec ERM8/ERF8 connectors (J1–J6) require TPD4E05U06QDQARQ1 ESD arrays within 3mm of the mating edge per DEC-045 and DEC-048.
   Arrays are assigned to U2–U9 (see `Design_Spec.md §5`).
-* **Internal connectors (no TVS required):** J7, J8 (Extension Port 2BHR-30-VUA shrouded box) and J9, J10 (AM dock ERF8-005) are not operator-accessible during live rotor swap.
+* **Internal connectors (no TVS required):** J7, J8 (Extension Port 2BHR-30-VUA shrouded box) and J9 (AM dock, DF40HC-20DS) are not operator-accessible during live rotor swap.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.

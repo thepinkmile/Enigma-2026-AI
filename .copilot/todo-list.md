@@ -10,7 +10,7 @@
 > from the SQL Reconstruction Reference section at the bottom of this file. That section is the authoritative
 > dependency source; the in-session SQL is a convenience tracker only and does not persist across sessions.
 
-Last updated: 2026-05-03 (rotor-refdes-reallocate + 4 interim electronics review milestones added; Pass 3 fixes in progress)
+Last updated: 2026-05-07
 
 ---
 
@@ -39,7 +39,7 @@ Long-running workstreams; tracked in `.copilot/plan.md` Current Open Workstreams
 | `display-addon-board` | 🚫 **DEFERRED TO V2.0.** Display add-on board design: J9 (Amphenol F52Q) on Controller is the only fixed connector; display power, touch wiring, and auxiliary harness remain deferred with the add-on board definition | blocked | DEC-033 | `design/Electronics/Controller/Design_Spec.md §8` |
 | `cpld-production-replacement` | 🚫 **DEFERRED TO V2.0.** Review replacement CPLD for production stage (current MAX II EPM570 is a prototype-grade selection); update Certification Evidence §7.1 when confirmed | blocked | OA-04 | `design/Standards/Certification_Evidence.md` |
 | `connector-thermal-verification` | **✅ DONE.** Thermal / current-capacity verification of active PM and Stator dock connectors (TE `1-1674231-1` / `1123684-7` and Molex `2195630015` / `2195620015`); full derating analysis documented in Certification Evidence §5.1. Temperature exception noted for TE connector (−20°C continuous vs DEFSTAN −40°C target); thermal shock test to −40°C cited as supporting evidence. Formal TE confirmation recommended before DEFSTAN submission. | done | OA-05 | `design/Standards/Certification_Evidence.md §5.1` |
-| `rotor-refdes-reallocate` | Rotor board RefDes gap removal: BOM currently runs R2–R7 (no R1 — series termination resistor was never used). Reallocate to R1–R6 with matching updates to `Design_Spec.md` BOM table, `Board_Layout.md` references, and `Consolidated_BOM.md` Rotor rows. All boards must have zero RefDes gaps before `interim-electronics-review-1` can be called complete. | pending | — | 2026-05-03 |
+| `rotor-refdes-reallocate` | ✅ **DONE.** Rotor board RefDes gap removal: BOM previously ran R2–R7 (no R1). Reallocated to R1–R6 with matching updates to `Design_Spec.md` BOM table, `Board_Layout.md` references, and `Consolidated_BOM.md` Rotor rows. Completed checkpoint 165. | ✅ DONE | — | 2026-05-03 |
 | `full-pn-review` | Full supplier PN review of all BOM entries before schematic capture — a prior session that reduced component package sizes appears to have corrupted supplier PNs on at least two components (ERJ-2RKF1001X, CL05B104KB5NNNC), substituting codes pointing to entirely different parts. A sweep of all DigiKey / Mouser / JLCPCB PNs against their MPNs is required before KiCAD work begins. Depends on: `connector-thermal-verification`, `extension-mechanical-usage`, `battery-connector-final-review`, `ctlh1-deferred`, `rotor-esd-tvs`, `coupon-testing-review` | pending | — | 2026-05-02 supplier PN audit |
 | `footprint-requests-pending` | Footprints requested but not yet received; update BOM and library when each arrives: **BAT54** (Diotec SOT-23) — requested, **AC72ABD** (72°C SMD thermal cutoff) — requested, **BMC-Q2AY0600M** (TE 600Ω 0805 AEC-Q200 ferrite bead) — requested, **2BHR-30-VUA** (Adam Tech 30-pin 2×15 IDC box header, JLCPCB C17346400; used at STA:J10, REF:J4, EXT:J7/J8) — requested, **TPS75733KTTRG3** (Texas Instruments 3.3V LDO TO-263-5) — ⚠️ footprint ready, no 3D model yet — download on next session, **MCP121T-450E/LB** (Microchip 4.5V supervisor SC70-3) — ⚠️ footprint ready, no 3D model yet — download on next session. Add further pending requests here as they arise. Depends on: `full-pn-review` | pending | — | 2026-05-02 |
 
@@ -165,7 +165,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('rotor-power-analysis-ministack',    'Recalculate Rotor Board_Layout §7 power analysis for mini-stack (max 5 rotors per stack)', 'done'),
 ('rotor-esd-tvs',                     'Rotor ESD TVS (PRTR5V0U10AZ) sourcing',       'done'),
 ('rotor-variant-refdes-schematic',    'Rotor variant U3/U4 KiCAD DNF approach',       'pending'),
-('rotor-refdes-reallocate',           'Rotor RefDes gap removal: R2-R7 -> R1-R6',    'pending'),
+('rotor-refdes-reallocate',           'Rotor RefDes gap removal: R2-R7 -> R1-R6',    'done'),
 ('display-addon-board',               'Display add-on board (v2.0)',                  'blocked'),
 ('cpld-production-replacement',       'CPLD production replacement review (v2.0)',    'blocked'),
 ('connector-thermal-verification',    'Connector thermal/current derating',           'pending'),

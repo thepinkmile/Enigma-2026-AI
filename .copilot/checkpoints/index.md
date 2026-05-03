@@ -106,3 +106,6 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 100 | Pass 3 electronics review fixes complete | 100-pass3-electronics-review-fixes-complete.md |
 | 101 | todo-list.md persisted: 5 new todos and deps | 101-todo-list-persisted-5-new-tod.md |
 | 102 | Rotor RefDes reallocation complete | 102-rotor-refdes-reallocate-complete.md |
+| 103 | Pass 4 wrap-up complete; EXT-P4-2 standoffs unblocked | 103-pass4-wrap-up-complete-ext-p4-2-unblocked.md |
+| 104 | DF40 swap all files complete | 104-df40-swap-all-files-complete.md |
+| 105 | DR cleanup and datasheets added | 105-dr-cleanup-datasheets-added.md |

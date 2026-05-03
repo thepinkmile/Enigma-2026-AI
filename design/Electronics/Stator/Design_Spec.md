@@ -50,10 +50,10 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 | DR-STA-09 | Maximum 3V3_ENIG load | 2.05 A worst-case typical (30 rotors + Stator CPLD + all encoders) | §2 Core Features; §5 Power Telemetry |
 | DR-STA-10 | Routing configuration selection | Logical `CFG_ROUTE[3:0]` inputs are driven by U8 GPA[3:0]; 4× 10kΩ pull-down resistors R16–R19 retained on CPLD inputs as power-up safe defaults (hold 0 when U8 is uninitialised) | §3 Configuration Bank 1 (Routing); BOM U8, R16–R19 |
 | DR-STA-11 | Reflector map selection | Logical `CFG_REFMAP[5:0]` inputs are driven by U8 GPB[5:0]; 6× 10kΩ pull-down resistors R21–R26 retained on CPLD inputs as power-up safe defaults | §3 Configuration Bank 2 (Reflector Mapping); BOM U8, R21–R26 |
-| DR-STA-12 | I²C GPIO expanders | U6 = MCP23017T-E/SO @ 0x20; U7 = MCP23017T-E/SO @ 0x21; U8 = MCP23017T-E/SO @ 0x22; SOIC-28 package; on shared I²C-1 bus | BOM U6, U7, U8 |
+| DR-STA-12 | I²C GPIO expanders | U6 = MCP23017T-E/SO @ 0x20; U7 = MCP23017T-E/SO @ 0x21; U8 = MCP23017T-E/SO @ 0x22; SOIC-28 package; on shared I²C-1 bus; each IC requires a dedicated /RESET pull-up: R39 (U6), R40 (U7), R41 (U8) — 10kΩ each to 3V3_ENIG; U7 cannot share SYS_RESET_N for /RESET because U7 GPA[7] drives SYS_RESET_N (circular dependency) | BOM U6, U7, U8, R39, R40, R41 |
 | DR-STA-13 | U8 specification | U8 = MCP23017T-E/SO @ 0x22; SOIC-28; A2=LOW, A1=HIGH, A0=LOW; GPA[3:0] = `CFG_ROUTE[3:0]` outputs; GPA[4] = active-low `CFG_APPLY_N` Stator-only apply/reset output; GPB[5:0] = `CFG_REFMAP[5:0]` outputs | BOM U8 |
 | DR-STA-14 | J13 connector | J13 = 6-pin JST PH 2.0mm B6B-PH-K-S(LF)(SN); pins: `3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`; connects to User Settings Module J1 via 6-wire harness. `5V_MAIN` is derived from the Controller-fed `J11` branch. | BOM J13 |
-| DR-STA-15 | `CFG_APPLY_N` signal | `CFG_APPLY_N` = active-low Stator-only apply/reset pulse from U8 GPA[4]; combined with `SYS_RESET_N` through U3 (`SN74LVC1G08DBVR`) so either signal can assert the Stator CPLD reset path; forcing `CFG_APPLY_N` LOW reloads `CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]` without resetting the wider system | BOM U8, U3; §3 Configuration Bank 1 (Routing) |
+| DR-STA-15 | `CFG_APPLY_N` signal | `CFG_APPLY_N` = active-low Stator-only apply/reset pulse from U8 GPA[4]; combined with `SYS_RESET_N` through U3 (`SN74LVC1G08DBVR`) so either signal can assert the Stator CPLD reset path; forcing `CFG_APPLY_N` LOW reloads `CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]` without resetting the wider system; R20 (10kΩ pull-up to 3V3_ENIG) holds `CFG_APPLY_N` deasserted at power-up when U8 is uninitialised | BOM U8, U3, R20; §3 Configuration Bank 1 (Routing) |
 | DR-STA-16 | ESD protection — rotor-facing BtB connectors | U9 (J1 JTAG, 1× TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, SYS_RESET_N) + U10–U12 (J3 ENC, 3× TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §8 Thermal & ESD; BOM U9–U12 |
 
 ## 2. Core Features
@@ -215,10 +215,16 @@ symmetry. Pre-loaded indices:
   * **R32:** J8 TDO return -> J9 TDI.
   * All TDI-chain resistors are **Stator-side** resistors — no series resistors are required at the
     Encoder cable inputs.
+* **MCP23017 /RESET pull-ups (R39, R40, R41 — 10kΩ to 3V3_ENIG, placed near U6, U7, U8 respectively):**
+  Each MCP23017 /RESET pin (active-low, pin 9) is held deasserted (HIGH) by a dedicated pull-up.
+  Separate pull-ups are required for each IC because U7 GPA[7] drives `SYS_RESET_N`; connecting U7
+  /RESET back to `SYS_RESET_N` would create a circular dependency.
 * **Reset / Apply path:** `SYS_RESET_N` remains the active-low global reset. `CFG_APPLY_N` is a
   separate active-low Stator-only apply/reset pulse driven by U8 GPA[4]. A dedicated external
   `SN74LVC1G08DBVR` 2-input AND gate combines `SYS_RESET_N` and `CFG_APPLY_N` into the Stator CPLD
-  `DEV_CLRN` path so a low on either signal resets the Stator CPLD.
+  `DEV_CLRN` path so a low on either signal resets the Stator CPLD. R20 (10kΩ pull-up to 3V3_ENIG)
+  holds `CFG_APPLY_N` deasserted (HIGH) at power-up when U8 GPA[4] is uninitialised, preventing an
+  inadvertent CPLD reset at startup.
 
 #### External Keyboard Source Mux
 

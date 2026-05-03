@@ -95,7 +95,7 @@
 | CTL: J8 | 7499111121A | 1297-1070-5-ND | 710-7499111121A | C5523983 | — | — | 1 | — | — | — | — | — | — | — | — | — | 1 | RJ45 w/ magnetics/PoE long-body THT [Würth Elektronik] | Yes | Pending |
 | CTL: J9 | F52Q-1A7H1-11015 | 609-F52Q-1A7H1-11015CT-ND | 649-F52Q-1A7H1-11015 | C3169095 | — | — | 1 | — | — | — | — | — | — | — | — | — | 1 | DSI1 15-pin 1.0mm ZIF [Amphenol] | Yes | Pending |
 | CTL: J10 | SM04B-SRSS-TB(LF)(SN) | 455-SM04B-SRSS-TBCT-ND | 306-SM04BSRSSTBLFSN | C160404 | — | — | 1 | — | — | — | — | — | — | — | — | — | 1 | 4-pin SH 1.0mm fan SMT [JST] | Yes | Pending |
-| CTL: J11,J16; STA: J1,J2; EXT: J4,J5,J9,J10; ROT-26: J4,J5; ROT-64: J4,J5 | ERF8-005-05.0-S-DV-K-TR | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | — | — | 2 | — | — | — | — | 2 | — | 4 | 2 | 2 | 12 | 10-pin 2x5 0.8mm female SMT [Samtec] | Yes | Pending |
+| STA: J1,J2; EXT: J4,J5; ROT-26: J4,J5; ROT-64: J4,J5 | ERF8-005-05.0-S-DV-K-TR | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | — | — | — | — | — | — | — | 2 | — | 2 | 2 | 2 | 8 | 10-pin 2x5 0.8mm female SMT [Samtec] | Yes | Pending |
 | CTL: J12; ROT-26: J7,J8,J9; ROT-64: J7,J8,J9 | RS1-05-G | 2057-RS1-05-G-ND | 737-RS1-05-G | C3321119 | — | — | 1 | — | — | — | — | — | — | — | 3 | 3 | 7 | 1x5 2.54mm female socket THT [Adam Tech] | Yes | Pending |
 | CTL: J13 | RS1-10-G | 2057-RS1-10-G-ND | 737-RS1-10-G | C3320525 | — | — | 1 | — | — | — | — | — | — | — | — | — | 1 | 1x10 2.54mm female socket THT [Adam Tech] | Yes | Pending |
 | CTL: J14,J15 | 10164227-1004A1RLF | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | — | — | 2 | — | — | — | — | — | — | — | — | — | 2 | CM5 SO-DIMM 100-pin 4mm [Amphenol] | Yes | Pending |
@@ -132,7 +132,10 @@
 | ENC: R6; STA: R7-R12,R27-R38 | ERJ-2RKF75R0X | P75.0LCT-ND | 667-ERJ-2RKF75R0X | C413061 | — | — | — | — | — | 1 | — | 18 | — | — | — | — | 19 | 75Ω 1% 0402 [Panasonic] | Yes | ✔ |
 | ENC: SW1-SW40 | (no standard MPN) | — | — | — | eBay gadgetskingdom | — | — | — | — | 40 | — | — | — | — | — | — | 40 | DPDT 6-pin momentary switches panel-mount [generic]; eBay gadgetskingdom | N/A | N/A |
 | ENC: U1; STA: U1; ROT-26: U1; ROT-64: U1 | EPM570T100I5N | 544-2281-ND | 989-EPM570T100I5N | C27319 | — | — | — | — | — | 1 | — | 1 | — | — | 1 | 1 | 4 | MAX II 570 LEs CPLD TQFP-100 [Intel (Altera)] | Yes | ✔ |
-| AM: J1,J2; REF: J1,J2; EXT: J1,J2; ROT-26: J1,J2; ROT-64: J1,J2 | ERM8-005-05.0-S-DV-K-TR | SAM13519CT-ND | 200-ERM8005050SDVKTR | C3649741 | — | — | — | — | — | — | 2 | — | 2 | 2 | 2 | 2 | 10 | 10-pin 2x5 0.8mm male SMT [Samtec] | Yes | ✔ |
+| REF: J1,J2; EXT: J1,J2; ROT-26: J1,J2; ROT-64: J1,J2 | ERM8-005-05.0-S-DV-K-TR | SAM13519CT-ND | 200-ERM8005050SDVKTR | C3649741 | — | — | — | — | — | — | — | — | 2 | 2 | 2 | 2 | 8 | 10-pin 2x5 0.8mm male SMT [Samtec] | Yes | ✔ |
+| CTL: J11; EXT: J9 | DF40HC(3.5)-20DS-0.4V(51) | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | — | — | — | 1 | — | — | — | — | — | — | 1 | — | — | 2 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack [Hirose] | Yes | Pending |
+| AM: J1 | DF40C-20DP-0.4V(51) | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | — | — | — | — | — | — | — | 1 | — | — | — | — | — | 1 | 20-pin 0.4mm pitch BtB plug [Hirose] | Yes | Pending |
+| CTL: MH5-MH8; EXT: MH5-MH8 | 9774035151R | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | — | — | — | 4 | — | — | — | — | — | — | 4 | — | — | 8 | M2.5×3.5mm SMT standoff [Würth Elektronik] | Yes | Pending |
 | AM: U1 | STM32G071K8T3TR | 497-STM32G071K8T3TR-ND | 511-STM32G071K8T3TR | — | Global sourcing | — | — | — | — | — | 1 | — | — | — | — | — | 1 | Local actuation controller LQFP32; JLCPCB consignment only [STMicroelectronics] | Yes | ✔ |
 | STA: J3; EXT: J6; ROT-26: J6; ROT-64: J6 | ERF8-010-05.0-S-DV-K-TR | SAM8618CT-ND | 200-ERF8010050SDVKTR | C3646170 | — | — | — | — | — | — | — | 1 | — | 1 | 1 | 1 | 4 | 20-pin 2x10 0.8mm female SMT [Samtec] | Yes | ✔ |
 | STA: J11,J12 | 2195620015 | 900-2195620015-ND | 538-219562-0015 | — | Global sourcing | — | — | — | — | — | — | 2 | — | — | — | — | 2 | 5-pwr+15-sig hybrid plug [Molex] | Yes | ✔ |

@@ -99,6 +99,30 @@ Any finding that requires a file change must be returned as a finding and action
 
 ---
 
+
+## SENARY DIRECTIVE — Implementation Authorization and Change Isolation
+
+> ⚠️ **CRITICAL WORKFLOW VIOLATION** — Making file changes during a design discussion or
+> evaluation without explicit implementation approval wastes user review time, corrupts git history,
+> and can mix unapproved changes with approved ones in the working tree, making clean per-commit
+> review impossible.
+
+**NEVER modify any file in the repository unless:**
+
+1. The user has explicitly instructed implementation with a clear directive such as “apply this”,
+   “implement it”, “make the changes”, “go ahead”, or equivalent. Discussion, evaluation, and design
+   decisions do **NOT** constitute implementation approval.
+2. The working tree is **clean** (no other uncommitted changes) at the point the changes begin,
+   OR the user has explicitly confirmed awareness that existing uncommitted changes are present.
+
+**ALWAYS apply changes in a single isolated scope at a time:**
+
+- Complete one logical unit of change (e.g. one board’s spec file, one BOM row update) and pause.
+- Do not cascade into related files or “tidy up while you’re there” without separate approval.
+- This allows the user to review and commit each change individually for a clean, meaningful git history.
+
+---
+
 ## Component Data Lookup Order
 
 When researching any component, always use sources in this order:
@@ -213,11 +237,43 @@ Each cycle comprises two complementary review types:
 
 1. **Stand-alone board reviews** — each board's `Design_Spec.md` and `Board_Layout.md` are reviewed
    in isolation for internal consistency, completeness, FR/DR coverage, BOM accuracy, and correct
-   component values.
-2. **Integration review** — all boards are reviewed together to verify:
-   - All inter-board connector pin-maps are consistent on both sides
-   - Signal names and directions are agreed end-to-end
-   - Rail names and voltages match across connector interfaces
+   component values. A board's review agent must also include **all supplementary docs that belong
+   to that board** — for example, `Rotor_26_Char_Design.md` and `Rotor_64_Char_Design.md` are
+   scoped to the Rotor board agent, not the integration agent. These variant/supplementary docs
+   must **not** be delegated to the integration review.
+
+2. **Integration review** — all boards are reviewed together using a single agent that reads the
+   GRS first, then every board's `Design_Spec.md` and `Board_Layout.md`, and then all
+   top-level/cross-cutting design documents. The integration agent must verify:
+
+   **A. Cross-board connector consistency**
+   - For every physical inter-board connection, both sides must specify the same connector type and
+     part number (or correctly reference the mating connector)
+   - Pinouts must match on both sides: pin N on board A carries the same signal as pin N on board B
+   - The "owning" board defines the connector; the receiving board references the owner's definition
+   - Check all link interfaces: Link-Alpha (Power Module ↔ Controller), Link-Beta
+     (Controller ↔ Stator), Stator ↔ Extension Port, Extension ↔ Rotor(s), Extension ↔ Reflector,
+     Stator ↔ Encoder, Controller ↔ JTAG Daughterboard, Controller/Stator ↔ Actuation Module,
+     Controller ↔ USM
+
+   **B. Cross-board signal name consistency**
+   - Any signal that appears on more than one board must use exactly the same name on both boards
+   - Active-low signals must carry the `_N` suffix on every board they appear on, per GRS §10
+
+   **C. Top-level design documents** (all files under `design/Electronics/` that are **not** a
+   board's `Design_Spec.md` or `Board_Layout.md`)
+   - `System_Architecture.md` — verify it accurately reflects the current board set, interface
+     names, signal names, and connector descriptions; no stale signal names
+   - `Boards_Overview.md` — verify all boards are listed with correct layer/stackup info
+   - `Electrical_Design.md` — verify electrical design decisions are consistent with board specs
+   - `Power_Budgets.md` — verify power figures match board specs; no board missing from the budget
+   - Investigation documents (e.g. `Investigations/JTAG_Integrity.md`,
+     `Investigations/PoE_Investigation.md`) — verify conclusions are reflected in board specs and
+     no open action items remain unresolved
+   - `README.md` (repo root) — verify it accurately ties together the electronics, mechanical, and
+     software design sections; flag any content that has become stale relative to the current design
+
+   **D. Consolidated BOM cross-check**
    - `design/Electronics/Consolidated_BOM.md` is complete, accurate, and consistent with all
      board-level BOMs
 
@@ -271,3 +327,7 @@ as findings until the referenced pre-condition is complete.
 - **ROT-MOQ — Rotor R5/R6 pull-up resistors:** KOA Speer SG73S1ERTTP4701F 4.7kΩ carries Mouser
   MOQ 10,000 and JLCPCB MOQ 49. Accepted for the current batch-build plan. Do not raise as a
   BOM-MOQ finding.
+
+- **KEY_CM5_ACTIVE — Stator keyboard-source select:** Signal is active-high; the active-low variant
+  KEY_CM5_ACTIVE_N is incorrect. Do not raise the absence of an _N suffix on KEY_CM5_ACTIVE as
+  a review finding.

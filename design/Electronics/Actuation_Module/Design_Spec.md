@@ -27,7 +27,7 @@ diagnostics.
 | ID | Functional Requirement | Notes | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
 | FR-AM-01 | Accept a local power feed from a host board | Host provides `5V_MAIN`, `3V3_ENIG`, and multiple `GND` returns | §3 Connectivity; BOM J1 |
-| FR-AM-02 | Accept a single active-low `ACTUATE_REQUEST_N` input from the host board | Same electrical contract works for a CM5-driven request on the Controller and a switch-derived request on an Extension | §3 Connectivity; BOM J2 |
+| FR-AM-02 | Accept a single active-low `ACTUATE_REQUEST_N` input from the host board | Same electrical contract works for a CM5-driven request on the Controller and a switch-derived request on an Extension | §3 Connectivity; BOM J1 |
 | FR-AM-03 | Auto-home the local servo on power-up without host feedback wires | Host waits a fixed startup window; AM shows local LED state only | §4 Local control behaviour; BOM J4, D1-D3 |
 | FR-AM-04 | Convert each valid request into exactly one complete servo cycle | Held request inputs must not retrigger until the current cycle completes and the input has released | §4 Local control behaviour; BOM U1 |
 | FR-AM-05 | Drive one external hobby servo through a local loom connection | Servo is mechanically mounted near the actuation bar, not on the AM PCB | §3 Connectivity; BOM J3 |
@@ -43,8 +43,8 @@ diagnostics.
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
 | DR-AM-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | `Board_Layout.md` |
-| DR-AM-02 | Host power dock | J1 = Samtec ERM8-005-05.0-S-DV-K-TR (module-side male); host uses matching ERF8-005 socket | §3.1; BOM J1 |
-| DR-AM-03 | Host trigger dock | J2 = Samtec ERM8-005-05.0-S-DV-K-TR (module-side male); host uses matching ERF8-005 socket | §3.2; BOM J2 |
+| DR-AM-02 | Host dock connector | J1 = Hirose DF40C-20DP-0.4V(51) (module-side 20-pin plug, 0.4mm pitch); host uses matching DF40HC(3.5)-20DS-0.4V(51) receptacle; stacking height = 3.5mm; carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` on a single connector | §3.1; BOM J1 |
+| DR-AM-03 | AM mounting holes | MH1–MH4 shall be M2.5mm NPTH through-holes with copper annular ring using the KiCAD built-in `MountingHole_Pad` footprint (no purchasable BOM component); pads shall be connected to `GND`. Matching 3.5mm SMT standoffs (9774035151R) on the host board (EXT MH5–MH8 or CTL MH5–MH8). Placement shall follow the asymmetric pattern: MH1 (top-left) and MH3 (bottom-left) at 7 mm from the left edge and 7 mm from the top and bottom edges respectively; MH2 (top-right) and MH4 (bottom-right) at 7 mm from the right edge and 12 mm from the top and bottom edges respectively. This non-square pattern enforces a single valid mating orientation, compensating for the polarity-free DF40 connector body. Exact coordinates to be confirmed at PCB layout stage | `Board_Layout.md`; §3.1 |
 | DR-AM-04 | Servo loom header | J3 = Adam Tech PH1-05-UA, manually fitted post-PCBA; only pins 1-3 are active in Rev A | §3.3; BOM J3 |
 | DR-AM-05 | Home-switch loom header | J4 = Adam Tech PH1-05-UA, manually fitted post-PCBA; twisted-pair wiring required for the active signal and return | §3.4; BOM J4 |
 | DR-AM-06 | Local controller architecture | U1 shall be a small 3.3V local controller with native hardware PWM, at least 2 digital inputs, at least 4 spare / LED-capable GPIOs, power-on reset, and a package suitable for low-profile service-module assembly | §4; BOM U1 |
@@ -59,33 +59,33 @@ diagnostics.
 | DR-AM-15 | Local decoupling and reservoir caps | AM is exempt from the full 5x bulk-entry-bank rule used on larger boards, but it shall still include local STM32 supply decoupling plus compact 3V3/5V reservoir caps: C2-C3 = 100nF X7R 0402 at the STM32 VDD/VDDA supply domain (pin 4, combined VDD/VDDA in LQFP-32), C7 = 100nF X7R 0402 also at STM32 VDD/VDDA (pin 4, combined VDD/VDDA in LQFP-32; multiple caps per datasheet decoupling guidance), C4 = 4.7uF X7R on `3V3_ENIG`, C5 = 10uF X7R on `5V_MAIN` near the servo/power entry region | §4; BOM C2-C3, C5, C7; `Board_Layout.md` |
 | DR-AM-16 | NRST filter capacitor | An external 100 nF X7R filter capacitor (C6) shall be placed between the MCU NRST pin and GND per STM32G071 datasheet Figure 23 to suppress voltage spikes on the reset line | §3.7; BOM C6; `Board_Layout.md` |
 | DR-AM-17 | BOOT0 series protection resistor | A 10 kΩ series resistor (R5) shall be placed between the SW2 / J6 pin 5 shared node and the MCU BOOT0 pin to limit current during BOOT0 assertion and protect the pin from conflict when the external harness and SW2 are both driven | §3.8; BOM R5; `Board_Layout.md` |
-| DR-AM-18 | `ACTUATE_REQUEST_N` pull-up policy | The `ACTUATE_REQUEST_N` signal on `J2` shall be held HIGH by the STM32G071K8T3TR internal GPIO pull-up (PUPDR = `0b01`) only; no external pull-up resistor shall be fitted on the AM hardware | §3.5 J2; BOM (no external pull-up component) |
+| DR-AM-18 | `ACTUATE_REQUEST_N` pull-up policy | The `ACTUATE_REQUEST_N` signal on `J1 pin 15` shall be held HIGH by the STM32G071K8T3TR internal GPIO pull-up (PUPDR = `0b01`) only; no external pull-up resistor shall be fitted on the AM hardware | §3.1 J1 pin 15; BOM (no external pull-up component) |
 | DR-AM-19 | STM32G071K8T3TR LQFP-32 supply topology | The LQFP-32 package has a single combined VDD/VDDA pin (pin 4); all decoupling caps C2, C3, and C7 shall target pin 4 exclusively; no separate VDDA pin exists in this package | §4; BOM C2-C3, C7 |
+
+> **Note — Minimum board size guidance (non-binding):** The DR-AM-03 asymmetric mounting hole pattern
+> implies a minimum board height of approximately **26 mm** (right-pair 12 mm insets × 2 plus 1 mm
+> edge clearance each side) and a minimum board width of approximately **28 mm** (7 mm insets each
+> side plus clearance for the DF40C connector body). These are guidance values only; final dimensions
+> shall be determined during schematic capture and PCB layout.
 
 ## 3. Connectivity
 
-### 3.1 J1 - Host Power Dock
+### 3.1 J1 - Host Dock (Power + Trigger)
 
-**Module-side part:** Samtec **ERM8-005-05.0-S-DV-K-TR** (male, 2x5, 0.8mm pitch)  
-**Host-side mating part:** Samtec **ERF8-005-05.0-S-DV-K-TR** (female, 2x5, 0.8mm pitch)
+**Module-side part:** Hirose **DF40C-20DP-0.4V(51)** (plug, 20-pin, 0.4mm pitch, ~1.14mm above PCB)  
+**Host-side mating part:** Hirose **DF40HC(3.5)-20DS-0.4V(51)** (receptacle, 20-pin, 3.5mm stacking height)  
+**Board-to-board gap:** 3.5mm (clearance to DR-AM-11 2.0mm limit: 1.5mm ✓)
 
-| Pin | Signal | Direction | Notes |
-| :--- | :--- | :--- | :--- |
-| 1 | 5V_MAIN | Host -> AM | Servo rail |
-| 2 | GND | — | Return |
-| 3 | 5V_MAIN | Host -> AM | Additional current path |
-| 4 | GND | — | Return |
-| 5 | 3V3_ENIG | Host -> AM | Logic rail |
-| 6 | GND | — | Logic return |
-| 7 | 5V_MAIN | Host -> AM | Additional current path |
-| 8 | GND | — | Return |
-| 9 | 5V_MAIN | Host -> AM | Additional current path |
-| 10 | GND | — | Return |
+> ⚠️ **Polarity note:** The DF40 connector body is mechanically polarity-free (Hirose Note 4). Correct
+> mating orientation is enforced by the asymmetric standoff hole pattern (MH1–MH4; see DR-AM-03 and
+> `Board_Layout.md`). Pin 1 is defined as the top-left pin when the AM is viewed from its component side
+> (connector-facing side) with the short standoff-pair edge on the left. Verify against the silkscreen
+> pin-1 marker on both AM and host board before installation.
 
-### 3.2 J2 - Host Trigger Dock
-
-**Module-side part:** Samtec **ERM8-005-05.0-S-DV-K-TR** (male, 2x5, 0.8mm pitch)  
-**Host-side mating part:** Samtec **ERF8-005-05.0-S-DV-K-TR** (female, 2x5, 0.8mm pitch)
+**Current budget:**  Rated 0.3 A per contact.  
+`5V_MAIN`: 5 pins × 0.3 A = 1.5 A available (≥ 3× SG90 stall current headroom ✓).  
+`3V3_ENIG`: 2 pins × 0.3 A = 0.6 A available.  
+`ACTUATE_REQUEST_N`: logic signal only (< 5 mA).
 
 `ACTUATE_REQUEST_N` is **active-low**. The host asserts a request by pulling the line LOW. The idle-HIGH
 bias is provided by the STM32 internal GPIO pull-up (PUPDR = `0b01`) configured in firmware — no external
@@ -93,16 +93,31 @@ pull-up resistor is fitted on the AM hardware.
 
 | Pin | Signal | Direction | Notes |
 | :--- | :--- | :--- | :--- |
-| 1 | GND | — | Return / guard |
-| 2 | ACTUATE_REQUEST_N | Host -> AM | Active-low request input |
-| 3 | GND | — | Return / guard |
-| 4 | GND | — | Reserved as guard |
-| 5 | GND | — | Reserved as guard |
-| 6 | GND | — | Reserved as guard |
-| 7 | GND | — | Reserved as guard |
-| 8 | GND | — | Reserved as guard |
-| 9 | GND | — | Reserved as guard |
-| 10 | GND | — | Reserved as guard |
+| 1 | 5V_MAIN | Host → AM | Servo supply |
+| 2 | GND | — | Servo power return |
+| 3 | 5V_MAIN | Host → AM | Servo supply |
+| 4 | GND | — | Servo power return |
+| 5 | 5V_MAIN | Host → AM | Servo supply |
+| 6 | GND | — | Servo power return |
+| 7 | 5V_MAIN | Host → AM | Servo supply |
+| 8 | GND | — | Servo power return |
+| 9 | 5V_MAIN | Host → AM | Servo supply |
+| 10 | GND | — | Servo power return |
+| 11 | 3V3_ENIG | Host → AM | Logic rail |
+| 12 | GND | — | Logic return |
+| 13 | 3V3_ENIG | Host → AM | Logic rail |
+| 14 | GND | — | Logic return |
+| 15 | ACTUATE_REQUEST_N | Host → AM | Active-low request input |
+| 16 | GND | — | Signal return / guard |
+| 17 | GND | — | Signal return / guard |
+| 18 | GND | — | Signal return / guard |
+| 19 | GND | — | Signal return / guard |
+| 20 | GND | — | Signal return / guard |
+
+### 3.2 J2 - Host Trigger Dock *(Retired)*
+
+> J2 has been retired. The trigger signal (`ACTUATE_REQUEST_N`) is now routed via J1 pin 15.
+> See §3.1 and DR-AM-02.
 
 ### 3.3 J3 - Servo Loom Header
 
@@ -278,10 +293,10 @@ pinouts, mechanical constraints, and BOM.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | C1 | 1µF X7R 50V 0805 | C0805C105K5RACTU | Kemet | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | — | — | Yes | Pending | 1 |
 | C2-C3, C6-C7 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | — | — | Yes | Pending | 4 |
-| C4 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | — | — | Yes | Pending | 1 |
+| C4 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | — | 50V rating retained per DEC-046. | Yes | Pending | 1 |
 | C5 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | — | — | Yes | Pending | 1 |
 | D1-D3 | Green SMD LED diagnostic 0402 | 150060VS75000 | Würth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | — | — | Yes | Pending | 3 |
-| J1-J2 | Male 2x5 0.8mm pitch SMT | ERM8-005-05.0-S-DV-K-TR | Samtec | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | — | — | Yes | Pending | 2 |
+| J1 | 20-pin 0.4mm pitch BtB plug | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | — | — | Yes | Pending | 1 |
 | J3-J6 | 1x5 2.54mm male THT | PH1-05-UA | Adam Tech | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | — | manually-fit | Yes | Pending | 4 |
 | R1-R3 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | — | — | Yes | Pending | 3 |
 | R4-R5 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | — | — | Yes | Pending | 2 |
@@ -294,8 +309,8 @@ by the host mechanical assembly rather than as AM PCB-fitted BOM rows.
 ## 7. Thermal & ESD
 
 * **Thermal:** No active cooling required on the AM. U1 (STM32G071K8T3TR LQFP-32) dissipates well below 100 mW; no heatsinking required.
-* **ESD — J1, J2 (ERM8-005 power and trigger docks, no TVS required):** J1 and J2 are service-only docks that mate to the host board (Extension J9/J10 or Controller equivalent).
-  These are not operator-accessible during live rotor swap and are explicitly outside DEC-048 scope per `Extension/Design_Spec.md §5`.
+* **ESD — J1 (DF40C host dock, no TVS required):** J1 mates to the host board (Extension J9 or Controller J11).
+  It is not operator-accessible during live rotor swap and is explicitly outside DEC-048 scope per `Extension/Design_Spec.md §5`.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.
 * **ESD — J3–J6 (manual-fit loom/service headers, no TVS required):** All remaining connectors (Adam Tech PH1-05-UA) are internal assembly headers; not accessible under live conditions.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.

@@ -107,6 +107,11 @@
       "mapping_type": "manual"
     },
     {
+      "pdf": "Hirose-DF40_Catalog_en-datasheet.pdf",
+      "markdown": "Hirose-DF40_Catalog_en-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "INA219-datasheet.pdf",
       "markdown": "INA219-datasheet.md",
       "mapping_type": "same_stem"
@@ -242,6 +247,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "TE-1-1674231-1-product-specification.pdf",
+      "markdown": "TE-1-1674231-1-product-specification.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "TE-1123684-7-datasheet.pdf",
       "markdown": "TE-1123684-7-datasheet.md",
       "mapping_type": "same_stem"
@@ -254,6 +264,11 @@
     {
       "pdf": "TE-DS_1773178-3_A3-datasheet.pdf",
       "markdown": "TE-DS_1773178-3_A3-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
+      "pdf": "TI-csd17578q5a-datasheet.pdf",
+      "markdown": "TI-csd17578q5a-datasheet.md",
       "mapping_type": "same_stem"
     },
     {
@@ -457,12 +472,12 @@
       "mapping_type": "same_stem"
     }
   ],
-  "pdf_only": [
-    "TE-1-1674231-1-product-specification.pdf",
-    "TI-csd17578q5a-datasheet.pdf"
-  ],
+  "pdf_only": [],
   "markdown_only": [
+    "9774035151R-standoff-datasheet.md",
     "Gadgetskingdom_DPDT_Keyboard_Switch_Pseudo_Datasheet.md",
+    "Glenair_03232018_807_216-3045547-datasheet.md",
+    "Glenair_mighty-mouse-807-nw-connector_catalogue.md",
     "Intel-EPM570T100I5N-datasheet.md",
     "SaiBuy_Ltd_6p35mm_Mono_Jack_Pseudo_Datasheet.md",
     "TE-108-5775-product-specification.md"

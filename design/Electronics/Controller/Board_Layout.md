@@ -77,7 +77,7 @@ rear edge of Controller
 | Contact group | Allocation |
 | :--- | :--- |
 | Power blades | `4 × 3V3_ENIG`, `1 × GND` |
-| Signal field | guarded `TCK`, `TMS`, `TDI`, `TTD_RETURN`, `I2C1_SDA`, `I2C1_SCL`, remaining signal contacts = `GND` |
+| Signal field | guarded `TCK`, `TMS`, `TDI`, `TTD_RETURN`, `I2C_SDA`, `I2C_SCL`, remaining signal contacts = `GND` |
 
 **Connector family:** Molex `2195630015` receptacle on Controller ↔ `2195620015` plug on Stator.
 
@@ -131,7 +131,31 @@ The Controller is the only board that must be inserted as the enclosure referenc
 The Power Module and Stator then dock into it as mechanically independent service modules.
 
 For the shared **Actuation Module**, the Controller shall reserve the mounted-module shadow as a
-**no-component placement zone** except for the two Samtec host sockets and the copper / vias needed to
-route them. This preserves the daughterboard clearance set by the Samtec stack, keeps the manual-fit
-loom / service headers accessible on the outward face of the inverted AM, and avoids creating a
-thermally enclosed pocket around the local controller.
+**no-component placement zone** except for J11, MH5–MH8, and the routing / copper needed to reach them.
+See **§6** for connector ownership, net-to-net mapping, standoff GND net, and PCB layout dependency.
+
+---
+
+## 6. J11 — Actuation Module Host Dock
+
+> **Connector Definition Owner:** `AM Design_Spec.md §3.1`.
+> This board provides the mating receptacle (J11). Full connector pinout is defined and owned by
+> the Actuation Module. Net connections from this board to the mounted AM:
+>
+> | CTL Net | AM Net |
+> | --- | --- |
+> | `5V_MAIN` | `5V_MAIN` |
+> | `3V3_ENIG` | `3V3_ENIG` |
+> | `GND` | `GND` |
+> | `ACTUATE_REQUEST_N` | `ACTUATE_REQUEST_N` |
+>
+> `ACTUATE_REQUEST_N` is sourced from CM5 GPIO 8 as an active-low output pulse.
+>
+> **⚠ PCB Layout Dependency:** J11 and MH5–MH8 positions cannot be finalised until AM schematic
+> capture and PCB layout are complete. MH5–MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
+> connect to `GND`.
+
+- **J11:** Single 20-pin Hirose DF40HC(3.5)-20DS-0.4V(51) AM host socket (stacking height = 3.5mm).
+  A silkscreen pin-1 marker is required on both the Controller and AM boards.
+- **MH5–MH8:** Four M2.5×3.5mm SMT standoffs (9774035151R); positions mirror `AM Design_Spec.md
+  DR-AM-03`; pads connected to `GND`; no-component placement zone (except J11, MH5–MH8, and routing).

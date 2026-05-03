@@ -283,4 +283,16 @@ K
 F http://industrial.panasonic.com/cdbs/www-data/pdf/RDM0000/RDM0000C331.pdf
 $ENDCMP
 #
+$CMP DF40HC_3.5_-20DS-0.4V_51_
+D Hirose DF40 Series 0.4mm Pitch 20 Way 2 Row Straight PCB Socket, Surface Mount, Solder Termination
+K
+F https://datasheet.datasheetarchive.com/originals/distributors/DKDS-30/591611.pdf
+$ENDCMP
+#
+$CMP DF40C-20DP-0.4V_51_
+D HIROSE(HRS) - DF40C-20DP-0.4V(51) - CONNECTOR, STACKING, HEADER, 20POS, 2ROW
+K
+F https://datasheet.datasheetarchive.com/originals/distributors/Datasheets-DGA17/1059795.pdf
+$ENDCMP
+#
 #End Doc Library
