@@ -202,7 +202,7 @@ symmetry. Pre-loaded indices:
     out of reset by default.
 * **JTAG Trace Width Rule:** All JTAG signal traces on L1 (TCK, TMS, TDI, TDO) shall
   be routed at **0.127 mm (5 mil)** width over the L2 GND plane, targeting **50 Ω controlled
-  impedance**. See `design/Electronics/Investigations/JTAG_Integrity.md` and DEC-016.
+  impedance**. See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md` and DEC-016.
 * **JTAG Series Termination at Encoder Port Outputs:** 75 Ω series resistors placed within 2 mm of
   each encoder-port connector pad **on the Stator PCB**, targeting 95 Ω source impedance to match
   the ~100 Ω IDC ribbon cable:

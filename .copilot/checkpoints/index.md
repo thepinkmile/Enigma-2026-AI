@@ -3,7 +3,7 @@
 Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, higher numbers are more recent.
 
 | # | Title | File |
-|---|-------|------|
+| --- | --- | --- |
 | 1 | Deep-review open items triage | 001-deep-review-open-items-triage.md |
 | 2 | Open items research in progress | 002-open-items-research-in-progres.md |
 | 3 | A-item open decisions research complete | 003-a-item-open-decisions-research.md |

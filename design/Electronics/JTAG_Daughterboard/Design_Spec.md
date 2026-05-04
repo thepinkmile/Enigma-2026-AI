@@ -163,7 +163,7 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
   * **R1 (33Ω):** Series termination on FT232H TDI output, placed within 2mm of the FT232H TDI pin.
     TDI drives only the first CPLD in the chain (single load) - source termination at the FT232H pin
     provides matched drive (FT232H output ≈ 20Ω + R1 33Ω ≈ 53Ω) for the board-to-board path.
-    Per DEC-016 intra-board/BtB termination rule. See `design/Electronics/Investigations/JTAG_Integrity.md`.
+    Per DEC-016 intra-board/BtB termination rule. See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md`.
   * **R4 (33Ω):** Series damping on TDI signal (not buffered) before J2 (TDI pin). Combined with R1 at FT232H, provides damping at both ends of the FT232H-to-J2 TDI path.
   * **U2 (SN74LVC2G125DCUR, VSSOP-8):** Dual-channel 3-state buffer placed between the FT232H and
     J2 header (JTAG OUTPUT), buffering TCK and TMS for the 37-device JTAG chain load. TDI is not
@@ -173,7 +173,7 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
     to 50Ω BtB trace impedance per DEC-024.
   * **R3 (33Ω):** Series damping on U2 TMS output - same function as R2 (TCK). Placed before J2 (TMS pin).
   * **Pull Resistors:** TMS 10kΩ pull-up (R6) and TCK 10kΩ pull-down (R7) near J2 header to hold JTAG TAP in defined state
-    when idle (see §5 and JTAG best-practice note in `design/Electronics/Investigations/JTAG_Integrity.md`).
+    when idle (see §5 and JTAG best-practice note in `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md`).
   * **Trace Width Rule:** All JTAG signal traces on L2 (signal layer) shall be routed at **0.127 mm (5 mil)** over the L1 GND reference plane, targeting **50 Ω controlled impedance**. See DEC-016.
 
 > **Signal Integrity note (JDB as complete JTAG master):** The JDB hosts all JTAG buffering and

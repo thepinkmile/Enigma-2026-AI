@@ -305,8 +305,8 @@ Each cycle comprises two complementary review types:
    - `Boards_Overview.md` — verify all boards are listed with correct layer/stackup info
    - `Electrical_Design.md` — verify electrical design decisions are consistent with board specs
    - `Power_Budgets.md` — verify power figures match board specs; no board missing from the budget
-   - Investigation documents (e.g. `Investigations/JTAG_Integrity.md`,
-     `Investigations/PoE_Investigation.md`) — verify conclusions are reflected in board specs and
+   - Investigation documents (e.g. `JTAG_Daughterboard/JTAG_Integrity.md`,
+     `Controller/PoE_Power_Analysis.md`) — verify conclusions are reflected in board specs and
      no open action items remain unresolved
    - `README.md` (repo root) — verify it accurately ties together the electronics, mechanical, and
      software design sections; flag any content that has become stale relative to the current design

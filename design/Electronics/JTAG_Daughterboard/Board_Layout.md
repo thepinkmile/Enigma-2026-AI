@@ -116,6 +116,6 @@ See Global_Routing_Spec.md §1.1 for the full current-category table.
   (h = 0.087 mm dielectric, t = 0.035 mm copper, Eᵣ = 4.4) targeting 50 Ω buried-microstrip
   impedance. This calculation is identical to the outer-layer microstrip at the same h value;
   applicable here because L2 is immediately adjacent to the L1 GND plane (DEC-017 inverted stackup).
-  See `design/Electronics/Investigations/JTAG_Integrity.md §3.1`.
+  See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md §3.1`.
 * USB D+/D- traces at 0.15 mm over the L1 GND plane yield approximately 90 Ω differential
   on the JLC04161H-7628 inner signal layer - correct for USB 2.0 Full Speed.

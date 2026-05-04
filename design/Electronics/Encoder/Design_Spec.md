@@ -158,7 +158,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 - **Local Chain:** one JTAG device per Encoder Module: U1 only.
 - **Trace Width:** all JTAG signal traces on L1 shall be routed at **0.127 mm (5 mil)** over the L2
   GND plane, targeting **50 Ω controlled impedance** per DEC-016. See
-  `design/Electronics/Investigations/JTAG_Integrity.md`.
+  `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md`.
 - **Pull Resistors (x4, placed near U1):**
   - **TMS:** 10 kΩ pull-up to 3V3_ENIG (R2)
   - **TDI:** 10 kΩ pull-up to 3V3_ENIG (R3)

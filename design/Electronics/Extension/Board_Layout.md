@@ -134,7 +134,7 @@ supported). All Extension boards share an identical PCB layout; traces are sized
 
 * **JTAG CI traces:** 0.127 mm (5 mil) on L1 over the L2 GND plane achieves 50 Ω controlled
   impedance on the JLC04161H-7628 stackup (h = 0.087 mm, t = 0.035 mm, Eᵣ = 4.4). Per DEC-016.
-  See `design/Electronics/Investigations/JTAG_Integrity.md §3.1`.
+  See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md §3.1`.
 * **3V3_ENIG pass-through:** The 0.80 mm is the canonical system-wide minimum for all 3V3_ENIG
   surface traces (Global_Routing_Spec §1.1). IPC calculation for worst-case J7 entry 1.65 A at
   2oz external: 1.65 x 0.15 mm = 0.25 mm → **0.80 mm** canonical width provides 3.2x margin.

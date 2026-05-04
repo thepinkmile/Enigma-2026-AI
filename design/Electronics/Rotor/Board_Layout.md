@@ -293,7 +293,7 @@ Board 3V3_ENIG trunk traces).
 
 * **JTAG CI traces:** 0.127 mm (5 mil) on L1 over the L2 GND plane achieves 50 Ω controlled
   impedance on the JLC04161H-7628 stackup (h = 0.087 mm, t = 0.035 mm, Eᵣ = 4.4). Per DEC-016.
-  See `design/Electronics/Investigations/JTAG_Integrity.md §3.1`.
+  See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md §3.1`.
 * **No series termination on BtB stack path.** 75 Ω series termination applies to the Stator ribbon
   cable ports only (see `Stator/Board_Layout.md §8`). Rotor-to-rotor BtB connectors (J4/J5) are
   unterminated; no series termination resistor is used on this board.
