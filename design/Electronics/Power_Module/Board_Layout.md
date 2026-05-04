@@ -73,18 +73,18 @@ eFuse.
 
 ```text
 pre-boot hardware path:
-MIC1555 U11 -> Q4 -> D6/D7 -> Red + Green only  -> orange flash
+MIC1555 U9 -> Q4 -> D5/D6 -> Red + Green only  -> orange flash
 
 runtime path:
-PCA9534A U16 -> Rgates -> Q6/Q7/Q8 -> R/G/B cathodes
+PCA9534A U14 -> Rgates -> Q6/Q7/Q8 -> R/G/B cathodes
                          ^
                     SW_LED_CTRL output
 ```
 
-- **D6 / D7** isolate the hardware boot path on the **red and green channels only**
+- **D5 / D6** isolate the hardware boot path on the **red and green channels only**
 - **blue** is runtime-only and is not part of the hardware flash path
 - **Q6 / Q7 / Q8** are the full runtime RGB low-side sink stages
-- **U16 (`PCA9534APWR`, 0x3F)** handles:
+- **U14 (`PCA9534APWR`, 0x3F)** handles:
   - inputs: `POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`
   - outputs: `SW_LED_R`, `SW_LED_G`, `SW_LED_B`, `SW_LED_CTRL`
 
@@ -100,7 +100,7 @@ PCA9534A U16 -> Rgates -> Q6/Q7/Q8 -> R/G/B cathodes
 |----------------------------------------------------------------------|
 | [ OR-ing FETs / controllers ]  [ EMI filters ]  [ TPS259804 eFuse ]  |
 |----------------------------------------------------------------------|
-| [ dual 5V buck ] [ TPS75733 ] [ U16 PM expander ] [ supervisor ]     |
+| [ dual 5V buck ] [ TPS75733 ] [ U14 PM expander ] [ supervisor ]     |
 |----------------------------------------------------------------------|
 | [ LTC3350 ] [ supercap bank 2S4P ] [ switch spade tabs / test pads ] |
 |----------------------------------------------------------------------|
@@ -121,6 +121,6 @@ service clearance rather than blind-mate dual-board insertion constraints.
 2. Keep `PM_IO_INT_N` routed as a clean low-speed logic net back to the Controller.
 3. Apply the common RGB sink-stage pattern from `design/Standards/Global_Routing_Spec.md §3.1`
    to the PM runtime RGB path (`Q6` / `Q7` / `Q8`). The PM-specific pre-boot hardware flash path
-   remains a local exception: red + green only through `Q4` and `D6` / `D7`; blue stays runtime-only.
+   remains a local exception: red + green only through `Q4` and `D5` / `D6`; blue stays runtime-only.
 4. Route `LED_PWR_N` from `J3` only into the local SW2 hardware-indicator logic; do not place it on the
    PM I2C expander. The SW2 red/green sink stages and shutdown latch remain fully local to the PM.
