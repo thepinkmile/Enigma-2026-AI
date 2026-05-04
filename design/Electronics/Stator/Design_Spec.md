@@ -46,7 +46,7 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 | DR-STA-05 | Reflector / Extension service connector | J10 = Adam Tech `2BHR-30-VUA` 30-pin 2x15 shrouded header; `TTD_RETURN` on pin 16, `SYS_RESET_N` on pin 15, `ENC_OUT_REF[5:0]` on pins 7-12, `ENC_IN_REF[5:0]` on pins 19-24, `3V3_ENIG` on pins 3-4 and 27-28, `5V_MAIN` on pins 1-2 and 29-30. Per DEC-053 | §3 Encryption & JTAG Hub; BOM J10 |
 | DR-STA-06 | Controller dock connectors | `J11/J12` = Molex `2195620015` hybrid plugs mating with Controller `2195630015` receptacles | §4 Interconnects; BOM J11, J12 |
 | DR-STA-07 | CPLD | Intel MAX II EPM570T100I5N (TQFP-100); 570 LEs; same footprint as EPM240 (drop-in); 570 LEs required for startup-loaded 64-char reflector map (384 FFs) + routing matrix logic | §3 Encryption & JTAG Hub; BOM U1 (EPM570T100I5N) |
-| DR-STA-08 | Power monitoring | INA219 current sensor; shunt R1 = CSS2H-2512R-R010ELF (10mΩ 2512 Kelvin), sized for the 2.05 A worst-case typical stack load | §5 Power Telemetry; BOM U2 (INA219AIDR), R1 (CSS2H 10mΩ shunt) |
+| DR-STA-08 | Power monitoring | INA219 current sensor; shunt R1 = KRL6432T4-M-R010-F-T1 (10mΩ 6432/2512 Kelvin 4-terminal), sized for the 2.05 A worst-case typical stack load | §5 Power Telemetry; BOM U2 (INA219AIDR), R1 (KRL 10mΩ shunt) |
 | DR-STA-09 | Maximum 3V3_ENIG load | 2.05 A worst-case typical (30 rotors + Stator CPLD + all encoders) | §2 Core Features; §5 Power Telemetry |
 | DR-STA-10 | Routing configuration selection | Logical `CFG_ROUTE[3:0]` inputs are driven by U8 GPA[3:0]; 4x 10kΩ pull-down resistors R16-R19 retained on CPLD inputs as power-up safe defaults (hold 0 when U8 is uninitialised) | §3 Configuration Bank 1 (Routing); BOM U8, R16-R19 |
 | DR-STA-11 | Reflector map selection | Logical `CFG_REFMAP[5:0]` inputs are driven by U8 GPB[5:0]; 6x 10kΩ pull-down resistors R21-R26 retained on CPLD inputs as power-up safe defaults | §3 Configuration Bank 2 (Reflector Mapping); BOM U8, R21-R26 |
@@ -336,7 +336,7 @@ full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
 * **Sensor:** TI INA219 Zero-Drift Power Monitor (Address: 0x45) - dedicated rotor-stack usage telemetry.
 * **Placement:** Inserted on L1 (Top Layer) connected to the 3V3_ENIG rail immediately before the rotor stack.
   * Minimum 15mm isolation from Intel MAX II EPM570T100I5N CPLD logic core.
-* **Shunt:** CSS2H-2512R-R010ELF (10mΩ ±1% 5A, 2512 Kelvin-sense) rotor-stack shunt resistor. Stator R1 instance. (PM R12 + PM R23 are the first and second system CSS2H; total build qty: 3 - see `Power_Budgets.md`.)
+* **Shunt:** KRL6432T4-M-R010-F-T1 (10mΩ ±1% 2W, 6432/2512 Kelvin 4-terminal) rotor-stack shunt resistor. Stator R1 instance. (PM R12 + PM R23 are the first and second system shunt; total build qty: 3 - see `Power_Budgets.md`.)
 * **Interface:** I2C-1 Telemetry Bus (via `J12`, shared with the Power Module and User Settings Module).
 * **Filtering:** 0.1µF VCC decoupling (C14) and RC input filter on IN+/IN-: R42 (10Ω RF1, series on IN+), R43 (10Ω RF2, series on IN-),
   C21 (100nF CF, differential across IN+/IN-); f_3dB ≈ 80kHz (differential). Suppresses electromechanical rotor noise at INA219 ADC sampling harmonics.
@@ -393,7 +393,7 @@ full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
 | J11, J12 | 5 power + 15 signal hybrid plug | 2195620015 | Molex | 900-2195620015-ND | 538-219562-0015 | - | Global sourcing | - | Yes | Pending | 2 |
 | J13 | 6-pin JST PH 2.0mm THT | B6B-PH-K-S(LF)(SN) | JST | 455-1708-ND | 306-B6B-PH-K-SLFSN | C131342 | - | - | Yes | Pending | 1 |
 | L1-L4 | 120Ω @100MHz 4.0A 1206 | HI1206P121R-10 | Laird Performance Materials | 240-2410-1-ND | 875-HI1206P121R-10 | C2442103 | - | - | Yes | Pending | 4 |
-| R1 | 10mΩ ±1% 5A 2512 Kelvin shunt | CSS2H-2512R-R010ELF | Bourns | CSS2H-2512R-R010ELF-ND | 652-CSS2H-2512R-R010ELF | - | - | no JLCPCB stock | Yes | Pending | 1 |
+| R1 | 10mΩ ±1% 2W 6432 (2512) Kelvin 4-terminal shunt | KRL6432T4-M-R010-F-T1 | Susumu | KRL6432T4-M-R010-F-T1 | 754-KRL6432T4MR010FT | C4076514 | - | - | Yes | ✔ | 1 |
 | R2-R6, R16-R26, R39-R41 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | Pending | 19 |
 | R7-R12, R27-R38 | 75Ω 1% 0402 | ERJ-2RKF75R0X | Panasonic | P75.0LCT-ND | 667-ERJ-2RKF75R0X | C413061 | - | - | Yes | Pending | 18 |
 | R42, R43 | 10Ω 1% Thin-Film 0402 | ERJ-2RKF10R0X | Panasonic | P10.0LCT-ND | 667-ERJ-2RKF10R0X | C413044 | - | - | Yes | Pending | 2 |

@@ -227,6 +227,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "Susumu-KRL-datasheet.pdf",
+      "markdown": "Susumu-KRL-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "T821126A1S100CEU-C3013501-datasheet.pdf",
       "markdown": "T821126A1S100CEU-C3013501-datasheet.md",
       "mapping_type": "same_stem"

@@ -3,7 +3,7 @@ EESchema-DOCLIB  Version 2.0
 $CMP NE555DR
 D Single Precision Timer
 K
-F http://www.ti.com/lit/ds/symlink/ne555.pdf
+F https://g.componentsearchengine.com/Datasheets/0/6648.pdf
 $ENDCMP
 #
 $CMP EPM570T100I5N
@@ -293,6 +293,126 @@ $CMP DF40C-20DP-0.4V_51_
 D HIROSE(HRS) - DF40C-20DP-0.4V(51) - CONNECTOR, STACKING, HEADER, 20POS, 2ROW
 K
 F https://datasheet.datasheetarchive.com/originals/distributors/Datasheets-DGA17/1059795.pdf
+$ENDCMP
+#
+$CMP BAT54
+D Diode 30 V 200mA Surface Mount SOT-23-3 (TO-236)
+K
+F https://diotec.com/request/datasheet/bat54.pdf
+$ENDCMP
+#
+$CMP BMC-Q2AY0600M
+D 600 ohm Multilayer Ferrite Bead, 2000 mA, .1 ohm DC Resistance, 0805, 2 mm [.078 in] Length, 1.2 mm [.047 in] Width, Sigma BMC-Q
+K
+F https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Data+Sheet%7F1773178-3%7FA1%7Fpdf%7FEnglish%7FENG_DS_1773178-3_A1.pdf%7F2176742-3
+$ENDCMP
+#
+$CMP ERJ-3EKF1002V
+D Thick Film Resistors - SMD 0603 10Kohms 1% AEC-Q200
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERJ-3EKF4701V
+D Precision Thick Film Chip Resistor, 0603, 0.1W
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERJ-3EKF3010V
+D Thick Film Resistors - SMD 0603 301ohms 1% AEC-Q200
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERA3ARB3012V
+D Panasonic Thin Film Surface Mount Resistor 0603 Case 30.1k +/-0.1% 0.1W +/-10ppm/C
+K
+F https://industrial.panasonic.com/cdbs/www-data/pdf/RDM0000/AOA0000C307.pdf
+$ENDCMP
+#
+$CMP ERA3ARB103V
+D Res SMD 0603 0.1% 0.10W T.C.10ppm 10K Panasonic ERA Series Metal Film Surface Mount Resistor 0603 Case 10k +/-0.1% 0.1W +/-10ppm/C
+K
+F https://industrial.panasonic.com/cdbs/www-data/pdf/RDM0000/AOA0000C307.pdf
+$ENDCMP
+#
+$CMP ERJ-3EKF7153V
+D Precision Thick Film Chip Resistor, 0603, 0.1W
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERJ-3EKF8662V
+D Thick Film Resistors - SMD 0603 86.6Kohms 1% AEC-Q200
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERJ-2RKF1002X
+D Res Thick Film 0402 10K Ohm 1% 0.1W(1/10W) +/-100ppm/C Pad SMD Automotive T/R
+K
+F https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERJ2RKF8202X
+D Panasonic ERJ2RK Series Thick Film Surface Mount Fixed Resistor 0402 Case +/-1% 0.1W +/-100ppm/C
+K
+F http://docs-europe.electrocomponents.com/webdocs/13ba/0900766b813ba21b.pdf
+$ENDCMP
+#
+$CMP ERJ-3EKF2743V
+D 274k 0603 Thick Film Precision Thick Film Surface Mount Resistor +/-1% 0.1W ERJ-3EKF2743V
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERA-2AEB3322X
+D PANASONIC ELECTRONIC COMPONENTS - ERA2AEB3322X - RES, AEC-Q200, THIN FILM, 33K2, 0402
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDM0000/AOA0000C307.pdf
+$ENDCMP
+#
+$CMP ERJ2RKF1001X
+D Precision,Thick,Chip Resistors,Size1005 Panasonic Precision Thick Film Surface Mount Resistor 0402 Case 1k +/-1% 0.1W +/-100ppm/C
+K
+F http://docs-europe.electrocomponents.com/webdocs/13ba/0900766b813ba21b.pdf
+$ENDCMP
+#
+$CMP ERJ2RKF5232X
+D Panasonic ERJ2RK Series Precision Thick Film Surface Mount Resistor 0402 Case 52.3k +/-1% 0.1W +/-100ppm/C
+K
+F http://docs-europe.electrocomponents.com/webdocs/13ba/0900766b813ba21b.pdf
+$ENDCMP
+#
+$CMP ERJ2RKF1003X
+D Panasonic ERJ2RK Series Thick Film Surface Mount Fixed Resistor 0402 Case +/-1% 0.1W +/-100ppm/C
+K
+F http://docs-europe.electrocomponents.com/webdocs/13ba/0900766b813ba21b.pdf
+$ENDCMP
+#
+$CMP ERJ2RKF10R0X
+D Panasonic ERJ2RK Series Thick Film Surface Mount Fixed Resistor 0402 Case 10 +/-1% 0.1W +/-100ppm/C
+K
+F http://docs-europe.electrocomponents.com/webdocs/13ba/0900766b813ba21b.pdf
+$ENDCMP
+#
+$CMP KRL6432T4-M-R010-F-T1
+D 10 mOhms +/-1% 2W Chip Resistor Wide 2512 (6432 Metric), 1225 Current Sense Metal Foil
+K
+F https://www.susumu.co.jp/common/pdf/n_catalog_partition20_en.pdf?v=20180406
+$ENDCMP
+#
+$CMP TPS75733KTTRG3
+D LDO Voltage Regulators 3.3 Volt Output 3A A LT 595-TPS75733KTTR ALT 595-TPS75733KTTR
+K
+F https://www.digikey.in/en/products/detail/texas-instruments/TPS75733KTTRG3/1673151
+$ENDCMP
+#
+$CMP MCP121T-450E_LB
+D Supervisor Open Drain or Open Collector 1 Channel SC-70-3 ,4.38V ,-40C ~ 125C
+K
+F https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP102-Data-Sheet-DS20001906.pdf
 $ENDCMP
 #
 #End Doc Library

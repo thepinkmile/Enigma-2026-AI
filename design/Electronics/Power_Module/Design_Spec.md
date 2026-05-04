@@ -153,8 +153,8 @@ Controller Board via dock connector `J1`.
   * **Purpose:** Provides real-time current/voltage telemetry for the 5V_MAIN rail to the CM5.
   * **Sensor:** TI INA219AIDR (U12) zero-drift power monitor at I²C address **0x40**.
   * **Placement:** Inserted in the 5V_MAIN supply path on L1, downstream of the eFuse (TPS25980).
-  * **Shunt:** CSS2H-2512R-R010ELF (10mΩ ±1% 5A, 2512 Kelvin-sense) - PM R23 instance.
-    (Stator R1 is the third system CSS2H; total build qty: 3 - see `Power_Budgets.md`.)
+  * **Shunt:** KRL6432T4-M-R010-F-T1 (10mΩ ±1% 2W, 6432/2512 Kelvin 4-terminal) - PM R23 instance.
+    (Stator R1 is the third system shunt; total build qty: 3 - see `Power_Budgets.md`.)
   * **Interface:** I2C-1 Telemetry Bus, directly accessible via `J3` to the Controller.
   * **Filtering:** 0.1µF VCC decoupling (C43) and RC input filter on IN+/IN-: R52 (10Ω RF1, series on IN+), R53 (10Ω RF2, series on IN-),
     C52 (100nF CF, differential across IN+/IN-); f_3dB ≈ 80kHz (differential). Suppresses PM buck switching transients (400kHz and harmonics).
@@ -502,7 +502,7 @@ Estimated PM-local power dissipation at system peak load:
 | R6, R9, R10, R16, R22, R29 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | [calc: f=1.44/((R_A+2R_B)xC); R_B=715kΩ, C=1µF → f=1Hz, duty≈50%] | Yes | Pending | 6 |
 | R7, R8 | 4.7kΩ 1% 0603 | ERJ-3EKF4701V | Panasonic | P4.70KHCT-ND | 667-ERJ-3EKF4701V | C192166 | - | - | Yes | Pending | 2 |
 | R11 | 301Ω 1% 0603 | ERJ-3EKF3010V | Panasonic | P301HCT-ND | 667-ERJ-3EKF3010V | C403144 | - | [calc: ICH=0.5A, VICHARGE=1.485V, RSENSE=10mΩ → R=297Ω → E96=301Ω] | Yes | Pending | 1 |
-| R12, R23 | 10mΩ ±1% 5A 2512 Kelvin shunt | CSS2H-2512R-R010ELF | Bourns | CSS2H-2512R-R010ELF-ND | 652-CSS2H-2512R-R010ELF | - (no JLCPCB stock; global sourcing required) | - | no JLCPCB stock | Yes | Pending | 2 |
+| R12, R23 | 10mΩ ±1% 2W 6432 (2512) Kelvin 4-terminal shunt | KRL6432T4-M-R010-F-T1 | Susumu | KRL6432T4-M-R010-F-T1 | 754-KRL6432T4MR010FT | C4076514 | - | - | Yes | ✔ | 2 |
 | R14 | 30.1kΩ 0.1% 0603 | ERA-3ARB3012V | Panasonic | 10-ERA-3ARB3012VCT-ND | 667-ERA-3ARB3012V | C1728516 | - | [calc: V_thr=1.2V, V_trigger=4.812V → R_TOP/R_BOT=(4.812/1.2)-1=3.01 → R_BOT=10kΩ → R_TOP=30.1kΩ → E96=30.1kΩ → actual trigger: 4.812V, 312mV above MCP121T 4.50V threshold - see DEC-030] | Yes | Pending | 1 |
 | R15 | 10.0kΩ 0.1% 0603 | ERA-3ARB103V | Panasonic | P10KBDCT-ND | 667-ERA-3ARB103V | C465746 | - | [pairs with R14; use 0.1% for threshold accuracy] | Yes | Pending | 1 |
 | R17 | 715kΩ 1% 0603 | ERJ-3EKF7153V | Panasonic | P715KHCT-ND | 667-ERJ-3EKF7153V | C403339 | - | [pairs with R16 and C23 to set 1Hz, ~50% duty-cycle oscillation] | Yes | Pending | 1 |
@@ -523,8 +523,8 @@ Estimated PM-local power dissipation at system peak load:
 | U4 | PD3.1 DRP controller WQFN-38 6x4mm | TPS25751DREFR | Texas Instruments | 296-TPS25751DREFRCT-ND | 595-TPS25751DREFR | C30169739 | - | PD3.1 certified DRP controller with integrated 20V/5A bi-directional + 5V/3A source power paths. Replaces NRND TPS25750. Package: WQFN-38 6x4mm (differs from TPS25750 QFN-28). | Yes | ✔ | 1 |
 | U5 | USB-C sink controller QFN-24 | STUSB4500LQTR | STMicroelectronics | 497-STUSB4500LQCT-ND | 511-STUSB4500LQTR | C506650 | - | - | Yes | Pending | 1 |
 | U6a, U6b, U6c | OR-ing controller SOT-23-6 | LM74700QDBVRQ1 | Texas Instruments | 296-LM74700QDBVRQ1CT-ND | 595-LM74700QDBVRQ1; alt T&R: 595-LM74700QDBVTQ1 | C2941042 | - | - | Yes | Pending | 3 |
-| U7 | 3.3V LDO fixed TO-263 5-pin | TPS75733KTTRG3 | Texas Instruments | 296-50559-1-ND | 595-TPS75733KTTRG3 | C3749924 | - | fixed 3.3V, active-LOW EN | No library - create manually | N/A | 1 |
-| U8 | 4.5V voltage supervisor SC70-3 | MCP121T-450E/LB | Microchip Technology | MCP121T-450E/LBCT-ND | 579-MCP121T-450E/LB | C625189 | - | 4.5V trip | No library - create manually | N/A | 1 |
+| U7 | 3.3V LDO fixed TO-263 5-pin | TPS75733KTTRG3 | Texas Instruments | 296-50559-1-ND | 595-TPS75733KTTRG3 | C3749924 | - | fixed 3.3V, active-LOW EN | Yes | ✔ | 1 |
+| U8 | 4.5V voltage supervisor SC70-3 | MCP121T-450E/LB | Microchip Technology | MCP121T-450E/LBCT-ND | 579-MCP121T-450E/LB | C625189 | - | 4.5V trip | Yes | ✔ | 1 |
 | U11, U15 | CMOS timer SOT-23-5 | MIC1555YM5-TR | Microchip Technology | 576-2576-1-ND | 998-MIC1555YM5TR | C145373 | - | CMOS timer IC, 2-10V supply. Generates 1Hz hardware "Initialising" heartbeat pulse for the orange status LED. Operates independently of CM5 firmware (pure hardware indicator). Also reflects supercap state of charge during hold-up. Timing set by R16 (R_A=10kΩ), R17 (R_B=715kΩ), C23 (C_OSC=1µF) → f=1Hz, ~50% duty cycle. ; CMOS timer in monostable configuration. Triggered by falling edge on LTC3350 `/INTB` (open-drain, pulled HIGH by R29). On trigger, output drives Q5 gate HIGH for t ≈ 3.01 s, pulling `PWR_BUT` LOW → CM5 PMIC power-key event → graceful OS shutdown. Timing: R28 (274kΩ) + C42 (10µF) → t = 1.1 x 274kΩ x 10µF = 3.01 s. VCC bypass: C38 (100nF). | Yes | Pending | 2 |
 | U12 | Current monitor I²C 0x40 SOIC-8 | INA219AIDR | Texas Instruments | 296-23978-1-ND | 595-INA219AIDR | C138706 | - | Zero-Drift Current/Power Monitor (I²C 0x40) | Yes | Pending | 1 |
 | U13, U14, U17 | Dual Schmitt-trigger inverter SC-88 | NL27WZ14DFT2G-Q | onsemi | 488-NL27WZ14DFT2G-QCT-ND | 863-NL27WZ14DFT2G-Q | C24511261 | - | AEC-Q100 dual Schmitt-trigger inverter, one gate used per SYNC stage ; Automotive dual Schmitt-trigger inverter, 1.65-5.5V supply, push-pull outputs, 5.5V-tolerant inputs. One gate conditions / inverts `LED_PWR_N`; the second conditions / inverts `PWR_BUT` for the SW2 hardware indicator logic. VCC bypass: C44 (100nF). | Yes | Pending | 3 |
@@ -648,8 +648,8 @@ Estimated PM-local power dissipation at system peak load:
 > the UVLO accuracy budget; 1% vs 0.1% resistors are indistinguishable in practice. 1% tolerance is fully adequate for pull-ups, LED limiters, and charge current set resistors.
 > * **R3 ERA-3VEB2100V (210Ω, 0.1% Thin-Film)** - R3 is the eFuse ILIM resistor. Unlike R1/R2 (UVLO divider), ILIM accuracy directly sets the overcurrent trip threshold;
 > 0.1% Thin-Film (ERA-3VEB series) is required. R3 must NOT be substituted with 1% Thick-Film.
-> * **R12 CSS2H-2512R-R010ELF** - **Critical PN correction**: the original `L100ELF` suffix codes 100µΩ (L-prefix = µΩ range); for 10mΩ (0.010Ω) the correct Bourns code is `R010ELF` (R-prefix = Ω
-> range). Mouser: 652-CSS2H-2512R-R010ELF; DigiKey: CSS2H-2512R-R010ELF-ND.
+> * **R12, R23 KRL6432T4-M-R010-F-T1** - Susumu Kelvin 4-terminal shunt; replaces original Bourns CSS2H-2512R-R010ELF (discontinued/unavailable). 10mΩ ±1% 2W, 6432 metric (2512 imperial).
+> Mouser: 754-KRL6432T4MR010FT; DigiKey: KRL6432T4-M-R010-F-T1; JLCPCB: C4076514.
 > * **L1/L2 WE-CMBNC 7448031002** - Both L1 and L2 use the same Wurth nanocrystalline CMC. L2 was originally Laird CM5022 but that part is **discontinued** (Laird EMC passives absorbed by TE
 > Connectivity in 2019). No equivalent ≥10A HF ferrite CMC was found in current catalogs. Twin nanocrystalline CMCs provide adequate broadband CM attenuation from 1kHz-30MHz. Re-evaluate at EMC
 > pre-compliance testing. Available from: Wurth direct, Mouser (710-7448031002), DigiKey (732-5584-ND), and JLCPCB (C1519839).

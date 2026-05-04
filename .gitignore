@@ -402,6 +402,9 @@ FodyWeavers.xsd
 .recycle-bin/*
 !.recycle-bin/.gitkeep
 
+# KiCAD library staging folder (temporary import area for downloaded footprints/symbols/3D models)
+src/Electronics/Library/temp/
+
 # VS Code files for those working on multiple tools
 .vscode/*
 !.vscode/settings.json

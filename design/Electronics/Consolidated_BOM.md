@@ -15,7 +15,7 @@
 
 - Manufacturer shown in Description/Usage column as `[Manufacturer]`.
 - Board codes: PM = Power Module · CTL = Controller · STA = Stator · ROT = Rotor · USM = User Settings Module · EXT = Extension · REF = Reflector · ENC = Encoder · AM = Actuation Module · JDB = JTAG Daughterboard.
-- **Footprint Downloaded** column: user-maintained. Replace "Pending" with tick once the footprint is added to the shared KiCAD library.
+- **Footprint Downloaded** column: user-maintained. Replace "Pending" with tick once the footprint is added to the shared KiCAD library. "Requested" means a custom footprint has been formally requested from the manufacturer or third party, awaiting delivery.
 - **CSD17578Q5A replaces CSD17483F4T:** OR-ing MOSFET corrected from the incorrectly specified CSD17483F4T (1.5A FemtoFET) to CSD17578Q5A (30V 25A 5.9mΩ SON 5x6mm). DigiKey: 296-48512-1-ND, Mouser: 595-CSD17578Q5A, JLCPCB: C2871447.
 - **LMQ61460AFSQRJRRQ1 Mouser PN:** `595-Q61460AFSQRJRRQ1` drops the "LM" prefix - confirmed correct Mouser convention.
 - **Locked parts** marked with a lock symbol require owner approval before any change.
@@ -39,9 +39,9 @@
 | PM: D2 | TPD2E2U06DRLR | 296-38361-1-ND | 595-TPD2E2U06DRLR | C1972959 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | ESD SOT-553 [Texas Instruments] | Yes | ✔ |
 | PM: D3; CTL: U4-U6; STA: U9-U12; REF: U1-U4; EXT: U2-U9; ROT-26: U5-U12; ROT-64: U5-U12 | TPD4E05U06QDQARQ1 | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | 1 | 3 | - | - | - | - | 4 | 4 | 8 | 8 | 8 | 36 | 4-ch ESD ±15kV 0.5pF U-DFN-10 [Texas Instruments] | Yes | ✔ |
 | PM: D4 | SMBJ18A-Q | 118-SMBJ18A-QCT-ND | 652-SMBJ18A-Q | C1979859 (Extended) | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 18V 600W unidirectional TVS SMB (DO-214AA) [Bourns] | Yes | ✔ |
-| PM: D6,D7; CTL: D1 | BAT54 | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | 2 | 1 | - | - | - | - | - | - | - | - | - | 3 | Schottky SOT-23 [Diotec] | Yes | Pending |
-| PM: F1 | AC72ABD | AC72ABD-ND | 652-AC72ABD | C17468669 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 72°C SMD Thermal Cutoff [Bourns] | Yes | Pending |
-| PM: FB1 | BMC-Q2AY0600M (2-2176748-1) | 1712-2-2176748-1CT-ND | 279-BMC-Q2AY0600M | - | Global sourcing / consignment | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 600Ω ±25% @100MHz ferrite bead 0805 AEC-Q200 Gr.1 [TE Connectivity] | Yes | Pending |
+| PM: D6,D7; CTL: D1 | BAT54 | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | 2 | 1 | - | - | - | - | - | - | - | - | - | 3 | Schottky SOT-23 [Diotec] | Yes | ✔ |
+| PM: F1 | AC72ABD | AC72ABD-ND | 652-AC72ABD | C17468669 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 72°C SMD Thermal Cutoff [Bourns] | No | Requested |
+| PM: FB1 | BMC-Q2AY0600M (2-2176748-1) | 1712-2-2176748-1CT-ND | 279-BMC-Q2AY0600M | - | Global sourcing / consignment | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 600Ω ±25% @100MHz ferrite bead 0805 AEC-Q200 Gr.1 [TE Connectivity] | Yes | ✔ |
 | PM: J1-J3 | 1123684-7 | A114780-ND | 571-1123684-7 | C3683043 (consignment - see BOM Notes) | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | 10-pos 2.5mm RA plug [TE Connectivity] | Yes | ✔ |
 | PM: J4 | 0436500519 | WM14587-ND | 538-43650-0519 | C563849 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 5-pin Micro-Fit 3.0 THT vertical [Molex] | Yes | ✔ |
 | PM: J5 | USB4135-GF-A | 2073-USB4135-GF-ACT-ND | 640-USB4135-GF-A | C5438410 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | USB-C right-angle SMT [GCT] | Yes | ✔ |
@@ -52,23 +52,23 @@
 | PM: R1 | ERJ-3EKF2323V | P232KHCT-ND | 667-ERJ-3EKF2323V | C403086 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 232kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R2 | ERJ-3EKF2872V | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 28.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R3 | ERA-3VEB2100V | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 210Ω 0.1% 0603 [Panasonic] | Yes | ✔ |
-| PM: R6,R9,R10,R16,R22,R29; CTL: R1-R4; USM: R1-R11 | ERJ-3EKF1002V | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | 6 | 4 | - | 11 | - | - | - | - | - | - | - | 21 | 10kΩ 1% 0603 [Panasonic] | Yes | Pending |
-| PM: R7,R8 | ERJ-3EKF4701V | P4.70KHCT-ND | 667-ERJ-3EKF4701V | C192166 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 4.7kΩ 1% 0603 [Panasonic] | Yes | Pending |
-| PM: R11 | ERJ-3EKF3010V | P301HCT-ND | 667-ERJ-3EKF3010V | C403144 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 301Ω 1% 0603 [Panasonic] | Yes | Pending |
-| PM: R12,R23; STA: R1 | CSS2H-2512R-R010ELF | CSS2H-2512R-R010ELF-ND | 652-CSS2H-2512R-R010ELF | - | - | 2 | - | - | - | - | - | 1 | - | - | - | - | 3 | 10mΩ ±1% 5A 2512 Kelvin shunt; no JLCPCB stock [Bourns] | Yes | Pending |
-| PM: R14 | ERA-3ARB3012V | 10-ERA-3ARB3012VCT-ND | 667-ERA-3ARB3012V | C1728516 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 30.1kΩ 0.1% 0603 [Panasonic] | Yes | Pending |
-| PM: R15 | ERA-3ARB103V | P10KBDCT-ND | 667-ERA-3ARB103V | C465746 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 10.0kΩ 0.1% 0603 [Panasonic] | Yes | Pending |
-| PM: R17 | ERJ-3EKF7153V | P715KHCT-ND | 667-ERJ-3EKF7153V | C403339 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 715kΩ 1% 0603 [Panasonic] | Yes | Pending |
-| PM: R24 | ERJ-3EKF8662V | P86.6KHCT-ND | 667-ERJ-3EKF8662V | C403381 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 86.6kΩ 1% 0603 [Panasonic] | Yes | Pending |
-| PM: R25,R27,R34-R36,R39,R40,R43,R44; JDB: R3-R5; USM: R78-R80; ENC: R2-R5; AM: R4,R5; STA: R2-R6,R16-R26,R39-R41; ROT-26: R1-R4; ROT-64: R1-R4 | ERJ-2RKF1002X | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | 9 | - | 3 | 3 | 4 | 2 | 19 | - | - | 4 | 4 | 48 | 10kΩ 1% 0402 [Panasonic] | Yes | Pending |
-| PM: R26 | ERJ-2RKF8202X | P82.0KLCT-ND | 667-ERJ-2RKF8202X | C400641 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 82.0kΩ 1% 0402 [Panasonic] | Yes | Pending |
-| PM: R28 | ERJ-3EKF2743V | P274KHCT-ND | 667-ERJ-3EKF2743V | C403126 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 274kΩ 1% 0603 [Panasonic] | Yes | Pending |
-| PM: R30 | ERA-2AEB3322X | P33.2KDCCT-ND | 667-ERA-2AEB3322X | C2087909 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 33.2kΩ 1% 0402 [Panasonic] | Yes | Pending |
-| PM: R31-R33,R37,R38; USM: R12-R17,R54-R65 | ERJ-2RKF1001X | P1.00KLCT-ND | 667-ERJ-2RKF1001X | C242161 | - | 5 | - | - | 18 | - | - | - | - | - | - | - | 23 | 1kΩ 1% Thick-Film 0402 [Panasonic] | Yes | Pending |
-| PM: R41,R42 | ERJ-2RKF5232X | P52.3KLCT-ND | 667-ERJ-2RKF5232X | - | Global sourcing | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 52.3kΩ 1% 0402 [Panasonic] | Yes | Pending |
-| PM: R45-R48; USM: R81-R98 | ERJ-2RKF1003X | P100KLCT-ND | 667-ERJ-2RKF1003X | - | Global sourcing | 4 | - | - | 18 | - | - | - | - | - | - | - | 22 | 100kΩ 1% 0402; no JLCPCB stock [Panasonic] | Yes | Pending |
-| PM: R49-R53; STA: R42,R43 | ERJ-2RKF10R0X | P10.0LCT-ND | 667-ERJ-2RKF10R0X | C413044 | - | 5 | - | - | - | - | - | 2 | - | - | - | - | 7 | 10Ω 1% Thin-Film 0402 [Panasonic] | Yes | Pending |
-| PM: SW1 | 4660 | 1528-4660-ND | 485-4660 | - | Global sourcing | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 16mm panel latching RGB metal switch [Adafruit] | Yes | Pending |
+| PM: R6,R9,R10,R16,R22,R29; CTL: R1-R4; USM: R1-R11 | ERJ-3EKF1002V | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | 6 | 4 | - | 11 | - | - | - | - | - | - | - | 21 | 10kΩ 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R7,R8 | ERJ-3EKF4701V | P4.70KHCT-ND | 667-ERJ-3EKF4701V | C192166 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 4.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R11 | ERJ-3EKF3010V | P301HCT-ND | 667-ERJ-3EKF3010V | C403144 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 301Ω 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R12,R23; STA: R1 | KRL6432T4-M-R010-F-T1 | KRL6432T4-M-R010-F-T1 | 754-KRL6432T4MR010FT | C4076514 | - | 2 | - | - | - | - | - | 1 | - | - | - | - | 3 | 10mΩ ±1% 2W 6432 (2512) Kelvin 4-terminal shunt [Susumu] | Yes | ✔ |
+| PM: R14 | ERA-3ARB3012V | 10-ERA-3ARB3012VCT-ND | 667-ERA-3ARB3012V | C1728516 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 30.1kΩ 0.1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R15 | ERA-3ARB103V | P10KBDCT-ND | 667-ERA-3ARB103V | C465746 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 10.0kΩ 0.1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R17 | ERJ-3EKF7153V | P715KHCT-ND | 667-ERJ-3EKF7153V | C403339 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 715kΩ 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R24 | ERJ-3EKF8662V | P86.6KHCT-ND | 667-ERJ-3EKF8662V | C403381 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 86.6kΩ 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R25,R27,R34-R36,R39,R40,R43,R44; JDB: R3-R5; USM: R78-R80; ENC: R2-R5; AM: R4,R5; STA: R2-R6,R16-R26,R39-R41; ROT-26: R1-R4; ROT-64: R1-R4 | ERJ-2RKF1002X | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | 9 | - | 3 | 3 | 4 | 2 | 19 | - | - | 4 | 4 | 48 | 10kΩ 1% 0402 [Panasonic] | Yes | ✔ |
+| PM: R26 | ERJ-2RKF8202X | P82.0KLCT-ND | 667-ERJ-2RKF8202X | C400641 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 82.0kΩ 1% 0402 [Panasonic] | Yes | ✔ |
+| PM: R28 | ERJ-3EKF2743V | P274KHCT-ND | 667-ERJ-3EKF2743V | C403126 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 274kΩ 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R30 | ERA-2AEB3322X | P33.2KDCCT-ND | 667-ERA-2AEB3322X | C2087909 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 33.2kΩ 1% 0402 [Panasonic] | Yes | ✔ |
+| PM: R31-R33,R37,R38; USM: R12-R17,R54-R65 | ERJ-2RKF1001X | P1.00KLCT-ND | 667-ERJ-2RKF1001X | C242161 | - | 5 | - | - | 18 | - | - | - | - | - | - | - | 23 | 1kΩ 1% Thick-Film 0402 [Panasonic] | Yes | ✔ |
+| PM: R41,R42 | ERJ-2RKF5232X | P52.3KLCT-ND | 667-ERJ-2RKF5232X | - | Global sourcing | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 52.3kΩ 1% 0402 [Panasonic] | Yes | ✔ |
+| PM: R45-R48; USM: R81-R98 | ERJ-2RKF1003X | P100KLCT-ND | 667-ERJ-2RKF1003X | - | Global sourcing | 4 | - | - | 18 | - | - | - | - | - | - | - | 22 | 100kΩ 1% 0402; no JLCPCB stock [Panasonic] | Yes | ✔ |
+| PM: R49-R53; STA: R42,R43 | ERJ-2RKF10R0X | P10.0LCT-ND | 667-ERJ-2RKF10R0X | C413044 | - | 5 | - | - | - | - | - | 2 | - | - | - | - | 7 | 10Ω 1% Thin-Film 0402 [Panasonic] | Yes | ✔ |
+| PM: SW1 | 4660 | 1528-4660-ND | 485-4660 | - | Global sourcing | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 16mm panel latching RGB metal switch [Adafruit] | N/A | N/A |
 | PM: SW2 | 3350 | 1528-2546-ND | 485-3350 | - | Global sourcing | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 16mm panel momentary RGB metal switch [Adafruit] | Yes | Pending |
 | PM: BT_SW1_1-6,BT_SW2_1-6 | 1211 | 36-1211-ND | 534-1211 | C3029550 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 2.8mm PCB male spade tabs THT Quick-Fit [Keystone Electronics] | Yes | Pending |
 | PM: U1 | TPS259804ONRGER | 296-TPS259804ONRGERCT-ND | 595-TPS259804ONRGER | C2878936 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | eFuse 16.9V fixed OVLO VQFN-24 4x4mm; variant-locked [Texas Instruments] | Yes | Pending |
@@ -77,8 +77,8 @@
 | PM: U4 | TPS25751DREFR | 296-TPS25751DREFRCT-ND | 595-TPS25751DREFR | C30169739 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | PD3.1 DRP controller WQFN-38 6x4mm [Texas Instruments] | Yes | ✔ |
 | PM: U5 | STUSB4500LQTR | 497-STUSB4500LQCT-ND | 511-STUSB4500LQTR | C506650 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | USB-C sink controller QFN-24 [STMicroelectronics] | Yes | Pending |
 | PM: U6a,U6b,U6c | LM74700QDBVRQ1 | 296-LM74700QDBVRQ1CT-ND | 595-LM74700QDBVRQ1 | C2941042 | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | OR-ing controller SOT-23-6 [Texas Instruments] | Yes | Pending |
-| PM: U7 | TPS75733KTTRG3 | 296-50559-1-ND | 595-TPS75733KTTRG3 | C3749924 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 3.3V LDO fixed TO-263 5-pin [Texas Instruments] | No library - footprint requested | Pending |
-| PM: U8 | MCP121T-450E/LB | MCP121T-450E/LBCT-ND | 579-MCP121T-450E/LB | C625189 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 4.5V voltage supervisor SC70-3 [Microchip Technology] | No library - footprint requested | Pending |
+| PM: U7 | TPS75733KTTRG3 | 296-50559-1-ND | 595-TPS75733KTTRG3 | C3749924 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 3.3V LDO fixed TO-263 5-pin [Texas Instruments] | Yes | ✔ |
+| PM: U8 | MCP121T-450E/LB | MCP121T-450E/LBCT-ND | 579-MCP121T-450E/LB | C625189 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 4.5V voltage supervisor SC70-3 [Microchip Technology] | Yes | ✔ |
 | PM: U11,U15 | MIC1555YM5-TR | 576-2576-1-ND | 998-MIC1555YM5TR | C145373 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | CMOS timer SOT-23-5 [Microchip Technology] | Yes | ✔ |
 | PM: U12; STA: U2 | INA219AIDR | 296-23978-1-ND | 595-INA219AIDR | C138706 | - | 1 | - | - | - | - | - | 1 | - | - | - | - | 2 | Current monitor I²C SOIC-8 [Texas Instruments] | Yes | Pending |
 | PM: U13,U14,U17 | NL27WZ14DFT2G-Q | 488-NL27WZ14DFT2G-QCT-ND | 863-NL27WZ14DFT2G-Q | C24511261 | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | Dual Schmitt-trigger inverter SC-88 [onsemi] | Yes | Pending |
