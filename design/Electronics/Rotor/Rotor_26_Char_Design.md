@@ -97,7 +97,7 @@ For the 26-character variant:
 * The CPLD reads 5 sensor pads (S0-S4, all on Board A) as a 5-bit STGC code and maps it via a
   combinational lookup table to a binary position 0-25. Codes not present in the lookup table
   (11, 13, 21, 22, 26, 31) indicate a between-character position and are flagged as a mechanical
-  fault condition. FDC2114 U3B on Board B is **not populated** for the N=26 rotor.
+  fault condition. FDC2114 U11B on Board B is **not populated** for the N=26 rotor.
 * SW1[5:0] is summed **modulo 26** with the decoded binary position to yield the effective position.
 * Notch trigger positions are defined per map in the VHDL tables (see OWI-003).
 
@@ -118,17 +118,17 @@ runtime.
 
 The 26-character rotor uses a **single-track 5-bit STGC** encoder. All 5 sensor electrodes
 are on **Board A only**. Board B has no encoder electrodes for the N=26 rotor, and FDC2114
-**U3B on Board B is not populated** for this variant.
+**U11B on Board B is not populated** for this variant.
 
 * **Track** (5 bits, STGC): 5 sensor electrodes on Board A at r≈44mm; pattern milled into the
   inner face of the shroud **dish** flange (Board A side).
 * **Board B shroud flange:** No encoder slots milled for N=26.
 * **Sensing:** Bare copper electrode pads on the Board A flat face (no electronic components
   on the shroud). Aluminium (solid) = high capacitance; milled slot = low capacitance. Sensed
-  by FDC2114RGHR U2 and U3A on Board A:
+  by FDC2114RGHR U2 and U11A on Board A:
   * **U2 (Board A, addr 0x2A):** CH0-CH3 = STGC bits[3:0]
-  * **U3A (Board A, addr 0x2B):** CH0 = STGC bit[4]; CH1-CH3 each carry a dummy LC tank (18 µH + 33 pF in parallel between INxA/INxB per TI app note unused-channel rule; BOM refs L5A-L8A, C22A-C25A)
-  * U3A is an additional FDC2114RGHR populated on Board A for N=26 builds only.
+  * **U11A (Board A, addr 0x2B):** CH0 = STGC bit[4]; CH1-CH3 each carry a dummy LC tank (18 µH + 33 pF in parallel between INxA/INxB per TI app note unused-channel rule; BOM refs L5A-L8A, C22A-C25A)
+  * U11A is an additional FDC2114RGHR populated on Board A for N=26 builds only.
 * **Shroud:** Must remain electrically **floating** (bearing isolation - ceramic or nylon
   rolling elements). Not connected to circuit ground.
 
@@ -163,9 +163,9 @@ The CPLD VHDL implements a 32-entry lookup ROM (5-bit address → 5-bit position
 Gray code is not achievable for N=26 (not a power of 2); therefore a lookup table decode is
 retained. Codes not listed below are invalid and trigger a mechanical fault flag.
 
-> **Note:** For the N=26 variant, U3B (FDC2114 on Board B) is not populated. U2 (Board A,
-> addr 0x2A) reads STGC bits[3:0] via CH0-CH3. U3A (Board A, addr 0x2B) reads STGC bit[4]
-> via CH0; CH1-CH3 are tied to GND via 100 kΩ. U3A is an additional FDC2114RGHR populated
+> **Note:** For the N=26 variant, U11B (FDC2114 on Board B) is not populated. U2 (Board A,
+> addr 0x2A) reads STGC bits[3:0] via CH0-CH3. U11A (Board A, addr 0x2B) reads STGC bit[4]
+> via CH0; CH1-CH3 are tied to GND via 100 kΩ. U11A is an additional FDC2114RGHR populated
 > on Board A for N=26 builds only.
 
 | STGC Code | Binary | Position | | STGC Code | Binary | Position |
@@ -195,8 +195,8 @@ are listed in **`design/Electronics/Rotor/Design_Spec.md`** §5.
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C16A | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | U3A FDC2114 (0x2B) VDD bypass cap; see GRS §3.2 | Yes | Pending | 1 |
-| C17A | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | U3A FDC2114 (0x2B) VDD bulk decoupling cap; see GRS §3.2 | Yes | Pending | 1 |
+| C20A | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | U11A FDC2114 (0x2B) VDD bypass cap; see GRS §3.2 | Yes | Pending | 1 |
+| C21A | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | U11A FDC2114 (0x2B) VDD bulk decoupling cap; see GRS §3.2 | Yes | Pending | 1 |
 | C22A-C25A | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
 | L5A-L8A | 18µH ±10% SRF 28MHz 0603 | CWF1610A-180K | Bourns | 118-CWF1610A-180KCT-ND | 652-CWF1610A-180K | - | Global sourcing | - | Yes | Pending | 4 |
-| U3A | 4-ch cap sensor I²C 0x2B 16-VQFN | FDC2114RGHR | Texas Instruments | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | - | JLCPCB MOQ 2 | Yes | Pending | 1 |
+| U11A | 4-ch cap sensor I²C 0x2B 16-VQFN | FDC2114RGHR | Texas Instruments | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | - | JLCPCB MOQ 2 | Yes | Pending | 1 |

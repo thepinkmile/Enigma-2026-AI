@@ -84,7 +84,7 @@ Up to 21 distinct forward maps can be stored, each usable in both forward and re
 See `Design_Spec.md §2.3` for the SW1 hardware description.
 For the 64-character variant:
 
-* The CPLD reads 6 Gray code bits (G[5:3] from FDC2114 U2 on Board A, G[2:0] from FDC2114 U3B
+* The CPLD reads 6 Gray code bits (G[5:3] from FDC2114 U2 on Board A, G[2:0] from FDC2114 U11B
   on Board B) and decodes them to binary position 0-63 via the XOR chain (see §7). All 64
   6-bit Gray codes are valid; no between-character jam detection is required for this variant.
 * SW1[5:0] is summed **modulo 64** with the decoded binary position to yield the effective position.
@@ -116,7 +116,7 @@ back to position 0.
   into the inner face of the shroud **cover** flange (Board B side).
 * **Sensing:** Bare copper electrode pads on the PCB flat face (no electronic components on
   the shroud). Aluminium (solid) = high capacitance; milled slot = low capacitance. Sensed by
-  FDC2114RGHR (U2 on Board A, U3B on Board B).
+  FDC2114RGHR (U2 on Board A, U11B on Board B).
 * **Shroud:** Must remain electrically **floating** (bearing isolation - ceramic or nylon
   rolling elements). Not connected to circuit ground.
 
@@ -164,7 +164,7 @@ at any rotor position. All 64 codes are unique. No invalid-code jam detection is
 
 ### CPLD Decode - XOR Chain (Gray to Binary)
 
-The CPLD decodes the 6 raw Gray code bits G[5:0] (from FDC2114 U2 bits[5:3] and U3B bits[2:0])
+The CPLD decodes the 6 raw Gray code bits G[5:0] (from FDC2114 U2 bits[5:3] and U11B bits[2:0])
 to 6-bit binary position B[5:0] using the standard XOR chain:
 
 ```text
@@ -190,8 +190,8 @@ are listed in **`design/Electronics/Rotor/Design_Spec.md`** §5.
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C16B | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | U3B FDC2114 (0x2B) VDD bypass cap; see GRS §3.2 | Yes | Pending | 1 |
-| C17B | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | U3B FDC2114 (0x2B) VDD bulk decoupling cap; see GRS §3.2 | Yes | Pending | 1 |
+| C20B | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | U11B FDC2114 (0x2B) VDD bypass cap; see GRS §3.2 | Yes | Pending | 1 |
+| C21B | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | U11B FDC2114 (0x2B) VDD bulk decoupling cap; see GRS §3.2 | Yes | Pending | 1 |
 | C22B-C25B | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
 | L5B-L8B | 18µH ±10% SRF 28MHz 0603 | CWF1610A-180K | Bourns | 118-CWF1610A-180KCT-ND | 652-CWF1610A-180K | - | Global sourcing | - | Yes | Pending | 4 |
-| U3B | 4-ch cap sensor I²C 0x2B 16-VQFN | FDC2114RGHR | Texas Instruments | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | - | JLCPCB MOQ 2 | Yes | Pending | 1 |
+| U11B | 4-ch cap sensor I²C 0x2B 16-VQFN | FDC2114RGHR | Texas Instruments | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | - | JLCPCB MOQ 2 | Yes | Pending | 1 |

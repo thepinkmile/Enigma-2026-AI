@@ -22,7 +22,7 @@ proportions. These internal headers are manually assembled post-JLCPCB SMT pick-
 **Board A (input side):** Carries the CPLD (U1), FDC2114 U2 (Track A encoder), SW1 (ring
 setting), SW2 (forward map select), and J1-J3 (ERM8 male, input connectors).
 
-**Board B (output side):** Carries FDC2114 U3B (Track B encoder, N=64 only), SW3 (return map
+**Board B (output side):** Carries FDC2114 U11B (Track B encoder, N=64 only), SW3 (return map
 select), and J4-J6 (ERF8 female, output connectors).
 
 The aluminium shroud is retained by **rolling-pin style cylindrical bearings** around the
@@ -36,7 +36,7 @@ shroud at r=50mm.
 The current position of the outer ring is detected using a **dual-track absolute capacitive
 encoder** (N=64) or **single-track STGC encoder** (N=26). For N=64, 3+3 sensor electrodes on
 Board A and Board B read a 6-bit standard reflected Gray code with zero multi-bit transitions.
-For N=26, all 5 STGC electrodes are on Board A only (U3B on Board B is not populated).
+For N=26, all 5 STGC electrodes are on Board A only (U11B on Board B is not populated).
 
 Two rotor variants are defined: the **26-character variant** (5-bit STGC, compatible with
 original Enigma rotors I-VIII, Beta, Gamma) and the **64-character variant** (6-bit dual-track
@@ -65,7 +65,7 @@ not be used as a local chassis-bond point.
 | ID | Functional Requirement | Notes | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
 | FR-ROT-01 | Emulate the substitution cipher wiring of a historical Enigma rotor in real-time | 21 forward maps in CPLD UFM; direction bit doubles to 42 configs; see variant design files | §2.2 Logic & Transposition; BOM U1 (EPM570T100I5N) |
-| FR-ROT-02 | Detect rotor angular position using a capacitive encoder; N=64: dual-track 3+3 bit reflected Gray code (Board A and Board B); N=26: single-track 5-bit STGC (Board A only) | N=64: zero multi-bit transitions, XOR-chain decode; N=26: STGC lookup table, invalid codes flagged as fault | §2.1 Position Sensing; BOM U2/U3A (Board A), U3B (Board B, N=64 only) |
+| FR-ROT-02 | Detect rotor angular position using a capacitive encoder; N=64: dual-track 3+3 bit reflected Gray code (Board A and Board B); N=26: single-track 5-bit STGC (Board A only) | N=64: zero multi-bit transitions, XOR-chain decode; N=26: STGC lookup table, invalid codes flagged as fault | §2.1 Position Sensing; BOM U2/U11A (Board A), U11B (Board B, N=64 only) |
 | FR-ROT-03 | Pass JTAG chain signals to the next rotor in the stack (or to the Reflector at position 30) | Serial daisy-chain; each rotor is one JTAG device | §3.3 Signal Integrity; BOM J1 (ERM8-005 JTAG in), J4 (ERF8-005 JTAG out) |
 | FR-ROT-04 | Receive 3V3_ENIG power from the upstream board and forward to the downstream board | Passive power pass-through via J2/J5 | §3.1 Power Management; BOM J2 (ERM8-005 power in), J5 (ERF8-005 power out) |
 | FR-ROT-05 | Apply cipher substitution at each rotor hop via CPLD; forward and return paths processed independently using SW2/SW3 selected maps | J3 ENC_IN → CPLD (SW2 map+dir) → J6 ENC_OUT; J6 ENC_IN → CPLD (SW3 map+dir) → J3 ENC_OUT; see §3.2 | §3.2 Communication Bus; BOM J3 (ERM8-010), J6 (ERF8-010) |
@@ -81,7 +81,7 @@ not be used as a local chassis-bond point.
 | :--- | :--- | :--- | :--- |
 | DR-ROT-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §4 PCB Fabrication & Stackup |
 | DR-ROT-02 | CPLD | Intel MAX II EPM570T100I5N (TQFP-100); 570 LEs; 21 UFM forward maps; SW2/SW3 direction bit gives 42 effective configs; character width in variant design files | §2.2 Logic & Transposition; BOM U1 (EPM570T100I5N) |
-| DR-ROT-03 | Position sensor | Split dual-track capacitive encoder: FDC2114RGHR U2 on Board A (Track A, r≈44mm, bits[5:3] N=64 or STGC bits[3:0] N=26, addr 0x2A); FDC2114RGHR U3A on Board A (addr 0x2B, CH0 = STGC bit[4] - N=26 builds only; not populated for N=64); FDC2114RGHR U3B on Board B (Track B, r≈44mm, bits[2:0] N=64 only - not populated for N=26, addr 0x2B); PCB Ø=92mm; track patterns in variant design files | §2.1 Position Sensing; BOM U2/U3A (Board A), U3B (Board B, N=64 only) |
+| DR-ROT-03 | Position sensor | Split dual-track capacitive encoder: FDC2114RGHR U2 on Board A (Track A, r≈44mm, bits[5:3] N=64 or STGC bits[3:0] N=26, addr 0x2A); FDC2114RGHR U11A on Board A (addr 0x2B, CH0 = STGC bit[4] - N=26 builds only; not populated for N=64); FDC2114RGHR U11B on Board B (Track B, r≈44mm, bits[2:0] N=64 only - not populated for N=26, addr 0x2B); PCB Ø=92mm; track patterns in variant design files | §2.1 Position Sensing; BOM U2/U11A (Board A), U11B (Board B, N=64 only) |
 | DR-ROT-04 | Input connectors (Board A) | J1 = ERM8-005 (JTAG in), J2 = ERM8-005 (Power in), J3 = ERM8-010 (ENC in) | §3.4 Connector Pinouts; BOM J1-J3 |
 | DR-ROT-05 | Output connectors (Board B) | J4 = ERF8-005 (JTAG out), J5 = ERF8-005 (Power out), J6 = ERF8-010 (ENC out) | §3.4 Connector Pinouts; BOM J4-J6 |
 | DR-ROT-06 | Power consumption | ≈54.2 mA typical per rotor from 3V3_ENIG (design budget: 55 mA) | §3.1 Power Management |
@@ -123,21 +123,21 @@ capacitive-to-digital converter, I²C, 3.3 V, 16-VQFN), but the second device di
 
 * **U2 (Board A)** - senses Track A (bits[5:3] for N=64; STGC bits[3:0] for N=26); I²C address 0x2A.
   Track A slots milled into the inner face of the shroud **dish** flange (Board A side).
-* **U3A (Board A, N=26 only)** - second FDC2114 for the N=26 variant, addr 0x2B. CH0 = STGC bit[4]; CH1-CH3 unused
+* **U11A (Board A, N=26 only)** - second FDC2114 for the N=26 variant, addr 0x2B. CH0 = STGC bit[4]; CH1-CH3 unused
   (each carries a dummy LC tank - same 18 µH + 33 pF **in parallel** between INxA/INxB - per TI app note;
-  GND-tie causes oscillation instability). **U3A is not populated for N=64**. N=26 variant: U2
-  (addr 0x2A) reads STGC bits[3:0], U3A (addr 0x2B, Board A) reads STGC bit[4].
-* **U3B (Board B, N=64 only)** - senses Track B (bits[2:0] for N=64 only); I²C address 0x2B.
+  GND-tie causes oscillation instability). **U11A is not populated for N=64**. N=26 variant: U2
+  (addr 0x2A) reads STGC bits[3:0], U11A (addr 0x2B, Board A) reads STGC bit[4].
+* **U11B (Board B, N=64 only)** - senses Track B (bits[2:0] for N=64 only); I²C address 0x2B.
   Track B slots milled into the inner face of the shroud **cover** flange (Board B side).
-  **U3B is not populated for N=26 rotors.** Unused channels carry a dummy LC tank (18 µH + 33 pF
+  **U11B is not populated for N=26 rotors.** Unused channels carry a dummy LC tank (18 µH + 33 pF
   **in parallel** between INxA/INxB) per TI app note; GND-tie causes oscillation instability.
 
-The CPLD implements a simple I²C master and polls U2 and U3A (N=26) or U2 and U3B (N=64) at power-up and after
+The CPLD implements a simple I²C master and polls U2 and U11A (N=26) or U2 and U11B (N=64) at power-up and after
 each detected position change. Each channel reports HIGH (solid aluminium) or LOW (milled slot).
 
 The local FDC2114 bus requires one external pull-up on `SDA` and one on `SCL` to `3V3_ENIG`; these
 are captured in the Board A BOM so the same pull-up pair serves the common local bus in both variants
-(`U2` + `U3A` on Board A for N=26, or `U2` on Board A plus `U3B` over `J11` for N=64). Per the
+(`U2` + `U11A` on Board A for N=26, or `U2` on Board A plus `U11B` over `J11` for N=64). Per the
 in-repo TI FDC2114 family datasheet power-supply recommendation, each populated FDC2114 also carries
 its own local `0.1 µF` + `1 µF` `VDD` bypass pair. These support parts are separate from the resonant
 front-end and unused-channel support components, which are fully specified in §2.1 (Resonant Front-End Topology).
@@ -145,7 +145,7 @@ front-end and unused-channel support components, which are fully specified in §
 #### CPLD Position Decode
 
 **N=64 (dual-track, 6-bit reflected Gray code):**
-The 6 sensor readings (G[5:3] from U2 Track A, G[2:0] from U3B Track B) form a 6-bit standard
+The 6 sensor readings (G[5:3] from U2 Track A, G[2:0] from U11B Track B) form a 6-bit standard
 reflected Gray code. The CPLD decodes via XOR chain:
 
 ```text
@@ -157,7 +157,7 @@ No lookup table required. All 64 codes are valid. Zero multi-bit transitions at 
 including the 63→0 wrap. Full decode detail in `Rotor_64_Char_Design.md §7`.
 
 **N=26 (single-track, 5-bit STGC):**
-The 5 sensor readings (U2 STGC bits[3:0] and U3A STGC bit[4], both on Board A) form a 5-bit STGC code. A **combinational
+The 5 sensor readings (U2 STGC bits[3:0] and U11A STGC bit[4], both on Board A) form a 5-bit STGC code. A **combinational
 lookup table** in the CPLD VHDL maps each valid code to its corresponding binary position
 (0 to 25). Invalid codes flag a between-character fault. Standard Gray code is not achievable
 for N=26 (not a power of 2); the lookup table is retained. Full decode detail in
@@ -300,7 +300,7 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
 * **JTAG TTD\_RETURN Path:** After the Reflector processes the cipher reversal, `TTD_RETURN` travels
   separately: Reflector J4 → Stator J10 → Controller-facing `J5` logic dock → FT232H on JDB (JTAG
   chain closure only).
-* **Control:** Each rotor has a local I²C bus for position sensing (FDC2114 U2/U3B for N=64; U2/U3A for N=26). The CPLD acts as I²C master; no I²C signals are exposed on J1-J6.
+* **Control:** Each rotor has a local I²C bus for position sensing (FDC2114 U2/U11B for N=64; U2/U11A for N=26). The CPLD acts as I²C master; no I²C signals are exposed on J1-J6.
 * **JTAG:** Pass-through lines allow the **USB Blaster** on the Controller Board to program the
   entire 30-rotor stack in one daisy-chain operation. Under normal operation JTAG is idle; cipher
   maps are selected via SW2/SW3 without reprogramming.
@@ -494,20 +494,20 @@ Compact internal transfer of the four JTAG/reset nets plus one shared ground bet
 
 Board B (J9): **RS1-05-G** (female) · Board A (J11): **PH1-05-UA** (male)
 
-Carries the local I²C link used by the Board A CPLD to poll FDC2114 U3B on Board B. U3B measurement
+Carries the local I²C link used by the Board A CPLD to poll FDC2114 U11B on Board B. U11B measurement
 results return over I²C; no dedicated POS_B parallel readback wires are required. The remaining pins
 are reserved so the same 1x5 keyed header footprint can be retained across both rotor variants.
 
 | Pin | Signal | Direction | Notes |
 | :--- | :--- | :--- | :--- |
-| 1 | SDA | A→B | I²C data (CPLD master → U3B FDC2114 on Board B) |
-| 2 | SCL | A→B | I²C clock (CPLD master → U3B FDC2114 on Board B) |
+| 1 | SDA | A→B | I²C data (CPLD master → U11B FDC2114 on Board B) |
+| 2 | SCL | A→B | I²C clock (CPLD master → U11B FDC2114 on Board B) |
 | 3 | GND | - | Ground return for I²C bus |
 | 4 | GND | - | Ground return |
 | 5 | GND | - | Ground return |
 
-> **Variant note:** N=64 builds populate U3B on Board B and use SDA/SCL plus the GND return pins.
-> N=26 builds do not populate U3B; SDA/SCL and GND pins remain wired but unused in both variants.
+> **Variant note:** N=64 builds populate U11B on Board B and use SDA/SCL plus the GND return pins.
+> N=26 builds do not populate U11B; SDA/SCL and GND pins remain wired but unused in both variants.
 >
 ## 4. PCB Fabrication & Stackup
 
@@ -524,7 +524,7 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 | C1-C8,C14 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | C1–C8: U1 CPLD VCC/VCCIO bypass caps; C14: U2 FDC2114 (0x2A) VDD bypass cap; see GRS §3.2 | Yes | Pending | 9 |
 | C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | U1 CPLD VCC/VCCIO bulk decoupling caps; see GRS §3.2 | Yes | Pending | 5 |
 | C15 | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | U2 FDC2114 (0x2A) VDD bulk decoupling cap; see GRS §3.2 | Yes | Pending | 1 |
-| C18-C21 | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
+| C16-C19 | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
 | J1-J2 | 10-pin 2x5 0.8mm male SMT | ERM8-005-05.0-S-DV-K-TR | Samtec | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | Yes | Pending | 2 |
 | J3 | 20-pin 2x10 0.8mm male SMT | ERM8-010-05.0-S-DV-K-TR | Samtec | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | - | - | Yes | Pending | 1 |
 | J4-J5 | 10-pin 2x5 0.8mm female SMT | ERF8-005-05.0-S-DV-K-TR | Samtec | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | - | - | Yes | Pending | 2 |
@@ -539,17 +539,17 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 | SW1-SW3 | 6-pos DIP switch 2.54mm THT | 219-6LPSTR | CTS | 119-219-6LPSTRCT-ND | 774-2196LPSTR | C2842671 | - | - | Yes | Pending | 3 |
 | U1 | MAX II 570 LEs CPLD TQFP-100 | EPM570T100I5N | Intel (Altera) | 544-2281-ND | 989-EPM570T100I5N | C27319 | - | - | Yes | Pending | 1 |
 | U2 | 4-ch cap sensor I²C 0x2A 16-VQFN | FDC2114RGHR | Texas Instruments | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | - | JLCPCB MOQ 2 | Yes | Pending | 1 |
-| U5-U12 | 4-ch ESD ±15kV USON-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | Pending | 8 |
+| U3-U10 | 4-ch ESD ±15kV USON-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | Pending | 8 |
 
-> **Variant-specific components:** N=26 rotor variant components (C16A, C17A, C22A-C25A, L5A-L8A, U3A) are
+> **Variant-specific components:** N=26 rotor variant components (C20A, C21A, C22A-C25A, L5A-L8A, U11A) are
 > listed in **`design/Electronics/Rotor/Rotor_26_Char_Design.md`** §8. N=64 rotor variant components
-> (C16B, C17B, C22B-C25B, L5B-L8B, U3B) are listed in **`design/Electronics/Rotor/Rotor_64_Char_Design.md`** §8.
+> (C20B, C21B, C22B-C25B, L5B-L8B, U11B) are listed in **`design/Electronics/Rotor/Rotor_64_Char_Design.md`** §8.
 >
 > **Support-network scope note:** `R5/R6` and `C14-C15` capture the local I²C-bias and `VDD`-bypass
-> requirements for the populated FDC2114 devices. Resonant front-end parts (`L1-L4`, `C18-C21`)
+> requirements for the populated FDC2114 devices. Resonant front-end parts (`L1-L4`, `C16-C19`)
 > are fully sourced above (Bourns CWF1610A-180K 18 µH inductors and YAGEO AC0402FRNPO9BN330 33 pF
 > resonant capacitors; dummy LC tanks on all unused FDC2114 channels per TI application note).
-> ESD protection arrays `U5`-`U12` (TPD4E05U06QDQARQ1) are sourced above; 4 per board, placed close
+> ESD protection arrays `U3`-`U10` (TPD4E05U06QDQARQ1) are sourced above; 4 per board, placed close
 > to connector body per DEC-045 and `Global_Routing_Spec.md §9`.
 
 ---
@@ -591,11 +591,11 @@ no new part numbers required. Placement per `Global_Routing_Spec.md §9` with DE
 
 | Ref | Board | Protects | Channels used |
 | :--- | :---: | :--- | :--- |
-| U5 | A | J1 JTAG input | `TDI`, `TMS`, `TCK` (1 spare channel) |
-| U6 | A | J3 encoder input (array 1 of 3) | `ENC_IN[3:0]` |
-| U7 | A | J3 encoder input (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
-| U8 | A | J3 encoder input (array 3 of 3) | `ENC_OUT[5:2]` |
-| U9 | B | J4 JTAG output | `TDO`, `TMS`, `TCK` (1 spare channel) |
-| U10 | B | J6 encoder output (array 1 of 3) | `ENC_IN[3:0]` |
-| U11 | B | J6 encoder output (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
-| U12 | B | J6 encoder output (array 3 of 3) | `ENC_OUT[5:2]` |
+| U3 | A | J1 JTAG input | `TDI`, `TMS`, `TCK` (1 spare channel) |
+| U4 | A | J3 encoder input (array 1 of 3) | `ENC_IN[3:0]` |
+| U5 | A | J3 encoder input (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
+| U6 | A | J3 encoder input (array 3 of 3) | `ENC_OUT[5:2]` |
+| U7 | B | J4 JTAG output | `TDO`, `TMS`, `TCK` (1 spare channel) |
+| U8 | B | J6 encoder output (array 1 of 3) | `ENC_IN[3:0]` |
+| U9 | B | J6 encoder output (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
+| U10 | B | J6 encoder output (array 3 of 3) | `ENC_OUT[5:2]` |
