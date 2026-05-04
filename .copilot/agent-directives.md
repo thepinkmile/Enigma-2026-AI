@@ -236,7 +236,11 @@ for user review rather than silently substituting an alternative.
   checkpoint written to `.copilot/checkpoints/` gets the next available integer after the current
   highest-numbered file in that folder. Check the folder before writing a new checkpoint and use
   `max_existing_number + 1` as the new number. Never skip numbers or use session-internal counters
-  as the file number.
+  as the file number. **CRITICAL: The session-state folder (e.g. `~/.copilot/session-state/<id>/checkpoints/`)
+  uses its own numbering that is completely unrelated to the repo-local sequence. NEVER use the
+  session-state checkpoint number as the repo-local checkpoint number. Always determine the correct
+  number by reading `.copilot/checkpoints/index.md` or listing the files in `.copilot/checkpoints/`
+  and taking `max + 1`.**
 - Sanitize all `.copilot/` content for version control: use repo-relative paths or
   `%USERPROFILE%` placeholders instead of machine-specific absolute paths. Do not persist raw
   usernames or session IDs.

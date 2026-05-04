@@ -112,4 +112,5 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 106 | Character matrix created; normalisation applied | 106-char-matrix-created-normalisation-applied.md |
 | 107 | Session state sync; Pass 5 planned | 107-session-state-sync-pre-reboot.md |
 | 108 | Pass 5 complete; fix research table ready (F-98–F-110) | 108-pass-5-complete-fix-research-ready.md |
-| 109 | Pass 5 fixes complete; F-108 deferred; blocks Pass 6 | 027-pass-5-fixes-complete.md |
+| 109 | Pass 5 fixes complete; F-108 deferred; blocks Pass 6 | 109-pass-5-fixes-complete.md |
+| 110 | DEC-056 committed | 110-dec-056-committed.md |
