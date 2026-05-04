@@ -36,13 +36,13 @@ TOP VIEW (L1 / component side / enclosed side; intended to mount upside-down fro
 BOTTOM VIEW (L4 / header-maintenance side / exterior face)
  ____________________________________
 |                       [DATA-PLATE] |
-| [J3 SERVO LOOM]                    |
-|                           [J5 SWD] |
+| [J2 SERVO LOOM]                    |
+|                           [J4 SWD] |
 |                                    |
-|                     [J6 UART/BOOT] |
+|                     [J5 UART/BOOT] |
 |                         [SW1 NRST] |
 |                        [SW2 BOOT0] |
-| [J4 HOME LOOM]                     |
+| [J3 HOME LOOM]                     |
 |____________________________________|
 ```
 
@@ -51,29 +51,29 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
 * J1 is a single 20-pin Hirose DF40C-20DP-0.4V(51) plug centred on the connector-facing side, carrying
   power (`5V_MAIN`, `3V3_ENIG`) and the trigger signal (`ACTUATE_REQUEST_N`) on one connector. Four M2.5mm
   NPTH mounting holes with copper annular ring (MH1-MH4, `MountingHole_Pad` footprint, net = `GND`) mate with 3.5mm standoffs (9774035151R) on the host board.
-* J3 and J4 are bottom-edge manual-fit Dupont-style headers. They are intentionally excluded from the
+* J2 and J3 are bottom-edge manual-fit Dupont-style headers. They are intentionally excluded from the
   automated PCBA flow.
-* J5 and J6 are manual-fit service headers. J5 is the primary SWD header and J6 is the separate
+* J4 and J5 are manual-fit service headers. J4 is the primary SWD header and J5 is the separate
   UART/bootloader header; place them near U1, keep them adjacent, and keep both accessible before the
-  module is installed on its host board. SW1 and SW2 should sit directly beside J6 so the two-button
+  module is installed on its host board. SW1 and SW2 should sit directly beside J5 so the two-button
   UART bootloader action (`BOOT0` held while reset is pressed) can be done directly at the AM.
 * The upside-down mounting is driven by the single-side PCBA rule: the DF40 plug and SMT components are
   assembled on the enclosed connector-facing side, while the manually fitted loom / service headers stay on
   the opposite side for post-PCBA fitting and service access.
 * D1-D3 should stay on the PCBA-fitted side but be pushed to a visible board edge so the indicators can
   still be seen during maintenance without moving them onto the manual-fit side.
-* The `ACTUATION_HOME_N` loom on J4 should use a twisted pair for pins 1-2 (`ACTUATION_HOME_N` + `GND`)
+* The `ACTUATION_HOME_N` loom on J3 should use a twisted pair for pins 1-2 (`ACTUATION_HOME_N` + `GND`)
   because the loom is expected to run near the servo wiring.
-* U1, C1, and R4 should stay close to J4 so the home input is biased and filtered at the module edge.
-  J5, J6, SW1, and SW2 should also stay close to U1 so the SWD, UART, `BOOT0`, and `NRST` service
+* U1, C1, and R4 should stay close to J3 so the home input is biased and filtered at the module edge.
+  J4, J5, SW1, and SW2 should also stay close to U1 so the SWD, UART, `BOOT0`, and `NRST` service
   lines remain short and unambiguous.
 * C2-C3 should sit tight to the STM32 supply pins as local high-frequency decouplers. C4 should sit near
   the local `3V3_ENIG` entry / U1 supply region. C5 should sit near the `5V_MAIN` intake and servo loom
   region so the AM has a local short-burst current reservoir when the servo moves.
 * C6 (100 nF NRST filter cap) shall be placed adjacent to U1's NRST pin. Keep the trace from U1 NRST to
   C6 and from C6 to GND as short as practicable to maximise noise suppression effectiveness.
-* R5 (10 kΩ BOOT0 series protection resistor) shall be placed on the signal path between the SW2 / J6-pin-5
-  shared node and the U1 BOOT0 pin. Place R5 in the J5/J6/SW1/SW2 service-header cluster so the service
+* R5 (10 kΩ BOOT0 series protection resistor) shall be placed on the signal path between the SW2 / J5-pin-5
+  shared node and the U1 BOOT0 pin. Place R5 in the J4/J5/SW1/SW2 service-header cluster so the service
   interconnect remains compact.
 * Unlike the JDB, the AM is not purely a light logic daughterboard: it has both an MCU and a local servo
   power path. The AM therefore keeps the reduced daughterboard-capacitor approach, but adds an explicit
