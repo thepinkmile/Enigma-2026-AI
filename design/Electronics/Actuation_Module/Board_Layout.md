@@ -81,7 +81,8 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
 * **Connector orientation (DF40 polarity-free body):** The DF40 connector body can mate in two orientations
   (180° rotated). MH1-MH4 shall be placed in an asymmetric (non-square) pattern so that only one physical
   orientation of the AM aligns all four standoffs simultaneously. The silkscreen pin-1 triangle marker on
-  both the AM and the host board shall indicate the correct mating direction. Pin 1 is defined as the
+  both the AM and the host board shall indicate the correct mating direction (per
+  `design/Standards/Global_Routing_Spec.md §7.1`). Pin 1 is defined as the
   top-left pin when the AM is viewed from its component side (connector-facing side) with the short
   standoff-pair edge on the left.
 * Enclosed-side fitted parts must remain within the 2.0 mm installed-height rule from `Design_Spec.md`

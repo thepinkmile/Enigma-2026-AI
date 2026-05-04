@@ -89,6 +89,8 @@ Mark clearly on silkscreen: `ERM8/ERF8 / 0.8mm / NICHT 2.54mm`.
 > connect to `GND`.
 
 * **J9:** Single 20-pin Hirose DF40HC(3.5)-20DS-0.4V(51) AM host socket (stacking height = 3.5mm).
+  A silkscreen pin-1 marker is required on both the Extension and AM boards (per
+  `design/Standards/Global_Routing_Spec.md §7.1`).
 * **MH5-MH8:** Four M2.5x3.5mm SMT standoffs (9774035151R); positions mirror `AM Design_Spec.md
   DR-AM-03`; pads connected to `GND`; no-component placement zone (except J9, MH5-MH8, and routing).
 * The mounted AM footprint on the Extension shall be kept as a **no-component placement zone** except

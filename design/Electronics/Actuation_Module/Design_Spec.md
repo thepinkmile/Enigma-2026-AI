@@ -80,7 +80,8 @@ diagnostics.
 > mating orientation is enforced by the asymmetric standoff hole pattern (MH1-MH4; see DR-AM-03 and
 > `Board_Layout.md`). Pin 1 is defined as the top-left pin when the AM is viewed from its component side
 > (connector-facing side) with the short standoff-pair edge on the left. Verify against the silkscreen
-> pin-1 marker on both AM and host board before installation.
+> pin-1 marker on both AM and host board before installation (per
+> `design/Standards/Global_Routing_Spec.md §7.1`).
 
 **Current budget:**  Rated 0.3 A per contact.  
 `5V_MAIN`: 5 pins x 0.3 A = 1.5 A available (≥ 3x SG90 stall current headroom ✔).  

@@ -69,8 +69,10 @@ Recent locked work:
 - **Pass 4 review cycle complete** — 10 fixes (F-88–F-97) + EXT-P4-2 standoffs applied; DF40
   connector swap across AM/CTL/EXT (ERM8/ERF8 retired for AM attachment); DR-EXT-10 retired;
   new datasheets: Hirose DF40, Würth 9774035151R, TE 1-1674231-1, TI CSD17578Q5A; all lint-clean
-- **Character normalisation complete** — approved character matrix in `.copilot/allowed-character-matrix.md`;
-  74 `design/` files normalised; German ALL-CAPS umlaut exception documented; lint-clean; `d226689`
+- **Pass 5 review cycle complete** — 12 fixes (F-98–F-110) across 21 files; PWR_BUT_N/USB_FAULT_N
+  signal renames, mounting hole DRs + Board_Layout sections, bypass cap attribution, global pin-1
+  silkscreen rule (GRS §7.1), Production folder for JLCPCB constraints; DEC-054 logged;
+  F-108 (DR-EXT-10 gap + RefDes cleanup) deferred, blocks Pass 6 launch
 
 ---
 
@@ -82,7 +84,7 @@ Recent locked work:
 | `review-cycle-pass4` | **done** | Pass 4 electronics review fixes complete and committed; 10 fixes (F-88–F-97) + EXT-P4-2 standoffs; DF40 swap; audit trail in review-report.md |
 | `char-normalise-directives` | **done** | Approved character matrix created; 74 design files normalised; German ALL-CAPS umlaut exception documented; committed `d226689` |
 | `bom-description-strip` | **done** | All 11 board spec Component columns stripped; Consolidated_BOM.md rebuilt; all files lint-clean |
-| `review-cycle-pass5` | **pending** | Next step: verify Pass 3 + Rotor RefDes + Pass 4 fixes, then run Pass 5 review on all boards |
+| `review-cycle-pass5` | **in progress** | Pass 5 review complete. Commit 1 (F-98–F-107, F-109, F-110, Production folder) pending user go-ahead. Commit 2 (F-108 RefDes review) blocked until user releases F-108 block. |
 | `extension-mechanical-usage` | pending | Detailed switch/linkage geometry for Extension boundary carry still needed; architectural answer (shared AM) is locked but physical linkage spec is not |
 | `coupon-testing-review` | pending | Add and review board-level coupons and PAS-oriented test coverage so production boards do not retain test-only hardware |
 | `battery-connector-final-review` | **blocked** | Re-confirm Glenair `807-216-00ZNU6-6DY` contact assignment, `BATT_PRES_N` position, cable, and interposer fit; check ODU AMC NP lead — awaiting supplier response |
@@ -94,16 +96,16 @@ Recent locked work:
 
 | Board | Status |
 | ------- | -------- |
-| Power Module | In Review (Pass 4 fixes applied) |
-| Stator | In Review (Pass 4 fixes applied) |
-| Reflector | In Review (Pass 3 fixes applied; no Pass 4 changes) |
-| Extension | In Review (Pass 4 fixes applied; DF40 receptacle swap) |
-| JDB | In Review (Pass 2 fixes applied; no Pass 3/4 changes) |
-| Controller | In Review (Pass 4 fixes applied; DF40 receptacle swap) |
-| Encoder | In Review (Pass 3 fixes applied; no Pass 4 changes) |
-| Rotor | In Review (Pass 3 fixes applied; RefDes renames done) |
-| User Settings Module | In Review (Pass 3 fixes applied; no Pass 4 changes) |
-| Actuation Module | In Review (Pass 4 fixes applied; DF40 plug swap) |
+| Power Module | In Review (Pass 5 fixes applied) |
+| Stator | In Review (Pass 5 fixes applied) |
+| Reflector | In Review (Pass 3 fixes applied; no Pass 4/5 changes) |
+| Extension | In Review (Pass 4 fixes applied; F-108 deferred) |
+| JDB | In Review (Pass 2 fixes applied; no Pass 3–5 changes) |
+| Controller | In Review (Pass 5 fixes applied) |
+| Encoder | In Review (Pass 3 fixes applied; no Pass 4/5 changes) |
+| Rotor | In Review (Pass 5 fixes applied) |
+| User Settings Module | In Review (Pass 5 fixes applied) |
+| Actuation Module | In Review (Pass 4/5 fixes applied) |
 
 ---
 
@@ -116,7 +118,7 @@ Start the next clean session by reading **in this order**:
 3. `.copilot/handoff.md`
 4. `.copilot/todo-list.md` — populate the in-session SQL `todos`/`todo_deps` tables from the
    "SQL Reconstruction Reference" section at the bottom of that file
-5. `.copilot/checkpoints/107-session-state-sync-pre-reboot.md` (latest checkpoint)
+5. `.copilot/checkpoints/027-pass-5-fixes-complete.md` (latest checkpoint)
 6. `.copilot/review-report.md` (for full Pass 1–4 audit trail)
 
 ### Ordered work for next session

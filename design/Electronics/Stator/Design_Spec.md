@@ -55,6 +55,7 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 | DR-STA-14 | J13 connector | J13 = 6-pin JST PH 2.0mm B6B-PH-K-S(LF)(SN); pins: `3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`; connects to User Settings Module J1 via 6-wire harness. `5V_MAIN` is derived from the Controller-fed `J11` branch. | BOM J13 |
 | DR-STA-15 | `CFG_APPLY_N` signal | `CFG_APPLY_N` = active-low Stator-only apply/reset pulse from U8 GPA[4]; combined with `SYS_RESET_N` through U3 (`SN74LVC1G08DBVR`) so either signal can assert the Stator CPLD reset path; forcing `CFG_APPLY_N` LOW reloads `CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]` without resetting the wider system; R20 (10kΩ pull-up to 3V3_ENIG) holds `CFG_APPLY_N` deasserted at power-up when U8 is uninitialised | BOM U8, U3, R20; §3 Configuration Bank 1 (Routing) |
 | DR-STA-16 | ESD protection - rotor-facing BtB connectors | U9 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, SYS_RESET_N) + U10-U12 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §8 Thermal & ESD; BOM U9-U12 |
+| DR-STA-17 | Mounting holes | 4x M3 PTH mounting holes (Ø3.2mm); positions: bottom-left corner, bottom-right corner, 1 central hole (board centre), 1 centre-top hole; exact XY coordinates TBD at PCB layout; holes tied to `GND_CHASSIS` (per GRS §4 Mechanical Grounding and the GND_CHASSIS single-point bond note in §2); ENIG annular ring as specified in GRS §4 | §2 (GND_CHASSIS bond note); BOM MH1-MH4 (no BOM entry required — plain chassis mounting holes, no components to fit); `design/Electronics/Stator/Board_Layout.md §12` |
 
 ## 2. Core Features
 
@@ -336,7 +337,8 @@ full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
 * **Sensor:** TI INA219 Zero-Drift Power Monitor (Address: 0x45) - dedicated rotor-stack usage telemetry.
 * **Placement:** Inserted on L1 (Top Layer) connected to the 3V3_ENIG rail immediately before the rotor stack.
   * Minimum 15mm isolation from Intel MAX II EPM570T100I5N CPLD logic core.
-* **Shunt:** KRL6432T4-M-R010-F-T1 (10mΩ ±1% 2W, 6432/2512 Kelvin 4-terminal) rotor-stack shunt resistor. Stator R1 instance. (PM R12 + PM R23 are the first and second system shunt; total build qty: 3 - see `Power_Budgets.md`.)
+* **Shunt:** KRL6432T4-M-R010-F-T1 (10mΩ ±1% 2W, 6432/2512 Kelvin 4-terminal) rotor-stack shunt resistor. Stator R1 instance.
+  (PM R12 + PM R23 are the first and second system shunt; total build qty: 3 - see `Power_Budgets.md`.)
 * **Interface:** I2C-1 Telemetry Bus (via `J12`, shared with the Power Module and User Settings Module).
 * **Filtering:** 0.1µF VCC decoupling (C14) and RC input filter on IN+/IN-: R42 (10Ω RF1, series on IN+), R43 (10Ω RF2, series on IN-),
   C21 (100nF CF, differential across IN+/IN-); f_3dB ≈ 80kHz (differential). Suppresses electromechanical rotor noise at INA219 ADC sampling harmonics.

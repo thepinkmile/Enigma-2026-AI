@@ -18,7 +18,7 @@ The Power Module is a removable power cartridge that:
 - accepts a **regulated PoE-derived auxiliary feed** from the Controller
 - ORs / filters / protects those inputs
 - generates `5V_MAIN` and `3V3_ENIG`
-- provides supercap-backed hold-up and direct `PWR_BUT` / `PWR_GD` support
+- provides supercap-backed hold-up and direct `PWR_BUT_N` / `PWR_GD` support
 
 The RJ45, Ethernet ESD, magnetics, and PoE PD / ACF front-end live on the Controller.
 
@@ -42,7 +42,7 @@ TOP VIEW
 
 - **J1:** regulated `5V_MAIN` / `3V3_ENIG` / `GND`
 - **J2:** `VIN_POE_12V` + `GND` from the Controller PoE front-end
-- **J3:** `I2C_SDA`, `I2C_SCL`, `PM_IO_INT_N`, `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT`, `LED_PWR_N`, guarded by `GND`
+- **J3:** `I2C_SDA`, `I2C_SCL`, `PM_IO_INT_N`, `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT_N`, `LED_PWR_N`, guarded by `GND`
 
 All three dock connectors use the same TE family:
 
@@ -88,7 +88,7 @@ PCA9534A U16 -> Rgates -> Q6/Q7/Q8 -> R/G/B cathodes
   - inputs: `POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`
   - outputs: `SW_LED_R`, `SW_LED_G`, `SW_LED_B`, `SW_LED_CTRL`
 
-`PWR_GD`, `ROTOR_EN_N`, `PWR_BUT`, and `LED_PWR_N` remain direct signals on J3.
+`PWR_GD`, `ROTOR_EN_N`, `PWR_BUT_N`, and `LED_PWR_N` remain direct signals on J3.
 
 ---
 

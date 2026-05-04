@@ -45,7 +45,7 @@ source is active.
 | FR-CTL-02 | Receive regulated rails from the Power Module and distribute them to the CM5, Stator, and local peripherals | Via PM dock `J1` and Stator docks `J4/J5` | §2 Dock Interfaces; BOM J1-J3, J4/J5 |
 | FR-CTL-03 | Provide the system's enclosure-edge external I/O interfaces | GbE / PoE entry, HDMI, USB 3.0 | §8 Connectivity; BOM J6, J7, J8 |
 | FR-CTL-04 | Provide JTAG programming capability for all 37 CPLDs in the system | Via JTAG Daughterboard and the `J5` Stator logic dock | §3 JTAG Programming Subsystem; BOM J4, J5 |
-| FR-CTL-05 | Monitor system power and PM status via I²C, with only essential direct PM handshakes kept as dedicated pins | Telemetry: LTC3350 @ 0x09, STUSB4500 @ 0x28, PCA9534A @ 0x3F, INA219 x2 (PM U12 @ 0x40; Stator U2 @ 0x45); Direct handshakes: `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT`, `LED_PWR_N` | §4 Telemetry & Logic; §6 CM5 GPIO Mapping Matrix |
+| FR-CTL-05 | Monitor system power and PM status via I²C, with only essential direct PM handshakes kept as dedicated pins | Telemetry: LTC3350 @ 0x09, STUSB4500 @ 0x28, PCA9534A @ 0x3F, INA219 x2 (PM U12 @ 0x40; Stator U2 @ 0x45); Direct handshakes: `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT_N`, `LED_PWR_N` | §4 Telemetry & Logic; §6 CM5 GPIO Mapping Matrix |
 | FR-CTL-06 | Maintain RTC operation across power cycles using a CR2032 backup battery | Non-rechargeable; service by disassembly | §5 RTC Backup Battery; BOM BT1, D1 (BAT54) |
 | FR-CTL-07 | Route power, JTAG, and I²C between the Controller and the Stator board | Via `J4/J5` hybrid docks | §2 Dock Interfaces; BOM J4/J5 |
 | FR-CTL-08 | Provide DSI1 display interface connector for optional lid-mounted touchscreen add-on | DSI1 4-lane FPC connector (J9) on Controller Board; display add-on board to be designed separately | §8 Connectivity; BOM J9 |
@@ -59,7 +59,7 @@ source is active.
 | DR-CTL-02 | CM5 module | Raspberry Pi Compute Module 5 (SO-DIMM form factor). Multiple current CM5 variants are acceptable. Minimum spec: 4 GB RAM and 8 GB eMMC; on-board Wi-Fi may be fitted or omitted. CM5 Lite (no onboard eMMC) is NOT permitted. BOM reference: various CM5 SKUs. | BOM U1 |
 | DR-CTL-03 | Controller-to-Power-Module dock connectors | `J1/J2/J3` = TE `1-1674231-1` 10-position 2.5mm receptacles | BOM J1-J3 |
 | DR-CTL-04 | Controller-to-Stator dock connectors | `J4/J5` = Molex `2195630015` hybrid receptacles (5 power + 15 signal) | BOM J4, J5 |
-| DR-CTL-05 | USB current limit | 1.6 A via TPS2065C; fault output to GPIO 6 (USB_FAULT) | BOM U2 (TPS2065C); §6 GPIO Mapping (GPIO 6) |
+| DR-CTL-05 | USB current limit | 1.6 A via TPS2065C; fault output to GPIO 6 (USB_FAULT_N) | BOM U2 (TPS2065C); §6 GPIO Mapping (GPIO 6) |
 | DR-CTL-06 | RTC battery holder | BT1 = Keystone 3034TR (THT horizontal CR2032 holder; `TR` = tape-reel packaging) | §5 RTC Backup Battery; BOM BT1 (Keystone 3034TR) |
 | DR-CTL-07 | RTC protection | D1 = BAT54 Schottky diode (blocks PMIC VBAT charge path) | §5 RTC Backup Battery; BOM D1 (BAT54) |
 | DR-CTL-08 | RTC bypass capacitor | C6 = 100 nF 0402 on CM5 VBAT (Pin 76, Hirose DF40 200-pin) | §5 RTC Backup Battery; BOM C6 |
@@ -115,7 +115,7 @@ The area directly beneath the mounted CM5 module (55mm x 40mm footprint) shall o
     * **HDMI:** Full-Size Type-A (TE 2007435-1).
 
 **Right-edge support circuitry note:** The USB and HDMI current-limit switches, the edge-I/O ESD
-protection network, and the `USB_FAULT` telemetry path are all local support circuitry for these
+protection network, and the `USB_FAULT_N` telemetry path are all local support circuitry for these
 interfaces, but they are not enclosure-protruding connectors and do not define the external connector
 order.
 
@@ -209,13 +209,13 @@ All GPIOs are referenced to **3V3_ENIG**. BCM2712 silicon limit: 50mA aggregate 
 | **2 / 3** | **I2C_SDA/SCL** | I2C | 3.3V | System I2C-1 shared with the devices listed in §4.1. |
 | **4** | **ROTOR_EN_N** | Output | 3.3V | Active-low: drive LOW to enable Power Module `3V3_ENIG` LDO for sequenced rotor-stack power-up; held HIGH by R10 pull-up on PM until CM5 asserts. Routed on `J3`. |
 | **5** | **PM_IO_INT_N** | Input | 3.3V | Optional interrupt input from the PM-local `PCA9534A @ 0x3F`, used to wake the power-management daemon for PM status changes. |
-| **6** | **USB_FAULT** | Input | 3.3V | Active Low: USB power fault from on-board TPS2065C (local to Controller; no BtB pin required). |
+| **6** | **USB_FAULT_N** | Input | 3.3V | Active Low: USB power fault from on-board TPS2065C (local to Controller; no BtB pin required). |
 | **7** | **PWR_GD** | Input | 3.3V | Direct PM rail-health telemetry only - HIGH while `5V_MAIN` ≥ 4.50V; does NOT trigger shutdown. Routed on `J3`. |
 | **8** | **ACTUATE_REQUEST_N** | Output | 3.3V | Active-low request pulse into the Controller-local Actuation Module host dock (`J11`). |
 
-> **GPIO matrix scope note:** `PWR_BUT` and `LED_PWR_N` are **not** CM5 GPIO signals and are
-> deliberately absent from this table. `PWR_BUT` connects directly to the CM5 PMIC dedicated
-> hardware power-key input pin (internal 10 kΩ pull-up; brief GND press initiates orderly shutdown).
+> **GPIO matrix scope note:** `PWR_BUT_N` and `LED_PWR_N` are **not** CM5 GPIO signals and are
+> deliberately absent from this table. `PWR_BUT_N` connects directly to the CM5 PMIC dedicated
+> hardware power-key input pin (internal 10 kΩ pull-up; brief GND press/LOW pulse initiates orderly shutdown); active-LOW, confirmed by FR-PM-07.
 > `LED_PWR_N` is a dedicated CM5 hardware output (pin 95) that drives the PM SW2 green LED circuit
 > over J3. Neither signal requires GPIO direction, pull, or interrupt configuration.
 
@@ -228,10 +228,11 @@ preserved here for traceability (cross-ref: `design/Standards/Global_Routing_Spe
 | CM5 Pin Name | CM5 Pin No. | Signal Type | Design Net Name | Notes |
 | :--- | :--- | :--- | :--- | :--- |
 | `LED_nPWR` | 95 (Hirose DF40 200-pin) | Dedicated hardware output | `LED_PWR_N` | Active-low power-state indicator; CM5 uses `n` prefix rather than `_N` suffix |
+| `PWR_BUT` | 92 (Hirose DF40 200-pin, bottom) | Dedicated HW power-key input | `PWR_BUT_N` | CM5 datasheet name is `PWR_BUT`; renamed to `PWR_BUT_N` to follow GRS active-low `_N` suffix convention. Active-LOW; brief GND pulse initiates orderly CM5 shutdown; internal 10 kΩ pull-up to 5 V; idle HIGH |
 
 ## 7. Protection & EMI
 
-* **External Links:** The CM5-facing status inputs `PM_IO_INT_N`, `USB_FAULT`, and `PWR_GD` each include
+* **External Links:** The CM5-facing status inputs `PM_IO_INT_N`, `USB_FAULT_N`, and `PWR_GD` each include
   a 10kΩ series resistor to limit transient current into the GPIO bank.
 * **Voltage:** 5V signals are strictly forbidden on: CM5 GPIO pins, I²C SDA/SCL lines, JTAG (TDI/TDO/TCK/TMS), and all low-speed PM / Stator dock signals.
 * **ESD Protection:** [TPD4E05U06](https://www.ti.com) (U4 - USB/HDMI ESD arrays; U5/U6 - GbE ESD arrays, pair AB and CD respectively) on Layer 1.
@@ -258,7 +259,7 @@ The Power Module dock uses three copies of the TE 10-position 2.5 mm connector f
 | :--- | :--- | :--- |
 | `J1` | `3 x 5V_MAIN`, `2 x 3V3_ENIG`, `5 x GND` | Main regulated rails from PM to Controller |
 | `J2` | `3 x VIN_POE_12V`, `7 x GND` | Regulated PoE-derived auxiliary feed from Controller PoE front-end into PM OR-ing stage |
-| `J3` | `I2C_SDA`, `I2C_SCL`, `PM_IO_INT_N`, `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT`, `LED_PWR_N`, `3 x GND` | Low-speed control / telemetry connector |
+| `J3` | `I2C_SDA`, `I2C_SCL`, `PM_IO_INT_N`, `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT_N`, `LED_PWR_N`, `3 x GND` | Low-speed control / telemetry connector |
 
 `5V_MAIN` and `3V3_ENIG` both enter the Controller on `J1`. The Controller then distributes those rails
 to the CM5, local peripherals, and the Stator docks.
@@ -382,7 +383,8 @@ The JTAG Daughterboard mounts as a hat on the Controller via two 2.54mm headers.
   height.
 * **Polarity enforcement:** The DF40 connector body is polarity-free (Note 4 in Hirose datasheet);
   asymmetric placement of MH5-MH8 standoffs (per `AM Design_Spec.md DR-AM-03`) is mandatory to
-  enforce a single valid mating orientation. A silkscreen pin-1 marker is required on both boards.
+  enforce a single valid mating orientation. A silkscreen pin-1 marker is required on both boards
+  (per `design/Standards/Global_Routing_Spec.md §7.1`).
 * **Standoffs:** MH5-MH8 = four 9774035151R (M2.5x3.5mm SMT) provide mechanical support and set the
   3.5mm board-to-board spacing; pads connected to `GND`.
 * **Host-board envelope:** Reserve the AM footprint shadow on the Controller as a no-component zone
@@ -472,7 +474,7 @@ Estimated Controller-local power dissipation at system peak load:
 | J12 | 1x5 2.54mm female socket THT | RS1-05-G | Adam Tech | 2057-RS1-05-G-ND | 737-RS1-05-G | C3321119 | - | - | Yes | Pending | 1 |
 | J13 | 1x10 2.54mm female socket THT | RS1-10-G | Adam Tech | 2057-RS1-10-G-ND | 737-RS1-10-G | C3320525 | - | - | Yes | Pending | 1 |
 | J14-J15 | CM5 SO-DIMM 100-pin 4mm | 10164227-1004A1RLF | Amphenol | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | Yes | Pending | 2 |
-| MH1-MH4 | M2.5x4.0mm SMT standoff | 9774040151R | Wurth Elektronik | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | Yes | Pending | 4 |
+| MH1-MH4 | M2.5x4.0mm SMT standoff | 9774040151R | Wurth Elektronik | 732-7089-1-ND | 710-9774040151R | C5182034 | - | CM5 module mounting standoffs; pads tied to GND (not GND_CHASSIS) | Yes | Pending | 4 |
 | R1-R4 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 4 |
 | T1 | PoE transformer 1500V 12-pin SMT | POE600F-12L | Bourns | 553-POE600F-12LCT-ND | 673-POE600F-12L | Global sourcing / consignment | - | - | Yes | Pending | 1 |
 | U1 | CM5 module SO-DIMM | CM5 | Raspberry Pi Ltd | N/A - source from RPi distributors | various CM5 SKUs | N/A - not stocked at JLCPCB | - | - | N/A | N/A | 1 |

@@ -324,3 +324,72 @@ board. The L2 GND plane and L3 3V3\_ENIG pour must both be voided around this zo
 
 > **Cross-reference:** `design/Mechanical/Rotor/Design_Spec.md §7` for full shaft support
 > rationale, mechanical tolerance, and electrical isolation requirements.
+
+---
+
+## 9. Mounting Holes
+
+Per DR-ROT-08, each rotor assembly uses 4x M2.5 mounting holes (2 per board). The hole positions
+define the 4 corners of the inscribed square of the Ø92mm circular PCB, making it straightforward
+to design a rectangular mechanical enclosure around the rotor stack.
+
+### 9.1 Inscribed Square Reference
+
+For a circular PCB of diameter Ø92mm (radius 45mm):
+
+* Inscribed square side length: 92 / √2 ≈ 65.1mm
+* Corner distance from board centre: ≈ 32.5mm along each axis
+
+| Corner | X (from centre) | Y (from centre) |
+| :--- | :--- | :--- |
+| Top-left | −32.5 mm | +32.5 mm |
+| Top-right | +32.5 mm | +32.5 mm |
+| Bottom-right | +32.5 mm | −32.5 mm |
+| Bottom-left | −32.5 mm | −32.5 mm |
+
+> **Note:** Exact coordinates are subject to final confirmation at PCB Layout. The 8mm shaft hole
+> at the board centre (§8.1) and the keep-out zone (r < 6mm) must be confirmed first. Rotor PCBs
+> rotate within the mechanical enclosure so the inscribed-square hole positions ensure all 4 corners
+> of any surrounding rectangular structure have a mounting point.
+
+### 9.2 Board A — Mounting Holes
+
+Board A carries 2 of the 4 inscribed-square corner holes:
+
+| Hole | Position (from centre) | Specification |
+| :--- | :--- | :--- |
+| MH1A | Top-left (−32.5, +32.5) approx. | Ø2.7mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+| MH2A | Bottom-right (+32.5, −32.5) approx. | Ø2.7mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+
+### 9.3 Board B — Mounting Holes
+
+Board B carries the remaining 2 inscribed-square corner holes:
+
+| Hole | Position (from centre) | Specification |
+| :--- | :--- | :--- |
+| MH1B | Top-right (+32.5, +32.5) approx. | Ø2.7mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+| MH2B | Bottom-left (−32.5, −32.5) approx. | Ø2.7mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+
+### 9.4 GND_CHASSIS Bond
+
+Per GRS §4 (Mechanical Grounding) and F-103: all 4 mounting hole copper ring pads (MH1A, MH2A,
+MH1B, MH2B) are tied to the `GND_CHASSIS` net. This provides Faraday-cage continuity from the
+rotor assembly to the chassis through the metal support rod and enclosure structure.
+
+> **Note:** The 8mm support rod (DR-ROT-08) passes through the shaft hole at the board centre
+> (§8.1), not through these corner mounting holes. The corner holes are for static mechanical
+> attachment to the enclosure frame; the central rod provides dynamic alignment and connector
+> stress relief for the rotating stack.
+
+### 9.5 BOM
+
+No BOM entry required for these mounting holes — they are plain PCB holes with ENIG annular
+rings, fitted with M2.5 fasteners and standoffs sourced at assembly time.
+
+### 9.6 Cross-References
+
+| Document | Relevance |
+| :--- | :--- |
+| `design/Standards/Global_Routing_Spec.md §4` | Mechanical grounding, GND_CHASSIS bonding, ENIG annular ring spec |
+| `design/Electronics/Rotor/Design_Spec.md DR-ROT-08` | Design requirement — 4x mounting holes, inscribed square positions |
+| `design/Electronics/Rotor/Board_Layout.md §8.1` | Central shaft hole spec (separate from mounting holes) |

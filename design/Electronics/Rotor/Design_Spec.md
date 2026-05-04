@@ -86,7 +86,7 @@ not be used as a local chassis-bond point.
 | DR-ROT-05 | Output connectors (Board B) | J4 = ERF8-005 (JTAG out), J5 = ERF8-005 (Power out), J6 = ERF8-010 (ENC out) | §3.4 Connector Pinouts; BOM J4-J6 |
 | DR-ROT-06 | Power consumption | ≈54.2 mA typical per rotor from 3V3_ENIG (design budget: 55 mA) | §3.1 Power Management |
 | DR-ROT-07 | Stack quantity | 30 rotor boards in the complete system | §1 Overview |
-| DR-ROT-08 | Mechanical retention | 2x M2.5 alignment holes; 8mm solid metal support rod (non-threaded) through all 30 rotors for alignment and connector stress relief; stack is horizontal | §2.3 Mechanical Details |
+| DR-ROT-08 | Mechanical retention | 4x M2.5 NPTH/PTH mounting holes per rotor assembly (2x on Board A + 2x on Board B), positioned at the 4 corners of the inscribed square in the Ø92mm circular footprint (approx. ±32.5 mm from board centre); holes tied to `GND_CHASSIS`; 8mm solid metal support rod (non-threaded) through all 30 rotors for alignment and connector stress relief; stack is horizontal | §2.3 Mechanical Details; `design/Electronics/Rotor/Board_Layout.md §9` |
 | DR-ROT-09 | Ring setting DIP switches (SW1) | 6-position DIP switch on input side only; SW1[5:0] summed mod N with CPLD STGC-decoded position to yield effective rotor position | §2.3 Mechanical Details; BOM SW1 |
 | DR-ROT-10 | Map selection DIP switches (SW2 / SW3) | 6-position DIP on each face: bits [4:0] = map index (0-20 valid), bit [5] = direction (0=forward, 1=reverse); identical mechanism on both variants | §2.2 Logic & Transposition; BOM SW2, SW3 |
 | DR-ROT-11 | Internal connectors (J7-J14) | Eight single-row 2.54mm THT headers on inner face of both boards (four per board; J7: 1x5 female RS1-05-G on Board A; J8: 1x5 female RS1-05-G on Board A; J9: 1x5 female RS1-05-G on Board B; J10: 1x7 female RS1-07-G on Board B; J11: 1x5 male PH1-05-UA on Board A; J12: 1x5 male PH1-05-UA on Board B; J13: 1x5 male PH1-05-UA on Board B; J14: 1x7 male PH1-07-UA on Board A; 44 total pins); mixed gender between boards provides physical keying; manually assembled post-JLCPCB SMT | §3.4 Connector Pinouts; BOM J7-J14 |
@@ -521,9 +521,9 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C1-C8,C14 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 9 |
-| C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | Pending | 5 |
-| C15 | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | - | Yes | Pending | 1 |
+| C1-C8,C14 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | C1–C8: U1 CPLD VCC/VCCIO bypass caps; C14: U2 FDC2114 (0x2A) VDD bypass cap; see GRS §3.2 | Yes | Pending | 9 |
+| C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | U1 CPLD VCC/VCCIO bulk decoupling caps; see GRS §3.2 | Yes | Pending | 5 |
+| C15 | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | U2 FDC2114 (0x2A) VDD bulk decoupling cap; see GRS §3.2 | Yes | Pending | 1 |
 | C18-C21 | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
 | J1-J2 | 10-pin 2x5 0.8mm male SMT | ERM8-005-05.0-S-DV-K-TR | Samtec | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | Yes | Pending | 2 |
 | J3 | 20-pin 2x10 0.8mm male SMT | ERM8-010-05.0-S-DV-K-TR | Samtec | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | - | - | Yes | Pending | 1 |

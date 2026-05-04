@@ -24,7 +24,7 @@ Controller Board via dock connector `J1`.
 * **Controller Dock:** The Power Module docks into the Controller through three TE 10-position
   connectors: `J1` (regulated rails), `J2` (regulated PoE-derived auxiliary feed), and `J3`
   (low-speed control / telemetry).
-  * **Provided to Controller:** `5V_MAIN`, `3V3_ENIG`, PM telemetry, `PWR_GD`, and `PWR_BUT`.
+  * **Provided to Controller:** `5V_MAIN`, `3V3_ENIG`, PM telemetry, `PWR_GD`, and `PWR_BUT_N`.
   * **Received from Controller:** `VIN_POE_12V`, `I2C-1`, `PM_IO_INT_N` return path, `ROTOR_EN_N`, and `LED_PWR_N`.
   * **Cross-ref:** See `Controller/Design_Spec.md` and `Controller/Board_Layout.md` for the active dock allocation.
   * **Reference datasheets:** [`TE-1123684-7-datasheet.md`](../../Datasheets/TE-1123684-7-datasheet.md),
@@ -39,8 +39,8 @@ Controller Board via dock connector `J1`.
 | FR-PM-01 | Accept a regulated PoE-derived auxiliary feed from the Controller plus local USB-C and battery inputs, then generate regulated 5V and 3.3V system rails | PM is the system power-conditioning / UPS cartridge | §2 Power & UPS Hub; BOM J2, J4, J5, U2A/U2B, U7 |
 | FR-PM-02 | Maintain system power for ≥33.5 s after mains/PoE loss | Provides controlled-shutdown window for the CM5 OS | §2 Power & UPS Hub; BOM U3 (LTC3350), C_SC1-8 (supercaps) |
 | FR-PM-03 | Assert PWR_GD (active-HIGH) to CM5 while 5V_MAIN ≥ 4.5V; deassert LOW when 5V_MAIN drops below threshold | Rail-health telemetry exported on `PWR_GD`; does not initiate shutdown directly | §5 Protection & Logic; BOM U8 (MCP121T-450E) |
-| FR-PM-07 | Automatically pulse CM5 PWR_BUT LOW for 3 seconds when LTC3350 enters backup mode (primary power lost), initiating a hardware-guaranteed graceful OS shutdown without firmware polling | Ensures graceful shutdown within the 33.5 s hold-up window regardless of OS state | §3 Power Sequencing; §5 Protection & Logic; BOM U15 (MIC1555 monostable), Q5, R28, R29, C38, C42 |
-| FR-PM-08 | Provide manual CM5 power button (SW2) wired to PWR_BUT, enabling graceful power-on after OS shutdown while system power remains available | Allows CM5 restart without a full power cycle; replaces incorrect GLOBAL_EN hard-reset approach | §3 Power Sequencing; BOM SW2, R29 |
+| FR-PM-07 | Automatically pulse CM5 PWR_BUT_N LOW for 3 seconds when LTC3350 enters backup mode (primary power lost), initiating a hardware-guaranteed graceful OS shutdown without firmware polling | Ensures graceful shutdown within the 33.5 s hold-up window regardless of OS state | §3 Power Sequencing; §5 Protection & Logic; BOM U15 (MIC1555 monostable), Q5, R28, R29, C38, C42 |
+| FR-PM-08 | Provide manual CM5 power button (SW2) wired to PWR_BUT_N, enabling graceful power-on after OS shutdown while system power remains available | Allows CM5 restart without a full power cycle; replaces incorrect GLOBAL_EN hard-reset approach | §3 Power Sequencing; BOM SW2, R29 |
 | FR-PM-04 | Distribute `5V_MAIN` and `3V3_ENIG` to the Controller Board and expose the retained direct PM handshakes | Via `J1` (rails) and `J3` (low-speed control / telemetry) | §2 Power & UPS Hub; BOM J1-J3 |
 | FR-PM-05 | Monitor 5V_MAIN output voltage and current and report via I2C | Runtime health telemetry for the primary CM5 supply rail; downstream rails are monitored elsewhere in the system where specified | §3 Telemetry & Power Management; BOM R7, R8 (I2C pull-ups), U12 (INA219 at 0x40), R23 (10mΩ shunt) |
 | FR-PM-09 | Virtualise non-critical PM status lines and runtime SW1 RGB control through a PM-local I²C expander | Inputs: `POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`; Outputs: `SW_LED_R`, `SW_LED_G`, `SW_LED_B`, `SW_LED_CTRL` | §3 Telemetry & Power Management; BOM U16 (`PCA9534APWR`) |
@@ -285,9 +285,9 @@ GND ------+---------------------------------------------------+---------------+-
       the MCP121T PWR_GD threshold (4.50V). LTC3350 backup activates **before** MCP121T can deassert `PWR_GD`,
       eliminating a PWR_GD glitch that would occur while the rail traverses the gap between the two thresholds. LTC3350
       immediately restores 5V_MAIN to 5V on activation; MCP121T never deasserts during the hold-up window. Graceful shutdown
-      is triggered via the `/INTB` → MIC1555 U15 → `PWR_BUT` one-shot path (FR-PM-07), not by PWR_GD deassertion.
+      is triggered via the `/INTB` → MIC1555 U15 → `PWR_BUT_N` one-shot path (FR-PM-07), not by PWR_GD deassertion.
     * ⚠️ **Design note:** The 4.812V threshold is intentionally set *above* the 4.50V `PWR_GD` threshold because shutdown is
-      hardware-triggered via `PWR_BUT`; this keeps `PWR_GD` stable throughout the hold-up interval.
+      hardware-triggered via `PWR_BUT_N`; this keeps `PWR_GD` stable throughout the hold-up interval.
     * Hold-up duration from fully-charged bank: ≥33.5 seconds at 15W CM5 graceful-shutdown load.
 * **Controller-fed PoE Auxiliary Path:**
   * The IEEE 802.3bt PD / ACF front-end resides on the Controller.
@@ -309,13 +309,13 @@ GND ------+---------------------------------------------------+---------------+-
 * **Hardware Status Oscillator:** MIC1555 (U11, SOT-23-5) - CMOS timer providing the 1Hz hardware "Initialising" heartbeat pulse for the orange status LED, operating entirely independently of CM5
   firmware. Active from power-on until the Controller takes over the runtime status LED signals. Also serves as a visible supercap state-of-charge indicator during hold-up mode. Timing network: R16
 (R_A=10kΩ), R17 (R_B=715kΩ), C23 (C_OSC=1µF) → f=1Hz, ~50% duty cycle.
-* **PWR_BUT One-Shot (U15):** Second MIC1555 (SOT-23-5) configured as a monostable (one-shot) timer.
+* **PWR_BUT_N One-Shot (U15):** Second MIC1555 (SOT-23-5) configured as a monostable (one-shot) timer.
   Triggered by a falling edge on LTC3350 `/INTB` (R29 10kΩ pull-up to 3V3_ENIG keeps the line HIGH
   when idle). On trigger, U15 output goes HIGH for t = 1.1 x R28 x C42 = 1.1 x 274kΩ x 10µF ≈ **3.01 seconds**,
-  driving Q5 (BSS138 N-FET) which pulls the `PWR_BUT` line LOW. The CM5 internal 10kΩ
-  pull-up holds `PWR_BUT` HIGH at all other times. The 3-second pulse is centred in the 1-5 second PMIC
+  driving Q5 (BSS138 N-FET) which pulls the `PWR_BUT_N` line LOW. The CM5 internal 10kΩ
+  pull-up holds `PWR_BUT_N` HIGH at all other times. The 3-second pulse is centred in the 1-5 second PMIC
   power-key window - long enough to guarantee a graceful shutdown event, short enough to never trigger
-  the PMIC hard power-off (>5-8 seconds). `PWR_BUT` is routed to the Controller Board via dock
+  the PMIC hard power-off (>5-8 seconds). `PWR_BUT_N` is routed to the Controller Board via dock
   connector `J3` and connects to the CM5 PMIC power-button input.
 
 ### 6. Signal Integrity & Safety
@@ -360,13 +360,13 @@ To prevent the CM5 from attempting to boot during the 12V-15V "Enigma Rail" ramp
 * **Supervisor IC:** [MCP121T-450E](https://www.microchip.com) (4.50V Threshold).
 * **Trigger:** The supervisor monitors the **5V_MAIN** rail. It holds the `PWR_GD` pin LOW until the rail is stable.
 * **Manual Power Button (SW2):** Panel-mount momentary rugged metal pushbutton with RGB ring LED
-  (Adafruit 3350) wired directly from `PWR_BUT` to GND.
+  (Adafruit 3350) wired directly from `PWR_BUT_N` to GND.
   * **Action:** A brief press (released within ~2 seconds) sends a power-button event to the CM5 PMIC.
     When the CM5 OS is halted but power is present, this wakes the CM5. When the OS is running, it
     triggers a graceful shutdown via Linux `systemd-logind` (equivalent to `sudo shutdown -h now`).
   * **Mechanical / wiring:** Same 16mm panel family and 2.8mm terminal scheme as SW1. Use matching
     PCB-mounted 0.110in male Quick-Fit tabs so SW2 is also a field-serviceable harnessed subassembly.
-  * **Pull-up:** CM5 module integrates a 10kΩ pull-up on `PWR_BUT` - no external pull-up required.
+  * **Pull-up:** CM5 module integrates a 10kΩ pull-up on `PWR_BUT_N` - no external pull-up required.
   * **Note:** SW2 does not drive `PWR_GD`. The MCP121T-450E supervisor drives `PWR_GD`
     exclusively; no manual override of that net is provided.
 * **RGB LED circuits:**
@@ -391,7 +391,7 @@ To prevent the CM5 from attempting to boot during the 12V-15V "Enigma Rail" ramp
     * `LED_PWR_N` (CM5 pin 95, routed from the Controller on `J3`) is buffered / inverted on the PM to
       generate a local active-HIGH `CM5_PWR_ON` signal for the SW2 green channel.
     * Green ON = CM5 powered.
-    * A LOW pulse on `PWR_BUT` while `CM5_PWR_ON` is active sets a local shutdown latch.
+    * A LOW pulse on `PWR_BUT_N` while `CM5_PWR_ON` is active sets a local shutdown latch.
     * The shutdown latch gates the existing U11 1Hz oscillator into the SW2 red channel while green
       remains ON, producing a 1Hz green/orange indication during graceful shutdown.
     * When `LED_PWR_N` deasserts, the shutdown latch clears and the SW2 LED turns OFF.
@@ -414,10 +414,10 @@ The following sequence ensures the CM5 filesystem is clean and all loads are de-
 
 1. **Trigger:** One of two events initiates shutdown:
    * **Automatic (primary power loss):** LTC3350 enters backup mode → `/INTB` (open-drain) asserts LOW →
-     MIC1555 U15 (monostable) fires → `PWR_BUT` held LOW for 3 seconds → CM5 PMIC sends power-key event
+     MIC1555 U15 (monostable) fires → `PWR_BUT_N` held LOW for 3 seconds → CM5 PMIC sends power-key event
      to Linux → `systemd-logind` initiates graceful shutdown. This is entirely hardware-driven; no
      firmware polling required.
-   * **Manual:** User presses SW2 (tactile `PWR_BUT` button), issues OS shutdown command, or triggers
+   * **Manual:** User presses SW2 (tactile `PWR_BUT_N` button), issues OS shutdown command, or triggers
      via the Safe Shutdown Button interrupt path.
 2. **OS Shutdown:** CM5 OS saves state, syncs filesystems, and executes `halt`.
 3. **ROTOR_EN_N de-asserted (HIGH):** `ROTOR_EN_N` is de-asserted (driven HIGH or released to R10 pull-up) before halt completes,
@@ -429,7 +429,7 @@ The following sequence ensures the CM5 filesystem is clean and all loads are de-
 8. **Power source removed:** User removes PoE cable, USB-C adapter, or battery. eFuse input drops to 0V.
 9. **System fully off:** All rails at 0V; no residual charge path.
 
-> **Note:** `PWR_BUT` (SW2 and the MIC1555 one-shot) initiates a graceful OS shutdown via the CM5 PMIC
+> **Note:** `PWR_BUT_N` (SW2 and the MIC1555 one-shot) initiates a graceful OS shutdown via the CM5 PMIC
 > power-key event. The MCP121T-450E `PWR_GD` pin is supervisor-only - no manual override is connected
 > to it. `PWR_GD` remains a rail-health telemetry signal and is not the shutdown trigger.
 >
@@ -495,7 +495,7 @@ Estimated PM-local power dissipation at system peak load:
 | L1, L2 | 10A 2mH nanocrystalline CMC THT | 7448031002 | Wurth Elektronik | 732-5584-ND | 710-7448031002 | C1519839 | - | Wurth WE-CMBNC 7448031002 - 10A, 2mH, nanocrystalline, 6.3mΩ DCR, 24x17x25mm THT ; same as L1 (**CM5022 discontinued**, Laird absorbed by TE Connectivity 2019; no ≥10A HF ferrite equivalent found). Twin nanocrystalline CMC approach provides adequate broadband coverage 1kHz-30MHz. ⚠️ Re-evaluate at EMC pre-compliance test. | Yes | Pending | 2 |
 | L3 | 10µH 15.5A Isat shielded SMT 13.5x12.5x6.2mm | SRP1265A-100M | Bourns | SRP1265A-100MCT-ND | 652-SRP1265A-100M | C840531 | - | 10µH, 15.5A Isat, 10A Irms, DCR=16.5mΩ max, shielded molded | Yes | Pending | 1 |
 | Q1, Q2, Q3 | N-ch MOSFET 30V 10A SON-8 3.3x3.3mm | CSD17578Q5A | Texas Instruments | 296-48512-1-ND | 595-CSD17578Q5A | C2871447 | - | 30V V_DSS, 25A I_D continuous, R_ds(on)=5.9mΩ @ V_gs=10V. Driven by LM74700-Q1 (U6a/U6b/U6c - one IC per MOSFET) charge-pump gate drive (+7V above source). Provides lossless ideal-diode OR-ing between three input sources. | Yes | ✔ | 3 |
-| Q4-Q10 | N-ch MOSFET 50V 200mA SOT-23 | BSS138 | onsemi | BSS138CT-ND | 512-BSS138 | C52895 | - | Gate driven by U15 monostable output; drain to PWR_BUT line; source to GND. Pulls PWR_BUT LOW for 3 seconds on backup-mode trigger. ; Reused User Settings Module sink-stage pattern; gates driven from U16 through `R31-R33`, held OFF by `R34-R36` ; Same low-side sink pattern as SW1 runtime LED stages; Q9 sinks SW2 green from buffered `LED_PWR_N`, Q10 sinks SW2 red from the shutdown blink gate | Yes | Pending | 7 |
+| Q4-Q10 | N-ch MOSFET 50V 200mA SOT-23 | BSS138 | onsemi | BSS138CT-ND | 512-BSS138 | C52895 | - | Gate driven by U15 monostable output; drain to PWR_BUT_N line; source to GND. Pulls PWR_BUT_N LOW for 3 seconds on backup-mode trigger. ; Reused User Settings Module sink-stage pattern; gates driven from U16 through `R31-R33`, held OFF by `R34-R36` ; Same low-side sink pattern as SW1 runtime LED stages; Q9 sinks SW2 green from buffered `LED_PWR_N`, Q10 sinks SW2 red from the shutdown blink gate | Yes | Pending | 7 |
 | R1 | 232kΩ 1% 0603 | ERJ-3EKF2323V | Panasonic | P232KHCT-ND | 667-ERJ-3EKF2323V | C403086 | - | - | Yes | Pending | 1 |
 | R2 | 28.7kΩ 1% 0603 | ERJ-3EKF2872V | Panasonic | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | - | Yes | Pending | 1 |
 | R3 | 210Ω 0.1% 0603 | ERA-3VEB2100V | Panasonic | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | - | Yes | Pending | 1 |
@@ -516,7 +516,7 @@ Estimated PM-local power dissipation at system peak load:
 | R45-R48 | 100kΩ 1% 0402 | ERJ-2RKF1003X | Panasonic | P100KLCT-ND | 667-ERJ-2RKF1003X | Global sourcing / consignment | Global sourcing | - | Yes | Pending | 4 |
 | R49-R53 | 10Ω 1% Thin-Film 0402 | ERJ-2RKF10R0X | Panasonic | P10.0LCT-ND | 667-ERJ-2RKF10R0X | C413044 | - | - | Yes | Pending | 5 |
 | SW1 | 16mm panel latching RGB metal switch | 4660 | Adafruit | 1528-4660-ND | 485-4660 | Global sourcing / consignment | Global sourcing | Panel-mount latching rugged metal power switch with RGB ring LED; 16mm panel cutout; 2.8mm pin terminals; RGB ring uses common anode + separate R/G/B cathodes with internal resistors for low-voltage drive. Switch contact only controls TPS25980 EN (logic-level, low-current). Use matching 2.8mm PCB male spade tabs for all switch/LED harness terminations. LED anode supply: `5V_MAIN`. | Yes | Pending | 1 |
-| SW2 | 16mm panel momentary RGB metal switch | 3350 | Adafruit | 1528-2546-ND | 485-3350 | Global sourcing / consignment | Global sourcing | Panel-mount momentary rugged metal pushbutton with RGB ring LED; 16mm panel cutout; 2.8mm pin terminals. Switch contact connects `PWR_BUT` to GND on brief press. Red / green LED channels are driven locally on the PM: green = CM5 powered from buffered `LED_PWR_N`; red = 1Hz blink during shutdown latch while green remains ON. Blue channel not used. | Yes | Pending | 1 |
+| SW2 | 16mm panel momentary RGB metal switch | 3350 | Adafruit | 1528-2546-ND | 485-3350 | Global sourcing / consignment | Global sourcing | Panel-mount momentary rugged metal pushbutton with RGB ring LED; 16mm panel cutout; 2.8mm pin terminals. Switch contact connects `PWR_BUT_N` to GND on brief press. Red / green LED channels are driven locally on the PM: green = CM5 powered from buffered `LED_PWR_N`; red = 1Hz blink during shutdown latch while green remains ON. Blue channel not used. | Yes | Pending | 1 |
 | U1 | eFuse 16.9V fixed OVLO VQFN-24 4x4mm | TPS259804ONRGER | Texas Instruments | 296-TPS259804ONRGERCT-ND | 595-TPS259804ONRGER | C2878936 | - | variant-locked do not change | Yes | Pending | 1 |
 | U2A, U2B | 5V buck x2 180° interleaved VQFN-HR 14-pin 4x3.5mm | LMQ61460AFSQRJRRQ1 | Texas Instruments | 296-LMQ61460AFSQRJRRQ1CT-ND | 595-Q61460AFSQRJRRQ1 | C1518767 | - | - | Yes | Pending | 2 |
 | U3 | Supercap manager QFN-38 5x7mm | LTC3350EUHF#PBF | Analog Devices | 505-LTC3350EUHF#PBF-ND | 584-LTC3350EUHF#PBF | C580711 | - | - | Yes | Pending | 1 |
@@ -525,11 +525,11 @@ Estimated PM-local power dissipation at system peak load:
 | U6a, U6b, U6c | OR-ing controller SOT-23-6 | LM74700QDBVRQ1 | Texas Instruments | 296-LM74700QDBVRQ1CT-ND | 595-LM74700QDBVRQ1; alt T&R: 595-LM74700QDBVTQ1 | C2941042 | - | - | Yes | Pending | 3 |
 | U7 | 3.3V LDO fixed TO-263 5-pin | TPS75733KTTRG3 | Texas Instruments | 296-50559-1-ND | 595-TPS75733KTTRG3 | C3749924 | - | fixed 3.3V, active-LOW EN | Yes | ✔ | 1 |
 | U8 | 4.5V voltage supervisor SC70-3 | MCP121T-450E/LB | Microchip Technology | MCP121T-450E/LBCT-ND | 579-MCP121T-450E/LB | C625189 | - | 4.5V trip | Yes | ✔ | 1 |
-| U11, U15 | CMOS timer SOT-23-5 | MIC1555YM5-TR | Microchip Technology | 576-2576-1-ND | 998-MIC1555YM5TR | C145373 | - | CMOS timer IC, 2-10V supply. Generates 1Hz hardware "Initialising" heartbeat pulse for the orange status LED. Operates independently of CM5 firmware (pure hardware indicator). Also reflects supercap state of charge during hold-up. Timing set by R16 (R_A=10kΩ), R17 (R_B=715kΩ), C23 (C_OSC=1µF) → f=1Hz, ~50% duty cycle. ; CMOS timer in monostable configuration. Triggered by falling edge on LTC3350 `/INTB` (open-drain, pulled HIGH by R29). On trigger, output drives Q5 gate HIGH for t ≈ 3.01 s, pulling `PWR_BUT` LOW → CM5 PMIC power-key event → graceful OS shutdown. Timing: R28 (274kΩ) + C42 (10µF) → t = 1.1 x 274kΩ x 10µF = 3.01 s. VCC bypass: C38 (100nF). | Yes | Pending | 2 |
+| U11, U15 | CMOS timer SOT-23-5 | MIC1555YM5-TR | Microchip Technology | 576-2576-1-ND | 998-MIC1555YM5TR | C145373 | - | CMOS timer IC, 2-10V supply. Generates 1Hz hardware "Initialising" heartbeat pulse for the orange status LED. Operates independently of CM5 firmware (pure hardware indicator). Also reflects supercap state of charge during hold-up. Timing set by R16 (R_A=10kΩ), R17 (R_B=715kΩ), C23 (C_OSC=1µF) → f=1Hz, ~50% duty cycle. ; CMOS timer in monostable configuration. Triggered by falling edge on LTC3350 `/INTB` (open-drain, pulled HIGH by R29). On trigger, output drives Q5 gate HIGH for t ≈ 3.01 s, pulling `PWR_BUT_N` LOW → CM5 PMIC power-key event → graceful OS shutdown. Timing: R28 (274kΩ) + C42 (10µF) → t = 1.1 x 274kΩ x 10µF = 3.01 s. VCC bypass: C38 (100nF). | Yes | Pending | 2 |
 | U12 | Current monitor I²C 0x40 SOIC-8 | INA219AIDR | Texas Instruments | 296-23978-1-ND | 595-INA219AIDR | C138706 | - | Zero-Drift Current/Power Monitor (I²C 0x40) | Yes | Pending | 1 |
-| U13, U14, U17 | Dual Schmitt-trigger inverter SC-88 | NL27WZ14DFT2G-Q | onsemi | 488-NL27WZ14DFT2G-QCT-ND | 863-NL27WZ14DFT2G-Q | C24511261 | - | AEC-Q100 dual Schmitt-trigger inverter, one gate used per SYNC stage ; Automotive dual Schmitt-trigger inverter, 1.65-5.5V supply, push-pull outputs, 5.5V-tolerant inputs. One gate conditions / inverts `LED_PWR_N`; the second conditions / inverts `PWR_BUT` for the SW2 hardware indicator logic. VCC bypass: C44 (100nF). | Yes | Pending | 3 |
+| U13, U14, U17 | Dual Schmitt-trigger inverter SC-88 | NL27WZ14DFT2G-Q | onsemi | 488-NL27WZ14DFT2G-QCT-ND | 863-NL27WZ14DFT2G-Q | C24511261 | - | AEC-Q100 dual Schmitt-trigger inverter, one gate used per SYNC stage ; Automotive dual Schmitt-trigger inverter, 1.65-5.5V supply, push-pull outputs, 5.5V-tolerant inputs. One gate conditions / inverts `LED_PWR_N`; the second conditions / inverts `PWR_BUT_N` for the SW2 hardware indicator logic. VCC bypass: C44 (100nF). | Yes | Pending | 3 |
 | U16 | 8-bit I²C GPIO expander 0x3F TSSOP-16 | PCA9534APWR | NXP Semiconductors | 296-21760-1-ND | 595-PCA9534APWR | C2871127 | - | 8-bit I²C GPIO expander @ 0x3F. Inputs: `POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`. Outputs: `SW_LED_R`, `SW_LED_G`, `SW_LED_B`, `SW_LED_CTRL`. `INT` exported as `PM_IO_INT_N`. | Yes | Pending | 1 |
-| U18 | D-type flip-flop shutdown latch SOT-23-6 | SN74LVC1G175DBVR | Texas Instruments | 296-17617-1-ND | 595-SN74LVC1G175DBVR | C128412 | - | Single D-type flip-flop with asynchronous clear, 1.65-5.5V supply, push-pull Q output, 5.5V-tolerant inputs. Latches shutdown active on `PWR_BUT` assertion and clears when `LED_PWR_N` deasserts. VCC bypass: C45 (100nF). | Yes | Pending | 1 |
+| U18 | D-type flip-flop shutdown latch SOT-23-6 | SN74LVC1G175DBVR | Texas Instruments | 296-17617-1-ND | 595-SN74LVC1G175DBVR | C128412 | - | Single D-type flip-flop with asynchronous clear, 1.65-5.5V supply, push-pull Q output, 5.5V-tolerant inputs. Latches shutdown active on `PWR_BUT_N` assertion and clears when `LED_PWR_N` deasserts. VCC bypass: C45 (100nF). | Yes | Pending | 1 |
 | U19 | Single AND gate SOT-23-5 | SN74LVC1G08DBVR | Texas Instruments | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | Single 2-input positive AND gate, 1.65-5.5V supply, push-pull output, 5.5V-tolerant inputs. Gates the U11 1Hz oscillator into the SW2 red sink while the shutdown latch is set. VCC bypass: C46 (100nF). | Yes | Pending | 1 |
 
 > **BOM Notes:**
@@ -601,7 +601,7 @@ Estimated PM-local power dissipation at system peak load:
 > * **R14/R15 BACKUP divider** - **REVISED (DEC-030 supersedes PM-06):** R14 changed from 28.7kΩ to **30.1kΩ** (E96 0.1% thin-film).
 >   Sets LTC3350 BACKUP comparator trigger at **4.812V** (V_thr=1.2V, R_TOP=30.1kΩ, R_BOT=10.0kΩ → actual 4.812V).
 >   This fires **before** MCP121T deasserts at 4.50V - LTC3350 activates first, immediately restoring 5V_MAIN and keeping
->   PWR_GD stable throughout the hold-up window. Graceful shutdown is triggered via the `/INTB` → MIC1555 U15 → `PWR_BUT`
+>   PWR_GD stable throughout the hold-up window. Graceful shutdown is triggered via the `/INTB` → MIC1555 U15 → `PWR_BUT_N`
 >   one-shot (FR-PM-07), so PWR_GD deassertion is not used as a shutdown trigger.
 >   Use 0.1% tolerance on both R14 and R15 for threshold accuracy.
 > * **22µF bulk/bypass caps (`C1-C15`)** - C1-C15 use Samsung

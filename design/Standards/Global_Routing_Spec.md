@@ -68,6 +68,9 @@ Internal signal traces: use 2.5x the external minimum width for equivalent therm
   features where the board layout requires them. Any future coupon-based diagnostics should use the
   dedicated coupon area rather than permanent production-board probe banks.
 
+> For full JLCPCB fabrication capabilities, assembly constraints, and stackup specifications,
+> see `design/Production/JLCPCB_Manufacturing.md`.
+
 ## 3. Power Decoupling
 
 These rules apply to all boards in the Enigma-NG system unless a board's design spec explicitly documents an exemption.
@@ -208,6 +211,25 @@ To maintain a unified "Museum-Grade" look, every board must feature the V1.0 Dat
 * **Font:** All text must use the "KiCad Font" with a typewriter-style appearance.
 * **Language:** Bilingual German/English (e.g., `SICHERHEITS-PROBE [Safety Probe]`).
 * **Warning Labels:** High-voltage or high-energy zones must be demarcated with a 0.2mm border box.
+
+### 7.1 Connector Pin-1 Identification
+
+Every connector or header (J-prefix RefDes) on all Enigma-NG boards shall have a silkscreen
+pin-1 marker placed adjacent to pin 1 on the F.SilkS (or B.SilkS for bottom-side parts) layer.
+
+* **Shape:** Solid filled triangle or arrow pointing toward pin 1 (KiCAD standard pin-1
+  indicator; minimum 1.0 mm tip-to-base height).
+* **Clearance:** The marker must not overlap pad copper, solder mask openings, or courtyard
+  boundaries.
+* **Polarised connectors:** Where the connector body provides physical polarisation (shroud key,
+  asymmetric housing), the silkscreen marker is still required as a visual confirmation aid.
+* **Polarity-free connectors:** For connectors where orientation is enforced mechanically (e.g.,
+  Hirose DF40 family using asymmetric standoff patterns), the pin-1 marker is especially critical
+  and shall appear on **both** the connector footprint and on any mating host-board footprint.
+* **Scope:** Applies to all J-prefix connectors and headers on every board, including
+  daughterboards and service headers (SWD, UART, JTAG, fan).
+* **Verification:** Silkscreen pin-1 markers for all J-prefix RefDes shall be confirmed present
+  at the `review-mounting-holes` design checkpoint before first manufacture.
 
 ## 9. ESD and TVS Protection
 

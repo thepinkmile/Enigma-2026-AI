@@ -228,3 +228,41 @@ CM5 firmware normally selects one colour rail per bank at a time:
 | `design/Electronics/Stator/Design_Spec.md` | `J13` definition and CPLD configuration ownership |
 | `design/Electronics/Stator/Board_Layout.md` | Mating connector definition for `J13` |
 | `design/Mechanical/Main_Enclosure/Design_Spec.md` | Panel cutout and actuator constraints |
+
+---
+
+## 10. Mounting Holes
+
+The USM is a landscape panel-mount PCB. Mounting hole details are TBD at PCB Layout; the following
+provides a placeholder for the assembly constraint.
+
+### 10.1 Specifications
+
+- **Count:** 4x M3 PTH mounting holes (one near each corner)
+- **Hole diameter:** Ø3.2mm (clearance for M3 fastener)
+- **Annular ring:** 6.0mm ENIG exposed pad (per GRS §4)
+- **Net:** `GND_CHASSIS` — copper ring pads tied to chassis ground per GRS §4 (Mechanical Grounding)
+- **BOM:** No BOM entry; plain chassis mounting holes with no fitted components
+
+### 10.2 Positions
+
+Exact XY coordinates to be confirmed at PCB Layout. Intended placement:
+
+| Hole | Position Description |
+| :--- | :--- |
+| MH1 | Top-left corner |
+| MH2 | Top-right corner |
+| MH3 | Bottom-right corner |
+| MH4 | Bottom-left corner |
+
+> **Note:** The USM mounts inside the main enclosure panel. Exact hole positions are subject to
+> review at Schematic Capture and PCB Layout to account for panel cutout geometry and component
+> clearances.
+
+### 10.3 Cross-References
+
+| Document | Relevance |
+| :--- | :--- |
+| `design/Standards/Global_Routing_Spec.md §4` | Mechanical grounding, ENIG annular ring, GND_CHASSIS bonding rules |
+| `design/Electronics/User_Settings_Module/Design_Spec.md` | Full electrical specification; mounting hole DR TBD |
+| `design/Mechanical/Main_Enclosure/Design_Spec.md` | Panel cutout dimensions that constrain hole positions |

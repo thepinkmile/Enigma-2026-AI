@@ -567,3 +567,220 @@ The following identifier and signal-name changes were made during Pass 3. Future
 | I2C signal pin names | `I2C1_SDA` / `I2C1_SCL` | `I2C_SDA` / `I2C_SCL` | F-78 first renamed to `I2C-1_SDA/SCL`; a post-fix correction finalised signal names as `I2C_SDA`/`I2C_SCL` (no bus-number qualifier). Prose bus labels such as "I2C-1 bus" or "I2C-1 Telemetry Bus" are intentionally retained. |
 | Active-low signal names | `LED_nPWR` | `LED_PWR_N` | F-80: 18 occurrences across 5 files updated to `_N` suffix convention. |
 | CPLD pin name | `DEV_CLRN` | `DEV_CLR_N` | F-71: vendor pin name is `DEV_CLRN` (no underscore); renamed in design docs to match `_N` convention with a parenthetical noting the vendor name. |
+
+---
+
+# Deep-Dive Review Cycle — Pass 5
+
+**Scope:** Full system — all 11 board specs + Board_Layout files + Global_Routing_Spec + Consolidated BOM cross-check + integration connectivity verification.
+
+**Method:** 12 parallel review agents run in 3 batches of 4. All findings triaged before proceeding to next batch.
+
+**Starting F-ID:** F-98
+
+---
+
+## Pass 5 — Batch 1 Findings
+
+### Batch 1 Agents: `pass5-pm`, `pass5-ctl`, `pass5-sta`, `pass5-rot`
+
+---
+
+#### pass5-pm — Power Module
+
+| F-ID | Severity | Finding |
+| :--- | :--- | :--- |
+| F-98 | HIGH | `PWR_BUT` active-low signal missing `_N` suffix throughout Power Module docs. Signal drives the CM5 PMIC power button input — it is asserted low. Must be renamed `PWR_BUT_N` per GRS active-low naming convention. Cross-module impact: also present in Controller/Board_Layout.md. |
+
+---
+
+#### pass5-ctl — Controller Board
+
+| F-ID | Severity | Finding |
+| :--- | :--- | :--- |
+| F-99 | MINOR | `USB_FAULT` active-low USB PD fault flag from STUSB4500 missing `_N` suffix. Rename to `USB_FAULT_N` throughout Controller Design_Spec. |
+| F-100 | LOW | MH1-MH4 BOM row (CTL/Design_Spec.md line 475) Notes column is blank. Other boards document "pads connect to GND_CHASSIS" and usage context explicitly. Add: "CM5 carrier attachment; pads connect to GND_CHASSIS." |
+
+---
+
+#### pass5-sta — Stator
+
+| F-ID | Severity | Finding |
+| :--- | :--- | :--- |
+| F-101 | MEDIUM | No dedicated mounting holes entry in Stator Design_Spec.md. GND_CHASSIS bond is partially documented (lines 65-69, 349) and a BOM row exists for chassis standoffs, but there is no DR for the mounting holes themselves (DR table currently ends at DR-STA-16). Designators (MH1-MH4), drill sizes, and layout coordinates are absent. A new DR-STA-17 is required. |
+
+---
+
+#### pass5-rot — Rotor Boards
+
+| F-ID | Severity | Finding |
+| :--- | :--- | :--- |
+| F-102 | MEDIUM | `Rotor/Board_Layout.md` contains no mounting holes section for Board A or Board B. Design_Spec.md DR-ROT-08 (line 89) and line 232 document two M2.5 alignment holes per board, but Board_Layout.md has zero references to their positions or specification. |
+| F-103 | MEDIUM | `Rotor/Board_Layout.md` contains no GND_CHASSIS bond section. Design_Spec.md lines 52-57 explicitly document the GND_CHASSIS tie at M2.5 alignment holes, but this is entirely absent from Board_Layout. |
+| F-104 | MEDIUM | CPLD U1 bypass capacitors C1–C8 (100nF ×8) and C9–C13 (10µF ×5) are not explicitly attributed to U1 in any per-IC table in Design_Spec.md. Only C14–C15 have a mapping note at line 548 (attributed to U2 FDC2114). U1's bypass cap ownership is implicit at best. |
+| F-105 | MINOR | `Rotor_64_Char_Design.md` lines 193–194: C16B/C17B are listed in the variant BOM but have no annotation identifying them as the VDD bypass pair for U3B (FDC2114) and no GRS §3.2 citation. |
+| F-106 | MINOR | `Rotor_26_Char_Design.md` lines 198–199: C16A/C17A are listed in the variant BOM but have no annotation identifying them as the VDD bypass pair for U3A (FDC2114) and no GRS §3.2 citation. |
+| F-107 | MINOR | Neither variant doc (`Rotor_26_Char_Design.md` nor `Rotor_64_Char_Design.md`) cites GRS §3.2 in the bypass capacitor sections, unlike the base Design_Spec which follows this convention. |
+
+---
+
+## Pass 5 — Batch 2 Findings
+
+### Batch 2 Agents: `pass5-ext`, `pass5-ref`, `pass5-enc`, `pass5-am`
+
+---
+
+#### pass5-ext — Extension Board
+
+| F-ID | Severity | Finding |
+| :--- | :--- | :--- |
+| F-108 | MEDIUM | DR-EXT-10 is absent. The requirement sequence jumps from DR-EXT-09 (J9 AM dock connector spec, line 51) directly to DR-EXT-11 (AM host envelope + MH5-MH8, line 52). No DR-EXT-10 exists. This is either a deleted requirement, a merged requirement (absorbed into DR-EXT-09 or DR-EXT-11), or a never-written requirement (likely J9 routing constraints or a J10 connector spec). The gap must be documented or filled. |
+| F-109 | LOW | J7/J8 (2BHR-30-VUA 30-pin dual-row) orientation/keying callout absent from Extension Board_Layout.md. §2 lines 36–49 describe J7/J8 placement and pitch but include no silkscreen orientation mark note. Line 70 documents a silkscreen note for ERM8/ERF8 dock connectors but not for J7/J8. Double-keying on the 2BHR-30-VUA physically prevents incorrect mating, so this is LOW severity documentation only. |
+
+**Batch 2 false positives (not assigned F-IDs):**
+- Reflector HIGH (TVS bypass caps): **FALSE POSITIVE** — GRS §3.2 line 112 explicitly exempts ESD/TVS arrays from the per-IC bypass cap rule.
+- Extension U2–U9 MAJOR (TVS bypass caps): **FALSE POSITIVE** — same GRS §3.2 exemption.
+- AM CRITICAL (STM32G071K8T3TR JLCPCB PN = `-`): **FALSE POSITIVE** — user-confirmed consignment-only sourcing; `-` is intentional.
+
+---
+
+#### pass5-ref — Reflector Board
+
+No genuine findings. All agent findings were false positives (TVS bypass cap GRS exemption; 3V3_ENIG 0.80mm trace width explicitly justified at Board_Layout.md lines 98/109 per GRS §1.1 canonical minimum).
+
+---
+
+#### pass5-enc — Encoder Board
+
+No findings.
+
+---
+
+#### pass5-am — Actuation Module
+
+No genuine findings. AM CRITICAL finding was a false positive (see above).
+
+---
+
+## Pass 5 — Batch 3 Findings
+
+### Batch 3 Agents: `pass5-usm`, `pass5-jdb`, `pass5-int-conn`, `pass5-int-bom`
+
+---
+
+#### pass5-usm — User Settings Module
+
+| F-ID | Severity | Finding |
+| :--- | :--- | :--- |
+| F-110 | MEDIUM | `USM/Board_Layout.md` contains no mounting holes section. Design_Spec.md DR-USM-11 specifies M2.5 holes and a BOM row exists for MH1-MH4, but Board_Layout.md has zero references to mounting hole positions, designators, or GND_CHASSIS connection. |
+
+**Batch 3 false positive:**
+- USM R81–R98 JLCPCB PN missing (MEDIUM): **FALSE POSITIVE** — BOM Notes explicitly states "no JLCPCB stock" — intentional sourcing decision.
+
+---
+
+#### pass5-jdb — JTAG Daughterboard
+
+No findings.
+
+---
+
+#### pass5-int-conn — Integration Cross-Board Connectivity
+
+No findings. All signal names, power rail names, Link-Alpha/Beta interfaces, and connector mappings verified consistent across all board specs.
+
+---
+
+#### pass5-int-bom — Integration Consolidated BOM Cross-Check
+
+No findings. Consolidated BOM parts, quantities, and supplier PNs verified consistent with board-level specs across all 11 boards.
+
+---
+
+## Pass 5 — False Positives Summary
+
+| Batch | Agent Finding | Reason Dismissed |
+| :--- | :--- | :--- |
+| Batch 2 | Reflector HIGH — TVS bypass caps (D1–D9) | GRS §3.2 line 112: ESD/TVS arrays explicitly exempt from per-IC bypass cap rule |
+| Batch 2 | Extension MAJOR — U2–U9 TVS bypass caps | Same GRS §3.2 exemption |
+| Batch 2 | AM CRITICAL — U1 STM32G071K8T3TR JLCPCB PN `-` | User-confirmed intentional: consignment-only sourcing; `-` is correct |
+| Batch 3 | USM MEDIUM — R81–R98 ERJ-2RKF1003X JLCPCB PN missing | BOM Notes field says "no JLCPCB stock" — intentional sourcing decision |
+| Batch 3 | Reflector MEDIUM — 3V3_ENIG 0.80mm trace width | Board_Layout.md lines 98/109 explicitly justify width per GRS §1.1 canonical minimum |
+
+---
+
+## Pass 5 — Comprehensive Fix Research Table
+
+All genuine findings. **No changes applied.** This table is research-only, awaiting user approval per finding.
+
+| F-ID | Board | Severity | Finding Summary | Files Affected | Key Lines | Proposed Fix |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| F-98 | Power Module (+ Controller) | HIGH | `PWR_BUT` active-low signal missing `_N` suffix | `Power_Module/Design_Spec.md`; `Power_Module/Board_Layout.md`; `Controller/Design_Spec.md`; `Controller/Board_Layout.md` | PM DS: 27, 42, 43, 288, 290, 312, 315, 316, 318, 363, 369, 394, 417, 420, 432, 498, 519, 528, 530, 532, 604; PM BL: 21, 45, 91; CTL DS: 48, 216, 217, 261; CTL BL: 60 | Global rename `PWR_BUT` → `PWR_BUT_N` across all 4 files. ~25 total occurrences. Note: CTL DS lines 216–217 are a prose note about GPIO scope exclusion — that prose also requires updating to reference `PWR_BUT_N`. |
+| F-99 | Controller | MINOR | `USB_FAULT` active-low STUSB4500 fault flag missing `_N` suffix | `Controller/Design_Spec.md` | 62, 118, 212, 234 | Rename `USB_FAULT` → `USB_FAULT_N` at all 4 occurrences. Also check Controller/Board_Layout.md for any cross-references (not found in initial grep, but confirm). |
+| F-100 | Controller | LOW | MH1-MH4 BOM row Notes field blank; no GND_CHASSIS pad connection documented | `Controller/Design_Spec.md` | 475 | Add to Notes column: "CM5 carrier attachment standoffs; pads connect to GND_CHASSIS." Aligns with the pattern used by other boards (e.g. PM, Stator, Extension). |
+| F-101 | Stator | MEDIUM | No mounting holes design requirement entry; DR table ends at DR-STA-16. MH designators, drill sizes, and layout coordinates absent. | `Stator/Design_Spec.md` | 65–69 (partial GND_CHASSIS text), no MH DR row | Add **DR-STA-17**: "Four M2.5 PTH chassis mounting holes (MH1–MH4); pads connected to GND_CHASSIS; hole diameter 2.6mm (M2.5 clearance); locations TBD at PCB layout stage, symmetric with board outline." (Adjust M2.5 size / GND_CHASSIS connection to match board-level convention; confirm no BOM row needed since chassis mounting holes per GRS §5 require no purchasable standoff component.) |
+| F-102 | Rotor | MEDIUM | `Rotor/Board_Layout.md` has no mounting holes section for Board A or Board B | `Rotor/Board_Layout.md` | Entire file — zero matches | Add a **§ Mounting Holes** section (after Board A and Board B layout sections) documenting: 2× M2.5 alignment holes per board; nominal position (TBD at layout — must clear header J7–J10 footprints and rotor brush contact ring); reference Design_Spec.md DR-ROT-08. |
+| F-103 | Rotor | MEDIUM | `Rotor/Board_Layout.md` has no GND_CHASSIS bond section | `Rotor/Board_Layout.md` | Entire file — zero matches | Add a **§ GND_CHASSIS Bond** section documenting: M2.5 alignment hole pads tied to GND_CHASSIS net; no local GND→GND_CHASSIS bond on Rotor (single-point bond at PM per Design_Spec.md lines 52–57); reference Design_Spec.md §GND_CHASSIS Single-Point Bond. |
+| F-104 | Rotor | MEDIUM | CPLD U1 bypass caps C1–C8 and C9–C13 not explicitly attributed to U1 in any per-IC table | `Rotor/Design_Spec.md` | BOM rows at 524–525; note at 548 (C14/C15 only) | In the bypass cap section (near lines 524–548), add explicit annotation: "C1–C8 (100nF ×8) = CPLD U1 VCC/VCCIO decoupling; C9–C13 (10µF ×5) = CPLD U1 VCC bulk bypass; C14 (100nF) + C15 (1µF) = FDC2114 U2 VDD bypass (per line 548)." Also add GRS §3.2 citation for the U1 bypass set. |
+| F-105 | Rotor (N=64) | MINOR | C16B/C17B not attributed to U3B (FDC2114) in `Rotor_64_Char_Design.md` | `Rotor/Rotor_64_Char_Design.md` | 193–194 | Add annotation after the C16B/C17B BOM rows: "C16B (100nF) + C17B (1µF) = VDD bypass pair for U3B (FDC2114); per GRS §3.2." |
+| F-106 | Rotor (N=26) | MINOR | C16A/C17A not attributed to U3A (FDC2114) in `Rotor_26_Char_Design.md` | `Rotor/Rotor_26_Char_Design.md` | 198–199 | Add annotation after the C16A/C17A BOM rows: "C16A (100nF) + C17A (1µF) = VDD bypass pair for U3A (FDC2114); per GRS §3.2." |
+| F-107 | Rotor (both variants) | MINOR | Variant docs bypass cap sections lack GRS §3.2 citation | `Rotor/Rotor_26_Char_Design.md`; `Rotor/Rotor_64_Char_Design.md` | N=26: 198–199; N=64: 193–194 | Covered by F-105 and F-106 fixes above — adding "per GRS §3.2" to each annotation satisfies this finding. No additional separate fix required once F-105/F-106 are applied. |
+| F-108 | Extension | MEDIUM | DR-EXT-10 absent; requirement sequence jumps DR-EXT-09 → DR-EXT-11 | `Extension/Design_Spec.md` | 51–52 | **User decision required on intent.** Options: **(A)** Add DR-EXT-10 for J9 PCB routing constraints (0.4mm pitch BtB connector placement rules, escape routing, keepout under connector body) — logically fits between connector-spec DR-EXT-09 and envelope-spec DR-EXT-11. **(B)** Add DR-EXT-10 as a documented reservation: "DR-EXT-10: Reserved — requirement merged into DR-EXT-09 [or DR-EXT-11] at [date]." **(C)** If DR-EXT-10 was a now-obsolete connector (e.g. a second dock J10 that was removed), document the removal rationale. Recommend **Option A** if J9 routing constraints are not yet documented elsewhere. |
+| F-109 | Extension | LOW | J7/J8 (2BHR-30-VUA) silkscreen orientation callout absent from Board_Layout.md | `Extension/Board_Layout.md` | 36–49 (J7/J8 sections); 70 (existing ERM8/ERF8 silkscreen note) | Add to the J7/J8 board layout section (after lines 36–49): "**Silkscreen:** Pin-1 marker on J7 and J8 indicates row 1, contact 1 (key tab side). Note: 2BHR-30-VUA double-keyed shield physically prevents incorrect mating; silkscreen mark is for assembly reference only." Low urgency — double-keying makes this documentation-only. |
+| F-110 | USM | MEDIUM | `USM/Board_Layout.md` has no mounting holes section; MH1–MH4 positions and GND_CHASSIS connection undocumented | `USM/Board_Layout.md` | Entire file — zero matches | Add **§ Mounting Holes** section documenting: MH1–MH4 M2.5 holes per DR-USM-11; nominal positions (TBD at layout — symmetric on board outline to clear component keep-outs); pads connected to GND_CHASSIS; BOM row already exists (added by F-82). Include note: "PCB layout position TBD at schematic capture / layout phase." |
+
+---
+
+## Pass 5 — Result
+
+**Total findings: 13 genuine** (F-98 through F-110)
+**False positives: 5** (dismissed pre- and post-batch triage)
+**Total review agents run: 12** (3 batches of 4)
+
+**Severity breakdown:**
+
+| Severity | Count | F-IDs |
+| :--- | :--- | :--- |
+| HIGH | 1 | F-98 |
+| MEDIUM | 5 | F-101, F-102, F-103, F-104, F-108, F-110 |
+| LOW | 2 | F-100, F-109 |
+| MINOR | 4 | F-99, F-105, F-106, F-107 |
+
+**Boards with no genuine findings:** Reflector, Encoder, Actuation Module, JTAG Daughterboard.
+
+**Cross-board impact:** F-98 (`PWR_BUT_N`) spans Power Module and Controller; all other findings are board-local.
+
+**Recommended fix priority:**
+1. **F-98** (HIGH) — active-low naming error; affects signal integrity documentation and schematic capture.
+2. **F-108** (MEDIUM) — DR gap requires user decision before it can be closed.
+3. **F-101, F-102, F-103, F-110** (MEDIUM) — Board_Layout and DR documentation gaps; straightforward additions.
+4. **F-104** (MEDIUM) — Bypass cap attribution; in-place annotation in existing BOM section.
+5. **F-99, F-105, F-106, F-107** (MINOR) — Signal rename and annotation tidy-ups.
+6. **F-100, F-109** (LOW) — Notes field and silkscreen documentation; low urgency.
+
+---
+
+## Pass 5 — Fix Status
+
+| F-ID | Status | Files Modified | Notes |
+| :--- | :--- | :--- | :--- |
+| F-98 | ✅ Fixed | `Power_Module/Design_Spec.md` (22×), `Power_Module/Board_Layout.md` (3×), `Controller/Design_Spec.md` (4×), `Controller/Board_Layout.md` (1×), `System_Architecture.md` (2×), `Software/Linux_OS/Power_Management.md` (9×), `Datasheets/RPi-cm5-datasheet.md` (7×) | `PWR_BUT` → `PWR_BUT_N` across all files. CTL/DS §6 scope note and CM5 Dedicated HW Pin table updated to document active-LOW polarity explicitly. DEC-054 appended to `Design_Log.md`. |
+| F-99 | ✅ Fixed | `Controller/Design_Spec.md` (lines 62, 118, 212, 234) | `USB_FAULT` → `USB_FAULT_N` at all 4 occurrences. Line 212 already contained "Active Low" description — polarity already correct, only net name suffix added. |
+| F-100 | ✅ Fixed | `Controller/Design_Spec.md` (BOM MH1–MH4 row) | Notes column updated: "CM5 module mounting standoffs; pads tied to GND (not GND_CHASSIS)". Clarifies that CM5 standoffs bond to board GND, not chassis GND, per GRS §4. |
+| F-101 | ✅ Fixed | `Stator/Design_Spec.md`, `Stator/Board_Layout.md` | DR-STA-17 added (4× M3 PTH mounting holes; GND_CHASSIS; ENIG annular ring; no BOM row). §12 Mounting Holes added to Board_Layout with position table and cross-references. |
+| F-102 | ✅ Fixed | `Rotor/Design_Spec.md` (DR-ROT-08), `Rotor/Board_Layout.md` | DR-ROT-08 updated: 4 holes at inscribed-square corners ±32.5mm from Ø92mm board centre (2 per board). §9 Mounting Holes added to Board_Layout with geometry, board-split table, and GND_CHASSIS bond note. |
+| F-103 | ✅ Fixed | `Rotor/Board_Layout.md` (part of §9) | GND_CHASSIS bond documented in §9.4: corner mounting holes tied to GND_CHASSIS; distinguishes corner holes from central shaft hole (§8.1). |
+| F-104 | ✅ Fixed | `Rotor/Design_Spec.md` (BOM rows C1–C8,C14 / C9–C13 / C15) | Notes column updated for all three rows: U1 CPLD VCC/VCCIO bypass/bulk (C1–C8, C9–C13) and U2 FDC2114 VDD bypass/bulk (C14, C15). GRS §3.2 cited in all Notes. |
+| F-105 | ✅ Fixed | `Rotor/Rotor_64_Char_Design.md` (C16B row) | Notes: "U3B FDC2114 (0x2B) VDD bypass cap; see GRS §3.2". |
+| F-106 | ✅ Fixed | `Rotor/Rotor_26_Char_Design.md` (C16A row) | Notes: "U3A FDC2114 (0x2B) VDD bypass cap; see GRS §3.2". |
+| F-107 | ✅ Fixed | `Rotor/Rotor_64_Char_Design.md` (C17B row), `Rotor/Rotor_26_Char_Design.md` (C17A row) | Notes added for bulk decoupling caps in both variant docs. GRS §3.2 cited. Covered by F-105/F-106 fixes. |
+| F-108 | ⏸ DEFERRED | — | User decision required on DR-EXT-10 gap. Deferred pending RefDes review session. **Blocks Pass 6 launch.** |
+| F-109 | ✅ Fixed | `Standards/Global_Routing_Spec.md`, `Controller/Design_Spec.md`, `Controller/Board_Layout.md`, `Actuation_Module/Design_Spec.md`, `Actuation_Module/Board_Layout.md`, `Extension/Board_Layout.md` | GRS §7.1 "Connector Pin-1 Identification" rule added (global; applies to all J-prefix RefDes on all boards). Pre-existing per-board notes updated to reference §7.1. Extension/Board_Layout J9 callout added. Boards with no prior mention (PM, Stator, Rotor, Reflector, USM, JTAG DB, Encoder) are now covered by the global rule without per-board duplication. |
+| F-110 | ✅ Fixed | `User_Settings_Module/Board_Layout.md` | §10 Mounting Holes added: 4× M3 PTH, GND_CHASSIS, Ø3.2mm, one per corner. Positions TBD at PCB layout. |
+
+**Additional work completed (not a review finding):**
+- `design/Production/JLCPCB_Manufacturing.md` created — full JLCPCB fabrication capabilities, board stackups
+  (JLC04161H-7628 4-layer for all boards; JLC06161H-2116 6-layer for CTL only), and PCBA constraints
+  (single-sided SMT, no blind/buried vias on standard service). Cross-reference added to GRS §2.
+
+**Pass 5 fix summary:** 12 of 13 findings fixed · 1 deferred (F-108, blocks Pass 6)

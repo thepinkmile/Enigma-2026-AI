@@ -9,12 +9,12 @@
 ## Overview
 
 The CM5 (Raspberry Pi Compute Module 5) graceful shutdown is **hardware-initiated** via the CM5
-PMIC power-button input (`PWR_BUT`). No firmware polling is required for the primary shutdown path.
+PMIC power-button input (`PWR_BUT_N`). No firmware polling is required for the primary shutdown path.
 
 **Primary shutdown path (hardware-automatic):**
 
 1. Primary power fails → 5V_MAIN falls to **4.812V** → LTC3350 `/INTB` asserts LOW.
-2. MIC1555 U15 (monostable one-shot) triggers → `PWR_BUT` held LOW for **3.01 seconds**.
+2. MIC1555 U15 (monostable one-shot) triggers → `PWR_BUT_N` held LOW for **3.01 seconds**.
 3. CM5 PMIC sends power-key event → Linux `systemd-logind` `HandlePowerKey=poweroff` → graceful
    OS shutdown, identical to `sudo shutdown -h now`.
 4. LTC3350 simultaneously restores 5V_MAIN to 5V; PWR_GD stays HIGH throughout shutdown.
@@ -31,24 +31,24 @@ PMIC power-button input (`PWR_BUT`). No firmware polling is required for the pri
   monitoring, LED fault-state control, and post-mortem logging (see DEC-025).
 
 > **Implementation note:** The custom LTC3350 interrupt driver (DEC-025) remains useful for telemetry
-> and LED state control but is **not required** for shutdown safety. The hardware `PWR_BUT`
+> and LED state control but is **not required** for shutdown safety. The hardware `PWR_BUT_N`
 > one-shot circuit provides a guaranteed shutdown trigger independent of OS state.
 >
 ## Hardware Signals
 
 | Signal | Connection | Pull-up | Source | Role |
 | --- | --- | --- | --- | --- |
-| PWR_BUT | CM5 PMIC pin (via PM dock `J3`) | CM5 module internal 10kΩ | MIC1555 U15 one-shot / SW2 tactile | **Primary shutdown trigger** - 3 s LOW pulse from U15 on backup-mode entry; or manual press of SW2 |
+| PWR_BUT_N | CM5 PMIC pin (via PM dock `J3`) | CM5 module internal 10kΩ | MIC1555 U15 one-shot / SW2 tactile | **Primary shutdown trigger** - 3 s LOW pulse from U15 on backup-mode entry; or manual press of SW2 |
 | PWR_GD | GPIO 7 (BCM) | R3 10kΩ to 3V3_ENIG (Controller board) | MCP121T-450E U8 | **Rail-health telemetry only** - HIGH while 5V_MAIN ≥ 4.50V; stays HIGH throughout hold-up; deasserts only on supercap depletion |
 | PM_IO_INT_N | GPIO 5 (BCM) | Open-drain on PM; controller-side pull-up as required | PCA9534A U16 | Optional interrupt line for PM status / SW1 LED expander updates |
-| LTC3350 /INTB | PM-local only (not routed to CM5) | R29 10kΩ to 3V3_ENIG (Power Module) | LTC3350 U3 | **Hardware-only backup trigger** - active-LOW when LTC3350 enters backup mode (5V_MAIN < 4.812V, R14 = 30.1kΩ; see DR-PM-08, DEC-030); drives the MIC1555 U15 one-shot locally to generate the `PWR_BUT` shutdown pulse |
+| LTC3350 /INTB | PM-local only (not routed to CM5) | R29 10kΩ to 3V3_ENIG (Power Module) | LTC3350 U3 | **Hardware-only backup trigger** - active-LOW when LTC3350 enters backup mode (5V_MAIN < 4.812V, R14 = 30.1kΩ; see DR-PM-08, DEC-030); drives the MIC1555 U15 one-shot locally to generate the `PWR_BUT_N` shutdown pulse |
 
 ## Option C: Recommended Implementation
 
 ### Phase 1 - HandlePowerKey (Active - no custom driver required)
 
 The primary shutdown path requires only a single `systemd-logind` configuration line. When the CM5
-PMIC receives the 3-second `PWR_BUT` pulse, it generates a power-key event that `systemd-logind`
+PMIC receives the 3-second `PWR_BUT_N` pulse, it generates a power-key event that `systemd-logind`
 handles natively:
 
 ```ini
@@ -102,9 +102,9 @@ The software support will:
 | --- | --- | --- |
 | Mains fails / PoE drops | t = 0 | Input source lost |
 | 5V_MAIN falls to 4.812V - LTC3350 BACKUP asserted | ~10 ms | `/INTB` goes LOW; MIC1555 U15 one-shot triggers; LTC3350 begins restoring 5V_MAIN |
-| `PWR_BUT` held LOW (3.01 s pulse begins) | ~10 ms | CM5 PMIC receives power-key event; `systemd-logind` HandlePowerKey=poweroff initiated |
+| `PWR_BUT_N` held LOW (3.01 s pulse begins) | ~10 ms | CM5 PMIC receives power-key event; `systemd-logind` HandlePowerKey=poweroff initiated |
 | LTC3350 hold-up fully engaged | ~20 ms | 5V_MAIN restored to 5V; PWR_GD stays HIGH; ≥33.5 s window active |
-| `PWR_BUT` pulse ends | ~3.02 s | MIC1555 output returns HIGH; Q5 off; PWR_BUT returns HIGH via CM5 pull-up |
+| `PWR_BUT_N` pulse ends | ~3.02 s | MIC1555 output returns HIGH; Q5 off; PWR_BUT_N returns HIGH via CM5 pull-up |
 | OS syncs filesystems, halts | ~10-15 s | ROTOR_EN de-asserted; CM5 PMIC halted |
 | Supercaps depleted / system off | ≥33.5 s from power loss | 5V_MAIN → 0V; MCP121T deasserts PWR_GD |
 

@@ -109,4 +109,7 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 103 | Pass 4 wrap-up complete; EXT-P4-2 standoffs unblocked | 103-pass4-wrap-up-complete-ext-p4-2-unblocked.md |
 | 104 | DF40 swap all files complete | 104-df40-swap-all-files-complete.md |
 | 105 | DR cleanup and datasheets added | 105-dr-cleanup-datasheets-added.md |
+| 106 | Character matrix created; normalisation applied | 106-char-matrix-created-normalisation-applied.md |
 | 107 | Session state sync; Pass 5 planned | 107-session-state-sync-pre-reboot.md |
+| 108 | Pass 5 complete; fix research table ready (F-98–F-110) | 108-pass-5-complete-fix-research-ready.md |
+| 109 | Pass 5 fixes complete; F-108 deferred; blocks Pass 6 | 027-pass-5-fixes-complete.md |

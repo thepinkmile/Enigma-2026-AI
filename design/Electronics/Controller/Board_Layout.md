@@ -57,7 +57,7 @@ rear edge of Controller
 | `PM_IO_INT_N` | PM -> CTRL | Active-low interrupt from PM `PCA9534APWR` |
 | `PWR_GD` | PM -> CTRL | Direct rail-health telemetry from MCP121T |
 | `ROTOR_EN_N` | CTRL -> PM | Direct 3V3_ENIG LDO enable control |
-| `PWR_BUT` | PM -> CTRL | Direct CM5 PMIC power-button path |
+| `PWR_BUT_N` | PM -> CTRL | Direct CM5 PMIC power-button path |
 | `LED_PWR_N` | CTRL -> PM | Direct CM5 power-state indication for the SW2 hardware LED logic |
 | `3 x GND` | - | Guards / return path |
 
@@ -156,6 +156,7 @@ See **§6** for connector ownership, net-to-net mapping, standoff GND net, and P
 > connect to `GND`.
 
 - **J11:** Single 20-pin Hirose DF40HC(3.5)-20DS-0.4V(51) AM host socket (stacking height = 3.5mm).
-  A silkscreen pin-1 marker is required on both the Controller and AM boards.
+  A silkscreen pin-1 marker is required on both the Controller and AM boards (per
+  `design/Standards/Global_Routing_Spec.md §7.1`).
 - **MH5-MH8:** Four M2.5x3.5mm SMT standoffs (9774035151R); positions mirror `AM Design_Spec.md
   DR-AM-03`; pads connected to `GND`; no-component placement zone (except J11, MH5-MH8, and routing).

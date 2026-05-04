@@ -282,3 +282,38 @@ plate.
 - **Encoder-port terminations:** provide one TCK and one TMS series resistor per encoder port plus
   one TDI-chain series resistor for each Stator-driven cable segment in the six-module chain.
 - **3V3_ENIG entry trace:** 0.80 mm remains the canonical trunk width for the 2.05 A design budget.
+
+---
+
+## 12. Mounting Holes
+
+The Stator uses 4x M3 PTH mounting holes for chassis attachment per DR-STA-17.
+
+### 12.1 Specifications
+
+- **Count:** 4x M3 PTH
+- **Hole diameter:** Ø3.2mm (clearance for M3 fastener)
+- **Annular ring:** 6.0mm ENIG exposed pad (per GRS §4)
+- **Net:** `GND_CHASSIS` — copper ring pads tied to chassis ground for Faraday-cage continuity
+- **BOM:** No BOM entry; these are plain chassis mounting holes with no fitted components
+
+### 12.2 Positions
+
+Positions are defined relative to the board origin (bottom-left corner). Exact XY coordinates to be confirmed at PCB Layout; the following describe the intended placement:
+
+| Hole | Position Description |
+| :--- | :--- |
+| MH1 | Bottom-left corner |
+| MH2 | Bottom-right corner |
+| MH3 | Central hole (approximate board centre) |
+| MH4 | Centre-top (horizontally centred, near top edge) |
+
+> **Note:** Exact coordinates are subject to review during Schematic Capture and PCB Layout. The Stator board outline and connector clearances must be factored in before finalising hole positions.
+
+### 12.3 Cross-References
+
+| Document | Relevance |
+| :--- | :--- |
+| `design/Standards/Global_Routing_Spec.md §4` | Mechanical grounding, ENIG annular ring, GND_CHASSIS bonding rules |
+| `design/Electronics/Stator/Design_Spec.md DR-STA-17` | Design requirement for mounting holes |
+| `design/Electronics/Stator/Design_Spec.md §2` | GND_CHASSIS single-point bond note |
