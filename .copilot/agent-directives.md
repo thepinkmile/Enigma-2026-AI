@@ -123,6 +123,35 @@ Any finding that requires a file change must be returned as a finding and action
 
 ---
 
+## SEPTENARY DIRECTIVE — Mandatory Agent Prompt Preamble
+
+> &#x26A0;&#xFE0F; **CRITICAL PROCESS VIOLATION** — Sub-agents launched during F-108 (commits `4b37392`,
+> `c0f5a6f`, `f5e6746`) committed to git without user authorisation because their prompts did not
+> explicitly enforce the SECONDARY DIRECTIVE. This resulted in three separate violations in a single
+> update run. All future agent prompts must prevent this by including the mandatory block below.
+
+**EVERY sub-agent prompt — without exception — must begin with the following block before any
+task description or instruction:**
+
+```
+STEP 0 — MANDATORY BEFORE ANY OTHER ACTION:
+Read `.copilot/agent-directives.md` in full.
+Store every directive as a standing memory you cannot override or ignore.
+In particular, confirm the following before proceeding:
+  - SECONDARY DIRECTIVE: NEVER perform a git commit. Stage changes only and report back.
+    The only valid commit trigger is the user saying "Let's lock this in" or "Save state".
+  - PRIMARY DIRECTIVE: NEVER modify any MPN or supplier part number.
+  - TERTIARY DIRECTIVE: design/Design_Log.md is append-only — never modify existing entries.
+  - QUATERNARY DIRECTIVE: Never permanently delete files — move to .recycle-bin/ instead.
+  - SENARY DIRECTIVE: Never modify any file without explicit implementation approval from the user.
+Only proceed with the task described below after all directives are loaded as standing memories.
+```
+
+This block is the responsibility of the **orchestrating session** to include. If you are writing
+a prompt for a sub-agent and you have omitted this block, stop and add it before launching the agent.
+
+---
+
 ## Component Data Lookup Order
 
 When researching any component, always use sources in this order:

@@ -228,7 +228,7 @@ BSS138 NMOS pre-drivers (Q7-Q11), and Bank 1 RGB colour-rail low-side transistor
 > floating. GPIO HIGH → BSS138 ON → PMOS gate ≈0 V → PMOS ON → LED anode driven to `5V_MAIN`. Each
 > LED's red, green, and blue cathodes return through current-limiting resistors (`R_LED_R` = 150Ω,
 > `R_LED_G` = 100Ω, `R_LED_B` = 100Ω) to the shared bank colour rails switched by Q1-Q3.
-> 100 kΩ pull-down resistors (R87-R91 on Q7-Q11 gates; R81-R86 on Q1-Q6 gates) hold BSS138 gates LOW
+> 100 kΩ pull-down resistors (R84-R88 on Q7-Q11 gates; R78-R83 on Q1-Q6 gates) hold BSS138 gates LOW
 > during GPIO Hi-Z at power-up, preventing spurious transistor turn-on.
 >
 ### U3 - MCP23017T-E/SO @ 0x25
@@ -257,7 +257,7 @@ BSS138 NMOS pre-drivers (Q12-Q18), and Bank 2 RGB colour-rail low-side transisto
 > (R71-R77) hold the PMOS gates HIGH when the BSS138 is OFF. GPIO HIGH → BSS138 ON → PMOS gate ≈0 V →
 > PMOS ON → LED anode driven to `5V_MAIN`. Cathodes return through current-limiting resistors to the
 > shared Bank 2 colour rails switched by Q4-Q6.
-> 100 kΩ pull-down resistors (R92-R98 on Q12-Q18 gates; R81-R86 on Q1-Q6 gates) hold BSS138 gates LOW
+> 100 kΩ pull-down resistors (R89-R95 on Q12-Q18 gates; R78-R83 on Q1-Q6 gates) hold BSS138 gates LOW
 > during GPIO Hi-Z at power-up, preventing spurious transistor turn-on.
 >
 
@@ -399,7 +399,7 @@ automatic polling intervals.
 | R18-R29 | 150Ω 1% 0603 | ERJ-3EKF1500V | Panasonic | P150HCT-ND | 667-ERJ-3EKF1500V | C400650 | - | - | Yes | Pending | 12 |
 | R30-R53 | 100Ω 1% 0603 | ERJ-3EKF1000V | Panasonic | P100HCT-ND | 667-ERJ-3EKF1000V | C193336 | - | - | Yes | Pending | 24 |
 | R66-R77 | 47kΩ ±0.5% AEC-Q200 0402 | SG73S1ERTTP4702D | KOA Speer | 2019-SG73S1ERTTP4702DTR-ND ⚠️ MOQ 10000 | 660-SG73S1ERTTP4702D | C5915648 ⚠️ MOQ 40 | - | JLCPCB MOQ 40 | Yes | Pending | 12 |
-| R81-R98 | 100kΩ 1% 0402 | ERJ-2RKF1003X | Panasonic | P100KLCT-ND | 667-ERJ-2RKF1003X | Global sourcing / consignment | Global sourcing | no JLCPCB stock | Yes | Pending | 18 |
+| R78-R95 | 100kΩ 1% 0402 | ERJ-2RKF1003X | Panasonic | P100KLCT-ND | 667-ERJ-2RKF1003X | Global sourcing / consignment | Global sourcing | no JLCPCB stock | Yes | Pending | 18 |
 | SW1-SW10 | SPDT latching toggle panel-mount THT | 200MSP1T2B4M2QE | E-Switch | EG5525-ND | 612-200MSP1T2B4M2QE | C5491263 | - | - | Yes | Pending | 10 |
 | SW11 | SPST NO tactile THT | B3F-1070 | Omron | SW406-ND | 653-B3F-1070 | C726011 | - | - | Yes | Pending | 1 |
 | U1-U3 | I²C GPIO expander SOIC-28 | MCP23017T-E/SO | Microchip Technology | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | - | - | Yes | Pending | 3 |
@@ -447,7 +447,7 @@ automatic polling intervals.
 | **0402 Resistors (colour-rail gate)** | 6 | R12-R17: 1kΩ colour-rail MOSFET gate resistors |
 | **0402 Resistors (per-anode gate)** | 12 | R54-R65: 1kΩ BSS138 pre-driver gate resistors |
 | **0402 Resistors (PMOS pull-up)** | 12 | R66-R77: KOA Speer SG73S1ERTTP4702D 47 kΩ ±0.5% PMOS gate pull-ups |
-| **0402 Resistors (BSS138 gate pull-down)** | 18 | R81-R98: 100kΩ Panasonic ERJ-2RKF1003X - holds gates LOW at power-up Hi-Z |
+| **0402 Resistors (BSS138 gate pull-down)** | 18 | R78-R95: 100kΩ Panasonic ERJ-2RKF1003X - holds gates LOW at power-up Hi-Z |
 | **0603 Resistors (misc)** | 1 | R11: 10kΩ `CFG_APPLY_N` pull-up |
 | **0402 Capacitors (decoupling)** | 3 | 100nF X7R for 3x MCP23017s |
 | **0402 Capacitors (debounce)** | 1 | C4: 100nF X7R `CFG_APPLY_N` debounce |
@@ -483,7 +483,7 @@ combined with per-anode high-side switches for individual LED illumination contr
   The MCP23017 GPIO output maximum is 3.3 V and cannot source current into a 5 V-supply anode directly.
   The two-stage high-side topology resolves this without requiring firmware changes or rail compromise.
 
-* **Power-up behaviour:** 100 kΩ pull-down resistors (R81-R98) hold all 18 BSS138 gates LOW during
+* **Power-up behaviour:** 100 kΩ pull-down resistors (R78-R95) hold all 18 BSS138 gates LOW during
   MCP23017 Hi-Z at power-up, preventing spurious transistor turn-on and ensuring LED anodes remain
   de-energised until the CM5 drives the expanders.
 

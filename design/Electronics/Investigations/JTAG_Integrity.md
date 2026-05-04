@@ -29,8 +29,8 @@ design decision adopted.
 
 ```text
 FT232H (JDB)
-    |  U5 SN74LVC2G125DCUR buffer (TCK, TMS)
-    |  R6/R7 33Ω after U5 output (TCK/TMS); R2 33Ω at FT232H TDI; R8 33Ω before J2 (TDI)
+    |  U2 SN74LVC2G125DCUR buffer (TCK, TMS)
+    |  R2/R3 33Ω after U2 output (TCK/TMS); R1 33Ω at FT232H TDI; R4 33Ω before J2 (TDI)
     ↓
 J2 JTAG header → Controller hat-header (pass-through: no active components)
     ↓
@@ -384,7 +384,7 @@ destination always sees full voltage - the series resistor does not weaken the r
 
 **Short same-board / BtB traces (no ribbon cable):**
 
-For traces that do NOT drive a ribbon cable (e.g., JDB U5 output → Controller `J5` / Stator `J12`
+For traces that do NOT drive a ribbon cable (e.g., JDB U2 output → Controller `J5` / Stator `J12`
 logic dock), the system is 50 Ω PCB throughout. Use **33 Ω series R** (source Z = 53 Ω ≈ 50 Ω,
 matched to PCB). The Encoder Module now has **one CPLD only**, so it has no inter-CPLD JTAG segment.
 
@@ -422,7 +422,7 @@ cable lengths of 200-500 mm the 75 Ω resistors are functionally necessary.
 | --- | --- | --- |
 | Driving a ribbon cable (~100 Ω IDC) | **75 Ω** | Source Z = 95 Ω ≈ cable Zo |
 | Short same-board / BtB 50 Ω trace | **33 Ω** | Source Z = 53 Ω ≈ PCB Zo |
-| JDB U5 output → Controller `J5` / Stator `J12` logic dock (BtB, no cable) | **33 Ω** | Short BtB trace; match 50 Ω PCB; U5 out Z (15Ω) + 33Ω ≈ 48Ω |
+| JDB U2 output → Controller `J5` / Stator `J12` logic dock (BtB, no cable) | **33 Ω** | Short BtB trace; match 50 Ω PCB; U2 out Z (15Ω) + 33Ω ≈ 48Ω |
 | Rotor stack TDO end-of-chain (Reflector R1) | **22 Ω** | Final TDO output - lower R sufficient; verified by Reflector DR-REF-04 |
 
 ### 7.2 Placement Rule
@@ -455,9 +455,9 @@ distance on the trace.
 
 | Board | New refs | Value | Qty | Location |
 | --- | --- | --- | --- | --- |
-| JDB | R6 | 33 Ω | 1 | TCK after U5 buffer, before J2 JTAG header pin 1 (TCK) |
-| JDB | R7 | 33 Ω | 1 | TMS after U5 buffer, before J2 JTAG header pin 7 (TMS) |
-| JDB | R8 | 33 Ω | 1 | TDI series damping (not buffered - from FT232H), before J2 JTAG header pin 3 (TDI) |
+| JDB | R2 | 33 Ω | 1 | TCK after U2 buffer, before J2 JTAG header pin 1 (TCK) |
+| JDB | R3 | 33 Ω | 1 | TMS after U2 buffer, before J2 JTAG header pin 7 (TMS) |
+| JDB | R4 | 33 Ω | 1 | TDI series damping (not buffered - from FT232H), before J2 JTAG header pin 3 (TDI) |
 | Stator | R7-R12 | 75 Ω | 6 | TCK → J4/J5/J6/J7/J8/J9 encoder ribbon port outputs |
 | Stator | R33-R38 | 75 Ω | 6 | TMS → J4/J5/J6/J7/J8/J9 encoder ribbon port outputs |
 | Stator | R27-R32 | 75 Ω | 6 | TDI chain drive: Stator CPLD TDO → J4; J4 return → J5; J5 return → J6; J6 return → J7; J7 return → J8; J8 return → J9 |
@@ -465,7 +465,7 @@ distance on the trace.
 | Reflector | R1 (existing) | 22 Ω | 1 | TDO end-of-chain series damping - JTAG chain END |
 
 > **Controller JTAG pass-through:** The Controller board carries no active JTAG components. All
-> buffering (U5 SN74LVC2G125DCUR) and series damping (R6-R8, 33 Ω 0402) are located on the JDB.
+> buffering (U2 SN74LVC2G125DCUR) and series damping (R2-R4, 33 Ω 0402) are located on the JDB.
 > The Controller `J5` ↔ Stator `J12` logic dock is a direct BtB connection (no cable), so 33 Ω
 > applies there (not the 75 Ω cable-driving rule). See DEC-024.
 >
@@ -480,7 +480,7 @@ distance on the trace.
 
 | Board | Stackup | JTAG Layer | Target Zo | Trace width | Status |
 | --- | --- | --- | --- | --- | --- |
-| JDB | JLC04161H-7628 (4L) | L2 over L1 GND | 50 Ω | **0.127 mm (5 mil)** | JDB is the complete JTAG master. U5 buffer and R6-R8 series damping on JDB. Controller is pass-through. |
+| JDB | JLC04161H-7628 (4L) | L2 over L1 GND | 50 Ω | **0.127 mm (5 mil)** | JDB is the complete JTAG master. U2 buffer and R2-R4 series damping on JDB. Controller is pass-through. |
 | Controller | JLC06161H-2116 (6L) | L6 over L5 GND | 50 Ω | **0.127 mm (5 mil)** | Pass-through only - no active JTAG components on Controller (see DEC-024) |
 | Stator | JLC04161H-7628 (4L) | L1 over L2 GND | 50 Ω | **0.127 mm (5 mil)** | Added to §3 |
 | Encoder | JLC04161H-7628 (4L) | L1 over L2 GND | 50 Ω | **0.127 mm (5 mil)** | Added to §6 |
@@ -495,7 +495,7 @@ distance on the trace.
 | --- | --- | --- | --- |
 | 75 Ω 1% 0603 (Stator R7-R12, R27-R38) | ~£0.002 | 18 | <£0.04 |
 | 75 Ω 1% 0402 (Encoder R6, x6 boards) | ~£0.001 | 6 | <£0.01 |
-| 33 Ω 1% 0402 (JDB R6-R8) | ~£0.002 | 3 | <£0.01 |
+| 33 Ω 1% 0402 (JDB R2-R4) | ~£0.002 | 3 | <£0.01 |
 | Controlled impedance JLCPCB certification (optional) | ~£40/order | Per board type | ~£120 total if verified |
 | **Controlled impedance design only (self-calc, no cert)** | **£0** | - | **£0** |
 

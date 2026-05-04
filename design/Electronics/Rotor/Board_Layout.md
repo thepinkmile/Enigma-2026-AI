@@ -100,7 +100,7 @@ Board B faces the output (downstream) side of the rotor stack.
       |                                                       |
       |   [S3][S4][S5]  <-- Track B sensor electrodes         |
       |   (bare Cu pads at r=44mm, Board B face)              |
-      |         [ U11B: FDC2114 ] (at r~40mm)                  |
+      |         [ U11B: FDC2114 ] (at r~40mm)                 |
       |         (NOT POPULATED for N=26 rotor)                |
       |                                                       |
       | [J4 ERF8]  [J5 ERF8]  [J6 ERF8]                       |

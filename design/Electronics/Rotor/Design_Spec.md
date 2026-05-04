@@ -521,8 +521,8 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C1-C8,C14 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | C1–C8: U1 CPLD VCC/VCCIO bypass caps; C14: U2 FDC2114 (0x2A) VDD bypass cap; see GRS §3.2 | Yes | Pending | 9 |
-| C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | U1 CPLD VCC/VCCIO bulk decoupling caps; see GRS §3.2 | Yes | Pending | 5 |
+| C1-C9 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | C1–C8: U1 CPLD VCC/VCCIO bypass caps; C9: U2 FDC2114 (0x2A) VDD bypass cap; see GRS §3.2 | Yes | Pending | 9 |
+| C10-C14 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | U1 CPLD VCC/VCCIO bulk decoupling caps; see GRS §3.2 | Yes | Pending | 5 |
 | C15 | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | U2 FDC2114 (0x2A) VDD bulk decoupling cap; see GRS §3.2 | Yes | Pending | 1 |
 | C16-C19 | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
 | J1-J2 | 10-pin 2x5 0.8mm male SMT | ERM8-005-05.0-S-DV-K-TR | Samtec | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | Yes | Pending | 2 |
@@ -545,7 +545,7 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 > listed in **`design/Electronics/Rotor/Rotor_26_Char_Design.md`** §8. N=64 rotor variant components
 > (C20B, C21B, C22B-C25B, L5B-L8B, U11B) are listed in **`design/Electronics/Rotor/Rotor_64_Char_Design.md`** §8.
 >
-> **Support-network scope note:** `R5/R6` and `C14-C15` capture the local I²C-bias and `VDD`-bypass
+> **Support-network scope note:** `R5/R6` and `C9` and `C15` capture the local I²C-bias and `VDD`-bypass
 > requirements for the populated FDC2114 devices. Resonant front-end parts (`L1-L4`, `C16-C19`)
 > are fully sourced above (Bourns CWF1610A-180K 18 µH inductors and YAGEO AC0402FRNPO9BN330 33 pF
 > resonant capacitors; dummy LC tanks on all unused FDC2114 channels per TI application note).
@@ -573,7 +573,7 @@ connector body, before any series resistors or downstream logic (see `Global_Rou
 | J6 | B | Encoder data output (ERF8-010 female) | `ENC_IN[5:0]`, `ENC_OUT[5:0]` - 12 lines |
 
 > Power rail connectors `J2` (Board A) and `J5` (Board B) do not require dedicated TVS devices;
-> board-level bulk decoupling capacitors (C9-C13) provide adequate `3V3_ENIG` rail protection.
+> board-level bulk decoupling capacitors (C10-C14) provide adequate `3V3_ENIG` rail protection.
 
 **ESD device requirements:**
 

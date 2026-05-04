@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-30
+**Last Updated:** 2026-05-05
 
 ---
 
@@ -29,7 +29,7 @@
 | PM: C1-C15 | CL32B226KAJNNNE | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | 15 | - | - | - | - | - | - | - | - | - | - | 15 | 22µF 25V X7R 1210 [Samsung] | Yes | ✔ |
 | PM: C16-C19 | CGA9N3X7R1E476M230KB | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | 4 | - | - | - | - | - | - | - | - | - | - | 4 | 47µF 25V X7R 2220 [TDK] | Yes | ✔ |
 | PM: C21-C23,C53,C55-C57; AM: C1 | C0805C105K5RACTU | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | 7 | - | - | - | - | 1 | - | - | - | - | - | 8 | 1µF 50V X7R 0805 [Kemet] | Yes | ✔ |
-| PM: C24-C30,C33-C39,C43-C50,C52,C58; CTL: C6,C12-C16; JDB: C1-C4,C6-C9,C12; USM: C1-C4; ENC: C1-C8; AM: C2,C3,C6,C7; STA: C1-C8,C14-C21; EXT: C6; ROT-26: C1-C8,C14,C16A; ROT-64: C1-C8,C14,C16B | CL05B104KB5NNNC | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | 24 | 6 | 9 | 4 | 8 | 4 | 16 | - | 1 | 9 | 9 | 82 | 100nF 50V X7R 0402 [Samsung] | Yes | ✔ |
+| PM: C24-C30,C33-C39,C43-C50,C52,C58; CTL: C6,C12-C16; JDB: C1-C4,C6-C9,C12; USM: C1-C4; ENC: C1-C8; AM: C2,C3,C6,C7; STA: C1-C8,C14-C21; EXT: C6; ROT-26: C1-C9,C16A; ROT-64: C1-C9,C16B | CL05B104KB5NNNC | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | 24 | 6 | 9 | 4 | 8 | 4 | 16 | - | 1 | 9 | 9 | 82 | 100nF 50V X7R 0402 [Samsung] | Yes | ✔ |
 | PM: C40 | C0402C101K3RACAUTO | 399-C0402C101K3RACAUTOCT-ND | 80-C0402C101K3RAUTO | C5272912 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 100pF X7R 25V 0402 [Kemet] | Yes | ✔ |
 | PM: C_SC1-C_SC8 | ADCR-T02R7SA256MB | 535-ADCR-T02R7SA256MB-ND | 815-ADCRT02R7SA256MB | - | Global sourcing | 8 | - | - | - | - | - | - | - | - | - | - | 8 | 25F 2.7V supercap THT Radial 16x25mm [Abracon] | Yes | ✔ |
 | PM: C41 | CL10B223KB8WPNC | 1276-6534-1-ND | 187-CL10B223KB8WPNC | C346197 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 22nF X7R 25V 0603 [Samsung] | Yes | ✔ |
@@ -39,7 +39,7 @@
 | PM: D2 | TPD2E2U06DRLR | 296-38361-1-ND | 595-TPD2E2U06DRLR | C1972959 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | ESD SOT-553 [Texas Instruments] | Yes | ✔ |
 | PM: D3; CTL: U4-U6; STA: U9-U12; REF: U1-U4; EXT: U2-U9; ROT-26: U5-U12; ROT-64: U5-U12 | TPD4E05U06QDQARQ1 | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | 1 | 3 | - | - | - | - | 4 | 4 | 8 | 8 | 8 | 36 | 4-ch ESD ±15kV 0.5pF U-DFN-10 [Texas Instruments] | Yes | ✔ |
 | PM: D4 | SMBJ18A-Q | 118-SMBJ18A-QCT-ND | 652-SMBJ18A-Q | C1979859 (Extended) | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 18V 600W unidirectional TVS SMB (DO-214AA) [Bourns] | Yes | ✔ |
-| PM: D6,D7; CTL: D1 | BAT54 | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | 2 | 1 | - | - | - | - | - | - | - | - | - | 3 | Schottky SOT-23 [Diotec] | Yes | ✔ |
+| PM: D5,D6; CTL: D1 | BAT54 | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | 2 | 1 | - | - | - | - | - | - | - | - | - | 3 | Schottky SOT-23 [Diotec] | Yes | ✔ |
 | PM: F1 | AC72ABD | AC72ABD-ND | 652-AC72ABD | C17468669 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 72°C SMD Thermal Cutoff [Bourns] | No | Requested |
 | PM: FB1 | BMC-Q2AY0600M (2-2176748-1) | 1712-2-2176748-1CT-ND | 279-BMC-Q2AY0600M | - | Global sourcing / consignment | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 600Ω ±25% @100MHz ferrite bead 0805 AEC-Q200 Gr.1 [TE Connectivity] | Yes | ✔ |
 | PM: J1-J3 | 1123684-7 | A114780-ND | 571-1123684-7 | C3683043 (consignment - see BOM Notes) | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | 10-pos 2.5mm RA plug [TE Connectivity] | Yes | ✔ |
@@ -60,14 +60,14 @@
 | PM: R15 | ERA-3ARB103V | P10KBDCT-ND | 667-ERA-3ARB103V | C465746 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 10.0kΩ 0.1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R17 | ERJ-3EKF7153V | P715KHCT-ND | 667-ERJ-3EKF7153V | C403339 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 715kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R24 | ERJ-3EKF8662V | P86.6KHCT-ND | 667-ERJ-3EKF8662V | C403381 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 86.6kΩ 1% 0603 [Panasonic] | Yes | ✔ |
-| PM: R25,R27,R34-R36,R39,R40,R43,R44; JDB: R3-R5; USM: R78-R80; ENC: R2-R5; AM: R4,R5; STA: R2-R6,R16-R26,R39-R41; ROT-26: R1-R4; ROT-64: R1-R4 | ERJ-2RKF1002X | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | 9 | - | 3 | 3 | 4 | 2 | 19 | - | - | 4 | 4 | 48 | 10kΩ 1% 0402 [Panasonic] | Yes | ✔ |
+| PM: R25,R27,R34-R36,R39,R40,R43,R44; JDB: R5-R7; ENC: R2-R5; AM: R4,R5; STA: R2-R6,R13-R23,R36-R38; ROT-26: R1-R4; ROT-64: R1-R4 | ERJ-2RKF1002X | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | 9 | - | 3 | - | 4 | 2 | 19 | - | - | 4 | 4 | 45 | 10kΩ 1% 0402 [Panasonic] | Yes | ✔ |
 | PM: R26 | ERJ-2RKF8202X | P82.0KLCT-ND | 667-ERJ-2RKF8202X | C400641 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 82.0kΩ 1% 0402 [Panasonic] | Yes | ✔ |
 | PM: R28 | ERJ-3EKF2743V | P274KHCT-ND | 667-ERJ-3EKF2743V | C403126 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 274kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R30 | ERA-2AEB3322X | P33.2KDCCT-ND | 667-ERA-2AEB3322X | C2087909 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 33.2kΩ 1% 0402 [Panasonic] | Yes | ✔ |
 | PM: R31-R33,R37,R38; USM: R12-R17,R54-R65 | ERJ-2RKF1001X | P1.00KLCT-ND | 667-ERJ-2RKF1001X | C242161 | - | 5 | - | - | 18 | - | - | - | - | - | - | - | 23 | 1kΩ 1% Thick-Film 0402 [Panasonic] | Yes | ✔ |
 | PM: R41,R42 | ERJ-2RKF5232X | P52.3KLCT-ND | 667-ERJ-2RKF5232X | - | Global sourcing | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 52.3kΩ 1% 0402 [Panasonic] | Yes | ✔ |
-| PM: R45-R48; USM: R81-R98 | ERJ-2RKF1003X | P100KLCT-ND | 667-ERJ-2RKF1003X | - | Global sourcing | 4 | - | - | 18 | - | - | - | - | - | - | - | 22 | 100kΩ 1% 0402; no JLCPCB stock [Panasonic] | Yes | ✔ |
-| PM: R49-R53; STA: R42,R43 | ERJ-2RKF10R0X | P10.0LCT-ND | 667-ERJ-2RKF10R0X | C413044 | - | 5 | - | - | - | - | - | 2 | - | - | - | - | 7 | 10Ω 1% Thin-Film 0402 [Panasonic] | Yes | ✔ |
+| PM: R45-R48; USM: R78-R95 | ERJ-2RKF1003X | P100KLCT-ND | 667-ERJ-2RKF1003X | - | Global sourcing | 4 | - | - | 18 | - | - | - | - | - | - | - | 22 | 100kΩ 1% 0402; no JLCPCB stock [Panasonic] | Yes | ✔ |
+| PM: R49-R53; STA: R39,R40 | ERJ-2RKF10R0X | P10.0LCT-ND | 667-ERJ-2RKF10R0X | C413044 | - | 5 | - | - | - | - | - | 2 | - | - | - | - | 7 | 10Ω 1% Thin-Film 0402 [Panasonic] | Yes | ✔ |
 | PM: SW1 | 4660 | 1528-4660-ND | 485-4660 | - | Global sourcing | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 16mm panel latching RGB metal switch [Adafruit] | N/A | N/A |
 | PM: SW2 | 3350 | 1528-2546-ND | 485-3350 | - | Global sourcing | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 16mm panel momentary RGB metal switch [Adafruit] | Yes | Pending |
 | PM: BT_SW1_1-6,BT_SW2_1-6 | 1211 | 36-1211-ND | 534-1211 | C3029550 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 2.8mm PCB male spade tabs THT Quick-Fit [Keystone Electronics] | Yes | Pending |
@@ -87,7 +87,7 @@
 | PM: U19; STA: U3 | SN74LVC1G08DBVR | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | 1 | - | - | - | - | - | 1 | - | - | - | - | 2 | Single AND gate SOT-23-5 [Texas Instruments] | Yes | Pending |
 | CTL: BT1 | 3034TR | 36-3034CT-ND | 534-3034TR | C5213768 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CR2032 holder THT horizontal [Keystone Electronics] | Yes | Pending |
 | CTL: C17 | C0402C103K1RACAUTO | 399-C0402C103K1RACAUTOCT-ND | 80-C0402C103K1RAUTO | C19862710 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 10nF 100V X7R 0402 [Kemet] | Yes | Pending |
-| PM: C20; CTL: C1-C5,C7-C11; USM: C5-C14; ENC: C9-C13; AM: C5; STA: C9-C13,C22-C26; REF: C1-C5; EXT: C1-C5,C7-C11; ROT-26: C9-C13; ROT-64: C9-C13 | CL21B106KAYQNNE | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | 1 | 10 | - | 10 | 5 | 1 | 10 | 5 | 10 | 5 | 5 | 62 | 10µF X7R 25V 0805 [Samsung] | Yes | Pending |
+| PM: C20; CTL: C1-C5,C7-C11; USM: C5-C14; ENC: C9-C13; AM: C5; STA: C9-C13,C22-C26; REF: C1-C5; EXT: C1-C5,C7-C11; ROT-26: C10-C14; ROT-64: C10-C14 | CL21B106KAYQNNE | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | 1 | 10 | - | 10 | 5 | 1 | 10 | 5 | 10 | 5 | 5 | 62 | 10µF X7R 25V 0805 [Samsung] | Yes | Pending |
 | CTL: J1-J3 | 1-1674231-1 | A119250-ND | 571-1-1674231-1 | C3683260 | - | - | 3 | - | - | - | - | - | - | - | - | - | 3 | 10-pos 2.5mm receptacle vertical [TE Connectivity] | Yes | Pending |
 | CTL: J4,J5 | 2195630015 | 900-2195630015-ND | 538-219563-0015 | - | Global sourcing | - | 2 | - | - | - | - | - | - | - | - | - | 2 | 5-pwr+15-sig press-fit receptacle hybrid [Molex] | Yes | Pending |
 | CTL: J6 | 48406-0003 | WM10420-ND | 538-48406-0003 | C565298 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | USB 3.0 Type-A dual-stack [Molex] | Yes | Pending |
@@ -104,15 +104,15 @@
 | CTL: U1 | CM5 | - | - | - | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CM5 module SO-DIMM [Raspberry Pi Ltd] | N/A | N/A |
 | CTL: U2 | TPS2065CDBVR | 296-39353-1-ND | 595-TPS2065CDBVR | C353882 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | USB power switch SOT-23-5 [Texas Instruments] | Yes | Pending |
 | CTL: U3 | AP2331W-7 | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | HDMI power switch SOT-23-5 [Diodes Inc] | Yes | Pending |
-| CTL: U9 | TPS2372-4RGWR | 296-45285-1-ND | 595-TPS2372-4RGWR | Global sourcing / consignment | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE PD interface VQFN-24 4x4mm; JLCPCB consignment [Texas Instruments] | Yes | ✔ |
-| CTL: U10 | TPS23730RMTR | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | Global sourcing / consignment | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE auxiliary controller WSON-10 3x3mm; JLCPCB consignment [Texas Instruments] | Yes | Pending |
+| CTL: U7 | TPS2372-4RGWR | 296-45285-1-ND | 595-TPS2372-4RGWR | Global sourcing / consignment | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE PD interface VQFN-24 4x4mm; JLCPCB consignment [Texas Instruments] | Yes | ✔ |
+| CTL: U8 | TPS23730RMTR | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | Global sourcing / consignment | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE auxiliary controller WSON-10 3x3mm; JLCPCB consignment [Texas Instruments] | Yes | Pending |
 | JDB: C5; AM: C4 | CGA6P3X7R1H475K250AD | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 4.7µF X7R 50V 1210 [TDK] | Yes | Pending |
 | JDB: C10,C11 | C0402C330J5GAUTO | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | - | - | 2 | - | - | - | - | - | - | - | - | 2 | 33pF C0G/NP0 crystal load 0402; C0G/NP0 exception approved [Kemet] | Yes | Pending |
-| JDB: J1; AM: J3-J6; ROT-26: J11,J12,J13; ROT-64: J11,J12,J13 | PH1-05-UA | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | - | - | 1 | - | - | 4 | - | - | - | 3 | 3 | 11 | 1x5 2.54mm male THT [Adam Tech] | Yes | Pending |
+| JDB: J1; AM: J2-J5; ROT-26: J11,J12,J13; ROT-64: J11,J12,J13 | PH1-05-UA | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | - | - | 1 | - | - | 4 | - | - | - | 3 | 3 | 11 | 1x5 2.54mm male THT [Adam Tech] | Yes | Pending |
 | JDB: J2 | PH1-10-UA | 2057-PH1-10-UA-ND | 737-PH1-10-UA | C3330527 | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | 1x10 2.54mm male JTAG OUTPUT header THT [Adam Tech] | Yes | Pending |
-| JDB: R2,R6-R8 | ERJ-2RKF33R0X | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | - | - | 4 | - | - | - | - | - | - | - | - | 4 | 33Ω 1% 0402; see DEC-016, DEC-024 [Panasonic] | Yes | Pending |
+| JDB: R1-R4 | ERJ-2RKF33R0X | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | - | - | 4 | - | - | - | - | - | - | - | - | 4 | 33Ω 1% 0402; see DEC-016, DEC-024 [Panasonic] | Yes | Pending |
 | JDB: U1 | FT232HL-REEL | 768-1101-1-ND | 895-FT232HL-REEL | C51997 | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | USB 2.0 to MPSSE bridge LQFP-48 [FTDI Chip] | Yes | Pending |
-| JDB: U5; EXT: U1 | SN74LVC2G125DCUR | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | - | 1 | - | - | - | - | - | 1 | - | - | 2 | Dual 3-state buffer VSSOP-8 [Texas Instruments] | Yes | Pending |
+| JDB: U2; EXT: U1 | SN74LVC2G125DCUR | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | - | 1 | - | - | - | - | - | 1 | - | - | 2 | Dual 3-state buffer VSSOP-8 [Texas Instruments] | Yes | Pending |
 | JDB: Y1 | 435F12012IET | 110-435F12012IETTR-ND | 774-435F12012IET | C19766404 (Extended) | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | 12MHz 20pF ±20ppm crystal SMD-3225; see DEC-022 [CTS] | Yes | Pending |
 | USM: D1-D12 | WP154A4SEJ3VBDZGW/CA | 754-2029-ND | 604-WP154A43VBDZGWCA | C7151795 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 5mm common-anode RGB THT [Kingbright] | Yes | Pending |
 | USM: J1; STA: J13 | B6B-PH-K-S(LF)(SN) | 455-1708-ND | 306-B6B-PH-K-SLFSN | C131342 | - | - | - | - | 1 | - | - | 1 | - | - | - | - | 2 | 6-pin JST PH 2.0mm THT [JST] | Yes | Pending |
@@ -129,7 +129,7 @@
 | ENC: J2; STA: J4-J9 | BHR-20-VUA | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | - | - | - | 1 | - | 6 | - | - | - | - | 7 | 20-pin 2x10 2.54mm shrouded box THT [Adam Tech] | Yes | ✔ |
 | STA: J10; REF: J4; EXT: J7,J8 | 2BHR-30-VUA | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | - | - | - | - | - | 1 | 1 | 2 | - | - | 4 | 30-pin 2x15 2.54mm shrouded box THT [Adam Tech]. Per DEC-053 | No | Pending |
 | ENC: R1; AM: R1-R3 | ERJ-2RKF3300X | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | - | - | - | 1 | 3 | - | - | - | - | - | 4 | 330Ω 1% 0402 [Panasonic] | Yes | ✔ |
-| ENC: R6; STA: R7-R12,R27-R38 | ERJ-2RKF75R0X | P75.0LCT-ND | 667-ERJ-2RKF75R0X | C413061 | - | - | - | - | - | 1 | - | 18 | - | - | - | - | 19 | 75Ω 1% 0402 [Panasonic] | Yes | ✔ |
+| ENC: R6; STA: R7-R12,R24-R35 | ERJ-2RKF75R0X | P75.0LCT-ND | 667-ERJ-2RKF75R0X | C413061 | - | - | - | - | - | 1 | - | 18 | - | - | - | - | 19 | 75Ω 1% 0402 [Panasonic] | Yes | ✔ |
 | ENC: SW1-SW40 | (no standard MPN) | - | - | - | eBay gadgetskingdom | - | - | - | - | 40 | - | - | - | - | - | - | 40 | DPDT 6-pin momentary switches panel-mount [generic]; eBay gadgetskingdom | N/A | N/A |
 | ENC: U1; STA: U1; ROT-26: U1; ROT-64: U1 | EPM570T100I5N | 544-2281-ND | 989-EPM570T100I5N | C27319 | - | - | - | - | - | 1 | - | 1 | - | - | 1 | 1 | 4 | MAX II 570 LEs CPLD TQFP-100 [Intel (Altera)] | Yes | ✔ |
 | REF: J1,J2; EXT: J1,J2; ROT-26: J1,J2; ROT-64: J1,J2 | ERM8-005-05.0-S-DV-K-TR | SAM13519CT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | - | - | - | - | - | - | 2 | 2 | 2 | 2 | 8 | 10-pin 2x5 0.8mm male SMT [Samtec] | Yes | ✔ |
