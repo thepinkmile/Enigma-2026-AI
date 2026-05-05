@@ -45,7 +45,7 @@ source is active.
 | FR-CTL-02 | Receive regulated rails from the Power Module and distribute them to the CM5, Stator, and local peripherals | Via PM dock `J1` and Stator docks `J4/J5` | §2 Dock Interfaces; BOM J1-J3, J4/J5 |
 | FR-CTL-03 | Provide the system's enclosure-edge external I/O interfaces | GbE / PoE entry, HDMI, USB 3.0 | §8 Connectivity; BOM J6, J7, J8 |
 | FR-CTL-04 | Provide JTAG programming capability for all 37 CPLDs in the system | Via JTAG Daughterboard and the `J5` Stator logic dock | §3 JTAG Programming Subsystem; BOM J4, J5 |
-| FR-CTL-05 | Monitor system power and PM status via I²C, with only essential direct PM handshakes kept as dedicated pins | Telemetry: LTC3350 @ 0x09, STUSB4500 @ 0x28, PCA9534A @ 0x3F, INA219 x2 (PM U12 @ 0x40; Stator U2 @ 0x45); Direct handshakes: `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT_N`, `LED_PWR_N` | §4 Telemetry & Logic; §6 CM5 GPIO Mapping Matrix |
+| FR-CTL-05 | Monitor system power and PM status via I²C, with only essential direct PM handshakes kept as dedicated pins | Telemetry: LTC3350 @ 0x09, STUSB4500 @ 0x28, PCA9534A @ 0x3F, INA219 x2 (PM U10 @ 0x40; Stator U2 @ 0x45); Direct handshakes: `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT_N`, `LED_PWR_N` | §4 Telemetry & Logic; §6 CM5 GPIO Mapping Matrix |
 | FR-CTL-06 | Maintain RTC operation across power cycles using a CR2032 backup battery | Non-rechargeable; service by disassembly | §5 RTC Backup Battery; BOM BT1, D1 (BAT54) |
 | FR-CTL-07 | Route power, JTAG, and I²C between the Controller and the Stator board | Via `J4/J5` hybrid docks | §2 Dock Interfaces; BOM J4/J5 |
 | FR-CTL-08 | Provide DSI1 display interface connector for optional lid-mounted touchscreen add-on | DSI1 4-lane FPC connector (J9) on Controller Board; display add-on board to be designed separately | §8 Connectivity; BOM J9 |
@@ -71,6 +71,8 @@ source is active.
 | DR-CTL-14 | Actuation Module host envelope | The Controller area beneath the installed AM shall be a no-component placement zone except for J11 and four M2.5x3.5mm SMT standoffs (MH5-MH8, 9774035151R) and the copper / vias needed to route J11; standoff placement shall follow the pattern defined in `AM Design_Spec.md DR-AM-03`; MH5-MH8 positions shall mirror the AM mounting hole pattern; MH5-MH8 pads shall be connected to `GND`; do not crowd the module with nearby tall parts or enclosure features that would trap heat or block service access. **PCB layout for J11 and MH5-MH8 cannot be finalised until AM schematic capture and PCB layout are complete.** | §8.6; `Board_Layout.md` |
 | DR-CTL-15 | Power switch Vcc bypass capacitors | U2 (TPS2065CDBVR) and U3 (AP2331W-7) shall each have a dedicated 100nF X7R 50V 0402 bypass capacitor on their Vcc pin, placed within 1mm of the IC per `Global_Routing_Spec.md §3.2` | BOM: C13 (U2 bypass), C14 (U3 bypass) |
 | DR-CTL-16 | PoE IC bypass capacitors | U7 (TPS2372-4RGWR) and U8 (TPS23730RMTR) shall each have a dedicated 100nF X7R 50V 0402 bypass capacitor on their VCC pin, placed within 1mm of the IC per `Global_Routing_Spec.md §3.2`. BOM: C18 (U7 bypass), C19 (U8 bypass) | BOM C18, C19 |
+| DR-CTL-17 | ACTUATE_REQUEST_N boot-safe pull-up | R4 (10kΩ 0603) shall connect `ACTUATE_REQUEST_N` (CM5 GPIO 8) to `3V3_ENIG` as a pull-up resistor. This holds the active-low line HIGH (no-actuation state) before CM5 firmware configures GPIO 8 as an output, preventing a spurious actuation pulse to the Actuation Module during CM5 early boot. R4 is distinct from R1–R3, which are series protection resistors on GPIO input lines. | BOM R4; §7 Protection & EMI |
+| DR-CTL-18 | PoE ACF primary-side clamp capacitor | C17 (10nF X7R 100V 0402) shall be placed in the U8 (TPS23730RMTR) primary-side active-clamp circuit as the Cclamp energy-storage capacitor. The 100V voltage rating is required by the primary-side operating environment: the PoE bus may reach 57V and transformer leakage transients on the primary drain node exceed this during switching. See `Electronics/Controller/PoE_Power_Analysis.md`. | BOM C17; §7.1 PoE Front-End Passive Components |
 
 ## 2. Dock Interfaces
 
@@ -136,7 +138,7 @@ The Controller provides JTAG pass-through only. All JTAG chain architecture, dev
 Current monitoring for both rails is managed via the I2C-1 bus (CM5 GPIO 2/3) and is
 implemented on the respective boards - not on the Controller:
 
-* **INA219 U12 (0x40) - 5V_MAIN monitor:** Power Module. See `Power_Module/Design_Spec.md §3 Telemetry`.
+* **INA219 U10 (0x40) - 5V_MAIN monitor:** Power Module. See `Power_Module/Design_Spec.md §3 Telemetry`.
 * **INA219 U2 (0x45) - Rotor-stack monitor:** Stator board. See `Stator/Design_Spec.md §5. Power Telemetry`.
 
 For DT bindings and driver configuration for both INA219 devices, see
@@ -158,8 +160,8 @@ the Stator over `J5`.
 | 0x24 | MCP23017 (U2) | User Settings Module | Bank 1 LED controller: 5x anodes + RGB bank-rail drivers (DEC-034) |
 | 0x25 | MCP23017 (U3) | User Settings Module | Bank 2 LED controller: 7x anodes + RGB bank-rail drivers (DEC-034) |
 | 0x28 | STUSB4500 | Power Module | USB-C PD controller |
-| 0x3F | PCA9534A (U16) | Power Module | PM-local status inputs + SW1 RGB handoff control |
-| 0x40 | INA219 (U12) | Power Module | 5V_MAIN current/power telemetry |
+| 0x3F | PCA9534A (U14) | Power Module | PM-local status inputs + SW1 RGB handoff control |
+| 0x40 | INA219 (U10) | Power Module | 5V_MAIN current/power telemetry |
 | 0x45 | INA219 (U2) | Stator | Rotor stack current/power telemetry |
 
 > **MCP23017 configuration cross-reference:** Full GPIO pin assignments, port-function tables, and
@@ -207,7 +209,7 @@ All GPIOs are referenced to **3V3_ENIG**. BCM2712 silicon limit: 50mA aggregate 
 | GPIO | Function | Type | Logic Level | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | **2 / 3** | **I2C_SDA/SCL** | I2C | 3.3V | System I2C-1 shared with the devices listed in §4.1. |
-| **4** | **ROTOR_EN_N** | Output | 3.3V | Active-low: drive LOW to enable Power Module `3V3_ENIG` LDO for sequenced rotor-stack power-up; held HIGH by R10 pull-up on PM until CM5 asserts. Routed on `J3`. |
+| **4** | **ROTOR_EN_N** | Output | 3.3V | Active-low: drive LOW to enable Power Module `3V3_ENIG` LDO for sequenced rotor-stack power-up; held HIGH by R8 pull-up on PM until CM5 asserts. Routed on `J3`. |
 | **5** | **PM_IO_INT_N** | Input | 3.3V | Optional interrupt input from the PM-local `PCA9534A @ 0x3F`, used to wake the power-management daemon for PM status changes. |
 | **6** | **USB_FAULT_N** | Input | 3.3V | Active Low: USB power fault from on-board TPS2065C (local to Controller; no BtB pin required). |
 | **7** | **PWR_GD** | Input | 3.3V | Direct PM rail-health telemetry only - HIGH while `5V_MAIN` ≥ 4.50V; does NOT trigger shutdown. Routed on `J3`. |
@@ -233,15 +235,50 @@ preserved here for traceability (cross-ref: `design/Standards/Global_Routing_Spe
 ## 7. Protection & EMI
 
 * **External Links:** The CM5-facing status inputs `PM_IO_INT_N`, `USB_FAULT_N`, and `PWR_GD` each include
-  a 10kΩ series resistor to limit transient current into the GPIO bank.
+  a 10kΩ series resistor to limit transient current into the GPIO bank. These are R1 (`PM_IO_INT_N`),
+  R2 (`USB_FAULT_N`), and R3 (`PWR_GD`).
+* **ACTUATE_REQUEST_N Boot-Safe Pull-Up:** R4 (10kΩ) ties `ACTUATE_REQUEST_N` (CM5 GPIO 8) to
+  `3V3_ENIG`, holding the active-low line HIGH (inactive / no-actuation state) while CM5 GPIO 8 is
+  unconfigured during early boot, preventing a spurious request pulse to the Actuation Module. R4
+  serves a pull-up function and is distinct from the series-protection role of R1–R3. See DR-CTL-17.
 * **Voltage:** 5V signals are strictly forbidden on: CM5 GPIO pins, I²C SDA/SCL lines, JTAG (TDI/TDO/TCK/TMS), and all low-speed PM / Stator dock signals.
-* **ESD Protection:** [TPD4E05U06](https://www.ti.com) (U4 - USB/HDMI ESD arrays; U5/U6 - GbE ESD arrays, pair AB and CD respectively) on Layer 1.
+* **ESD Protection:** [TPD4E05U06QDQARQ1](https://www.ti.com) (AEC-Q100 automotive-qualified TVS array;
+  5.5V DC working voltage; 6.4–8.7V breakdown voltage; 10V clamping voltage (V_CLAMP at 1A TLP pulse,
+  I/O to GND); ±12kV contact discharge / ±15kV air-gap discharge, IEC 61000-4-2 Level 4; 0.5 pF per
+  channel; USON-10 package) on Layer 1:
+  * **U4:** USB-A interface + HDMI interface ESD protection arrays (4-channel device covers both
+    connector clusters).
+  * **U5:** Gigabit Ethernet differential pairs A+B ESD protection.
+  * **U6:** Gigabit Ethernet differential pairs C+D ESD protection.
+  * U5 and U6 together protect all four GbE differential pairs. All three devices are placed on
+    Layer 1 at the connector entry to minimise stub length, per
+    `design/Standards/Global_Routing_Spec.md`. The same TPD4E05U06QDQARQ1 (USON-10) is used on the
+    Stator at U9–U12 per Stator `Design_Spec.md §8`.
 * **5V_MAIN Bulk Entry:** 5x 10µF X7R 25V at the `J1` `5V_MAIN` entry region per `design/Standards/Global_Routing_Spec.md §3` Bulk Entry Bank Rule.
 * **3V3_ENIG Tap Decoupling:** The `J1` `3V3_ENIG` entry on the Controller shall follow the
   global bulk-entry bank rule: **5x 10uF X7R 25V** placed at the tap node in a
   **symmetrical star/spoke pattern** per `design/Standards/Global_Routing_Spec.md §3`.
   This applies because `3V3_ENIG` is the Controller's canonical logic rail; the
   CM5-local `CM5 3V3` rail is not used as the board logic reference.
+
+### 7.1. PoE Front-End Passive Components
+
+The PoE front-end (U7 TPS2372-4RGWR, U8 TPS23730RMTR, T1 POE600F-12L) requires application-circuit
+support capacitors in addition to the per-IC VCC bypass capacitors specified in DR-CTL-16 (C18 for U7,
+C19 for U8).
+
+* **C17 (10nF X7R 100V 0402) — ACF Clamp Capacitor (Cclamp):** Placed in the U8 (TPS23730RMTR)
+  primary-side active-clamp circuit. In ACF operating mode (selected by DEC-019), Cclamp stores and
+  recycles transformer leakage inductance energy each switching cycle. The 100V voltage rating is
+  required by the primary-side operating environment: the PoE bus voltage can reach 57V and primary-side
+  drain transients during switching exceed this level. See DR-CTL-18 and
+  `Electronics/Controller/PoE_Power_Analysis.md`.
+* **C12, C15, C16 (100nF X7R 50V 0402) — PoE Application Circuit Support Capacitors:** Three additional
+  local decoupling and application-circuit filter capacitors within the U7/U8 PoE subsystem, distinct
+  from the per-IC VCC bypass capacitors C18 (U7) and C19 (U8) specified in DR-CTL-16. Typical
+  application nodes in the TPS2372-4 / TPS23730 reference circuit include the VAUX auxiliary supply
+  output (U7), the VS auxiliary-winding sense input (U8), and secondary-output decoupling on
+  `VIN_POE_12V`. Exact per-pin assignments shall be confirmed at schematic capture of the PoE front-end.
 
 ## 8. Connectivity
 
@@ -352,6 +389,11 @@ The JTAG Daughterboard mounts as a hat on the Controller via two 2.54mm headers.
   Touch I²C routed on I²C-1 bus shared with other Stator/Controller peripherals.
 * **Interface:** MIPI DSI1 - 4-lane differential (CLK+/-, D0+/-, D1+/-, D2+/-, D3+/-).
 * **Impedance:** 100 Ω differential; route on L3 (stripline) - same rule as HDMI/Ethernet.
+* **Pin assignment:** The J9 pin-to-signal assignment (DSI1 CLK±, data lanes D0–D3±, GND, and power
+  pins) is defined by the Raspberry Pi CM5 module standard and documented in the
+  [Raspberry Pi CM5 Datasheet](https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf). These
+  assignments are not a board design choice and must follow the CM5 DSI1 interface definition
+  exactly; any deviation would break CM5 module compatibility.
 * **MPN:** Amphenol **F52Q-1A7H1-11015**. See `Consolidated_BOM.md` and
   `design/Datasheets/amphenol_ffc_fpc_100mm_f52q_f52r-datasheet.md`.
 * **Power / deferred scope boundary:** `J9` is the only Controller-side display connector fixed in
@@ -475,8 +517,9 @@ Estimated Controller-local power dissipation at system peak load:
 | J13 | 1x10 2.54mm female socket THT | RS1-10-G | Adam Tech | 2057-RS1-10-G-ND | 737-RS1-10-G | C3320525 | - | - | Yes | Pending | 1 |
 | J14-J15 | CM5 SO-DIMM 100-pin 4mm | 10164227-1004A1RLF | Amphenol | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | Yes | Pending | 2 |
 | MH1-MH4 | M2.5x4.0mm SMT standoff | 9774040151R | Wurth Elektronik | 732-7089-1-ND | 710-9774040151R | C5182034 | - | CM5 module mounting standoffs; pads tied to GND (not GND_CHASSIS) | Yes | Pending | 4 |
-| R1-R4 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 4 |
-| T1 | PoE transformer 1500V 12-pin SMT | POE600F-12L | Bourns | 553-POE600F-12LCT-ND | 673-POE600F-12L | Global sourcing / consignment | - | - | Yes | Pending | 1 |
+| R1-R3 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 3 |
+| R4 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 1 |
+| T1 | PoE transformer 1500V 12-pin SMT | POE600F-12L | Coilcraft | N/A | N/A | N/A | - | Only available direct from Coilcraft | Yes | Pending | 1 |
 | U1 | CM5 module SO-DIMM | CM5 | Raspberry Pi Ltd | N/A - source from RPi distributors | various CM5 SKUs | N/A - not stocked at JLCPCB | - | - | N/A | N/A | 1 |
 | U2 | USB power switch SOT-23-5 | TPS2065CDBVR | Texas Instruments | 296-39353-1-ND | 595-TPS2065CDBVR | C353882 | - | - | Yes | Pending | 1 |
 | U3 | HDMI power switch SOT-23-5 | AP2331W-7 | Diodes Inc | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | Yes | Pending | 1 |
@@ -486,10 +529,11 @@ Estimated Controller-local power dissipation at system peak load:
 
 ### BOM Notes
 
-Telemetry shunt specifications and Kelvin-sensing notes are detailed in §4. Protection, ESD, and bulk
-decoupling capacitor placement rules are detailed in §7. Dock-connector ownership and mating-part
-specifications are in §8. The matching PM dock plugs are `TE 1123684-7`; the matching Stator dock plugs
-are `Molex 2195620015`.
+Telemetry shunt specifications and Kelvin-sensing notes are detailed in §4. Protection, ESD, bulk
+decoupling, and `ACTUATE_REQUEST_N` pull-up (R4) are detailed in §7; PoE front-end passive assignments
+including the ACF clamp capacitor C17 and application-circuit support capacitors C12, C15, C16 are in
+§7.1. Dock-connector ownership and mating-part specifications are in §8. The matching PM dock plugs are
+`TE 1123684-7`; the matching Stator dock plugs are `Molex 2195620015`.
 
 The Controller also owns the Ethernet / PoE front-end (`TPS2372-4RGWR` U7, `TPS23730RMTR` U8, `POE600F-12L` T1, and
 the Ethernet-entry ESD arrays U5/U6 - TPD4E05U06QDQARQ1, one per pair of GbE differential pairs, placed between J8 and the integrated magnetics). Those parts are tracked as Controller-owned in

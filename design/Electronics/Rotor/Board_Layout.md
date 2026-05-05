@@ -329,7 +329,7 @@ board. The L2 GND plane and L3 3V3\_ENIG pour must both be voided around this zo
 
 ## 9. Mounting Holes
 
-Per DR-ROT-08, each rotor assembly uses 4x M2.5 mounting holes (2 per board). The hole positions
+Per DR-ROT-08, each rotor assembly uses 4x M3 mounting holes (2 per board). The hole positions
 define the 4 corners of the inscribed square of the Ø92mm circular PCB, making it straightforward
 to design a rectangular mechanical enclosure around the rotor stack.
 
@@ -358,8 +358,8 @@ Board A carries 2 of the 4 inscribed-square corner holes:
 
 | Hole | Position (from centre) | Specification |
 | :--- | :--- | :--- |
-| MH1A | Top-left (−32.5, +32.5) approx. | Ø2.7mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
-| MH2A | Bottom-right (+32.5, −32.5) approx. | Ø2.7mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+| MH1A | Top-left (−32.5, +32.5) approx. | Ø3.2mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+| MH2A | Bottom-right (+32.5, −32.5) approx. | Ø3.2mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
 
 ### 9.3 Board B — Mounting Holes
 
@@ -367,8 +367,8 @@ Board B carries the remaining 2 inscribed-square corner holes:
 
 | Hole | Position (from centre) | Specification |
 | :--- | :--- | :--- |
-| MH1B | Top-right (+32.5, +32.5) approx. | Ø2.7mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
-| MH2B | Bottom-left (−32.5, −32.5) approx. | Ø2.7mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+| MH1B | Top-right (+32.5, +32.5) approx. | Ø3.2mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+| MH2B | Bottom-left (−32.5, −32.5) approx. | Ø3.2mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
 
 ### 9.4 GND_CHASSIS Bond
 
@@ -384,7 +384,7 @@ rotor assembly to the chassis through the metal support rod and enclosure struct
 ### 9.5 BOM
 
 No BOM entry required for these mounting holes — they are plain PCB holes with ENIG annular
-rings, fitted with M2.5 fasteners and standoffs sourced at assembly time.
+rings.
 
 ### 9.6 Cross-References
 

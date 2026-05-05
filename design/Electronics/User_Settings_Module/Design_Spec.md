@@ -40,7 +40,7 @@ daemon over I²C.
 | ID | Functional Requirement | Notes | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
 | FR-USM-01 | Provide 10 user-accessible toggle switches with matching RGB status LEDs for hardware configuration without opening the enclosure | 4 toggles for routing config, 6 for reflector-map config, plus 2 RGB source-status LEDs; panel-mount through enclosure top face | §3 Configuration Bank Descriptions; §4 I²C Devices |
-| FR-USM-02 | Allow CM5 firmware / GUI presets to override the user-intent configuration on a per-bank basis | CM5 decides authority in software, drives the final applied config on the Stator, and reflects source state back to the Settings indicators via `CFG_ROUTE_CM5_ACTIVE` / `CFG_REFMAP_CM5_ACTIVE` | §5 LED Control Logic; Stator/Design_Spec.md FR-STA-08/09 |
+| FR-USM-02 | Allow CM5 firmware / GUI presets to override the user-intent configuration on a per-bank basis | CM5 decides authority in software, drives the final applied config on the Stator, and reflects source state back to the Settings indicators via `CFG_ROUTE_CM5_ACTIVE` / `CFG_REFMAP_CM5_ACTIVE` | §5 LED Control Logic; `design/Electronics/Stator/Design_Spec.md` FR-STA-08/09 |
 | FR-USM-03 | Provide visual feedback via RGB LED illumination showing configuration source and active bit state | Green = user-intent forwarded; Red = CM5-defined override active; per-bank shared colour rails + per-bit individual LED anode drive with per-colour cathode-return resistors | §5 LED Control Logic |
 | FR-USM-04 | Provide a momentary `CFG_APPLY_N` pushbutton that requests Stator CPLD configuration reload | CM5 daemon polls U1 GPB[7]; active-low; 10kΩ pull-up + 100nF X7R 0402 debounce cap. A board-mounted tactile switch actuated through the enclosure is acceptable; the switch itself need not be panel-mount. | §6 `CFG_APPLY_N` Button |
 | FR-USM-05 | Connect to the Stator Board via a 6-wire I²C harness (`3V3_ENIG`, `5V_MAIN`, 2x `GND`, `SDA`, `SCL`) | J1 = 6-pin JST PH 2.0mm connector; shares Stator I²C-1 bus; `5V_MAIN` powers the indicator LEDs | §7 Interconnects; BOM J1 |
@@ -59,7 +59,8 @@ daemon over I²C.
 | DR-USM-08 | I²C connector | J1 = 6-pin JST PH 2.0mm B6B-PH-K-S(LF)(SN); pins: `3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`; harness to Stator J13 | §7 Interconnects; BOM J1 |
 | DR-USM-09 | Switch input pull-downs | 10x 10kΩ 0603 pull-down resistors on all toggle-switch inputs to U1 (GPA[3:0], GPB[5:0]); HIGH when closed | §4 I²C Devices - U1; BOM R1-R10 |
 | DR-USM-10 | Per-anode LED high-side switch | 12x two-stage per-anode high-side switch: MCP23017 GPIO → 1 kΩ gate resistor (R54-R65) → BSS138 NMOS pre-driver (Q7-Q18); BSS138 drain pulls PMOS gate low; 47 kΩ pull-up (R66-R77) from PMOS gate to `5V_MAIN`; PMOS source at `5V_MAIN`, drain to LED anode; GPIO HIGH → LED ON (non-inverted logic); this topology isolates the MCP23017 3.3 V GPIO from direct-driving 5 V LED anodes | §5 LED Control Logic; BOM Q7-Q30, R54-R77 |
-| DR-USM-11 | Mounting holes | MH1-MH4 shall be M2.5mm through-hole mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to the local GND_CHASSIS net per `design/Standards/Global_Routing_Spec.md §4` | §2 Core Features (GND_CHASSIS section) |
+| DR-USM-11 | Mounting holes | MH1-MH4 shall be M3 PTH (Ø3.2 mm clearance hole) mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to the local GND_CHASSIS net per `design/Standards/Global_Routing_Spec.md §4` | §2 Core Features (GND_CHASSIS section) |
+| DR-USM-12 | Per-IC bypass capacitors | C1–C3: one 100 nF X7R 0402 bypass capacitor per VDD/VCC pin per IC (U1, U2, U3), placed as close as possible to each IC supply pin, per `design/Standards/Global_Routing_Spec.md §3.2` | §10 BOM (C1-C3); §12 Component Count Summary |
 
 ---
 
@@ -158,7 +159,7 @@ logic-0 when U8 is uninitialised (default map index = 0).
 When Bank 2 is latched, the Stator CPLD loads the selected map and applies it at the reflection
 boundary while the physical Reflector board remains in the active ENC signal path.
 
-**UFM map storage:** 21 involutory reflector maps (same as defined in Stator/Design_Spec.md §3):
+**UFM map storage:** 21 involutory reflector maps (same as defined in `design/Electronics/Stator/Design_Spec.md` §3):
 
 | Index | Map | Notes |
 | :--- | :--- | :--- |
@@ -374,6 +375,18 @@ automatic polling intervals.
 * **Min drill:** 0.2mm
 * **JTAG chain:** None - User Settings Module is not in any JTAG chain.
 
+### 8.1 Manually Fitted Components
+
+Per `design/Production/JLCPCB_Manufacturing.md §3.2`, all THT components require manual fitting after
+JLCPCB PCBA and are excluded from the JLCPCB SMT assembly BOM.
+
+| RefDes | Description | Package |
+| :--- | :--- | :--- |
+| D1-D12 | Kingbright WP154A4SEJ3VBDZGW/CA 5mm common-anode RGB LED | THT |
+| J1 | JST B6B-PH-K-S(LF)(SN) 6-pin PH 2.0 mm connector | THT |
+| SW1-SW10 | E-Switch 200MSP1T2B4M2QE SPDT latching toggle | THT panel-mount |
+| SW11 | Omron B3F-1070 SPST NO tactile | THT |
+
 ---
 
 ## 9. Thermal & ESD
@@ -432,7 +445,7 @@ automatic polling intervals.
 
 ---
 
-## 11. Component Count Summary
+## 12. Component Count Summary
 
 | Category | Quantity | Notes |
 | :--- | :---: | :--- |
@@ -456,11 +469,11 @@ automatic polling intervals.
 | **Pushbutton Switch** | 1 | SW11 - Omron B3F-1070 SPST NO through-hole tactile switch |
 
 **Total unique part numbers:** ~20
-**Total component count:** ~153
+**Total component count:** 166
 
 ---
 
-## 12. Design Notes
+## 13. Design Notes
 
 ### LED Control Architecture
 
@@ -498,4 +511,4 @@ logic supply, which remains on `3V3_ENIG`.
 
 The User Settings Module uses the contiguous `0x23`-`0x25` block immediately after the Stator's
 `0x20`-`0x22` expanders. This keeps the shared Settings/Stator GPIO devices grouped together on the
-bus. The authoritative full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
+bus. The authoritative full-system I²C allocation is defined in `design/Electronics/Controller/Design_Spec.md §4.1`.

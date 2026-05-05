@@ -33,10 +33,11 @@ second CPLD on the Reflector itself.
 | :--- | :--- | :--- | :--- |
 | DR-REF-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §6 PCB Fabrication & Stackup |
 | DR-REF-02 | Input connectors | J1 = ERM8-005 (JTAG, plugs into Rotor 30 J4), J2 = ERM8-005 (Power, Rotor 30 J5), J3 = ERM8-010 (ENC, Rotor 30 J6) | §4 Rotor Interface Connectors; BOM J1-J3 |
-| DR-REF-03 | TTD_RETURN output | J4 connector (mates with Stator J10); `TTD_RETURN` on J4 pin 16; 30-pin 2x15 layout per DEC-053; `5V_MAIN` on pins 1-2/29-30, `3V3_ENIG` on pins 3-4/27-28 (unused on this board); GND guard pairs at pins 5-6, 13-14, 17-18, 25-26 | §3 JTAG & Logic Hub; BOM J4 (30-pin 2x15 shrouded) |
+| DR-REF-03 | TTD_RETURN output | J4 connector (mates with Stator J10); `TTD_RETURN` on J4 pin 16; 30-pin 2x15 layout per DEC-053; `5V_MAIN` on pins 1-2/29-30 (not connected — present for cable family compatibility only); `3V3_ENIG` on pins 3-4/27-28 (sole power entry for this board); GND guard pairs at pins 5-6, 13-14, 17-18, 25-26 | §3 JTAG & Logic Hub; BOM J4 (30-pin 2x15 shrouded) |
 | DR-REF-04 | End-of-chain damping | R1 = 22 Ω, 0603, on TDO line | §3 JTAG & Logic Hub; BOM R1 (22Ω) |
 | DR-REF-05 | Active logic | None - passive turnaround board only; reflector-map selection remains Stator-owned | §2 Architecture |
 | DR-REF-06 | ESD protection - rotor-facing BtB connectors | U1 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, SYS_RESET_N) + U2-U4 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §5 Thermal & ESD; BOM U1-U4 |
+| DR-REF-07 | Mounting holes | 4× M3 through-holes tied to GND_CHASSIS per `design/Standards/Global_Routing_Spec.md §5`. No standoff or BOM entry — chassis mounting points only. Designators: MH1–MH4. | §6 PCB Fabrication & Stackup |
 
 ## 2. Architecture
 
@@ -63,9 +64,7 @@ second CPLD on the Reflector itself.
   > `ENC_OUT_REF[5:0]` on pins 7-12, `ENC_IN_REF[5:0]` on pins 19-24, `3V3_ENIG` on pins 3-4/27-28,
   > `5V_MAIN` on pins 1-2/29-30, GND guard pairs at pins 5-6, 13-14, 17-18, 25-26.
 
-> **Compatibility note:** J4 pin allocation matches Stator J10 (30-pin 2x15). Power pins (`5V_MAIN`
-> on pins 1-2/29-30 and `3V3_ENIG` on pins 3-4/27-28) are unused on the passive Reflector but retained
-> so the same cable family can be used for Reflector and Extension links.
+> **Compatibility note:** J4 pin allocation matches Stator J10 (30-pin 2x15). `3V3_ENIG` on pins 3-4/27-28 is the sole power entry for this board. `5V_MAIN` on pins 1-2/29-30 is not connected — present for cable family compatibility only.
 
 * Decoupling and bulk entry capacitor requirements per `design/Standards/Global_Routing_Spec.md §3`.
 * **Termination:**R1 (22Ω) is a series damping resistor on the TDO return line (end-of-chain
@@ -148,8 +147,8 @@ Reflector.
   * **U2, U3, U4** - 3x TPD4E05U06QDQARQ1 on J3 (ENC); 12 channels: ENC_IN[5:0] + ENC_OUT[5:0].
   All arrays shall be placed within 3mm of their respective connector mating edge on L1.
   * **Working voltage note:** The TPD4E05U06QDQARQ1 maximum continuous working voltage is **5.5V**
-    per datasheet. On the `5V_MAIN` rail (5.0V ±2% = max 5.1V), all U1-U4 devices are within
-    operating range with a ≥0.4V margin to the rated limit.
+    per datasheet. On the `3V3_ENIG` rail (3.3V ±5% = max 3.465V), all U1-U4 devices are well within the 5.5V rated continuous working voltage with a ≥2.0V margin.
+  * **Operating voltage:** U1–U4 are powered from `3V3_ENIG` (the sole power rail on this board). `5V_MAIN` is not connected on the Reflector (J4 pins 1-2/29-30 are NC per DR-REF-03).
 * **ESD - all other connectors (no TVS required):**
   * J2 (Power, ERM8-005): power rail (3V3_ENIG / GND) only - no signal protection required.
   * J4 (TTD_RETURN ribbon, 2BHR-30-VUA): internal ribbon connector; not accessible during live rotor swap.
@@ -162,6 +161,7 @@ Reflector.
 * **Contacts:** ERM8-005 (x2, 10-pin, JTAG and Power) + ERM8-010 (x1, 20-pin, ENC Data) - male headers on J1-J3.
 * **Fillets:** 2.0mm Rounded PCB corners for consistent "Museum-Grade" enclosure fit.
 * **Routing:** Global **0.5mm Fixed-Radius Circular Arcs** for all loopback traces.
+* **Mounting Holes:** 4× M3 through-holes (MH1–MH4) tied to GND_CHASSIS per GRS §5. No BOM entry required for chassis mounting holes.
 
 ## 7. Branding & Traceability
 

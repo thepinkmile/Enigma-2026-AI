@@ -52,7 +52,7 @@ For mechanical dimensions, tolerances, shroud specification, and encoder slot ge
 ### GND_CHASSIS Single-Point Bond
 
 Per `design/Standards/Global_Routing_Spec.md §5`, each rotor PCB implements a local
-`GND_CHASSIS` net tied to its M2.5 alignment holes and any stationary mechanical chassis-contact
+`GND_CHASSIS` net tied to its M3 alignment holes and any stationary mechanical chassis-contact
 features, but it does **not** implement a local GND-to-GND_CHASSIS bond. The system's only
 galvanic GND ↔ GND_CHASSIS bond remains on the Power Module at the common power-entry point
 immediately before the eFuse. The rotating aluminium shroud remains electrically floating and must
@@ -86,7 +86,7 @@ not be used as a local chassis-bond point.
 | DR-ROT-05 | Output connectors (Board B) | J4 = ERF8-005 (JTAG out), J5 = ERF8-005 (Power out), J6 = ERF8-010 (ENC out) | §3.4 Connector Pinouts; BOM J4-J6 |
 | DR-ROT-06 | Power consumption | ≈54.2 mA typical per rotor from 3V3_ENIG (design budget: 55 mA) | §3.1 Power Management |
 | DR-ROT-07 | Stack quantity | 30 rotor boards in the complete system | §1 Overview |
-| DR-ROT-08 | Mechanical retention | 4x M2.5 NPTH/PTH mounting holes per rotor assembly (2x on Board A + 2x on Board B), positioned at the 4 corners of the inscribed square in the Ø92mm circular footprint (approx. ±32.5 mm from board centre); holes tied to `GND_CHASSIS`; 8mm solid metal support rod (non-threaded) through all 30 rotors for alignment and connector stress relief; stack is horizontal | §2.3 Mechanical Details; `design/Electronics/Rotor/Board_Layout.md §9` |
+| DR-ROT-08 | Mechanical retention | 4x M3 PTH (plated through-hole) mounting holes, Ø3.2mm clearance, per rotor assembly (2x on Board A + 2x on Board B), positioned at the 4 corners of the inscribed square in the Ø92mm circular footprint (approx. ±32.5 mm from board centre); electrical connection: `GND_CHASSIS`; 8mm solid metal support rod (non-threaded) through all 30 rotors for alignment and connector stress relief; stack is horizontal | §2.3 Mechanical Details; `design/Electronics/Rotor/Board_Layout.md §9`; `design/Standards/Global_Routing_Spec.md §4` |
 | DR-ROT-09 | Ring setting DIP switches (SW1) | 6-position DIP switch on input side only; SW1[5:0] summed mod N with CPLD STGC-decoded position to yield effective rotor position | §2.3 Mechanical Details; BOM SW1 |
 | DR-ROT-10 | Map selection DIP switches (SW2 / SW3) | 6-position DIP on each face: bits [4:0] = map index (0-20 valid), bit [5] = direction (0=forward, 1=reverse); identical mechanism on both variants | §2.2 Logic & Transposition; BOM SW2, SW3 |
 | DR-ROT-11 | Internal connectors (J7-J14) | Eight single-row 2.54mm THT headers on inner face of both boards (four per board; J7: 1x5 female RS1-05-G on Board A; J8: 1x5 female RS1-05-G on Board A; J9: 1x5 female RS1-05-G on Board B; J10: 1x7 female RS1-07-G on Board B; J11: 1x5 male PH1-05-UA on Board A; J12: 1x5 male PH1-05-UA on Board B; J13: 1x5 male PH1-05-UA on Board B; J14: 1x7 male PH1-07-UA on Board A; 44 total pins); mixed gender between boards provides physical keying; manually assembled post-JLCPCB SMT | §3.4 Connector Pinouts; BOM J7-J14 |
@@ -229,7 +229,7 @@ Nominal resonant frequency: **~6.5 MHz**.
 
 ### 2.3 Mechanical Details
 
-* **Mounting:** Each rotor PCB has two **M2.5 alignment holes**.
+* **Mounting:** Each rotor PCB has two **M3 alignment holes**.
 * **Stack Orientation:** The rotor stack is oriented **horizontally** (matching original Enigma
   machine aesthetics). In this orientation, rotor weight does not bear on the ERM8/ERF8 connector
   engagement faces.
@@ -329,6 +329,27 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
   These are present on every rotor board. With 30 rotors, 30 sets of pull resistors exist in the full stack;
   this is intentional and consistent with making each rotor independently safe in any stack position.
 * **Shielding:** 4-layer PCB with solid GND plane (L2) to isolate digital switching from the high-accuracy capacitive encoder.
+
+#### JTAG Net Name Mapping
+
+The Rotor board uses T-prefix design net names for JTAG signals. The following table maps JTAG
+standard pin names to design net names as used on the Rotor PCB schematic and netlists. There is
+no net named `TTC` anywhere in this design. See `design/Standards/Global_Routing_Spec.md §10` for
+the full net-naming convention.
+
+| JTAG Standard Name | Direction (per board) | Design Net Name | Notes |
+| :--- | :--- | :--- | :--- |
+| TDI | In — J1 pin 6 | `TTD` | Incoming serial data from the previous board's TDO output |
+| TDO | Out — J4 pin 6 | `TTD` | Outgoing serial data to the next board's TDI input |
+| TCK | In/pass-through — J1 pin 2 → J4 pin 2 | `TCK` | JTAG clock; unmodified throughout the chain |
+| TMS | In/pass-through — J1 pin 4 → J4 pin 4 | `TMS` | JTAG mode select; unmodified throughout the chain |
+| TRST (optional) | In — J1 pin 8 | `SYS_RESET_N` | System-wide active-low reset; also resets the JTAG TAP |
+
+> **TTD inter-board net name:** `TTD` (JTAG Transmission Data) is the net name for the
+> TDO-to-TDI board-to-board trace. Because the trace is simultaneously the TDO output of one
+> Rotor board and the TDI input of the next, neither `TDI` nor `TDO` alone correctly describes it.
+> The unified name `TTD` is therefore used on both J1 pin 6 (input connector) and J4 pin 6
+> (output connector). Cross-reference: `design/Standards/Global_Routing_Spec.md §10`.
 
 ### 3.4 Connector Pinouts (Rotor Interface - Authority Document)
 >

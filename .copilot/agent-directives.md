@@ -26,7 +26,7 @@ the component type. Any such placeholder inserted without approval must be remov
 
 ---
 
-## SECONDARY DIRECTIVE — Git Commits
+## SECONDARY DIRECTIVE — Git Staging and Commits
 
 > ⚠️ **CRITICAL INTEGRITY VIOLATION** — Committing without authorisation corrupts the repository
 > audit trail and removes the user's ability to review, reject, or roll back changes before they
@@ -35,8 +35,13 @@ the component type. Any such placeholder inserted without approval must be remov
 
 **NEVER perform a git commit without explicit user confirmation.**
 
+**NEVER stage (git add) or unstage (git restore --staged / git reset HEAD) any file.**
+
+Git staging and unstaging are solely the user's responsibility. Agents must only write files to
+disk and report what was changed. The user controls when and what enters the git index.
+
 All changes made to any files in the repository must be reviewed and accepted by the user before
-they can be committed into the repository.
+they can be staged or committed into the repository.
 Possible user confirmation prompts include:
 
 - "Let's lock this in"
@@ -138,12 +143,19 @@ STEP 0 — MANDATORY BEFORE ANY OTHER ACTION:
 Read `.copilot/agent-directives.md` in full.
 Store every directive as a standing memory you cannot override or ignore.
 In particular, confirm the following before proceeding:
-  - SECONDARY DIRECTIVE: NEVER perform a git commit. Stage changes only and report back.
+  - SECONDARY DIRECTIVE: NEVER perform a git commit, git add (stage), or git restore --staged / git reset HEAD (unstage).
+    Write changed files to disk only and report back. Git index control belongs solely to the user.
     The only valid commit trigger is the user saying "Let's lock this in" or "Save state".
   - PRIMARY DIRECTIVE: NEVER modify any MPN or supplier part number.
   - TERTIARY DIRECTIVE: design/Design_Log.md is append-only — never modify existing entries.
   - QUATERNARY DIRECTIVE: Never permanently delete files — move to .recycle-bin/ instead.
   - SENARY DIRECTIVE: Never modify any file without explicit implementation approval from the user.
+  - BOM CONTENT RULES: BOM tables must contain ONLY RefDes, MPN, Manufacturer, Part Spec, Supplier PNs, Qty.
+    NEVER add function descriptions, signal names, or usage notes to any BOM row.
+    See "BOM Content Rules" section of this directives file for full detail.
+  - SUPPLIER PN PRE-APPROVAL: ALL supplier part numbers in the design files and BOM are pre-approved
+    and intentional. Mouser frequently abbreviates MPNs (e.g. drops leading 'T', 'LM'). These are correct.
+    NEVER flag a supplier PN as incorrect. NEVER "fix" a supplier PN without explicit user confirmation.
 Only proceed with the task described below after all directives are loaded as standing memories.
 ```
 
@@ -217,6 +229,41 @@ for user review rather than silently substituting an alternative.
   - `TPD4E05U06QDQARQ1` → Mouser `595-PD4E05U06QDQARQ1` (drops leading `T`)
   - `LMQ61460AFSQRJRRQ1` → Mouser `595-Q61460AFSQRJRRQ1` (drops leading `LM`)
   - These are correct. Do not alter them.
+
+---
+
+## BOM Content Rules
+
+**A BOM table must contain ONLY the following information:**
+
+| Column | Content |
+|:---|:---|
+| Board (RefDes) | Board identifier and reference designator(s) |
+| MPN | Manufacturer part number |
+| Manufacturer | Component manufacturer name |
+| Part Specification | Value, tolerance, voltage rating, package, etc. |
+| DigiKey PN | DigiKey order code |
+| Mouser PN | Mouser order code |
+| JLCPCB PN | JLCPCB part number |
+| Alt Supplier + PN | Alternative supplier and order code |
+| Qty columns | Per-board and system quantities |
+| Notes | Procurement notes only (e.g. "Order direct from manufacturer", availability flags) |
+
+**The BOM must NEVER contain:**
+
+- Function descriptions or circuit explanations for any designator
+- Design rationale or notes about why a part is used
+- Signal names, net names, or connectivity information
+- Any information that belongs in `Design_Spec.md`, `Board_Layout.md`, or a DR entry
+
+Functional information for any designator belongs in **design body text** (`Design_Spec.md` or
+`Board_Layout.md`), not in the BOM. A BOM is a **procurement document**. The supplier does not
+need to know the function of a part — only its MPN and quantity.
+
+Do **not** raise the absence of function notes in a BOM as a finding. Do **not** add function notes
+to a BOM as a fix. If a BOM row currently contains function notes in a Notes column, those notes
+should be removed when that row is next edited for another reason — do not perform a standalone
+bulk-cleanup pass for this unless the user explicitly requests a conformity sweep.
 
 ---
 
@@ -373,3 +420,10 @@ as findings until the referenced pre-condition is complete.
 - **KEY_CM5_ACTIVE — Stator keyboard-source select:** Signal is active-high; the active-low variant
   KEY_CM5_ACTIVE_N is incorrect. Do not raise the absence of an _N suffix on KEY_CM5_ACTIVE as
   a review finding.
+
+- **Supplier PN format differences:** Supplier part numbers (Mouser, DigiKey, JLCPCB) routinely
+  abbreviate or reformat manufacturer MPNs. These differences are **always correct as written** —
+  they have been explicitly verified and approved by the user. Do **not** raise supplier PN format
+  differences as review findings at any severity level. Do not suggest that a part number is
+  "missing" letters or digits. Do not compare a Mouser/DigiKey/JLCPCB PN to the full manufacturer
+  MPN and flag discrepancies. The approved BOM values are intentional and final.

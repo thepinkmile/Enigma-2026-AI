@@ -35,7 +35,7 @@ diagnostics.
 | FR-AM-07 | Provide local diagnostic indication without any host-side status return pins | `PWR`, `HOMED`, and `ACT` LEDs are sufficient for bench and service diagnostics and shall remain visible from the AM board edge during maintenance | BOM D1-D3, R1-R3 |
 | FR-AM-08 | Provide a dedicated local SWD programming / service header on the AM itself | Required so the STM32 can always be programmed and debugged before first use without depending on the host board | §3.4; BOM J4 |
 | FR-AM-09 | Provide a dedicated local UART bootloader / service header on the AM itself | Keep a second programming path available for ad-hoc USB-to-UART use, with explicit boot-entry control exposed on the header pinout | §3.5; BOM J5 |
-| FR-AM-10 | Provide a local momentary reset control next to the UART service header | Required so the UART bootloader path can be entered without awkward clip leads on `NRST` | §3.6; BOM SW1 |
+| FR-AM-10 | Provide a local momentary reset control next to the UART service header | Required so the UART bootloader path can be entered without awkward clip leads on `RESET_N` | §3.6; BOM SW1 |
 | FR-AM-11 | Provide a local momentary `BOOT0` control next to the UART service header | Required so the UART bootloader path can be entered directly at the AM without needing a temporary jumper on the header | §3.7; BOM SW2 |
 
 ### Design Requirements
@@ -44,20 +44,20 @@ diagnostics.
 | :--- | :--- | :--- | :--- |
 | DR-AM-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | `Board_Layout.md` |
 | DR-AM-02 | Host dock connector | J1 = Hirose DF40C-20DP-0.4V(51) (module-side 20-pin plug, 0.4mm pitch); host uses matching DF40HC(3.5)-20DS-0.4V(51) receptacle; stacking height = 3.5mm; carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` on a single connector | §3.1; BOM J1 |
-| DR-AM-03 | AM mounting holes | MH1-MH4 shall be M2.5mm NPTH through-holes with copper annular ring using the KiCAD built-in `MountingHole_Pad` footprint (no purchasable BOM component); pads shall be connected to `GND`. Matching 3.5mm SMT standoffs (9774035151R) on the host board (EXT MH5-MH8 or CTL MH5-MH8). Placement shall follow the asymmetric pattern: MH1 (top-left) and MH3 (bottom-left) at 7 mm from the left edge and 7 mm from the top and bottom edges respectively; MH2 (top-right) and MH4 (bottom-right) at 7 mm from the right edge and 12 mm from the top and bottom edges respectively. This non-square pattern enforces a single valid mating orientation, compensating for the polarity-free DF40 connector body. Exact coordinates to be confirmed at PCB layout stage | `Board_Layout.md`; §3.1 |
+| DR-AM-03 | AM mounting holes | MH1-MH4 shall be M2.5mm NPTH through-holes with copper annular ring using the KiCAD built-in `MountingHole_Pad` footprint (no purchasable BOM component); pads shall be connected to `GND`. Matching 3.5mm SMT standoffs (9774035151R) on the host board (EXT MH5-MH8 or CTL MH5-MH8). Placement shall follow the asymmetric pattern: MH1 (top-left) and MH3 (bottom-left) at 7 mm from the left edge and 7 mm from the top and bottom edges respectively; MH2 (top-right) and MH4 (bottom-right) at 7 mm from the right edge and 12 mm from the top and bottom edges respectively. This non-square pattern enforces a single valid mating orientation, compensating for the polarity-free DF40 connector body. Exact coordinates to be confirmed at PCB layout stage. Per DEC-057 daughterboard exception — AM mounts to CTL/EXT via M2.5 standoffs and uses GND (not GND_CHASSIS). | `Board_Layout.md`; §3.1 |
 | DR-AM-04 | Servo loom header | J2 = Adam Tech PH1-05-UA, manually fitted post-PCBA; only pins 1-3 are active in Rev A | §3.2; BOM J2 |
 | DR-AM-05 | Home-switch loom header | J3 = Adam Tech PH1-05-UA, manually fitted post-PCBA; twisted-pair wiring required for the active signal and return | §3.3; BOM J3 |
 | DR-AM-06 | Local controller architecture | U1 shall be a small 3.3V local controller with native hardware PWM, at least 2 digital inputs, at least 4 spare / LED-capable GPIOs, power-on reset, and a package suitable for low-profile service-module assembly | §4; BOM U1 |
 | DR-AM-07 | Diagnostics LED parts and placement | Reuse the existing green 0402 status LED and 330Ω 0402 resistor already used on Encoder boards, but place the LED footprints at the visible board edge on the PCBA side so their light remains observable when the AM is installed upside-down | BOM D1-D3, R1-R3; `Board_Layout.md` |
 | DR-AM-08 | Home-input biasing | `ACTUATION_HOME_N` uses a local 10kΩ pull-up to `3V3_ENIG` plus a 1µF local RC debounce capacitor - RC time constant 10 ms | BOM R4, C1 |
 | DR-AM-09 | Mounting orientation | Module is intended to mount upside-down from the host board, similar to the JDB service-board approach | `Board_Layout.md` |
-| DR-AM-10 | SWD service connector | J4 = Adam Tech PH1-05-UA, manually fitted 1x5 2.54mm SWD header using the common compact 5-pin STM32/ST-LINK flying-lead order (`VTref`, `SWCLK`, `GND`, `SWDIO`, `NRST`) | §3.4; BOM J4 |
+| DR-AM-10 | SWD service connector | J4 = Adam Tech PH1-05-UA, manually fitted 1x5 2.54mm SWD header using the common compact 5-pin STM32/ST-LINK flying-lead order (`VTref`, `SWCLK`, `GND`, `SWDIO`, `RESET_N`) | §3.4; BOM J4 |
 | DR-AM-11 | Inter-board component envelope | All PCBA-fitted parts on the enclosed connector-facing side of the AM shall remain low profile and shall not exceed 2.0 mm installed height above the PCB; all manual-fit loom / service headers remain on the opposite side | `Board_Layout.md`; §4 |
 | DR-AM-12 | UART bootloader connector | J5 = Adam Tech PH1-05-UA, manually fitted 1x5 2.54mm UART bootloader header; pins 1-4 shall follow the common 3.3V TTL serial order (`GND`, `3V3`, `TX`, `RX`) and pin 5 shall expose `BOOT0` | §3.5; BOM J5 |
-| DR-AM-13 | Local reset button | SW1 = Omron B3F-1070 or equivalent SPST NO through-hole tactile switch, wired to pull `NRST` low momentarily and placed adjacent to J5 for convenient UART bootloader entry | §3.6; BOM SW1 |
+| DR-AM-13 | Local reset button | SW1 = Omron B3F-1070 or equivalent SPST NO through-hole tactile switch, wired to pull `RESET_N` low momentarily and placed adjacent to J5 for convenient UART bootloader entry | §3.6; BOM SW1 |
 | DR-AM-14 | Local `BOOT0` button | SW2 = Omron B3F-1070 or equivalent SPST NO through-hole tactile switch, wired to assert `BOOT0` HIGH while pressed and placed adjacent to J5 / SW1 for convenient UART bootloader entry | §3.7; BOM SW2 |
-| DR-AM-15 | Local decoupling and reservoir caps | AM is exempt from the full 5x bulk-entry-bank rule used on larger boards, but it shall still include local STM32 supply decoupling plus compact 3V3/5V reservoir caps: C2-C3 = 100nF X7R 0402 at the STM32 VDD/VDDA supply domain (pin 4, combined VDD/VDDA in LQFP-32), C7 = 100nF X7R 0402 also at STM32 VDD/VDDA (pin 4, combined VDD/VDDA in LQFP-32; multiple caps per datasheet decoupling guidance), C4 = 4.7uF X7R on `3V3_ENIG`, C5 = 10uF X7R on `5V_MAIN` near the servo/power entry region | §4; BOM C2-C3, C5, C7; `Board_Layout.md` |
-| DR-AM-16 | NRST filter capacitor | An external 100 nF X7R filter capacitor (C6) shall be placed between the MCU NRST pin and GND per STM32G071 datasheet Figure 23 to suppress voltage spikes on the reset line | §3.6; BOM C6; `Board_Layout.md` |
+| DR-AM-15 | Local decoupling and reservoir caps | AM is exempt from the full 5x bulk-entry-bank rule used on larger boards, but it shall still include local STM32 supply decoupling plus compact 3V3/5V reservoir caps: C2-C3 = 100nF X7R 0402 at the STM32 VDD/VDDA supply domain (pin 4, combined VDD/VDDA in LQFP-32), C7 = 100nF X7R 0402 also at STM32 VDD/VDDA (pin 4, combined VDD/VDDA in LQFP-32; multiple caps per datasheet decoupling guidance), C4 = 4.7uF X7R on `3V3_ENIG`, C5 = 10uF X7R on `5V_MAIN` near the servo/power entry region. Per GRS §3.2 per-IC bypass capacitor requirement. | §4; BOM C2-C3, C5, C7; `Board_Layout.md` |
+| DR-AM-16 | RESET_N filter capacitor | An external 100 nF X7R filter capacitor (C6) shall be placed between the MCU NRST pin and GND per STM32G071 datasheet Figure 23 to suppress voltage spikes on the reset line | §3.6; BOM C6; `Board_Layout.md` |
 | DR-AM-17 | BOOT0 series protection resistor | A 10 kΩ series resistor (R5) shall be placed between the SW2 / J5 pin 5 shared node and the MCU BOOT0 pin to limit current during BOOT0 assertion and protect the pin from conflict when the external harness and SW2 are both driven | §3.7; BOM R5; `Board_Layout.md` |
 | DR-AM-18 | `ACTUATE_REQUEST_N` pull-up policy | The `ACTUATE_REQUEST_N` signal on `J1 pin 15` shall be held HIGH by the STM32G071K8T3TR internal GPIO pull-up (PUPDR = `0b01`) only; no external pull-up resistor shall be fitted on the AM hardware | §3.1 J1 pin 15; BOM (no external pull-up component) |
 | DR-AM-19 | STM32G071K8T3TR LQFP-32 supply topology | The LQFP-32 package has a single combined VDD/VDDA pin (pin 4); all decoupling caps C2, C3, and C7 shall target pin 4 exclusively; no separate VDDA pin exists in this package | §4; BOM C2-C3, C7 |
@@ -154,7 +154,7 @@ inventing a board-specific pin order.
 | 2 | SWCLK | SWD clock |
 | 3 | GND | Reference |
 | 4 | SWDIO | SWD data I/O |
-| 5 | NRST | Target reset |
+| 5 | RESET_N | Target reset |
 
 ### 3.5 J5 - UART Bootloader / Service Header
 
@@ -163,7 +163,7 @@ UART access and optional STM32 ROM-bootloader programming.
 
 Pins 1-4 keep the common 3.3V TTL serial order so a simple ad-hoc UART harness can be made easily.
 Pin 5 exposes `BOOT0` so the ROM bootloader can still be selected from an external harness when needed.
-At the board itself, the AM also provides local tactile buttons for both `NRST` and `BOOT0`. In use,
+At the board itself, the AM also provides local tactile buttons for both `RESET_N` and `BOOT0`. In use,
 `BOOT0` is treated as a **momentary operator action with a timing constraint**: hold it active while
 reset occurs, then release it after the boot-mode sample point. To make that practical on the bench,
 the AM provides a local reset button at SW1 and a local `BOOT0` button at SW2.
@@ -180,7 +180,7 @@ the AM provides a local reset button at SW1 and a local `BOOT0` button at SW2.
 
 **Part:** Omron **B3F-1070** - SPST NO through-hole tactile switch.
 
-SW1 provides a local momentary reset by pulling `NRST` LOW while pressed. Place it next to J5 so the
+SW1 provides a local momentary reset by pulling `RESET_N` LOW while pressed. Place it next to J5 so the
 normal UART bootloader sequence is straightforward:
 
 1. Hold `BOOT0` HIGH on J5 pin 5.
@@ -188,7 +188,7 @@ normal UART bootloader sequence is straightforward:
 3. Release `BOOT0` after reset if desired; the MCU will stay in the ROM bootloader until power is
    cycled or the next reset occurs with `BOOT0` LOW.
 
-> **NRST filter capacitor (C6):** The `NRST` line carries a 100 nF X7R filter capacitor (C6) to GND,
+> **RESET_N filter capacitor (C6):** The `RESET_N` line carries a 100 nF X7R filter capacitor (C6) to GND,
 > placed adjacent to U1's NRST pin per STM32G071 datasheet Figure 23 to suppress voltage spikes on the
 > reset line. C6 uses the same approved part as C1-C3.
 
@@ -209,6 +209,14 @@ SW1 so the two-button UART bootloader action is simple and repeatable:
 
 This gives the same effect as holding `BOOT0` HIGH on J5 pin 5 during reset, but without needing a
 temporary jumper or second hand on the header itself.
+
+## 3.8 Device-to-Design Net Name Mapping
+
+The following table maps STM32G071 device pin names to the board-level net names used in this document and in the KiCAD schematic:
+
+| Component Pin Name | Design Net Name | Notes |
+|--------------------|-----------------|-------|
+| NRST | RESET_N | STM32 reset pin; active-low; board-local net (does not conflict with system-level SYS_RESET_N) |
 
 ## 4. Local Control Behaviour
 
@@ -306,7 +314,7 @@ by the host mechanical assembly rather than as AM PCB-fitted BOM rows.
 
 * **Thermal:** No active cooling required on the AM. U1 (STM32G071K8T3TR LQFP-32) dissipates well below 100 mW; no heatsinking required.
 * **ESD - J1 (DF40C host dock, no TVS required):** J1 mates to the host board (Extension J9 or Controller J11).
-  It is not operator-accessible during live rotor swap and is explicitly outside DEC-048 scope per `Extension/Design_Spec.md §5`.
+  It is not operator-accessible during live rotor swap and is explicitly outside DEC-048 scope per `design/Electronics/Extension/Design_Spec.md §5`.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.
 * **ESD - J2-J5 (manual-fit loom/service headers, no TVS required):** All remaining connectors (Adam Tech PH1-05-UA) are internal assembly headers; not accessible under live conditions.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.

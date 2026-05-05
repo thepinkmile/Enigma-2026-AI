@@ -783,4 +783,255 @@ All genuine findings. **No changes applied.** This table is research-only, await
   (JLC04161H-7628 4-layer for all boards; JLC06161H-2116 6-layer for CTL only), and PCBA constraints
   (single-sided SMT, no blind/buried vias on standard service). Cross-reference added to GRS §2.
 
-**Pass 5 fix summary:** 12 of 13 findings fixed · 1 deferred (F-108, blocks Pass 6)
+**Pass 5 fix summary:** 12 of 13 findings fixed · 1 deferred (F-108, now resolved as DEC-055 commit fc54336)
+
+---
+
+## Pass 6 — Review Findings
+
+<!-- Batch 2: Extension, Reflector, Encoder, Actuation Module -->
+<!-- Batch 3: USM, JDB (with JTAG_Integrity.md), Integration-Connectivity, Integration-BOM -->
+
+### Pass 6 — Batch 1 Findings
+
+#### Power Module
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| F-PM-01 | MEDIUM | Signal Naming | Vendor `/INTB` notation (LTC3350 open-drain interrupt) used as design net name throughout. GRS §10 requires `_N`-suffix project name (e.g. `LTC_INTB_N`). |
+| F-PM-02 | MEDIUM | Connector Pinout | J1, J2, J3 (TE 1123684-7, 10-pos 2.5 mm dock plugs) have no pin-numbered formal pinout tables in PM Design_Spec.md. Functional allocation exists in System_Architecture.md but not reproduced per Criterion 6. |
+| F-PM-03 | LOW | Connector Pinout | J5 (GCT USB4135-GF-A, USB-C) has no formal pin-numbered pinout table. BOM note names six signals in prose only. |
+| F-PM-04 | LOW | Connector Pinout | J4 (Molex 43650-0519, battery) has a bulleted numbered list but not a formal table with column headers. Inconsistent with other connector tables. |
+| F-PM-05 | LOW | Connector Pinout | J_SW1_1–J_SW1_6 and J_SW2_1–J_SW2_6 (Keystone 1211 spade tabs) have no wiring-assignment table; tab-to-function mapping is prose only. |
+| F-PM-06 | LOW | RefDes Ambiguity | C24 and C25 appear in both the §4 Pi-filter topology and DR-PM-14 bypass cap list. No spec note clarifies whether these are the same physical caps or distinct RefDes assignments. |
+| F-PM-07 | LOW | I2C Bus Map | U3 (LTC3350) and U5 (STUSB4500LQTR) I2C addresses absent from PM spec/BOM; only in Boards_Overview.md (one-way ref). U4 (TPS25751) I2C address not assigned anywhere. |
+| F-PM-08 | LOW | BOM Note Error | BOM note header reads `J3 0436500519 (43650-0519)` but Molex 43650-0519 is J4. Supplementary PN confirmation note appears under wrong designator. |
+| F-PM-09 | MINOR | BOM Completeness | R15 (10 kΩ 1% 0603) has no individual function description. R34–R35 (52.3 kΩ) and R38–R41 (100 kΩ) have no body-text or Notes-column function description. |
+| F-PM-10 | MINOR | BOM Completeness | R42–R44 (10 Ω thin-film 0402) have no stated purpose; R45/R46 are documented as INA219 filter resistors but R42–R44 are unaccounted for. |
+| F-PM-11 | MINOR | Terminology | Mounting holes described as "PTH, non-plated" — self-contradictory. GRS §4.2 specifies NPTH drill with ENIG copper annular ring. Correct description required. |
+
+#### Controller Board
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| CTL-P6-01 | HIGH | BOM Accuracy | T1 BOM row lists manufacturer as `Bourns` — should be `Coilcraft` (POE600F-12L). Supplier PNs likely fictitious; `PoE_Power_Analysis.md` explicitly states POE600F-12L is not stocked at DigiKey or Mouser. PRIMARY DIRECTIVE: requires user confirmation before fix. |
+| CTL-P6-02 | MEDIUM | Document Error | `PoE_Power_Analysis.md` body still uses `T2` RefDes throughout (should be `T1` per CTL BOM) and `Affects:` metadata header still references Power Module context. Not updated during DEC-056 relocation. |
+| CTL-P6-03 | MEDIUM | BOM Accuracy | BOM row R1–R4 qty=4 but only 3 series protection resistors documented in §7. |
+| CTL-P6-04 | LOW | BOM Attribution | C12, C15, C16 bypass caps in BOM with no attribution to any IC or DR requirement. |
+| CTL-P6-05 | LOW | BOM Attribution | C17 (10 nF 100 V) in BOM with no documented function (likely PoE ACF clamp cap but unconfirmed). |
+| CTL-P6-06 | LOW | Connector Pinout | J9 DSI1 connector has no numbered pin-assignment table. |
+| CTL-P6-07 | LOW | ESD Coverage | U4 ESD net coverage for J6 (USB 3.0 dual-stack) not documented. |
+
+#### Stator
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| STA-P6-01 | MEDIUM | I2C Bus Map | U6 and U7 MCP23017 I2C address pin states (A0/A1/A2) undocumented. Only U8 (0x22) is explicitly documented in DR-STA-12/13. |
+| STA-P6-02 | MEDIUM | Connector Pinout | J13 (USM harness, 6-pin) has no numbered pin table — only a prose signal list in DR-STA-14 and FR-STA-12. All other Stator connectors have numbered tables. |
+| STA-P6-03 | LOW | Signal Naming | MCP23017 reset pins referenced as `/RESET` (vendor notation). No project net name with `_N` suffix assigned per GRS §10. |
+| STA-P6-04 | LOW | I/O Budget | CPLD I/O budget in §10 states 70 connections required but does not state available-I/O count from EPM570T100I5N datasheet — spec cannot self-verify. |
+| STA-P6-05 | LOW | BOM Notes | Bulk decoupling cap banks C9–C13 and C22–C26 not labelled for which bank serves which rail (3V3_ENIG vs 5V_MAIN). |
+
+#### Rotor Boards (base + 26-char + 64-char variants)
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| ROT-P6-01 | MINOR | Standards Exception | M2.5 (Ø2.7 mm) mounting holes depart from GRS §4 M3 (Ø3.2 mm) standard. Deliberate mechanical choice for Ø92 mm board but no DEC exception recorded. |
+| ROT-P6-02 | MINOR | BOM Accuracy | Mouser PN for U3–U10 (TPD4E05U06QDQARQ1) missing leading `T` (e.g. `595-PD4E05U06QDQARQ1` should be `595-TPD4E05U06QDQARQ1`). Affects 240 parts across 30 rotors. PRIMARY DIRECTIVE: requires user confirmation before fix. |
+| ROT-P6-03 | MINOR | BOM Notes | Resonant LC tank capacitors C16–C19 have blank BOM Notes; TI FDC2114 app-note values not cited. |
+| ROT-P6-04 | MINOR | BOM Notes | Resonant LC tank inductors L1–L4 have blank BOM Notes; TI app-note values not cited. |
+| ROT-P6-05 | MINOR | BOM Notes | Same blank BOM Notes gap for equivalent LC tank passives in both Rotor_26_Char_Design.md and Rotor_64_Char_Design.md variant docs. |
+| ROT-P6-06 | OBS | Naming Cross-ref | §6.1 ESD table uses logical TDI/TDO names; §3.4 pinout uses project net name TTD. Equivalence noted in §3.4 block quote but §6.1 has no cross-reference — layout-engineer trap. |
+
+#### Batch 1 Summary
+
+| Severity | Count | Boards |
+| :--- | :---: | :--- |
+| HIGH | 1 | CTL-P6-01 |
+| MEDIUM | 6 | F-PM-01, F-PM-02, CTL-P6-02, CTL-P6-03, STA-P6-01, STA-P6-02 |
+| LOW | 13 | F-PM-03–08, CTL-P6-04–07, STA-P6-03–05 |
+| MINOR | 8 | F-PM-09–11, ROT-P6-01–05 |
+| OBS | 1 | ROT-P6-06 |
+| **Total** | **29** | |
+
+**PRIMARY DIRECTIVE holds on:** CTL-P6-01 (T1 manufacturer + supplier PNs) and ROT-P6-02 (U3–U10 Mouser PN) — no fix without explicit user confirmation.
+
+---
+
+### Pass 6 — Batch 2 Findings
+
+#### Extension Board
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| EXT-F01 | LOW | Documentation | `Board_Layout.md` §6 heading "Routing — Trace Width Specifications" contains subsections labelled `### 5.1` and `### 5.2`. DEC-053 inserted a new §5 (J9 AM Dock) but the routing subsection prefixes were not updated from `5.x` → `6.x`. |
+| EXT-F02 | LOW | Metadata | Both `Design_Spec.md` and `Board_Layout.md` carry `Status: Draft`. `Boards_Overview.md` records the Extension Board as `Design Locked`. Document headers have not been promoted to match. |
+
+#### Reflector Board
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| REF-M-01 | MEDIUM | Documentation | `Board_Layout.md` §1 ASCII art still labels J4 as "20-pin 2×10". DEC-053 upgraded J4 to 30-pin 2×15; the ASCII diagram was not updated. |
+| REF-M-02 | MEDIUM | Signal Assignment | `Board_Layout.md` §4.1/§4.2 incorrectly identifies J4 pin 1 as `3V3_ENIG`. Per DEC-053 the 30-pin J4 pin 1 is `5V_MAIN`; `3V3_ENIG` enters on pin 3. |
+| REF-M-03 | MEDIUM | Internal Contradiction | `Design_Spec.md` §3 states power pins are "unused on passive Reflector"; §4 states `3V3_ENIG` is the "sole power entry". Direct contradiction; requires resolution. |
+| REF-M-04 | MEDIUM | Documentation | Mounting holes are referenced in §4 but never formally listed with MH designators, drill sizes, or layout coordinates. GRS §4.2 requires all boards to document mounting holes explicitly. |
+| REF-M-05 | MEDIUM | BOM Accuracy | DigiKey PN for J1/J2 (Samtec ERM8-005-05.0-S-DV-K-TR) differs between `Design_Spec.md` (authoritative board BOM) and `Consolidated_BOM.md`. Board spec is authoritative; Consolidated BOM must be corrected. PRIMARY DIRECTIVE does not apply (no MPN change; PN discrepancy only). |
+| REF-L-01 | LOW | Connector Pinout | J1, J2, J3 have no standalone numbered pinout tables. Ownership correctly delegated to `Rotor/Design_Spec.md §3.4`; delegation is explicit, so this is LOW rather than MEDIUM. |
+| REF-N-01 | MINOR | Routing Spec | ENC loopback trace width contradiction: `Design_Spec.md` §3 states 10-mil (0.254 mm); `Board_Layout.md` §4.1 states 0.20 mm (7.87 mil). The two values should agree. |
+| REF-N-02 | MINOR | Documentation | U1–U4 (TPD4E05U06QDQARQ1) working-voltage note compares against `5V_MAIN`; signals on the Reflector are `3V3_ENIG` (3.3 V logic). The comparison should reference `3V3_ENIG`. |
+
+#### Encoder Board
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| ENC-F-01 | MEDIUM | Standards Departure | `DR-ENC-05` specifies M2.5 mounting holes; GRS §4 mandates M3 (Ø3.2 mm) system-wide. No DEC exception recorded. (Related to ROT-P6-01 and AM-F02 — same M2.5 departure pattern across small-form-factor boards.) |
+| ENC-F-02 | LOW | BOM Accuracy | GRS §3.2 standard-part reference table lists DigiKey `1276-1009-1-ND` / JLCPCB `C1525` for the 100 nF bypass cap. Approved board BOMs use DigiKey `1276-CL05B104KB5NNNCCT-ND` / JLCPCB `C960916`. MPN (Samsung CL05B104KB5NNNC) is consistent on both; only supplier PNs diverge. **PRIMARY DIRECTIVE: user must confirm which set is authoritative before any fix.** |
+| ENC-F-03 | MINOR | Standards Citation | C1–C8 BOM Notes column lacks an explicit GRS §3.2 citation for per-IC bypass cap compliance. |
+| ENC-F-04 | MINOR | BOM Accuracy | `Consolidated_BOM.md` D1 description field contains `Oee` — character-encoding corruption of `≈` (approximately). |
+| ENC-F-05 | OBS | Connector Pinout | J1 (panel-mount 6.35 mm mono jack sockets) has no formal numbered pin table. Mitigated by explicit delegation to the Plugboard Assembly spec. |
+| ENC-F-06 | OBS | Documentation | L4 is described as "secondary routing / data plate" — marginally informal phrasing relative to GRS §2.2 layer-naming conventions. |
+
+#### Actuation Module
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| AM-F01 | HIGH | HW/FW Cross-Spec | Firmware `Design_Spec.md` (Software/Actuation_Module) uses connector designators J5 (SWD) and J6 (UART) throughout. Hardware spec defines J4 = SWD and J5 = UART. **J6 does not exist in the hardware design.** §2, §3 UART bootloader sequence, and §5 signal table all direct engineers to wrong or phantom connectors. HW and Board_Layout are mutually consistent; only the firmware spec diverges. Must be corrected before any bring-up work. |
+| AM-F02 | MEDIUM | Standards Departure | MH1–MH4 are M2.5 mm NPTH per DR-AM-03; GRS §4 requires M3 (Ø3.2 mm). Host-board standoffs (9774035151R) drive the M2.5 thread, but no DEC exception records this rationale. (Related to ENC-F-01 and ROT-P6-01 — candidate for a single shared DEC exception.) |
+| AM-F03 | LOW | Documentation | AM is absent from `Boards_Overview.md` §5 system status table. DEC-043 created the AM on 2026-04-26; `Boards_Overview.md` was last updated 2026-04-20 and was not updated to include the new module. |
+| AM-F04 | LOW | Signal Naming | `NRST` is used as a project net name (J4 pin 5, SW1) but carries no `_N` suffix required by GRS §10 for active-low project net names. Conforming name would be `NRST_N` or `RESET_N`. Both HW and FW specs use this name consistently; both would require updating together. |
+| AM-F05 | MINOR | Standards Citation | DR-AM-15 lists per-IC bypass capacitors (C2, C3, C7 for STM32 VDD) but does not cite GRS §3.2 as its rule basis. The listing requirement is satisfied; only the explicit citation is absent. |
+| AM-F06 | MINOR | BOM Completeness | BOM Notes column for C2-C3/C6-C7 bypass cap row shows "-". Should reference GRS §3.2 and identify per-IC bypass role (and distinguish C6 NRST filter from VDD bypass caps). |
+| AM-F07 | MINOR | Documentation | DR-AM-15 adds C7 as a third STM32 VDD bypass cap. `Board_Layout.md` placement guidance lists C2, C3, C4, C5, C6 by RefDes but omits C7 — no layout guidance for its placement relative to U1 pin 4. |
+| AM-F08 | MINOR | Standards Citation | Neither `Design_Spec.md` nor `Board_Layout.md` explicitly states that the AM is exempt from the GRS §5 GND_CHASSIS requirement under the daughterboard exception. Architecture is correct; citation is absent. |
+| AM-F09 | MINOR | Path Reference | §7 cross-reference reads `Extension/Design_Spec.md §5` — not a full repo-relative path. Conforming form is `design/Electronics/Extension/Design_Spec.md §5`. |
+
+#### Batch 2 Summary
+
+| Severity | Count | IDs |
+| :--- | :---: | :--- |
+| HIGH | 1 | AM-F01 |
+| MEDIUM | 7 | REF-M-01, REF-M-02, REF-M-03, REF-M-04, REF-M-05, ENC-F-01, AM-F02 |
+| LOW | 6 | EXT-F01, EXT-F02, REF-L-01, ENC-F-02, AM-F03, AM-F04 |
+| MINOR | 9 | REF-N-01, REF-N-02, ENC-F-03, ENC-F-04, AM-F05, AM-F06, AM-F07, AM-F08, AM-F09 |
+| OBS | 2 | ENC-F-05, ENC-F-06 |
+| **Total** | **25** | |
+
+**PRIMARY DIRECTIVE holds on:** ENC-F-02 (GRS §3.2 supplier PN discrepancy) — user must confirm authoritative PN set before any GRS edit.
+
+**Key decision required:** ENC-F-01, ROT-P6-01, AM-F02 — three boards all depart from GRS §4 M3 standard with M2.5 holes. Recommend a single DEC exception covering all small-form-factor boards rather than three separate entries.
+
+---
+
+### Pass 6 — Batch 3 Findings
+
+#### JTAG Daughterboard
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| JDB-P6-01 | MEDIUM | Metadata | `Boards_Overview.md` shows JDB as `Design Locked`; both `Design_Spec.md` and `Board_Layout.md` headers show `Status: Draft`. All three must agree. |
+| JDB-P6-02 | MEDIUM | Mounting Holes | No MH designators, drill sizes, or standoff BOM row documented anywhere in JDB specs. DR-JDB-08 mentions "mounting holes tie to GND" but assigns no designators and no drill size. GRS §4.2 requires explicit listing by designator and drill size, and a BOM row for module-attachment standoffs. |
+| JDB-P6-03 | MEDIUM | DR Cross-Reference | GRS §3 bulk-cap exception note cites `DR-JDB-11` (TCK series damping, R2) as the JDB bypass-cap exception. The correct DR is `DR-JDB-09` (C1-C4, C6-C9, C5 entry filter). A reviewer following the citation lands on the wrong requirement. |
+| JDB-P6-04 | LOW | BOM Notes | BOM Notes column for C1-C4/C6-C9 (FT232H per-IC bypass) and C12 (U2 bypass) is blank (`-`). Should identify served IC and cite GRS §3.2 for each entry. |
+| JDB-P6-05 | LOW | Path Reference | `Design_Spec.md` §2 FT232H datasheet link uses relative path `../../Datasheets/FT232H-datasheet.md`; should be repo-relative `design/Datasheets/FT232H-datasheet.md`. |
+| JDB-P6-06 | LOW | Path Reference | `Design_Spec.md` §5 reads `See Board_Layout.md §7.1`; should be `design/Electronics/JTAG_Daughterboard/Board_Layout.md §7.1`. |
+| JDB-P6-07 | LOW | Path Reference | `Board_Layout.md` §7.2 trace-width note and BOM row reference `Global_Routing_Spec.md §1.1`; should be `design/Standards/Global_Routing_Spec.md §1.1`. |
+| JDB-P6-08 | LOW | Path Reference | GRS §3 JDB exception note uses `JTAG_Daughterboard/Design_Spec.md`; should be `design/Electronics/JTAG_Daughterboard/Design_Spec.md`. (Related to JDB-P6-03.) |
+| JDB-P6-09 | LOW | Path + Section Reference | `JTAG_Integrity.md` §3.1 refers to `JTAG_Daughterboard/Design_Spec.md §4` for the inverted stackup. Correct section is **§5** (PCB Fabrication & Stackup, not §4 Aesthetics & Mounting). Path also not repo-relative; correct form: `design/Electronics/JTAG_Daughterboard/Design_Spec.md §5`. |
+| JDB-P6-10 | LOW | Internal Consistency | R1 (33Ω at FT232H TDI output, per DR-JDB-03) is missing from `JTAG_Integrity.md` §7.4 JDB implementation table. §7.4 lists only R2/R3/R4; §9 cost analysis also shows `JDB R2-R4` (3 units, should be 4). |
+| JDB-P6-11 | MINOR | BOM Completeness | C5 Spec column reads `4.7µF X7R 1210` — no voltage rating. All other caps include voltage (e.g. `100nF X7R 50V 0402`). Should read `4.7µF X7R 50V 1210`. |
+| JDB-P6-12 | MINOR | BOM Notes | C5 (5V_USB entry filter) Notes column is blank (`-`). Should read `"5V_USB entry filter"` at minimum. |
+| JDB-P6-13 | MINOR | Document Ownership | `JTAG_Integrity.md` `Affects:` header lists Controller, Stator, Encoder, Reflector, Extension but omits `JTAG Daughterboard`. Post-DEC-056 this document lives in the JDB folder and §7.4 extensively describes JDB component placement. |
+| JDB-P6-14 | OBS | Connector Pinout | J1 pinout in `Design_Spec.md` §3 is prose-only (`Pin 1 = 5V_USB \| Pin 2 = …`). A markdown numbered table is present in `Board_Layout.md` §4; the spec doc itself lacks the table format. |
+| JDB-P6-15 | OBS | Documentation | `JTAG_Integrity.md` §3.1 header parenthetical `(Stator, Encoder, Rotor, Reflector, Extension)` omits JDB. JDB exception is explained below the header; clarity would improve with an inline note. |
+
+#### User Settings Module
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| USM-P6-01 | MEDIUM | Internal Contradiction | `Design_Spec.md DR-USM-11` specifies M2.5 mm mounting holes (MH1–MH4); `Board_Layout.md §10.1` specifies M3 PTH (Ø3.2 mm) matching GRS §4. No DEC exception recorded. One document will produce non-GRS-compliant holes if followed without resolution. (Fifth board with M2.5/M3 conflict: ENC-F-01, ROT-P6-01, AM-F02, JDB-P6-02 are related.) |
+| USM-P6-02 | MEDIUM | Metadata | `Design_Spec.md` and `Board_Layout.md` both carry `Status: Draft`; `Boards_Overview.md §5` lists USM as `In Review`. |
+| USM-P6-03 | LOW | DR Completeness | No dedicated DR entry for per-IC bypass caps C1–C3 in `Design_Spec.md §1` DR table citing GRS §3.2. The caps appear in §11 Component Count Summary and §8.1 routing guidance, but GRS §3.2 explicitly requires a DR table entry. |
+| USM-P6-04 | LOW | Internal Contradiction | `Design_Spec.md §11 Component Count Summary` states "Total component count: ~153"; summing the §10 BOM Qty column yields **166**. Delta of 13; summary is stale. |
+| USM-P6-05 | LOW | Section Numbering | `Design_Spec.md` contains two sections both numbered `§11` ("Power Budget" and "Component Count Summary"). Duplicate heading numbers create ambiguous cross-references. |
+| USM-P6-06 | LOW | Path Reference | Two non-repo-relative cross-doc references: (a) `FR-USM-02` Satisfied-By column uses `Stator/Design_Spec.md FR-STA-08/09`; (b) `§12 I²C Address Selection` uses `Controller/Design_Spec.md §4.1`. Both should be full `design/Electronics/…` paths. |
+| USM-P6-07 | LOW | Production / JLCPCB | `Design_Spec.md §8 PCB Fabrication` does not identify manually-fitted components as required by `JLCPCB_Manufacturing.md §3.2`. Affected: D1–D12 (5mm THT LEDs), J1 (JST PH THT), SW1–SW10 (panel-mount THT toggles), SW11 (tactile THT). |
+| USM-P6-08 | MINOR | BOM Notes | C1–C4 BOM Notes column is blank (`-`). Should state per-component IC/rail assignment and cite GRS §3.2. |
+| USM-P6-09 | MINOR | BOM Notes | C5–C14 BOM Notes column is blank (`-`). Should cite GRS §3 bulk-entry bank rule and annotate rail assignment (5× 3V3_ENIG, 5× 5V_MAIN). |
+| USM-P6-10 | OBS | GRS Structure | GRS section order is non-sequential: §1–§7, §9, §10, **§8** (Vias & Teardrops appears physically after §10). USM documents reference GRS by section number — all resolve correctly — but the out-of-order headings are a navigation hazard. |
+
+#### Integration — Cross-Board Connectivity
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| INT-F-01 | HIGH | Cross-Spec Designator | `Controller/Design_Spec.md §4.1` I²C table lists PCA9534A as "U16 (Power Module)". PM BOM: U14 = PCA9534APWR @ 0x3F; PM U16 = SN74LVC1G175DBVR (D-type flip-flop). Engineer following the CTL table lands on entirely the wrong component. |
+| INT-F-02 | HIGH | Cross-Spec Designator | `Controller/Design_Spec.md §4.1` lists INA219 as "U12 (Power Module)". PM BOM: U10 = INA219AIDR @ 0x40; PM U12 = NL27WZ14DFT2G-Q (Schmitt-trigger inverter). Error **propagated into `Software/Linux_OS/Power_Management.md` line 280** code comment "INA219 U12, Power Module". |
+| INT-F-03 | LOW | Documentation | AM absent from `Boards_Overview.md §5` system board table. (Duplicate of AM-F03 from Batch 2.) |
+| INT-F-04 | MEDIUM | Cross-Spec Designator | `Stator/Design_Spec.md §5` line 341 reads "PM R12 + PM R23 are the first and second system shunt." PM BOM identifies Kelvin shunts at R10 and R16 (KRL6432T4-M-R010-F-T1). PM R12 = 10.0 kΩ precision divider; PM R23 = 33.2 kΩ LTC3350 oscillator resistor — neither is a shunt. |
+| INT-F-05 | MEDIUM | Cross-Spec Designator | `Controller/Design_Spec.md §6` GPIO table reads ROTOR_EN_N is "held HIGH by R10 pull-up on PM." PM R10 = 10 mΩ Kelvin shunt (KRL6432T4-M-R010-F-T1). Actual ROTOR_EN_N pull-up = PM R8 (10 kΩ ERJ-3EKF1002V to 3V3_ENIG). |
+| INT-F-06 | LOW | Discontinued MPN | `Software/Linux_OS/Power_Management.md` line 200 cites `CSS2H-2512R-R010ELF` (Bourns) shunt resistor. PM BOM notes this part replaced by `KRL6432T4-M-R010-F-T1` (Susumu) as discontinued. Stator BOM line 398 also confirms live part. |
+| INT-F-07 | MEDIUM | Cross-Spec Designator | `Software/Linux_OS/Power_Management.md` line 17 reads "MIC1555 U15 (monostable one-shot)". PM BOM: U13 = MIC1555YM5-TR (monostable); U15 = NL27WZ14DFT2G-Q (Schmitt-trigger inverter). |
+| INT-F-08 | MEDIUM | Cross-Spec Designator | `Software/Linux_OS/Power_Management.md` line 44 cites LTC3350 /INTB pull-up as "R29 10 kΩ to 3V3_ENIG (PM)". PM BOM confirms /INTB pulled HIGH by R22. PM R29 is a transistor gate hold-off resistor (Q4–Q10 group). |
+
+**Root cause note (INT-F-01, 02, 04, 05, 07, 08):** Six of the eight findings share a common root cause — PM board was renumbered/updated after designation but CTL Design_Spec.md and Power_Management.md cross-references were not updated to match. These are revision-drift artifacts requiring a systematic audit of all PM-facing designator references.
+
+#### Integration — Consolidated BOM Cross-Check
+
+| ID | Severity | Category | Description |
+| :--- | :--- | :--- | :--- |
+| BOM-P6-01 | MEDIUM | Manufacturer | Line 42 BAT54 Notes field shows `[Diotec]`. Both PM spec line 488 and CTL spec line 464 specify Vishay. Consolidated BOM Notes must match authoritative board specs. |
+| BOM-P6-02 | HIGH | DigiKey PN | Line 135 ERM8-005 DigiKey PN = `SAM13519CT-ND`. REF spec line 176 and ROT spec line 528 both give `612-ERM8-005-05.0-S-DV-K-TRCT-ND`. Wrong Samtec article number. |
+| BOM-P6-03 | MEDIUM | Encoding Corruption | Line 127 LED Notes field reads `VfOee2.0V`. ENC spec line 250 and AM spec line 294 both give `Vf≈2.0V`. `≈` (U+2248) was corrupted during document entry. |
+| BOM-P6-04 | HIGH | Column Alignment | Lines 136–138 (DF40HC(3.5)-20DS-0.4V(51), DF40C-20DP-0.4V(51), 9774035151R) each contain 22 pipe-delimited cells vs the 21-column header. An extra blank `-` cell immediately after the JLCPCB PN column shifts all Qty and Notes columns one position right. |
+| BOM-P6-05 | MEDIUM | Mouser PN | Line 75 LMQ61460AFSQRJRRQ1 Mouser PN = `595-LMQ61460AFSQRJRRQ1` retaining `LM` prefix. BOM's own Notes/Conventions (line 20) and authoritative PM spec both give `595-Q61460AFSQRJRRQ1` (dropping `LM` per Mouser convention). |
+| BOM-P6-06 | HIGH | RefDes Drift (PM) | PM capacitor renumbering (schematic updated, BOM not) causes a systematic +2 offset on all PM cap designators ≥ C31. Affected BOM rows: lines 32, 33, 36, 37. Creates genuine identity conflicts: BOM and PM spec assign different part types to the same designator (e.g. BOM C38 = 100nF; PM spec C38 = 100pF). |
+| BOM-P6-07 | MEDIUM | Quantity Error (CTL) | Line 32 CTL 100nF bypass caps: BOM shows RefDes `C6,C12-C16` Qty=6. CTL Design_Spec.md lists `C6,C12-C16,C18,C19` Qty=8. C18 and C19 missing; System Qty underreported by ≥2. |
+| BOM-P6-08 | MEDIUM | RefDes Drift (ROT) | Rotor schematic renumbering not reflected in BOM. Five affected rows (lines 32, 40, 146, 147, 152): stale ROT RefDes for TPD4E05 ESD arrays (BOM `U5-U12` vs spec `U3-U10`), variant cap designators (C16A/B → C20A/B; C17A/B → C21A/B), base crystal-load cap range (C18-C21 → C16-C19), and variant FDC2114 sensor (U3A/B → U11A/B). Quantities are correct for most; 100nF Qty should be 10 not 9 per rotor (variant docs). |
+| BOM-P6-09 | MEDIUM | System Qty Arithmetic | Five ROT-only rows (lines 32, 146, 147, 149, 152) have System Qty = ROT-26 Qty only, not ROT-26 + ROT-64. Implies ROT-64 column was added after System Qty was last computed. Corrected System Qtys (after BOM-P6-07/08 fixes): FDC2114 2→4, KAM05CR71A105KH 2→4, AC0402FRNPO9BN330 8→16, CWF1610A-180K 8→16, CL05B104KB5NNNC 82→94. |
+
+#### Batch 3 Summary
+
+| Severity | Count | IDs |
+| :--- | :---: | :--- |
+| HIGH | 5 | INT-F-01, INT-F-02, BOM-P6-02, BOM-P6-04, BOM-P6-06 |
+| MEDIUM | 14 | JDB-P6-01, JDB-P6-02, JDB-P6-03, USM-P6-01, USM-P6-02, INT-F-04, INT-F-05, INT-F-07, INT-F-08, BOM-P6-01, BOM-P6-03, BOM-P6-05, BOM-P6-07, BOM-P6-08, BOM-P6-09 |
+| LOW | 16 | JDB-P6-04–JDB-P6-10, USM-P6-03–USM-P6-07, INT-F-03, INT-F-06 |
+| MINOR | 7 | JDB-P6-11, JDB-P6-12, JDB-P6-13, USM-P6-08, USM-P6-09 |
+| OBS | 5 | JDB-P6-14, JDB-P6-15, USM-P6-10 |
+| **Total** | **47** | |
+
+**Notes:**
+- INT-F-03 (AM absent from Boards_Overview.md) is a duplicate of AM-F03 (Batch 2); fix counts once.
+- BOM-P6-09 System Qty arithmetic depends on BOM-P6-07 and BOM-P6-08 corrections being applied first.
+- Six INT findings (INT-F-01, 02, 04, 05, 07, 08) share root cause: PM board renumbering not propagated to CTL/Software docs.
+
+---
+
+### Pass 6 — Consolidated Summary (All Batches)
+
+| Severity | Batch 1 | Batch 2 | Batch 3 | **Total** |
+| :--- | :---: | :---: | :---: | :---: |
+| HIGH | 1 | 1 | 5 | **7** |
+| MEDIUM | 6 | 7 | 14 | **27** |
+| LOW | 13 | 6 | 16 | **35** |
+| MINOR | 8 | 9 | 7 | **24** |
+| OBS | 1 | 2 | 5 | **8** |
+| **Total** | **29** | **25** | **47** | **101** |
+
+**HIGH findings requiring immediate user decisions before any fix work begins:**
+
+| ID | Board | Description |
+| :--- | :--- | :--- |
+| CTL-P6-01 | Controller | T1 manufacturer listed as Bourns; believed to be Coilcraft POE600F-12L. PRIMARY DIRECTIVE — user must confirm correct manufacturer and real supplier PNs. |
+| AM-F01 | Actuation Module | FW spec uses J5/J6; HW spec defines J4/J5. Phantom J6 does not exist in hardware. |
+| INT-F-01 | CTL/PM | CTL §4.1 cross-refs PCA9534A as PM "U16" — PM U16 is a D-type flip-flop; PCA9534A is U14. |
+| INT-F-02 | CTL/PM/SW | CTL §4.1 cross-refs INA219 as PM "U12" — PM U12 is a Schmitt inverter; INA219 is U10. Propagated into Power_Management.md. |
+| BOM-P6-02 | Consolidated BOM | ERM8-005 DigiKey PN wrong (`SAM13519CT-ND` vs correct `612-ERM8-005-05.0-S-DV-K-TRCT-ND`). |
+| BOM-P6-04 | Consolidated BOM | Extra cell in 3 rows (lines 136–138) shifts all Qty/Notes columns right. |
+| BOM-P6-06 | Consolidated BOM / PM | PM cap RefDes systematic +2 offset causing identity conflicts; requires PM BOM audit. |
+
+**PRIMARY DIRECTIVE still outstanding on:**
+- CTL-P6-01: T1 manufacturer + supplier PNs
+- ROT-P6-02: U3–U10 Mouser PN missing leading `T`
+- ENC-F-02: GRS §3.2 supplier PN set — user must confirm authoritative set
+
+---

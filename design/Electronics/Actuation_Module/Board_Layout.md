@@ -65,12 +65,12 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
 * The `ACTUATION_HOME_N` loom on J3 should use a twisted pair for pins 1-2 (`ACTUATION_HOME_N` + `GND`)
   because the loom is expected to run near the servo wiring.
 * U1, C1, and R4 should stay close to J3 so the home input is biased and filtered at the module edge.
-  J4, J5, SW1, and SW2 should also stay close to U1 so the SWD, UART, `BOOT0`, and `NRST` service
+  J4, J5, SW1, and SW2 should also stay close to U1 so the SWD, UART, `BOOT0`, and `RESET_N` service
   lines remain short and unambiguous.
-* C2-C3 should sit tight to the STM32 supply pins as local high-frequency decouplers. C4 should sit near
+* C2, C3, and C7 should sit tight to the STM32 supply pins (U1 pin 4, VDD/VDDA) as local high-frequency decouplers. C4 should sit near
   the local `3V3_ENIG` entry / U1 supply region. C5 should sit near the `5V_MAIN` intake and servo loom
   region so the AM has a local short-burst current reservoir when the servo moves.
-* C6 (100 nF NRST filter cap) shall be placed adjacent to U1's NRST pin. Keep the trace from U1 NRST to
+* C6 (100 nF RESET_N filter cap) shall be placed adjacent to U1's NRST pin. Keep the trace from U1 NRST to
   C6 and from C6 to GND as short as practicable to maximise noise suppression effectiveness.
 * R5 (10 kΩ BOOT0 series protection resistor) shall be placed on the signal path between the SW2 / J5-pin-5
   shared node and the U1 BOOT0 pin. Place R5 in the J4/J5/SW1/SW2 service-header cluster so the service

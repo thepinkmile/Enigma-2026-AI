@@ -33,8 +33,8 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 | DR-JDB-05 | USB interface | USB 2.0 Full Speed via CM5 internal USB port; D+/D- route via hat-header J1 | §3 Interface & Wiring; BOM J1 (5-pin INPUT header), Y1 (12MHz crystal) |
 | DR-JDB-06 | Power source | 5V_USB and 3V3_ENIG from Controller Board via hat-header J1; FT232H self-powered USB mode | §6 Electrical Requirements |
 | DR-JDB-07 | Hat-style connectors | J1 = 1x5 2.54mm male pin header (INPUT); J2 = 1x10 2.54mm male pin header (JTAG OUTPUT) | §3 Interface & Wiring; BOM J1, J2 |
-| DR-JDB-08 | GND_CHASSIS exemption | JDB is exempt from the local `GND_CHASSIS` net rule because it is a non-chassis-connected daughterboard; mounting holes tie to GND only | §3 Interface & Wiring |
-| DR-JDB-09 | Bulk cap exception | JDB exempt from 5x bulk entry bank rule; C1-C4, C6-C9 = 8x 100nF per-IC decoupling (one per FT232H supply pin: VCCA, VCORE, VCCD, VCCIOx3, VPLL, VPHY) + C5 = 4.7µF 5V_USB entry filter | §6 Electrical Requirements; BOM C1-C9 |
+| DR-JDB-08 | GND_CHASSIS exemption | M2.5 NPTH clearance holes. Electrical connection: GND (not GND_CHASSIS). Per DEC-057 daughterboard exception. | §3 Interface & Wiring |
+| DR-JDB-09 | Bulk cap exception | JDB exempt from 5x bulk entry bank rule; C1-C4, C6-C9 = 8x 100nF per-IC decoupling (one per FT232H supply pin: VCCA, VCORE, VCCD, VCCIOx3, VPLL, VPHY) + C5 = 4.7µF 5V_USB entry filter | §6 Electrical Requirements; BOM C1-C9; GRS §3 |
 | DR-JDB-10 | JTAG buffer | U2 = SN74LVC2G125DCUR (VSSOP-8) dual-channel buffer for TCK and TMS; placed between FT232H and J2 header | §6 Electrical Requirements; BOM U2; DEC-024 |
 | DR-JDB-11 | TCK series damping after buffer | R2 = 33 Ω 0402 after U2 TCK output, before J2 pin 1 (TCK) | §6 Electrical Requirements; BOM R2; DEC-024 |
 | DR-JDB-12 | TMS series damping after buffer | R3 = 33 Ω 0402 after U2 TMS output, before J2 pin 7 (TMS) | §6 Electrical Requirements; BOM R3; DEC-024 |
@@ -47,7 +47,7 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 ## 2. Core Logic
 
 * **Role:** Converts the CM5's USB 2.0 signals into standard JTAG signalling (TCK, TMS, TDI, TDO) commands.
-* **Bridge IC:** [FT232H datasheet](../../Datasheets/FT232H-datasheet.md) - High-Speed USB 2.0 to MPSSE.
+* **Bridge IC:** [FT232H datasheet](design/Datasheets/FT232H-datasheet.md) - High-Speed USB 2.0 to MPSSE.
 * **Function:** Dedicated JTAG programmer for the global chain (30x Rotor CPLDs + 6x Encoder CPLDs + 1x Stator CPLD).
 * **Configuration:** 12MHz crystal-controlled for stable JTAG programming via the CM5. See DEC-022.
 * **Software Stack:** `ftdi_sio` kernel module for USB enumeration; `OpenOCD` with `libftdi` for JTAG/MPSSE
@@ -58,7 +58,6 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 ### J1 - INPUT Header (5-Pin, USB/Power Side)
 
 * **Type:** Single-row 2.54mm pitch male pin header, 5 pins
-* **Pinout:** Pin 1 = 5V_USB | Pin 2 = 3V3_ENIG | Pin 3 = D+ | Pin 4 = D- | Pin 5 = GND
 * **Purpose:** System power in (5V_USB + GND from Controller Board TPS2065C-protected USB rail);
   JTAG signal voltage reference (3V3_ENIG from Controller Board); internal USB 2.0 data to CM5 (D+/D-)
 * **Physical location:** One edge of the board (INPUT side)
@@ -73,20 +72,7 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 > **No external connectors:** The JDB has no external connectors. USB is entirely internal via J1.
 > No USB-C connector exists on the JDB. CC pins are irrelevant (USB 2.0 only).
 >
-### J2 JTAG Pinout (10-Pin, Interleaved GND)
-
-| Pin | Signal | Description |
-| :--- | :--- | :--- |
-| 1 | TCK | JTAG Clock |
-| 2 | GND | Ground |
-| 3 | TDI | JTAG Data In |
-| 4 | GND | Ground |
-| 5 | TDO | JTAG Data Out |
-| 6 | GND | Ground |
-| 7 | TMS | JTAG Mode Select |
-| 8 | GND | Ground |
-| 9 | VREF (3V3_ENIG) | Voltage Reference |
-| 10 | GND | Ground |
+> See `design/Electronics/JTAG_Daughterboard/Board_Layout.md` for full connector pin assignments (§3 J2 JTAG OUTPUT; §4 J1 INPUT Header).
 
 ### FT232H JTAG Signal Mapping (MPSSE Mode)
 
@@ -112,6 +98,9 @@ remains on the Power Module at the common power-entry point immediately before t
 * **Visibility:** Completely hidden internally.
 * **Mounting:** Small **4-layer** PCB (DEC-017) mounted as a hat on the Controller Board via conductive
   standoffs. As a non-chassis-connected daughterboard, its mounting holes tie to **GND** only.
+  The M2.5 standoffs used to attach the JDB to the CTL are specified and sourced in the
+  **Controller Board BOM**, not this BOM. See `design/Electronics/Controller/Design_Spec.md` and
+  DEC-058 for the standoff ownership rule.
 
 ## 5. PCB Fabrication & Stackup
 
@@ -130,7 +119,7 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
 
 > **Note - Inverted Stackup:** The JDB uses an intentionally inverted 4-layer assignment (L1=GND, L2=signals, L3=power, L4=GND) vs. the standard
 > pattern (L1=signal, L2=GND, L3=power, L4=signal). Placing signals on L2 immediately adjacent to the L1 GND plane achieves equivalent controlled
-> impedance to outer-layer microstrip, consistent with DEC-016. See `Board_Layout.md §7.1` for JTAG trace impedance compliance detail.
+> impedance to outer-layer microstrip, consistent with DEC-016. See `design/Electronics/JTAG_Daughterboard/Board_Layout.md §7.1` for JTAG trace impedance compliance detail.
 
 ## 6. Electrical Requirements
 
@@ -153,6 +142,9 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
   remains deasserted (RESET_N HIGH = normal operation) at all times during normal use. RESET_N is active-low;
   if left floating the pin may latch LOW and prevent the FT232H from operating. An external pull-up is
   required per FTDI application note AN_108 when RESET_N is not driven by the host (see DR-JDB-16).
+  `RESET_N` is a board-local net name scoped to JDB; it does not conflict with the system-level
+  `SYS_RESET_N` net, which is driven by the Stator CPLD and distributed across inter-board connectors.
+  Separate KiCAD projects are used per board, so these net names remain naturally isolated at capture time.
 * **Clocking:** Dedicated 12MHz SMD crystal (Y1) for the FT232H reference clock. The FT232H internal PLL requires 12MHz; CM5 GPCLK
   option was considered and rejected - see DEC-022. Crystal load capacitors C10-C11 (33pF C0G) set the 20pF crystal load capacitance.
   **Load cap calculation:** The crystal specifies C_L = 20pF. Two equal load caps in series give C_series = C/2; adding PCB stray
@@ -196,7 +188,7 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | C1-C4, C6-C9, C12 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 9 |
-| C5 | 4.7µF X7R 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | Yes | Pending | 1 |
+| C5 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | Yes | Pending | 1 |
 | C10-C11 | 33pF C0G/NP0 crystal load 0402 | C0402C330J5GAUTO | Kemet | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | C0G/NP0 exception approved - only C0G in system | Yes | Pending | 2 |
 | J1 | 1x5 2.54mm male INPUT header THT | PH1-05-UA | Adam Tech | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | - | Yes | Pending | 1 |
 | J2 | 1x10 2.54mm male JTAG OUTPUT header THT | PH1-10-UA | Adam Tech | 2057-PH1-10-UA-ND | 737-PH1-10-UA | C3330527 | - | - | Yes | Pending | 1 |

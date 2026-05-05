@@ -118,8 +118,8 @@ Start the next clean session by reading **in this order**:
 3. `.copilot/handoff.md`
 4. `.copilot/todo-list.md` — populate the in-session SQL `todos`/`todo_deps` tables from the
    "SQL Reconstruction Reference" section at the bottom of that file
-5. `.copilot/checkpoints/027-pass-5-fixes-complete.md` (latest checkpoint)
-6. `.copilot/review-report.md` (for full Pass 1–4 audit trail)
+5. `.copilot/checkpoints/112-ctl-p6-03-04-05-complete.md` (latest checkpoint)
+6. `.copilot/review-report.md` (for full Pass 1–6 audit trail)
 
 ### Ordered work for next session
 

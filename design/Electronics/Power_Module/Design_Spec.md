@@ -39,12 +39,12 @@ Controller Board via dock connector `J1`.
 | FR-PM-01 | Accept a regulated PoE-derived auxiliary feed from the Controller plus local USB-C and battery inputs, then generate regulated 5V and 3.3V system rails | PM is the system power-conditioning / UPS cartridge | §2 Power & UPS Hub; BOM J2, J4, J5, U2A/U2B, U7 |
 | FR-PM-02 | Maintain system power for ≥33.5 s after mains/PoE loss | Provides controlled-shutdown window for the CM5 OS | §2 Power & UPS Hub; BOM U3 (LTC3350), C_SC1-8 (supercaps) |
 | FR-PM-03 | Assert PWR_GD (active-HIGH) to CM5 while 5V_MAIN ≥ 4.5V; deassert LOW when 5V_MAIN drops below threshold | Rail-health telemetry exported on `PWR_GD`; does not initiate shutdown directly | §5 Protection & Logic; BOM U8 (MCP121T-450E) |
-| FR-PM-07 | Automatically pulse CM5 PWR_BUT_N LOW for 3 seconds when LTC3350 enters backup mode (primary power lost), initiating a hardware-guaranteed graceful OS shutdown without firmware polling | Ensures graceful shutdown within the 33.5 s hold-up window regardless of OS state | §3 Power Sequencing; §5 Protection & Logic; BOM U13 (MIC1555 monostable), Q5, R21, R22, C36, C40 |
-| FR-PM-08 | Provide manual CM5 power button (SW2) wired to PWR_BUT_N, enabling graceful power-on after OS shutdown while system power remains available | Allows CM5 restart without a full power cycle; replaces incorrect GLOBAL_EN hard-reset approach | §3 Power Sequencing; BOM SW2, R22 |
 | FR-PM-04 | Distribute `5V_MAIN` and `3V3_ENIG` to the Controller Board and expose the retained direct PM handshakes | Via `J1` (rails) and `J3` (low-speed control / telemetry) | §2 Power & UPS Hub; BOM J1-J3 |
 | FR-PM-05 | Monitor 5V_MAIN output voltage and current and report via I2C | Runtime health telemetry for the primary CM5 supply rail; downstream rails are monitored elsewhere in the system where specified | §3 Telemetry & Power Management; BOM R5, R6 (I2C pull-ups), U10 (INA219 at 0x40), R16 (10mΩ shunt) |
-| FR-PM-09 | Virtualise non-critical PM status lines and runtime SW1 RGB control through a PM-local I²C expander | Inputs: `POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`; Outputs: `SW_LED_R`, `SW_LED_G`, `SW_LED_B`, `SW_LED_CTRL` | §3 Telemetry & Power Management; BOM U14 (`PCA9534APWR`) |
 | FR-PM-06 | Protect downstream circuitry from overcurrent, overvoltage, and inrush | Hardware protection independent of software | §5 Protection & Logic; BOM U1 (TPS25980 eFuse), R1-R3 |
+| FR-PM-07 | Automatically pulse CM5 PWR_BUT_N LOW for 3 seconds when LTC3350 enters backup mode (primary power lost), initiating a hardware-guaranteed graceful OS shutdown without firmware polling | Ensures graceful shutdown within the 33.5 s hold-up window regardless of OS state | §3 Power Sequencing; §5 Protection & Logic; BOM U13 (MIC1555 monostable), Q5, R21, R22, C36, C40 |
+| FR-PM-08 | Provide manual CM5 power button (SW2) wired to PWR_BUT_N, enabling graceful power-on after OS shutdown while system power remains available | Allows CM5 restart without a full power cycle; replaces incorrect GLOBAL_EN hard-reset approach | §3 Power Sequencing; BOM SW2, R22 |
+| FR-PM-09 | Virtualise non-critical PM status lines and runtime SW1 RGB control through a PM-local I²C expander | Inputs: `POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`; Outputs: `SW_LED_R`, `SW_LED_G`, `SW_LED_B`, `SW_LED_CTRL` | §3 Telemetry & Power Management; BOM U14 (`PCA9534APWR`) |
 
 #### Design Requirements
 
@@ -63,7 +63,7 @@ Controller Board via dock connector `J1`.
 | DR-PM-11 | LTC3350 RT frequency-setting resistor | R23: 33.2 kΩ (E96) to GND - sets LTC3350 switching frequency to 400 kHz (vs default 200 kHz with RT=INTVCC); required to achieve ≥4 cycles within 10.2µs backup switchover window | §5 Protection & Logic; BOM R23 (33.2kΩ) - see DEC-030 |
 | DR-PM-12 | Controller dock connectors | `J1/J2/J3` = TE `1123684-7` 10-position 2.5mm plugs mating with Controller `1-1674231-1` receptacles | BOM J1-J3 |
 | DR-PM-13 | PCB stackup | 6-layer, 2oz finished copper (JLC06161H-2116) | §1 PCB Architecture |
-| DR-PM-14 | Per-IC bypass capacitors | All ICs shall have a dedicated 100nF X7R 50V 0402 bypass capacitor on each VCC/VCCIO/VCC_IO pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C24-C30, C31-C37, C41-C48, C50, C56 | BOM C24-C30, C31-C37, C41-C48, C50, C56 |
+| DR-PM-14 | Per-IC bypass capacitors | All ICs shall have a dedicated 100nF X7R 50V 0402 bypass capacitor on each VCC/VCCIO/VCC_IO pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 | BOM C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 |
 
 ## 2. Design
 >
@@ -104,7 +104,20 @@ Controller Board via dock connector `J1`.
 
 | Count | Size | Type | Net | BOM Entry |
 | :--- | :--- | :--- | :--- | :--- |
-| 4 | M3 (3.2 mm drill) | PTH, non-plated | GND_CHASSIS | None |
+| 4 | M3 (3.2 mm drill) | PTH | GND_CHASSIS | None |
+
+#### Net Name Conventions
+
+The following table maps vendor and schematic signal names to the project-standard net identifiers used
+in design documentation and PCB net lists. These signals are the direct PM handshakes exposed on `J3`.
+
+| Device | Vendor / Schematic Pin | Project Net Name | Active State | Signal Description |
+| :--- | :--- | :--- | :--- | :--- |
+| MCP121T-450E (U8) | `~RESET` | `PWR_GD` | Active-LOW open-drain released HIGH via pull-up = power good | Rail-health output; released HIGH when `5V_MAIN` ≥ 4.5 V; held LOW during startup or fault |
+| TPS75733 (U7) | `/EN` | `ROTOR_EN_N` | Active-LOW (LOW = LDO enabled) | 3V3_ENIG LDO enable — drive LOW to enable rotor stack; HIGH = shutdown |
+| SW2 contact (Adafruit 3350) | `NO` (Normally Open) | `PWR_BUT_N` | Active-LOW | CM5 PMIC power button; pulled LOW on press or by MIC1555 (U13) one-shot on backup-mode trigger |
+| CM5 pin 95 (via `J3`) | `LED_PWR_N` | `LED_PWR_N` | Active-LOW | CM5 power-on indicator; LOW = CM5 powered. Drives PM SW2 hardware indicator logic; does not route through U14 |
+| LTC3350 (U3) | `/INTB` (pin 13, active-LOW open-drain) | `LTC_INTB_N` | Active-LOW | LTC3350 interrupt — asserts LOW when supercap backup mode activates or a monitored fault condition is detected |
 
 ### 2. Power & UPS Hub
 
@@ -113,12 +126,15 @@ Controller Board via dock connector `J1`.
 * **PoE Auxiliary Interface:** `J2` receives the regulated PoE-derived auxiliary feed
   (`VIN_POE_12V` + `GND`) from the Controller. The Controller hosts the RJ45, Ethernet ESD, and
   PoE PD / ACF front-end.
-* **Battery Interface:** 5-pin Locking Micro-Fit (Molex 43650-0519 - vertical THT, gold contacts, board lock).
-  * Pin 1: `VBATT+` (14.4V nominal).
-  * Pin 2: `SMBUS_SCL` with local ESD protection.
-  * Pin 3: `SMBUS_SDA` with local ESD protection.
-  * Pin 4: `BATT_PRES_N` (battery `T` / auxiliary detect pin for the selected smart-battery family).
-  * Pin 5: `VBATT-`.
+* **Battery Interface:** J4 — 5-pin Locking Micro-Fit (Molex 43650-0519 - vertical THT, gold contacts, board lock).
+
+  | Pin | Signal | Direction | Description |
+  | :---: | :--- | :--- | :--- |
+  | 1 | `VBATT+` | Battery -> PM | 14.4V nominal battery positive |
+  | 2 | `SMBUS_SCL` | Bidirectional | SMBus clock; local ESD protection fitted |
+  | 3 | `SMBUS_SDA` | Bidirectional | SMBus data; local ESD protection fitted |
+  | 4 | `BATT_PRES_N` | Battery -> PM | Battery auxiliary / thermistor detect (active-LOW: 300Ω ±5% T-pin to GND when battery present) |
+  | 5 | `VBATT-` | Battery -> PM | Battery negative / return |
   * **BMS Charge Voltage:** Smart Battery BMS must be configured for a maximum charge voltage of **4.1V/cell (16.4V total for 4S)**. This provides a ≥0.5V margin to the TPS25980 eFuse 16.9V OVLO
   threshold, preventing nuisance latch-off at full charge. BMS configurations using 4.2V/cell (16.8V) are not compatible without OVLO re-specification.
   * **Candidate replacement path:** a military / NetWarrior-style Glenair or ODU receptacle plus a
@@ -178,14 +194,14 @@ VIN_RAW -+-[L1: WE-CMBNC CM Choke]-[L2: WE-CMBNC HF CM Choke]-+-[L3: 10µH DM]-+
           |   (Nanocrystalline)       (High-Freq Ferrite)     |               |
          [C1/C2] 22µF } input-side                           [C3/C4] 22µF } output-side
          [C21]   1µF }   Pi leg                              [C22]   1µF }   Pi leg
-         [C24] 100nF}  (to GND)                              [C25] 100nF}  (to GND)
+         [C57] 100nF}  (to GND)                              [C58] 100nF}  (to GND)
           |                                                   |               |
 GND ------+---------------------------------------------------+---------------+- GND
 ```
 
 > **Note:** L1 and L2 are common-mode chokes - each has two coupled windings,
-> one in the +VIN line and one in the GND return line. C1/C2 + C21 + C24 form
-> the input-side Pi-filter capacitor stack, and C3/C4 + C22 + C25 form the
+> one in the +VIN line and one in the GND return line. C1/C2 + C21 + C57 form
+> the input-side Pi-filter capacitor stack, and C3/C4 + C22 + C58 form the
 > output-side stack. All are shunt capacitors to GND
 > (differential filter caps).
 
@@ -209,7 +225,7 @@ GND ------+---------------------------------------------------+---------------+-
   ⚠️ Re-verify CM insertion loss at 150kHz with the ferrite substitute before schematic freeze - add an external X2 cap (e.g. 10nF Y1-rated)
   across the CM choke if >6dB insertion loss is lost at 150kHz.
 
-**Stage 3 - Differential Mode Pi-filter (L3 + C1/C2/C21/C24 and C3/C4/C22/C25):**
+**Stage 3 - Differential Mode Pi-filter (L3 + C1/C2/C21/C57 and C3/C4/C22/C58):**
 
 *Component selection:*
 
@@ -218,13 +234,13 @@ GND ------+---------------------------------------------------+---------------+-
 * **C16-C19** - 47µF, 25V, X7R, 2220 (TDK CGA9N3X7R1E476M230KB).
 * **C20** - 10µF, 25V, X7R, 0805 (Samsung CL21B106KAYQNNE).
 * **C21-C23** - 1µF, 50V, X7R, 0805 (Kemet C0805C105K5RACTU or equiv).
-* **C24-C37** - 100nF, 50V, X7R, 0402 (Samsung CL05B104KB5NNNC or equiv).
+* **C26-C37, C57, C58** - 100nF, 50V, X7R, 0402 (Samsung CL05B104KB5NNNC or equiv). (C57/C58: Pi-filter input/output shunt caps; C26-C37: per-IC bypass caps.)
 
 *Filter performance calculations:*
 
 * Effective capacitance per Pi leg:
-  `(C1+C2)||C21||C24 = 44µF + 1µF + 100nF ≈ 45.1µF` at the input leg, and
-  `(C3+C4)||C22||C25 = 44µF + 1µF + 100nF ≈ 45.1µF` at the output leg.
+  `(C1+C2)||C21||C57 = 44µF + 1µF + 100nF ≈ 45.1µF` at the input leg, and
+  `(C3+C4)||C22||C58 = 44µF + 1µF + 100nF ≈ 45.1µF` at the output leg.
 * Pi-filter -3dB corner frequency:
   `f_c = 1/(2π√(L3 x C)) = 1/(2π x √(10µH x 45.1µF))` = **7.5kHz**.
 * DM attenuation at 150kHz (EN 55032 Class B lower limit):
@@ -237,7 +253,7 @@ GND ------+---------------------------------------------------+---------------+-
 
 * C1-C4 (22µF): bulk DM filtering at f_c and lower harmonics.
 * C21/C22 (1µF): mid-frequency bypass; bridges impedance gap between 22µF ceramic SRF (~3MHz) and 100nF.
-* C24/C25 (100nF): HF bypass; low impedance at >10MHz where bulk caps become inductive.
+* C57/C58 (100nF): HF bypass; low impedance at >10MHz where bulk caps become inductive.
 * All caps: 50V rating provides >3x voltage margin over 16.9V max input; X7R stable over -55°C to +125°C.
 
 **Shielding:** Vintage Silver Aluminium enclosure screwed to `GND_CHASSIS` ears - provides a Faraday shield for the entire Power Module, supplementing conducted filtering with radiated attenuation.
@@ -252,6 +268,12 @@ GND ------+---------------------------------------------------+---------------+-
 * **Internal Handshake:** TPS25751 PD Emulator (U4) provides a **5V/5A** "Clean PD" profile to the CM5 USB-C port to prevent OS throttling.
   U4 CC1/CC2 lines are routed through the Controller dock J1 power connector data-pin block to the CM5's CC pins on the Controller Board.
   No separate USB-C connector on the PM is required for this path.
+
+  > **Note:** Although the TPS25751 includes an I²C interface for dynamic PDO configuration, this
+  > design operates U4 in fixed passive PD emulator mode (profile stored in internal NVM). No I²C
+  > connection to U4 is required or used; U4 is intentionally absent from the PM I²C address map.
+  > See [Controller/Design_Spec.md §4.1 I²C Bus Topology](../Controller/Design_Spec.md#41-i2c-bus-topology)
+  > for the complete system I²C device table.
 * **Protection:** LM74700-Q1 controls the triple-input OR-ing network and drives Q1-Q3 PowerPAK ideal-diode FETs.
 * **OR-ing Priority:** The PM OR-ing stage sees three input sources:
   Controller-fed `VIN_POE_12V`, local USB-C, and local Battery. The Controller
@@ -285,7 +307,7 @@ GND ------+---------------------------------------------------+---------------+-
       the MCP121T PWR_GD threshold (4.50V). LTC3350 backup activates **before** MCP121T can deassert `PWR_GD`,
       eliminating a PWR_GD glitch that would occur while the rail traverses the gap between the two thresholds. LTC3350
       immediately restores 5V_MAIN to 5V on activation; MCP121T never deasserts during the hold-up window. Graceful shutdown
-      is triggered via the `/INTB` → MIC1555 U13 → `PWR_BUT_N` one-shot path (FR-PM-07), not by PWR_GD deassertion.
+      is triggered via the `LTC_INTB_N` → MIC1555 U13 → `PWR_BUT_N` one-shot path (FR-PM-07), not by PWR_GD deassertion.
     * ⚠️ **Design note:** The 4.812V threshold is intentionally set *above* the 4.50V `PWR_GD` threshold because shutdown is
       hardware-triggered via `PWR_BUT_N`; this keeps `PWR_GD` stable throughout the hold-up interval.
     * Hold-up duration from fully-charged bank: ≥33.5 seconds at 15W CM5 graceful-shutdown load.
@@ -310,7 +332,7 @@ GND ------+---------------------------------------------------+---------------+-
   firmware. Active from power-on until the Controller takes over the runtime status LED signals. Also serves as a visible supercap state-of-charge indicator during hold-up mode. Timing network: R13
 (R_A=10kΩ), R14 (R_B=715kΩ), C23 (C_OSC=1µF) → f=1Hz, ~50% duty cycle.
 * **PWR_BUT_N One-Shot (U13):** Second MIC1555 (SOT-23-5) configured as a monostable (one-shot) timer.
-  Triggered by a falling edge on LTC3350 `/INTB` (R22 10kΩ pull-up to 3V3_ENIG keeps the line HIGH
+  Triggered by a falling edge on LTC3350 `LTC_INTB_N` (R22 10kΩ pull-up to 3V3_ENIG keeps the line HIGH
   when idle). On trigger, U13 output goes HIGH for t = 1.1 x R21 x C40 = 1.1 x 274kΩ x 10µF ≈ **3.01 seconds**,
   driving Q5 (BSS138 N-FET) which pulls the `PWR_BUT_N` line LOW. The CM5 internal 10kΩ
   pull-up holds `PWR_BUT_N` HIGH at all other times. The 3-second pulse is centred in the 1-5 second PMIC
@@ -413,7 +435,7 @@ To prevent the CM5 from attempting to boot during the 12V-15V "Enigma Rail" ramp
 The following sequence ensures the CM5 filesystem is clean and all loads are de-energised safely:
 
 1. **Trigger:** One of two events initiates shutdown:
-   * **Automatic (primary power loss):** LTC3350 enters backup mode → `/INTB` (open-drain) asserts LOW →
+   * **Automatic (primary power loss):** LTC3350 enters backup mode → `LTC_INTB_N` (open-drain) asserts LOW →
      MIC1555 U13 (monostable) fires → `PWR_BUT_N` held LOW for 3 seconds → CM5 PMIC sends power-key event
      to Linux → `systemd-logind` initiates graceful shutdown. This is entirely hardware-driven; no
      firmware polling required.
@@ -475,7 +497,7 @@ Estimated PM-local power dissipation at system peak load:
 | C16-C19 | 47µF 25V X7R 2220 | CGA9N3X7R1E476M230KB | TDK | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | - | Yes | Pending | 4 |
 | C20 | 10µF 25V X7R 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | Pending | 1 |
 | C21-C23, C51, C53-C55 | 1µF 50V X7R 0805 | C0805C105K5RACTU | Kemet | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | - | Yes | Pending | 7 |
-| C24-C30, C31-C37, C41-C48, C50, C56 | 100nF 50V X7R 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 24 |
+| C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 | 100nF 50V X7R 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 24 |
 | C38 | 100pF X7R 25V 0402 | C0402C101K3RACAUTO | Kemet | 399-C0402C101K3RACAUTOCT-ND | 80-C0402C101K3RAUTO | C5272912 | - | - | Yes | Pending | 1 |
 | C39 | 22nF X7R 25V 0603 | CL10B223KB8WPNC | Samsung | 1276-6534-1-ND | 187-CL10B223KB8WPNC | C346197 | - | - | Yes | Pending | 1 |
 | C40, C52 | 10µF 16V X7R 1206 | CC1206KKX7R8BB106 | YAGEO | 311-1959-1-ND | 603-CC126KKX7R8BB106 | C70462 | - | - | Yes | Pending | 2 |
@@ -525,7 +547,7 @@ Estimated PM-local power dissipation at system peak load:
 | U6a, U6b, U6c | OR-ing controller SOT-23-6 | LM74700QDBVRQ1 | Texas Instruments | 296-LM74700QDBVRQ1CT-ND | 595-LM74700QDBVRQ1; alt T&R: 595-LM74700QDBVTQ1 | C2941042 | - | - | Yes | Pending | 3 |
 | U7 | 3.3V LDO fixed TO-263 5-pin | TPS75733KTTRG3 | Texas Instruments | 296-50559-1-ND | 595-TPS75733KTTRG3 | C3749924 | - | fixed 3.3V, active-LOW EN | Yes | ✔ | 1 |
 | U8 | 4.5V voltage supervisor SC70-3 | MCP121T-450E/LB | Microchip Technology | MCP121T-450E/LBCT-ND | 579-MCP121T-450E/LB | C625189 | - | 4.5V trip | Yes | ✔ | 1 |
-| U9, U13 | CMOS timer SOT-23-5 | MIC1555YM5-TR | Microchip Technology | 576-2576-1-ND | 998-MIC1555YM5TR | C145373 | - | CMOS timer IC, 2-10V supply. Generates 1Hz hardware "Initialising" heartbeat pulse for the orange status LED. Operates independently of CM5 firmware (pure hardware indicator). Also reflects supercap state of charge during hold-up. Timing set by R13 (R_A=10kΩ), R14 (R_B=715kΩ), C23 (C_OSC=1µF) → f=1Hz, ~50% duty cycle. ; CMOS timer in monostable configuration. Triggered by falling edge on LTC3350 `/INTB` (open-drain, pulled HIGH by R22). On trigger, output drives Q5 gate HIGH for t ≈ 3.01 s, pulling `PWR_BUT_N` LOW → CM5 PMIC power-key event → graceful OS shutdown. Timing: R21 (274kΩ) + C40 (10µF) → t = 1.1 x 274kΩ x 10µF = 3.01 s. VCC bypass: C36 (100nF). | Yes | Pending | 2 |
+| U9, U13 | CMOS timer SOT-23-5 | MIC1555YM5-TR | Microchip Technology | 576-2576-1-ND | 998-MIC1555YM5TR | C145373 | - | CMOS timer IC, 2-10V supply. Generates 1Hz hardware "Initialising" heartbeat pulse for the orange status LED. Operates independently of CM5 firmware (pure hardware indicator). Also reflects supercap state of charge during hold-up. Timing set by R13 (R_A=10kΩ), R14 (R_B=715kΩ), C23 (C_OSC=1µF) → f=1Hz, ~50% duty cycle. ; CMOS timer in monostable configuration. Triggered by falling edge on LTC3350 `LTC_INTB_N` (open-drain, pulled HIGH by R22). On trigger, output drives Q5 gate HIGH for t ≈ 3.01 s, pulling `PWR_BUT_N` LOW → CM5 PMIC power-key event → graceful OS shutdown. Timing: R21 (274kΩ) + C40 (10µF) → t = 1.1 x 274kΩ x 10µF = 3.01 s. VCC bypass: C36 (100nF). | Yes | Pending | 2 |
 | U10 | Current monitor I²C 0x40 SOIC-8 | INA219AIDR | Texas Instruments | 296-23978-1-ND | 595-INA219AIDR | C138706 | - | Zero-Drift Current/Power Monitor (I²C 0x40) | Yes | Pending | 1 |
 | U11, U12, U15 | Dual Schmitt-trigger inverter SC-88 | NL27WZ14DFT2G-Q | onsemi | 488-NL27WZ14DFT2G-QCT-ND | 863-NL27WZ14DFT2G-Q | C24511261 | - | AEC-Q100 dual Schmitt-trigger inverter, one gate used per SYNC stage ; Automotive dual Schmitt-trigger inverter, 1.65-5.5V supply, push-pull outputs, 5.5V-tolerant inputs. One gate conditions / inverts `LED_PWR_N`; the second conditions / inverts `PWR_BUT_N` for the SW2 hardware indicator logic. VCC bypass: C42 (100nF). | Yes | Pending | 3 |
 | U14 | 8-bit I²C GPIO expander 0x3F TSSOP-16 | PCA9534APWR | NXP Semiconductors | 296-21760-1-ND | 595-PCA9534APWR | C2871127 | - | 8-bit I²C GPIO expander @ 0x3F. Inputs: `POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`. Outputs: `SW_LED_R`, `SW_LED_G`, `SW_LED_B`, `SW_LED_CTRL`. `INT` exported as `PM_IO_INT_N`. | Yes | Pending | 1 |
@@ -601,7 +623,7 @@ Estimated PM-local power dissipation at system peak load:
 > * **R11/R12 BACKUP divider** - **REVISED (DEC-030 supersedes PM-06):** R11 changed from 28.7kΩ to **30.1kΩ** (E96 0.1% thin-film).
 >   Sets LTC3350 BACKUP comparator trigger at **4.812V** (V_thr=1.2V, R_TOP=30.1kΩ, R_BOT=10.0kΩ → actual 4.812V).
 >   This fires **before** MCP121T deasserts at 4.50V - LTC3350 activates first, immediately restoring 5V_MAIN and keeping
->   PWR_GD stable throughout the hold-up window. Graceful shutdown is triggered via the `/INTB` → MIC1555 U13 → `PWR_BUT_N`
+>   PWR_GD stable throughout the hold-up window. Graceful shutdown is triggered via the `LTC_INTB_N` → MIC1555 U13 → `PWR_BUT_N`
 >   one-shot (FR-PM-07), so PWR_GD deassertion is not used as a shutdown trigger.
 >   Use 0.1% tolerance on both R11 and R12 for threshold accuracy.
 > * **22µF bulk/bypass caps (`C1-C15`)** - C1-C15 use Samsung
@@ -624,19 +646,20 @@ Estimated PM-local power dissipation at system peak load:
 > BOM total for CL32B226KAJNNNE is now **13 units** per PM: 6 positions x 2 + 1 single (C13).
 > C20 uses Samsung CL21B106KAYQNNE (10µF 25V X7R 0805).
 > DigiKey 1276-3392-1-ND; JLCPCB C309062 (confirmed - Samsung CL32B226KAJNNNE 22µF 25V X7R 1210).
-> * **Timing/bypass caps (C21-C55)** - C21/C22/C23 and C51/C53/C54/C55 (1µF) share the same Kemet
+> * **Timing/bypass caps (C21-C56, C57, C58)** - C21/C22/C23 and C51/C53/C54/C55 (1µF) share the same Kemet
 >   C0805C105K5RACTU: Pi-filter mid-frequency bypass, U9 timer cap, LTC3350 INTVCC/VCC2P5 bypass,
->   and STUSB4500 VREG_1V2/VREG_2V7 bypass. C24-C37, C41-C50 (100nF bypass / HF shunt) share
+>   and STUSB4500 VREG_1V2/VREG_2V7 bypass. C26-C37, C41-C50, C57, C58 (100nF bypass / HF shunt) share
 >   Samsung CL05B104KB5NNNC / C960916. C38 (100pF) and C39 (22nF) are the dedicated SYNC filter /
 >   delay capacitors; C40 and C52 are 10µF 16V X7R 1206 (CC1206KKX7R8BB106) - C40 for U13
 >   one-shot timing and C52 for LTC3350 DRVCC bypass (min 2.2µF per datasheet).
-> * **U11/U12 NL27WZ14DFT2G-Q** - AEC-Q100 dual Schmitt-trigger inverter in SC-88. One gate is used as U_INV1 (U11) and one as U_INV2 (U12) in the 180° SYNC interleaving delay chain.
+> * **U11/U12/U15 NL27WZ14DFT2G-Q** - AEC-Q100 dual Schmitt-trigger inverter in SC-88. One gate is used as U_INV1 (U11) and one as U_INV2 (U12) in the 180° SYNC interleaving delay chain.
+>   U15 conditions and inverts `LED_PWR_N` (one gate) and `PWR_BUT_N` (second gate) for the SW2 hardware indicator logic.
 >   Mouser: `863-NL27WZ14DFT2G-Q`; DigiKey: `488-NL27WZ14DFT2G-QCT-ND`; JLCPCB: `C24511261`.
 > * **R17-R20, C38-C39 SYNC sub-circuit** - Complete SYNC interleaving chain from U2A SW node to U2B FSET/SYNC pin.
 >   R_FSET (R17, 86.6kΩ ERJ-3EKF8662V) sets U2A switching frequency. R_SW (R18, 10kΩ) + C_F1 (C38, 100pF) form a 1µs LP filter attenuating SW node ringing before the first Schmitt stage (U11).
 >   R_DLY (R19, 82.0kΩ ERJ-2RKF8202X) + C_DLY (C39, 22nF CL10B223KB8WPNC) implement the RC phase delay: τ = 1.804ms → 180° at 400kHz. R_PD (R20, 10kΩ) ensures U2B SYNC pin is pulled low
 >   during U2A startup. Full architecture documented in Certification_Evidence.md §3.3.3.
-> * **J3 0436500519 (43650-0519)** - Full Molex PN: `0436500519`; short form `43650-0519`. 5-circuit, 1-row, vertical THT, gold contacts, board lock, 3mm pitch.
+> * **J4 0436500519 (43650-0519)** - Full Molex PN: `0436500519`; short form `43650-0519`. 5-circuit, 1-row, vertical THT, gold contacts, board lock, 3mm pitch.
 >   Confirmed stock: Farnell ~1,143 pcs (£1.18 each); Heilind 756 pcs.
 > Mouser: `538-43650-0519`; DigiKey: `WM14587-ND` (confirmed); JLCPCB: `C563849` (confirmed).
 > ⚠️ **REVIEW REQUIRED:** Confirm Molex 43650-0519 Micro-Fit 3.0 is suitable for battery connector application - verify current rating, connector type, and locking mechanism meet battery safety requirements.

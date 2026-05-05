@@ -114,3 +114,6 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 108 | Pass 5 complete; fix research table ready (F-98–F-110) | 108-pass-5-complete-fix-research-ready.md |
 | 109 | Pass 5 fixes complete; F-108 deferred; blocks Pass 6 | 109-pass-5-fixes-complete.md |
 | 110 | DEC-056 committed | 110-dec-056-committed.md |
+| 111 | Pass 6 HIGH findings applied | 111-pass-6-high-findings-applied.md |
+| 112 | CTL-P6-03/04/05 applied: R4 pull-up and PoE passive documentation | 112-ctl-p6-03-04-05-complete.md |
+| 113 | Pass 6 complete; pending user review | 113-pass-6-complete-pending-user-review.md |

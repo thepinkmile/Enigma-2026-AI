@@ -40,14 +40,53 @@ TOP VIEW
  to Controller     from Ctrl to Controller
 ```
 
-- **J1:** regulated `5V_MAIN` / `3V3_ENIG` / `GND`
-- **J2:** `VIN_POE_12V` + `GND` from the Controller PoE front-end
-- **J3:** `I2C_SDA`, `I2C_SCL`, `PM_IO_INT_N`, `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT_N`, `LED_PWR_N`, guarded by `GND`
+**J1 — Main Regulated Rails** (TE `1123684-7`, PM side):
+
+| Allocation | Notes |
+| :--- | :--- |
+| `3 x 5V_MAIN` | Primary regulated 5V output from PM to Controller |
+| `2 x 3V3_ENIG` | Clean logic rail from PM LDO to Controller |
+| `5 x GND` | Shared return path |
+
+**J2 — PoE Auxiliary Feed** (TE `1123684-7`, PM side):
+
+| Allocation | Notes |
+| :--- | :--- |
+| `3 x VIN_POE_12V` | Regulated PoE-derived auxiliary feed from Controller PoE front-end into PM OR-ing stage |
+| `7 x GND` | Shared return path |
+
+**J3 — Low-Speed Control / Telemetry** (TE `1123684-7`, PM side):
+
+| Signal | Direction | Notes |
+| :--- | :--- | :--- |
+| `I2C_SDA` | Bidir | Shared PM telemetry and PM-local GPIO-expander bus |
+| `I2C_SCL` | Bidir | Shared PM telemetry and PM-local GPIO-expander bus |
+| `PM_IO_INT_N` | PM -> CTRL | Active-low interrupt from PM `PCA9534APWR` |
+| `PWR_GD` | PM -> CTRL | Direct rail-health telemetry from MCP121T |
+| `ROTOR_EN_N` | CTRL -> PM | Direct 3V3_ENIG LDO enable control |
+| `PWR_BUT_N` | PM -> CTRL | Direct CM5 PMIC power-button path |
+| `LED_PWR_N` | CTRL -> PM | Direct CM5 power-state indication for SW2 hardware LED logic |
+| `3 x GND` | - | Guards / return path |
 
 All three dock connectors use the same TE family:
 
 - Controller side: `1-1674231-1`
 - Power Module side: `1123684-7`
+
+**J_SW1 / J_SW2 — Panel Switch Spade-Tab Terminals** (Keystone 1211, 2.8 mm PCB male Quick-Fit THT):
+
+Each switch panel connector is broken out as six individual Keystone 1211 PCB spade-tab terminals (one
+THT hole per terminal, 1.3 mm drill, 2.8 mm tab width). The Centre-Bottom NC contact of each switch is
+not wired; no Keystone 1211 terminal is fitted at that position.
+
+| RefDes | Physical Position | Switch Function | Used On |
+| :--- | :--- | :--- | :--- |
+| `J_SW1_1` / `J_SW2_1` | Left-Top | `LED(G)` — Green LED cathode | SW1, SW2 |
+| `J_SW1_2` / `J_SW2_2` | Left-Bottom | `LED(R)` — Red LED cathode | SW1, SW2 |
+| `J_SW1_3` / `J_SW2_3` | Centre-Top | `COM` — Switch common | SW1, SW2 |
+| `J_SW1_4` / `J_SW2_4` | Centre-Middle | `NO` — Normally Open contact | SW1, SW2 |
+| `J_SW1_5` / `J_SW2_5` | Right-Top | `LED(B)` — Blue LED cathode | SW1, SW2 |
+| `J_SW1_6` / `J_SW2_6` | Right-Bottom | `C_LED` — LED anode common | SW1, SW2 |
 
 ---
 
@@ -89,6 +128,30 @@ PCA9534A U14 -> Rgates -> Q6/Q7/Q8 -> R/G/B cathodes
   - outputs: `SW_LED_R`, `SW_LED_G`, `SW_LED_B`, `SW_LED_CTRL`
 
 `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT_N`, and `LED_PWR_N` remain direct signals on J3.
+
+**SW1 / SW2 Pin-to-Net Wiring:**
+
+*SW1 (Adafruit 4660 — latching eFuse enable switch):*
+
+| RefDes | Switch Pin | Net | Description |
+| :--- | :--- | :--- | :--- |
+| `J_SW1_1` | `LED(G)` | `SW_LED_G` | Q7 low-side sink; runtime control via U14 |
+| `J_SW1_2` | `LED(R)` | `SW_LED_R` | Q6 low-side sink; also pre-boot hardware path via D5/D6 |
+| `J_SW1_3` | `COM` | `SW1_EN` node | eFuse EN node; closed = EN LOW = eFuse disabled |
+| `J_SW1_4` | `NO` | `GND` | Switch pulls EN LOW when latched; eFuse off while SW1 closed |
+| `J_SW1_5` | `LED(B)` | `SW_LED_B` | Q8 low-side sink; runtime-only (no hardware boot path) |
+| `J_SW1_6` | `C_LED` | `5V_MAIN` (via R13–R15) | LED anode common; current-limiting resistors |
+
+*SW2 (Adafruit 3350 — momentary CM5 power button):*
+
+| RefDes | Switch Pin | Net | Description |
+| :--- | :--- | :--- | :--- |
+| `J_SW2_1` | `LED(G)` | `SW2_LED_G` | Q9 low-side sink; driven by buffered `LED_PWR_N` (CM5 powered = GREEN) |
+| `J_SW2_2` | `LED(R)` | `SW2_LED_R` | Q10 low-side sink; gated 1 Hz blink via U9 and U17 AND gate (shutdown in progress = RED) |
+| `J_SW2_3` | `COM` | `GND` | Switch common |
+| `J_SW2_4` | `NO` | `PWR_BUT_N` | Momentary press pulls `PWR_BUT_N` LOW → CM5 PMIC power-key event |
+| `J_SW2_5` | `LED(B)` | NC | Blue channel not used on SW2; tab fitted, wire not connected in harness |
+| `J_SW2_6` | `C_LED` | `5V_MAIN` (via R_LED) | LED anode common; current-limiting resistors |
 
 ---
 

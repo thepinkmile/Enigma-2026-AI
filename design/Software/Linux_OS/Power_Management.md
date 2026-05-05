@@ -14,7 +14,7 @@ PMIC power-button input (`PWR_BUT_N`). No firmware polling is required for the p
 **Primary shutdown path (hardware-automatic):**
 
 1. Primary power fails → 5V_MAIN falls to **4.812V** → LTC3350 `/INTB` asserts LOW.
-2. MIC1555 U15 (monostable one-shot) triggers → `PWR_BUT_N` held LOW for **3.01 seconds**.
+2. MIC1555 U13 (monostable one-shot) triggers → `PWR_BUT_N` held LOW for **3.01 seconds**.
 3. CM5 PMIC sends power-key event → Linux `systemd-logind` `HandlePowerKey=poweroff` → graceful
    OS shutdown, identical to `sudo shutdown -h now`.
 4. LTC3350 simultaneously restores 5V_MAIN to 5V; PWR_GD stays HIGH throughout shutdown.
@@ -38,10 +38,10 @@ PMIC power-button input (`PWR_BUT_N`). No firmware polling is required for the p
 
 | Signal | Connection | Pull-up | Source | Role |
 | --- | --- | --- | --- | --- |
-| PWR_BUT_N | CM5 PMIC pin (via PM dock `J3`) | CM5 module internal 10kΩ | MIC1555 U15 one-shot / SW2 tactile | **Primary shutdown trigger** - 3 s LOW pulse from U15 on backup-mode entry; or manual press of SW2 |
+| PWR_BUT_N | CM5 PMIC pin (via PM dock `J3`) | CM5 module internal 10kΩ | MIC1555 U13 one-shot / SW2 tactile | **Primary shutdown trigger** - 3 s LOW pulse from U13 on backup-mode entry; or manual press of SW2 |
 | PWR_GD | GPIO 7 (BCM) | R3 10kΩ to 3V3_ENIG (Controller board) | MCP121T-450E U8 | **Rail-health telemetry only** - HIGH while 5V_MAIN ≥ 4.50V; stays HIGH throughout hold-up; deasserts only on supercap depletion |
-| PM_IO_INT_N | GPIO 5 (BCM) | Open-drain on PM; controller-side pull-up as required | PCA9534A U16 | Optional interrupt line for PM status / SW1 LED expander updates |
-| LTC3350 /INTB | PM-local only (not routed to CM5) | R29 10kΩ to 3V3_ENIG (Power Module) | LTC3350 U3 | **Hardware-only backup trigger** - active-LOW when LTC3350 enters backup mode (5V_MAIN < 4.812V, R14 = 30.1kΩ; see DR-PM-08, DEC-030); drives the MIC1555 U15 one-shot locally to generate the `PWR_BUT_N` shutdown pulse |
+| PM_IO_INT_N | GPIO 5 (BCM) | Open-drain on PM; controller-side pull-up as required | PCA9534A U14 | Optional interrupt line for PM status / SW1 LED expander updates |
+| LTC3350 /INTB | PM-local only (not routed to CM5) | R22 10kΩ to 3V3_ENIG (Power Module) | LTC3350 U3 | **Hardware-only backup trigger** - active-LOW when LTC3350 enters backup mode (5V_MAIN < 4.812V, R14 = 30.1kΩ; see DR-PM-08, DEC-030); drives the MIC1555 U13 one-shot locally to generate the `PWR_BUT_N` shutdown pulse |
 
 ## Option C: Recommended Implementation
 
@@ -93,15 +93,15 @@ The software support will:
 >
 > **Not applicable:** PWR_GD (GPIO 7) is rail-health telemetry only (HIGH while
 > 5V\_MAIN ≥ 4.50 V). It must NOT be configured as a shutdown trigger.
-> The active hardware shutdown backstop is the LTC3350 /INTB → MIC1555 U15 → Q5 BSS138
-> → PWR\_BUT one-shot circuit (3.01 s LOW pulse), which requires no software driver.
+> The active hardware shutdown backstop is the LTC3350 /INTB → MIC1555 U13 → Q5 BSS138
+> → PWR\_BUT\_N one-shot circuit (3.01 s LOW pulse), which requires no software driver.
 >
 ## Shutdown Timing Budget
 
 | Event | Time from power loss | Action |
 | --- | --- | --- |
 | Mains fails / PoE drops | t = 0 | Input source lost |
-| 5V_MAIN falls to 4.812V - LTC3350 BACKUP asserted | ~10 ms | `/INTB` goes LOW; MIC1555 U15 one-shot triggers; LTC3350 begins restoring 5V_MAIN |
+| 5V_MAIN falls to 4.812V - LTC3350 BACKUP asserted | ~10 ms | `/INTB` goes LOW; MIC1555 U13 one-shot triggers; LTC3350 begins restoring 5V_MAIN |
 | `PWR_BUT_N` held LOW (3.01 s pulse begins) | ~10 ms | CM5 PMIC receives power-key event; `systemd-logind` HandlePowerKey=poweroff initiated |
 | LTC3350 hold-up fully engaged | ~20 ms | 5V_MAIN restored to 5V; PWR_GD stays HIGH; ≥33.5 s window active |
 | `PWR_BUT_N` pulse ends | ~3.02 s | MIC1555 output returns HIGH; Q5 off; PWR_BUT_N returns HIGH via CM5 pull-up |
@@ -123,7 +123,7 @@ hardware handoff sequence and colour states are defined below.
 ### Boot Handoff Sequence
 
 1. **Power on (CM5 not yet booted):** `PCA9534A` powers up with all pins as inputs, so the PM hardware
-   path dominates. MIC1555 (U11) drives Q4 → BAT54 diodes → **Red + Green only** → 1Hz orange flash on SW1.
+   path dominates. MIC1555 (U9) drives Q4 → BAT54 diodes → **Red + Green only** → 1Hz orange flash on SW1.
 2. **CM5 kernel boots, systemd target reached:** Power monitor service starts.
    Before asserting `SW_LED_CTRL`, program the PM expander outputs so `SW_LED_R=1`, `SW_LED_G=1`,
    `SW_LED_B=0` (solid orange).
@@ -197,15 +197,15 @@ with SMBus(1) as bus:
 
 ## INA219 Rotor Stack Current Monitor
 
-The Stator board carries an INA219 (U2, I2C address **0x45**) monitoring the 3V3_ENIG current to the rotor stack via a **10mΩ CSS2H-2512R-R010ELF shunt resistor**
-(R1 on Stator, 2512 Kelvin-sense; PM R23 is the second system CSS2H instance - total build qty: **3**).
+The Stator board carries an INA219 (U2, I2C address **0x45**) monitoring the 3V3_ENIG current to the rotor stack via a **10mΩ KRL6432T4-M-R010-F-T1 shunt resistor**
+(R1 on Stator, 2512 Kelvin-sense; PM R16 is the second system shunt - total build qty: **3**).
 
 ### Hardware Parameters
 
 | Parameter | Value | Notes |
 | --- | --- | --- |
 | I2C address | 0x45 | Set by A0/A1 pin strapping on Stator INA219 |
-| Shunt resistance | **0.010 Ω (10mΩ)** | CSS2H-2512R-R010ELF; hardcoded in firmware - do not change without updating Stator BOM |
+| Shunt resistance | **0.010 Ω (10mΩ)** | KRL6432T4-M-R010-F-T1; hardcoded in firmware - do not change without updating Stator BOM |
 | PGA range | ±80mV | Covers 0-8A range (3A LDO max → 30mV drop) |
 | ADC resolution | 12-bit | |
 | Current LSB | **4mA** | = 80mV full-scale / 2^11 steps / 0.010Ω |
@@ -224,7 +224,7 @@ REG_CAL        = 0x05
 REG_SHUNT_V    = 0x01
 REG_CURRENT    = 0x04
 
-R_SHUNT        = 0.010       # 10mΩ CSS2H-2512R-R010ELF - hardcoded; do not change without updating Stator BOM
+R_SHUNT        = 0.010       # 10mΩ KRL6432T4-M-R010-F-T1 - hardcoded; do not change without updating Stator BOM
 CURRENT_LSB    = 0.004       # 4mA per LSB
 
 # INA219 config: 32V bus range, PGA /2 (±80mV shunt), 12-bit, continuous
@@ -255,7 +255,7 @@ Monitors the 5V_MAIN power rail on the Power Module board. See `Power_Module/Des
 | Parameter | Value | Notes |
 | --- | --- | --- |
 | I²C address | 0x40 | A0/A1 = GND on U12 |
-| Shunt resistance | 0.010 Ω (10mΩ) | CSS2H-2512R-R010ELF R23, Power Module |
+| Shunt resistance | 0.010 Ω (10mΩ) | KRL6432T4-M-R010-F-T1 R16, Power Module |
 | PGA range | ±160mV | Covers 0-16A; 9A worst-case → 90mV drop |
 | ADC resolution | 12-bit | |
 | Current LSB | 8mA | = 160mV / 2048 / 0.010Ω |
@@ -277,7 +277,7 @@ BUS.write_word_data(INA219_PM_ADDR, 0x00, 0x9F31)  # logical 0x319F byte-swapped
 BUS.write_word_data(INA219_PM_ADDR, 0x05, 0x0002)  # CAL = 512 (big-endian swap)
 
 def read_5v_main_current_mA():
-    """Read 5V_MAIN rail current in milliamps (INA219 U12, Power Module)."""
+    """Read 5V_MAIN rail current in milliamps (INA219 U10, Power Module)."""
     raw = BUS.read_word_data(INA219_PM_ADDR, 0x04)
     raw = ((raw & 0xFF) << 8) | ((raw >> 8) & 0xFF)  # swap bytes
     if raw > 32767:

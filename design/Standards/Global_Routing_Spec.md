@@ -81,7 +81,7 @@ These rules apply to all boards in the Enigma-NG system unless a board's design 
   board), placed at the rail entry point in a **Symmetrical Star/Spoke pattern**.
   Standard part: Samsung CL21B106KAYQNNE (10µF ±10% X7R 25V 0805; Mouser 187-CL21B106KAYQNNE; DigiKey 1276-CL21B106KAYQNNECT-ND; JLCPCB C3039694).
   Voltage derating: 25V ÷ 3.3V ≈ 7.6x (3V3\_ENIG) and 25V ÷ 5.0V = 5.0x (5V\_MAIN) - both exceed the mandatory 2x minimum.
-  * Exception: The JTAG Daughterboard is exempt from this rule - see `JTAG_Daughterboard/Design_Spec.md` DR-JDB-11.
+  * Exception: The JTAG Daughterboard is exempt from this rule - see `design/Electronics/JTAG_Daughterboard/Design_Spec.md` DR-JDB-09.
 
 ### 3.1. Common RGB Sink-Stage Pattern
 
@@ -103,7 +103,7 @@ Every IC shall have a dedicated local 100nF X7R 50V 0402 bypass capacitor on its
 placed within 1mm of the IC on the same layer.
 
 * **Standard part:** Samsung CL05B104KB5NNNC (Mouser: 187-CL05B104KB5NNNC,
-  DigiKey: 1276-1009-1-ND, JLCPCB: C1525) - same as the RTC bypass capacitors in the Controller BOM.
+  DigiKey: 1276-CL05B104KB5NNNCCT-ND, JLCPCB: C1525) - same as the RTC bypass capacitors in the Controller BOM.
 * **Placement:** Within 1mm of the IC supply pin on the same layer; connect directly to the Vcc
   pad with the shortest possible trace before joining the power plane.
 * **Shared bypass:** Two adjacent ICs whose Vcc pins are ≤2mm apart may share one capacitor;
@@ -231,6 +231,18 @@ pin-1 marker placed adjacent to pin 1 on the F.SilkS (or B.SilkS for bottom-side
 * **Verification:** Silkscreen pin-1 markers for all J-prefix RefDes shall be confirmed present
   at the `review-mounting-holes` design checkpoint before first manufacture.
 
+## 8. Vias & Teardrops
+
+These rules apply to all boards in the Enigma-NG system.
+
+* **VIPPO (Via-in-Pad):** 0.2mm Drill / 0.45mm Diameter (Plugged & Capped).
+* **Standard Via:** 0.3mm Drill / 0.6mm Diameter (Staggered zigzag pattern).
+  * **Spec-A (Premium):** Blind/Buried Vias (L1-L3) and Back-drilling for all 5Gbps differential pairs to eliminate stubs.
+  * **Spec-B (Standard):** Through-hole Vias using POFV (Via-in-Pad). Vias MUST be Epoxy Filled and Capped (IPC-4761 Type VII) to provide a flat solderable surface for CM5/Samtec pads.
+* **Teardrops:** Enabled on all signal and power pads to reduce stress and impedance steps.
+* **Copper:** 2oz Finished Copper (L1-L6 on 6-layer boards; L1-L4 on 4-layer boards).
+* **Finish:** ENIG (Electroless Nickel Immersion Gold) mandatory for 0.4mm pitch integrity (all BtB connector pads and diagnostic probe loops).
+
 ## 9. ESD and TVS Protection
 
 **ESD/TVS protection is required on any connector that is directly accessible from outside the enclosure or that is mated/unmated during normal servicing.**
@@ -260,15 +272,3 @@ traceability, cross-referenced back to this section.
 | Vendor | Device Family | Vendor Pin Name | Design Net Name | Notes |
 | :--- | :--- | :--- | :--- | :--- |
 | Intel (Altera) | MAX II / MAX V CPLD | `DEV_CLRN` | `DEV_CLR_N` | Global asynchronous device clear; active-low; vendor uses `N` suffix without underscore separator |
-
-## 8. Vias & Teardrops
-
-These rules apply to all boards in the Enigma-NG system.
-
-* **VIPPO (Via-in-Pad):** 0.2mm Drill / 0.45mm Diameter (Plugged & Capped).
-* **Standard Via:** 0.3mm Drill / 0.6mm Diameter (Staggered zigzag pattern).
-  * **Spec-A (Premium):** Blind/Buried Vias (L1-L3) and Back-drilling for all 5Gbps differential pairs to eliminate stubs.
-  * **Spec-B (Standard):** Through-hole Vias using POFV (Via-in-Pad). Vias MUST be Epoxy Filled and Capped (IPC-4761 Type VII) to provide a flat solderable surface for CM5/Samtec pads.
-* **Teardrops:** Enabled on all signal and power pads to reduce stress and impedance steps.
-* **Copper:** 2oz Finished Copper (L1-L6 on 6-layer boards; L1-L4 on 4-layer boards).
-* **Finish:** ENIG (Electroless Nickel Immersion Gold) mandatory for 0.4mm pitch integrity (all BtB connector pads and diagnostic probe loops).

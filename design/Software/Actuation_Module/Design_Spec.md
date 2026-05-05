@@ -34,11 +34,11 @@ The STM32 on the AM has three relevant boot / service paths:
    * `BOOT0` remains LOW at reset release
    * The user firmware starts and performs the AM startup / homing sequence
 2. **SWD debug / programming path**
-   * Accessed through J5 on the AM hardware
+   * Accessed through J4 on the AM hardware
    * Used for normal firmware flashing, debug, recovery, and bring-up
    * This path does not depend on the UART header or button sequence
 3. **STM32 ROM UART bootloader path**
-   * Accessed through J6 plus SW1 / SW2 on the AM hardware
+   * Accessed through J5 plus SW1 / SW2 on the AM hardware
    * This bypasses the AM application firmware and enters the STM32's built-in ROM bootloader
    * Use this only when an ad-hoc UART flashing path is desired or when SWD is unavailable
 
@@ -46,11 +46,11 @@ The STM32 on the AM has three relevant boot / service paths:
 
 The user-facing UART bootloader sequence shall be documented and supported exactly as follows:
 
-1. Connect the UART adapter to J6:
-   * J6 pin 1 = `GND`
-   * J6 pin 2 = `3V3_ENIG` reference
-   * J6 pin 3 = `UART_TX` from the AM
-   * J6 pin 4 = `UART_RX` into the AM
+1. Connect the UART adapter to J5:
+   * J5 pin 1 = `GND`
+   * J5 pin 2 = `3V3_ENIG` reference
+   * J5 pin 3 = `UART_TX` from the AM
+   * J5 pin 4 = `UART_RX` into the AM
 2. Press and hold **SW2** to assert `BOOT0`
 3. Press and release **SW1** to pulse `NRST`
 4. Release **SW2** after reset
@@ -92,7 +92,7 @@ This state machine is intentionally conservative:
 | `LED_HOMED` | Output | ON only when the module is in a successfully homed ready state |
 | `LED_ACT` | Output | ON during an accepted actuation cycle; optional blink pattern in `FAULT` |
 | `BOOT0` | Service input | Not used during normal application runtime; only relevant at reset / ROM bootloader entry |
-| `NRST` | Service input | External reset path via SW1 / J5 |
+| `NRST` | Service input | External reset path via SW1 / J4 |
 
 The exact STM32 pad mapping may still be finalized during schematic capture, but the firmware design
 shall preserve these logical roles exactly.

@@ -2,7 +2,7 @@
 
 **Date:** 2026-04-05
 **Status:** ✔ Closed - Decision recorded in DEC-019
-**Affects:** Power Module - T2 transformer, TPS23730 operating mode, input EMI filter
+**Affects:** Controller Board - T1 transformer, TPS23730 operating mode, input EMI filter
 
 ---
 
@@ -11,7 +11,7 @@
 The Power Module uses a discrete two-stage PoE architecture:
 
 - **Stage 1 - PD Interface:** TPS2372-4 (IEEE 802.3bt Type 4, 72W class PD with external hotswap)
-- **Stage 2 - DC-DC Converter:** TPS23730 ACF controller + T2 isolation transformer + synchronous rectifier
+- **Stage 2 - DC-DC Converter:** TPS23730 ACF controller + T1 isolation transformer + synchronous rectifier
 
 The TPS23730 supports two operating modes:
 
@@ -143,7 +143,7 @@ to the output → cleaner 5V and 3V3 rails feeding the CM5, CPLDs, and USB JTAG 
 | Property | Value |
 | :--- | :--- |
 | Efficiency | 88-92% at full PoE load |
-| Transformer losses (T2) | ~5.1W typical / 5.7W max at 51-57W PoE load |
+| Transformer losses (T1) | ~5.1W typical / 5.7W max at 51-57W PoE load |
 | Board total dissipation | ~14.8W typical / 19.5W max |
 | Primary MOSFET Vds rating | Controlled drain voltage - lower rating margin required |
 | BOM change vs flyback | +1 clamp MOSFET, +1 clamp capacitor vs RCD (net neutral on count) |

@@ -117,7 +117,7 @@ system - **30 rotors x 55 mA = 1.65 A** design budget (intentional over-spec to 
 stacking architecture chosen during the `extension-mechanical-usage` design phase is fully
 supported). All Extension boards share an identical PCB layout; traces are sized for this budget.
 
-### 5.1 Trace Width Table
+### 6.1 Trace Width Table
 
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -130,7 +130,7 @@ supported). All Extension boards share an identical PCB layout; traces are sized
 | 5V_MAIN to AM host dock (J7 → J9) | 0.50 A | 0.08 mm | 0.80 mm | **0.80 mm** | L1 | Local Extension actuation supply path |
 | GND return (inner GND pour) | - | - | pour | **copper pour** | L2 | Reference plane; must be solid and uninterrupted under all CI traces on L1 |
 
-### 5.2 Notes
+### 6.2 Notes
 
 * **JTAG CI traces:** 0.127 mm (5 mil) on L1 over the L2 GND plane achieves 50 Ω controlled
   impedance on the JLC04161H-7628 stackup (h = 0.087 mm, t = 0.035 mm, Eᵣ = 4.4). Per DEC-016.

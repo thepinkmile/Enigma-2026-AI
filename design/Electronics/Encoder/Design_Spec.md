@@ -70,7 +70,7 @@ The HID path is split mechanically and electrically:
 | DR-ENC-02 | CPLD | Intel MAX II EPM570T100I5N (TQFP-100) | §3 Single-Module Architecture; BOM U1 |
 | DR-ENC-03 | Stator interface connector | 20-pin 2x10 IDC (mates with one Stator encoder port) | §4 Interconnects; BOM J2 |
 | DR-ENC-04 | Supply voltage | 3.3V via the 3V3_ENIG power rail | §2 Power Requirements; BOM J2 |
-| DR-ENC-05 | Mounting holes | MH1-MH4 shall be M2.5mm through-hole mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to the local GND_CHASSIS net per `design/Standards/Global_Routing_Spec.md §4` | §2 GND_CHASSIS Single-Point Bond |
+| DR-ENC-05 | Mounting holes | MH1-MH4 shall be M3 PTH (plated through-hole) mounting holes, Ø3.2mm clearance (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to the local GND_CHASSIS net per `design/Standards/Global_Routing_Spec.md §4` | §2 GND_CHASSIS Single-Point Bond |
 
 ## 2. Power Requirements
 
