@@ -62,6 +62,7 @@ When using these prompts, you should create a new checkpoint following the "Repo
 **`design/Design_Log.md` is an append-only audit log. NEVER modify any existing DEC-NNN entry.**
 
 Rules:
+
 - Existing entries are **read-only** once written. Their text, rationale, impact, and all other
   fields must never be altered, even to fix a typo or update a cross-reference.
 - Design changes that amend, supersede, or correct a prior decision must be recorded as a
@@ -104,7 +105,6 @@ Any finding that requires a file change must be returned as a finding and action
 
 ---
 
-
 ## SENARY DIRECTIVE — Implementation Authorization and Change Isolation
 
 > ⚠️ **CRITICAL WORKFLOW VIOLATION** — Making file changes during a design discussion or
@@ -138,7 +138,7 @@ Any finding that requires a file change must be returned as a finding and action
 **EVERY sub-agent prompt — without exception — must begin with the following block before any
 task description or instruction:**
 
-```
+```text
 STEP 0 — MANDATORY BEFORE ANY OTHER ACTION:
 Read `.copilot/agent-directives.md` in full.
 Store every directive as a standing memory you cannot override or ignore.
@@ -237,7 +237,7 @@ for user review rather than silently substituting an alternative.
 **A BOM table must contain ONLY the following information:**
 
 | Column | Content |
-|:---|:---|
+| :--- | :--- |
 | Board (RefDes) | Board identifier and reference designator(s) |
 | MPN | Manufacturer part number |
 | Manufacturer | Component manufacturer name |
@@ -418,7 +418,7 @@ as findings until the referenced pre-condition is complete.
   BOM-MOQ finding.
 
 - **KEY_CM5_ACTIVE — Stator keyboard-source select:** Signal is active-high; the active-low variant
-  KEY_CM5_ACTIVE_N is incorrect. Do not raise the absence of an _N suffix on KEY_CM5_ACTIVE as
+  `KEY_CM5_ACTIVE_N` is incorrect. Do not raise the absence of an `_N` suffix on `KEY_CM5_ACTIVE` as
   a review finding.
 
 - **Supplier PN format differences:** Supplier part numbers (Mouser, DigiKey, JLCPCB) routinely

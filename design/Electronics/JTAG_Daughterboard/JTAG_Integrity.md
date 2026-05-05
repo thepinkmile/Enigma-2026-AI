@@ -470,7 +470,9 @@ distance on the trace.
 | Reflector | R1 (existing) | 22 Ω | 1 | TDO end-of-chain series damping - JTAG chain END |
 
 > **Controller JTAG pass-through:** The Controller board carries no active JTAG components. All
-> buffering (U2 SN74LVC2G125DCUR) and series damping (R1-R4, 33 Ω 0402) are located on the JDB. R1 is a termination/pull resistor at the FT232H TDI output; R2 and R3 damp TCK and TMS after the U2 buffer; R4 provides series damping on TDI before J2.
+> buffering (U2 SN74LVC2G125DCUR) and series damping (R1-R4, 33 Ω 0402) are located on the JDB.
+> R1 is a termination/pull resistor at the FT232H TDI output; R2 and R3 damp TCK and TMS after the U2 buffer;
+> R4 provides series damping on TDI before J2.
 > The Controller `J5` ↔ Stator `J12` logic dock is a direct BtB connection (no cable), so 33 Ω
 > applies there (not the 75 Ω cable-driving rule). See DEC-024.
 >

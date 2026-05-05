@@ -106,7 +106,7 @@ Top-level milestones that gate v1.0 release. Descriptions TBD — to be confirme
 
 ## Dependency Overview
 
-```
+```text
 fix1-fix19 + rotor-refdes-reallocate
   --> interim-electronics-review-1
         --> interim-electronics-review-2 (also needs: coupon-testing-review, review-mounting-holes)
