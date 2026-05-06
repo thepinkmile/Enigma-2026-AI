@@ -524,8 +524,8 @@ Estimated Controller-local power dissipation at system peak load:
 | U2 | USB power switch SOT-23-5 | TPS2065CDBVR | Texas Instruments | 296-39353-1-ND | 595-TPS2065CDBVR | C353882 | - | - | Yes | Pending | 1 |
 | U3 | HDMI power switch SOT-23-5 | AP2331W-7 | Diodes Inc | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | Yes | Pending | 1 |
 | U4-U6 | 4-ch ESD ±15kV 0.5pF U-DFN-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | Pending | 3 |
-| U7 | PoE PD interface VQFN-24 4x4mm | TPS2372-4RGWR | Texas Instruments | 296-45285-1-ND | 595-TPS2372-4RGWR | Global sourcing / consignment | - | - | Yes | Pending | 1 |
-| U8 | PoE auxiliary controller WSON-10 3x3mm | TPS23730RMTR | Texas Instruments | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | Global sourcing / consignment | - | - | Yes | Pending | 1 |
+| U7 | PoE PD interface VQFN-24 4x4mm | TPS2372-4RGWR | Texas Instruments | 296-45285-1-ND | 595-TPS2372-4RGWR | C470955 | - | - | Yes | Pending | 1 |
+| U8 | PoE auxiliary controller WSON-10 3x3mm | TPS23730RMTR | Texas Instruments | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | C3189530 | - | - | Yes | Pending | 1 |
 
 ### BOM Notes
 

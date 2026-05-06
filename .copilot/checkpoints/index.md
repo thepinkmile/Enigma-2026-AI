@@ -1,4 +1,4 @@
-﻿# Checkpoint History
+# Checkpoint History
 
 Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, higher numbers are more recent.
 
@@ -119,3 +119,5 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 112 | CTL-P6-03/04/05 applied: R4 pull-up and PoE passive documentation | 112-ctl-p6-03-04-05-complete.md |
 | 113 | Pass 6 complete; pending user review | 113-pass-6-complete-pending-user-review.md |
 | 114 | DEC-057 mounting hole consolidation rules | 114-dec-057-consolidated-pass6-locked.md |
+| 115 | b4 batch BOM work complete; bom-system-qty-audit corrections applied | 115-b4-batch-bom-complete.md |
+| 116 | todo-list strikethrough; m25 closed | 116-todo-list-strikethrough-m25-cl.md |
