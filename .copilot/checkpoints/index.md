@@ -123,3 +123,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 116 | todo-list strikethrough; m25 closed | 116-todo-list-strikethrough-m25-cl.md |
 | 117 | JDB BtB connector upgrade complete; DEC-058 appended | 117-jdb-btb-upgrade-complete.md |
 | 133 | CTL + JDB BtB upgrade locked; CTL path fix-up complete | 133-ctl-jdb-btb-upgrade-locked.md |
+| 134 | FR/DR audit complete; no gaps found; locked | 134-fr-dr-audit-complete-locked.md |

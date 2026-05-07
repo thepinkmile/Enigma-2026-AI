@@ -74,28 +74,28 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
   R2:   GND    TMS    GND    GND   USB+   USB-   GND    GND    TDO    GND
 ```
 
-| Pin  | Signal    | Direction   | Description                                          |
-| :--- | :-------- | :---------- | :--------------------------------------------------- |
-| C1R1 | TCK       | JDB → CTL   | JTAG Clock (buffered via U2, 33Ω via R2)            |
-| C2R1 | GND       | —           | Ground                                               |
-| C3R1 | GND       | —           | Ground                                               |
-| C4R1 | 5V_USB    | CTL → JDB   | 5V USB power (from CTL TPS2065C rail)                |
-| C5R1 | GND       | —           | Ground                                               |
-| C6R1 | GND       | —           | Ground                                               |
-| C7R1 | 3V3_ENIG  | CTL → JDB   | 3.3V logic rail (JTAG signal reference)              |
-| C8R1 | GND       | —           | Ground                                               |
-| C9R1 | GND       | —           | Ground                                               |
-| C10R1 | TDI      | JDB → CTL   | JTAG Data In (33Ω via R4, then R1 at FT232H)        |
-| C1R2 | GND       | —           | Ground                                               |
-| C2R2 | TMS       | JDB → CTL   | JTAG Mode Select (buffered via U2, 33Ω via R3)      |
-| C3R2 | GND       | —           | Ground                                               |
-| C4R2 | GND       | —           | Ground                                               |
-| C5R2 | USB+      | Bidir       | USB 2.0 D+ to CM5                                    |
-| C6R2 | USB−      | Bidir       | USB 2.0 D− to CM5                                    |
-| C7R2 | GND       | —           | Ground                                               |
-| C8R2 | GND       | —           | Ground                                               |
-| C9R2 | TDO       | CTL → JDB   | JTAG Data Out (return)                               |
-| C10R2 | GND      | —           | Ground                                               |
+| Pin   | Signal   | Direction   | Description                                     |
+| :---- | :------- | :---------- | :---------------------------------------------- |
+| C1R1  | TCK      | JDB → CTL   | JTAG Clock (buffered via U2, 33Ω via R2)        |
+| C2R1  | GND      | —           | Ground                                          |
+| C3R1  | GND      | —           | Ground                                          |
+| C4R1  | 5V_USB   | CTL → JDB   | 5V USB power (from CTL TPS2065C rail)           |
+| C5R1  | GND      | —           | Ground                                          |
+| C6R1  | GND      | —           | Ground                                          |
+| C7R1  | 3V3_ENIG | CTL → JDB   | 3.3V logic rail (JTAG signal reference)         |
+| C8R1  | GND      | —           | Ground                                          |
+| C9R1  | GND      | —           | Ground                                          |
+| C10R1 | TDI      | JDB → CTL   | JTAG Data In (33Ω via R4, then R1 at FT232H)    |
+| C1R2  | GND      | —           | Ground                                          |
+| C2R2  | TMS      | JDB → CTL   | JTAG Mode Select (buffered via U2, 33Ω via R3)  |
+| C3R2  | GND      | —           | Ground                                          |
+| C4R2  | GND      | —           | Ground                                          |
+| C5R2  | USB+     | Bidir       | USB 2.0 D+ to CM5                               |
+| C6R2  | USB−     | Bidir       | USB 2.0 D− to CM5                               |
+| C7R2  | GND      | —           | Ground                                          |
+| C8R2  | GND      | —           | Ground                                          |
+| C9R2  | TDO      | CTL → JDB   | JTAG Data Out (return)                          |
+| C10R2 | GND      | —           | Ground                                          |
 
 > **No external connectors:** The JDB has no external connectors. USB is entirely internal via J1 (DF40C-20 BtB connector).
 > No USB-C connector exists on the JDB. CC pins are irrelevant (USB 2.0 only).
