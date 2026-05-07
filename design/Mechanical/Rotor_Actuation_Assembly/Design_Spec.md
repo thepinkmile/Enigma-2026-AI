@@ -113,3 +113,4 @@ revolution - is **mechanical within a contiguous 5-rotor group**.
 | :--- | :--- |
 | `design/Electronics/Controller/Design_Spec.md` | Controller PCB; servo motor electrical interface and SERVO_HOME switch |
 | `design/Mechanical/Rotor/Design_Spec.md` | Rotor module mechanical specification (shroud, bearings, encoder slots, stepping notches) |
+| `design/Mechanical/Rotor_Stack_Assembly/Design_Spec.md` | Mini-stack grouping (5 rotors), inter-rotor connector gap, clearance requirements, total depth |

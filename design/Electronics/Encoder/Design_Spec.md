@@ -246,7 +246,7 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | J3-J66 | 6.35mm PCB spade blade terminals THT vertical | 1285-ST | Keystone Electronics | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | Yes | Pending | 64 |
 | C1-C8 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 8 |
-| C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | Pending | 5 |
+| C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 5 |
 | D1 | Green SMD LED Vf≈2.0V 0402 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | Yes | Pending | 1 |
 | J1 | 6.35mm mono jack sockets panel-mount | - | generic | - | - | - | eBay SaiBuy.Ltd | eBay sourcing only | N/A | N/A | 1 |
 | J2 | 20-pin 2x10 2.54mm shrouded THT | BHR-20-VUA | Adam Tech | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | Yes | Pending | 1 |

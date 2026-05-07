@@ -124,3 +124,6 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 117 | JDB BtB connector upgrade complete; DEC-058 appended | 117-jdb-btb-upgrade-complete.md |
 | 118 | CTL + JDB BtB upgrade locked; CTL path fix-up complete | 118-ctl-jdb-btb-upgrade-locked.md |
 | 119 | FR/DR audit complete; no gaps found; locked | 119-fr-dr-audit-complete-locked.md |
+| 120 | Library zips processed; BOM footprint status updated | 120-library-zips-processed-bom-updated.md |
+| 121 | Library migration complete; BOM footprint status updated | 121-library-migration-bom-footprint-updated.md |
+| 122 | 435F12012IET footprint created; AC72ABD corrected; BOM updated | 122-435f12012iet-footprint-created-bom-updated.md |

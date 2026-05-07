@@ -24,6 +24,7 @@ The following table lists every component category present in the assembled mach
 | Category | Qty | Description | Sub-Assembly Document |
 | :--- | :--- | :--- | :--- |
 | Rotors | 30 | Individual rotor modules (shroud, bearings, encoder slots, ERM8 male headers) | `Rotor/Design_Spec.md` |
+| Rotor Stack Assembly | 1–6 mini-stacks | Groups of 5 rotors per mini-stack; inter-rotor gap 10mm (connector-driven); total depth TBD | `Rotor_Stack_Assembly/Design_Spec.md` |
 | Stator Board | 1 | PCB backplane: rotor stack, JTAG hub, encryption routing, I²C expanders | `Stator/Design_Spec.md` (Electronics) |
 | Rotor Actuation Assembly | 1 | Depression bar, pivot lever, actuation arm, sprung retention bar, main servo mechanism | `Rotor_Actuation_Assembly/Design_Spec.md` |
 | Actuation Module | 1-6 | Shared local servo-control PCB: 1 on Controller, plus 1 on each fitted Extension | `design/Electronics/Actuation_Module/Design_Spec.md` |
@@ -74,6 +75,7 @@ steps are detailed in each referenced document; this section defines integration
 | Main Enclosure | `Main_Enclosure/Design_Spec.md` | Draft |
 | Rotor Actuation Assembly | `Rotor_Actuation_Assembly/Design_Spec.md` | Draft |
 | Rotor | `Rotor/Design_Spec.md` | Draft |
+| Rotor Stack Assembly | `Rotor_Stack_Assembly/Design_Spec.md` | Draft |
 | Keyboard Assembly | `Keyboard_Assembly/Design_Spec.md` | Draft |
 | Lightboard Assembly | `Lightboard_Assembly/Design_Spec.md` | Draft |
 | Plugboard Assembly | `Plugboard_Assembly/Design_Spec.md` | Draft |

@@ -165,6 +165,8 @@ rod (shaft) that passes through **both** Board A and Board B via an NPTH centre 
   sole weight-bearing support.
 * The shaft passes through the full rotor stack; all rotors within a group slide onto the shaft and
   are retained by the same shaft mechanism (design TBD - pending Rotor Actuation Assembly spec).
+* For inter-rotor spacing along the shaft axis (connector-driven PCB-to-PCB gap and clearance
+  requirements), see `design/Mechanical/Rotor_Stack_Assembly/Design_Spec.md`.
 
 **PCB hole specification:**
 
@@ -182,8 +184,10 @@ The NPTH construction (no copper barrel) with the copper keep-out zone ensures n
 the shaft and any PCB net. Do not add a mounting pad ring or grounded copper pour extending into the
 keep-out zone.
 
-> **Cross-reference:** `design/Mechanical/Rotor_Actuation_Assembly/Design_Spec.md` for shaft
-> diameter, material, retention mechanism, and inter-rotor spacing along the shaft axis.
+> **Cross-references:** `design/Mechanical/Rotor_Actuation_Assembly/Design_Spec.md` for shaft
+> diameter, material, and retention mechanism.
+> `design/Mechanical/Rotor_Stack_Assembly/Design_Spec.md` for inter-rotor spacing and
+> clearance requirements.
 
 ---
 
@@ -206,5 +210,6 @@ keep-out zone.
 | `design/Electronics/Rotor/Board_Layout.md` | PCB layout, component placement, ASCII diagrams |
 | `design/Electronics/Rotor/Rotor_26_Char_Design.md` | N=26 encoder track pattern and geometry |
 | `design/Electronics/Rotor/Rotor_64_Char_Design.md` | N=64 encoder track pattern and geometry |
-| `design/Mechanical/Rotor_Actuation_Assembly/Design_Spec.md` | Shaft diameter, retention, and inter-rotor spacing |
+| `design/Mechanical/Rotor_Actuation_Assembly/Design_Spec.md` | Shaft diameter, retention, and carry mechanism |
+| `design/Mechanical/Rotor_Stack_Assembly/Design_Spec.md` | Mini-stack grouping, inter-rotor connector gap (10mm), clearance requirements, total depth |
 | `design/Design_Log.md` | DEC-026 (capacitive encoder), DEC-028 (split-board architecture) |
