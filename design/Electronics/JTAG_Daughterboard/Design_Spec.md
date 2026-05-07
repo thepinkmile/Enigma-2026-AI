@@ -19,8 +19,7 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 | ID | Functional Requirement | Notes | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
 | FR-JDB-01 | Provide a USB-to-JTAG programming interface for all 37 CPLDs in the system | 1 Stator + 6 Encoder + 30 Rotor CPLDs | §2 Core Logic; BOM U1 (FT232H) |
-| FR-JDB-02 | Generate series-damped drive signals suitable for the controlled-impedance JTAG chain | U2 buffers TCK/TMS; 33 Ω source termination at all JTAG outputs (R2/R3 after U2 buffer, R1 at FT232H TDI, R4 before J2 TDI pin) | §6 Electrical Requirements; BOM U2, R1, R2, R3, R4 |
-| FR-JDB-03 | Interface with the CM5 via USB 2.0 for JTAG programming software control | Presented as FTDI JTAG device to OpenOCD via libftdi; no custom driver required | §3 Interface & Wiring; BOM J1 (INPUT 5-pin header), U1 (FT232H) |
+| FR-JDB-02 | Generate series-damped drive signals suitable for the controlled-impedance JTAG chain, and interface with the CM5 via USB 2.0 for JTAG programming software control | U2 buffers TCK/TMS; 33 Ω source termination at all JTAG outputs (R2/R3 after U2 buffer, R1 at FT232H TDI, R4 before J1 TDI pin); presented as FTDI JTAG device to OpenOCD via libftdi; no custom driver required | §3 Interface & Wiring; §6 Electrical Requirements; BOM J1 (DF40C-20 BtB connector), U1 (FT232H), U2, R1, R2, R3, R4 |
 
 #### Design Requirements
 
@@ -30,9 +29,9 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 | DR-JDB-02 | USB-to-JTAG bridge | FTDI FT232H (U1) in MPSSE mode | §2 Core Logic; BOM U1 (FT232HL LQFP-48) |
 | DR-JDB-03 | TDI series damping at FT232H | R1 = 33 Ω 0402 at FT232H TDI output | §6 Electrical Requirements; BOM R1 |
 | DR-JDB-04 | JTAG chain device count | 37 devices total (1 Stator CPLD + 6 Encoder CPLDs + 30 Rotor CPLDs) | §2 Core Logic; BOM U1 (FT232H) |
-| DR-JDB-05 | USB interface | USB 2.0 Full Speed via CM5 internal USB port; D+/D- route via hat-header J1 | §3 Interface & Wiring; BOM J1 (5-pin INPUT header), Y1 (12MHz crystal) |
-| DR-JDB-06 | Power source | 5V_USB and 3V3_ENIG from Controller Board via hat-header J1; FT232H self-powered USB mode | §6 Electrical Requirements |
-| DR-JDB-07 | Hat-style connectors | J1 = 1x5 2.54mm male pin header (INPUT); J2 = 1x10 2.54mm male pin header (JTAG OUTPUT) | §3 Interface & Wiring; BOM J1, J2 |
+| DR-JDB-05 | USB interface | USB 2.0 Full Speed via CM5 internal USB port; D+/D- route via J1 DF40C-20 BtB connector | §3 Interface & Wiring; BOM J1 (DF40C-20DP), Y1 (12MHz crystal) |
+| DR-JDB-06 | Power source | 5V_USB and 3V3_ENIG from Controller Board via J1 DF40C-20 BtB connector; FT232H self-powered USB mode | §6 Electrical Requirements |
+| DR-JDB-07 | Board-to-Board connector | J1 = Hirose DF40C-20DP-0.4V(51) 20-pin 0.4mm pitch BtB plug (bottom-centre of board; R1 on outer/bottom edge) | §3 Interface & Wiring; BOM J1 |
 | DR-JDB-08 | GND_CHASSIS exemption | M2.5 NPTH clearance holes. Electrical connection: GND (not GND_CHASSIS). Per DEC-057 daughterboard exception. | §3 Interface & Wiring |
 | DR-JDB-09 | Bulk cap exception | JDB exempt from 5x bulk entry bank rule; C1-C4, C6-C9 = 8x 100nF per-IC decoupling (one per FT232H supply pin: VCCA, VCORE, VCCD, VCCIOx3, VPLL, VPHY) + C5 = 4.7µF 5V_USB entry filter | §6 Electrical Requirements; BOM C1-C9; GRS §3 |
 | DR-JDB-10 | JTAG buffer | U2 = SN74LVC2G125DCUR (VSSOP-8) dual-channel buffer for TCK and TMS; placed between FT232H and J2 header | §6 Electrical Requirements; BOM U2; DEC-024 |
@@ -43,6 +42,9 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 | DR-JDB-15 | TCK pull-down near J2 | R7 = 10 kΩ 0402 pull-down from TCK to GND near J2 header; idle-state TAP control | §6 Electrical Requirements; BOM R7 |
 | DR-JDB-16 | FT232H RESET_N pull-up | R5 = 10 kΩ 0402 pull-up from FT232H RESET_N (FT232H pin 34; IC datasheet designates this pin as RESET#; renamed RESET_N per project convention) to 3V3_ENIG; holds RESET_N deasserted (HIGH) during normal operation per FTDI application note AN_108; absence of pull-up risks chip latching in reset | §6 Electrical Requirements; BOM R5 |
 | DR-JDB-17 | JTAG buffer VCC bypass | C12 = 100nF X7R 0402 bypass capacitor shall be placed on the VCC supply of U2 (SN74LVC2G125DCUR) within 0.5mm of the VCC pin | §6 Electrical Requirements; BOM C12 |
+| DR-JDB-18 | Mounting holes | JDB mounting holes MH1–MH4 shall be NPTH M2.5 holes with a GND annular ring. Conductive standoffs connect to GND only (not GND_CHASSIS), per DEC-057 daughterboard exception. No purchasable BOM component — mounting hardware is owned by and specified in the Controller Board BOM (MH13–MH16, 9774035151R). See `design/Standards/Global_Routing_Spec.md §4` for module mounting hole rules. | §4 Aesthetics & Mounting; DEC-057; DEC-058 |
+| DR-JDB-19 | BtB connector placement and orientation | J1 (DF40C-20DP) shall be placed at **bottom-centre** of the JDB board (positional keying — cannot accidentally mate with AM location on CTL). R1 of J1 shall be on the outer (bottom) edge. When mounted on the CTL, R1 shall face the LINK-BETA connector (J4/J5) to minimise JTAG trace lengths to the Stator. Orientation is enforced by the asymmetric MH1–MH4 pattern and silkscreen pin-1 markers (DF40 is mechanically polarity-free per Hirose Note 4). | §3 Interface & Wiring; §4 Aesthetics & Mounting |
+| DR-JDB-20 | No-component zone — underside | A minimum 1.0mm component-free zone shall be maintained on the underside (L4 face) of the JDB, measured from the board outline. This ensures clearance above the CTL board when the JDB is mounted as a hat. | §4 Aesthetics & Mounting; DEC-058 |
 
 ## 2. Core Logic
 
@@ -55,24 +57,50 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 
 ## 3. Interface & Wiring
 
-### J1 - INPUT Header (5-Pin, USB/Power Side)
+### J1 — DF40C-20 Board-to-Board Connector (20-Pin, 0.4mm Pitch)
 
-* **Type:** Single-row 2.54mm pitch male pin header, 5 pins
-* **Purpose:** System power in (5V_USB + GND from Controller Board TPS2065C-protected USB rail);
-  JTAG signal voltage reference (3V3_ENIG from Controller Board); internal USB 2.0 data to CM5 (D+/D-)
-* **Physical location:** One edge of the board (INPUT side)
-* **Mating Part (Controller J12):** Adam Tech RS1-05-G - 1x5 2.54mm female socket (JLCPCB C3321119)
+* **Type:** Hirose DF40C-20DP-0.4V(51) — 20-pin 0.4mm pitch BtB plug
+* **Purpose:** Single board-to-board interface providing system power (5V_USB + 3V3_ENIG from CTL),
+  USB 2.0 data path to CM5 (D+/D-), and JTAG output signals (TCK, TMS, TDI, TDO) — all in one connector.
+* **Physical location:** Bottom-centre of board; R1 on outer (bottom) edge; faces toward CTL LINK-BETA connector (J4/J5) when mounted.
+* **Mating Part (Controller J12):** Hirose DF40HC(3.5)-20DS-0.4V(51) — 3.5mm stack height BtB receptacle. See `Controller/Design_Spec.md §8.3`.
+* **Stack height:** 3.5mm (matching AM dock — same standoffs, 9774035151R, held in CTL BOM MH13–MH16).
 
-### J2 - JTAG OUTPUT Header (10-Pin)
+#### J1 Pinout (20-pin DF40C)
 
-* **Type:** Single-row 2.54mm pitch male pin header, 10 pins
-* **Physical location:** Opposing edge of the board (OUTPUT side), physically opposite J1
-* **Mating Part (Controller J13):** Adam Tech RS1-10-G - 1x10 2.54mm female socket (JLCPCB C3320525)
+```text
+         C1     C2     C3     C4     C5     C6     C7     C8     C9    C10
+  R1:   TCK    GND    GND   5V_U   GND    GND   3V3    GND    GND    TDI
+  R2:   GND    TMS    GND    GND   USB+   USB-   GND    GND    TDO    GND
+```
 
-> **No external connectors:** The JDB has no external connectors. USB is entirely internal via J1.
+| Pin  | Signal    | Direction   | Description                                          |
+| :--- | :-------- | :---------- | :--------------------------------------------------- |
+| C1R1 | TCK       | JDB → CTL   | JTAG Clock (buffered via U2, 33Ω via R2)            |
+| C2R1 | GND       | —           | Ground                                               |
+| C3R1 | GND       | —           | Ground                                               |
+| C4R1 | 5V_USB    | CTL → JDB   | 5V USB power (from CTL TPS2065C rail)                |
+| C5R1 | GND       | —           | Ground                                               |
+| C6R1 | GND       | —           | Ground                                               |
+| C7R1 | 3V3_ENIG  | CTL → JDB   | 3.3V logic rail (JTAG signal reference)              |
+| C8R1 | GND       | —           | Ground                                               |
+| C9R1 | GND       | —           | Ground                                               |
+| C10R1 | TDI      | JDB → CTL   | JTAG Data In (33Ω via R4, then R1 at FT232H)        |
+| C1R2 | GND       | —           | Ground                                               |
+| C2R2 | TMS       | JDB → CTL   | JTAG Mode Select (buffered via U2, 33Ω via R3)      |
+| C3R2 | GND       | —           | Ground                                               |
+| C4R2 | GND       | —           | Ground                                               |
+| C5R2 | USB+      | Bidir       | USB 2.0 D+ to CM5                                    |
+| C6R2 | USB−      | Bidir       | USB 2.0 D− to CM5                                    |
+| C7R2 | GND       | —           | Ground                                               |
+| C8R2 | GND       | —           | Ground                                               |
+| C9R2 | TDO       | CTL → JDB   | JTAG Data Out (return)                               |
+| C10R2 | GND      | —           | Ground                                               |
+
+> **No external connectors:** The JDB has no external connectors. USB is entirely internal via J1 (DF40C-20 BtB connector).
 > No USB-C connector exists on the JDB. CC pins are irrelevant (USB 2.0 only).
 >
-> See `design/Electronics/JTAG_Daughterboard/Board_Layout.md` for full connector pin assignments (§3 J2 JTAG OUTPUT; §4 J1 INPUT Header).
+> See `design/Electronics/JTAG_Daughterboard/Board_Layout.md` for connector placement and layout details (§3 J1 DF40 BtB Connector).
 
 ### FT232H JTAG Signal Mapping (MPSSE Mode)
 
@@ -99,8 +127,11 @@ remains on the Power Module at the common power-entry point immediately before t
 * **Mounting:** Small **4-layer** PCB (DEC-017) mounted as a hat on the Controller Board via conductive
   standoffs. As a non-chassis-connected daughterboard, its mounting holes tie to **GND** only.
   The M2.5 standoffs used to attach the JDB to the CTL are specified and sourced in the
-  **Controller Board BOM**, not this BOM. See `design/Electronics/Controller/Design_Spec.md` and
-  DEC-058 for the standoff ownership rule.
+  **Controller Board BOM** (MH13–MH16, 9774035151R). See `design/Electronics/Controller/Design_Spec.md`,
+  DEC-057 (standoff ownership rule), and DEC-058 for the JDB upgrade decision.
+  Mounting hole positions (MH1–MH4) are defined relative to the JDB board edge; final CTL board
+  locations are deferred to PCB layout. See `design/Standards/Global_Routing_Spec.md §4` for module
+  mounting hole specification rules.
 
 ## 5. PCB Fabrication & Stackup
 
@@ -124,13 +155,13 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
 ## 6. Electrical Requirements
 
 * **Power Architecture:**
-  * FT232H VCC = **5V_USB** (5V) via hat-header J1 Pin 1 - from the Controller Board's TPS2065C-protected
+  * FT232H VCC = **5V_USB** (5V) via J1 DF40 Pin C4R1 - from the Controller Board's TPS2065C-protected
     USB power rail (same current-limited rail as the USB 3.0 ports, 1.6A limit).
-  * FT232H VCCIO = **3V3_ENIG** (3.3V) via hat-header J1 Pin 2 - sets JTAG signal voltage to match
+  * FT232H VCCIO = **3V3_ENIG** (3.3V) via J1 DF40 Pin C7R1 - sets JTAG signal voltage to match
     CPLD I/O logic levels (same role as CM5 GPIO reference voltage).
   * FT232H VBUS pin tied to **5V_USB** (always-on; USB connection to CM5 is internal - no VBUS monitoring needed).
-  * USB connection is **entirely internal**: D+ and D- travel from FT232H via J1 hat-header through the
-    Controller Board PCB directly to the CM5 USB 2.0 port. No USB-C connector on the JDB.
+  * USB connection is **entirely internal**: D+ and D- travel from FT232H via J1 DF40 connector (C5R2/C6R2)
+    through the Controller Board PCB directly to the CM5 USB 2.0 port. No USB-C connector on the JDB.
   * FT232H operates in **self-powered USB mode** - power from system (5V_USB), not from USB host.
   * CM5 enumerates the FT232H when Linux boots and ftdi_sio loads; no JDB-side power sequencing required.
   * Controller TPS2065C is the upstream current limiter; no additional current limiter on JDB.
@@ -156,15 +187,15 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
     TDI drives only the first CPLD in the chain (single load) - source termination at the FT232H pin
     provides matched drive (FT232H output ≈ 20Ω + R1 33Ω ≈ 53Ω) for the board-to-board path.
     Per DEC-016 intra-board/BtB termination rule. See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md`.
-  * **R4 (33Ω):** Series damping on TDI signal (not buffered) before J2 (TDI pin). Combined with R1 at FT232H, provides damping at both ends of the FT232H-to-J2 TDI path.
+  * **R4 (33Ω):** Series damping on TDI signal (not buffered) before J1 (TDI pin, C10R1). Combined with R1 at FT232H, provides damping at both ends of the FT232H-to-J1 TDI path.
   * **U2 (SN74LVC2G125DCUR, VSSOP-8):** Dual-channel 3-state buffer placed between the FT232H and
-    J2 header (JTAG OUTPUT), buffering TCK and TMS for the 37-device JTAG chain load. TDI is not
+    J1 connector (JTAG OUTPUT side), buffering TCK and TMS for the 37-device JTAG chain load. TDI is not
     buffered - FT232H TDI drives only the first device in the chain directly.
   * **R2 (33Ω):** Series damping on U2 TCK output, placed within 2mm of the U2 output pin, before
-    J2 JTAG header (TCK pin). Source impedance after U2: U2_out (≈15Ω) + R2 (33Ω) ≈ 48Ω - matched
+    J1 DF40 connector (TCK pin, C1R1). Source impedance after U2: U2_out (≈15Ω) + R2 (33Ω) ≈ 48Ω - matched
     to 50Ω BtB trace impedance per DEC-024.
-  * **R3 (33Ω):** Series damping on U2 TMS output - same function as R2 (TCK). Placed before J2 (TMS pin).
-  * **Pull Resistors:** TMS 10kΩ pull-up (R6) and TCK 10kΩ pull-down (R7) near J2 header to hold JTAG TAP in defined state
+  * **R3 (33Ω):** Series damping on U2 TMS output - same function as R2 (TCK). Placed before J1 (TMS pin, C2R2).
+  * **Pull Resistors:** TMS 10kΩ pull-up (R6) and TCK 10kΩ pull-down (R7) near J1 connector to hold JTAG TAP in defined state
     when idle (see §5 and JTAG best-practice note in `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md`).
   * **Trace Width Rule:** All JTAG signal traces on L2 (signal layer) shall be routed at **0.127 mm (5 mil)** over the L1 GND reference plane, targeting **50 Ω controlled impedance**. See DEC-016.
 
@@ -178,7 +209,7 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
 ## 7. Thermal & ESD
 
 * **Thermal:** Low-power debug board; no thermal management required.
-* **ESD:** No TVS/ESD protection required - all connectors (J1, J2) are internal hat-headers, per `design/Standards/Global_Routing_Spec.md §9`.
+* **ESD:** No TVS/ESD protection required — J1 (DF40C-20 BtB connector) is an internal board-to-board connector with no user access, per `design/Standards/Global_Routing_Spec.md §9`.
 
 ---
 
@@ -190,8 +221,7 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
 | C1-C4, C6-C9, C12 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 9 |
 | C5 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | Yes | Pending | 1 |
 | C10-C11 | 33pF C0G/NP0 crystal load 0402 | C0402C330J5GAUTO | Kemet | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | C0G/NP0 exception approved - only C0G in system | Yes | Pending | 2 |
-| J1 | 1x5 2.54mm male INPUT header THT | PH1-05-UA | Adam Tech | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | - | Yes | Pending | 1 |
-| J2 | 1x10 2.54mm male JTAG OUTPUT header THT | PH1-10-UA | Adam Tech | 2057-PH1-10-UA-ND | 737-PH1-10-UA | C3330527 | - | - | Yes | Pending | 1 |
+| J1 | 20-pin 0.4mm pitch BtB plug (bottom-centre of board) | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | BtB connector; mates with CTL J12 DF40HC(3.5)-20DS-0.4V(51); R1 on outer edge; see DR-JDB-19, DEC-058 | Yes | Pending | 1 |
 | R1-R4 | 33Ω 1% 0402 | ERJ-2RKF33R0X | Panasonic | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | see DEC-016; see DEC-024 | Yes | Pending | 4 |
 | R5-R7 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | Pending | 3 |
 | U1 | USB 2.0 to MPSSE bridge LQFP-48 | FT232HL-REEL | FTDI Chip | 768-1101-1-ND | 895-FT232HL-REEL | C51997 | - | - | Yes | Pending | 1 |

@@ -10,7 +10,7 @@
 > from the SQL Reconstruction Reference section at the bottom of this file. That section is the authoritative
 > dependency source; the in-session SQL is a convenience tracker only and does not persist across sessions.
 
-Last updated: 2026-05-06
+Last updated: 2026-05-07
 
 ---
 
@@ -44,6 +44,10 @@ Long-running workstreams; tracked in `.copilot/plan.md` Current Open Workstreams
 | `footprint-requests-pending` | Footprints requested but not yet received; update BOM and library when each arrives: **BAT54** (Diotec SOT-23) — requested, **AC72ABD** (72°C SMD thermal cutoff) — requested, **BMC-Q2AY0600M** (TE 600Ω 0805 AEC-Q200 ferrite bead) — requested, **2BHR-30-VUA** (Adam Tech 30-pin 2×15 IDC box header, JLCPCB C17346400; used at STA:J10, REF:J4, EXT:J7/J8) — requested, **TPS75733KTTRG3** (Texas Instruments 3.3V LDO TO-263-5) — ⚠️ footprint ready, no 3D model yet — download on next session, **MCP121T-450E/LB** (Microchip 4.5V supervisor SC70-3) — ⚠️ footprint ready, no 3D model yet — download on next session. Add further pending requests here as they arise. Depends on: `full-pn-review` | pending | — | 2026-05-02 |
 | `bom-func-notes-sweep` | Remove function descriptions from all BOM tables across ALL design files. BOM may only contain RefDes / MPN / Manufacturer / Spec / Supplier PNs / Qty / procurement Notes. Pre-condition: new BOM Content directive committed. Deferred per user instruction (F-PM-09/F-PM-10). Depends on: all board Design_Spec.md files stable. | pending | — | 2026-05-06 |
 | ~~`m25-m3-dec-exception`~~ | ~~Record DEC exception for M2.5 mounting holes on daughterboards: AM, ENC, and ROT boards use M2.5 (not M3 per GRS §4) because they mount to other PCBs rather than chassis. MH must tie to GND (not GND_CHASSIS). Covered by GRS §5 (Daughterboard exception) and DEC-057.~~ | ~~✔ DONE~~ | ~~DEC-057, GRS §5~~ | ~~2026-05-06~~ |
+| ~~`jdb-standoff-height`~~ | ~~Determine JDB hat-header stacking height and select correct M2.5 SMT standoff PN; review whether a DF40 BtB connector upgrade (same as AM) was appropriate. Resolved: upgraded to Hirose DF40C-20DP BtB connector (DEC-058); MH13–MH16 on CTL use Wurth 9774035151R (same as AM dock). BOM entries added to CTL Design_Spec.md.~~ | ~~✔ DONE~~ | ~~DEC-057, DEC-058~~ | ~~2026-05-07~~ |
+| `mh-refdes-standardise` | Standardise mounting hole RefDes across all boards per DEC-057/DEC-058. CTL is now correctly assigned: MH1–4 = CM5 SoM, MH5–8 = AM dock, MH9–12 = chassis (no BOM, GRS plain holes), MH13–16 = JDB dock. EXT is already correct (MH1–4 = chassis, MH5–8 = AM dock). Verify all remaining boards follow their applicable scheme. Update any cross-references in Design_Spec.md, Board_Layout.md, Consolidated_BOM.md, and Design_Log.md that cite specific MH numbers. | pending | DEC-057, DEC-058 | 2026-05-07 |
+| `jdb-fr-renumber` | JDB Design_Spec.md deferred cleanup: FR-JDB-02 and FR-JDB-03 were collapsed into a single requirement; renumber remaining FRs consecutively. Low-priority; deferred to next JDB spec revision. | pending | — | 2026-05-07 |
+| `jdb-ft232h-3v3-vregin` | 🚫 **DEFERRED TO V2.0.** FT232H Rev C supports 3.0–3.6V VREGIN, which would allow JDB to run entirely from 3V3\_ENIG and eliminate the 5V\_USB pin from the DF40 connector. Defer until Rev C availability is confirmed. Same priority as `display-addon-board`. | blocked | DEC-058 | 2026-05-07 |
 
 ---
 
@@ -136,9 +140,9 @@ rotor-variant-refdes-schematic
                                                                --> version-one-complete
                                                                      (also needs: da-01-da-04)
 
-v2.0 deferred (blocked): display-addon-board, display-aperture, cpld-production-replacement
+v2.0 deferred (blocked): display-addon-board, display-aperture, cpld-production-replacement, jdb-ft232h-3v3-vregin
 Currently ready (no pending deps): connector-thermal-verification, ctlh1-deferred,
-  extension-mechanical-usage, rotor-variant-refdes-schematic
+  extension-mechanical-usage, rotor-variant-refdes-schematic, mh-refdes-standardise, jdb-fr-renumber
   [coupon-testing-review depends on extension-mechanical-usage]
   [battery-connector-final-review excluded -- blocked awaiting supplier response]
   [prototype-pcb-manufacturing excluded -- depends on rerun-deep-reviews + interim-electronics-review-3]
@@ -202,8 +206,10 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('plugboard-assembly-spec',           'Create Plugboard Assembly specification including J1 6.35mm mono jack socket pin mapping table; ENC J1 connector delegation pending this spec', 'pending'),
 ('enc-connector-review-pre-pcb',      'Review ENC connector and bypass cap placement before prototype PCB manufacturing; ensure ENC J1/J2 placement and 100nF caps are correct', 'pending'),
 ('bom-system-qty-audit',              'Audit and correct all System Qty values in Consolidated_BOM.md against the documented base-system convention (1× PM/CTL/STA/REF/EXT/JDB/USM/ENC/AM + 5× ROT of single variant). Focus: TPD4E05 row (currently may double-count both ROT variants); variant-specific rotor components (C16A/C16B, U3A/U3B — confirm C16A/C16B are 100nF bypass caps in ROT Design_Spec.md); all ROT-only rows.', 'done'),
-('mh-refdes-standardise',            'Standardise mounting hole RefDes across all boards. Consistent scheme: MH1-MH4 = chassis mounting holes (all chassis-mounted boards); MH5-MH8 = AM daughterboard dock standoffs (all AM carrier boards: CTL, EXT); MH9-MH12 = CM5 SoM mounting holes (CTL only); MH13-MH16 = JDB daughterboard dock standoffs (CTL only). Current CTL assignment is inverted (MH1-4=CM5, MH5-8=AM, MH9-12=chassis) and must be renumbered; JDB dock holes have no RefDes yet and must be created as MH13-MH16. EXT is already correct (MH1-4=chassis, MH5-8=AM dock). All cross-references in Design_Spec.md files, Board_Layout.md files, Consolidated_BOM.md, Design_Log.md (DEC-057 summary table and CTL special-case table), and any agent-directives or handoff docs that cite specific MH numbers must be updated consistently.', 'pending'),
-('jdb-standoff-height',             'Determine JDB hat-header stacking height and review JDB board-to-board connector. Steps: (1) Look up the stacking height of the Adam Tech RS1-05-G (female socket, CTL J12) + PH1-05-UA (male header, JDB J1) connector pair to determine the required standoff height for MH13-MH16. (2) Review whether the current 2.54mm pin header approach is still the right choice — the AM was originally on pin headers and was upgraded to a Hirose DF40HC board-to-board connector for reliability and stacking height precision; consider whether a similar upgrade is appropriate for the JDB interface. (3) Once the standoff height and connector decision are confirmed, select the correct M2.5 SMT standoff PN (Wurth 977404x151R series or equivalent), add it to DEC-057 (CTL special-case table and Standoff BOM Ownership table), and add the BOM entry to CTL Design_Spec.md for MH13-MH16.', 'pending'),
+('mh-refdes-standardise',            'Standardise mounting hole RefDes across all boards per DEC-057/DEC-058. CTL correctly assigned: MH1-4=CM5, MH5-8=AM dock, MH9-12=chassis (no BOM, GRS plain holes), MH13-16=JDB dock. EXT correct (MH1-4=chassis, MH5-8=AM dock). Verify remaining boards follow applicable scheme. Update any cross-references in Design_Spec.md, Board_Layout.md, Consolidated_BOM.md, Design_Log.md citing specific MH numbers.', 'pending'),
+('jdb-standoff-height',             'Determine JDB hat-header stacking height and select correct M2.5 SMT standoff PN; review whether a DF40 BtB connector upgrade (same as AM) was appropriate. Resolved: upgraded to Hirose DF40C-20DP BtB connector (DEC-058); MH13-MH16 on CTL use Wurth 9774035151R. BOM entries added to CTL Design_Spec.md.', 'done'),
+('jdb-fr-renumber',                  'JDB Design_Spec.md deferred cleanup: FR-JDB-02 and FR-JDB-03 were collapsed into a single requirement; renumber remaining FRs consecutively. Low-priority; deferred to next JDB spec revision.', 'pending'),
+('jdb-ft232h-3v3-vregin',           'FT232H Rev C supports 3.0-3.6V VREGIN; would allow JDB to run entirely from 3V3_ENIG and eliminate 5V_USB from DF40 connector. Defer until Rev C availability confirmed. Same priority as display-addon-board.', 'blocked'),
 -- Project Milestones
 ('review-mounting-holes',             'Verify mounting hole count and board-specific location for every board during schematic capture and PCB layout stage. Cannot be fully defined until KiCAD layout is complete.', 'pending'),
 ('interim-electronics-review-1',      'Review gate 1: pass 3 fixes + rotor-refdes-reallocate complete; no RefDes gaps; all pass-3 findings resolved.', 'pending'),
@@ -321,8 +327,8 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('review-pass-7', 'bom-system-qty-audit'),
 -- mh-refdes-standardise blocks review-pass-7
 ('review-pass-7', 'mh-refdes-standardise'),
--- jdb-standoff-height blocks mh-refdes-standardise
-('mh-refdes-standardise', 'jdb-standoff-height'),
+-- jdb-fr-renumber blocks review-pass-7
+('review-pass-7', 'jdb-fr-renumber'),
 -- review-pass-7 → interim-electronics-review-1
 ('interim-electronics-review-1', 'review-pass-7');
 ```

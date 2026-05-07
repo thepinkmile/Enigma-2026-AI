@@ -84,7 +84,7 @@ Recent locked work:
 | `review-cycle-pass4` | **done** | Pass 4 electronics review fixes complete and committed; 10 fixes (F-88–F-97) + EXT-P4-2 standoffs; DF40 swap; audit trail in review-report.md |
 | `char-normalise-directives` | **done** | Approved character matrix created; 74 design files normalised; German ALL-CAPS umlaut exception documented; committed `d226689` |
 | `bom-description-strip` | **done** | All 11 board spec Component columns stripped; Consolidated_BOM.md rebuilt; all files lint-clean |
-| `review-cycle-pass5` | **in progress** | Pass 5 review complete. Commit 1 (F-98–F-107, F-109, F-110, Production folder) pending user go-ahead. Commit 2 (F-108 RefDes review) blocked until user releases F-108 block. |
+| `jdb-btb-upgrade` | **done** | JDB upgraded from 2× hat-headers to single DF40C-20DP BtB connector; DEC-058 appended; all changes unstaged |
 | `extension-mechanical-usage` | pending | Detailed switch/linkage geometry for Extension boundary carry still needed; architectural answer (shared AM) is locked but physical linkage spec is not |
 | `coupon-testing-review` | pending | Add and review board-level coupons and PAS-oriented test coverage so production boards do not retain test-only hardware |
 | `battery-connector-final-review` | **blocked** | Re-confirm Glenair `807-216-00ZNU6-6DY` contact assignment, `BATT_PRES_N` position, cable, and interposer fit; check ODU AMC NP lead — awaiting supplier response |
@@ -100,7 +100,7 @@ Recent locked work:
 | Stator | In Review (Pass 5 fixes applied) |
 | Reflector | In Review (Pass 3 fixes applied; no Pass 4/5 changes) |
 | Extension | In Review (Pass 4 fixes applied; F-108 deferred) |
-| JDB | In Review (Pass 2 fixes applied; no Pass 3–5 changes) |
+| JDB | JDB BtB upgrade complete (DF40C-20DP; DEC-058 logged; all changes unstaged) |
 | Controller | In Review (Pass 5 fixes applied) |
 | Encoder | In Review (Pass 3 fixes applied; no Pass 4/5 changes) |
 | Rotor | In Review (Pass 5 fixes applied) |
@@ -118,7 +118,7 @@ Start the next clean session by reading **in this order**:
 3. `.copilot/handoff.md`
 4. `.copilot/todo-list.md` — populate the in-session SQL `todos`/`todo_deps` tables from the
    "SQL Reconstruction Reference" section at the bottom of that file
-5. `.copilot/checkpoints/112-ctl-p6-03-04-05-complete.md` (latest checkpoint)
+5. `.copilot/checkpoints/117-jdb-btb-upgrade-complete.md` (latest checkpoint)
 6. `.copilot/review-report.md` (for full Pass 1–6 audit trail)
 
 ### Ordered work for next session

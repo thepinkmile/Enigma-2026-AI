@@ -121,3 +121,5 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 114 | DEC-057 mounting hole consolidation rules | 114-dec-057-consolidated-pass6-locked.md |
 | 115 | b4 batch BOM work complete; bom-system-qty-audit corrections applied | 115-b4-batch-bom-complete.md |
 | 116 | todo-list strikethrough; m25 closed | 116-todo-list-strikethrough-m25-cl.md |
+| 117 | JDB BtB connector upgrade complete; DEC-058 appended | 117-jdb-btb-upgrade-complete.md |
+| 133 | CTL + JDB BtB upgrade locked; CTL path fix-up complete | 133-ctl-jdb-btb-upgrade-locked.md |

@@ -68,11 +68,13 @@ source is active.
 | DR-CTL-11 | DSI1 connector | J9 = Amphenol F52Q-1A7H1-11015, 15-pin 1.0mm pitch right-angle ZIF/FPC connector; DSI1 4-lane: CLK+/-, D0+/-, D1+/-, D2+/-, D3+/- = 10 differential signals; 100 Ω differential impedance; route on L3 (stripline, same as HDMI); capacitive touch I²C may share the existing I²C-1 controller interface when the deferred display add-on is defined | §8 Connectivity; BOM J9 |
 | DR-CTL-12 | Actuation Module host dock | J11 = Hirose DF40HC(3.5)-20DS-0.4V(51) receptacle (20-pin, 0.4mm pitch, 3.5mm stacking height); host-side mating connector for AM J1 (DF40C-20DP-0.4V(51)); carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` on a single connector | §8 Connectivity; BOM J11 |
 | DR-CTL-13 | Actuation-request GPIO usage | `ACTUATE_REQUEST_N` uses CM5 GPIO 8 as an active-low host control output. The former direct `SERVO_PWM` / `SERVO_HOME` CM5 ownership is retired in favour of the shared Actuation Module architecture. | §6 CM5 GPIO Mapping Matrix |
-| DR-CTL-14 | Actuation Module host envelope | The Controller area beneath the installed AM shall be a no-component placement zone except for J11 and four M2.5x3.5mm SMT standoffs (MH5-MH8, 9774035151R) and the copper / vias needed to route J11; standoff placement shall follow the pattern defined in `AM Design_Spec.md DR-AM-03`; MH5-MH8 positions shall mirror the AM mounting hole pattern; MH5-MH8 pads shall be connected to `GND`; do not crowd the module with nearby tall parts or enclosure features that would trap heat or block service access. **PCB layout for J11 and MH5-MH8 cannot be finalised until AM schematic capture and PCB layout are complete.** | §8.6; `Board_Layout.md` |
-| DR-CTL-15 | Power switch Vcc bypass capacitors | U2 (TPS2065CDBVR) and U3 (AP2331W-7) shall each have a dedicated 100nF X7R 50V 0402 bypass capacitor on their Vcc pin, placed within 1mm of the IC per `Global_Routing_Spec.md §3.2` | BOM: C13 (U2 bypass), C14 (U3 bypass) |
-| DR-CTL-16 | PoE IC bypass capacitors | U7 (TPS2372-4RGWR) and U8 (TPS23730RMTR) shall each have a dedicated 100nF X7R 50V 0402 bypass capacitor on their VCC pin, placed within 1mm of the IC per `Global_Routing_Spec.md §3.2`. BOM: C18 (U7 bypass), C19 (U8 bypass) | BOM C18, C19 |
+| DR-CTL-14 | Actuation Module host envelope | The Controller area beneath the installed AM shall be a no-component placement zone except for J11 and four M2.5x3.5mm SMT standoffs (MH5-MH8, 9774035151R) and the copper / vias needed to route J11; standoff placement shall follow the pattern defined in `design/Electronics/Actuation_Module/Design_Spec.md DR-AM-03`; MH5-MH8 positions shall mirror the AM mounting hole pattern; MH5-MH8 pads shall be connected to `GND` (not `GND_CHASSIS`); do not crowd the module with nearby tall parts or enclosure features that would trap heat or block service access. **PCB layout for J11 and MH5-MH8 cannot be finalised until AM schematic capture and PCB layout are complete.** | §8.6; `design/Electronics/Controller/Board_Layout.md` |
+| DR-CTL-15 | Power switch Vcc bypass capacitors | U2 (TPS2065CDBVR) and U3 (AP2331W-7) shall each have a dedicated 100nF X7R 50V 0402 bypass capacitor on their Vcc pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2` | BOM: C13 (U2 bypass), C14 (U3 bypass) |
+| DR-CTL-16 | PoE IC bypass capacitors | U7 (TPS2372-4RGWR) and U8 (TPS23730RMTR) shall each have a dedicated 100nF X7R 50V 0402 bypass capacitor on their VCC pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C18 (U7 bypass), C19 (U8 bypass) | BOM C18, C19 |
 | DR-CTL-17 | ACTUATE_REQUEST_N boot-safe pull-up | R4 (10kΩ 0603) shall connect `ACTUATE_REQUEST_N` (CM5 GPIO 8) to `3V3_ENIG` as a pull-up resistor. This holds the active-low line HIGH (no-actuation state) before CM5 firmware configures GPIO 8 as an output, preventing a spurious actuation pulse to the Actuation Module during CM5 early boot. R4 is distinct from R1–R3, which are series protection resistors on GPIO input lines. | BOM R4; §7 Protection & EMI |
-| DR-CTL-18 | PoE ACF primary-side clamp capacitor | C17 (10nF X7R 100V 0402) shall be placed in the U8 (TPS23730RMTR) primary-side active-clamp circuit as the Cclamp energy-storage capacitor. The 100V voltage rating is required by the primary-side operating environment: the PoE bus may reach 57V and transformer leakage transients on the primary drain node exceed this during switching. See `Electronics/Controller/PoE_Power_Analysis.md`. | BOM C17; §7.1 PoE Front-End Passive Components |
+| DR-CTL-18 | PoE ACF primary-side clamp capacitor | C17 (10nF X7R 100V 0402) shall be placed in the U8 (TPS23730RMTR) primary-side active-clamp circuit as the Cclamp energy-storage capacitor. The 100V voltage rating is required by the primary-side operating environment: the PoE bus may reach 57V and transformer leakage transients on the primary drain node exceed this during switching. See `design/Electronics/Controller/PoE_Power_Analysis.md`. | BOM C17; §7.1 PoE Front-End Passive Components |
+| DR-CTL-19 | JDB dock connector | J12 = Hirose DF40HC(3.5)-20DS-0.4V(51) 20-pin 0.4mm pitch BtB receptacle (3.5mm stack height) for the JTAG Daughterboard (JDB) dock. Mates with JDB J1 DF40C-20DP-0.4V(51). Placement and board location finalised at PCB layout time. | §8.3; BOM J12 |
+| DR-CTL-20 | JDB dock no-component zone | The Controller area beneath the installed JDB shall be a no-component placement zone except for J12 and four M2.5×3.5mm SMT standoffs (MH13–MH16, 9774035151R) and the copper / vias needed to route J12; MH13–MH16 pads shall be connected to `GND` (not `GND_CHASSIS`); standoff placement shall mirror the JDB MH1–MH4 pattern per `design/Electronics/JTAG_Daughterboard/Design_Spec.md §4` and `design/Electronics/JTAG_Daughterboard/Board_Layout.md §8`. See DEC-057 (standoff ownership), DEC-058 (JDB BtB upgrade). **PCB layout for J12 and MH13–MH16 cannot be finalised until JDB schematic capture and PCB layout are complete.** | §8.3; `design/Electronics/Controller/Board_Layout.md` |
 
 ## 2. Dock Interfaces
 
@@ -105,6 +107,10 @@ The area directly beneath the mounted CM5 module (55mm x 40mm footprint) shall o
   official clearance.
 * The CM5 footprint shadow should still be shown in KiCad on `User.Courtyard`, but as a placement
   reference boundary for the height rule rather than as a hard no-component keep-out.
+* **CM5 mounting standoffs:** MH1–MH4 = four `9774040151R` (Wurth Elektronik M2.5×4.0mm SMT
+  standoffs) set the 4.0mm stack height for the CM5 SO-DIMM sockets (J14–J15). Pads are connected
+  to `GND` — **not** `GND_CHASSIS`. See `design/Standards/Global_Routing_Spec.md` for module
+  mounting hole grounding rules.
 
 ### 2.4. Physical Connector Placement
 
@@ -131,18 +137,18 @@ The Controller provides JTAG pass-through only. All JTAG chain architecture, dev
 * **Controller Pass-Through:** JTAG lines (TCK, TMS, TDI, TTD_RETURN, VREF) are routed directly
   from the JDB hat-headers (`J12`/`J13`) to the Stator logic dock (`J5`) on the Controller board without any active
   components. No buffer or series resistors reside on the Controller for JTAG signals.
-* **Cross-ref:** See `JTAG_Daughterboard/Design_Spec.md` for all JTAG chain architecture, FT232H module schematics, buffering, and assembly details. See DEC-016, DEC-024.
+* **Cross-ref:** See `design/Electronics/JTAG_Daughterboard/Design_Spec.md` for all JTAG chain architecture, FT232H module schematics, buffering, and assembly details. See DEC-016, DEC-024.
 
 ## 4. Telemetry & Logic (INA219 + SMBus)
 
 Current monitoring for both rails is managed via the I2C-1 bus (CM5 GPIO 2/3) and is
 implemented on the respective boards - not on the Controller:
 
-* **INA219 U10 (0x40) - 5V_MAIN monitor:** Power Module. See `Power_Module/Design_Spec.md §3 Telemetry`.
-* **INA219 U2 (0x45) - Rotor-stack monitor:** Stator board. See `Stator/Design_Spec.md §5. Power Telemetry`.
+* **INA219 U10 (0x40) - 5V_MAIN monitor:** Power Module. See `design/Electronics/Power_Module/Design_Spec.md §3 Telemetry`.
+* **INA219 U2 (0x45) - Rotor-stack monitor:** Stator board. See `design/Electronics/Stator/Design_Spec.md §5. Power Telemetry`.
 
 For DT bindings and driver configuration for both INA219 devices, see
-`Software/Linux_OS/Power_Management.md §INA219 Rotor Stack Current Monitor`.
+`design/Software/Linux_OS/Power_Management.md §INA219 Rotor Stack Current Monitor`.
 
 ### 4.1. I²C Bus Topology
 
@@ -187,7 +193,7 @@ a 3V coin cell is required on the CM5's VBAT pin (**Pin 76** on the CM5 Hirose D
 
 > ⚠️ **Do NOT substitute ML2032 for CR2032 without removing D1.** The ML2032 is rechargeable and
 > must connect directly to VBAT (no diode). The software charging-disable note in
-> `Software/Linux_OS/Power_Management.md` also applies.
+> `design/Software/Linux_OS/Power_Management.md` also applies.
 >
 ### 5.2. Placement
 
@@ -253,7 +259,7 @@ preserved here for traceability (cross-ref: `design/Standards/Global_Routing_Spe
   * U5 and U6 together protect all four GbE differential pairs. All three devices are placed on
     Layer 1 at the connector entry to minimise stub length, per
     `design/Standards/Global_Routing_Spec.md`. The same TPD4E05U06QDQARQ1 (USON-10) is used on the
-    Stator at U9–U12 per Stator `Design_Spec.md §8`.
+    Stator at U9–U12 per `design/Electronics/Stator/Design_Spec.md §8`.
 * **5V_MAIN Bulk Entry:** 5x 10µF X7R 25V at the `J1` `5V_MAIN` entry region per `design/Standards/Global_Routing_Spec.md §3` Bulk Entry Bank Rule.
 * **3V3_ENIG Tap Decoupling:** The `J1` `3V3_ENIG` entry on the Controller shall follow the
   global bulk-entry bank rule: **5x 10uF X7R 25V** placed at the tap node in a
@@ -272,7 +278,7 @@ C19 for U8).
   recycles transformer leakage inductance energy each switching cycle. The 100V voltage rating is
   required by the primary-side operating environment: the PoE bus voltage can reach 57V and primary-side
   drain transients during switching exceed this level. See DR-CTL-18 and
-  `Electronics/Controller/PoE_Power_Analysis.md`.
+  `design/Electronics/Controller/PoE_Power_Analysis.md`.
 * **C12, C15, C16 (100nF X7R 50V 0402) — PoE Application Circuit Support Capacitors:** Three additional
   local decoupling and application-circuit filter capacitors within the U7/U8 PoE subsystem, distinct
   from the per-IC VCC bypass capacitors C18 (U7) and C19 (U8) specified in DR-CTL-16. Typical
@@ -289,8 +295,8 @@ The Power Module dock uses three copies of the TE 10-position 2.5 mm connector f
 * **Controller side:** `1-1674231-1`
 * **Power Module side:** `1123684-7`
 
-**Reference datasheets:** [`TE-1-1674231-1-datasheet.md`](../../Datasheets/TE-1-1674231-1-datasheet.md),
-[`TE-1123684-7-datasheet.md`](../../Datasheets/TE-1123684-7-datasheet.md)
+**Reference datasheets:** [`TE-1-1674231-1-datasheet.md`](design/Datasheets/TE-1-1674231-1-datasheet.md),
+[`TE-1123684-7-datasheet.md`](design/Datasheets/TE-1123684-7-datasheet.md)
 
 | Link | Allocation | Description |
 | :--- | :--- | :--- |
@@ -313,11 +319,11 @@ The Stator dock uses the Molex EXTreme Guardian HD hybrid pair:
 * **Controller side:** `2195630015` receptacle
 * **Stator side:** `2195620015` plug
 
-**Reference datasheets:** [`Molex-2195630015-datasheet.md`](../../Datasheets/Molex-2195630015-datasheet.md),
-[`Molex-2195630015-drawings.md`](../../Datasheets/Molex-2195630015-drawings.md),
-[`Molex-2195620015-datasheet.md`](../../Datasheets/Molex-2195620015-datasheet.md),
-[`Molex-2195620015-drawings.md`](../../Datasheets/Molex-2195620015-drawings.md),
-[`Molex-ExtremeGuardianHD-2141130000-PS-000-specification.md`](../../Datasheets/Molex-ExtremeGuardianHD-2141130000-PS-000-specification.md)
+**Reference datasheets:** [`Molex-2195630015-datasheet.md`](design/Datasheets/Molex-2195630015-datasheet.md),
+[`Molex-2195630015-drawings.md`](design/Datasheets/Molex-2195630015-drawings.md),
+[`Molex-2195620015-datasheet.md`](design/Datasheets/Molex-2195620015-datasheet.md),
+[`Molex-2195620015-drawings.md`](design/Datasheets/Molex-2195620015-drawings.md),
+[`Molex-ExtremeGuardianHD-2141130000-PS-000-specification.md`](design/Datasheets/Molex-ExtremeGuardianHD-2141130000-PS-000-specification.md)
 
 | Link | Allocation | Description |
 | :--- | :--- | :--- |
@@ -326,42 +332,37 @@ The Stator dock uses the Molex EXTreme Guardian HD hybrid pair:
 
 The `J5` connector deliberately groups the JTAG cluster and `TTD_RETURN` with the logic-domain `3V3_ENIG` feed.
 
-### 8.3. JDB Hat Connectors
+### 8.3. JDB BtB Dock (J12)
 
-The JTAG Daughterboard mounts as a hat on the Controller via two 2.54mm headers.
+The JTAG Daughterboard mounts on the Controller via a single Hirose DF40HC(3.5)-20DS-0.4V(51)
+20-pin board-to-board receptacle (J12) with 3.5mm stack height, plus four M2.5×3.5mm SMT
+standoffs (MH13–MH16, 9774035151R; pads to `GND`, not `GND_CHASSIS` — see
+`design/Standards/Global_Routing_Spec.md` for module mounting hole grounding rules). The JDB J1 plug mates with J12 at bottom-centre of the JDB,
+with R1 (outer edge row) oriented toward the LINK-BETA connector (J4/J5) to minimise JTAG trace lengths.
+See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
 
-#### J12 - Power/USB Header (1x5, 2.54mm)
+#### J12 - JDB BtB Dock Connector (20-Pin DF40HC)
 
-* **Part:** Adam Tech RS1-05-G (Female Socket, 1x5, 2.54mm pitch, vertical THT). Mouser 737-RS1-05-G, DigiKey 2057-RS1-05-G-ND, JLCPCB C3321119.
-* **Mating Part (JDB J1):** Adam Tech PH1-05-UA - 1x5 2.54mm male pin header (JLCPCB C5374051). See `JTAG_Daughterboard/Design_Spec.md §3`.
-* **Pin Summary:**
+> **Connector Definition Owner:** `design/Electronics/JTAG_Daughterboard/Design_Spec.md §3`.
+> This board provides the mating receptacle (J12). Full connector pinout, pin assignments, and
+> orientation are defined and owned by the JTAG Daughterboard. Net connections from this board
+> to the mounted JDB:
+>
+> | CTL Net    | JDB Net    |
+> | :--------- | :--------- |
+> | `TCK`      | `TCK`      |
+> | `TMS`      | `TMS`      |
+> | `TDI`      | `TDI`      |
+> | `TDO`      | `TDO`      |
+> | `5V_USB`   | `5V_USB`   |
+> | `USB+`     | `USB+`     |
+> | `USB−`     | `USB−`     |
+> | `3V3_ENIG` | `3V3_ENIG` |
+> | `GND`      | `GND`      |
 
-| Pin | Signal | Direction | Description |
-| :--- | :--- | :--- | :--- |
-| 1 | 5V_USB | CTRL → JDB | 5V USB power (from TPS2065C rail) |
-| 2 | 3V3_ENIG | CTRL → JDB | 3.3V logic rail (JTAG signal reference) |
-| 3 | USB_D+ | Bidir | USB 2.0 D+ to CM5 |
-| 4 | USB_D- | Bidir | USB 2.0 D- to CM5 |
-| 5 | GND | - | Power/signal return |
-
-#### J13 - JTAG Output Header (1x10, 2.54mm)
-
-* **Part:** Adam Tech RS1-10-G (Female Socket, 1x10, 2.54mm pitch, vertical THT). Mouser 737-RS1-10-G, DigiKey 2057-RS1-10-G-ND, JLCPCB C3320525.
-* **Mating Part (JDB J2):** Adam Tech PH1-10-UA - 1x10 2.54mm male pin header (JLCPCB C3330527). See `JTAG_Daughterboard/Design_Spec.md §3`.
-* **Pin Summary:**
-
-| Pin | Signal | Direction | Description |
-| :--- | :--- | :--- | :--- |
-| 1 | TCK | JDB → CTRL | JTAG clock (buffered via U5 on the JDB) |
-| 2 | GND | - | Ground |
-| 3 | TDI | JDB → CTRL | JTAG data in |
-| 4 | GND | - | Ground |
-| 5 | TDO | CTRL → JDB | JTAG data out (TTD_RETURN) |
-| 6 | GND | - | Ground |
-| 7 | TMS | JDB → CTRL | JTAG mode select (buffered via U5 on the JDB) |
-| 8 | GND | - | Ground |
-| 9 | VREF (3V3_ENIG) | CTRL → JDB | Voltage reference for JTAG logic |
-| 10 | GND | - | Ground |
+* **Part:** Hirose DF40HC(3.5)-20DS-0.4V(51) — 3.5mm stack-height BtB receptacle, 20-pin, 0.4mm pitch.
+* **DigiKey:** 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | **Mouser:** 798-DF40HC3520DS04V5 | **JLCPCB:** C3644774
+* **Mating Part (JDB J1):** Hirose DF40C-20DP-0.4V(51) — plug on JDB. See `design/Electronics/JTAG_Daughterboard/Design_Spec.md §3`.
 
 ### 8.4. Fan Connector (J10)
 
@@ -394,7 +395,7 @@ The JTAG Daughterboard mounts as a hat on the Controller via two 2.54mm headers.
   [Raspberry Pi CM5 Datasheet](https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf). These
   assignments are not a board design choice and must follow the CM5 DSI1 interface definition
   exactly; any deviation would break CM5 module compatibility.
-* **MPN:** Amphenol **F52Q-1A7H1-11015**. See `Consolidated_BOM.md` and
+* **MPN:** Amphenol **F52Q-1A7H1-11015**. See `design/Electronics/Consolidated_BOM.md` and
   `design/Datasheets/amphenol_ffc_fpc_100mm_f52q_f52r-datasheet.md`.
 * **Power / deferred scope boundary:** `J9` is the only Controller-side display connector fixed in
   the current design scope. No separate display power header is defined on the Controller at this
@@ -403,7 +404,7 @@ The JTAG Daughterboard mounts as a hat on the Controller via two 2.54mm headers.
 
 ### 8.6. Actuation Module Host Dock (J11)
 
-> **Connector Definition Owner:** `AM Design_Spec.md §3.1`.
+> **Connector Definition Owner:** `design/Electronics/Actuation_Module/Design_Spec.md §3.1`.
 > This board provides the mating receptacle (J11). Full connector pinout is defined and owned by
 > the Actuation Module. Net connections from this board to the mounted AM:
 >
@@ -418,17 +419,18 @@ The JTAG Daughterboard mounts as a hat on the Controller via two 2.54mm headers.
 > performs local homing, one-shot latching, and servo PWM generation.
 >
 > **⚠ PCB Layout Dependency:** J11 and MH5-MH8 positions cannot be finalised until AM schematic
-> capture and PCB layout are complete. MH5-MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
+> capture and PCB layout are complete. MH5-MH8 shall mirror `design/Electronics/Actuation_Module/Design_Spec.md DR-AM-03` and
 > connect to `GND`.
 
 * **Part:** Hirose DF40HC(3.5)-20DS-0.4V(51) - 20-pin 0.4mm pitch BtB receptacle, 3.5mm stacking
   height.
 * **Polarity enforcement:** The DF40 connector body is polarity-free (Note 4 in Hirose datasheet);
-  asymmetric placement of MH5-MH8 standoffs (per `AM Design_Spec.md DR-AM-03`) is mandatory to
+  asymmetric placement of MH5-MH8 standoffs (per `design/Electronics/Actuation_Module/Design_Spec.md DR-AM-03`) is mandatory to
   enforce a single valid mating orientation. A silkscreen pin-1 marker is required on both boards
   (per `design/Standards/Global_Routing_Spec.md §7.1`).
 * **Standoffs:** MH5-MH8 = four 9774035151R (M2.5x3.5mm SMT) provide mechanical support and set the
-  3.5mm board-to-board spacing; pads connected to `GND`.
+  3.5mm board-to-board spacing; pads connected to `GND` (not `GND_CHASSIS`). See
+  `design/Standards/Global_Routing_Spec.md` for module mounting hole grounding rules.
 * **Host-board envelope:** Reserve the AM footprint shadow on the Controller as a no-component zone
   except for J11, MH5-MH8, and the routing / copper needed to feed them.
 
@@ -475,7 +477,7 @@ Estimated Controller-local power dissipation at system peak load:
 
 | Component | Normal Dissipation | Worst Case | Notes |
 | :--- | :--- | :--- | :--- |
-| U7 TPS2372-4 + U8 TPS23730 + T1 POE600F-12L | ~5.1W | ~5.7W | Controller-owned PoE front-end. Loss is dominated by the PoE ACF stage / transformer path at ~51-57W PoE load; see `Electronics/Controller/PoE_Power_Analysis.md §3.5`. |
+| U7 TPS2372-4 + U8 TPS23730 + T1 POE600F-12L | ~5.1W | ~5.7W | Controller-owned PoE front-end. Loss is dominated by the PoE ACF stage / transformer path at ~51-57W PoE load; see `design/Electronics/Controller/PoE_Power_Analysis.md §3.5`. |
 | **Total** | **~5.1W** | **~5.7W** | Fixed Controller-local dissipation only; excludes the CM5 SOM and any optional fan load because those depend on the fitted module SKU and runtime workload. |
 
 * **PM Dock Power Entry:** `J1` carries the grouped regulated rail entry for the Controller. Add a **"Caution: High Current"** silkscreen label adjacent to the PM dock cluster.
@@ -511,12 +513,10 @@ Estimated Controller-local power dissipation at system peak load:
 | J8 | RJ45 w/ magnetics/PoE long-body THT | 7499111121A | Wurth Elektronik | 1297-1070-5-ND | 710-7499111121A | C5523983 | - | - | Yes | Pending | 1 |
 | J9 | DSI1 15-pin 1.0mm ZIF | F52Q-1A7H1-11015 | Amphenol | 609-F52Q-1A7H1-11015CT-ND | 649-F52Q-1A7H1-11015 | C3169095 | - | - | Yes | Pending | 1 |
 | J10 | 4-pin SH 1.0mm fan SMT | SM04B-SRSS-TB(LF)(SN) | JST | 455-SM04B-SRSS-TBCT-ND | 306-SM04BSRSSTBLFSN | C160404 | - | - | Yes | Pending | 1 |
-| J11 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack | DF40HC(3.5)-20DS-0.4V(51) | Hirose | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | Yes | Pending | 1 |
-| MH5-MH8 | M2.5x3.5mm SMT standoff | 9774035151R | Wurth Elektronik | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | AM mounting standoffs | Yes | Pending | 4 |
-| J12 | 1x5 2.54mm female socket THT | RS1-05-G | Adam Tech | 2057-RS1-05-G-ND | 737-RS1-05-G | C3321119 | - | - | Yes | Pending | 1 |
-| J13 | 1x10 2.54mm female socket THT | RS1-10-G | Adam Tech | 2057-RS1-10-G-ND | 737-RS1-10-G | C3320525 | - | - | Yes | Pending | 1 |
+| J11, J12 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack | DF40HC(3.5)-20DS-0.4V(51) | Hirose | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | Yes | Pending | 2 |
 | J14-J15 | CM5 SO-DIMM 100-pin 4mm | 10164227-1004A1RLF | Amphenol | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | Yes | Pending | 2 |
-| MH1-MH4 | M2.5x4.0mm SMT standoff | 9774040151R | Wurth Elektronik | 732-7089-1-ND | 710-9774040151R | C5182034 | - | CM5 module mounting standoffs; pads tied to GND (not GND_CHASSIS) | Yes | Pending | 4 |
+| MH1-MH4 | M2.5x4.0mm SMT standoff | 9774040151R | Wurth Elektronik | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | Yes | Pending | 4 |
+| MH5-MH8, MH13-MH16 | M2.5x3.5mm SMT standoff | 9774035151R | Wurth Elektronik | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | Yes | Pending | 8 |
 | R1-R3 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 3 |
 | R4 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 1 |
 | T1 | PoE transformer 1500V 12-pin SMT | POE600F-12L | Coilcraft | N/A | N/A | N/A | - | Only available direct from Coilcraft | Yes | Pending | 1 |

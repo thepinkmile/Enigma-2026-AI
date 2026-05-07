@@ -97,8 +97,7 @@
 | CTL: J9 | F52Q-1A7H1-11015 | 609-F52Q-1A7H1-11015CT-ND | 649-F52Q-1A7H1-11015 | C3169095 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | DSI1 15-pin 1.0mm ZIF [Amphenol] | Yes | Pending |
 | CTL: J10 | SM04B-SRSS-TB(LF)(SN) | 455-SM04B-SRSS-TBCT-ND | 306-SM04BSRSSTBLFSN | C160404 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 4-pin SH 1.0mm fan SMT [JST] | Yes | Pending |
 | STA: J1,J2; EXT: J4,J5; ROT-26: J4,J5; ROT-64: J4,J5 | ERF8-005-05.0-S-DV-K-TR | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | - | - | - | - | - | - | - | 2 | - | 2 | 2 | 2 | 14 | 10-pin 2x5 0.8mm female SMT [Samtec] | Yes | Pending |
-| CTL: J12; ROT-26: J7,J8,J9; ROT-64: J7,J8,J9 | RS1-05-G | 2057-RS1-05-G-ND | 737-RS1-05-G | C3321119 | - | - | 1 | - | - | - | - | - | - | - | 3 | 3 | 16 | 1x5 2.54mm female socket THT [Adam Tech] | Yes | Pending |
-| CTL: J13 | RS1-10-G | 2057-RS1-10-G-ND | 737-RS1-10-G | C3320525 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 1x10 2.54mm female socket THT [Adam Tech] | Yes | Pending |
+| ROT-26: J7,J8,J9; ROT-64: J7,J8,J9 | RS1-05-G | 2057-RS1-05-G-ND | 737-RS1-05-G | C3321119 | - | - | - | - | - | - | - | - | - | - | 3 | 3 | 15 | 1x5 2.54mm female socket THT [Adam Tech] | Yes | Pending |
 | CTL: J14,J15 | 10164227-1004A1RLF | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | CM5 SO-DIMM 100-pin 4mm [Amphenol] | Yes | Pending |
 | CTL: MH1-MH4 | 9774040151R | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | 4 | - | - | - | - | - | - | - | - | - | 4 | M2.5x4.0mm SMT standoff [Wurth Elektronik] | Yes | Pending |
 | CTL: T1 | POE600F-12L | N/A | N/A | N/A | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE transformer 1500V 12-pin SMT; only available direct from Coilcraft [Coilcraft] | Yes | Pending |
@@ -109,8 +108,7 @@
 | CTL: U8 | TPS23730RMTR | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | C3189530 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE auxiliary controller WSON-10 3x3mm [Texas Instruments] | Yes | Pending |
 | JDB: C5; AM: C4 | CGA6P3X7R1H475K250AD | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 4.7µF X7R 50V 1210 [TDK] | Yes | Pending |
 | JDB: C10,C11 | C0402C330J5GAUTO | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | - | - | 2 | - | - | - | - | - | - | - | - | 2 | 33pF C0G/NP0 crystal load 0402; C0G/NP0 exception approved [Kemet] | Yes | Pending |
-| JDB: J1; AM: J2-J5; ROT-26: J11,J12,J13; ROT-64: J11,J12,J13 | PH1-05-UA | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | - | - | 1 | - | - | 4 | - | - | - | 3 | 3 | 11 | 1x5 2.54mm male THT [Adam Tech] | Yes | Pending |
-| JDB: J2 | PH1-10-UA | 2057-PH1-10-UA-ND | 737-PH1-10-UA | C3330527 | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | 1x10 2.54mm male JTAG OUTPUT header THT [Adam Tech] | Yes | Pending |
+| AM: J2-J5; ROT-26: J11,J12,J13; ROT-64: J11,J12,J13 | PH1-05-UA | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | - | - | - | - | - | 4 | - | - | - | 3 | 3 | 10 | 1x5 2.54mm male THT [Adam Tech] | Yes | Pending |
 | JDB: R1-R4 | ERJ-2RKF33R0X | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | - | - | 4 | - | - | - | - | - | - | - | - | 4 | 33Ω 1% 0402; see DEC-016, DEC-024 [Panasonic] | Yes | Pending |
 | JDB: U1 | FT232HL-REEL | 768-1101-1-ND | 895-FT232HL-REEL | C51997 | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | USB 2.0 to MPSSE bridge LQFP-48 [FTDI Chip] | Yes | Pending |
 | JDB: U2; EXT: U1 | SN74LVC2G125DCUR | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | - | 1 | - | - | - | - | - | 1 | - | - | 2 | Dual 3-state buffer VSSOP-8 [Texas Instruments] | Yes | Pending |
@@ -134,9 +132,9 @@
 | ENC: SW1-SW40 | (no standard MPN) | - | - | - | eBay gadgetskingdom | - | - | - | - | 40 | - | - | - | - | - | - | 40 | DPDT 6-pin momentary switches panel-mount [generic]; eBay gadgetskingdom | N/A | N/A |
 | ENC: U1; STA: U1; ROT-26: U1; ROT-64: U1 | EPM570T100I5N | 544-2281-ND | 989-EPM570T100I5N | C27319 | - | - | - | - | - | 1 | - | 1 | - | - | 1 | 1 | 7 | MAX II 570 LEs CPLD TQFP-100 [Intel (Altera)] | Yes | ✔ |
 | REF: J1,J2; EXT: J1,J2; ROT-26: J1,J2; ROT-64: J1,J2 | ERM8-005-05.0-S-DV-K-TR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | - | - | - | - | - | - | 2 | 2 | 2 | 2 | 14 | 10-pin 2x5 0.8mm male SMT [Samtec] | Yes | ✔ |
-| CTL: J11; EXT: J9 | DF40HC(3.5)-20DS-0.4V(51) | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | 1 | - | - | - | - | - | - | 1 | - | - | 2 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack [Hirose] | Yes | Pending |
-| AM: J1 | DF40C-20DP-0.4V(51) | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | - | - | - | - | 1 | - | - | - | - | - | 1 | 20-pin 0.4mm pitch BtB plug [Hirose] | Yes | Pending |
-| CTL: MH5-MH8; EXT: MH5-MH8 | 9774035151R | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | 4 | - | - | - | - | - | - | 4 | - | - | 8 | M2.5x3.5mm SMT standoff [Wurth Elektronik] | Yes | Pending |
+| CTL: J11, J12; EXT: J9 | DF40HC(3.5)-20DS-0.4V(51) | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | 2 | - | - | - | - | - | - | 1 | - | - | 3 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack [Hirose] | Yes | Pending |
+| AM: J1; JDB: J1 | DF40C-20DP-0.4V(51) | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 20-pin 0.4mm pitch BtB plug [Hirose] | Yes | Pending |
+| CTL: MH5-MH8, MH13-MH16; EXT: MH5-MH8 | 9774035151R | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | 8 | - | - | - | - | - | - | 4 | - | - | 12 | M2.5x3.5mm SMT standoff [Wurth Elektronik] | Yes | Pending |
 | AM: U1 | STM32G071K8T3TR | 497-STM32G071K8T3TR-ND | 511-STM32G071K8T3TR | - | Global sourcing | - | - | - | - | - | 1 | - | - | - | - | - | 1 | Local actuation controller LQFP32; JLCPCB consignment only [STMicroelectronics] | Yes | ✔ |
 | STA: J3; EXT: J6; ROT-26: J6; ROT-64: J6 | ERF8-010-05.0-S-DV-K-TR | SAM8618CT-ND | 200-ERF8010050SDVKTR | C3646170 | - | - | - | - | - | - | - | 1 | - | 1 | 1 | 1 | 7 | 20-pin 2x10 0.8mm female SMT [Samtec] | Yes | ✔ |
 | STA: J11,J12 | 2195620015 | 900-2195620015-ND | 538-219562-0015 | - | Global sourcing | - | - | - | - | - | - | 2 | - | - | - | - | 2 | 5-pwr+15-sig hybrid plug [Molex] | Yes | ✔ |

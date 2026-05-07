@@ -13,63 +13,72 @@ This board implements our version of an Intel (Altera) USB Blaster II device for
 
 ```text
 TOP VIEW (L1) - 4-Layer (DEC-017) / 2oz Copper
- ________________________________________________________________________________________
-|                                                                                        |
-|   [ POWER HEADER ] <--- 5-Pin INPUT Header (USB + Power)                               |
-|   (One Side, 2.54mm Pitch)                                                             |
-|                                                                                        |
-|   [ FT232H IC ] <--- High-Speed USB to MPSSE Bridge                                    |
-|   (Main IC for JTAG Blaster, 12MHz Crystal Attached)                                   |
-|                                                                                        |
-|   [ JTAG HEADER ] <--- 10-Pin Single-Row Open Header (1x10)                            |
-|   (Opposite Side, 2.54mm Pitch, Interleaved GND Pinout)                                |
-|                                                                                        |
-|   [ DATA PLATE ] <--- Inverted White Silkscreen on L4 (B.Silkscreen / exterior face)   |
-|   (Enigma Silhouette + JLC Serial)                                                     |
-|________________________________________________________________________________________|
+ _______________________________________________________________________________________
+|                                                                                       |
+|   [ MH1 ]                                                   [ MH2 ]                   |
+|   (Top-Left, M2.5 NPTH, 7mm from edge)                     (Top-Right, M2.5 NPTH)     |
+|                                                                                       |
+|   [ FT232H IC ] <--- High-Speed USB to MPSSE Bridge                                   |
+|   (Main IC for JTAG Blaster, 12MHz Crystal Attached)                                  |
+|                                                                                       |
+|   [ DATA PLATE ] <--- Inverted White Silkscreen on L4 (B.Silkscreen / exterior face)  |
+|   (Enigma Silhouette + JLC Serial)                                                    |
+|                                                                                       |
+|    [ MH3 ]                     [ J1 DF40 ]                    [ MH4 ]                 |
+|   (Bot-Left, inset 12mm)       (Bottom-Centre, 20-pin BtB)    (Bot-Right, inset 12mm) |
+|_______________________________________________________________________________________|
 ```
 
 ## 2. Simplified Layout
 
 ```text
- ______________________________________________________ 
-|                                                      |
-|   [ POWER HDR ]     [ FT232H ]      [ JTAG HDR ]     |
-|   (One Side)        (Main IC)       (Opposite Side)  |
-|                                                      |
-|______________________________________________________|
+ ________________________________________________ 
+|  [MH1]                               [MH2]     |
+|                                                |
+|          [ FT232H + supporting components ]    |
+|                                                |
+|  [MH3]         [ J1 DF40 BtB ]         [MH4]   |
+|_________________(Bottom-Centre)________________|
 ```
 
 > **Connector Definition Owner:** This board. All other boards connecting to the JTAG Daughterboard cross-reference here.
 >
-## 3. JTAG Header Pinout (J2 - 10-Pin, Interleaved GND)
+## 3. J1 DF40C-20 BtB Connector Pinout (20-Pin, Bottom-Centre)
+
+**Part:** Hirose DF40C-20DP-0.4V(51)  
+**Location:** Bottom-centre of board; R1 row on the outer (bottom) board edge.  
+**Mating part (CTL J12):** Hirose DF40HC(3.5)-20DS-0.4V(51) — 3.5mm stack-height receptacle on CTL board.
 
 ```text
-PIN | SIGNAL          | DESCRIPTION
-----|------------------|---------------------------------
-1   | TCK             | JTAG Clock
-2   | GND             | Ground
-3   | TDI             | JTAG Data In
-4   | GND             | Ground
-5   | TDO             | JTAG Data Out
-6   | GND             | Ground
-7   | TMS             | JTAG Mode Select
-8   | GND             | Ground
-9   | VREF (3V3_ENIG) | Voltage Reference
-10  | GND             | Ground
+       C1     C2     C3     C4     C5     C6     C7     C8     C9    C10
+  R1:  TCK    GND    GND   5V_U   GND    GND   3V3    GND    GND    TDI
+  R2:  GND    TMS    GND    GND   USB+   USB-   GND    GND    TDO    GND
 ```
 
-## 4. INPUT Header Pinout (J1 - 5-Pin)
+R1 = outer (bottom) edge; R2 = inner row.
 
-```text
-PIN | SIGNAL          | DESCRIPTION
-----|------------------|---------------------------------
-1   | 5V_USB          | USB Power (5V, Controller TPS2065C rail)
-2   | 3V3_ENIG        | JTAG Signal Voltage Reference (3.3V)
-3   | D+              | USB 2.0 Data +
-4   | D-              | USB 2.0 Data -
-5   | GND             | Ground
-```
+| Pin   | Signal     | Dir         | Description                                         |
+| :---- | :--------- | :---------- | :-------------------------------------------------- |
+| C1R1  | TCK        | JDB → CTL   | JTAG Clock (buffered via U2; 33Ω via R2)            |
+| C2R1  | GND        | —           | Ground                                              |
+| C3R1  | GND        | —           | Ground                                              |
+| C4R1  | 5V_USB     | CTL → JDB   | 5V USB power from CTL TPS2065C rail                 |
+| C5R1  | GND        | —           | Ground                                              |
+| C6R1  | GND        | —           | Ground                                              |
+| C7R1  | 3V3_ENIG   | CTL → JDB   | 3.3V logic rail / JTAG signal reference             |
+| C8R1  | GND        | —           | Ground                                              |
+| C9R1  | GND        | —           | Ground                                              |
+| C10R1 | TDI        | JDB → CTL   | JTAG Data In (33Ω via R4; R1 at FT232H)             |
+| C1R2  | GND        | —           | Ground                                              |
+| C2R2  | TMS        | JDB → CTL   | JTAG Mode Select (buffered via U2; 33Ω via R3)      |
+| C3R2  | GND        | —           | Ground                                              |
+| C4R2  | GND        | —           | Ground                                              |
+| C5R2  | USB+       | Bidir       | USB 2.0 D+ to CM5 (USB FS differential pair)        |
+| C6R2  | USB−       | Bidir       | USB 2.0 D− to CM5 (USB FS differential pair)        |
+| C7R2  | GND        | —           | Ground                                              |
+| C8R2  | GND        | —           | Ground                                              |
+| C9R2  | TDO        | CTL → JDB   | JTAG Data Out (return from chain)                   |
+| C10R2 | GND        | —           | Ground                                              |
 
 ## 5. PCB Stackup - JLC04161H-7628 (4-Layer)
 
@@ -101,8 +110,8 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
 
 | Net | Peak Current | IPC Calc (2oz) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5V_USB (J1 pin 1 → FT232H VCC) | 400 mA | 0.06 mm | 0.50 mm | **0.50 mm** | L1 + L3 pour | FT232H absolute max VCC draw; power-rail minimum applies |
-| 3V3_ENIG (J1 pin 2 → FT232H VCCIO) | 15 mA | 0.002 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | VCCIO domain; 3V3_ENIG canonical 0.80 mm (design/Standards/Global_Routing_Spec.md §1.1) |
+| 5V_USB (J1 C4R1 → FT232H VCC) | 400 mA | 0.06 mm | 0.50 mm | **0.50 mm** | L1 + L3 pour | FT232H absolute max VCC draw; power-rail minimum applies |
+| 3V3_ENIG (J1 C7R1 → FT232H VCCIO) | 15 mA | 0.002 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | VCCIO domain; 3V3_ENIG canonical 0.80 mm (design/Standards/Global_Routing_Spec.md §1.1) |
 | JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L2 (inner) | JDB inverted stackup (DEC-017): L2 is immediately below the L1 GND plane (buried microstrip, h ≈ 0.087 mm); 0.127 mm achieves ≈50 Ω, equivalent to outer-layer microstrip. Compliant - inverted stackup (L1=GND) places L2 immediately adjacent to the L1 GND reference plane, achieving equivalent controlled impedance per DEC-016 via buried-microstrip topology. |
 | USB D+ / D- differential pair | signal | - | 0.15 mm | **0.15 mm (6 mil)** | L2 (inner) | 90 Ω differential USB 2.0; must be length-matched to within 0.1 mm; routed as a tightly-coupled pair |
 | GND pours (outer layers) | - | - | pour | **copper pour** | L1 + L4 | Both outer layers = solid GND; provides dual-sided shielding for L2 signals |
@@ -119,3 +128,30 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
   See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md §3.1`.
 * USB D+/D- traces at 0.15 mm over the L1 GND plane yield approximately 90 Ω differential
   on the JLC04161H-7628 inner signal layer - correct for USB 2.0 Full Speed.
+
+---
+
+## 8. Mounting Holes
+
+JDB mounting holes MH1–MH4 are M2.5 NPTH holes with a GND annular ring.
+Net: **GND** (not GND_CHASSIS — daughterboard exception per DEC-057).
+No purchasable BOM component on the JDB; mounting standoffs are owned and sourced by the
+**Controller Board BOM** (MH13–MH16, 9774035151R, M2.5×3.5mm SMT standoffs).
+See `design/Standards/Global_Routing_Spec.md §4` for module mounting hole rules.
+See DEC-057 (standoff ownership) and DEC-058 (JDB BtB upgrade) for full rationale.
+
+### MH1–MH4 Pattern
+
+| Hole | Location           | From Left | From Right | From Top | From Bottom |
+| :--- | :----------------- | :-------- | :--------- | :------- | :---------- |
+| MH1  | Top-left corner    | 7 mm      | —          | 7 mm     | —           |
+| MH2  | Top-right corner   | —         | 7 mm       | 7 mm     | —           |
+| MH3  | Bottom-left inset  | 12 mm     | —          | —        | 7 mm        |
+| MH4  | Bottom-right inset | —         | 12 mm      | —        | 7 mm        |
+
+Notes:
+
+* MH1 and MH2 are right in the top corners for maximum mechanical stability above the DF40 connector.
+* MH3 and MH4 are inset from the bottom corners (12 mm from each side) to leave space for J1 (DF40) centred between them at the bottom edge.
+* Final board dimensions are deferred to PCB layout time (same approach as AM board).
+* Positional asymmetry (MH1/MH2 at 7 mm, MH3/MH4 at 12 mm from sides) enforces correct orientation, combined with silkscreen pin-1 markers on J1.
