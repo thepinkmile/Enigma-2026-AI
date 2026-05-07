@@ -14,23 +14,23 @@
 ## Notes and Conventions
 
 - Manufacturer shown in Description/Usage column as `[Manufacturer]`.
-- Board codes: PM = Power Module · CTL = Controller · STA = Stator · ROT = Rotor · USM = User Settings Module · EXT = Extension · REF = Reflector · ENC = Encoder · AM = Actuation Module · JDB = JTAG Daughterboard.
+- Board codes: PM = Power Module · CTL = Controller · STA = Stator · ROT = Rotor · USM = User Settings Module · EXT = Extension · REF = Reflector · ENC = Encoder · AM = Actuation Module · JM = JTAG Module.
 - **Footprint Downloaded** column: user-maintained. Replace "Pending" with tick once the footprint is added to the shared KiCAD library. "Requested" means a custom footprint has been formally requested from the manufacturer or third party, awaiting delivery.
 - **CSD17578Q5A replaces CSD17483F4T:** OR-ing MOSFET corrected from the incorrectly specified CSD17483F4T (1.5A FemtoFET) to CSD17578Q5A (30V 25A 5.9mΩ SON 5x6mm). DigiKey: 296-48512-1-ND, Mouser: 595-CSD17578Q5A, JLCPCB: C2871447.
 - **LMQ61460AFSQRJRRQ1 Mouser PN:** `595-Q61460AFSQRJRRQ1` drops the "LM" prefix - confirmed correct Mouser convention.
-- **System Qty** represents one complete base-system build: 1× PM, 1× CTL, 1× STA, 1× REF, 1× EXT, 1× JDB, 1× USM, 1× ENC, 1× AM, and **5× ROT boards of a single rotor variant (either all ROT-26 or all ROT-64 — never both)**. ROT-26 Qty and ROT-64 Qty columns show per-board quantities for one board of each variant. For shared components (same value in both variant BOM tables), System Qty = non-ROT board sum + (per-board count × 5). For variant-specific components (appears in one variant only), System Qty = non-ROT board sum + (variant-specific per-board count × 5).
+- **System Qty** represents one complete base-system build: 1× PM, 1× CTL, 1× STA, 1× REF, 1× EXT, 1× JM, 1× USM, 1× ENC, 1× AM, and **5× ROT boards of a single rotor variant (either all ROT-26 or all ROT-64 — never both)**. ROT-26 Qty and ROT-64 Qty columns show per-board quantities for one board of each variant. For shared components (same value in both variant BOM tables), System Qty = non-ROT board sum + (per-board count × 5). For variant-specific components (appears in one variant only), System Qty = non-ROT board sum + (variant-specific per-board count × 5).
 - **Locked parts** marked with a lock symbol require owner approval before any change.
 
 ---
 
 ## Section 1 - Full Component Table
 
-| Board (RefDes) | MPN | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | PM Qty | CTL Qty | JDB Qty | USM Qty | ENC Qty | AM Qty | STA Qty | REF Qty | EXT Qty | ROT-26 Qty | ROT-64 Qty | System Qty | Notes | Footprint Available | Footprint Downloaded |
+| Board (RefDes) | MPN | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | PM Qty | CTL Qty | JM Qty | USM Qty | ENC Qty | AM Qty | STA Qty | REF Qty | EXT Qty | ROT-26 Qty | ROT-64 Qty | System Qty | Notes | Footprint Available | Footprint Downloaded |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | PM: C1-C15 | CL32B226KAJNNNE | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | 15 | - | - | - | - | - | - | - | - | - | - | 15 | 22µF 25V X7R 1210 [Samsung] | Yes | ✔ |
 | PM: C16-C19 | CGA9N3X7R1E476M230KB | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | 4 | - | - | - | - | - | - | - | - | - | - | 4 | 47µF 25V X7R 2220 [TDK] | Yes | ✔ |
 | PM: C21-C23,C53,C55-C57; AM: C1 | C0805C105K5RACTU | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | 7 | - | - | - | - | 1 | - | - | - | - | - | 8 | 1µF 50V X7R 0805 [Kemet] | Yes | ✔ |
-| PM: C24-C30,C31-C37,C41-C48,C50,C56; CTL: C6,C12-C16,C18,C19; JDB: C1-C4,C6-C9,C12; USM: C1-C4; ENC: C1-C8; AM: C2,C3,C6,C7; STA: C1-C8,C14-C21; EXT: C6; ROT-26: C1-C9,C20A; ROT-64: C1-C9,C20B | CL05B104KB5NNNC | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | 24 | 8 | 9 | 4 | 8 | 4 | 16 | - | 1 | 10 | 10 | 124 | 100nF 50V X7R 0402 [Samsung] | Yes | ✔ |
+| PM: C24-C30,C31-C37,C41-C48,C50,C56; CTL: C6,C12-C16,C18,C19; JM: C1-C4,C6-C9,C12; USM: C1-C4; ENC: C1-C8; AM: C2,C3,C6,C7; STA: C1-C8,C14-C21; EXT: C6; ROT-26: C1-C9,C20A; ROT-64: C1-C9,C20B | CL05B104KB5NNNC | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | 24 | 8 | 9 | 4 | 8 | 4 | 16 | - | 1 | 10 | 10 | 124 | 100nF 50V X7R 0402 [Samsung] | Yes | ✔ |
 | PM: C38 | C0402C101K3RACAUTO | 399-C0402C101K3RACAUTOCT-ND | 80-C0402C101K3RAUTO | C5272912 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 100pF X7R 25V 0402 [Kemet] | Yes | ✔ |
 | PM: C_SC1-C_SC8 | ADCR-T02R7SA256MB | 535-ADCR-T02R7SA256MB-ND | 815-ADCRT02R7SA256MB | - | Global sourcing | 8 | - | - | - | - | - | - | - | - | - | - | 8 | 25F 2.7V supercap THT Radial 16x25mm [Abracon] | Yes | ✔ |
 | PM: C39 | CL10B223KB8WPNC | 1276-6534-1-ND | 187-CL10B223KB8WPNC | C346197 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 22nF X7R 25V 0603 [Samsung] | Yes | ✔ |
@@ -61,7 +61,7 @@
 | PM: R12 | ERA-3ARB103V | P10KBDCT-ND | 667-ERA-3ARB103V | C465746 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 10.0kΩ 0.1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R14 | ERJ-3EKF7153V | P715KHCT-ND | 667-ERJ-3EKF7153V | C403339 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 715kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R17 | ERJ-3EKF8662V | P86.6KHCT-ND | 667-ERJ-3EKF8662V | C403381 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 86.6kΩ 1% 0603 [Panasonic] | Yes | ✔ |
-| PM: R18,R20,R27-R29,R32-R33,R36-R37; JDB: R5-R7; ENC: R2-R5; AM: R4,R5; STA: R2-R6,R13-R23,R36-R38; ROT-26: R1-R4; ROT-64: R1-R4 | ERJ-2RKF1002X | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | 9 | - | 3 | - | 4 | 2 | 19 | - | - | 4 | 4 | 45 | 10kΩ 1% 0402 [Panasonic] | Yes | ✔ |
+| PM: R18,R20,R27-R29,R32-R33,R36-R37; JM: R5-R7; ENC: R2-R5; AM: R4,R5; STA: R2-R6,R13-R23,R36-R38; ROT-26: R1-R4; ROT-64: R1-R4 | ERJ-2RKF1002X | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | 9 | - | 3 | - | 4 | 2 | 19 | - | - | 4 | 4 | 45 | 10kΩ 1% 0402 [Panasonic] | Yes | ✔ |
 | PM: R19 | ERJ-2RKF8202X | P82.0KLCT-ND | 667-ERJ-2RKF8202X | C400641 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 82.0kΩ 1% 0402 [Panasonic] | Yes | ✔ |
 | PM: R21 | ERJ-3EKF2743V | P274KHCT-ND | 667-ERJ-3EKF2743V | C403126 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 274kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R23 | ERA-2AEB3322X | P33.2KDCCT-ND | 667-ERA-2AEB3322X | C2087909 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 33.2kΩ 1% 0402 [Panasonic] | Yes | ✔ |
@@ -106,13 +106,13 @@
 | CTL: U3 | AP2331W-7 | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | HDMI power switch SOT-23-5 [Diodes Inc] | Yes | ✔ |
 | CTL: U7 | TPS2372-4RGWR | 296-45285-1-ND | 595-TPS2372-4RGWR | C470955 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE PD interface VQFN-24 4x4mm [Texas Instruments] | Yes | ✔ |
 | CTL: U8 | TPS23730RMTR | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | C3189530 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE auxiliary controller WSON-10 3x3mm [Texas Instruments] | Yes | ✔ |
-| JDB: C5; AM: C4 | CGA6P3X7R1H475K250AD | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 4.7µF X7R 50V 1210 [TDK] | Yes | Pending |
-| JDB: C10,C11 | C0402C330J5GAUTO | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | - | - | 2 | - | - | - | - | - | - | - | - | 2 | 33pF C0G/NP0 crystal load 0402; C0G/NP0 exception approved [Kemet] | Yes | Pending |
+| JM: C5; AM: C4 | CGA6P3X7R1H475K250AD | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 4.7µF X7R 50V 1210 [TDK] | Yes | Pending |
+| JM: C10,C11 | C0402C330J5GAUTO | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | - | - | 2 | - | - | - | - | - | - | - | - | 2 | 33pF C0G/NP0 crystal load 0402; C0G/NP0 exception approved [Kemet] | Yes | Pending |
 | AM: J2-J5; ROT-26: J11,J12,J13; ROT-64: J11,J12,J13 | PH1-05-UA | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | - | - | - | - | - | 4 | - | - | - | 3 | 3 | 10 | 1x5 2.54mm male THT [Adam Tech] | Yes | ✔ |
-| JDB: R1-R4 | ERJ-2RKF33R0X | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | - | - | 4 | - | - | - | - | - | - | - | - | 4 | 33Ω 1% 0402; see DEC-016, DEC-024 [Panasonic] | Yes | ✔ |
-| JDB: U1 | FT232HL-REEL | 768-1101-1-ND | 895-FT232HL-REEL | C51997 | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | USB 2.0 to MPSSE bridge LQFP-48 [FTDI Chip] | Yes | ✔ |
-| JDB: U2; EXT: U1 | SN74LVC2G125DCUR | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | - | 1 | - | - | - | - | - | 1 | - | - | 2 | Dual 3-state buffer VSSOP-8 [Texas Instruments] | Yes | ✔ |
-| JDB: Y1 | 435F12012IET | 110-435F12012IETTR-ND | 774-435F12012IET | C19766404 (Extended) | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | 12MHz 20pF ±20ppm crystal SMD-5032 (5.0×3.2×1.1mm); see DEC-022 [CTS]; BOM description corrected from SMD-3225 to SMD-5032 per CTS 435 datasheet; unofficial footprint adapted from KiCAD 10.0 Crystal_SMD_5032-4Pin standard; 3D model approximated from 2-pin 5032 STEP (same body) | Yes* | Yes* |
+| JM: R1-R4 | ERJ-2RKF33R0X | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | - | - | 4 | - | - | - | - | - | - | - | - | 4 | 33Ω 1% 0402; see DEC-016, DEC-024 [Panasonic] | Yes | ✔ |
+| JM: U1 | FT232HL-REEL | 768-1101-1-ND | 895-FT232HL-REEL | C51997 | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | USB 2.0 to MPSSE bridge LQFP-48 [FTDI Chip] | Yes | ✔ |
+| JM: U2; EXT: U1 | SN74LVC2G125DCUR | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | - | 1 | - | - | - | - | - | 1 | - | - | 2 | Dual 3-state buffer VSSOP-8 [Texas Instruments] | Yes | ✔ |
+| JM: Y1 | 435F12012IET | 110-435F12012IETTR-ND | 774-435F12012IET | C19766404 (Extended) | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | 12MHz 20pF ±20ppm crystal SMD-5032 (5.0×3.2×1.1mm); see DEC-022 [CTS]; BOM description corrected from SMD-3225 to SMD-5032 per CTS 435 datasheet; unofficial footprint adapted from KiCAD 10.0 Crystal_SMD_5032-4Pin standard; 3D model approximated from 2-pin 5032 STEP (same body) | Yes* | Yes* |
 | USM: D1-D12 | WP154A4SEJ3VBDZGW/CA | 754-2029-ND | 604-WP154A43VBDZGWCA | C7151795 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 5mm common-anode RGB THT [Kingbright] | Yes | Pending |
 | USM: J1; STA: J13 | B6B-PH-K-S(LF)(SN) | 455-1708-ND | 306-B6B-PH-K-SLFSN | C131342 | - | - | - | - | 1 | - | - | 1 | - | - | - | - | 2 | 6-pin JST PH 2.0mm THT [JST] | Yes | ✔ |
 | USM: Q19-Q30 | SQ2319ADS-T1_BE3 | 742-SQ2319ADS-T1_BE3CT-ND | 78-SQ2319ADS-T1_BE3 | C3280190 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | P-MOSFET AEC-Q101 SOT-23 [Vishay] | Yes | Pending |
@@ -133,7 +133,7 @@
 | ENC: U1; STA: U1; ROT-26: U1; ROT-64: U1 | EPM570T100I5N | 544-2281-ND | 989-EPM570T100I5N | C27319 | - | - | - | - | - | 1 | - | 1 | - | - | 1 | 1 | 7 | MAX II 570 LEs CPLD TQFP-100 [Intel (Altera)] | Yes | ✔ |
 | REF: J1,J2; EXT: J1,J2; ROT-26: J1,J2; ROT-64: J1,J2 | ERM8-005-05.0-S-DV-K-TR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | - | - | - | - | - | - | 2 | 2 | 2 | 2 | 14 | 10-pin 2x5 0.8mm male SMT [Samtec] | Yes | ✔ |
 | CTL: J11, J12; EXT: J9 | DF40HC(3.5)-20DS-0.4V(51) | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | 2 | - | - | - | - | - | - | 1 | - | - | 3 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack [Hirose] | Yes | ✔ |
-| AM: J1; JDB: J1 | DF40C-20DP-0.4V(51) | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 20-pin 0.4mm pitch BtB plug [Hirose] | Yes | ✔ |
+| AM: J1; JM: J1 | DF40C-20DP-0.4V(51) | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 20-pin 0.4mm pitch BtB plug [Hirose] | Yes | ✔ |
 | CTL: MH5-MH8, MH13-MH16; EXT: MH5-MH8 | 9774035151R | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | 8 | - | - | - | - | - | - | 4 | - | - | 12 | M2.5x3.5mm SMT standoff [Wurth Elektronik] | Yes | ✔ |
 | AM: U1 | STM32G071K8T3TR | 497-STM32G071K8T3TR-ND | 511-STM32G071K8T3TR | - | Global sourcing | - | - | - | - | - | 1 | - | - | - | - | - | 1 | Local actuation controller LQFP32; JLCPCB consignment only [STMicroelectronics] | Yes | ✔ |
 | STA: J3; EXT: J6; ROT-26: J6; ROT-64: J6 | ERF8-010-05.0-S-DV-K-TR | SAM8618CT-ND | 200-ERF8010050SDVKTR | C3646170 | - | - | - | - | - | - | - | 1 | - | 1 | 1 | 1 | 7 | 20-pin 2x10 0.8mm female SMT [Samtec] | Yes | ✔ |

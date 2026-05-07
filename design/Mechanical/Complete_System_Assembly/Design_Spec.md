@@ -34,7 +34,7 @@ The following table lists every component category present in the assembled mach
 | Reflector | 1 | Mandatory passive turnaround sub-assembly; reflection mapping is owned by the Stator CPLD | `Reflector/Design_Spec.md` |
 | Extension (optional) | 0-N | Extension board for multi-stack rotor configurations | `Extension/Design_Spec.md` |
 | Power Module | 1 | Standalone power supply sub-assembly (LTC3350, eFuse, INA219, supercaps) | `Power_Module/Design_Spec.md` |
-| Controller Board | 1 | CM5 carrier board (CM5 module, JDB hat, PM dock, Stator dock, Ethernet / PoE entry, Actuation Module host interface) | `Controller/Design_Spec.md` (Electronics) |
+| Controller Board | 1 | CM5 carrier board (CM5 module, JM hat, PM dock, Stator dock, Ethernet / PoE entry, Actuation Module host interface) | `Controller/Design_Spec.md` (Electronics) |
 | Main Enclosure | 1 | Chassis, panels, cable routing, EMI bonding, fan | `Main_Enclosure/Design_Spec.md` |
 | Servo Motor | 1-6 | Miuzei Metal Gearbox 90 (5V, 3-pin), one per fitted Actuation Module | `Rotor_Actuation_Assembly/Design_Spec.md` |
 | Actuation Home Switch | 1-6 | SPST NO momentary (Omron SS-01GL13 or equivalent), one per fitted Actuation Module | `design/Electronics/Actuation_Module/Design_Spec.md` |
@@ -59,14 +59,14 @@ steps are detailed in each referenced document; this section defines integration
 | 8 | Plugboard Assembly | Build both plugboard passes. Connect IDC ribbons to the four Stator plugboard ports (`PLG_PASS1_DEC`, `PLG_PASS1_ENC`, `PLG_PASS2_DEC`, `PLG_PASS2_ENC`). |
 | 9 | Reflector | Install the mandatory passive Reflector sub-assembly at the far end of the final rotor group. Connect the 20-pin cable to Stator J10. Reflection-map selection remains Stator-CPLD-owned. |
 | 10 | Extension (if used) | Insert each Extension between 5-rotor groups: `Stator -> 5 rotors -> [Extension -> 5 rotors]* -> Reflector`. Each Extension reinjects clean `3V3_ENIG`, carries the reflector-boundary service harness including grouped `5V_MAIN`, and hosts one local Actuation Module for the next group-boundary carry handoff. |
-| 11 | Controller Board + JDB Hat | Install JDB hat on Controller. Mount Controller in Main Enclosure. Engage the TE PM dock cluster (`J1/J2/J3`) to the Power Module, then mate the Molex Stator dock pair (`J4/J5` ↔ `J11/J12`). |
+| 11 | Controller Board + JM Hat | Install JM hat on Controller. Mount Controller in Main Enclosure. Engage the TE PM dock cluster (`J1/J2/J3`) to the Power Module, then mate the Molex Stator dock pair (`J4/J5` ↔ `J11/J12`). |
 | 12 | User Settings Module | Mount User Settings Module PCB to Main Enclosure right side top panel. Route the 6-wire harness (`3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`) to Stator J13. Verify `U1`, `U2`, and `U3` appear on the shared I²C bus, then run a functional check that reads switch-state changes and drives each bank's RGB indicator rails before final panel closure. |
 | 13 | Main Enclosure final assembly | Route all cable harnesses. Install panels. Fit fan. Secure EMI bonding. Final torque fasteners. |
 
-> **Note on the JTAG Daughterboard (JDB):** The JDB is a PCB hat that mounts directly on the
+> **Note on the JTAG Module (JM):** The JM is a PCB hat that mounts directly on the
 > Controller Board. It has no independent mechanical assembly step - it is installed as part of
 > Step 10 (Controller Board install) before the Controller is fitted in the Main Enclosure.
-> See `design/Electronics/JTAG_Daughterboard/Design_Spec.md` for electrical details.
+> See `design/Electronics/JTAG_Module/Design_Spec.md` for electrical details.
 >
 ## Sub-Assembly Reference Table
 

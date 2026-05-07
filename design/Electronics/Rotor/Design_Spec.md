@@ -72,7 +72,7 @@ not be used as a local chassis-bond point.
 | FR-ROT-06 | Be individually removable for maintenance or reconfiguration without tools | Samtec ERM8/ERF8 high-cycle connectors | §2.3 Mechanical Details; BOM J1-J6 (Samtec ERM8/ERF8) |
 | FR-ROT-07 | Store 21 forward cipher maps in CPLD UFM; SW2 (input side) and SW3 (output side) each independently select map index [4:0] and direction bit [5] (0=forward, 1=reverse), giving 42 effective configurations per side without reprogramming | Same mechanism and switch count for both variants | §2.2 Logic & Transposition; BOM U1 (EPM570T100I5N), SW2, SW3 |
 | FR-ROT-08 | Implement ring setting via SW1 (6 switches, Board A input side only); CPLD sums SW1[5:0] with decoded position (mod N) to determine notch/turnover trigger position | Input side only; N=26 for 26-char variant, N=64 for 64-char variant | §2.3 Mechanical Details; BOM SW1; cross-ref: design/Mechanical/Rotor/Design_Spec.md |
-| FR-ROT-09 | Expose effective rotor position (decoded position + SW1 ring offset, mod N) via Intel Virtual JTAG (ALTERA_VIRTUAL_JTAG megafunction, USER0 instruction) as a 6-bit UDR; readable by JDB FT232H without interrupting cipher operation | 26-char variant: bits [4:0] valid, bit [5]=0; 64-char: all 6 bits; cipher logic operates independently on CPLD system clock | §2.2 Logic & Transposition; §3.3 Signal Integrity; cross-ref: DEC-027, JDB Design_Spec |
+| FR-ROT-09 | Expose effective rotor position (decoded position + SW1 ring offset, mod N) via Intel Virtual JTAG (ALTERA_VIRTUAL_JTAG megafunction, USER0 instruction) as a 6-bit UDR; readable by JM FT232H without interrupting cipher operation | 26-char variant: bits [4:0] valid, bit [5]=0; 64-char: all 6 bits; cipher logic operates independently on CPLD system clock | §2.2 Logic & Transposition; §3.3 Signal Integrity; cross-ref: DEC-027, JM Design_Spec |
 | FR-ROT-10 | The rotor boards shall be assembled by JLCPCB SMT (one side each, outward-facing); the internal headers (J7-J14) shall be manually assembled post-SMT | Mixed-gender header arrangement (J11/J14 male on Board A, J7/J8 female on Board A; J12/J13 male on Board B, J9/J10 female on Board B) provides physical keying | §3.4 Connector Pinouts; BOM J7-J14 |
 
 #### Design Requirements
@@ -298,7 +298,7 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
     across mixed stacks. The 26-character variant leaves ENC[5] as NC.
   * This path is entirely separate from the JTAG TTD\_RETURN signal.
 * **JTAG TTD\_RETURN Path:** After the Reflector processes the cipher reversal, `TTD_RETURN` travels
-  separately: Reflector J4 → Stator J10 → Controller-facing `J5` logic dock → FT232H on JDB (JTAG
+  separately: Reflector J4 → Stator J10 → Controller-facing `J5` logic dock → FT232H on JM (JTAG
   chain closure only).
 * **Control:** Each rotor has a local I²C bus for position sensing (FDC2114 U2/U11B for N=64; U2/U11A for N=26). The CPLD acts as I²C master; no I²C signals are exposed on J1-J6.
 * **JTAG:** Pass-through lines allow the **USB Blaster** on the Controller Board to program the
@@ -315,7 +315,7 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
   * **L4:** Signal (secondary routing + data plate silkscreen on bottom).
 * **JTAG Trace Width Rule:** All JTAG signal traces on L1 shall be routed at **0.127 mm (5 mil)**
   width over the L2 GND plane, targeting **50 Ω controlled impedance** per the JLC04161H-7628
-  stackup (h=0.087mm, t=0.035mm, Eᵣ=4.4). See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md §3.1`
+  stackup (h=0.087mm, t=0.035mm, Eᵣ=4.4). See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`
   for the copper-weight note (2oz finished uses 1oz base copper t=0.035mm in the IPC-2141A formula) and DEC-016.
 * **TTD path policy:** The rotor-stack `TTD` path is a direct board-to-board chain. No series resistor is
   placed at each rotor hop; `TTD` exits the CPLD and continues straight to J4 pin 6. Cable-driving

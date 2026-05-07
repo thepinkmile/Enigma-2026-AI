@@ -199,7 +199,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('da-04',                             'DA-04: Consolidated BOM PM component update',  'pending'),
 ('compliance-testing',               'Sending final review prototype for Environmental and EMC testing to get required certification documentation.', 'pending'),
 -- Pass 6 Deferred Items
-('jdb-board-rename',                  'Review JDB board name — rename to JTAG Module to align with system naming scheme', 'pending'),
+('jdb-board-rename',                  'Review JDB board name — rename to JTAG Module to align with system naming scheme', 'done'),
 ('bypass-cap-audit-100nf',            'System-wide audit: verify all 100nF bypass cap DigiKey PNs after GRS §3.2 PN correction', 'done'),
 ('reset-n-prefix-decision',           'Decide whether RESET_N net name needs board-specific prefix before schematic capture begins', 'done'),
 ('connector-stacking-height-review',  'Review ERF8/ERM8 stacking heights against enclosure and rotating shroud clearance — deferred to mechanical stage when prototype boards are available', 'pending'),
@@ -208,7 +208,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('bom-system-qty-audit',              'Audit and correct all System Qty values in Consolidated_BOM.md against the documented base-system convention (1× PM/CTL/STA/REF/EXT/JDB/USM/ENC/AM + 5× ROT of single variant). Focus: TPD4E05 row (currently may double-count both ROT variants); variant-specific rotor components (C16A/C16B, U3A/U3B — confirm C16A/C16B are 100nF bypass caps in ROT Design_Spec.md); all ROT-only rows.', 'done'),
 ('mh-refdes-standardise',            'Standardise mounting hole RefDes across all boards per DEC-057/DEC-058. CTL correctly assigned: MH1-4=CM5, MH5-8=AM dock, MH9-12=chassis (no BOM, GRS plain holes), MH13-16=JDB dock. EXT correct (MH1-4=chassis, MH5-8=AM dock). Verify remaining boards follow applicable scheme. Update any cross-references in Design_Spec.md, Board_Layout.md, Consolidated_BOM.md, Design_Log.md citing specific MH numbers.', 'pending'),
 ('jdb-standoff-height',             'Determine JDB hat-header stacking height and select correct M2.5 SMT standoff PN; review whether a DF40 BtB connector upgrade (same as AM) was appropriate. Resolved: upgraded to Hirose DF40C-20DP BtB connector (DEC-058); MH13-MH16 on CTL use Wurth 9774035151R. BOM entries added to CTL Design_Spec.md.', 'done'),
-('jdb-fr-renumber',                  'JDB Design_Spec.md deferred cleanup: FR-JDB-02 and FR-JDB-03 were collapsed into a single requirement; renumber remaining FRs consecutively. Low-priority; deferred to next JDB spec revision.', 'pending'),
+('jdb-fr-renumber',                  'JDB Design_Spec.md deferred cleanup: FR-JDB-02 and FR-JDB-03 were collapsed into a single requirement; renumber remaining FRs consecutively. Low-priority; deferred to next JDB spec revision.', 'done'),
 ('jdb-ft232h-3v3-vregin',           'FT232H Rev C supports 3.0-3.6V VREGIN; would allow JDB to run entirely from 3V3_ENIG and eliminate 5V_USB from DF40 connector. Defer until Rev C availability confirmed. Same priority as display-addon-board.', 'blocked'),
 -- Project Milestones
 ('review-mounting-holes',             'Verify mounting hole count and board-specific location for every board during schematic capture and PCB layout stage. Cannot be fully defined until KiCAD layout is complete.', 'pending'),

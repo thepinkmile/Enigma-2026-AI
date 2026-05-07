@@ -100,7 +100,7 @@ Recent locked work:
 | Stator | In Review (Pass 5 fixes applied) |
 | Reflector | In Review (Pass 3 fixes applied; no Pass 4/5 changes) |
 | Extension | In Review (Pass 4 fixes applied; F-108 deferred) |
-| JDB | JDB BtB upgrade complete (DF40C-20DP; DEC-058 logged; all changes unstaged) |
+| JM | JM BtB upgrade complete (DF40C-20DP; DEC-058 logged; all changes unstaged) |
 | Controller | In Review (Pass 5 fixes applied) |
 | Encoder | In Review (Pass 3 fixes applied; no Pass 4/5 changes) |
 | Rotor | In Review (Pass 5 fixes applied) |
@@ -237,4 +237,3 @@ Mark `review-cycle-pass5` in-progress before launching the review agents.
 - `.copilot/` is tracked in git and must be kept in sync with meaningful design-state changes.
 - Every checkpoint must update the checkpoint file, `.copilot/checkpoints/index.md`,
   `.copilot/plan.md`, and any related handoff content together.
-

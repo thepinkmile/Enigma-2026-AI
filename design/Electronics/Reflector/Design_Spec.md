@@ -96,7 +96,7 @@ second CPLD on the Reflector itself.
 * **JTAG Trace Width Rule:** All JTAG signal traces on L1 (TTD_RETURN and any in-board JTAG
   routing) shall be routed at **0.127 mm (5 mil)** width over the L2 GND plane, targeting
   **50 Ω controlled impedance**. Stackup upgraded to 4-Layer per DEC-017.
-  See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md` and DEC-016.
+  See `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016.
 * **JTAG Return:** TDO from Rotor 30 is routed to Pin 16 (TTD_RETURN) for return to the Stator.
 * **Loopback:** Directly routes the 6-bit `ENC_OUT_REF` turnaround into the returned 6-bit `ENC_IN_REF`
   path via 2oz 10-mil traces.

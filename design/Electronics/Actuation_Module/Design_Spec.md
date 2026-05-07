@@ -50,7 +50,7 @@ diagnostics.
 | DR-AM-06 | Local controller architecture | U1 shall be a small 3.3V local controller with native hardware PWM, at least 2 digital inputs, at least 4 spare / LED-capable GPIOs, power-on reset, and a package suitable for low-profile service-module assembly | §4; BOM U1 |
 | DR-AM-07 | Diagnostics LED parts and placement | Reuse the existing green 0402 status LED and 330Ω 0402 resistor already used on Encoder boards, but place the LED footprints at the visible board edge on the PCBA side so their light remains observable when the AM is installed upside-down | BOM D1-D3, R1-R3; `Board_Layout.md` |
 | DR-AM-08 | Home-input biasing | `ACTUATION_HOME_N` uses a local 10kΩ pull-up to `3V3_ENIG` plus a 1µF local RC debounce capacitor - RC time constant 10 ms | BOM R4, C1 |
-| DR-AM-09 | Mounting orientation | Module is intended to mount upside-down from the host board, similar to the JDB service-board approach | `Board_Layout.md` |
+| DR-AM-09 | Mounting orientation | Module is intended to mount upside-down from the host board, similar to the JM service-board approach | `Board_Layout.md` |
 | DR-AM-10 | SWD service connector | J4 = Adam Tech PH1-05-UA, manually fitted 1x5 2.54mm SWD header using the common compact 5-pin STM32/ST-LINK flying-lead order (`VTref`, `SWCLK`, `GND`, `SWDIO`, `RESET_N`) | §3.4; BOM J4 |
 | DR-AM-11 | Inter-board component envelope | All PCBA-fitted parts on the enclosed connector-facing side of the AM shall remain low profile and shall not exceed 2.0 mm installed height above the PCB; all manual-fit loom / service headers remain on the opposite side | `Board_Layout.md`; §4 |
 | DR-AM-12 | UART bootloader connector | J5 = Adam Tech PH1-05-UA, manually fitted 1x5 2.54mm UART bootloader header; pins 1-4 shall follow the common 3.3V TTL serial order (`GND`, `3V3`, `TX`, `RX`) and pin 5 shall expose `BOOT0` | §3.5; BOM J5 |
@@ -237,12 +237,12 @@ The AM is intentionally **host-light** and **mechanically local**:
 ### Local supply-decoupling note
 
 The AM should follow a **small daughterboard decoupling strategy**, not the full bulk-entry-bank pattern
-used by larger mainline boards. The closest precedent is the JTAG Daughterboard (JDB), which is
+used by larger mainline boards. The closest precedent is the JTAG Module (JM), which is
 explicitly exempt from the 5x bulk-entry-bank rule and instead uses per-IC 100nF decoupling plus a
 single 4.7uF entry filter.
 
 The AM should follow the same general daughterboard logic, but with one important addition: unlike the
-JDB, the AM drives a local servo load from `5V_MAIN`, so it should include a **local 5V reservoir cap**
+JM, the AM drives a local servo load from `5V_MAIN`, so it should include a **local 5V reservoir cap**
 as well as MCU decoupling. Rev A therefore requires:
 
 * **C2-C3:** 100nF X7R 0402 local decoupling at the STM32 supply domains

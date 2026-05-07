@@ -43,7 +43,7 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 * **Encoder Module:** Single generic 64-line interface board reused in keyboard, lightboard, and
   plugboard encode / decode roles.
 * **Settings Board:** Panel-mount switch and RGB indicator board on the shared Stator I2C-1 bus.
-* **JTAG Daughterboard:** Internal FT232H-based USB-to-JTAG bridge for programming all system CPLDs.
+* **JTAG Module:** Internal FT232H-based USB-to-JTAG bridge for programming all system CPLDs.
 
 ## Core Requirements
 
@@ -69,7 +69,7 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 | Reflector Board | In Review |
 | Encoder Module | In Review |
 | Settings Board | In Review |
-| JTAG Daughterboard | In Review |
+| JTAG Module | In Review |
 
 ---
 
@@ -105,7 +105,7 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 * **JTAG Master:** Embedded FT232H (Permanent USB Blaster) on internal USB 2.0.
 * **Connectivity:** Native USB 3.0 (SMT), HDMI (SMT), and Gigabit Ethernet.
 
-### 3. JTAG Daughterboard
+### 3. JTAG Module
 
 * **Logic:** FT232H USB-to-JTAG bridge with buffered TCK / TMS drive.
 * **Role:** Programs the full 37-device JTAG chain (1 Stator + 6 Encoder + 30 Rotor CPLDs).

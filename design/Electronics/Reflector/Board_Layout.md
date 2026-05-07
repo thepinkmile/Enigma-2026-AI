@@ -103,7 +103,7 @@ See Global_Routing_Spec.md §1.1 for the full current-category table.
 
 * **JTAG CI traces:** 0.127 mm (5 mil) on L1 over the L2 GND plane achieves 50 Ω controlled
   impedance on the JLC04161H-7628 stackup (h = 0.087 mm, t = 0.035 mm, Eᵣ = 4.4). Per DEC-016.
-  See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md §3.1`.
+  See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`.
 * **3V3_ENIG entry:** Power received at J4 pin 3 (3V3_ENIG) and distributed to bulk caps (C1-C5) only.
   J2 power pins are NC - no distribution to the rotor chain from this board.
   0.80 mm is the system-wide canonical minimum for all 3V3_ENIG surface traces.

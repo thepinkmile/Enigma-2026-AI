@@ -45,7 +45,7 @@ being an unachievable worst-case peak).
 | HID Encoder CPLDs (EPM570 x2) | 2 | 50 | 100 | Keyboard encode + lightboard decode CPLDs |
 | Plugboard Encoder A CPLDs (EPM570 x2) | 2 | 50 | 100 | Stecker pass A encode/decode pair |
 | Plugboard Encoder B CPLDs (EPM570 x2) | 2 | 50 | 100 | Stecker pass B encode/decode pair |
-| FT232H VCCIO (JTAG Daughterboard) | 1 | 10 | 10 | VCCIO domain only; VCC (100 mA) is 5V_USB-sourced - see 5V_MAIN table |
+| FT232H VCCIO (JTAG Module) | 1 | 10 | 10 | VCCIO domain only; VCC (100 mA) is 5V_USB-sourced - see 5V_MAIN table |
 | Rotor CPLDs (EPM570T100I5N x30) | 30 | 50 | 1500 | All rotors cipher-active simultaneously |
 | Rotor FDC2114RGHR capacitive sensor ICs (U2/U3 or U2/U4, 2 ICs per rotor, 60 ICs total) | 60 | 2.1 | 126 | Continuous position polling; two ICs per rotor add 4.2 mA to the 50 mA CPLD budget, giving 54.2 mA typ / 55 mA budget per rotor |
 | INA219 current monitor (Stator) | 1 | 1 | 1 | Negligible |
@@ -108,7 +108,7 @@ being an unachievable worst-case peak).
 | CM5 (Raspberry Pi Compute Module 5) | 5.0 A max | CM5 boot-to-load current profile; 25W at 5V = 5A |
 | 3V3_ENIG LDO quiescent (TPS75733KTTRG3) | 2.05 A | Sourced from 5V_MAIN; P_in = 5V x 2.05A = 10.25W |
 | Status LEDs, RJ45, misc. | 0.1 A | |
-| FT232H VCC (JTAG Daughterboard - via Controller TPS2065C) | 0.1 A | USB HS active; VCC from 5V_USB (TPS2065C-protected 5V_MAIN output) |
+| FT232H VCC (JTAG Module - via Controller TPS2065C) | 0.1 A | USB HS active; VCC from 5V_USB (TPS2065C-protected 5V_MAIN output) |
 | USB 3.0 external devices (TPS2065C rated max) | 1.60 A | System boundary: connected USB device load; TPS2065C hard-limits output |
 | HDMI sink device | 0.05 A | System boundary: connected HDMI sink; AP2331W-limited |
 | User Settings Module indicator rail (via Controller↔Stator dock → J13) | 0.24 A | 12 indicators, one active colour per bank, 240mA max |

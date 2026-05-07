@@ -1,4 +1,4 @@
-# JTAG Daughterboard Layout Visualisations
+# JTAG Module Layout Visualisations
 
 **Status:** Draft
 **Project:** Enigma-NG
@@ -41,7 +41,7 @@ TOP VIEW (L1) - 4-Layer (DEC-017) / 2oz Copper
 |_________________(Bottom-Centre)________________|
 ```
 
-> **Connector Definition Owner:** This board. All other boards connecting to the JTAG Daughterboard cross-reference here.
+> **Connector Definition Owner:** This board. All other boards connecting to the JTAG Module cross-reference here.
 >
 ## 3. J1 DF40C-20 BtB Connector Pinout (20-Pin, Bottom-Centre)
 
@@ -57,28 +57,28 @@ TOP VIEW (L1) - 4-Layer (DEC-017) / 2oz Copper
 
 R1 = outer (bottom) edge; R2 = inner row.
 
-| Pin   | Signal     | Dir         | Description                                         |
-| :---- | :--------- | :---------- | :-------------------------------------------------- |
-| C1R1  | TCK        | JDB → CTL   | JTAG Clock (buffered via U2; 33Ω via R2)            |
-| C2R1  | GND        | —           | Ground                                              |
-| C3R1  | GND        | —           | Ground                                              |
-| C4R1  | 5V_USB     | CTL → JDB   | 5V USB power from CTL TPS2065C rail                 |
-| C5R1  | GND        | —           | Ground                                              |
-| C6R1  | GND        | —           | Ground                                              |
-| C7R1  | 3V3_ENIG   | CTL → JDB   | 3.3V logic rail / JTAG signal reference             |
-| C8R1  | GND        | —           | Ground                                              |
-| C9R1  | GND        | —           | Ground                                              |
-| C10R1 | TDI        | JDB → CTL   | JTAG Data In (33Ω via R4; R1 at FT232H)             |
-| C1R2  | GND        | —           | Ground                                              |
-| C2R2  | TMS        | JDB → CTL   | JTAG Mode Select (buffered via U2; 33Ω via R3)      |
-| C3R2  | GND        | —           | Ground                                              |
-| C4R2  | GND        | —           | Ground                                              |
-| C5R2  | USB+       | Bidir       | USB 2.0 D+ to CM5 (USB FS differential pair)        |
-| C6R2  | USB−       | Bidir       | USB 2.0 D− to CM5 (USB FS differential pair)        |
-| C7R2  | GND        | —           | Ground                                              |
-| C8R2  | GND        | —           | Ground                                              |
-| C9R2  | TDO        | CTL → JDB   | JTAG Data Out (return from chain)                   |
-| C10R2 | GND        | —           | Ground                                              |
+| Pin   | Signal     | Dir        | Description                                         |
+| :---- | :--------- | :--------- | :-------------------------------------------------- |
+| C1R1  | TCK        | JM → CTL   | JTAG Clock (buffered via U2; 33Ω via R2)            |
+| C2R1  | GND        | —          | Ground                                              |
+| C3R1  | GND        | —          | Ground                                              |
+| C4R1  | 5V_USB     | CTL → JM   | 5V USB power from CTL TPS2065C rail                 |
+| C5R1  | GND        | —          | Ground                                              |
+| C6R1  | GND        | —          | Ground                                              |
+| C7R1  | 3V3_ENIG   | CTL → JM   | 3.3V logic rail / JTAG signal reference             |
+| C8R1  | GND        | —          | Ground                                              |
+| C9R1  | GND        | —          | Ground                                              |
+| C10R1 | TDI        | JM → CTL   | JTAG Data In (33Ω via R4; R1 at FT232H)             |
+| C1R2  | GND        | —          | Ground                                              |
+| C2R2  | TMS        | JM → CTL   | JTAG Mode Select (buffered via U2; 33Ω via R3)      |
+| C3R2  | GND        | —          | Ground                                              |
+| C4R2  | GND        | —          | Ground                                              |
+| C5R2  | USB+       | Bidir      | USB 2.0 D+ to CM5 (USB FS differential pair)        |
+| C6R2  | USB−       | Bidir      | USB 2.0 D− to CM5 (USB FS differential pair)        |
+| C7R2  | GND        | —          | Ground                                              |
+| C8R2  | GND        | —          | Ground                                              |
+| C9R2  | TDO        | CTL → JM   | JTAG Data Out (return from chain)                   |
+| C10R2 | GND        | —          | Ground                                              |
 
 ## 5. PCB Stackup - JLC04161H-7628 (4-Layer)
 
@@ -86,14 +86,14 @@ R1 = outer (bottom) edge; R2 = inner row.
 
 | Layer | Role | Notes |
 | :--- | :--- | :--- |
-| L1 | GND plane + SMT component pads (component side) | Faces toward Controller Board when JDB is mounted as a hat |
+| L1 | GND plane + SMT component pads (component side) | Faces toward Controller Board when JM is mounted as a hat |
 | L2 | All signal traces (inner layer) | Shielded between L1 GND reference and L3 power |
 | L3 | Power distribution pours (5V_USB + 3V3_ENIG) | Inner power layer |
 | L4 | GND pour shield | Faces away from Controller (exterior/top when mounted) |
 
 ## 6. Grounding Notes
 
-GND_CHASSIS is not implemented on the JDB - see DEC-023. Mounting holes connect to GND (circuit return).
+GND_CHASSIS is not implemented on the JM - see DEC-023. Mounting holes connect to GND (circuit return).
 
 ---
 
@@ -112,7 +112,7 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 5V_USB (J1 C4R1 → FT232H VCC) | 400 mA | 0.06 mm | 0.50 mm | **0.50 mm** | L1 + L3 pour | FT232H absolute max VCC draw; power-rail minimum applies |
 | 3V3_ENIG (J1 C7R1 → FT232H VCCIO) | 15 mA | 0.002 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | VCCIO domain; 3V3_ENIG canonical 0.80 mm (design/Standards/Global_Routing_Spec.md §1.1) |
-| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L2 (inner) | JDB inverted stackup (DEC-017): L2 is immediately below the L1 GND plane (buried microstrip, h ≈ 0.087 mm); 0.127 mm achieves ≈50 Ω, equivalent to outer-layer microstrip. Compliant - inverted stackup (L1=GND) places L2 immediately adjacent to the L1 GND reference plane, achieving equivalent controlled impedance per DEC-016 via buried-microstrip topology. |
+| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L2 (inner) | JM inverted stackup (DEC-017): L2 is immediately below the L1 GND plane (buried microstrip, h ≈ 0.087 mm); 0.127 mm achieves ≈50 Ω, equivalent to outer-layer microstrip. Compliant - inverted stackup (L1=GND) places L2 immediately adjacent to the L1 GND reference plane, achieving equivalent controlled impedance per DEC-016 via buried-microstrip topology. |
 | USB D+ / D- differential pair | signal | - | 0.15 mm | **0.15 mm (6 mil)** | L2 (inner) | 90 Ω differential USB 2.0; must be length-matched to within 0.1 mm; routed as a tightly-coupled pair |
 | GND pours (outer layers) | - | - | pour | **copper pour** | L1 + L4 | Both outer layers = solid GND; provides dual-sided shielding for L2 signals |
 | Power pours (inner power layer) | ≤ 400 mA | - | pour | **copper pour** | L3 | Separate pour zones for 5V_USB and 3V3_ENIG |
@@ -125,7 +125,7 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
   (h = 0.087 mm dielectric, t = 0.035 mm copper, Eᵣ = 4.4) targeting 50 Ω buried-microstrip
   impedance. This calculation is identical to the outer-layer microstrip at the same h value;
   applicable here because L2 is immediately adjacent to the L1 GND plane (DEC-017 inverted stackup).
-  See `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md §3.1`.
+  See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`.
 * USB D+/D- traces at 0.15 mm over the L1 GND plane yield approximately 90 Ω differential
   on the JLC04161H-7628 inner signal layer - correct for USB 2.0 Full Speed.
 
@@ -133,12 +133,12 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
 
 ## 8. Mounting Holes
 
-JDB mounting holes MH1–MH4 are M2.5 NPTH holes with a GND annular ring.
+JM mounting holes MH1–MH4 are M2.5 NPTH holes with a GND annular ring.
 Net: **GND** (not GND_CHASSIS — daughterboard exception per DEC-057).
-No purchasable BOM component on the JDB; mounting standoffs are owned and sourced by the
+No purchasable BOM component on the JM; mounting standoffs are owned and sourced by the
 **Controller Board BOM** (MH13–MH16, 9774035151R, M2.5×3.5mm SMT standoffs).
 See `design/Standards/Global_Routing_Spec.md §4` for module mounting hole rules.
-See DEC-057 (standoff ownership) and DEC-058 (JDB BtB upgrade) for full rationale.
+See DEC-057 (standoff ownership) and DEC-058 (JM BtB upgrade) for full rationale.
 
 ### MH1–MH4 Pattern
 

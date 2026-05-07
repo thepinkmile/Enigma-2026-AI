@@ -127,7 +127,7 @@ group without Controller-side live servo control.
   (R7-R12, R27-R32, R33-R38) and Encoder boards (R6) are for the **encoder ribbon cable ports**
   (J4-J9) only -
   they are NOT placed on the BtB rotor stack interface. See
-  `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md` and DEC-016.
+  `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016.
   TCK and TMS are actively re-buffered by U1 (see JTAG Signal Buffering above).
 * **SYS_RESET_N:** Received via Extension Port pin 15; broadcast to all local rotor CPLDs in this group.
 * **Actuation Module host dock:** The Extension provides a single host socket for one shared
@@ -171,7 +171,7 @@ group without Controller-side live servo control.
 * **JTAG Trace Width Rule:** The Extension board carries only the **TTD_RETURN** signal on its J7/J8 pass-through path
   (TCK, TMS, and TDI travel to the rotor stack via Stator J1-J3, not via the Extension Port). TTD_RETURN traces on L1 shall be routed at **0.127 mm (5 mil)**
   over the L2 GND plane, targeting **50 Ω controlled impedance**. See
-  `design/Electronics/JTAG_Daughterboard/JTAG_Integrity.md` and DEC-016. Stackup defined per DEC-017.
+  `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016. Stackup defined per DEC-017.
 * **U1 Bypass:** C6 (100nF) must be placed within 2mm of U1 VCC pin on L1.
 
 ## 5. Thermal & ESD

@@ -1,4 +1,4 @@
-﻿# Agent Directives — Enigma-NG
+# Agent Directives — Enigma-NG
 
 This file is the canonical list of standing rules and directives that govern how GitHub Copilot
 (and any other AI agent) must behave when working on this repository. These rules take precedence
@@ -342,7 +342,7 @@ Each cycle comprises two complementary review types:
    - The "owning" board defines the connector; the receiving board references the owner's definition
    - Check all link interfaces: Link-Alpha (Power Module ↔ Controller), Link-Beta
      (Controller ↔ Stator), Stator ↔ Extension Port, Extension ↔ Rotor(s), Extension ↔ Reflector,
-     Stator ↔ Encoder, Controller ↔ JTAG Daughterboard, Controller/Stator ↔ Actuation Module,
+     Stator ↔ Encoder, Controller ↔ JTAG Module, Controller/Stator ↔ Actuation Module,
      Controller ↔ USM
 
    **B. Cross-board signal name consistency**
@@ -356,7 +356,7 @@ Each cycle comprises two complementary review types:
    - `Boards_Overview.md` — verify all boards are listed with correct layer/stackup info
    - `Electrical_Design.md` — verify electrical design decisions are consistent with board specs
    - `Power_Budgets.md` — verify power figures match board specs; no board missing from the budget
-   - Investigation documents (e.g. `JTAG_Daughterboard/JTAG_Integrity.md`,
+   - Investigation documents (e.g. `JTAG_Module/JTAG_Integrity.md`,
      `Controller/PoE_Power_Analysis.md`) — verify conclusions are reflected in board specs and
      no open action items remain unresolved
    - `README.md` (repo root) — verify it accurately ties together the electronics, mechanical, and

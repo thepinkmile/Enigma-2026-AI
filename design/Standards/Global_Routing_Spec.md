@@ -81,7 +81,7 @@ These rules apply to all boards in the Enigma-NG system unless a board's design 
   board), placed at the rail entry point in a **Symmetrical Star/Spoke pattern**.
   Standard part: Samsung CL21B106KAYQNNE (10µF ±10% X7R 25V 0805; Mouser 187-CL21B106KAYQNNE; DigiKey 1276-CL21B106KAYQNNECT-ND; JLCPCB C3039694).
   Voltage derating: 25V ÷ 3.3V ≈ 7.6x (3V3\_ENIG) and 25V ÷ 5.0V = 5.0x (5V\_MAIN) - both exceed the mandatory 2x minimum.
-  * Exception: The JTAG Daughterboard is exempt from this rule - see `design/Electronics/JTAG_Daughterboard/Design_Spec.md` DR-JDB-09.
+  * Exception: The JTAG Module is exempt from this rule - see `design/Electronics/JTAG_Module/Design_Spec.md` DR-JM-09.
 
 ### 3.1. Common RGB Sink-Stage Pattern
 

@@ -127,3 +127,5 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 120 | Library zips processed; BOM footprint status updated | 120-library-zips-processed-bom-updated.md |
 | 121 | Library migration complete; BOM footprint status updated | 121-library-migration-bom-footprint-updated.md |
 | 122 | 435F12012IET footprint created; AC72ABD corrected; BOM updated | 122-435f12012iet-footprint-created-bom-updated.md |
+| 123 | JTAG Daughterboard renamed to JTAG Module; JDB → JM; DEC-060 appended | 123-jdb-to-jm-rename-complete.md |
+| 124 | Boards_Overview status fix; handoff & todo-list cleanup | 124-boards-overview-status-fix-handoff-clean.md |

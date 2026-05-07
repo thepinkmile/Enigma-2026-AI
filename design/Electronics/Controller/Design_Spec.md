@@ -44,7 +44,7 @@ source is active.
 | FR-CTL-01 | Host the Raspberry Pi Compute Module 5 as the system master processor | CM5 runs the Linux OS and all application logic | BOM U1 (CM5) |
 | FR-CTL-02 | Receive regulated rails from the Power Module and distribute them to the CM5, Stator, and local peripherals | Via PM dock `J1` and Stator docks `J4/J5` | §2 Dock Interfaces; BOM J1-J3, J4/J5 |
 | FR-CTL-03 | Provide the system's enclosure-edge external I/O interfaces | GbE / PoE entry, HDMI, USB 3.0 | §8 Connectivity; BOM J6, J7, J8 |
-| FR-CTL-04 | Provide JTAG programming capability for all 37 CPLDs in the system | Via JTAG Daughterboard and the `J5` Stator logic dock | §3 JTAG Programming Subsystem; BOM J4, J5 |
+| FR-CTL-04 | Provide JTAG programming capability for all 37 CPLDs in the system | Via JTAG Module and the `J5` Stator logic dock | §3 JTAG Programming Subsystem; BOM J4, J5 |
 | FR-CTL-05 | Monitor system power and PM status via I²C, with only essential direct PM handshakes kept as dedicated pins | Telemetry: LTC3350 @ 0x09, STUSB4500 @ 0x28, PCA9534A @ 0x3F, INA219 x2 (PM U10 @ 0x40; Stator U2 @ 0x45); Direct handshakes: `PWR_GD`, `ROTOR_EN_N`, `PWR_BUT_N`, `LED_PWR_N` | §4 Telemetry & Logic; §6 CM5 GPIO Mapping Matrix |
 | FR-CTL-06 | Maintain RTC operation across power cycles using a CR2032 backup battery | Non-rechargeable; service by disassembly | §5 RTC Backup Battery; BOM BT1, D1 (BAT54) |
 | FR-CTL-07 | Route power, JTAG, and I²C between the Controller and the Stator board | Via `J4/J5` hybrid docks | §2 Dock Interfaces; BOM J4/J5 |
@@ -73,8 +73,8 @@ source is active.
 | DR-CTL-16 | PoE IC bypass capacitors | U7 (TPS2372-4RGWR) and U8 (TPS23730RMTR) shall each have a dedicated 100nF X7R 50V 0402 bypass capacitor on their VCC pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C18 (U7 bypass), C19 (U8 bypass) | BOM C18, C19 |
 | DR-CTL-17 | ACTUATE_REQUEST_N boot-safe pull-up | R4 (10kΩ 0603) shall connect `ACTUATE_REQUEST_N` (CM5 GPIO 8) to `3V3_ENIG` as a pull-up resistor. This holds the active-low line HIGH (no-actuation state) before CM5 firmware configures GPIO 8 as an output, preventing a spurious actuation pulse to the Actuation Module during CM5 early boot. R4 is distinct from R1–R3, which are series protection resistors on GPIO input lines. | BOM R4; §7 Protection & EMI |
 | DR-CTL-18 | PoE ACF primary-side clamp capacitor | C17 (10nF X7R 100V 0402) shall be placed in the U8 (TPS23730RMTR) primary-side active-clamp circuit as the Cclamp energy-storage capacitor. The 100V voltage rating is required by the primary-side operating environment: the PoE bus may reach 57V and transformer leakage transients on the primary drain node exceed this during switching. See `design/Electronics/Controller/PoE_Power_Analysis.md`. | BOM C17; §7.1 PoE Front-End Passive Components |
-| DR-CTL-19 | JDB dock connector | J12 = Hirose DF40HC(3.5)-20DS-0.4V(51) 20-pin 0.4mm pitch BtB receptacle (3.5mm stack height) for the JTAG Daughterboard (JDB) dock. Mates with JDB J1 DF40C-20DP-0.4V(51). Placement and board location finalised at PCB layout time. | §8.3; BOM J12 |
-| DR-CTL-20 | JDB dock no-component zone | The Controller area beneath the installed JDB shall be a no-component placement zone except for J12 and four M2.5×3.5mm SMT standoffs (MH13–MH16, 9774035151R) and the copper / vias needed to route J12; MH13–MH16 pads shall be connected to `GND` (not `GND_CHASSIS`); standoff placement shall mirror the JDB MH1–MH4 pattern per `design/Electronics/JTAG_Daughterboard/Design_Spec.md §4` and `design/Electronics/JTAG_Daughterboard/Board_Layout.md §8`. See DEC-057 (standoff ownership), DEC-058 (JDB BtB upgrade). **PCB layout for J12 and MH13–MH16 cannot be finalised until JDB schematic capture and PCB layout are complete.** | §8.3; `design/Electronics/Controller/Board_Layout.md` |
+| DR-CTL-19 | JM dock connector | J12 = Hirose DF40HC(3.5)-20DS-0.4V(51) 20-pin 0.4mm pitch BtB receptacle (3.5mm stack height) for the JTAG Module (JM) dock. Mates with JM J1 DF40C-20DP-0.4V(51). Placement and board location finalised at PCB layout time. | §8.3; BOM J12 |
+| DR-CTL-20 | JM dock no-component zone | The Controller area beneath the installed JM shall be a no-component placement zone except for J12 and four M2.5×3.5mm SMT standoffs (MH13–MH16, 9774035151R) and the copper / vias needed to route J12; MH13–MH16 pads shall be connected to `GND` (not `GND_CHASSIS`); standoff placement shall mirror the JM MH1–MH4 pattern per `design/Electronics/JTAG_Module/Design_Spec.md §4` and `design/Electronics/JTAG_Module/Board_Layout.md §8`. See DEC-057 (standoff ownership), DEC-058 (JM BtB upgrade). **PCB layout for J12 and MH13–MH16 cannot be finalised until JM schematic capture and PCB layout are complete.** | §8.3; `design/Electronics/Controller/Board_Layout.md` |
 
 ## 2. Dock Interfaces
 
@@ -132,12 +132,12 @@ overhang** rule defined in `design/Standards/Global_Routing_Spec.md §4.1`.
 
 ## 3. JTAG Programming Subsystem (USB Blaster)
 
-The Controller provides JTAG pass-through only. All JTAG chain architecture, device ordering, buffering, termination, and timing specifications are defined in the JDB Design_Spec.
+The Controller provides JTAG pass-through only. All JTAG chain architecture, device ordering, buffering, termination, and timing specifications are defined in the JM Design_Spec.
 
 * **Controller Pass-Through:** JTAG lines (TCK, TMS, TDI, TTD_RETURN, VREF) are routed directly
-  from the JDB hat-headers (`J12`/`J13`) to the Stator logic dock (`J5`) on the Controller board without any active
+  from the JM hat-headers (`J12`/`J13`) to the Stator logic dock (`J5`) on the Controller board without any active
   components. No buffer or series resistors reside on the Controller for JTAG signals.
-* **Cross-ref:** See `design/Electronics/JTAG_Daughterboard/Design_Spec.md` for all JTAG chain architecture, FT232H module schematics, buffering, and assembly details. See DEC-016, DEC-024.
+* **Cross-ref:** See `design/Electronics/JTAG_Module/Design_Spec.md` for all JTAG chain architecture, FT232H module schematics, buffering, and assembly details. See DEC-016, DEC-024.
 
 ## 4. Telemetry & Logic (INA219 + SMBus)
 
@@ -332,23 +332,23 @@ The Stator dock uses the Molex EXTreme Guardian HD hybrid pair:
 
 The `J5` connector deliberately groups the JTAG cluster and `TTD_RETURN` with the logic-domain `3V3_ENIG` feed.
 
-### 8.3. JDB BtB Dock (J12)
+### 8.3. JM BtB Dock (J12)
 
-The JTAG Daughterboard mounts on the Controller via a single Hirose DF40HC(3.5)-20DS-0.4V(51)
+The JTAG Module mounts on the Controller via a single Hirose DF40HC(3.5)-20DS-0.4V(51)
 20-pin board-to-board receptacle (J12) with 3.5mm stack height, plus four M2.5×3.5mm SMT
 standoffs (MH13–MH16, 9774035151R; pads to `GND`, not `GND_CHASSIS` — see
-`design/Standards/Global_Routing_Spec.md` for module mounting hole grounding rules). The JDB J1 plug mates with J12 at bottom-centre of the JDB,
+`design/Standards/Global_Routing_Spec.md` for module mounting hole grounding rules). The JM J1 plug mates with J12 at bottom-centre of the JM,
 with R1 (outer edge row) oriented toward the LINK-BETA connector (J4/J5) to minimise JTAG trace lengths.
 See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
 
-#### J12 - JDB BtB Dock Connector (20-Pin DF40HC)
+#### J12 - JM BtB Dock Connector (20-Pin DF40HC)
 
-> **Connector Definition Owner:** `design/Electronics/JTAG_Daughterboard/Design_Spec.md §3`.
+> **Connector Definition Owner:** `design/Electronics/JTAG_Module/Design_Spec.md §3`.
 > This board provides the mating receptacle (J12). Full connector pinout, pin assignments, and
-> orientation are defined and owned by the JTAG Daughterboard. Net connections from this board
-> to the mounted JDB:
+> orientation are defined and owned by the JTAG Module. Net connections from this board
+> to the mounted JM:
 >
-> | CTL Net    | JDB Net    |
+> | CTL Net    | JM Net    |
 > | :--------- | :--------- |
 > | `TCK`      | `TCK`      |
 > | `TMS`      | `TMS`      |
@@ -362,7 +362,7 @@ See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
 
 * **Part:** Hirose DF40HC(3.5)-20DS-0.4V(51) — 3.5mm stack-height BtB receptacle, 20-pin, 0.4mm pitch.
 * **DigiKey:** 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | **Mouser:** 798-DF40HC3520DS04V5 | **JLCPCB:** C3644774
-* **Mating Part (JDB J1):** Hirose DF40C-20DP-0.4V(51) — plug on JDB. See `design/Electronics/JTAG_Daughterboard/Design_Spec.md §3`.
+* **Mating Part (JM J1):** Hirose DF40C-20DP-0.4V(51) — plug on JM. See `design/Electronics/JTAG_Module/Design_Spec.md §3`.
 
 ### 8.4. Fan Connector (J10)
 

@@ -90,7 +90,7 @@ Main outcomes:
   manual-fit-side intent explicit
 - the AM now documents a reduced daughterboard decoupling scheme rather than a full 5x bulk-entry bank:
   C2-C3 = local STM32 100nF decouplers, C4 = 4.7uF on `3V3_ENIG`, C5 = 10uF on `5V_MAIN` near the
-  servo power path; this is derived from the JDB daughterboard precedent but strengthened for the servo load
+  servo power path; this is derived from the JTAG Module decoupling precedent but strengthened for the servo load
 - BOM audit pass: active board design-spec BOMs currently show no open `TBD` / empty-supplier placeholder
   rows apart from the intentional CM5 distributor-only entry, and the consolidated AM section now carries
   explicit per-board and Rev A total counts for the current two-module design
@@ -275,9 +275,9 @@ Key changes (summary — see checkpoint 081 for full detail):
 - **Power Module:** D4 TVS added — Bourns SMBJ18A-Q (DO-214AA; 18V standoff; 600W;
   Mouser `652-SMBJ18A-Q`; DigiKey `118-SMBJ18A-QCT-ND`; JLCPCB `C1979859` Extended)
 - **Controller:** DR-CTL-16 added; C26/C27 100nF bypass caps for U2/U3 (CL05B104KB5NNNC)
-- **JTAG Daughterboard:** Y1 crystal changed to CTS 435F12012IET (12MHz, 20pF, ±20ppm,
+- **JTAG Module:** Y1 crystal changed to CTS 435F12012IET (12MHz, 20pF, ±20ppm,
   −40 to +85°C; DigiKey `110-435F12012IETTR-ND`; Mouser `774-435F12012IET`; JLCPCB `C19766404`)
-- **JDB:** RESET# → RESET_N throughout; DR-JDB IDs renumbered 01–16; ESD statement fixed;
+- **JTAG Module:** RESET# → RESET_N throughout; DR-JM IDs renumbered 01–16; ESD statement fixed;
   inverted stackup cross-reference note added
 - **Actuation Module:** DR-AM-18 removed; R6 BOM row removed; ACTUATE_REQUEST_N/ACTUATION_HOME_N
   signal renames; Thermal & ESD §7 added; no-external-pull-up note added to firmware spec

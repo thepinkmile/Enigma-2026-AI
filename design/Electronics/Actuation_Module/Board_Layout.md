@@ -75,7 +75,7 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
 * R5 (10 kΩ BOOT0 series protection resistor) shall be placed on the signal path between the SW2 / J5-pin-5
   shared node and the U1 BOOT0 pin. Place R5 in the J4/J5/SW1/SW2 service-header cluster so the service
   interconnect remains compact.
-* Unlike the JDB, the AM is not purely a light logic daughterboard: it has both an MCU and a local servo
+* Unlike the JM, the AM is not purely a light logic daughterboard: it has both an MCU and a local servo
   power path. The AM therefore keeps the reduced daughterboard-capacitor approach, but adds an explicit
   5V local reservoir cap rather than relying only on upstream host-board bulk capacitance.
 * **Connector orientation (DF40 polarity-free body):** The DF40 connector body can mate in two orientations

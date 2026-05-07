@@ -40,7 +40,7 @@ The Enigma-NG system comprises the following boards:
 - **Encoder Modules (x6)** - 1 `KBD_ENC`, 1 `LBD_DEC`, and 4 plugboard modules
   (`PLG_PASS1_DEC`, `PLG_PASS1_ENC`, `PLG_PASS2_DEC`, `PLG_PASS2_ENC`). Connect to the Stator in
   three banks of two identical 20-pin IDC ports.
-- **JTAG Daughterboard** - USB Blaster II implementation for programming CPLDs.
+- **JTAG Module** - USB Blaster II implementation for programming CPLDs.
 
 ### Physical Chain
 
