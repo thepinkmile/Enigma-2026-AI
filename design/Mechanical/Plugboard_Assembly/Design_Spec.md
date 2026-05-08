@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-20
+**Last Updated:** 2026-05-08
 
 ---
 
@@ -41,7 +41,7 @@ pass. With no patch cable inserted, the jack's normally-closed contact preserves
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-PLG-01 | Plugboard plug interface | Per pass: J1 = 6.35 mm (1/4") mono switched jack (Tip + Switch contact tied to decode-board line; Sleeve to paired encode-board line) | BOM J1 (x64 jack sockets per pass, 2 passes total) |
+| DR-PLG-01 | Plugboard plug interface | Per pass: 64× 6.35 mm (1/4") mono switched jack sockets (Tip + Switch contact tied to decode-board spade terminal; Sleeve to paired encode-board spade terminal). 128 jack sockets total across both passes. | Assembly BOM — see §7. No PCB RefDes assigned; parts are panel-mounted and wired via harness only. |
 
 ---
 
@@ -54,19 +54,36 @@ pass. With no patch cable inserted, the jack's normally-closed contact preserves
 
 ## 5. Physical Harness
 
-Per plugboard pass:
+Per plugboard pass there are **64 panel-mount 6.35 mm (1/4") mono switched jack sockets**, each
+wired between the two Encoder Modules assigned to that pass (one decode role, one encode role).
+The mapping is strictly **1:1**: jack socket N connects line N on both boards simultaneously —
+every jack therefore has at least one pin terminated on each of the two ENC boards.
 
-- **64x 3-wire assemblies** (Tip wire + Switch wire + Sleeve wire), each terminated with 6.35 mm
-  female crimp spade terminals.
-- Tip and Switch both terminate on the paired **decode** Encoder Module output bank.
-- Sleeve terminates on the paired **encode** Encoder Module input bank.
+- **Decode side (Tip + Switch):** both contacts of jack socket N wire to spade terminal N on the
+  **decode** Encoder Module (`J2-J65`, where J(N+1) = line N).
+- **Encode side (Sleeve):** the Sleeve contact of jack socket N wires to spade terminal N on the
+  **encode** Encoder Module (`J2-J65`, same index).
+
+Per pass: **64× 3-wire assemblies** (Tip + Switch + Sleeve), each terminated with 6.35 mm female
+crimp spade terminals.
 
 The full Plugboard Assembly duplicates this harness set for **Pass 1** and **Pass 2**.
 
 ---
 
-## 6. Cross-References
+## 7. Assembly BOM
+
+These parts are panel-mounted and connected to the PCB via wiring harness only. They carry no PCB
+RefDes and do not appear in any board-level BOM.
+
+| Item | Description | MPN | Manufacturer | Source | Qty per Pass | System Qty |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Jack socket | 6.35 mm (1/4") mono switched jack socket, panel-mount | (no standard MPN) | generic | eBay — SaiBuy.Ltd | 64 | 128 |
+
+---
+
+## 8. Cross-References
 
 | Document | Description |
 | :--- | :--- |
-| `design/Electronics/Encoder/Design_Spec.md` | Generic Encoder Module spade-terminal pinout, CPLD role allocation, jack-sensing electrical spec |
+| `design/Electronics/Encoder/Design_Spec.md` | Generic Encoder Module spade-terminal pinout (J2-J65), CPLD role allocation, jack-sensing electrical spec |

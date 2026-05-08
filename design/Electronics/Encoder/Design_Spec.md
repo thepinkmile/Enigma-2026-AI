@@ -22,7 +22,7 @@ shared JTAG chain connection on that same cable. The same PCB is reused in six s
 
 The **20-pin ribbon pinout does not change between board roles**. Role is determined by the
 programmed CPLD image, not by connector rewiring. The board itself exposes only the generic
-`ENC_DATA[5:0]` service bus plus `ENC_ACTIVE_N` on `J2`; role-specific signal names are owned by
+`ENC_DATA[5:0]` service bus plus `ENC_ACTIVE_N` on `J1`; role-specific signal names are owned by
 the Stator.
 
 ### Plugboard Use (4 modules required)
@@ -58,9 +58,9 @@ The HID path is split mechanically and electrically:
 | ID | Functional Requirement | Notes | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
 | FR-ENC-01 | Sense and encode the 64-character logical HID repertoire plus the 64-node plugboard interface with sufficient resolution for per-character detection | HID keyboard mode uses a 40-position physical layout (`[a-z0-9+=]` plus Left/Right Shift), while plugboard roles retain the full 64-line capacity | §3 Single-Module Architecture; §6 Key Mapping; `design/Software/CPLD_Logic/Encoder_Logic.md`; BOM U1 (EPM570T100I5N) |
-| FR-ENC-02 | Transmit or receive the 6-bit service bus plus the `ENC_ACTIVE_N` sideband to/from the Stator Board via IDC ribbon cable | 20-pin IDC interface; local connector always exposes generic `ENC_DATA[5:0]` plus `ENC_ACTIVE_N` | §4 Interconnects; BOM J2 |
+| FR-ENC-02 | Transmit or receive the 6-bit service bus plus the `ENC_ACTIVE_N` sideband to/from the Stator Board via IDC ribbon cable | 20-pin IDC interface; local connector always exposes generic `ENC_DATA[5:0]` plus `ENC_ACTIVE_N` | §4 Interconnects; BOM J1 |
 | FR-ENC-03 | Accept JTAG programming for the on-board CPLD from the Stator JTAG chain | One CPLD per module; six modules occupy six chain positions ahead of the rotor stack | §5 JTAG Chain Integrity; BOM U1 |
-| FR-ENC-04 | Operate from 3V3_ENIG power supplied via the Stator ribbon cable | No local voltage regulation required; local bulk and decoupling capacitor network per `design/Standards/Global_Routing_Spec.md §3`. | §2 Power Requirements; BOM J2 |
+| FR-ENC-04 | Operate from 3V3_ENIG power supplied via the Stator ribbon cable | No local voltage regulation required; local bulk and decoupling capacitor network per `design/Standards/Global_Routing_Spec.md §3`. | §2 Power Requirements; BOM J1 |
 
 #### Design Requirements
 
@@ -68,8 +68,8 @@ The HID path is split mechanically and electrically:
 | :--- | :--- | :--- | :--- |
 | DR-ENC-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §9 PCB Fabrication & Stackup |
 | DR-ENC-02 | CPLD | Intel MAX II EPM570T100I5N (TQFP-100) | §3 Single-Module Architecture; BOM U1 |
-| DR-ENC-03 | Stator interface connector | 20-pin 2x10 IDC (mates with one Stator encoder port) | §4 Interconnects; BOM J2 |
-| DR-ENC-04 | Supply voltage | 3.3V via the 3V3_ENIG power rail | §2 Power Requirements; BOM J2 |
+| DR-ENC-03 | Stator interface connector | 20-pin 2x10 IDC (mates with one Stator encoder port) | §4 Interconnects; BOM J1 |
+| DR-ENC-04 | Supply voltage | 3.3V via the 3V3_ENIG power rail | §2 Power Requirements; BOM J1 |
 | DR-ENC-05 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. Exact XY coordinates TBD at PCB layout. | §2 GND_CHASSIS Single-Point Bond; `design/Standards/Global_Routing_Spec.md §4.3` |
 
 ## 2. Power Requirements
@@ -135,7 +135,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 
 ## 4. Interconnects
 
-- **Data Link (J2):** 20-pin (2x10) 2.54 mm shrouded box header with polarisation key.
+- **Data Link (J1):** 20-pin (2x10) 2.54 mm shrouded box header with polarisation key.
   > **Connector Definition Owner:** `Stator/Board_Layout.md - J4/J5/J6/J7/J8/J9`.
   > See `design/Electronics/Stator/Board_Layout.md` for the authoritative pin table.
   > `ENC_ACTIVE_N` is the generic pin-8 sideband. Active HID roles use it; unused roles shall leave
@@ -145,7 +145,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 - **Keyboard Switches:** see `design/Mechanical/Keyboard_Assembly/Design_Spec.md`.
 - **Lightboard Harness:** see `design/Mechanical/Lightboard_Assembly/Design_Spec.md`.
 - **Plugboard Jack Sockets:** see `design/Mechanical/Plugboard_Assembly/Design_Spec.md`.
-- **PCB Spade Terminal Bank (J3-J66):** 6.35 mm (1/4") straight vertical PCB-mount male blade
+- **PCB Spade Terminal Bank (J2-J65):** 6.35 mm (1/4") straight vertical PCB-mount male blade
   tabs.
   - **Decode role:** wired to lightboard lamps or to plugboard jack Tip + Switch terminals.
   - **Encode role:** wired to keyboard switch outputs or to plugboard jack Sleeve terminals.
@@ -154,7 +154,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 
 ## 5. JTAG Chain Integrity
 
-- **Entry/Exit:** JTAG enters and exits via the IDC ribbon cable connection (J2) to the Stator.
+- **Entry/Exit:** JTAG enters and exits via the IDC ribbon cable connection (J1) to the Stator.
 - **Local Chain:** one JTAG device per Encoder Module: U1 only.
 - **Trace Width:** all JTAG signal traces on L1 shall be routed at **0.127 mm (5 mil)** over the L2
   GND plane, targeting **50 Ω controlled impedance** per DEC-016. See
@@ -165,7 +165,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
   - **TCK:** 10 kΩ pull-down to GND (R4)
   - **SYS_RESET_N:** 10 kΩ pull-up to 3V3_ENIG (R5)
 - **Termination:**
-  - **Cable Output (R6, 75 Ω):** series resistor placed within 2 mm of U1 TDO, before J2 pin 14.
+  - **Cable Output (R6, 75 Ω):** series resistor placed within 2 mm of U1 TDO, before J1 pin 14.
 - **Programming:** Supports in-system debugging via the CM5 GUI. Role is selected by the image
   programmed into the module based on it's known JTAG-chain position; no local role switch or role-specific RC
   population is part of the active design.
@@ -244,12 +244,11 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| J3-J66 | 6.35mm PCB spade blade terminals THT vertical | 1285-ST | Keystone Electronics | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | Yes | Pending | 64 |
+| J2-J65 | 6.35mm PCB spade blade terminals THT vertical | 1285-ST | Keystone Electronics | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | Yes | Pending | 64 |
 | C1-C8 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 8 |
 | C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 5 |
 | D1 | Green SMD LED Vf≈2.0V 0402 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | Yes | Pending | 1 |
-| J1 | 6.35mm mono jack sockets panel-mount | - | generic | - | - | - | eBay SaiBuy.Ltd | eBay sourcing only | N/A | N/A | 1 |
-| J2 | 20-pin 2x10 2.54mm shrouded THT | BHR-20-VUA | Adam Tech | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | Yes | Pending | 1 |
+| J1 | 20-pin 2x10 2.54mm shrouded THT | BHR-20-VUA | Adam Tech | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | Yes | ✔ | 1 |
 | R1 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | Yes | Pending | 1 |
 | R2-R5 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | Pending | 4 |
 | R6 | 75Ω 1% 0402 | ERJ-2RKF75R0X | Panasonic | P75.0LCT-ND | 667-ERJ-2RKF75R0X | C413061 | - | - | Yes | Pending | 1 |
@@ -258,10 +257,11 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 
 **Quantity notes:**
 
-- **Common fitted PCB population:** C1-C13, J3-J66, D1, J2, U1, and R1-R6 are fitted on every
+- **Common fitted PCB population:** C1-C13, J2-J65, D1, J1, U1, and R1-R6 are fitted on every
   Encoder Module (**6 boards total**).
 - **Role selection:** on-board fitted population is common across all six Encoder Modules.
   Encode-vs-decode behaviour is selected by the programmed CPLD image rather than an
   encode-role-only RC population.
-- **Assembly-level off-board parts:** J1 plugboard jacks are **64 per plugboard pass (128 system
-  total)**. SW1-SW40 keyboard switches are **40 per Keyboard Assembly (40 system total)**.
+- **Assembly-level off-board parts:** Plugboard jack sockets (panel-mount 6.35mm, 64 per plugboard
+  pass, 128 system total) are tracked in `design/Mechanical/Plugboard_Assembly/Design_Spec.md`.
+  SW1-SW40 keyboard switches are **40 per Keyboard Assembly (40 system total)**.

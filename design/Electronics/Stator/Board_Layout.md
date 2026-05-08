@@ -113,7 +113,7 @@ all devices. TDI/TDO form a serial chain routed internally on the Stator PCB:
 ### 4.3 Stator Alias Mapping
 
 The remote Encoder board always exposes the same generic `ENC_DATA[5:0]` pins plus one generic
-`ENC_ACTIVE_N` pin on `J2`. The Stator owns the per-port alias names below so the wiring remains
+`ENC_ACTIVE_N` pin on `J1`. The Stator owns the per-port alias names below so the wiring remains
 self-describing.
 
 | Port | Fixed role | Stator alias carried on `ENC_DATA[5:0]` | Pin 8 alias |

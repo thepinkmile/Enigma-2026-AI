@@ -122,10 +122,9 @@
 | USM: SW1-SW10 | 200MSP1T2B4M2QE | EG5525-ND | 612-200MSP1T2B4M2QE | C5491263 | - | - | - | - | 10 | - | - | - | - | - | - | - | 10 | SPDT latching toggle panel-mount THT [E-Switch] | Yes | Pending |
 | USM: SW11; AM: SW1,SW2 | B3F-1070 | SW406-ND | 653-B3F-1070 | C726011 | - | - | - | - | 1 | - | 2 | - | - | - | - | - | 3 | SPST NO tactile THT [Omron] | Yes | ✔ |
 | USM: U1-U3; STA: U6-U8 | MCP23017T-E/SO | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | - | - | - | - | 3 | - | - | 3 | - | - | - | - | 6 | I²C GPIO expander SOIC-28 [Microchip Technology] | Yes | ✔ |
-| ENC: J3-J66 | 1285-ST | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | - | - | - | 64 | - | - | - | - | - | - | 64 | 6.35mm PCB spade blade terminals THT vertical [Keystone Electronics] | Yes | Pending |
+| ENC: J2-J65 | 1285-ST | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | - | - | - | 64 | - | - | - | - | - | - | 64 | 6.35mm PCB spade blade terminals THT vertical [Keystone Electronics] | Yes | Pending |
 | ENC: D1; AM: D1-D3 | 150060VS75000 | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | - | - | - | 1 | 3 | - | - | - | - | - | 4 | Green SMD LED Vf≈2.0V 0402 [Wurth Elektronik] | Yes | ✔ |
-| ENC: J1 | (no standard MPN) | - | - | - | eBay SaiBuy.Ltd | - | - | - | - | 1 | - | - | - | - | - | - | 1 | 6.35mm mono jack sockets panel-mount [generic]; eBay SaiBuy.Ltd | N/A | N/A |
-| ENC: J2; STA: J4-J9 | BHR-20-VUA | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | - | - | - | 1 | - | 6 | - | - | - | - | 7 | 20-pin 2x10 2.54mm shrouded box THT [Adam Tech] | Yes | ✔ |
+| ENC: J1; STA: J4-J9 | BHR-20-VUA | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | - | - | - | 1 | - | 6 | - | - | - | - | 7 | 20-pin 2x10 2.54mm shrouded box THT [Adam Tech] | Yes | ✔ |
 | STA: J10; REF: J4; EXT: J7,J8 | 2BHR-30-VUA | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | - | - | - | - | - | 1 | 1 | 2 | - | - | 4 | 30-pin 2x15 2.54mm shrouded box THT [Adam Tech]. Per DEC-053 | No | Pending |
 | ENC: R1; AM: R1-R3 | ERJ-2RKF3300X | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | - | - | - | 1 | 3 | - | - | - | - | - | 4 | 330Ω 1% 0402 [Panasonic] | Yes | ✔ |
 | ENC: R6; STA: R7-R12,R24-R35 | ERJ-2RKF75R0X | P75.0LCT-ND | 667-ERJ-2RKF75R0X | C413061 | - | - | - | - | - | 1 | - | 18 | - | - | - | - | 19 | 75Ω 1% 0402 [Panasonic] | Yes | ✔ |
