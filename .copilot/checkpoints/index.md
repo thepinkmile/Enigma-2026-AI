@@ -130,3 +130,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 123 | JTAG Daughterboard renamed to JTAG Module; JDB → JM; DEC-060 appended | 123-jdb-to-jm-rename-complete.md |
 | 124 | Boards_Overview status fix; handoff & todo-list cleanup | 124-boards-overview-status-fix-handoff-clean.md |
 | 125 | bom-func-notes-sweep done; PM calc equations added to spec body | 125-bom-func-notes-sweep-done-pm-calcs-complete.md |
+| 126 | Library sync and SG73S1ERTTP4702D placeholder complete | 126-library-sync-sg73s1-placeholder-complete.md |

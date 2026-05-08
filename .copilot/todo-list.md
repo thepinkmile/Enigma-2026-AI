@@ -63,7 +63,7 @@ Depends on: `prototype-pcb-manufacturing`, `ltc3350-telemetry`, `cpld-timing-loa
 | `rotor-shaft-mechanism` | Rotor shaft retention mechanism: TBD — pending Rotor Actuation Assembly spec | pending | `design/Mechanical/Rotor/Design_Spec.md` |
 | `display-aperture` | 🚫 **DEFERRED TO V2.0.** Main enclosure display aperture dimensions: TBD pending display size selection (up to 10" supported via DSI1); deferred display auxiliary hinge space also unresolved | blocked | `design/Mechanical/Main_Enclosure/Design_Spec.md` |
 | `system-assembly-harnesses` | Complete System Assembly cable harness definitions: TBD — 20-pin encoder IDC ribbons, reflector cable, fan cable, User Settings Module I²C ribbon, switch / battery harnesses | pending | `design/Mechanical/Complete_System_Assembly/Design_Spec.md` |
-| `system-assembly-connectors` | Complete System Assembly connector list: TBD — TE PM dock, Molex Stator dock, ERF8/ERM8 rotor-family BtB, JST PH servo, JST SH fan, 20-pin IDC encoder, etc. | pending | `design/Mechanical/Complete_System_Assembly/Design_Spec.md` |
+| `system-assembly-connectors` | Document inter-board connections from an assembly perspective in `Complete_System_Assembly/Design_Spec.md`: describe which boards mate to which (PM dock cluster J1/J2/J3 ↔ CTL J1/J2/J3; Stator dock pair CTL J4/J5 ↔ STA J11/J12; rotor-family BtB; servo/fan harnesses; encoder IDC), noting enclosure constraints (e.g. blind-mate requirements, cable routing, access for post-assembly removal). Connector part numbers are already specified in the board-level Design_Spec files — this task is assembly description only. | pending | `design/Mechanical/Complete_System_Assembly/Design_Spec.md` |
 
 ---
 
@@ -84,10 +84,10 @@ Items from `design/Standards/Certification_Evidence.md §8`. All depend on `prot
 
 | SQL ID | DA Ref | Description | Priority | Status |
 | --- | --- | --- | --- | --- |
-| `da-01` | DA-01 | If coupon-based diagnostic access is introduced, exposed ENIG pads require dedicated ESD protection or documented justification before production release and classroom deployment | Post-coupon design | open |
-| `da-02` | DA-02 | ESD policy for classroom deployment variant: define which internal BtB-accessible connections require additional ESD protection in educational / student-access configuration | Pre-production | open |
-| `da-03` | DA-03 | Full consistency documentation pass: legacy Link-Alpha / Link-Beta references must remain historical-only after DEC-038; verify any new docs added use TE PM dock / Molex Stator dock naming | Ongoing | open |
-| `da-04` | DA-04 | Update Consolidated BOM with all locked Power Module components *(may be superseded by the 2026-05 BOM restructure — verify against current `Consolidated_BOM.md` before actioning)* | Post-eFuse lock | review needed |
+| ~~`da-01`~~ | ~~DA-01~~ | ~~If coupon-based diagnostic access is introduced, exposed ENIG pads require dedicated ESD protection or documented justification before production release and classroom deployment~~ | ~~Post-coupon design~~ | ~~✔ DONE — Coupons are break-off PAS bringup features only; not present on final product; ESD protection moot~~ |
+| ~~`da-02`~~ | ~~DA-02~~ | ~~ESD policy for classroom deployment variant: define which internal BtB-accessible connections require additional ESD protection in educational / student-access configuration~~ | ~~Pre-production~~ | ~~✔ DONE — `design/Guides/Classroom_Guide.md` created: documents ESD PPE requirements, H&S Lab context, and two deployment modes~~ |
+| ~~`naming-convention-sweep`~~ | ~~DA-03~~ | ~~Full consistency documentation pass: legacy Link-Alpha / Link-Beta references must remain historical-only after DEC-038; verify any new docs added use PM dock / Stator dock naming~~ | ~~Ongoing~~ | ~~✔ DONE — Fixed `Certification_Evidence.md` (4 occurrences) and `Complete_System_Assembly/Design_Spec.md` (2 occurrences); all active docs now use PM dock / Stator dock~~ |
+| ~~`da-04`~~ | ~~DA-04~~ | ~~Update Consolidated BOM with all locked Power Module components *(may be superseded by the 2026-05 BOM restructure — verify against current `Consolidated_BOM.md` before actioning)*~~ | ~~Post-eFuse lock~~ | ~~✔ DONE — Superseded by `bom-pre-prototype-check` and `bom-pre-production-check` explicit BOM verification gates~~ |
 | `compliance-testing` | — | Sending final review prototype for Environmental and EMC testing to get required certification documentation | Pre-production | pending |
 
 ---
@@ -103,10 +103,12 @@ Top-level milestones that gate v1.0 release. Descriptions TBD — to be confirme
 | `interim-electronics-review-2` | **Review gate 2 — Post-coupon review.** Coupon strategy verified, all mounting hole locations finalised, BOM ready for full PN review. | pending | `interim-electronics-review-1`, `coupon-testing-review`, `review-mounting-holes` |
 | `interim-electronics-review-3` | **Review gate 3 — Post-schematic / pre-prototype manufacturing.** Schematic capture, footprint assignment, and full PN review complete. Final electronics design gate before committing to prototype PCB manufacturing. | pending | `interim-electronics-review-2`, `full-pn-review`, `footprint-requests-pending` |
 | `interim-electronics-review-4` | **Review gate 4 — Pre-production run.** Prototype system testing complete and all prototype-phase findings resolved. Final gate before releasing to production manufacturing. | pending | `prototype-system-complete`, `compliance-testing` |
-| `prototype-pcb-manufacturing` | Process prototype PCB manufacturing through JLCPCB: (1) Generate manufacturing pack (gerber, pick & place, LCSC BOM); (2) Global Sourcing Part Order; (3) Consignment Parts Order; (4) Board Orders (one per board); (5) Receive Boards and Inspect; (6) Run Board PAS Testing. **Note:** CoilCraft samples ordered for CTL T1 (POE600F-12L) — Ref: 153954. | pending | `rerun-deep-reviews`, `review-mounting-holes`, `interim-electronics-review-3` |
+| `bom-pre-prototype-check` | **BOM verification gate 1 — Before prototype PCB manufacturing.** Verify Consolidated BOM completeness and correctness: all RefDes present, all MPNs valid, all supplier PNs verified against MPN. Must pass before submitting JLCPCB prototype order. | pending | `full-pn-review`, `interim-electronics-review-3` |
+| `bom-pre-production-check` | **BOM verification gate 2 — Before production manufacturing.** Final BOM verification: confirm all prototype-stage changes have been incorporated, check all supplier PNs are still active, and verify quantities. Must pass before submitting production order. | pending | `bom-pre-prototype-check`, `prototype-system-complete` |
+| `prototype-pcb-manufacturing` | Process prototype PCB manufacturing through JLCPCB: (1) Generate manufacturing pack (gerber, pick & place, LCSC BOM); (2) Global Sourcing Part Order; (3) Consignment Parts Order; (4) Board Orders (one per board); (5) Receive Boards and Inspect; (6) Run Board PAS Testing. **Note:** CoilCraft samples ordered for CTL T1 (POE600F-12L) — Ref: 153954. | pending | `rerun-deep-reviews`, `review-mounting-holes`, `interim-electronics-review-3`, `bom-pre-prototype-check` |
 | `prototype-system-complete` | Verification of full system and issuing all design documents, test procedures and guides as version 1.0 complete | pending | All SW & Mech deferrals, `rerun-deep-reviews` |
 | `release-candidate-production` | Process final draft design for production testing (via PCBWay or JLCPCB). Same subtasks as `prototype-pcb-manufacturing`: (1) Generate manufacturing pack; (2) Global Sourcing Part Order; (3) Consignment Parts Order; (4) Board Orders (one per board); (5) Receive Boards and Inspect; (6) Run Board PAS Testing | pending | `prototype-system-complete`, `compliance-testing`, `interim-electronics-review-4` |
-| `version-one-complete` | All version 1.0 documents issued. Conduct lessons learned from v1.0 and create a new todo-list to refine the design for a version 2.0 machine | pending | `da-01`, `da-02`, `da-03`, `da-04`, `release-candidate-production` |
+| `version-one-complete` | All version 1.0 documents issued. Conduct lessons learned from v1.0 and create a new todo-list to refine the design for a version 2.0 machine | pending | `naming-convention-sweep` (done), `release-candidate-production` |
 
 ---
 
@@ -117,7 +119,8 @@ fix1-fix19 + rotor-refdes-reallocate
   --> interim-electronics-review-1
         --> interim-electronics-review-2 (also needs: coupon-testing-review, review-mounting-holes)
               --> interim-electronics-review-3 (also needs: full-pn-review, footprint-requests-pending)
-                    --> prototype-pcb-manufacturing (also needs: rerun-deep-reviews, review-mounting-holes)
+                    --> bom-pre-prototype-check (also needs: full-pn-review, interim-electronics-review-3)
+                          --> prototype-pcb-manufacturing (also needs: rerun-deep-reviews, review-mounting-holes)
 
 rotor-variant-refdes-schematic
   --> rotor-esd-tvs
@@ -132,20 +135,21 @@ rotor-variant-refdes-schematic
                           --> cpld-timing-load  (also needs: prototype-pcb-manufacturing)
                                 --> [all mechanical deferrals] (also need: prototype-pcb-manufacturing)
                                       --> prototype-system-complete
-                                            --> da-01, da-02, da-03, da-04
-                                                  --> compliance-testing
-                                                        |--> interim-electronics-review-4
-                                                        |      --> release-candidate-production
-                                                        --> release-candidate-production (also needs: prototype-system-complete)
-                                                               --> version-one-complete
-                                                                     (also needs: da-01-da-04)
+                                            --> bom-pre-production-check (also needs: bom-pre-prototype-check)
+                                                  --> release-candidate-production (also needs: compliance-testing, interim-electronics-review-4)
+                                                        --> version-one-complete
+
+DONE (no longer gate anything):
+  da-01, da-02 (done: classroom guide created)
+  naming-convention-sweep / da-03 (done: PM dock / Stator dock sweep complete)
+  da-04 (done: superseded by bom-pre-prototype-check + bom-pre-production-check)
 
 v2.0 deferred (blocked): display-addon-board, display-aperture, cpld-production-replacement, jdb-ft232h-3v3-vregin
 Currently ready (no pending deps): connector-thermal-verification, ctlh1-deferred,
   extension-mechanical-usage, rotor-variant-refdes-schematic, mh-refdes-standardise, jdb-fr-renumber
   [coupon-testing-review depends on extension-mechanical-usage]
   [battery-connector-final-review excluded -- blocked awaiting supplier response]
-  [prototype-pcb-manufacturing excluded -- depends on rerun-deep-reviews + interim-electronics-review-3]
+  [prototype-pcb-manufacturing excluded -- depends on rerun-deep-reviews + interim-electronics-review-3 + bom-pre-prototype-check]
   [release-candidate-production excluded -- depends on compliance-testing + interim-electronics-review-4]
 ```
 
@@ -193,11 +197,13 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('ltc3350-telemetry',                 'LTC3350 I2C telemetry Linux driver',           'pending'),
 ('cpld-timing-load',                  'CPLD timing & load characterisation',          'pending'),
 -- Standards & Certification
-('da-01',                             'DA-01: Coupon ESD protection requirement',     'pending'),
-('da-02',                             'DA-02: Classroom deployment ESD policy',       'pending'),
-('da-03',                             'DA-03: Connector naming consistency pass',     'pending'),
-('da-04',                             'DA-04: Consolidated BOM PM component update',  'pending'),
+('da-01',                             'DA-01: Coupon ESD protection requirement',     'done'),
+('da-02',                             'DA-02: Classroom deployment ESD policy',       'done'),
+('naming-convention-sweep',           'Naming consistency sweep: PM dock / Stator dock across active docs', 'done'),
+('da-04',                             'DA-04: Consolidated BOM PM component update',  'done'),
 ('compliance-testing',               'Sending final review prototype for Environmental and EMC testing to get required certification documentation.', 'pending'),
+('bom-pre-prototype-check',           'BOM completeness and correctness check before prototype PCB manufacturing', 'pending'),
+('bom-pre-production-check',          'Final BOM verification before production manufacturing', 'pending'),
 -- Pass 6 Deferred Items
 ('jdb-board-rename',                  'Review JDB board name — rename to JTAG Module to align with system naming scheme', 'done'),
 ('bypass-cap-audit-100nf',            'System-wide audit: verify all 100nF bypass cap DigiKey PNs after GRS §3.2 PN correction', 'done'),
@@ -278,18 +284,27 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 -- DA actions depend on prototype-system-complete
 ('da-01',                       'prototype-system-complete'),
 ('da-02',                       'prototype-system-complete'),
-('da-03',                       'prototype-system-complete'),
+('naming-convention-sweep',     'prototype-system-complete'),
 ('da-04',                       'prototype-system-complete'),
--- compliance-testing depends on all DA actions
+-- compliance-testing depends on all DA actions (all done, kept for reference)
 ('compliance-testing',          'da-01'),
 ('compliance-testing',          'da-02'),
-('compliance-testing',          'da-03'),
+('compliance-testing',          'naming-convention-sweep'),
 ('compliance-testing',          'da-04'),
--- prototype-pcb-manufacturing depends on rerun-deep-reviews, review-mounting-holes, and interim-electronics-review-3
+-- bom-pre-prototype-check gates
+('bom-pre-prototype-check',     'full-pn-review'),
+('bom-pre-prototype-check',     'interim-electronics-review-3'),
+-- prototype-pcb-manufacturing depends on rerun-deep-reviews, review-mounting-holes, interim-electronics-review-3, and bom-pre-prototype-check
 ('prototype-pcb-manufacturing', 'rerun-deep-reviews'),
 ('review-mounting-holes',       'rerun-deep-reviews'),
 ('prototype-pcb-manufacturing', 'review-mounting-holes'),
 ('prototype-pcb-manufacturing', 'interim-electronics-review-3'),
+('prototype-pcb-manufacturing', 'bom-pre-prototype-check'),
+-- bom-pre-production-check gates
+('bom-pre-production-check',    'bom-pre-prototype-check'),
+('bom-pre-production-check',    'prototype-system-complete'),
+-- release-candidate-production depends on bom-pre-production-check
+('release-candidate-production', 'bom-pre-production-check'),
 -- interim-electronics-review-1 gates (fix1-fix19 listed individually + rotor-refdes-reallocate)
 -- Note: fix1-fix19 are session-transient pass-3 fix todos and not reconstructed here;
 -- add them manually per session. The structural dep is rotor-refdes-reallocate.
@@ -309,11 +324,8 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('release-candidate-production', 'prototype-system-complete'),
 ('release-candidate-production', 'compliance-testing'),
 ('release-candidate-production', 'interim-electronics-review-4'),
--- version-one-complete needs all DA actions + release candidate
-('version-one-complete',        'da-01'),
-('version-one-complete',        'da-02'),
-('version-one-complete',        'da-03'),
-('version-one-complete',        'da-04'),
+-- version-one-complete needs naming-convention-sweep (done) + release candidate
+('version-one-complete',        'naming-convention-sweep'),
 ('version-one-complete',        'release-candidate-production'),
 -- Pass 6 deferred items → review-pass-7
 ('review-pass-7', 'jdb-board-rename'),

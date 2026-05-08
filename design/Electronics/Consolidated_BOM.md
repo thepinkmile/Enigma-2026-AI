@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-05
+**Last Updated:** 2026-05-08
 
 ---
 
@@ -87,7 +87,7 @@
 | PM: U16 | SN74LVC1G175DBVR | 296-17617-1-ND | 595-SN74LVC1G175DBVR | C128412 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | D-type flip-flop shutdown latch SOT-23-6 [Texas Instruments] | Yes | ✔ |
 | PM: U17; STA: U3 | SN74LVC1G08DBVR | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | 1 | - | - | - | - | - | 1 | - | - | - | - | 2 | Single AND gate SOT-23-5 [Texas Instruments] | Yes | ✔ |
 | CTL: BT1 | 3034TR | 36-3034CT-ND | 534-3034TR | C5213768 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CR2032 holder SMD horizontal [Keystone Electronics]; Footprint adapted from KiCAD 10.0 standard library (unofficial, not manufacturer-supplied) | Yes* | Yes* |
-| CTL: C17 | C0402C103K1RACAUTO | 399-C0402C103K1RACAUTOCT-ND | 80-C0402C103K1RAUTO | C19862710 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 10nF 100V X7R 0402 [Kemet] | Yes | Pending |
+| CTL: C17 | C0402C103K1RACAUTO | 399-C0402C103K1RACAUTOCT-ND | 80-C0402C103K1RAUTO | C19862710 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 10nF 100V X7R 0402 [Kemet] | Yes | ✔ |
 | PM: C20; CTL: C1-C5,C7-C11; USM: C5-C14; ENC: C9-C13; AM: C5; STA: C9-C13,C22-C26; REF: C1-C5; EXT: C1-C5,C7-C11; ROT-26: C10-C14; ROT-64: C10-C14 | CL21B106KAYQNNE | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | 1 | 10 | - | 10 | 5 | 1 | 10 | 5 | 10 | 5 | 5 | 77 | 10µF X7R 25V 0805 [Samsung] | Yes | ✔ |
 | CTL: J1-J3 | 1-1674231-1 | A119250-ND | 571-1-1674231-1 | C3683260 | - | - | 3 | - | - | - | - | - | - | - | - | - | 3 | 10-pos 2.5mm receptacle vertical [TE Connectivity] | Yes | ✔ |
 | CTL: J4,J5 | 2195630015 | 900-2195630015-ND | 538-219563-0015 | - | Global sourcing | - | 2 | - | - | - | - | - | - | - | - | - | 2 | 5-pwr+15-sig press-fit receptacle hybrid [Molex] | Yes | ✔ |
@@ -106,23 +106,23 @@
 | CTL: U3 | AP2331W-7 | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | HDMI power switch SOT-23-5 [Diodes Inc] | Yes | ✔ |
 | CTL: U7 | TPS2372-4RGWR | 296-45285-1-ND | 595-TPS2372-4RGWR | C470955 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE PD interface VQFN-24 4x4mm [Texas Instruments] | Yes | ✔ |
 | CTL: U8 | TPS23730RMTR | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | C3189530 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE auxiliary controller WSON-10 3x3mm [Texas Instruments] | Yes | ✔ |
-| JM: C5; AM: C4 | CGA6P3X7R1H475K250AD | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 4.7µF X7R 50V 1210 [TDK] | Yes | Pending |
-| JM: C10,C11 | C0402C330J5GAUTO | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | - | - | 2 | - | - | - | - | - | - | - | - | 2 | 33pF C0G/NP0 crystal load 0402; C0G/NP0 exception approved [Kemet] | Yes | Pending |
+| JM: C5; AM: C4 | CGA6P3X7R1H475K250AD | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 4.7µF X7R 50V 1210 [TDK] | Yes | ✓ |
+| JM: C10,C11 | C0402C330J5GAUTO | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | - | - | 2 | - | - | - | - | - | - | - | - | 2 | 33pF C0G/NP0 crystal load 0402; C0G/NP0 exception approved [Kemet] | Yes | ✔ |
 | AM: J2-J5; ROT-26: J11,J12,J13; ROT-64: J11,J12,J13 | PH1-05-UA | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | - | - | - | - | - | 4 | - | - | - | 3 | 3 | 10 | 1x5 2.54mm male THT [Adam Tech] | Yes | ✔ |
 | JM: R1-R4 | ERJ-2RKF33R0X | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | - | - | 4 | - | - | - | - | - | - | - | - | 4 | 33Ω 1% 0402; see DEC-016, DEC-024 [Panasonic] | Yes | ✔ |
 | JM: U1 | FT232HL-REEL | 768-1101-1-ND | 895-FT232HL-REEL | C51997 | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | USB 2.0 to MPSSE bridge LQFP-48 [FTDI Chip] | Yes | ✔ |
 | JM: U2; EXT: U1 | SN74LVC2G125DCUR | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | - | 1 | - | - | - | - | - | 1 | - | - | 2 | Dual 3-state buffer VSSOP-8 [Texas Instruments] | Yes | ✔ |
 | JM: Y1 | 435F12012IET | 110-435F12012IETTR-ND | 774-435F12012IET | C19766404 (Extended) | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | 12MHz 20pF ±20ppm crystal SMD-5032 (5.0×3.2×1.1mm); see DEC-022 [CTS]; BOM description corrected from SMD-3225 to SMD-5032 per CTS 435 datasheet; unofficial footprint adapted from KiCAD 10.0 Crystal_SMD_5032-4Pin standard; 3D model approximated from 2-pin 5032 STEP (same body) | Yes* | Yes* |
-| USM: D1-D12 | WP154A4SEJ3VBDZGW/CA | 754-2029-ND | 604-WP154A43VBDZGWCA | C7151795 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 5mm common-anode RGB THT [Kingbright] | Yes | Pending |
+| USM: D1-D12 | WP154A4SEJ3VBDZGW/CA | 754-2029-ND | 604-WP154A43VBDZGWCA | C7151795 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 5mm common-anode RGB THT [Kingbright] | Yes | ✔ |
 | USM: J1; STA: J13 | B6B-PH-K-S(LF)(SN) | 455-1708-ND | 306-B6B-PH-K-SLFSN | C131342 | - | - | - | - | 1 | - | - | 1 | - | - | - | - | 2 | 6-pin JST PH 2.0mm THT [JST] | Yes | ✔ |
-| USM: Q19-Q30 | SQ2319ADS-T1_BE3 | 742-SQ2319ADS-T1_BE3CT-ND | 78-SQ2319ADS-T1_BE3 | C3280190 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | P-MOSFET AEC-Q101 SOT-23 [Vishay] | Yes | Pending |
-| USM: R18-R29 | ERJ-3EKF1500V | P150HCT-ND | 667-ERJ-3EKF1500V | C400650 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 150Ω 1% 0603 [Panasonic] | Yes | Pending |
-| USM: R30-R53 | ERJ-3EKF1000V | P100HCT-ND | 667-ERJ-3EKF1000V | C193336 | - | - | - | - | 24 | - | - | - | - | - | - | - | 24 | 100Ω 1% 0603 [Panasonic] | Yes | Pending |
-| USM: R66-R77 | SG73S1ERTTP4702D | 2019-SG73S1ERTTP4702DTR-ND | 660-SG73S1ERTTP4702D | C5915648 (MOQ 40) | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 47kΩ ±0.5% AEC-Q200 0402; JLCPCB MOQ 40 [KOA Speer] | Yes | Pending |
-| USM: SW1-SW10 | 200MSP1T2B4M2QE | EG5525-ND | 612-200MSP1T2B4M2QE | C5491263 | - | - | - | - | 10 | - | - | - | - | - | - | - | 10 | SPDT latching toggle panel-mount THT [E-Switch] | Yes | Pending |
+| USM: Q19-Q30 | SQ2319ADS-T1_BE3 | 742-SQ2319ADS-T1_BE3CT-ND | 78-SQ2319ADS-T1_BE3 | C3280190 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | P-MOSFET AEC-Q101 SOT-23 [Vishay] | No | Requested |
+| USM: R18-R29 | ERJ-3EKF1500V | P150HCT-ND | 667-ERJ-3EKF1500V | C400650 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 150Ω 1% 0603 [Panasonic] | Yes | ✔ |
+| USM: R30-R53 | ERJ-3EKF1000V | P100HCT-ND | 667-ERJ-3EKF1000V | C193336 | - | - | - | - | 24 | - | - | - | - | - | - | - | 24 | 100Ω 1% 0603 [Panasonic] | Yes | ✔ |
+| USM: R66-R77 | SG73S1ERTTP4702D | 2019-SG73S1ERTTP4702DTR-ND | 660-SG73S1ERTTP4702D | C5915648 (MOQ 40) | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 47kΩ ±0.5% AEC-Q200 0402; JLCPCB MOQ 40 [KOA Speer]; generic Resistor_SMD:R_0402_1005Metric placeholder from KiCAD 10.0 standard library (official footprint requested) | Yes* | Yes* |
+| USM: SW1-SW10 | 200MSP1T2B4M2QE | EG5525-ND | 612-200MSP1T2B4M2QE | C5491263 | - | - | - | - | 10 | - | - | - | - | - | - | - | 10 | SPDT latching toggle panel-mount THT [E-Switch] | Yes | ✔ |
 | USM: SW11; AM: SW1,SW2 | B3F-1070 | SW406-ND | 653-B3F-1070 | C726011 | - | - | - | - | 1 | - | 2 | - | - | - | - | - | 3 | SPST NO tactile THT [Omron] | Yes | ✔ |
 | USM: U1-U3; STA: U6-U8 | MCP23017T-E/SO | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | - | - | - | - | 3 | - | - | 3 | - | - | - | - | 6 | I²C GPIO expander SOIC-28 [Microchip Technology] | Yes | ✔ |
-| ENC: J2-J65 | 1285-ST | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | - | - | - | 64 | - | - | - | - | - | - | 64 | 6.35mm PCB spade blade terminals THT vertical [Keystone Electronics] | Yes | Pending |
+| ENC: J2-J65 | 1285-ST | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | - | - | - | 64 | - | - | - | - | - | - | 64 | 6.35mm PCB spade blade terminals THT vertical [Keystone Electronics] | Yes | ✔ |
 | ENC: D1; AM: D1-D3 | 150060VS75000 | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | - | - | - | 1 | 3 | - | - | - | - | - | 4 | Green SMD LED Vf≈2.0V 0402 [Wurth Elektronik] | Yes | ✔ |
 | ENC: J1; STA: J4-J9 | BHR-20-VUA | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | - | - | - | 1 | - | 6 | - | - | - | - | 7 | 20-pin 2x10 2.54mm shrouded box THT [Adam Tech] | Yes | ✔ |
 | STA: J10; REF: J4; EXT: J7,J8 | 2BHR-30-VUA | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | - | - | - | - | - | 1 | 1 | 2 | - | - | 4 | 30-pin 2x15 2.54mm shrouded box THT [Adam Tech]. Per DEC-053 | No | Pending |

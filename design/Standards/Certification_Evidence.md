@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-20
+**Last Updated:** 2026-05-08
 
 > **Document Status:** Draft - Power Module design rationale complete; additional sections to be added as design review progresses.
 >
@@ -372,7 +372,7 @@ additional headroom.
 | Resistors (power) | Power | ≤50% of rated | Long-term stability; 50% derating is standard for resistors |
 | Resistors (precision, 0.1%) | Power | ≤25% of rated | Maintains temperature coefficient specification |
 | PCB traces (power) | Current | Per IPC-2221B at 70°C | 2oz copper; trace width calculated per IPC standard |
-| BtB connector (power pins) | Current | ≤75% of per-contact rating | TE PM dock: 6A/contact rated; max design load 3.17A/contact (52.8%). Molex Stator dock: 130A/contact rated; max design load <1A/contact (<0.8%). See §5.1 for full analysis. |
+| BtB connector (power pins) | Current | ≤75% of per-contact rating | PM dock: 6A/contact rated; max design load 3.17A/contact (52.8%). Stator dock: 130A/contact rated; max design load <1A/contact (<0.8%). See §5.1 for full analysis. |
 
 ---
 
@@ -418,7 +418,7 @@ power dissipation, rise at any actual current is:
 
 > J3 carries signal and control lines only; no current derating applies.
 
-**Result:** All TE PM dock contacts operate within the ≤75% component utilisation rule under worst-case
+**Result:** All PM dock contacts operate within the ≤75% component utilisation rule under worst-case
 system load. At the DEFSTAN maximum ambient of +80°C, the worst-case contact body temperature is
 approximately **88.4°C** (5V\_MAIN contacts on J1). This is:
 
@@ -594,7 +594,7 @@ Any replacement CPLD must be verified for:
 | OA-02 | ~~Evaluate supercapacitor charge rate throttling during PoE-only operation to bring peak PoE utilisation below 75% (currently 80.6% during charge phase).~~ | ~~Hardware Designer~~ | **CLOSED** - LTC3350 RICHARGE programming resistor set for 0.5A charge current (halved from 1A nominal). During initial ~9 min charge from cold: 53.2W / 72W = 73.9% ✔ - within 75% design rule. Steady-state: 50.3W / 72W = 69.9% ✔. |
 | ~~OA-03~~ | ~~Confirm specific 802.3bt Type 4 PoE module part number~~ | ~~Hardware Designer~~ | **CLOSED** - Replaced by discrete design: TPS2372-4 + TPS23730 + Coilcraft POE600F-12L ACF transformer (`D` suffix = packaging only). Capacity 72W. See §6 for full rationale. |
 | OA-04 | Review replacement CPLD for production stage. Update §7.1 with selected part. | Hardware Designer | Low (pre-production) |
-| ~~OA-05~~ | ~~Thermal / current-capacity verification of the active PM and Stator dock connectors using the TE `1-1674231-1` / `1123684-7` and Molex `2195630015` / `2195620015` datasheets. Document the final derating rule for §5.~~ | ~~Hardware Designer~~ | **CLOSED** - Full connector current and thermal derating analysis documented in §5.1. TE PM dock: 6A/contact rated; worst-case 3.17A/contact (52.8%). Molex Stator dock: 130A/contact rated; worst-case <0.51A/contact (<0.4%). Temperature exception noted: TE lower operating limit is -20°C vs DEFSTAN -40°C; thermal shock test to -40°C provides supporting evidence. DEFSTAN certification is a nice-to-have aspiration, not a hard requirement; primary targets are CE/UKCA. |
+| ~~OA-05~~ | ~~Thermal / current-capacity verification of the active PM and Stator dock connectors using the TE `1-1674231-1` / `1123684-7` and Molex `2195630015` / `2195620015` datasheets. Document the final derating rule for §5.~~ | ~~Hardware Designer~~ | **CLOSED** - Full connector current and thermal derating analysis documented in §5.1. PM dock: 6A/contact rated; worst-case 3.17A/contact (52.8%). Stator dock: 130A/contact rated; worst-case <0.51A/contact (<0.4%). Temperature exception noted: TE lower operating limit is -20°C vs DEFSTAN -40°C; thermal shock test to -40°C provides supporting evidence. DEFSTAN certification is a nice-to-have aspiration, not a hard requirement; primary targets are CE/UKCA. |
 | ~~OA-06~~ | ~~Verify TPS25751DREFR CC1/CC2 routing to CM5 is present on Link-Alpha connector pin map. Confirm PDO presented is 5V/5A (25W).~~ | ~~Hardware Designer~~ | **CLOSED** - CC1/CC2 pins of TPS25751DREFR routed to CM5 via Link-Alpha connector. PDO programmed to 5V/5A (25W) to prevent Linux OS power-throttling during initial boot and full-load operation. Verified in Controller Board_Layout §4 Link-Alpha pin map. |
 | ~~OA-07~~ | ~~Resolve Link-Alpha pins 21-24 reallocation (currently freed from `CM5 3V3` removal). Confirm new assignment and update Board_Layout.md.~~ | ~~Hardware Designer~~ | **CLOSED** - DEC-001 confirmed: pins 21-22 = 5V_MAIN, pins 23-24 = GND. Formally documented in Controller/Board_Layout.md BtB Link-Alpha table (all 80 pins assigned). |
 | ~~OA-08~~ | ~~Engage Wurth Elektronik application support for custom ACF transformer T2 winding specification. Provide full electrical spec (EF20 core, Np:Ns 2.8:1, Lm 150-200µH, ≥1500Vrms, 51W/250kHz, -40°C to +125°C). Reference TI TIDA-050045 and PMP23365 design magnetics. Obtain prototype quantity quote and lead time.~~ | ~~Hardware Designer~~ | **CLOSED** - Superseded by selection of Coilcraft POE600F-12L (off-the-shelf 60W ACF PoE transformer, 12V output, ≥1500Vrms, Coilcraft-direct consignment part; `D` suffix = packaging only). No custom winding required. |
@@ -605,7 +605,7 @@ Any replacement CPLD must be verified for:
 | --- | --- | --- |
 | DA-01 | If coupon-based diagnostic access is introduced, exposed ENIG pads must receive dedicated ESD protection or documented justification before production release and any classroom deployment. | Post-coupon diagnostic design |
 | DA-02 | ESD policy for classroom deployment variant - define which internal BtB-accessible connections require additional ESD protection when the device is used in an educational/student-access configuration. | Pre-production (classroom variant) |
-| DA-03 | Full consistency documentation pass - legacy Link-Alpha / Link-Beta references must remain historical-only after DEC-038. If further active docs are added, ensure they use the TE PM dock and Molex Stator dock naming from the start. | Ongoing document maintenance |
+| DA-03 | Full consistency documentation pass - legacy Link-Alpha / Link-Beta references must remain historical-only after DEC-038. If further active docs are added, ensure they use the PM dock and Stator dock naming from the start. | Ongoing document maintenance |
 | DA-04 | Update Consolidated BOM with all locked Power Module components. Format: component description, specification, boards requiring, quantity, notes (no reference designators - these are per-board). | Post-eFuse part lock (OA-01) |
 
 ---

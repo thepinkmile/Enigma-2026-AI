@@ -528,4 +528,46 @@ K
 F https://eu.mouser.com/datasheet/2/212/KEM_C1023_X7R_AUTO_SMD-1093309.pdf
 $ENDCMP
 #
+$CMP CGA6P3X7R1H475K250AD
+D Multilayer Ceramic Chip Capacitors, Capacitance=4.7uF, LxWxT:3.2x2.5x2.5mm
+K
+F https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_automotive_epoxy_en.pdf
+$ENDCMP
+#
+$CMP C0402C330J5GACAUTO
+D SMD Auto C0G, Ceramic, 33 pF, 5%, 50 VDC, 125 VDC, 125C, -55C, C0G, SMD, MLCC, Ultra-Stable, Low Loss, Automotive Grade, 0.1 % , 100 GOhms, 1.06 mg, 0402, 1mm, 0.5mm, 0.5mm, 0.3mm, 0.3mm, 10000, 78  Weeks, 120
+K
+F https://content.kemet.com/datasheets/KEM_C1022_C0G_AUTO_SMD.pdf
+$ENDCMP
+#
+$CMP WP154A4SEJ3VBDZGW_CA
+D Standard LEDs - Through Hole 5MM RGB LED
+K
+F http://www.kingbrightusa.com/images/catalog/SPEC/WP154A4SEJ3VBDZGW-CA.pdf
+$ENDCMP
+#
+$CMP ERJ-3EKF1500V
+D Precision Thick Film Chip Resistor, 0603, 0.1W
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERJ-3EKF1000V
+D Precision Thick Film Chip Resistor, 0603, 0.1W
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP 200MSP1T2B4M2QE
+D TOGGLE, Panel Mount
+K
+F https://configured-product-images.s3.amazonaws.com/2D/specs/200MSP1T2B4M2QE.pdf
+$ENDCMP
+#
+$CMP 1285-ST
+D Terminals TERMINAL/STURDI-MNT
+K
+F http://www.farnell.com/datasheets/1788372.pdf
+$ENDCMP
+#
 #End Doc Library

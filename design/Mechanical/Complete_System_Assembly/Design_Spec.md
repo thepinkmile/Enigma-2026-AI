@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-08
 
 ## Overview
 
@@ -40,7 +40,7 @@ The following table lists every component category present in the assembled mach
 | Actuation Home Switch | 1-6 | SPST NO momentary (Omron SS-01GL13 or equivalent), one per fitted Actuation Module | `design/Electronics/Actuation_Module/Design_Spec.md` |
 | User Settings Module | 1 | Panel-mount configuration switch PCB (12x SPDT toggles, 12x discrete RGB indicators, + CFG_APPLY button); mounts to right side top face of Main Enclosure; connects to Stator via I²C ribbon | `User_Settings_Module/Design_Spec.md` (Electronics) |
 | Cable Harnesses | TBD | 20-pin encoder IDC ribbons, reflector cable, fan cable, User Settings Module I²C ribbon, switch / battery harnesses | Each sub-assembly doc |
-| Connectors | TBD | TE PM dock, Molex Stator dock, ERF8/ERM8 rotor-family BtB, JST PH servo, JST SH fan, 20-pin IDC encoder, etc. | Per sub-assembly BOM |
+| Connectors | 17 fixed + per rotor stack BOM | PM dock cluster: TE `1123684-7` × 3 (PM-side J1–J3) + TE `1-1674231-1` × 3 (CTL-side J1–J3) = 6. Stator dock pair: Molex `2195630015` × 2 (CTL-side J4/J5) + Molex `2195620015` × 2 (STA-side J11/J12) = 4. CM5 fan: JST SH × 1. Encoder IDC (20-pin): KBD_ENC × 1, LBD_DEC × 1, PLG ports × 4 = 6. Servo JST PH: 1–6 (1 per 5-rotor mini-stack; base = 1, max = 6 with full extensions). ERF8/ERM8 rotor-family BtB: per `Rotor_Stack_Assembly/Design_Spec.md` (calls up single-rotor `Rotor/Design_Spec.md`, `Rotor_Actuation_Assembly/Design_Spec.md`, and 2 TBD boards pending extension-connector todo; these 4 sub-assemblies constitute a mini-stack). Specifications per board-level Design_Spec files. | Per sub-assembly BOM |
 
 ## Assembly Sequence Overview
 
@@ -59,7 +59,7 @@ steps are detailed in each referenced document; this section defines integration
 | 8 | Plugboard Assembly | Build both plugboard passes. Connect IDC ribbons to the four Stator plugboard ports (`PLG_PASS1_DEC`, `PLG_PASS1_ENC`, `PLG_PASS2_DEC`, `PLG_PASS2_ENC`). |
 | 9 | Reflector | Install the mandatory passive Reflector sub-assembly at the far end of the final rotor group. Connect the 20-pin cable to Stator J10. Reflection-map selection remains Stator-CPLD-owned. |
 | 10 | Extension (if used) | Insert each Extension between 5-rotor groups: `Stator -> 5 rotors -> [Extension -> 5 rotors]* -> Reflector`. Each Extension reinjects clean `3V3_ENIG`, carries the reflector-boundary service harness including grouped `5V_MAIN`, and hosts one local Actuation Module for the next group-boundary carry handoff. |
-| 11 | Controller Board + JM Hat | Install JM hat on Controller. Mount Controller in Main Enclosure. Engage the TE PM dock cluster (`J1/J2/J3`) to the Power Module, then mate the Molex Stator dock pair (`J4/J5` ↔ `J11/J12`). |
+| 11 | Controller Board + JM Hat | Install JM hat on Controller. Mount Controller in Main Enclosure. Engage the PM dock cluster (`J1/J2/J3`) to the Power Module, then mate the Stator dock pair (`J4/J5` ↔ `J11/J12`). |
 | 12 | User Settings Module | Mount User Settings Module PCB to Main Enclosure right side top panel. Route the 6-wire harness (`3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`) to Stator J13. Verify `U1`, `U2`, and `U3` appear on the shared I²C bus, then run a functional check that reads switch-state changes and drives each bank's RGB indicator rails before final panel closure. |
 | 13 | Main Enclosure final assembly | Route all cable harnesses. Install panels. Fit fan. Secure EMI bonding. Final torque fasteners. |
 
