@@ -129,3 +129,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 122 | 435F12012IET footprint created; AC72ABD corrected; BOM updated | 122-435f12012iet-footprint-created-bom-updated.md |
 | 123 | JTAG Daughterboard renamed to JTAG Module; JDB → JM; DEC-060 appended | 123-jdb-to-jm-rename-complete.md |
 | 124 | Boards_Overview status fix; handoff & todo-list cleanup | 124-boards-overview-status-fix-handoff-clean.md |
+| 125 | bom-func-notes-sweep done; PM calc equations added to spec body | 125-bom-func-notes-sweep-done-pm-calcs-complete.md |

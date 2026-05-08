@@ -303,6 +303,11 @@ GND ------+---------------------------------------------------+---------------+-
     * **R10 (RSENSE) must be a 4-terminal Kelvin-sense resistor** with independent sense traces to avoid trace resistance adding to the measured value (even 1mΩ trace adds 10% error on a 10mΩ sense resistor).
   * **Backup Trigger:** LTC3350 BACKUP pin activates hold-up mode when 5V_MAIN drops below the programmed threshold
     (resistor divider R11/R12 from 5V_MAIN to BACKUP pin; threshold = 1.2V x (R11+R12)/R12).
+    * **R11/R12 value derivation:** Target V_trigger = 4.812V (must fire before MCP121T 4.50V, see DEC-030). LTC3350 BACKUP comparator reference V_thr = 1.2V.
+      Solving for ratio: `R11/R12 = (V_trigger / V_thr) − 1 = (4.812 / 1.2) − 1 = 4.010 − 1 = 3.010`.
+      Choose R12 = 10.0kΩ (E96) → R11 = 3.010 × 10.0kΩ = 30.10kΩ → E96 standard = **30.1kΩ** (exact match).
+      Verify: `V_trigger = 1.2V × (30.1kΩ + 10.0kΩ) / 10.0kΩ = 1.2V × 4.01 = 4.812V ✓`.
+      Use 0.1% tolerance on both R11 (ERA-3ARB3012V) and R12 (ERA-3ARB103V) for threshold accuracy.
     * **Applied values (PM-06 revised, DEC-030):** R11=30.1kΩ (E96 0.1% thin-film) / R12=10.0kΩ → threshold = **4.812V** - 312mV *above*
       the MCP121T PWR_GD threshold (4.50V). LTC3350 backup activates **before** MCP121T can deassert `PWR_GD`,
       eliminating a PWR_GD glitch that would occur while the rail traverses the gap between the two thresholds. LTC3350
@@ -311,6 +316,11 @@ GND ------+---------------------------------------------------+---------------+-
     * ⚠️ **Design note:** The 4.812V threshold is intentionally set *above* the 4.50V `PWR_GD` threshold because shutdown is
       hardware-triggered via `PWR_BUT_N`; this keeps `PWR_GD` stable throughout the hold-up interval.
     * Hold-up duration from fully-charged bank: ≥33.5 seconds at 15W CM5 graceful-shutdown load.
+  * **Switching Frequency (R23):** Default LTC3350 operation with RT=INTVCC gives f_SW=200kHz (T_cycle=5µs).
+    At 200kHz, the 10.2µs backup switchover window accommodates only 2 switching cycles — insufficient for
+    reliable output regulation recovery. R23=33.2kΩ (E96) connected from RT to GND increases f_SW to **400kHz**
+    (T_cycle=2.5µs), providing ≥4 switching cycles within the same 10.2µs window, ensuring reliable boost
+    converter startup on backup activation. Frequency value from LTC3350 datasheet RT programming table; see DEC-030.
 * **Controller-fed PoE Auxiliary Path:**
   * The IEEE 802.3bt PD / ACF front-end resides on the Controller.
   * The Power Module receives only the regulated auxiliary feed `VIN_POE_12V` on `J2`.
@@ -329,8 +339,10 @@ GND ------+---------------------------------------------------+---------------+-
 * **Monitoring:** MCP121T-450E supervisor asserts PWR_GD to the CM5 once the regulated 5V rail is stable.
   * "LOGIK-BEREIT" Green LED + 5.1V Zener "Safety Glow" (Amber LED) remains active during capacitor discharge.
 * **Hardware Status Oscillator:** MIC1555 (U9, SOT-23-5) - CMOS timer providing the 1Hz hardware "Initialising" heartbeat pulse for the orange status LED, operating entirely independently of CM5
-  firmware. Active from power-on until the Controller takes over the runtime status LED signals. Also serves as a visible supercap state-of-charge indicator during hold-up mode. Timing network: R13
-(R_A=10kΩ), R14 (R_B=715kΩ), C23 (C_OSC=1µF) → f=1Hz, ~50% duty cycle.
+  firmware. Active from power-on until the Controller takes over the runtime status LED signals. Also serves as a visible supercap state-of-charge indicator during hold-up mode.
+  * **Astable timing derivation:** Timing network R13 (R_A=10kΩ), R14 (R_B=715kΩ), C23 (C_OSC=1µF).
+    Formula: `f = 1.44 / ((R_A + 2×R_B) × C) = 1.44 / ((10kΩ + 2×715kΩ) × 1µF) = 1.44 / (1,440,000 × 0.000001) = 1.44 / 1.44 = 1.00Hz ✓`.
+    Duty cycle: `D = R_B / (R_A + 2×R_B) = 715 / 1440 ≈ 49.7% ≈ 50% ✓`.
 * **PWR_BUT_N One-Shot (U13):** Second MIC1555 (SOT-23-5) configured as a monostable (one-shot) timer.
   Triggered by a falling edge on LTC3350 `LTC_INTB_N` (R22 10kΩ pull-up to 3V3_ENIG keeps the line HIGH
   when idle). On trigger, U13 output goes HIGH for t = 1.1 x R21 x C40 = 1.1 x 274kΩ x 10µF ≈ **3.01 seconds**,
@@ -509,50 +521,50 @@ Estimated PM-local power dissipation at system peak load:
 | D4 | 18V 600W unidirectional TVS SMB (DO-214AA) | SMBJ18A-Q | Bourns | 118-SMBJ18A-QCT-ND | 652-SMBJ18A-Q | C1979859 (Extended) | - | - | Yes | Pending | 1 |
 | D5, D6 | Schottky SOT-23 | BAT54 | Vishay | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | - | Yes | Pending | 2 |
 | F1 | 72°C SMD Thermal Cutoff | AC72ABD | Bourns | AC72ABD-ND | 652-AC72ABD | C17468669 | - | No PCB footprint — component is laser/spot-welded to battery cell tabs; not suitable for PCB mounting per Bourns datasheet | No | N/A | 1 |
-| FB1 | 600Ω ±25% @100MHz ferrite bead 0805 AEC-Q200 Gr.1 | BMC-Q2AY0600M (2-2176748-1) | TE Connectivity | 1712-2-2176748-1CT-ND | 279-BMC-Q2AY0600M | Global sourcing / consignment | Global sourcing / consignment | 600Ω ±25% @ 100MHz, DCR 100mΩ max, 2000mA rated, -40°C to +125°C, AEC-Q200 Grade 1, MIL-STD-202 env. tested. Single-point GND↔GND_CHASSIS bond. **Reference datasheet:** `design/Datasheets/TE-DS_1773178-3_A3-datasheet.md` | Yes | Pending | 1 |
+| FB1 | 600Ω ±25% @100MHz ferrite bead 0805 AEC-Q200 Gr.1 | BMC-Q2AY0600M (2-2176748-1) | TE Connectivity | 1712-2-2176748-1CT-ND | 279-BMC-Q2AY0600M | Global sourcing / consignment | Global sourcing / consignment | see design/Datasheets/TE-DS_1773178-3_A3-datasheet.md | Yes | Pending | 1 |
 | J1-J3 | 10-pos 2.5mm RA plug | 1123684-7 | TE Connectivity | A114780-ND | 571-1123684-7 | C3683043 (consignment - verify stock; post-assembly install if unavailable) | - | - | Yes | Pending | 3 |
-| J4 | 5-pin Micro-Fit 3.0 THT vertical | 0436500519 | Molex | WM14587-ND | 538-43650-0519 | C563849 | - | Battery Conn ⚠️ **REVIEW: confirm suitability for battery application** - full PN 0436500519; vertical THT, 5-circuit, 1-row, gold contacts, board lock, 3mm pitch. Candidate military / NetWarrior-style replacement under review: Glenair `807-216-00ZNU6-6DY` via Heilind / consignment-only; see `Millitary_Battery_Connection_Option.md`. | Yes | Pending | 1 |
-| J5 | USB-C right-angle SMT | USB4135-GF-A | GCT | 2073-USB4135-GF-ACT-ND | 640-USB4135-GF-A | C5438410 | - | **6-position** USB Type-C right-angle SMT receptacle (power/PD only). Connects CC1 and CC2 to STUSB4500 (U5) for PD negotiation; VBUS to OR-ing circuit. Right-angle (board-edge mount) with retention pins. ⚠️ **Mechanical note**: connector must protrude through the Power Module enclosure rear face in line with the global external-connector overhang rule; verify clearance at prototype stage. See BOM note for details. | Yes | Pending | 1 |
-| J_SW1_1-J_SW1_6, J_SW2_1-J_SW2_6 | 2.8mm PCB male spade tabs THT Quick-Fit | 1211 | Keystone Electronics | 36-1211-ND | 534-1211 | C3029550 | - | 2.8mm (0.110in) vertical PCB-mount male Quick-Fit terminal; 12 total to mate with the Adafruit 4660 / 3350 panel-switch terminals (switch contact + RGB ring LED harnesses) | Yes | ✔ | 12 |
-| L1, L2 | 10A 2mH nanocrystalline CMC THT | 7448031002 | Wurth Elektronik | 732-5584-ND | 710-7448031002 | C1519839 | - | Wurth WE-CMBNC 7448031002 - 10A, 2mH, nanocrystalline, 6.3mΩ DCR, 24x17x25mm THT ; same as L1 (**CM5022 discontinued**, Laird absorbed by TE Connectivity 2019; no ≥10A HF ferrite equivalent found). Twin nanocrystalline CMC approach provides adequate broadband coverage 1kHz-30MHz. ⚠️ Re-evaluate at EMC pre-compliance test. | Yes | Pending | 2 |
-| L3 | 10µH 15.5A Isat shielded SMT 13.5x12.5x6.2mm | SRP1265A-100M | Bourns | SRP1265A-100MCT-ND | 652-SRP1265A-100M | C840531 | - | 10µH, 15.5A Isat, 10A Irms, DCR=16.5mΩ max, shielded molded | Yes | Pending | 1 |
-| Q1, Q2, Q3 | N-ch MOSFET 30V 10A SON-8 3.3x3.3mm | CSD17578Q5A | Texas Instruments | 296-48512-1-ND | 595-CSD17578Q5A | C2871447 | - | 30V V_DSS, 25A I_D continuous, R_ds(on)=5.9mΩ @ V_gs=10V. Driven by LM74700-Q1 (U6a/U6b/U6c - one IC per MOSFET) charge-pump gate drive (+7V above source). Provides lossless ideal-diode OR-ing between three input sources. | Yes | ✔ | 3 |
-| Q4-Q10 | N-ch MOSFET 50V 200mA SOT-23 | BSS138 | onsemi | BSS138CT-ND | 512-BSS138 | C52895 | - | Gate driven by U13 monostable output; drain to PWR_BUT_N line; source to GND. Pulls PWR_BUT_N LOW for 3 seconds on backup-mode trigger. ; Reused User Settings Module sink-stage pattern; gates driven from U14 through `R24-R26`, held OFF by `R27-R29` ; Same low-side sink pattern as SW1 runtime LED stages; Q9 sinks SW2 green from buffered `LED_PWR_N`, Q10 sinks SW2 red from the shutdown blink gate | Yes | Pending | 7 |
+| J4 | 5-pin Micro-Fit 3.0 THT vertical | 0436500519 | Molex | WM14587-ND | 538-43650-0519 | C563849 | - | see Millitary_Battery_Connection_Option.md | Yes | Pending | 1 |
+| J5 | USB-C right-angle SMT | USB4135-GF-A | GCT | 2073-USB4135-GF-ACT-ND | 640-USB4135-GF-A | C5438410 | - | - | Yes | Pending | 1 |
+| J_SW1_1-J_SW1_6, J_SW2_1-J_SW2_6 | 2.8mm PCB male spade tabs THT Quick-Fit | 1211 | Keystone Electronics | 36-1211-ND | 534-1211 | C3029550 | - | - | Yes | ✔ | 12 |
+| L1, L2 | 10A 2mH nanocrystalline CMC THT | 7448031002 | Wurth Elektronik | 732-5584-ND | 710-7448031002 | C1519839 | - | - | Yes | Pending | 2 |
+| L3 | 10µH 15.5A Isat shielded SMT 13.5x12.5x6.2mm | SRP1265A-100M | Bourns | SRP1265A-100MCT-ND | 652-SRP1265A-100M | C840531 | - | - | Yes | Pending | 1 |
+| Q1, Q2, Q3 | N-ch MOSFET 30V 10A SON-8 3.3x3.3mm | CSD17578Q5A | Texas Instruments | 296-48512-1-ND | 595-CSD17578Q5A | C2871447 | - | - | Yes | ✔ | 3 |
+| Q4-Q10 | N-ch MOSFET 50V 200mA SOT-23 | BSS138 | onsemi | BSS138CT-ND | 512-BSS138 | C52895 | - | - | Yes | Pending | 7 |
 | R1 | 232kΩ 1% 0603 | ERJ-3EKF2323V | Panasonic | P232KHCT-ND | 667-ERJ-3EKF2323V | C403086 | - | - | Yes | Pending | 1 |
 | R2 | 28.7kΩ 1% 0603 | ERJ-3EKF2872V | Panasonic | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | - | Yes | Pending | 1 |
 | R3 | 210Ω 0.1% 0603 | ERA-3VEB2100V | Panasonic | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | - | Yes | Pending | 1 |
-| R4, R7, R8, R13, R15, R22 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | [calc: f=1.44/((R_A+2R_B)xC); R_B=715kΩ, C=1µF → f=1Hz, duty≈50%] | Yes | Pending | 6 |
+| R4, R7, R8, R13, R15, R22 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 6 |
 | R5, R6 | 4.7kΩ 1% 0603 | ERJ-3EKF4701V | Panasonic | P4.70KHCT-ND | 667-ERJ-3EKF4701V | C192166 | - | - | Yes | Pending | 2 |
-| R9 | 301Ω 1% 0603 | ERJ-3EKF3010V | Panasonic | P301HCT-ND | 667-ERJ-3EKF3010V | C403144 | - | [calc: ICH=0.5A, VICHARGE=1.485V, RSENSE=10mΩ → R=297Ω → E96=301Ω] | Yes | Pending | 1 |
+| R9 | 301Ω 1% 0603 | ERJ-3EKF3010V | Panasonic | P301HCT-ND | 667-ERJ-3EKF3010V | C403144 | - | - | Yes | Pending | 1 |
 | R10, R16 | 10mΩ ±1% 2W 6432 (2512) Kelvin 4-terminal shunt | KRL6432T4-M-R010-F-T1 | Susumu | KRL6432T4-M-R010-F-T1 | 754-KRL6432T4MR010FT | C4076514 | - | - | Yes | ✔ | 2 |
-| R11 | 30.1kΩ 0.1% 0603 | ERA-3ARB3012V | Panasonic | 10-ERA-3ARB3012VCT-ND | 667-ERA-3ARB3012V | C1728516 | - | [calc: V_thr=1.2V, V_trigger=4.812V → R_TOP/R_BOT=(4.812/1.2)-1=3.01 → R_BOT=10kΩ → R_TOP=30.1kΩ → E96=30.1kΩ → actual trigger: 4.812V, 312mV above MCP121T 4.50V threshold - see DEC-030] | Yes | Pending | 1 |
-| R12 | 10.0kΩ 0.1% 0603 | ERA-3ARB103V | Panasonic | P10KBDCT-ND | 667-ERA-3ARB103V | C465746 | - | [pairs with R11; use 0.1% for threshold accuracy] | Yes | Pending | 1 |
-| R14 | 715kΩ 1% 0603 | ERJ-3EKF7153V | Panasonic | P715KHCT-ND | 667-ERJ-3EKF7153V | C403339 | - | [pairs with R13 and C23 to set 1Hz, ~50% duty-cycle oscillation] | Yes | Pending | 1 |
+| R11 | 30.1kΩ 0.1% 0603 | ERA-3ARB3012V | Panasonic | 10-ERA-3ARB3012VCT-ND | 667-ERA-3ARB3012V | C1728516 | - | - | Yes | Pending | 1 |
+| R12 | 10.0kΩ 0.1% 0603 | ERA-3ARB103V | Panasonic | P10KBDCT-ND | 667-ERA-3ARB103V | C465746 | - | - | Yes | Pending | 1 |
+| R14 | 715kΩ 1% 0603 | ERJ-3EKF7153V | Panasonic | P715KHCT-ND | 667-ERJ-3EKF7153V | C403339 | - | - | Yes | Pending | 1 |
 | R17 | 86.6kΩ 1% 0603 | ERJ-3EKF8662V | Panasonic | P86.6KHCT-ND | 667-ERJ-3EKF8662V | C403381 | - | - | Yes | Pending | 1 |
 | R18, R20, R27-R29, R32-R33, R36-R37 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | Pending | 9 |
 | R19 | 82.0kΩ 1% 0402 | ERJ-2RKF8202X | Panasonic | P82.0KLCT-ND | 667-ERJ-2RKF8202X | C400641 | - | - | Yes | Pending | 1 |
 | R21 | 274kΩ 1% 0603 | ERJ-3EKF2743V | Panasonic | P274KHCT-ND | 667-ERJ-3EKF2743V | C403126 | - | - | Yes | Pending | 1 |
-| R23 | 33.2kΩ 1% 0402 | ERA-2AEB3322X | Panasonic | P33.2KDCCT-ND | 667-ERA-2AEB3322X | C2087909 | - | [RT=INTVCC gives 200kHz default; R23=33.2kΩ to GND gives 400kHz; required for ≥4-cycle backup switchover - see DEC-030] | Yes | Pending | 1 |
+| R23 | 33.2kΩ 1% 0402 | ERA-2AEB3322X | Panasonic | P33.2KDCCT-ND | 667-ERA-2AEB3322X | C2087909 | - | see DEC-030 | Yes | Pending | 1 |
 | R24-R26, R30-R31 | 1kΩ 1% Thick-Film 0402 | ERJ-2RKF1001X | Panasonic | P1.00KLCT-ND | 667-ERJ-2RKF1001X | C242161 | - | - | Yes | Pending | 5 |
 | R34-R35 | 52.3kΩ 1% 0402 | ERJ-2RKF5232X | Panasonic | P52.3KLCT-ND | 667-ERJ-2RKF5232X | Global sourcing / consignment | Global sourcing | - | Yes | Pending | 2 |
 | R38-R41 | 100kΩ 1% 0402 | ERJ-2RKF1003X | Panasonic | P100KLCT-ND | 667-ERJ-2RKF1003X | Global sourcing / consignment | Global sourcing | - | Yes | Pending | 4 |
 | R42-R46 | 10Ω 1% Thin-Film 0402 | ERJ-2RKF10R0X | Panasonic | P10.0LCT-ND | 667-ERJ-2RKF10R0X | C413044 | - | - | Yes | Pending | 5 |
-| SW1 | 16mm panel latching RGB metal switch | 4660 | Adafruit | 1528-4660-ND | 485-4660 | Global sourcing / consignment | Global sourcing | Panel-mount latching rugged metal power switch with RGB ring LED; 16mm panel cutout; 2.8mm pin terminals; RGB ring uses common anode + separate R/G/B cathodes with internal resistors for low-voltage drive. Switch contact only controls TPS25980 EN (logic-level, low-current). Use matching 2.8mm PCB male spade tabs for all switch/LED harness terminations. LED anode supply: `5V_MAIN`. | Yes | Pending | 1 |
-| SW2 | 16mm panel momentary RGB metal switch | 3350 | Adafruit | 1528-2546-ND | 485-3350 | Global sourcing / consignment | Global sourcing | Panel-mount momentary rugged metal pushbutton with RGB ring LED; 16mm panel cutout; 2.8mm pin terminals. Switch contact connects `PWR_BUT_N` to GND on brief press. Red / green LED channels are driven locally on the PM: green = CM5 powered from buffered `LED_PWR_N`; red = 1Hz blink during shutdown latch while green remains ON. Blue channel not used. | Yes | Pending | 1 |
+| SW1 | 16mm panel latching RGB metal switch | 4660 | Adafruit | 1528-4660-ND | 485-4660 | Global sourcing / consignment | Global sourcing | - | Yes | Pending | 1 |
+| SW2 | 16mm panel momentary RGB metal switch | 3350 | Adafruit | 1528-2546-ND | 485-3350 | Global sourcing / consignment | Global sourcing | - | Yes | Pending | 1 |
 | U1 | eFuse 16.9V fixed OVLO VQFN-24 4x4mm | TPS259804ONRGER | Texas Instruments | 296-TPS259804ONRGERCT-ND | 595-TPS259804ONRGER | C2878936 | - | variant-locked do not change | Yes | Pending | 1 |
 | U2A, U2B | 5V buck x2 180° interleaved VQFN-HR 14-pin 4x3.5mm | LMQ61460AFSQRJRRQ1 | Texas Instruments | 296-LMQ61460AFSQRJRRQ1CT-ND | 595-Q61460AFSQRJRRQ1 | C1518767 | - | - | Yes | Pending | 2 |
 | U3 | Supercap manager QFN-38 5x7mm | LTC3350EUHF#PBF | Analog Devices | 505-LTC3350EUHF#PBF-ND | 584-LTC3350EUHF#PBF | C580711 | - | - | Yes | Pending | 1 |
-| U4 | PD3.1 DRP controller WQFN-38 6x4mm | TPS25751DREFR | Texas Instruments | 296-TPS25751DREFRCT-ND | 595-TPS25751DREFR | C30169739 | - | PD3.1 certified DRP controller with integrated 20V/5A bi-directional + 5V/3A source power paths. Replaces NRND TPS25750. Package: WQFN-38 6x4mm (differs from TPS25750 QFN-28). | Yes | ✔ | 1 |
+| U4 | PD3.1 DRP controller WQFN-38 6x4mm | TPS25751DREFR | Texas Instruments | 296-TPS25751DREFRCT-ND | 595-TPS25751DREFR | C30169739 | - | - | Yes | ✔ | 1 |
 | U5 | USB-C sink controller QFN-24 | STUSB4500LQTR | STMicroelectronics | 497-STUSB4500LQCT-ND | 511-STUSB4500LQTR | C506650 | - | - | Yes | ✔ | 1 |
 | U6a, U6b, U6c | OR-ing controller SOT-23-6 | LM74700QDBVRQ1 | Texas Instruments | 296-LM74700QDBVRQ1CT-ND | 595-LM74700QDBVRQ1; alt T&R: 595-LM74700QDBVTQ1 | C2941042 | - | - | Yes | ✔ | 3 |
-| U7 | 3.3V LDO fixed TO-263 5-pin | TPS75733KTTRG3 | Texas Instruments | 296-50559-1-ND | 595-TPS75733KTTRG3 | C3749924 | - | fixed 3.3V, active-LOW EN | Yes | ✔ | 1 |
-| U8 | 4.5V voltage supervisor SC70-3 | MCP121T-450E/LB | Microchip Technology | MCP121T-450E/LBCT-ND | 579-MCP121T-450E/LB | C625189 | - | 4.5V trip | Yes | ✔ | 1 |
-| U9, U13 | CMOS timer SOT-23-5 | MIC1555YM5-TR | Microchip Technology | 576-2576-1-ND | 998-MIC1555YM5TR | C145373 | - | CMOS timer IC, 2-10V supply. Generates 1Hz hardware "Initialising" heartbeat pulse for the orange status LED. Operates independently of CM5 firmware (pure hardware indicator). Also reflects supercap state of charge during hold-up. Timing set by R13 (R_A=10kΩ), R14 (R_B=715kΩ), C23 (C_OSC=1µF) → f=1Hz, ~50% duty cycle. ; CMOS timer in monostable configuration. Triggered by falling edge on LTC3350 `LTC_INTB_N` (open-drain, pulled HIGH by R22). On trigger, output drives Q5 gate HIGH for t ≈ 3.01 s, pulling `PWR_BUT_N` LOW → CM5 PMIC power-key event → graceful OS shutdown. Timing: R21 (274kΩ) + C40 (10µF) → t = 1.1 x 274kΩ x 10µF = 3.01 s. VCC bypass: C36 (100nF). | Yes | Pending | 2 |
-| U10 | Current monitor I²C 0x40 SOIC-8 | INA219AIDR | Texas Instruments | 296-23978-1-ND | 595-INA219AIDR | C138706 | - | Zero-Drift Current/Power Monitor (I²C 0x40) | Yes | ✔ | 1 |
-| U11, U12, U15 | Dual Schmitt-trigger inverter SC-88 | NL27WZ14DFT2G-Q | onsemi | 488-NL27WZ14DFT2G-QCT-ND | 863-NL27WZ14DFT2G-Q | C24511261 | - | AEC-Q100 dual Schmitt-trigger inverter, one gate used per SYNC stage ; Automotive dual Schmitt-trigger inverter, 1.65-5.5V supply, push-pull outputs, 5.5V-tolerant inputs. One gate conditions / inverts `LED_PWR_N`; the second conditions / inverts `PWR_BUT_N` for the SW2 hardware indicator logic. VCC bypass: C42 (100nF). | Yes | ✔ | 3 |
-| U14 | 8-bit I²C GPIO expander 0x3F TSSOP-16 | PCA9534APWR | NXP Semiconductors | 296-21760-1-ND | 595-PCA9534APWR | C2871127 | - | 8-bit I²C GPIO expander @ 0x3F. Inputs: `POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`. Outputs: `SW_LED_R`, `SW_LED_G`, `SW_LED_B`, `SW_LED_CTRL`. `INT` exported as `PM_IO_INT_N`. | Yes | ✔ | 1 |
-| U16 | D-type flip-flop shutdown latch SOT-23-6 | SN74LVC1G175DBVR | Texas Instruments | 296-17617-1-ND | 595-SN74LVC1G175DBVR | C128412 | - | Single D-type flip-flop with asynchronous clear, 1.65-5.5V supply, push-pull Q output, 5.5V-tolerant inputs. Latches shutdown active on `PWR_BUT_N` assertion and clears when `LED_PWR_N` deasserts. VCC bypass: C43 (100nF). | Yes | Pending | 1 |
-| U17 | Single AND gate SOT-23-5 | SN74LVC1G08DBVR | Texas Instruments | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | Single 2-input positive AND gate, 1.65-5.5V supply, push-pull output, 5.5V-tolerant inputs. Gates the U9 1Hz oscillator into the SW2 red sink while the shutdown latch is set. VCC bypass: C44 (100nF). | Yes | ✔ | 1 |
+| U7 | 3.3V LDO fixed TO-263 5-pin | TPS75733KTTRG3 | Texas Instruments | 296-50559-1-ND | 595-TPS75733KTTRG3 | C3749924 | - | - | Yes | ✔ | 1 |
+| U8 | 4.5V voltage supervisor SC70-3 | MCP121T-450E/LB | Microchip Technology | MCP121T-450E/LBCT-ND | 579-MCP121T-450E/LB | C625189 | - | - | Yes | ✔ | 1 |
+| U9, U13 | CMOS timer SOT-23-5 | MIC1555YM5-TR | Microchip Technology | 576-2576-1-ND | 998-MIC1555YM5TR | C145373 | - | - | Yes | Pending | 2 |
+| U10 | Current monitor I²C 0x40 SOIC-8 | INA219AIDR | Texas Instruments | 296-23978-1-ND | 595-INA219AIDR | C138706 | - | - | Yes | ✔ | 1 |
+| U11, U12, U15 | Dual Schmitt-trigger inverter SC-88 | NL27WZ14DFT2G-Q | onsemi | 488-NL27WZ14DFT2G-QCT-ND | 863-NL27WZ14DFT2G-Q | C24511261 | - | - | Yes | ✔ | 3 |
+| U14 | 8-bit I²C GPIO expander 0x3F TSSOP-16 | PCA9534APWR | NXP Semiconductors | 296-21760-1-ND | 595-PCA9534APWR | C2871127 | - | - | Yes | ✔ | 1 |
+| U16 | D-type flip-flop shutdown latch SOT-23-6 | SN74LVC1G175DBVR | Texas Instruments | 296-17617-1-ND | 595-SN74LVC1G175DBVR | C128412 | - | - | Yes | Pending | 1 |
+| U17 | Single AND gate SOT-23-5 | SN74LVC1G08DBVR | Texas Instruments | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | - | Yes | ✔ | 1 |
 
 > **BOM Notes:**
 >
