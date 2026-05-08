@@ -55,7 +55,7 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 | DR-STA-14 | J13 connector | J13 = 6-pin JST PH 2.0mm B6B-PH-K-S(LF)(SN); pins: `3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`; connects to User Settings Module J1 via 6-wire harness. `5V_MAIN` is derived from the Controller-fed `J11` branch. | BOM J13 |
 | DR-STA-15 | `CFG_APPLY_N` signal | `CFG_APPLY_N` = active-low Stator-only apply/reset pulse from U8 GPA[4]; combined with `SYS_RESET_N` through U3 (`SN74LVC1G08DBVR`) so either signal can assert the Stator CPLD reset path; forcing `CFG_APPLY_N` LOW reloads `CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]` without resetting the wider system; R17 (10kΩ pull-up to 3V3_ENIG) holds `CFG_APPLY_N` deasserted at power-up when U8 is uninitialised | BOM U8, U3, R17; §3 Configuration Bank 1 (Routing) |
 | DR-STA-16 | ESD protection - rotor-facing BtB connectors | U9 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, SYS_RESET_N) + U10-U12 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §8 Thermal & ESD; BOM U9-U12 |
-| DR-STA-17 | Mounting holes | 4x M3 PTH mounting holes (Ø3.2mm); positions: bottom-left corner, bottom-right corner, 1 central hole (board centre), 1 centre-top hole; exact XY coordinates TBD at PCB layout; holes tied to `GND_CHASSIS` (per GRS §4 Mechanical Grounding and the GND_CHASSIS single-point bond note in §2); ENIG annular ring as specified in GRS §4 | §2 (GND_CHASSIS bond note); BOM MH1-MH4 (no BOM entry required — plain chassis mounting holes, no components to fit); `design/Electronics/Stator/Board_Layout.md §12` |
+| DR-STA-17 | Mounting holes | MH1–MH4 shall be 4× M3 PTH (Ø3.2 mm drill) mounting holes tied to `GND_CHASSIS` per GRS §4; ENIG annular ring per GRS §4. Placement follows GRS §4.3 Pattern B (D-shaped board): MH1 bottom-left corner, MH2 bottom-right corner, MH3 board-centre, MH4 top-centre arc midpoint — all at 7 mm inset from nearest edge. No BOM entry — plain chassis mounting holes, no components to fit. Exact XY coordinates TBD at PCB layout. | §2 (GND_CHASSIS bond note); `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Stator/Board_Layout.md §12` |
 
 ## 2. Core Features
 
@@ -304,6 +304,7 @@ I/O budget (see §3 Device-to-Design Net Name Mapping for DEV\_CLRN details).
 | **Total user I/O** | **70 / 70** | — |
 
 > **Notes:**
+>
 > * `ENC_ACTIVE_N` sidebands are **not** in the CPLD I/O budget — activity signals are handled by the
 >   external mux (U4/U5) and routed through U7 MCP23017 GPIO; see §3 External Keyboard Source Mux.
 > * J6–J9 signal groups use port role names (`PLG_PASS1_DEC`, etc.); the downstream `ENC_DATA[5:0]`

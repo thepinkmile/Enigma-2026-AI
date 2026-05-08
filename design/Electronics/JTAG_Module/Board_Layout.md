@@ -136,7 +136,7 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
 JM mounting holes MH1–MH4 are M2.5 NPTH holes with a GND annular ring.
 Net: **GND** (not GND_CHASSIS — daughterboard exception per DEC-057).
 No purchasable BOM component on the JM; mounting standoffs are owned and sourced by the
-**Controller Board BOM** (MH13–MH16, 9774035151R, M2.5×3.5mm SMT standoffs).
+**Controller Board BOM** (MH9–MH12, 9774035151R, M2.5×3.5mm SMT standoffs).
 See `design/Standards/Global_Routing_Spec.md §4` for module mounting hole rules.
 See DEC-057 (standoff ownership) and DEC-058 (JM BtB upgrade) for full rationale.
 

@@ -64,6 +64,7 @@ Controller Board via dock connector `J1`.
 | DR-PM-12 | Controller dock connectors | `J1/J2/J3` = TE `1123684-7` 10-position 2.5mm plugs mating with Controller `1-1674231-1` receptacles | BOM J1-J3 |
 | DR-PM-13 | PCB stackup | 6-layer, 2oz finished copper (JLC06161H-2116) | §1 PCB Architecture |
 | DR-PM-14 | Per-IC bypass capacitors | All ICs shall have a dedicated 100nF X7R 50V 0402 bypass capacitor on each VCC/VCCIO/VCC_IO pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 | BOM C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 |
+| DR-PM-15 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. No purchasable BOM entry — plain chassis mounting holes; no components to fit. Exact XY positions TBD at PCB layout. | §1 PCB Architecture (Mounting Holes); `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Power_Module/Board_Layout.md §7` |
 
 ## 2. Design
 >
@@ -102,9 +103,9 @@ Controller Board via dock connector `J1`.
 
 #### Mounting Holes
 
-| Count | Size | Type | Net | BOM Entry |
-| :--- | :--- | :--- | :--- | :--- |
-| 4 | M3 (3.2 mm drill) | PTH | GND_CHASSIS | None |
+| Designators | Count | Size | Type | Net | BOM Entry |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| MH1–MH4 | 4 | M3 (3.2 mm drill) | PTH | `GND_CHASSIS` | None — plain chassis mounting holes; no components to fit (per GRS §4 and DR-PM-15) |
 
 #### Net Name Conventions
 

@@ -99,7 +99,7 @@
 | STA: J1,J2; EXT: J4,J5; ROT-26: J4,J5; ROT-64: J4,J5 | ERF8-005-05.0-S-DV-K-TR | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | - | - | - | - | - | - | - | 2 | - | 2 | 2 | 2 | 14 | 10-pin 2x5 0.8mm female SMT [Samtec] | Yes | ✔ |
 | ROT-26: J7,J8,J9; ROT-64: J7,J8,J9 | RS1-05-G | 2057-RS1-05-G-ND | 737-RS1-05-G | C3321119 | - | - | - | - | - | - | - | - | - | - | 3 | 3 | 15 | 1x5 2.54mm female socket THT [Adam Tech] | Yes | ✔ |
 | CTL: J14,J15 | 10164227-1004A1RLF | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | CM5 SO-DIMM 100-pin 4mm [Amphenol] | Yes | ✔ |
-| CTL: MH1-MH4 | 9774040151R | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | 4 | - | - | - | - | - | - | - | - | - | 4 | M2.5x4.0mm SMT standoff [Wurth Elektronik] | Yes | ✔ |
+| CTL: MH13-MH16 | 9774040151R | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | 4 | - | - | - | - | - | - | - | - | - | 4 | M2.5x4.0mm SMT standoff [Wurth Elektronik] | Yes | ✔ |
 | CTL: T1 | POE600F-12L | N/A | N/A | N/A | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE transformer 1500V 12-pin SMT; only available direct from Coilcraft [Coilcraft] | Yes | ✔ |
 | CTL: U1 | CM5 | - | - | - | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CM5 module SO-DIMM [Raspberry Pi Ltd] | N/A | N/A |
 | CTL: U2 | TPS2065CDBVR | 296-39353-1-ND | 595-TPS2065CDBVR | C353882 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | USB power switch SOT-23-5 [Texas Instruments] | Yes | ✔ |
@@ -134,7 +134,7 @@
 | REF: J1,J2; EXT: J1,J2; ROT-26: J1,J2; ROT-64: J1,J2 | ERM8-005-05.0-S-DV-K-TR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | - | - | - | - | - | - | 2 | 2 | 2 | 2 | 14 | 10-pin 2x5 0.8mm male SMT [Samtec] | Yes | ✔ |
 | CTL: J11, J12; EXT: J9 | DF40HC(3.5)-20DS-0.4V(51) | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | 2 | - | - | - | - | - | - | 1 | - | - | 3 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack [Hirose] | Yes | ✔ |
 | AM: J1; JM: J1 | DF40C-20DP-0.4V(51) | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 20-pin 0.4mm pitch BtB plug [Hirose] | Yes | ✔ |
-| CTL: MH5-MH8, MH13-MH16; EXT: MH5-MH8 | 9774035151R | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | 8 | - | - | - | - | - | - | 4 | - | - | 12 | M2.5x3.5mm SMT standoff [Wurth Elektronik] | Yes | ✔ |
+| CTL: MH5-MH8, MH9-MH12; EXT: MH5-MH8 | 9774035151R | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | 8 | - | - | - | - | - | - | 4 | - | - | 12 | M2.5x3.5mm SMT standoff [Wurth Elektronik] | Yes | ✔ |
 | AM: U1 | STM32G071K8T3TR | 497-STM32G071K8T3TR-ND | 511-STM32G071K8T3TR | - | Global sourcing | - | - | - | - | - | 1 | - | - | - | - | - | 1 | Local actuation controller LQFP32; JLCPCB consignment only [STMicroelectronics] | Yes | ✔ |
 | STA: J3; EXT: J6; ROT-26: J6; ROT-64: J6 | ERF8-010-05.0-S-DV-K-TR | SAM8618CT-ND | 200-ERF8010050SDVKTR | C3646170 | - | - | - | - | - | - | - | 1 | - | 1 | 1 | 1 | 7 | 20-pin 2x10 0.8mm female SMT [Samtec] | Yes | ✔ |
 | STA: J11,J12 | 2195620015 | 900-2195620015-ND | 538-219562-0015 | - | Global sourcing | - | - | - | - | - | - | 2 | - | - | - | - | 2 | 5-pwr+15-sig hybrid plug [Molex] | Yes | ✔ |

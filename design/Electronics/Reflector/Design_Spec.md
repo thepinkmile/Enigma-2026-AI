@@ -37,7 +37,7 @@ second CPLD on the Reflector itself.
 | DR-REF-04 | End-of-chain damping | R1 = 22 Ω, 0603, on TDO line | §3 JTAG & Logic Hub; BOM R1 (22Ω) |
 | DR-REF-05 | Active logic | None - passive turnaround board only; reflector-map selection remains Stator-owned | §2 Architecture |
 | DR-REF-06 | ESD protection - rotor-facing BtB connectors | U1 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, SYS_RESET_N) + U2-U4 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §5 Thermal & ESD; BOM U1-U4 |
-| DR-REF-07 | Mounting holes | 4× M3 through-holes tied to GND_CHASSIS per `design/Standards/Global_Routing_Spec.md §5`. No standoff or BOM entry — chassis mounting points only. Designators: MH1–MH4. | §6 PCB Fabrication & Stackup |
+| DR-REF-07 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. No BOM entry — plain chassis mounting holes. Placement follows GRS §4.3 Pattern B (D-shaped board): MH1 bottom-left corner, MH2 bottom-right corner, MH3 board-centre, MH4 top-centre arc midpoint — all at 7 mm inset from nearest edge. Exact XY coordinates TBD at PCB layout. | §6 PCB Fabrication & Stackup; `design/Standards/Global_Routing_Spec.md §4.3` |
 
 ## 2. Architecture
 
@@ -64,7 +64,9 @@ second CPLD on the Reflector itself.
   > `ENC_OUT_REF[5:0]` on pins 7-12, `ENC_IN_REF[5:0]` on pins 19-24, `3V3_ENIG` on pins 3-4/27-28,
   > `5V_MAIN` on pins 1-2/29-30, GND guard pairs at pins 5-6, 13-14, 17-18, 25-26.
 
-> **Compatibility note:** J4 pin allocation matches Stator J10 (30-pin 2x15). `3V3_ENIG` on pins 3-4/27-28 is the sole power entry for this board. `5V_MAIN` on pins 1-2/29-30 is not connected — present for cable family compatibility only.
+> **Compatibility note:** J4 pin allocation matches Stator J10 (30-pin 2x15). `3V3_ENIG` on pins
+> 3-4/27-28 is the sole power entry for this board. `5V_MAIN` on pins 1-2/29-30 is not connected —
+> present for cable family compatibility only.
 
 * Decoupling and bulk entry capacitor requirements per `design/Standards/Global_Routing_Spec.md §3`.
 * **Termination:**R1 (22Ω) is a series damping resistor on the TDO return line (end-of-chain
@@ -161,7 +163,7 @@ Reflector.
 * **Contacts:** ERM8-005 (x2, 10-pin, JTAG and Power) + ERM8-010 (x1, 20-pin, ENC Data) - male headers on J1-J3.
 * **Fillets:** 2.0mm Rounded PCB corners for consistent "Museum-Grade" enclosure fit.
 * **Routing:** Global **0.5mm Fixed-Radius Circular Arcs** for all loopback traces.
-* **Mounting Holes:** 4× M3 through-holes (MH1–MH4) tied to GND_CHASSIS per GRS §5. No BOM entry required for chassis mounting holes.
+* **Mounting Holes:** 4× M3 through-holes (MH1–MH4) tied to GND_CHASSIS per GRS §4 and positioned per GRS §4.3 Pattern B (D-shaped board). No BOM entry required for chassis mounting holes.
 
 ## 7. Branding & Traceability
 

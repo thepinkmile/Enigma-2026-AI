@@ -160,6 +160,48 @@ location). The BOM treatment depends on hole purpose:
   capture and PCB layout; all mounting hole locations shall be reviewed as part of the
   `review-mounting-holes` design checkpoint before first manufacture.
 
+## 4.3. Default Mounting Hole Placement
+
+Unless a board-specific DR explicitly overrides, mounting hole centres shall follow one of the two
+default patterns below. All inset distances are measured from the nearest board edge to the
+hole centre.
+
+### Pattern A — Standard Rectangular Boards
+
+Four holes at the four corners, **7 mm from both nearest edges**:
+
+| Designator | Position |
+| :--- | :--- |
+| MH1 | Bottom-left corner (7 mm from left edge, 7 mm from bottom edge) |
+| MH2 | Bottom-right corner (7 mm from right edge, 7 mm from bottom edge) |
+| MH3 | Top-right corner (7 mm from right edge, 7 mm from top edge) |
+| MH4 | Top-left corner (7 mm from left edge, 7 mm from top edge) |
+
+Applicable to: PM, Encoder (ENC), USM.
+
+### Pattern B — D-Shaped (Rounded-Top) Boards
+
+Used where the top edge is a full-width arc (Stator, Extension, Reflector). The top two corners do
+not exist; the upper holes are replaced by a board-centre hole and a top-centre arc hole:
+
+| Designator | Position |
+| :--- | :--- |
+| MH1 | Bottom-left corner (7 mm from left edge, 7 mm from bottom edge) |
+| MH2 | Bottom-right corner (7 mm from right edge, 7 mm from bottom edge) |
+| MH3 | Board geometric centre |
+| MH4 | Top-centre: midpoint of the rounded top arc, 7 mm inset along the arc normal |
+
+Applicable to: STA, EXT (chassis holes MH1–MH4), REF.
+
+### Named Exceptions
+
+| Board | Override | Reference |
+| :--- | :--- | :--- |
+| AM | Asymmetric 4-hole pattern for single-orientation keying: MH1 (top-left) and MH3 (bottom-left) at 7 mm from left edge and 7 mm from top/bottom edges; MH2 (top-right) and MH4 (bottom-right) at 7 mm from right edge and **12 mm** from top/bottom edges. NPTH M2.5, GND only (not GND_CHASSIS). | `DR-AM-03`; DEC-057 |
+| ROT | Circular board — excluded from both patterns; mounting holes positioned on an inscribed pattern defined by board-specific DR. | `DR-ROT-08`; `Rotor/Board_Layout.md §9` |
+| CTL | Multiple hole groups: chassis holes MH1–MH4 (Pattern A, M3 PTH, GND_CHASSIS), AM dock standoffs MH5–MH8 (M2.5×3.5mm), JM dock standoffs MH9–MH12 (M2.5×3.5mm), CM5 SoM standoffs MH13–MH16 (M2.5×4mm). Each group is defined by its own DR. | `Controller/Design_Spec.md §8`; `DR-CTL-21` |
+| JM | Daughterboard (NPTH M2.5, GND only — not GND_CHASSIS); mounting hardware owned by and specified in the Controller Board BOM (MH13–MH16). | `DR-JM-18`; DEC-057 |
+
 ## 5. Single-Point GND ↔ GND_CHASSIS Bond (Global Rule)
 
 **The Enigma-NG system must connect signal/power GND to GND_CHASSIS at exactly one galvanic point,

@@ -315,5 +315,6 @@ Positions are defined relative to the board origin (bottom-left corner). Exact X
 | Document | Relevance |
 | :--- | :--- |
 | `design/Standards/Global_Routing_Spec.md §4` | Mechanical grounding, ENIG annular ring, GND_CHASSIS bonding rules |
+| `design/Standards/Global_Routing_Spec.md §4.3` | Default mounting hole placement Pattern B (D-shaped board) |
 | `design/Electronics/Stator/Design_Spec.md DR-STA-17` | Design requirement for mounting holes |
 | `design/Electronics/Stator/Design_Spec.md §2` | GND_CHASSIS single-point bond note |

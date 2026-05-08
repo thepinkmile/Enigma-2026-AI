@@ -10,7 +10,7 @@
 > from the SQL Reconstruction Reference section at the bottom of this file. That section is the authoritative
 > dependency source; the in-session SQL is a convenience tracker only and does not persist across sessions.
 
-Last updated: 2026-05-07
+Last updated: 2026-05-08
 
 ---
 
@@ -45,7 +45,7 @@ Long-running workstreams; tracked in `.copilot/plan.md` Current Open Workstreams
 | ~~`bom-func-notes-sweep`~~ | ~~Remove function descriptions from all BOM tables across ALL design files. BOM may only contain RefDes / MPN / Manufacturer / Spec / Supplier PNs / Qty / procurement Notes. Pre-condition: new BOM Content directive committed. Deferred per user instruction (F-PM-09/F-PM-10). Depends on: all board Design_Spec.md files stable.~~ | ~~✔ DONE~~ | ~~All boards swept; PM calc equations added to spec body~~ | ~~2026-05-08~~ |
 | ~~`m25-m3-dec-exception`~~ | ~~Record DEC exception for M2.5 mounting holes on daughterboards: AM, ENC, and ROT boards use M2.5 (not M3 per GRS §4) because they mount to other PCBs rather than chassis. MH must tie to GND (not GND_CHASSIS). Covered by GRS §5 (Daughterboard exception) and DEC-057.~~ | ~~✔ DONE~~ | ~~DEC-057, GRS §5~~ | ~~2026-05-06~~ |
 | ~~`jdb-standoff-height`~~ | ~~Determine JDB hat-header stacking height and select correct M2.5 SMT standoff PN; review whether a DF40 BtB connector upgrade (same as AM) was appropriate. Resolved: upgraded to Hirose DF40C-20DP BtB connector (DEC-058); MH13–MH16 on CTL use Wurth 9774035151R (same as AM dock). BOM entries added to CTL Design_Spec.md.~~ | ~~✔ DONE~~ | ~~DEC-057, DEC-058~~ | ~~2026-05-07~~ |
-| `mh-refdes-standardise` | Standardise mounting hole RefDes across all boards per DEC-057/DEC-058. CTL is now correctly assigned: MH1–4 = CM5 SoM, MH5–8 = AM dock, MH9–12 = chassis (no BOM, GRS plain holes), MH13–16 = JDB dock. EXT is already correct (MH1–4 = chassis, MH5–8 = AM dock). Verify all remaining boards follow their applicable scheme. Update any cross-references in Design_Spec.md, Board_Layout.md, Consolidated_BOM.md, and Design_Log.md that cite specific MH numbers. | pending | DEC-057, DEC-058 | 2026-05-07 |
+| ~~`mh-refdes-standardise`~~ | ~~Standardise mounting hole RefDes across all boards per DEC-057/DEC-058. Canonical scheme: MH1–4 = chassis/module holes (Pattern A/B, no BOM), MH5–8 = AM dock standoffs, MH9–12 = JM dock standoffs, MH13–16 = CM5 SoM standoffs. CTL renumbered: chassis MH9–12→MH1–4, JM dock MH13–16→MH9–12, CM5 MH1–4→MH13–16. EXT already correct (MH1–4=chassis, MH5–8=AM). GRS §4.3 Named Exceptions CTL row updated. JM Design_Spec/Board_Layout CTL-ref standoffs updated to MH9–12. Consolidated_BOM updated.~~ | ~~✔ DONE~~ | ~~CTL renumbered this session; GRS §4.3, JM docs, CBOM all updated~~ | ~~2026-05-08~~ |
 | ~~`jdb-fr-renumber`~~ | ~~JDB Design_Spec.md deferred cleanup: FR-JDB-02 and FR-JDB-03 were collapsed into a single requirement; renumber remaining FRs consecutively. Broadened audit of all 22 Design_Spec.md files confirmed **no gaps** in any owning spec. JDB FR-JDB-01/02 already consecutive after collapse. All apparent gaps were cross-references to other boards' IDs.~~ | ~~✔ DONE~~ | ~~—~~ | ~~2026-05-07~~ |
 | `jdb-ft232h-3v3-vregin` | 🚫 **DEFERRED TO V2.0.** FT232H Rev C supports 3.0–3.6V VREGIN, which would allow JDB to run entirely from 3V3\_ENIG and eliminate the 5V\_USB pin from the DF40 connector. Defer until Rev C availability is confirmed. Same priority as `display-addon-board`. | blocked | DEC-058 | 2026-05-07 |
 
@@ -179,7 +179,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('connector-thermal-verification',    'Connector thermal/current derating',           'done'),
 ('full-pn-review',                    'Full supplier PN sweep pre-schematic',         'pending'),
 ('footprint-requests-pending',        'Outstanding footprint requests / downloads',   'pending'),
-('bom-func-notes-sweep',              'BOM function notes conformity sweep: remove function descriptions from all BOM tables across ALL design files. Deferred per user instruction (F-PM-09/F-PM-10).', 'pending'),
+('bom-func-notes-sweep',              'BOM function notes conformity sweep: remove function descriptions from all BOM tables across ALL design files. Deferred per user instruction (F-PM-09/F-PM-10).', 'done'),
 ('m25-m3-dec-exception',              'Record DEC exception for M2.5 mounting holes on daughterboards (AM, ENC, ROT): not M3 per GRS because they mount to PCBs not chassis; MH ties to GND not GND_CHASSIS. Covered by GRS §5 and DEC-057.', 'done'),
 -- Mechanical Deferrals
 ('rotor-shaft-diameter',              'Rotor PCB shaft hole diameter',                'pending'),
@@ -203,7 +203,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('bypass-cap-audit-100nf',            'System-wide audit: verify all 100nF bypass cap DigiKey PNs after GRS §3.2 PN correction', 'done'),
 ('reset-n-prefix-decision',           'Decide whether RESET_N net name needs board-specific prefix before schematic capture begins', 'done'),
 ('connector-stacking-height-review',  'Review ERF8/ERM8 stacking heights against enclosure and rotating shroud clearance — deferred to mechanical stage when prototype boards are available', 'pending'),
-('plugboard-assembly-spec',           'Create Plugboard Assembly specification including J1 6.35mm mono jack socket pin mapping table; ENC J1 connector delegation pending this spec', 'pending'),
+('plugboard-assembly-spec',           'Create Plugboard Assembly specification including J1 6.35mm mono jack socket pin mapping table; ENC J1 connector delegation pending this spec', 'done'),
 ('enc-connector-review-pre-pcb',      'Review ENC connector and bypass cap placement before prototype PCB manufacturing; ensure ENC J1/J2 placement and 100nF caps are correct', 'pending'),
 ('bom-system-qty-audit',              'Audit and correct all System Qty values in Consolidated_BOM.md against the documented base-system convention (1× PM/CTL/STA/REF/EXT/JDB/USM/ENC/AM + 5× ROT of single variant). Focus: TPD4E05 row (currently may double-count both ROT variants); variant-specific rotor components (C16A/C16B, U3A/U3B — confirm C16A/C16B are 100nF bypass caps in ROT Design_Spec.md); all ROT-only rows.', 'done'),
 ('mh-refdes-standardise',            'Standardise mounting hole RefDes across all boards per DEC-057/DEC-058. CTL correctly assigned: MH1-4=CM5, MH5-8=AM dock, MH9-12=chassis (no BOM, GRS plain holes), MH13-16=JDB dock. EXT correct (MH1-4=chassis, MH5-8=AM dock). Verify remaining boards follow applicable scheme. Update any cross-references in Design_Spec.md, Board_Layout.md, Consolidated_BOM.md, Design_Log.md citing specific MH numbers.', 'pending'),

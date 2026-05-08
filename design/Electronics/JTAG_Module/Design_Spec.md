@@ -42,7 +42,7 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 | DR-JM-15 | TCK pull-down near J2 | R7 = 10 kΩ 0402 pull-down from TCK to GND near J2 header; idle-state TAP control | §6 Electrical Requirements; BOM R7 |
 | DR-JM-16 | FT232H RESET_N pull-up | R5 = 10 kΩ 0402 pull-up from FT232H RESET_N (FT232H pin 34; IC datasheet designates this pin as RESET#; renamed RESET_N per project convention) to 3V3_ENIG; holds RESET_N deasserted (HIGH) during normal operation per FTDI application note AN_108; absence of pull-up risks chip latching in reset | §6 Electrical Requirements; BOM R5 |
 | DR-JM-17 | JTAG buffer VCC bypass | C12 = 100nF X7R 0402 bypass capacitor shall be placed on the VCC supply of U2 (SN74LVC2G125DCUR) within 0.5mm of the VCC pin | §6 Electrical Requirements; BOM C12 |
-| DR-JM-18 | Mounting holes | JM mounting holes MH1–MH4 shall be NPTH M2.5 holes with a GND annular ring. Conductive standoffs connect to GND only (not GND_CHASSIS), per DEC-057 daughterboard exception. No purchasable BOM component — mounting hardware is owned by and specified in the Controller Board BOM (MH13–MH16, 9774035151R). See `design/Standards/Global_Routing_Spec.md §4` for module mounting hole rules. | §4 Aesthetics & Mounting; DEC-057; DEC-058 |
+| DR-JM-18 | Mounting holes | JM mounting holes MH1–MH4 shall be NPTH M2.5 holes with a GND annular ring. Conductive standoffs connect to GND only (not GND_CHASSIS), per DEC-057 daughterboard exception. No purchasable BOM component — mounting hardware is owned by and specified in the Controller Board BOM (MH9–MH12, 9774035151R). See `design/Standards/Global_Routing_Spec.md §4` for module mounting hole rules. | §4 Aesthetics & Mounting; DEC-057; DEC-058 |
 | DR-JM-19 | BtB connector placement and orientation | J1 (DF40C-20DP) shall be placed at **bottom-centre** of the JM board (positional keying — cannot accidentally mate with AM location on CTL). R1 of J1 shall be on the outer (bottom) edge. When mounted on the CTL, R1 shall face the LINK-BETA connector (J4/J5) to minimise JTAG trace lengths to the Stator. Orientation is enforced by the asymmetric MH1–MH4 pattern and silkscreen pin-1 markers (DF40 is mechanically polarity-free per Hirose Note 4). | §3 Interface & Wiring; §4 Aesthetics & Mounting |
 | DR-JM-20 | No-component zone — underside | A minimum 1.0mm component-free zone shall be maintained on the underside (L4 face) of the JM, measured from the board outline. This ensures clearance above the CTL board when the JM is mounted as a hat. | §4 Aesthetics & Mounting; DEC-058 |
 
@@ -64,7 +64,7 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
   USB 2.0 data path to CM5 (D+/D-), and JTAG output signals (TCK, TMS, TDI, TDO) — all in one connector.
 * **Physical location:** Bottom-centre of board; R1 on outer (bottom) edge; faces toward CTL LINK-BETA connector (J4/J5) when mounted.
 * **Mating Part (Controller J12):** Hirose DF40HC(3.5)-20DS-0.4V(51) — 3.5mm stack height BtB receptacle. See `Controller/Design_Spec.md §8.3`.
-* **Stack height:** 3.5mm (matching AM dock — same standoffs, 9774035151R, held in CTL BOM MH13–MH16).
+* **Stack height:** 3.5mm (matching AM dock — same standoffs, 9774035151R, held in CTL BOM MH9–MH12).
 
 #### J1 Pinout (20-pin DF40C)
 
@@ -127,7 +127,7 @@ remains on the Power Module at the common power-entry point immediately before t
 * **Mounting:** Small **4-layer** PCB (DEC-017) mounted as a hat on the Controller Board via conductive
   standoffs. As a non-chassis-connected daughterboard, its mounting holes tie to **GND** only.
   The M2.5 standoffs used to attach the JM to the CTL are specified and sourced in the
-  **Controller Board BOM** (MH13–MH16, 9774035151R). See `design/Electronics/Controller/Design_Spec.md`,
+  **Controller Board BOM** (MH9–MH12, 9774035151R). See `design/Electronics/Controller/Design_Spec.md`,
   DEC-057 (standoff ownership rule), and DEC-058 for the JM upgrade decision.
   Mounting hole positions (MH1–MH4) are defined relative to the JM board edge; final CTL board
   locations are deferred to PCB layout. See `design/Standards/Global_Routing_Spec.md §4` for module
@@ -177,7 +177,8 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
   `SYS_RESET_N` net, which is driven by the Stator CPLD and distributed across inter-board connectors.
   Separate KiCAD projects are used per board, so these net names remain naturally isolated at capture time.
 * **Clocking:** Dedicated 12MHz SMD crystal (Y1) for the FT232H reference clock. The FT232H internal PLL requires 12MHz; CM5 GPCLK
-  option was considered and rejected - see DEC-022. Note: package corrected from SMD-3225 to SMD-5032 per CTS 435 datasheet. KiCAD footprint adapted from the unofficial Crystal_SMD_5032-4Pin symbol in KiCAD 10.0; 3D model approximated from the 2-pin 5032 STEP. Crystal load capacitors C10-C11 (33pF C0G) set the 20pF crystal load capacitance.
+  option was considered and rejected - see DEC-022. Note: package corrected from SMD-3225 to SMD-5032 per CTS 435 datasheet. KiCAD footprint adapted from the unofficial
+  Crystal_SMD_5032-4Pin symbol in KiCAD 10.0; 3D model approximated from the 2-pin 5032 STEP. Crystal load capacitors C10-C11 (33pF C0G) set the 20pF crystal load capacitance.
   **Load cap calculation:** The crystal specifies C_L = 20pF. Two equal load caps in series give C_series = C/2; adding PCB stray
   capacitance (C_stray ≈ 3-4pF, from PCB traces and FT232H XTIN input capacitance) yields:
   C_L = C/2 + C_stray = 33/2 + 3.5 ≈ 16.5 + 3.5 = **20pF ✔**

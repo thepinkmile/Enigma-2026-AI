@@ -86,7 +86,7 @@ not be used as a local chassis-bond point.
 | DR-ROT-05 | Output connectors (Board B) | J4 = ERF8-005 (JTAG out), J5 = ERF8-005 (Power out), J6 = ERF8-010 (ENC out) | §3.4 Connector Pinouts; BOM J4-J6 |
 | DR-ROT-06 | Power consumption | ≈54.2 mA typical per rotor from 3V3_ENIG (design budget: 55 mA) | §3.1 Power Management |
 | DR-ROT-07 | Stack quantity | 30 rotor boards in the complete system | §1 Overview |
-| DR-ROT-08 | Mechanical retention | 4x M3 PTH (plated through-hole) mounting holes, Ø3.2mm clearance, per rotor assembly (2x on Board A + 2x on Board B), positioned at the 4 corners of the inscribed square in the Ø92mm circular footprint (approx. ±32.5 mm from board centre); electrical connection: `GND_CHASSIS`; 8mm solid metal support rod (non-threaded) through all 30 rotors for alignment and connector stress relief; stack is horizontal | §2.3 Mechanical Details; `design/Electronics/Rotor/Board_Layout.md §9`; `design/Standards/Global_Routing_Spec.md §4` |
+| DR-ROT-08 | Mechanical retention | 4x M3 PTH (plated through-hole) mounting holes, Ø3.2mm clearance, per rotor assembly (2x on Board A + 2x on Board B), positioned at the 4 corners of the inscribed square in the Ø92mm circular footprint (approx. ±32.5 mm from board centre); electrical connection: `GND_CHASSIS`; designators: MH1A, MH2A (Board A); MH1B, MH2B (Board B); no BOM entry required — plain chassis mounting holes, no components to fit; 8mm solid metal support rod (non-threaded) through all 30 rotors for alignment and connector stress relief; stack is horizontal | §2.3 Mechanical Details; `design/Electronics/Rotor/Board_Layout.md §9`; `design/Standards/Global_Routing_Spec.md §4` |
 | DR-ROT-09 | Ring setting DIP switches (SW1) | 6-position DIP switch on input side only; SW1[5:0] summed mod N with CPLD STGC-decoded position to yield effective rotor position | §2.3 Mechanical Details; BOM SW1 |
 | DR-ROT-10 | Map selection DIP switches (SW2 / SW3) | 6-position DIP on each face: bits [4:0] = map index (0-20 valid), bit [5] = direction (0=forward, 1=reverse); identical mechanism on both variants | §2.2 Logic & Transposition; BOM SW2, SW3 |
 | DR-ROT-11 | Internal connectors (J7-J14) | Eight single-row 2.54mm THT headers on inner face of both boards (four per board; J7: 1x5 female RS1-05-G on Board A; J8: 1x5 female RS1-05-G on Board A; J9: 1x5 female RS1-05-G on Board B; J10: 1x7 female RS1-07-G on Board B; J11: 1x5 male PH1-05-UA on Board A; J12: 1x5 male PH1-05-UA on Board B; J13: 1x5 male PH1-05-UA on Board B; J14: 1x7 male PH1-07-UA on Board A; 44 total pins); mixed gender between boards provides physical keying; manually assembled post-JLCPCB SMT | §3.4 Connector Pinouts; BOM J7-J14 |
@@ -229,7 +229,7 @@ Nominal resonant frequency: **~6.5 MHz**.
 
 ### 2.3 Mechanical Details
 
-* **Mounting:** Each rotor PCB has two **M3 alignment holes**.
+* **Mounting:** Each rotor PCB has two **M3 mounting holes**: Board A uses **MH1A** and **MH2A**; Board B uses **MH1B** and **MH2B** (per DR-ROT-08 and `design/Electronics/Rotor/Board_Layout.md §9`).
 * **Stack Orientation:** The rotor stack is oriented **horizontally** (matching original Enigma
   machine aesthetics). In this orientation, rotor weight does not bear on the ERM8/ERF8 connector
   engagement faces.

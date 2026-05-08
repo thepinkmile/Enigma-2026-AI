@@ -74,7 +74,8 @@ source is active.
 | DR-CTL-17 | ACTUATE_REQUEST_N boot-safe pull-up | R4 (10kΩ 0603) shall connect `ACTUATE_REQUEST_N` (CM5 GPIO 8) to `3V3_ENIG` as a pull-up resistor. This holds the active-low line HIGH (no-actuation state) before CM5 firmware configures GPIO 8 as an output, preventing a spurious actuation pulse to the Actuation Module during CM5 early boot. R4 is distinct from R1–R3, which are series protection resistors on GPIO input lines. | BOM R4; §7 Protection & EMI |
 | DR-CTL-18 | PoE ACF primary-side clamp capacitor | C17 (10nF X7R 100V 0402) shall be placed in the U8 (TPS23730RMTR) primary-side active-clamp circuit as the Cclamp energy-storage capacitor. The 100V voltage rating is required by the primary-side operating environment: the PoE bus may reach 57V and transformer leakage transients on the primary drain node exceed this during switching. See `design/Electronics/Controller/PoE_Power_Analysis.md`. | BOM C17; §7.1 PoE Front-End Passive Components |
 | DR-CTL-19 | JM dock connector | J12 = Hirose DF40HC(3.5)-20DS-0.4V(51) 20-pin 0.4mm pitch BtB receptacle (3.5mm stack height) for the JTAG Module (JM) dock. Mates with JM J1 DF40C-20DP-0.4V(51). Placement and board location finalised at PCB layout time. | §8.3; BOM J12 |
-| DR-CTL-20 | JM dock no-component zone | The Controller area beneath the installed JM shall be a no-component placement zone except for J12 and four M2.5×3.5mm SMT standoffs (MH13–MH16, 9774035151R) and the copper / vias needed to route J12; MH13–MH16 pads shall be connected to `GND` (not `GND_CHASSIS`); standoff placement shall mirror the JM MH1–MH4 pattern per `design/Electronics/JTAG_Module/Design_Spec.md §4` and `design/Electronics/JTAG_Module/Board_Layout.md §8`. See DEC-057 (standoff ownership), DEC-058 (JM BtB upgrade). **PCB layout for J12 and MH13–MH16 cannot be finalised until JM schematic capture and PCB layout are complete.** | §8.3; `design/Electronics/Controller/Board_Layout.md` |
+| DR-CTL-20 | JM dock no-component zone | The Controller area beneath the installed JM shall be a no-component placement zone except for J12 and four M2.5×3.5mm SMT standoffs (MH9–MH12, 9774035151R) and the copper / vias needed to route J12; MH9–MH12 pads shall be connected to `GND` (not `GND_CHASSIS`); standoff placement shall mirror the JM MH1–MH4 pattern per `design/Electronics/JTAG_Module/Design_Spec.md §4` and `design/Electronics/JTAG_Module/Board_Layout.md §8`. See DEC-057 (standoff ownership), DEC-058 (JM BtB upgrade). **PCB layout for J12 and MH9–MH12 cannot be finalised until JM schematic capture and PCB layout are complete.** | §8.3; `design/Electronics/Controller/Board_Layout.md` |
+| DR-CTL-21 | Chassis mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. No purchasable BOM entry — plain chassis mounting holes; no components to fit. Exact XY positions TBD at PCB layout. | `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Controller/Board_Layout.md` |
 
 ## 2. Dock Interfaces
 
@@ -107,7 +108,7 @@ The area directly beneath the mounted CM5 module (55mm x 40mm footprint) shall o
   official clearance.
 * The CM5 footprint shadow should still be shown in KiCad on `User.Courtyard`, but as a placement
   reference boundary for the height rule rather than as a hard no-component keep-out.
-* **CM5 mounting standoffs:** MH1–MH4 = four `9774040151R` (Wurth Elektronik M2.5×4.0mm SMT
+* **CM5 mounting standoffs:** MH13–MH16 = four `9774040151R` (Wurth Elektronik M2.5×4.0mm SMT
   standoffs) set the 4.0mm stack height for the CM5 SO-DIMM sockets (J14–J15). Pads are connected
   to `GND` — **not** `GND_CHASSIS`. See `design/Standards/Global_Routing_Spec.md` for module
   mounting hole grounding rules.
@@ -336,7 +337,7 @@ The `J5` connector deliberately groups the JTAG cluster and `TTD_RETURN` with th
 
 The JTAG Module mounts on the Controller via a single Hirose DF40HC(3.5)-20DS-0.4V(51)
 20-pin board-to-board receptacle (J12) with 3.5mm stack height, plus four M2.5×3.5mm SMT
-standoffs (MH13–MH16, 9774035151R; pads to `GND`, not `GND_CHASSIS` — see
+standoffs (MH9–MH12, 9774035151R; pads to `GND`, not `GND_CHASSIS` — see
 `design/Standards/Global_Routing_Spec.md` for module mounting hole grounding rules). The JM J1 plug mates with J12 at bottom-centre of the JM,
 with R1 (outer edge row) oriented toward the LINK-BETA connector (J4/J5) to minimise JTAG trace lengths.
 See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
@@ -348,7 +349,7 @@ See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
 > orientation are defined and owned by the JTAG Module. Net connections from this board
 > to the mounted JM:
 >
-> | CTL Net    | JM Net    |
+> | CTL Net    | JM Net     |
 > | :--------- | :--------- |
 > | `TCK`      | `TCK`      |
 > | `TMS`      | `TMS`      |
@@ -515,8 +516,8 @@ Estimated Controller-local power dissipation at system peak load:
 | J10 | 4-pin SH 1.0mm fan SMT | SM04B-SRSS-TB(LF)(SN) | JST | 455-SM04B-SRSS-TBCT-ND | 306-SM04BSRSSTBLFSN | C160404 | - | - | Yes | ✔ | 1 |
 | J11, J12 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack | DF40HC(3.5)-20DS-0.4V(51) | Hirose | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | Yes | ✔ | 2 |
 | J14-J15 | CM5 SO-DIMM 100-pin 4mm | 10164227-1004A1RLF | Amphenol | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | Yes | ✔ | 2 |
-| MH1-MH4 | M2.5x4.0mm SMT standoff | 9774040151R | Wurth Elektronik | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | Yes | ✔ | 4 |
-| MH5-MH8, MH13-MH16 | M2.5x3.5mm SMT standoff | 9774035151R | Wurth Elektronik | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | Yes | ✔ | 8 |
+| MH13-MH16 | M2.5x4.0mm SMT standoff | 9774040151R | Wurth Elektronik | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | Yes | ✔ | 4 |
+| MH5-MH8, MH9-MH12 | M2.5x3.5mm SMT standoff | 9774035151R | Wurth Elektronik | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | Yes | ✔ | 8 |
 | R1-R3 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 3 |
 | R4 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 1 |
 | T1 | PoE transformer 1500V 12-pin SMT | POE600F-12L | Coilcraft | N/A | N/A | N/A | - | Only available direct from Coilcraft | Yes | ✔ | 1 |

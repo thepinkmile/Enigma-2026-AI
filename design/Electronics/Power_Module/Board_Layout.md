@@ -187,3 +187,26 @@ service clearance rather than blind-mate dual-board insertion constraints.
    remains a local exception: red + green only through `Q4` and `D5` / `D6`; blue stays runtime-only.
 4. Route `LED_PWR_N` from `J3` only into the local SW2 hardware-indicator logic; do not place it on the
    PM I2C expander. The SW2 red/green sink stages and shutdown latch remain fully local to the PM.
+
+---
+
+## 7. Mounting Holes
+
+Per DR-PM-15 and `design/Standards/Global_Routing_Spec.md §4`:
+
+| Designator | Position | Specification |
+| :--- | :--- | :--- |
+| MH1 | Corner (TBD at PCB layout) | Ø3.2 mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+| MH2 | Corner (TBD at PCB layout) | Ø3.2 mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+| MH3 | Corner (TBD at PCB layout) | Ø3.2 mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+| MH4 | Corner (TBD at PCB layout) | Ø3.2 mm PTH; ENIG annular ring; net: `GND_CHASSIS` |
+
+No BOM entry required — MH1–MH4 are plain chassis mounting holes with no purchasable components.
+Exact XY coordinates and corner assignments are TBD at PCB layout stage.
+
+### Cross-references
+
+| Source | Note |
+| :--- | :--- |
+| `design/Electronics/Power_Module/Design_Spec.md DR-PM-15` | Design requirement — 4x M3 PTH chassis mounting holes |
+| `design/Standards/Global_Routing_Spec.md §4` | Mechanical grounding rules; GND_CHASSIS net |
