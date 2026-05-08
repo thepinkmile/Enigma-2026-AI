@@ -177,7 +177,7 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
   `SYS_RESET_N` net, which is driven by the Stator CPLD and distributed across inter-board connectors.
   Separate KiCAD projects are used per board, so these net names remain naturally isolated at capture time.
 * **Clocking:** Dedicated 12MHz SMD crystal (Y1) for the FT232H reference clock. The FT232H internal PLL requires 12MHz; CM5 GPCLK
-  option was considered and rejected - see DEC-022. Crystal load capacitors C10-C11 (33pF C0G) set the 20pF crystal load capacitance.
+  option was considered and rejected - see DEC-022. Note: package corrected from SMD-3225 to SMD-5032 per CTS 435 datasheet. KiCAD footprint adapted from the unofficial Crystal_SMD_5032-4Pin symbol in KiCAD 10.0; 3D model approximated from the 2-pin 5032 STEP. Crystal load capacitors C10-C11 (33pF C0G) set the 20pF crystal load capacitance.
   **Load cap calculation:** The crystal specifies C_L = 20pF. Two equal load caps in series give C_series = C/2; adding PCB stray
   capacitance (C_stray ≈ 3-4pF, from PCB traces and FT232H XTIN input capacitance) yields:
   C_L = C/2 + C_stray = 33/2 + 3.5 ≈ 16.5 + 3.5 = **20pF ✔**
@@ -220,11 +220,11 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | C1-C4, C6-C9, C12 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 9 |
 | C5 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | Yes | Pending | 1 |
-| C10-C11 | 33pF C0G/NP0 crystal load 0402 | C0402C330J5GAUTO | Kemet | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | C0G/NP0 exception approved - only C0G in system | Yes | Pending | 2 |
-| J1 | 20-pin 0.4mm pitch BtB plug (bottom-centre of board) | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | BtB connector; mates with CTL J12 DF40HC(3.5)-20DS-0.4V(51); R1 on outer edge; see DR-JM-19, DEC-058 | Yes | ✔ | 1 |
+| C10-C11 | 33pF C0G/NP0 crystal load 0402 | C0402C330J5GAUTO | Kemet | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | - | Yes | Pending | 2 |
+| J1 | 20-pin 0.4mm pitch BtB plug (bottom-centre of board) | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | see DR-JM-19, DEC-058 | Yes | ✔ | 1 |
 | R1-R4 | 33Ω 1% 0402 | ERJ-2RKF33R0X | Panasonic | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | see DEC-016; see DEC-024 | Yes | ✔ | 4 |
 | R5-R7 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | Pending | 3 |
 | U1 | USB 2.0 to MPSSE bridge LQFP-48 | FT232HL-REEL | FTDI Chip | 768-1101-1-ND | 895-FT232HL-REEL | C51997 | - | - | Yes | ✔ | 1 |
 | U2 | Dual 3-state buffer VSSOP-8 | SN74LVC2G125DCUR | Texas Instruments | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | Yes | ✔ | 1 |
-| Y1 | 12MHz 20pF ±20ppm crystal SMD-5032 (5.0×3.2×1.1mm) | 435F12012IET | CTS | 110-435F12012IETTR-ND | 774-435F12012IET | C19766404 (Extended) | - | see DEC-022; package corrected from SMD-3225 to SMD-5032 per CTS 435 datasheet; unofficial footprint adapted from KiCAD 10.0 Crystal_SMD_5032-4Pin; 3D model approximated from 2-pin 5032 STEP | Yes* | Yes* | 1 |
+| Y1 | 12MHz 20pF ±20ppm crystal SMD-5032 (5.0×3.2×1.1mm) | 435F12012IET | CTS | 110-435F12012IETTR-ND | 774-435F12012IET | C19766404 (Extended) | - | see DEC-022 | Yes* | Yes* | 1 |
 <!-- markdownlint-enable MD013 MD055 MD056 -->

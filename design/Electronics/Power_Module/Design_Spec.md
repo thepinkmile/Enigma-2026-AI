@@ -135,6 +135,7 @@ in design documentation and PCB net lists. These signals are the direct PM hands
   | 3 | `SMBUS_SDA` | Bidirectional | SMBus data; local ESD protection fitted |
   | 4 | `BATT_PRES_N` | Battery -> PM | Battery auxiliary / thermistor detect (active-LOW: 300Ω ±5% T-pin to GND when battery present) |
   | 5 | `VBATT-` | Battery -> PM | Battery negative / return |
+  
   * **BMS Charge Voltage:** Smart Battery BMS must be configured for a maximum charge voltage of **4.1V/cell (16.4V total for 4S)**. This provides a ≥0.5V margin to the TPS25980 eFuse 16.9V OVLO
   threshold, preventing nuisance latch-off at full charge. BMS configurations using 4.2V/cell (16.8V) are not compatible without OVLO re-specification.
   * **Candidate replacement path:** a military / NetWarrior-style Glenair or ODU receptacle plus a

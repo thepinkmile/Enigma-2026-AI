@@ -283,6 +283,7 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
   See `design/Electronics/Power_Budgets.md` for full budget - 30 rotors draw **1.63A typical / 1.65A budget**; the 150mA/rotor figure previously used was a conservative overestimate.
 * **Filtering:** Local **10uF X7R** bulk entry bank on each rotor; upstream rail filtering uses the **Stator ferrite bead bank** to suppress stack switching noise.
 * Decoupling and bulk entry capacitor requirements per `design/Standards/Global_Routing_Spec.md §3`.
+* Decoupling assignment: C1–C8 are CPLD VCC/VCCIO bypass caps; C9 is FDC2114 (0x2A) VDD bypass cap; C10–C14 are CPLD VCC/VCCIO bulk decoupling caps; C15 is FDC2114 (0x2A) VDD bulk decoupling cap. See GRS §3.2.
 
 ### 3.2 Communication Bus
 
@@ -542,9 +543,9 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C1-C9 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | C1–C8: U1 CPLD VCC/VCCIO bypass caps; C9: U2 FDC2114 (0x2A) VDD bypass cap; see GRS §3.2 | Yes | Pending | 9 |
-| C10-C14 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | U1 CPLD VCC/VCCIO bulk decoupling caps; see GRS §3.2 | Yes | ✔ | 5 |
-| C15 | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | U2 FDC2114 (0x2A) VDD bulk decoupling cap; see GRS §3.2 | Yes | Pending | 1 |
+| C1-C9 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | see GRS §3.2 | Yes | Pending | 9 |
+| C10-C14 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | see GRS §3.2 | Yes | ✔ | 5 |
+| C15 | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | see GRS §3.2 | Yes | Pending | 1 |
 | C16-C19 | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
 | J1-J2 | 10-pin 2x5 0.8mm male SMT | ERM8-005-05.0-S-DV-K-TR | Samtec | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | Yes | Pending | 2 |
 | J3 | 20-pin 2x10 0.8mm male SMT | ERM8-010-05.0-S-DV-K-TR | Samtec | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | - | - | Yes | Pending | 1 |
