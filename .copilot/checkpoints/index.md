@@ -138,3 +138,5 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 131 | T1 Discussion Migration Complete | 131-t1-discussion-migration-complete.md |
 | 132 | BOM Reorder Complete; Temp Cleanup Done | 132-bom-reorder-complete-temp-cleanup.md |
 | 133 | Board Layout PoE/CM5 Additions; SO-DIMM Terminology Fixed | 133-board-layout-poe-cm5-sodimm-fix.md |
+| 134 | ASCII to Mermaid diagrams complete | 134-ascii-to-mermaid-diagrams-complete.md |
+| 135 | Mermaid diagram todos created | 135-mermaid-diagram-todos-created.md |

@@ -49,7 +49,7 @@ Last updated: 2026-05-09
 | `da-02` | — | done | — |
 | `naming-convention-sweep` | — | done | — |
 | `da-04` | — | done | — |
-| `compliance-testing` | [compliance-testing.md](todos/compliance-testing.md) | pending | `prototype-pcb-manufacturing` |
+| `compliance-testing` | [compliance-testing.md](todos/compliance-testing.md) | pending | `prototype-pcb-manufacturing`, `version-1-documentation`, `emc-testing`, `environmental-testing`, `security-testing` |
 | `bom-pre-prototype-check` | [bom-pre-prototype-check.md](todos/bom-pre-prototype-check.md) | pending | `full-pn-review`, `interim-electronics-review-3` |
 | `bom-pre-production-check` | [bom-pre-production-check.md](todos/bom-pre-production-check.md) | pending | `bom-pre-prototype-check`, `prototype-system-complete` |
 | `jdb-board-rename` | — | done | — |
@@ -78,7 +78,23 @@ Last updated: 2026-05-09
 | `review-pass-8` | [review-pass-8.md](todos/review-pass-8.md) | pending | — |
 | `review-pass-9` | [review-pass-9.md](todos/review-pass-9.md) | pending | `review-pass-8` |
 | `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | pending | `review-pass-9` |
-| `ascii-to-mermaid-diagrams` | [ascii-to-mermaid-diagrams.md](todos/ascii-to-mermaid-diagrams.md) | pending | — |
+| `ascii-to-mermaid-diagrams` | — | done | — |
+| `board-interconnect-diagram` | [board-interconnect-diagram.md](todos/board-interconnect-diagram.md) | pending | — |
+| `system-config-variants-diagrams` | [system-config-variants-diagrams.md](todos/system-config-variants-diagrams.md) | pending | — |
+| `ctl-component-diagram` | [ctl-component-diagram.md](todos/ctl-component-diagram.md) | pending | — |
+| `pm-component-diagram` | [pm-component-diagram.md](todos/pm-component-diagram.md) | pending | — |
+| `sta-component-diagram` | [sta-component-diagram.md](todos/sta-component-diagram.md) | pending | — |
+| `rotor-component-diagram` | [rotor-component-diagram.md](todos/rotor-component-diagram.md) | pending | — |
+| `ext-component-diagram` | [ext-component-diagram.md](todos/ext-component-diagram.md) | pending | — |
+| `ref-component-diagram` | [ref-component-diagram.md](todos/ref-component-diagram.md) | pending | — |
+| `enc-component-diagram` | [enc-component-diagram.md](todos/enc-component-diagram.md) | pending | — |
+| `jm-component-diagram` | [jm-component-diagram.md](todos/jm-component-diagram.md) | pending | — |
+| `usm-component-diagram` | [usm-component-diagram.md](todos/usm-component-diagram.md) | pending | — |
+| `am-component-diagram` | [am-component-diagram.md](todos/am-component-diagram.md) | pending | — |
+| `version-1-documentation` | [version-1-documentation.md](todos/version-1-documentation.md) | pending | `board-interconnect-diagram`, `system-config-variants-diagrams`, `ctl-component-diagram`, `pm-component-diagram`, `sta-component-diagram`, `rotor-component-diagram`, `ext-component-diagram`, `ref-component-diagram`, `enc-component-diagram`, `jm-component-diagram`, `usm-component-diagram`, `am-component-diagram` |
+| `emc-testing` | [emc-testing.md](todos/emc-testing.md) | pending | `version-1-documentation` |
+| `environmental-testing` | [environmental-testing.md](todos/environmental-testing.md) | pending | `version-1-documentation` |
+| `security-testing` | [security-testing.md](todos/security-testing.md) | pending | `version-1-documentation` |
 
 ---
 
@@ -160,7 +176,20 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('review-pass-9',                     'Design review pass 9',                        'pending'),
 ('review-pass-10',                    'Design review pass 10',                       'pending'),
 -- Documentation improvements
-('ascii-to-mermaid-diagrams',         'Replace ASCII flow/block diagrams with Mermaid fenced blocks', 'pending');
+('ascii-to-mermaid-diagrams',         'Replace ASCII flow/block diagrams with Mermaid fenced blocks', 'done'),
+-- Mermaid Diagrams
+('board-interconnect-diagram',        'block-beta board interconnect diagram in Boards_Overview.md',            'pending'),
+('system-config-variants-diagrams',   'flowchart TD system config variants in System_Architecture.md',          'pending'),
+('ctl-component-diagram',             'block-beta CTL circuit component diagram in Controller/Design_Spec.md',   'pending'),
+('pm-component-diagram',              'block-beta PM circuit component diagram in Power_Module/Design_Spec.md',  'pending'),
+('sta-component-diagram',             'block-beta STA circuit component diagram in Stator/Design_Spec.md',      'pending'),
+('rotor-component-diagram',           'block-beta Rotor circuit component diagram in Rotor/Design_Spec.md',     'pending'),
+('ext-component-diagram',             'block-beta EXT circuit component diagram in Extension/Design_Spec.md',   'pending'),
+('ref-component-diagram',             'block-beta REF circuit component diagram in Reflector/Design_Spec.md',   'pending'),
+('enc-component-diagram',             'block-beta ENC circuit component diagram in Encoder/Design_Spec.md',     'pending'),
+('jm-component-diagram',              'block-beta JM circuit component diagram in JTAG_Module/Design_Spec.md',  'pending'),
+('usm-component-diagram',             'block-beta USM circuit component diagram in User_Settings_Module/Design_Spec.md', 'pending'),
+('am-component-diagram',              'block-beta AM circuit component diagram in Actuation_Module/Design_Spec.md',      'pending');
 ```
 
 ### Dependencies

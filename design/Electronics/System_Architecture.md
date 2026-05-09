@@ -44,28 +44,33 @@ The Enigma-NG system comprises the following boards:
 
 ### Physical Chain
 
-```text
-          external RJ45 / HDMI / USB3
-                         |
-                Controller Board
-                  /             \
-             J1/J2/J3          J4/J5
-                |                |
-           Power Module     Stator + AM
-                                 |
-                          J1-J3 Rotor 1
-                                 -
-                             Rotor 5
-                                 |
-                        Extension 1 + AM
-                                 |
-                             Rotor 6
-                                 ·
-                             Rotor 30
-                                 |
-                             Reflector
-                                 |
-                             TTD_RETURN -> Stator J10
+```mermaid
+flowchart TD
+    EXT["External RJ45 / HDMI / USB3"]
+    CTL["Controller Board"]
+    PM["Power Module"]
+    STA["Stator + AM"]
+    USM["User Settings Module"]
+    ENC["Encoder Modules (×6)"]
+    R1["Rotor 1 (J1–J3)"]
+    R5["Rotor 5"]
+    EXT1["Extension 1 + AM"]
+    R6["Rotor 6"]
+    R30["Rotor 30"]
+    REF["Reflector"]
+
+    EXT --> CTL
+    CTL -->|"J1/J2/J3"| PM
+    CTL -->|"J4/J5"| STA
+    STA -->|"I2C-1"| USM
+    STA -->|"20-pin IDC"| ENC
+    STA --> R1
+    R1 -. "..." .-> R5
+    R5 --> EXT1
+    EXT1 --> R6
+    R6 -. "..." .-> R30
+    R30 --> REF
+    REF -->|"TTD_RETURN → J10"| STA
 ```
 
 The Power Module and Stator are both removable daughtercards. The Controller is the fixed
@@ -153,13 +158,23 @@ main power-entry boundary before the eFuse. No second bond is permitted on the C
 
 ### 3V3_ENIG Power Flow
 
-```text
-Power Module (TPS75733KTTRG3 LDO)
-  -> Controller Board (via J1)
-    -> Stator (via J5 power blades)
-      -> Rotor group 1
-      -> Extension reinjection points
-      -> final reflector return harness
+```mermaid
+flowchart TD
+    PM["Power Module<br>(TPS75733KTTRG3 LDO)"]
+    CTL["Controller Board<br>(via J1)"]
+    STA["Stator<br>(via J5 power blades)"]
+    USM["User Settings Module"]
+    ENC["Encoder Modules (×6)"]
+    RG1["Rotor group 1"]
+    EXT["Extension reinjection points"]
+    REF["Final reflector return harness"]
+
+    PM --> CTL --> STA
+    STA --> USM
+    STA --> ENC
+    STA --> RG1
+    STA --> EXT
+    STA --> REF
 ```
 
 ---
@@ -176,15 +191,18 @@ rotor-stack JTAG connectors. This unified name avoids TDI/TDO direction confusio
 
 ### Serial Chain Path (Controller -> Reflector -> TTD_RETURN)
 
-```text
-Controller J5
-  -> Stator CPLD
-  -> Stator J1 pin 6 (TTD out)
-  -> Rotor 1 ... Rotor 30
-  -> Reflector J1 pin 6 (TTD in)
-  -> Reflector J4 pin 16 (TTD_RETURN)
-  -> Stator J10 pin 16
-  -> Controller J5
+```mermaid
+flowchart TD
+    CTL["Controller J5"]
+    CPLD["Stator CPLD"]
+    STAJ1["Stator J1 pin 6 (TTD out)"]
+    ROTORS["Rotor 1 … Rotor 30"]
+    RFLIN["Reflector J1 pin 6 (TTD in)"]
+    RFLOUT["Reflector J4 pin 16 (TTD_RETURN)"]
+    STAJ10["Stator J10 pin 16"]
+    CTL_RET["Controller J5 (return)"]
+
+    CTL --> CPLD --> STAJ1 --> ROTORS --> RFLIN --> RFLOUT --> STAJ10 --> CTL_RET
 ```
 
 ### TCK and TMS - Broadcast Signals

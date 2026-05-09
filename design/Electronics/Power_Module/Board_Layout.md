@@ -92,15 +92,32 @@ not wired; no Keystone 1211 terminal is fitted at that position.
 
 ## 3. Power Flow
 
-```text
-Controller J2 VIN_POE_12V ----.
-USB-C PD (local) --------------+--> OR-ing --> EMI filter --(input power bus)--> eFuse ---> 5V buck ------> 5V_MAIN
-Battery (local) ---------------'                                 ^                             \--> LDO --> 3V3_ENIG
-                                                                 |
-                          GND_CHASSIS ---- single GND bond ---- GND
-                          (common power-entry point immediately before eFuse)
+```mermaid
+flowchart LR
+    POE["Controller J2<br>VIN_POE_12V"]
+    USBC["USB-C PD (local)"]
+    BATT["Battery (local)"]
+    ORING["OR-ing"]
+    GND["GND bond<br>(GND_CHASSIS boundary<br>before eFuse)"]
+    EMI["EMI filter<br>(input power bus)"]
+    EFUSE["eFuse"]
+    BUCK["5V buck<br>(LMQ61460)"]
+    V5["5V_MAIN"]
+    LDO["LDO<br>(TPS75733)"]
+    V33["3V3_ENIG"]
+    SCAP["Supercap hold-up<br>(LTC3350 + 2S4P)"]
+    J1["J1 → Controller"]
 
-5V_MAIN / 3V3_ENIG -> J1 -> Controller
+    POE --> ORING
+    USBC --> ORING
+    BATT --> ORING
+    ORING --> EMI
+    GND --> EMI
+    EMI --> EFUSE
+    EFUSE --> BUCK --> V5
+    V5 --> LDO --> V33 --> J1
+    V5 <-->|"hold-up"| SCAP
+    V5 --> J1
 ```
 
 The PM remains the sole board that bonds `GND` to `GND_CHASSIS` at the clean/dirty boundary before the
@@ -110,14 +127,15 @@ eFuse.
 
 ## 4. SW1 RGB Control Block
 
-```text
-pre-boot hardware path:
-MIC1555 U9 -> Q4 -> D5/D6 -> Red + Green only  -> orange flash
-
-runtime path:
-PCA9534A U14 -> Rgates -> Q6/Q7/Q8 -> R/G/B cathodes
-                         ^
-                    SW_LED_CTRL output
+```mermaid
+flowchart LR
+    subgraph preboot["Pre-boot hardware path"]
+        MIC["MIC1555 U9"] --> Q4["Q4"] --> D56["D5/D6"] --> OFL["Red + Green only<br>→ orange flash"]
+    end
+    subgraph runtime["Runtime path"]
+        CTRL["SW_LED_CTRL output"] --> RG
+        U14["PCA9534A U14"] --> RG["Rgates"] --> Q678["Q6/Q7/Q8"] --> RGB["R/G/B cathodes"]
+    end
 ```
 
 - **D5 / D6** isolate the hardware boot path on the **red and green channels only**
