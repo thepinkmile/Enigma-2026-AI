@@ -1,6 +1,6 @@
 # Stator Board (V1.0) Design Specification
 
-**Status:** Draft
+**Status:** In Review
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
@@ -50,7 +50,7 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 | DR-STA-09 | Maximum 3V3_ENIG load | 2.05 A worst-case typical (30 rotors + Stator CPLD + all encoders) | §2 Core Features; §5 Power Telemetry |
 | DR-STA-10 | Routing configuration selection | Logical `CFG_ROUTE[3:0]` inputs are driven by U8 GPA[3:0]; 4x 10kΩ pull-down resistors R13-R16 retained on CPLD inputs as power-up safe defaults (hold 0 when U8 is uninitialised) | §3 Configuration Bank 1 (Routing); BOM U8, R13-R16 |
 | DR-STA-11 | Reflector map selection | Logical `CFG_REFMAP[5:0]` inputs are driven by U8 GPB[5:0]; 6x 10kΩ pull-down resistors R18-R23 retained on CPLD inputs as power-up safe defaults | §3 Configuration Bank 2 (Reflector Mapping); BOM U8, R18-R23 |
-| DR-STA-12 | I²C GPIO expanders | U6 = MCP23017T-E/SO; U7 = MCP23017T-E/SO; U8 = MCP23017T-E/SO; SOIC-28 package; on shared I²C-1 bus (see `Controller/Design_Spec.md §4.1` for I²C address assignments); each IC requires a dedicated /RESET pull-up: R36 (U6), R37 (U7), R38 (U8) - 10kΩ each to 3V3_ENIG; U7 cannot share SYS_RESET_N for /RESET because U7 GPA[7] drives SYS_RESET_N (circular dependency) | BOM U6, U7, U8, R36, R37, R38 |
+| DR-STA-12 | I²C GPIO expanders | U6 = MCP23017T-E/SO (A2=LOW, A1=LOW, A0=LOW; 0x20); U7 = MCP23017T-E/SO (A2=LOW, A1=LOW, A0=HIGH; 0x21); U8 = MCP23017T-E/SO; SOIC-28 package; on shared I²C-1 bus (see `Controller/Design_Spec.md §4.1` for I²C address assignments); each IC requires a dedicated /RESET pull-up: R36 (U6), R37 (U7), R38 (U8) - 10kΩ each to 3V3_ENIG; U7 cannot share SYS_RESET_N for /RESET because U7 GPA[7] drives SYS_RESET_N (circular dependency) | BOM U6, U7, U8, R36, R37, R38 |
 | DR-STA-13 | U8 specification | U8 = MCP23017T-E/SO; SOIC-28; A2=LOW, A1=HIGH, A0=LOW; GPA[3:0] = `CFG_ROUTE[3:0]` outputs; GPA[4] = active-low `CFG_APPLY_N` Stator-only apply/reset output; GPB[5:0] = `CFG_REFMAP[5:0]` outputs | BOM U8 |
 | DR-STA-14 | J13 connector | J13 = 6-pin JST PH 2.0mm B6B-PH-K-S(LF)(SN); pins: `3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`; connects to User Settings Module J1 via 6-wire harness. `5V_MAIN` is derived from the Controller-fed `J11` branch. | BOM J13 |
 | DR-STA-15 | `CFG_APPLY_N` signal | `CFG_APPLY_N` = active-low Stator-only apply/reset pulse from U8 GPA[4]; combined with `SYS_RESET_N` through U3 (`SN74LVC1G08DBVR`) so either signal can assert the Stator CPLD reset path; forcing `CFG_APPLY_N` LOW reloads `CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]` without resetting the wider system; R17 (10kΩ pull-up to 3V3_ENIG) holds `CFG_APPLY_N` deasserted at power-up when U8 is uninitialised | BOM U8, U3, R17; §3 Configuration Bank 1 (Routing) |

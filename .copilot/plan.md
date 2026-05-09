@@ -6,18 +6,99 @@
 
 ---
 
-## Overview
+## Current Status (as of checkpoint 209)
 
-The repository is now in an updated repo-local handoff state after the latest documentation cleanup
-phase.
+Design review passes 5, 6, and 7 are **complete**. All findings resolved.
+`review-pass-8` is **pending** — clean verification pass after all Pass 7 changes.
+T1 transformer decision is **open** (see below).
+3034TR KiCAD symbol library sync is **complete**.
 
-The current active design docs now reflect:
+## Board Design Status
 
-- board-local ownership cleanup between Controller, Stator, and User Settings Module
-- removal of stale diagnostics / probe wording from active design specs and board layouts
-- normalized board-layout heading numbering so `§` is reserved for cross-document references
-- Reflector simplified-layout cleanup, including removal of the duplicate Data Plate label
-- Stator User Settings Module connector normalization from `J_CFG` to `J13`
+| Board | Status | Notes |
+|-------|--------|-------|
+| Power Module (PM) | In Review | |
+| Controller Board (CTL) | In Review | T1 decision pending |
+| Stator | In Review | |
+| Rotor (26-char) | In Review | |
+| Rotor (64-char) | In Review | |
+| Reflector | In Review | |
+| Extension Board (EXT) | Draft | Outstanding todo may change board |
+| JTAG Module (JM) | In Review | Renamed from JDB; upgraded to DF40 BtB (DEC-058) |
+| User Settings Module (USM) | In Review | |
+| Encoder (ENC) | In Review | |
+| Actuation Module (AM) | In Review | |
+
+## Open Workstreams
+
+### Immediate (next session start)
+
+1. **review-pass-8** — Launch clean pass-8 review agents (post-pass-7 verification)
+   - Use SEPTENARY preamble from `.copilot/agent-directives.md` lines 141–159
+   - Apply Pass 8 suppression list: items 1–11 from session-state checkpoint 206 must NOT be
+     re-flagged
+   - Scope: all boards, all pass-7 changes
+
+2. **T1 Transformer Decision (CTL)** — Choose between:
+   - **Würth 750318938**: TI TIDA-050045 validated with TPS23730 ACF (same IC) — validated at 5V,
+     not 12V; consignment only
+   - **Bourns POE060-FD20120S**: JLCPCB-listed (consignment); 1.71:1 turns ratio; 250 kHz; 12V/5A;
+     36–72V in
+   - Coilcraft POE600F-12L: **REJECTED** (JLCPCB cannot machine-fit)
+   - Generate Würth 750318938 markdown datasheet first (script in `.copilot/agent-scripts/`)
+   - PDF at `design/Datasheets/Wurth-750318938-datasheet.pdf`
+   - **PRIMARY DIRECTIVE: No BOM change to T1 until user explicitly confirms**
+
+3. **Pass 7 review-report.md section** — Append Pass 7 findings/resolutions to
+   `.copilot/review-report.md`
+
+### Deferred / Blocked
+
+- `connector-stacking-height-review` — ERF8/ERM8 stacking heights; deferred to prototype stage
+- `enc-connector-review-pre-pcb` — ENC J1/J2 and 100nF cap review before PCB manufacturing
+- `jdb-ft232h-3v3-vregin` — Blocked pending FT232H Rev C availability confirmation
+
+## Key Design Decisions (recent)
+
+| Entry | Summary |
+|-------|---------|
+| DEC-054 | PWR_BUT_N active-low naming confirmed |
+| DEC-055 | (see Design_Log.md) |
+| DEC-056 | (see Design_Log.md) |
+| DEC-057 | Mounting hole RefDes scheme standardised across all boards |
+| DEC-058 | JDB upgraded to Hirose DF40C-20DP BtB connector |
+| DEC-059 | (see Design_Log.md) |
+| DEC-060 | JTAG Daughterboard renamed to JTAG Module (JDB → JM) |
+| DEC-061 | Pass 7 resolutions: GRS PN fix, Stator DR-STA-12, board statuses |
+| DEC-062 | **NEXT entry** — reserved for next design decision |
+
+## Library Status
+
+| File | Status |
+|------|--------|
+| `SamacSys_Parts.kicad_sym` | 3034TR added (29,848 lines); Reference prefix "BT" ✅ |
+| `SamacSys_Parts.lib` / `.dcm` / `.mod` | 3034TR present (legacy KiCAD 5) ✅ |
+| `SamacSys_Parts.pretty/3034TR.kicad_mod` | Modern footprint added by user ✅ |
+| SG73S1ERTTP4702D | Placeholder in BOM; footprint download pending |
+
+## Critical Standing Rules
+
+- **NEVER commit** without "Let's lock it in" or "Save state" from user
+- **Design_Log.md is append-only** — next entry = DEC-062; never modify existing entries
+- **PRIMARY DIRECTIVE**: Never modify any MPN/supplier part numbers without explicit user
+  confirmation
+- All board statuses: "In Review" (EXT = "Draft")
+- Move unwanted files to `.recycle-bin/`; never delete
+
+## Next Session Start Point
+
+Read these files in order:
+
+1. `.copilot/agent-directives.md` (always first)
+2. This `plan.md`
+3. `.copilot/handoff.md` (latest section first)
+4. `.copilot/checkpoints/index.md` → checkpoint 209 (pre-shutdown state save)
+5. Launch review-pass-8 when user confirms ready
 - wiki-sync exclusion of `design/Datasheets`
 - numeric component refdes normalization across active design docs and the consolidated BOM
 - document metadata version headers reset to `v.0.1.0` because the project is still in design phase

@@ -570,4 +570,40 @@ K
 F http://www.farnell.com/datasheets/1788372.pdf
 $ENDCMP
 #
+$CMP 3034TR
+D Coin Cell Battery Holders COIN CELL RETAINER TAPE/REEL 500PC
+K
+F https://www.mouser.co.uk/datasheet/3/201/1/3034TR.pdf
+$ENDCMP
+#
+$CMP B82806D0060A120
+D Transformers for DC-DC Converters, Active Clamp Forward, EFD20, 12V/5A
+K
+F https://product.tdk.com/system/files/dam/doc/product/transformer/transformer/dc_dc-converter/30/db/ind_2008/datasheets/b82806d.pdf
+$ENDCMP
+#
+$CMP PA4343.333NLT
+D Fixed Inductors 33uH 8A 6.5mm 20% Low Prof
+K
+F https://products.pulseelex.com/files/product_files/P770.pdf
+$ENDCMP
+#
+$CMP SG73S1ERTTP4702D
+D Generic 0402 placeholder - ROHM SG73 47k 0.5% AEC-Q200 0402 1/16W
+K
+F https://www.digikey.co.uk/en/products/detail/rohm-semiconductor/SG73S1ERTTP4702D/23550278
+$ENDCMP
+#
+$CMP C0805C223K2RACAUTO
+D SMD, MLCC, Temperature Stable, Automotive Grade
+K
+F https://www.yageogroup.com/content/datasheet/asset/file/KEM_C1023_X7R_AUTO_SMD
+$ENDCMP
+#
+$CMP 9774040151R
+D WA-SMSI SMT Steel Spacer, M2.5 x 4.0mm, internal thread, tin plated, reel with polyimide tape
+K SMT spacer standoff mounting hole Wurth
+F https://www.we-online.com/components/products/datasheet/9774040151R.pdf
+$ENDCMP
+#
 #End Doc Library

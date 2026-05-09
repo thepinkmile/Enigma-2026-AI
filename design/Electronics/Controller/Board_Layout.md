@@ -1,11 +1,11 @@
 # Controller Board Layout Visualisations
 
-**Status:** Draft
+**Status:** In Review
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-25
+**Last Updated:** 2026-05-09
 
 ---
 
@@ -138,7 +138,7 @@ See **§6** for connector ownership, net-to-net mapping, standoff GND net, and P
 
 ## 6. J11 - Actuation Module Host Dock
 
-> **Connector Definition Owner:** `AM Design_Spec.md §3.1`.
+> **Connector Definition Owner:** `design/Electronics/Actuation_Module/Design_Spec.md §3.1`.
 > This board provides the mating receptacle (J11). Full connector pinout is defined and owned by
 > the Actuation Module. Net connections from this board to the mounted AM:
 >
@@ -152,11 +152,86 @@ See **§6** for connector ownership, net-to-net mapping, standoff GND net, and P
 > `ACTUATE_REQUEST_N` is sourced from CM5 GPIO 8 as an active-low output pulse.
 >
 > **⚠ PCB Layout Dependency:** J11 and MH5-MH8 positions cannot be finalised until AM schematic
-> capture and PCB layout are complete. MH5-MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
+> capture and PCB layout are complete. MH5-MH8 shall mirror `design/Electronics/Actuation_Module/Design_Spec.md DR-AM-03` and
 > connect to `GND`.
 
 - **J11:** Single 20-pin Hirose DF40HC(3.5)-20DS-0.4V(51) AM host socket (stacking height = 3.5mm).
   A silkscreen pin-1 marker is required on both the Controller and AM boards (per
   `design/Standards/Global_Routing_Spec.md §7.1`).
-- **MH5-MH8:** Four M2.5x3.5mm SMT standoffs (9774035151R); positions mirror `AM Design_Spec.md
+- **MH5-MH8:** Four M2.5x3.5mm SMT standoffs (9774035151R); positions mirror `design/Electronics/Actuation_Module/Design_Spec.md
   DR-AM-03`; pads connected to `GND`; no-component placement zone (except J11, MH5-MH8, and routing).
+
+---
+
+## 7. CM5 Module Carrier (J14, J15, MH13–MH16)
+
+The CM5 Compute Module 5 mounts on the Controller via two Amphenol `10164227-1004A1RLF` carrier
+sockets (J14, J15) and four SMT standoffs (MH13–MH16).
+
+### 7.1 J14 and J15 — CM5 Module Carrier Connectors
+
+- **Part:** Amphenol `10164227-1004A1RLF` — CM5 carrier socket, 4.0mm stack height.
+- **Placement:** J14 and J15 are placed in the central board region beneath the CM5 module
+  footprint. Both connectors must be positioned to align with the CM5 module edge connector
+  interface per the Raspberry Pi CM5 mechanical drawing. Trace routing and copper fills are
+  permitted in the CM5 shadow area; active or tall components are not (see §7.2 height rule).
+- **Stack height:** 4.0mm from Controller PCB surface to the underside of the CM5 module PCB.
+- **Cross-ref:** `design/Electronics/Controller/Design_Spec.md §2.3`; BOM J14, J15.
+
+### 7.2 MH13–MH16 — CM5 Carrier Standoffs
+
+- **Part:** Wurth Elektronik `9774040151R` — M2.5×4.0mm SMT standoff; four instances.
+- **Function:** Mechanical standoffs that set the 4.0mm stack height for J14/J15 and provide
+  rigidity under the CM5 module.
+- **GND:** MH13–MH16 pads shall be connected to `GND` — **not** `GND_CHASSIS`. See
+  `design/Standards/Global_Routing_Spec.md` for module mounting hole grounding rules.
+- **Placement:** Four corners of the CM5 module footprint shadow; exact XY positions TBD at PCB
+  layout, must mirror the CM5 module mechanical reference pattern.
+- **Component height rule:** Maximum installed component height within the CM5 shadow area is
+  2.0mm above the Controller PCB surface. Only low-profile passive components are permitted
+  beneath the CM5; active ICs, connectors, test points, and exposed via pads are prohibited.
+- **Cross-ref:** `design/Electronics/Controller/Design_Spec.md §2.3`; BOM MH13–MH16.
+
+---
+
+## 8. PoE ACF Front-End Placement (T1, Q1, Q2, L1, C17, C20)
+
+The PoE ACF Forward front-end occupies the right-edge zone of the board, clustered around the
+RJ45 magnetics jack and the two PoE ICs (U7 TPS2372-4RGWR, U8 TPS23730RMTR). GbE ESD arrays
+U5 and U6 are also in this zone.
+
+### 8.1 Component Summary
+
+| RefDes | Part | Role |
+| :--- | :--- | :--- |
+| T1 | TDK B82806D0060A120 | ACF Forward PoE PD transformer |
+| U7 | TPS2372-4RGWR | PoE PD interface controller |
+| U8 | TPS23730RMTR | ACF Forward gate-drive controller |
+| Q1 | STD25NF20 | ACF primary switch (GATE_P), DPAK |
+| Q2 | STD25NF20 | ACF active clamp switch (GATE_C), DPAK |
+| L1 | PA4343.333NLT | 33µH ACF forward output inductor |
+| C17 | C0805C223K2RACAUTO | 22nF 200V 0805 ACF primary-side clamp capacitor (Cclamp) |
+| C20 (×4) | CGA9N3X7R1E476M230KB | 47µF 25V 2220 ACF output filter capacitors (4× in parallel) |
+
+### 8.2 Placement Notes
+
+- **Zone:** Right edge of the Controller PCB directly adjacent to the RJ45 magnetics jack. U7
+  and U8 shall be placed as close as practical to T1 to minimise the primary-side switching loop
+  area.
+- **Q1 and Q2 (DPAK):** Both DPAK exposed tabs shall be tied to `GND` with a copper pour and
+  via stitching for thermal dissipation. Q1 and Q2 shall be placed on the primary side of T1 to
+  keep the primary-side switching loop compact. Gate-drive traces from U8 GATE_P to Q1 and from
+  U8 GATE_C to Q2 shall be as short and direct as practical.
+- **T1 solder bridge note:** The TDK B82806D0060A120 datasheet permits optional solder bridges
+  between pins 1–2 and between pins 7–8 to parallel primary-side winding pairs for lower
+  resistance. Confirm at schematic capture whether the ACF Forward circuit uses those pins
+  separately before deciding whether to apply the solder bridges in the PCB layout.
+- **L1 (PA4343.333NLT):** 13.5mm × 12.5mm × 6.2mm shielded ferrite SMT inductor. Place on
+  the secondary side of T1 on the `VIN_POE_12V` output rail, between T1 and C20. Orient the
+  winding terminals toward T1 to minimise secondary-side loop length.
+- **C17 (0805):** Place in the U8 primary-side active-clamp loop between the clamp switch node
+  and GND, within 5mm of U8. 200V rating is required for the primary-side environment.
+- **C20 (4× 2220):** Four CGA9N3X7R1E476M230KB in parallel on `VIN_POE_12V` at the LC filter
+  output. Arrange in a 2×2 grid on the secondary side of L1 with a common pour to `VIN_POE_12V`.
+- **Cross-ref:** `design/Electronics/Controller/Design_Spec.md §7.1`; DR-CTL-18 to DR-CTL-25;
+  `design/Electronics/Controller/PoE_Power_Analysis.md`.

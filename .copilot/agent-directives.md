@@ -164,6 +164,32 @@ a prompt for a sub-agent and you have omitted this block, stop and add it before
 
 ---
 
+## OCTONARY DIRECTIVE — Todo-List and Per-Todo File Management
+
+The todo tracking system uses **two layers**:
+
+1. **`.copilot/todo-list.md`** — lightweight summary table + Agent SQL only. No prose
+   workstream descriptions, no inline notes. Each row: ID | File | Status | Blocked By.
+   Done todos remain in the table with status `done` and no File link.
+2. **`.copilot/todos/<id>.md`** — one file per active todo containing full context:
+   description, notes, blocked-by rationale, links to relevant design files.
+
+Rules:
+- When a new todo is identified, **both** a row in the summary table **and** a detail
+  file in `.copilot/todos/` must be created before the todo is considered tracked.
+- When a todo is closed (status → done), remove the File link from the summary table row
+  and delete (or archive) the corresponding detail file. Do not delete the row itself.
+- The summary table in `todo-list.md` is the **source of truth for status**. The Agent SQL
+  block must stay in sync: keep `INSERT OR IGNORE` statements accurate to the current state
+  of both todos and dependencies.
+- Do **not** add prose descriptions, workstream headers, or inline notes to `todo-list.md`.
+  All detail belongs in the per-todo `.md` files.
+- When writing or updating a per-todo file, use the standard header format:
+  `# Title`, `**ID:**`, `**Status:**`, `**Category:**`, `**Source:**`, `**Blocked by:**`,
+  then `---`, then `## Description` and `## Notes`.
+
+---
+
 ## Component Data Lookup Order
 
 When researching any component, always use sources in this order:

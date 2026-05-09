@@ -1,4 +1,4 @@
-# Checkpoint History
+﻿# Checkpoint History
 
 Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, higher numbers are more recent.
 
@@ -131,3 +131,10 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 124 | Boards_Overview status fix; handoff & todo-list cleanup | 124-boards-overview-status-fix-handoff-clean.md |
 | 125 | bom-func-notes-sweep done; PM calc equations added to spec body | 125-bom-func-notes-sweep-done-pm-calcs-complete.md |
 | 126 | Library sync and SG73S1ERTTP4702D placeholder complete | 126-library-sync-sg73s1-placeholder-complete.md |
+| 127 | MH RefDes Standardisation Complete | 127-mh-refdes-standardise-complete.md |
+| 128 | ENC Connector RefDes Renumbering Complete | 128-enc-connector-refdes-renumbering-complete.md |
+| 129 | Pre-Shutdown State Save Complete | 129-pre-shutdown-state-save-complete.md |
+| 130 | L1 & C17 Design Files Updated | 130-l1-c17-design-files-updated.md |
+| 131 | T1 Discussion Migration Complete | 131-t1-discussion-migration-complete.md |
+| 132 | BOM Reorder Complete; Temp Cleanup Done | 132-bom-reorder-complete-temp-cleanup.md |
+| 133 | Board Layout PoE/CM5 Additions; SO-DIMM Terminology Fixed | 133-board-layout-poe-cm5-sodimm-fix.md |

@@ -1,6 +1,6 @@
 # Power Module (V1.0) Design Specification
 
-**Status:** Draft
+**Status:** In Review
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0

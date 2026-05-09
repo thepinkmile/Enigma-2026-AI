@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-07
+**Last Updated:** 2026-05-09
 
 This file records key architectural and component decisions made during the design of the Enigma-NG system. Each entry captures the decision taken, the rationale behind it, the alternatives that were
 considered, and any constraints or caveats that future designers should be aware of.
@@ -3753,7 +3753,7 @@ Only the following boards are classified as **daughterboards** (host-mounted via
 carrier board):
 
 | Board | Carrier Board(s) | Attachment Method |
-|:------|:-----------------|:------------------|
+| :--- | :--- | :--- |
 | Actuation Module (AM) | CTL, EXT | M2.5×3.5mm SMT standoffs (MH5-MH8 on each carrier) |
 | JTAG Daughterboard (JDB) | CTL | M2.5 standoffs (MH13-MH16 on CTL — to be created at CTL schematic capture) |
 
@@ -3764,19 +3764,21 @@ standard M3 chassis mounting per GRS §4 and DEC-039.
 #### 2. Mounting Hole Specification by Board Category
 
 **Daughterboards (AM, JDB):**
+
 - Mounting holes: **M2.5 NPTH**, pads connected to local **`GND`** net (not `GND_CHASSIS`).
 - Rationale: Daughterboards share their ground reference with the carrier via the board-to-board
   connector. Tying mounting holes to `GND_CHASSIS` would create an unintended second galvanic
   chassis-bond point, violating the single-point chassis ground topology defined in DEC-039.
 
 **Chassis-mounted boards (all others):**
+
 - Mounting holes: **M3 PTH**, pads connected to **`GND_CHASSIS`** per
   `design/Standards/Global_Routing_Spec.md §4` and DEC-039.
 
 **CTL special case (carries both categories):**
 
 | Holes | Size / Type | Net | Purpose |
-|:------|:------------|:----|:--------|
+| :--- | :--- | :--- | :--- |
 | MH1–MH4 | M2.5 4mm standoffs | `GND` | CM5 SoM mounting |
 | MH5–MH8 | M2.5 3.5mm SMT standoffs | `GND` | AM daughterboard dock |
 | MH9–MH12 | M3 PTH | `GND_CHASSIS` | Chassis mounting |
@@ -4034,3 +4036,260 @@ decisions made at the time. All live design documents use the new naming.
 - `design/Mechanical/Complete_System_Assembly/Design_Spec.md`: references updated.
 - `design/Standards/Global_Routing_Spec.md`: references updated.
 - `README.md`: references updated.
+
+---
+
+## DEC-061 — Pass 7 Review Corrections: CTL/STA/ROT/ENC/AM/GRS/Status Updates
+
+| Field | Value |
+| :--- | :--- |
+| **Decision ID** | DEC-061 |
+| **Status** | Confirmed |
+| **Date** | 2026-05-08 |
+| **Author** | Izzyonstage & Copilot (session a38ceaab) |
+| **Amends** | See also: DEC-057 |
+
+### Context
+
+A targeted review pass (Pass 7) of the active design documents identified a set of
+minor but precise corrections required across several boards and the Global Routing
+Specification. These are copy/accuracy issues rather than design intent changes:
+
+1. **CTL Design_Spec §3:** A stale reference to `J13` appeared alongside `J12` in the
+   JTAG pass-through description. The Controller Board carries a single JM BtB
+   connector (`J12`); `J13` does not exist on this board.
+
+2. **CTL Board_Layout §6:** Three cross-references to the Actuation Module design
+   specification used an abbreviated filename (`AM Design_Spec.md`) rather than the
+   full repo-relative path. Abbreviated paths are ambiguous in a multi-board repo and
+   violate the cross-reference convention established in GRS §7.
+
+3. **STA Design_Spec DR-STA-12:** The I²C address strapping for U6 and U7 was omitted
+   from the Design Requirement row. DR-STA-13 already captured U8's strapping
+   (`A2=LOW, A1=HIGH, A0=LOW`); DR-STA-12 required the same level of detail for U6
+   (`0x20`) and U7 (`0x21`) to be complete and unambiguous.
+
+4. **ROT Variant BOMs (N=26 and N=64):** The Notes fields for C20A/C21A and C20B/C21B
+   contained variant-specific IC designators (`U11A`/`U11B`) and a design cross-reference
+   (`see GRS §3.2`). BOM Notes must be factual component descriptions only; design intent
+   and cross-references belong in the body text or Design Requirements.
+
+5. **ENC Board_Layout §4.1, §4.2, §5.1/§5.2:** The 20-pin data-link connector was
+   originally designated J2; it has since been renumbered to J1 (with the 64-line spade
+   terminal bank now starting at J2). Several sections of the Board_Layout still used the
+   old J2 and J3–J66 designators.
+
+6. **AM Design_Spec BOM:** The Footprint Available column used the string `Yes` instead
+   of the project-standard checkmark `✔`. All other board BOMs use `✔`; the AM BOM
+   was inconsistent.
+
+7. **GRS §4.3 Named Exceptions table — JM row:** The JM standoff range was listed as
+   `MH13–MH16`, which is the CM5 SoM standoff group on the Controller Board. The JM
+   dock standoffs are `MH9–MH12` per `Controller/Design_Spec.md §8` and `DR-CTL-21`.
+
+8. **Status headers:** All board Design_Spec and Board_Layout files that had advanced
+   past initial drafting were updated from `**Status:** Draft` to `**Status:** In Review`,
+   consistent with the Pass 7 review milestone. The Extension Board files remain at
+   `Draft` as that board has not entered review. `Boards_Overview.md` was updated from
+   `Reference` to `In Review`, and the Extension Board row in its status table was
+   corrected from `**In Review**` to `**Draft**`.
+
+### Decision
+
+Apply all eight corrections as described above. These are accuracy fixes only; no design
+intent is changed. The JTAG pass-through topology, I²C address map, BOM MPNs/part
+numbers, routing rules, and mounting hole patterns are unaltered.
+
+### Rationale
+
+- Accurate cross-references are required for document traceability and tooling that parses
+  design files by path.
+- I²C address strapping must be captured in the Design Requirement (not inferred) to
+  prevent assembly errors.
+- BOM Notes must be factual component descriptions to remain valid across variant and
+  common BOMs without variant-specific assumptions.
+- RefDes consistency between schematic, layout, and documentation is mandatory to avoid
+  assembly and test errors.
+- The footprint availability checkmark convention (`✔`) is used uniformly across all
+  other board BOMs and must be consistent for BOM tooling.
+- Correct MH range in GRS §4.3 prevents confusion between the JM standoff group and the
+  CM5 SoM standoff group during assembly.
+
+### Files Changed
+
+- `design/Electronics/Controller/Design_Spec.md`: §3 J13 stale reference removed; J12 described as JM BtB connector. Status updated to In Review.
+- `design/Electronics/Controller/Board_Layout.md`: §6 three abbreviated `AM Design_Spec.md` cross-references expanded to full repo-relative paths. Status updated to In Review.
+- `design/Electronics/Stator/Design_Spec.md`: DR-STA-12 U6 and U7 I²C address strapping added. Status updated to In Review.
+- `design/Electronics/Stator/Board_Layout.md`: Status updated to In Review.
+- `design/Electronics/Rotor/Design_Spec.md`: Status updated to In Review.
+- `design/Electronics/Rotor/Rotor_26_Char_Design.md`: C20A and C21A BOM Notes corrected. Status updated to In Review.
+- `design/Electronics/Rotor/Rotor_64_Char_Design.md`: C20B and C21B BOM Notes corrected. Status updated to In Review.
+- `design/Electronics/Encoder/Board_Layout.md`: §4.1, §4.2, §5.1, §5.2 RefDes updated: J2→J1 (data connector), J3–J66→J2–J65 (64-line bank). Status updated to In Review.
+- `design/Electronics/Encoder/Design_Spec.md`: Status updated to In Review.
+- `design/Electronics/Actuation_Module/Design_Spec.md`: BOM Footprint Available column `Yes` → `✔`. Status updated to In Review.
+- `design/Electronics/Actuation_Module/Board_Layout.md`: Status updated to In Review.
+- `design/Electronics/Power_Module/Design_Spec.md`: Status updated to In Review.
+- `design/Electronics/Power_Module/Board_Layout.md`: Status updated to In Review.
+- `design/Electronics/JTAG_Module/Design_Spec.md`: Status updated to In Review.
+- `design/Electronics/JTAG_Module/Board_Layout.md`: Status updated to In Review.
+- `design/Electronics/User_Settings_Module/Design_Spec.md`: Status updated to In Review.
+- `design/Electronics/User_Settings_Module/Board_Layout.md`: Status updated to In Review.
+- `design/Electronics/Reflector/Design_Spec.md`: Status updated to In Review.
+- `design/Electronics/Reflector/Board_Layout.md`: Status updated to In Review.
+- `design/Electronics/Boards_Overview.md`: Status header updated Reference → In Review; Extension Board table row corrected In Review → Draft.
+- `design/Standards/Global_Routing_Spec.md`: §4.3 JM Named Exception row MH13–MH16 corrected to MH9–MH12.
+
+---
+
+## DEC-062 — CTL PoE T1 Selection: TDK B82806D0060A120; Topology ACF Flyback → ACF Forward
+
+| Field | Value |
+| :--- | :--- |
+| **Decision ID** | DEC-062 |
+| **Status** | Confirmed |
+| **Date** | 2025-07-10 |
+| **Author** | Izzyonstage & Copilot (session e39f3cc4) |
+| **Amends** | DEC-019 (ACF topology selection); supersedes Coilcraft POE600F-12L as T1 |
+
+### Context
+
+The original T1 selection (Coilcraft POE600F-12L) was rejected because JLCPCB cannot
+machine-place the large-body 12-pin SMT package. A replacement search was conducted across
+Coilcraft, Würth, Pulse, Bourns, and TDK. TDK B82806D0060A120 emerged as the preferred
+candidate: 60W (PoE++ Class 8), 1500V isolation, 12-pin SMT (6+6 format), rated 36–57V
+input, 2:1:1 turns ratio (Np:Ns:Naux), Lm=100µH, Llk=0.18µH, fsw_max=500kHz.
+
+Investigation of topology compatibility (conducted with reference to TI PMP23253 reference
+design — 49.5W, TPS23730RMTR, ACF Forward) confirmed that the TPS23730RMTR controller
+supports ACF Forward operation natively. The TDK B82806D0060A120 is an ACF **Forward**
+transformer (ungapped core, Np:Ns standard wound, energy transferred during switch ON),
+which is fundamentally incompatible with the ACF Flyback topology previously specified.
+The topology must therefore change from ACF Flyback to ACF Forward throughout.
+
+Key design consequence: ACF Forward requires a buck-style LC output filter on the secondary
+(inductor + capacitor), whereas ACF Flyback uses capacitor-only. A new output inductor
+component (L1, 33µH) must be added to the CTL BOM and routed in the PCB layout.
+
+### Decision
+
+1. **T1 selection confirmed:** TDK B82806D0060A120 (ACF Forward PoE transformer, 60W,
+   1500V isolation, 2:1:1 turns ratio, 12-pin SMT). DigiKey: 495-76653-1-ND;
+   Mouser: 871-B82806D0060A120; JLCPCB: C7218686.
+
+2. **Topology change:** CTL PoE power stage changes from **ACF Flyback** to **ACF Forward**
+   throughout all design documentation. Controller U8 (TPS23730RMTR) configuration changes
+   accordingly.
+
+3. **New component L1 (output inductor):** 33µH shielded ferrite SMT power inductor, ≥6A
+   Isat, DCR ≤50mΩ, 200kHz rated. Required by ACF Forward topology. Part selection pending
+   (new DR-CTL-25 added). L1 + C20 form the buck-style output LC filter on VIN_POE_12V.
+
+4. **C17 value update:** Clamp capacitor C17 increased from 10nF to 22nF per ACF Forward
+   clamp calculation using TDK B82806D0060A120 Llk=0.18µH. MPN update pending (DR-CTL-18
+   revised).
+
+5. **Q1, Q2 unchanged:** STD25NF20 200V N-ch MOSFET remains correct for both ACF primary
+   and clamp switch roles. Vds_peak in ACF Forward (≤108V at worst case Vin=36V) remains
+   well within 200V rated device.
+
+6. **C20 unchanged:** 4× TDK CGA9N3X7R1E476M230KB (188µF nominal) remains valid as the
+   forward-converter output capacitor; massively oversized relative to ACF Forward minimum
+   but electrically correct.
+
+### Rationale
+
+- TI PMP23253 reference design proves TPS23730RMTR + ACF Forward compatibility at 51W,
+  functionally equivalent to the CTL 60W requirement.
+- TDK B82806D0060A120 is the only evaluated part meeting all requirements: 60W, 12V,
+  12-pin SMT, available via major distributors including JLCPCB.
+- ACF Forward topology simplifies core-reset compared to flyback and eliminates the need
+  for a high-magnetising-inductance gapped core.
+- 33µH L1 selected for ≤30% peak-to-peak current ripple at all operating points; 200V-rated
+  Q1/Q2 provides >84% Vds headroom at worst-case ACF Forward stress (108V).
+
+### Files Changed
+
+- `design/Electronics/Controller/Design_Spec.md`: T1 BOM row updated (POE600F-12L → B82806D0060A120 with supplier PNs). C17 BOM row updated (10nF → 22nF TBD). New L1 BOM row added. DR-CTL-18/22/23/24 updated for ACF Forward. New DR-CTL-25 (output inductor specification) added. §7.1 section updated throughout. Power table updated. BOM Notes updated.
+- `design/Electronics/Consolidated_BOM.md`: CTL T1 row updated (POE600F-12L → B82806D0060A120). New CTL L1 row added (TBD).
+- `README.md`: Lines 83 and 99 updated from POE600F-12LD to TDK B82806D0060A120.
+- `.copilot/discussions/ctl-t1-poe-transformer-investigation.md`: Status banner updated UNDER EVALUATION → SELECTED. Topology references updated Flyback → Forward. Pending Actions resolved.
+
+---
+
+## DEC-063 — CTL PoE L1 Selection: Yageo PA4343.333NLT (ACF Forward Output Inductor)
+
+| Field | Value |
+| :--- | :--- |
+| **Decision ID** | DEC-063 |
+| **Status** | Confirmed |
+| **Date** | 2026-05-09 |
+| **Author** | Izzyonstage & Copilot (session e39f3cc4) |
+| **Amends** | DEC-062 (L1 "part selection pending" resolved) |
+
+### Context
+
+The ACF Forward topology change (DEC-062) introduced L1 as a new output inductor requirement (DR-CTL-25). Three candidates were evaluated:
+
+- **Würth 74436413300**: Eliminated — oversized body, non-standard 3-pin configuration, and marginal saturation current.
+- **Bourns SRP1265A-330M**: Eliminated — carbonyl powder (iron) core. At 200kHz switching frequency, iron-powder cores exhibit unacceptable core loss. Hard disqualified by DR-CTL-25 (ferrite only, no iron-powder cores).
+- **Yageo PA4343.333NLT**: Only viable option. 33µH ±20%, Isat=11A @30% inductance drop, DCR typ 48mΩ / max 58mΩ, Irms 8A, 13.5×12.5×6.2mm, shielded ferrite SMT, AEC-Q200.
+
+### Decision
+
+**L1 selected: Yageo PA4343.333NLT.** DigiKey: 553-3457-1-ND; Mouser: 673-PA4343.333NLT; JLCPCB: C2453886. KiCAD footprint downloaded (zip in temp folder, pending library addition at schematic capture stage).
+
+### Rationale
+
+- All three candidates share the same inductance value and nominal Isat figure, but the Würth part has procurement and pin-count drawbacks, and the Bourns part is disqualified on core material grounds.
+- Yageo PA4343.333NLT is the only candidate meeting the ferrite core, Isat (≥6A), and form-factor requirements of DR-CTL-25.
+
+### DCR Compliance Note
+
+DR-CTL-25 specifies DCR ≤50mΩ. The Yageo PA4343.333NLT has a typical DCR of 48mΩ (compliant) but a manufacturer maximum of 58mΩ (non-compliant). This is the best available option at current procurement time; accepted as a qualified exception. The DR limit is retained at ≤50mΩ and this entry documents the exception.
+
+### Files Changed
+
+- `design/Electronics/Controller/Design_Spec.md`: DR-CTL-25 updated (part selected, DCR exception noted). BOM L1 row updated with MPN and supplier PNs.
+- `design/Electronics/Consolidated_BOM.md`: CTL L1 row updated (TBD → PA4343.333NLT with supplier PNs).
+
+---
+
+## DEC-064 — CTL PoE C17 Final Part Selection: Kemet C0805C223K2RACAUTO (22nF 200V X7R 0805)
+
+| Field | Value |
+| :--- | :--- |
+| **Decision ID** | DEC-064 |
+| **Status** | Confirmed |
+| **Date** | 2026-05-09 |
+| **Author** | Izzyonstage & Copilot (session e39f3cc4) |
+| **Amends** | DEC-062 (C17 MPN "update pending" resolved); DR-CTL-18 package and voltage updated |
+
+### Context
+
+DEC-062 updated C17 value from 10nF to 22nF but deferred MPN selection. Worst-case Vclamp = Vin×D/(1−D) = 36×0.667/0.333 = 72V. A 100V-rated 22nF X7R MLCC in 0402 package was initially specified in DR-CTL-18; two problems emerged:
+
+1. **Package constraint:** 22nF at 100V+ cannot fit in 0402 — 0603 is the minimum practical package for this voltage/capacitance combination in X7R.
+2. **DC bias derating:** At 72V/100V = 72% of rating, X7R capacitance degrades by approximately 25–35%, leaving effective capacitance of only 15–18nF — significantly below the 22nF target and approaching the 19.9nF minimum from DR-CTL-18.
+
+A 200V-rated 0805 part resolves both issues: at 72V/200V = 36% of rating, DC bias derating is only ~5%, giving effective capacitance of ~21nF — compliant with DR-CTL-18.
+
+### Decision
+
+**C17 selected: Kemet C0805C223K2RACAUTO** (22nF, 200V, X7R, 0805, ±10%, AEC-Q200). DigiKey: 399-17630-1-ND; Mouser: 80-C0805C223K2RAUTO; JLCPCB: C3843023.
+
+Package and voltage rating in DR-CTL-18 updated from `100V 0402` to `200V 0805`.
+
+The Open Mode (J-series, FO-CAP) variant (C0805J223K2RACAUTO) was considered — it provides fail-open behaviour as a reliability enhancement — but is not stocked at JLCPCB. The standard C-series hard-termination part (C0805C223K2RACAUTO) satisfies all electrical requirements; Open Mode is a desirable reliability enhancement but not an electrical necessity for this application.
+
+### Rationale
+
+- 200V rating eliminates meaningful DC bias derating and ensures the part operates within its characterised range at all PoE operating points.
+- 0805 package is a standard JLCPCB machine-placeable size with excellent availability.
+- Kemet C-series X7R is a well-characterised commodity MLCC; AEC-Q200 automotive qualification maintained.
+- JLCPCB LCSC number C3843023 confirmed as in-stock.
+
+### Files Changed
+
+- `design/Electronics/Controller/Design_Spec.md`: DR-CTL-18 package/voltage updated (100V 0402 → 200V 0805). BOM C17 row updated (TBD → C0805C223K2RACAUTO with supplier PNs and corrected spec).
+- `design/Electronics/Consolidated_BOM.md`: CTL C17 row updated (C0402C103K1RACAUTO → C0805C223K2RACAUTO with supplier PNs).
+

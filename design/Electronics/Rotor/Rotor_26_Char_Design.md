@@ -1,6 +1,6 @@
 # Rotor Board - 26-Character Variant Design Specification
 
-**Status:** Draft
+**Status:** In Review
 **Project:** Enigma-NG
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
@@ -195,8 +195,8 @@ are listed in **`design/Electronics/Rotor/Design_Spec.md`** §5.
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C20A | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | U11A FDC2114 (0x2B) VDD bypass cap; see GRS §3.2 | Yes | Pending | 1 |
-| C21A | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | U11A FDC2114 (0x2B) VDD bulk decoupling cap; see GRS §3.2 | Yes | Pending | 1 |
+| C20A | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | FDC2114 VDD bypass cap | Yes | Pending | 1 |
+| C21A | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | FDC2114 VDD bulk decoupling cap | Yes | Pending | 1 |
 | C22A-C25A | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
 | L5A-L8A | 18µH ±10% SRF 28MHz 0603 | CWF1610A-180K | Bourns | 118-CWF1610A-180KCT-ND | 652-CWF1610A-180K | - | Global sourcing | - | Yes | Pending | 4 |
 | U11A | 4-ch cap sensor I²C 0x2B 16-VQFN | FDC2114RGHR | Texas Instruments | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | - | JLCPCB MOQ 2 | Yes | Pending | 1 |

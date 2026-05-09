@@ -80,7 +80,7 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 * **Input:** Triple-input OR-ing between PoE+ 802.3bt Type 4, USB-C 15V PD, and Battery
   11–16.4V via LM74700-Q1 + CSD17483F4T ideal-diode FETs. PoE is explicitly prioritised over
   USB-C; USB-C vs Battery precedence follows the active input voltages unless extra gating is added.
-* **PoE:** Fully discrete 802.3bt Type 4 front end — TPS2372-4 (PD interface) + TPS23730 (ACF DC-DC) + Coilcraft POE600F-12LD transformer stage. Implemented 12V power stage capacity: 60W.
+* **PoE:** Fully discrete 802.3bt Type 4 front end — TPS2372-4 (PD interface) + TPS23730 (ACF DC-DC) + TDK B82806D0060A120 ACF Forward transformer stage. Implemented 12V power stage capacity: 60W.
 * **Protection:** TPS25980 eFuse — 7A ILIM, 11.0V UVLO, 16.9V OVLO, 3mΩ RON. Plus 72°C TCO thermal fuse.
 * **Buck:** Dual-phase interleaved LMQ61460-Q1 (×2, 6A each, 12A combined, 400kHz DRSS, 180° SYNC). Effective ripple: 800kHz.
 * **LDO:** TPS75733KTTRG3 3V3_ENIG (8.8µVRMS noise, 72dB PSRR, 3A, 2.05 A typical load at 68.3% utilisation).
@@ -96,7 +96,7 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 * **Power Input:** 3-way seamless switching (LM74700-Q1 ideal-diode on Power Module).
   * **Smart Battery:** 5-pin Molex Micro-Fit connector (11V-16.4V nominal) with SMBus telemetry + BATT_PRES_N.
   * **PoE+ (802.3bt Type 4):** Power-over-Ethernet delivered through the Power Module discrete
-    TPS2372-4 + TPS23730 + POE600F-12LD path. The implemented 12V stage is sized at 60W. Single
+    TPS2372-4 + TPS23730 + TDK B82806D0060A120 ACF Forward path. The implemented 12V stage is sized at 60W. Single
     Ethernet cable carries both data and power.
   * **USB-C PD:** 15V USB-C PD negotiated input.
 * **Protection:** Over-voltage and over-current protection provided by Power Module eFuse upstream; local reverse-polarity and ESD protection on BtB interface.

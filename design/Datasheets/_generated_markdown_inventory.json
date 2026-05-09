@@ -72,6 +72,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "Bourns-POE_FD-datasheet.pdf",
+      "markdown": "Bourns-POE_FD-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "Bourns-cwf1610a-datasheet.pdf",
       "markdown": "Bourns-cwf1610a-datasheet.md",
       "mapping_type": "same_stem"
@@ -79,6 +84,11 @@
     {
       "pdf": "Bourns-smbj-q-datasheet.pdf",
       "markdown": "Bourns-smbj-q-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
+      "pdf": "Bourns-srp1265a-datasheet.pdf",
+      "markdown": "Bourns-srp1265a-datasheet.md",
       "mapping_type": "same_stem"
     },
     {
@@ -222,6 +232,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "STM-STD25NF20-datasheet.pdf",
+      "markdown": "STM-STD25NF20-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "Samsung-1276_CL21B1-datasheet.pdf",
       "markdown": "Samsung-1276_CL21B1-datasheet.md",
       "mapping_type": "same_stem"
@@ -234,6 +249,11 @@
     {
       "pdf": "T821126A1S100CEU-C3013501-datasheet.pdf",
       "markdown": "T821126A1S100CEU-C3013501-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
+      "pdf": "TDK-B82806D-datasheet.pdf",
+      "markdown": "TDK-B82806D-datasheet.md",
       "mapping_type": "same_stem"
     },
     {
@@ -314,6 +334,11 @@
     {
       "pdf": "Yaego-UPY-GPHC_X7R_6_3V-TO-250V-CC1206KKX7R8BB106-datasheet.pdf",
       "markdown": "Yaego-UPY-GPHC_X7R_6_3V-TO-250V-CC1206KKX7R8BB106-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
+      "pdf": "Yegeo-Pulse-PA4343.333NLT-datasheet.pdf",
+      "markdown": "Yegeo-Pulse-PA4343.333NLT-datasheet.md",
       "mapping_type": "same_stem"
     },
     {
@@ -404,11 +429,6 @@
     {
       "pdf": "sn74lvc2g125-datasheet.pdf",
       "markdown": "sn74lvc2g125-datasheet.md",
-      "mapping_type": "same_stem"
-    },
-    {
-      "pdf": "srp1265a-datasheet.pdf",
-      "markdown": "srp1265a-datasheet.md",
       "mapping_type": "same_stem"
     },
     {

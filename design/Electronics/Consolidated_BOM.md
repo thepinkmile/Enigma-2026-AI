@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-08
+**Last Updated:** 2026-05-09
 
 ---
 
@@ -50,6 +50,7 @@
 | PM: L3 | SRP1265A-100M | SRP1265A-100MCT-ND | 652-SRP1265A-100M | C840531 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 10µH 15.5A Isat shielded SMT 13.5x12.5x6.2mm [Bourns] | Yes | ✔ |
 | PM: Q1-Q3 | CSD17578Q5A | 296-48512-1-ND | 595-CSD17578Q5A | C2871447 | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | N-ch MOSFET 30V 10A SON-8 3.3x3.3mm [Texas Instruments] | Yes | ✔ |
 | PM: Q4-Q10; USM: Q1-Q18 | BSS138 | BSS138CT-ND | 512-BSS138 | C52895 | - | 7 | - | - | 18 | - | - | - | - | - | - | - | 25 | N-ch MOSFET 50V 200mA SOT-23 [onsemi] | Yes | ✔ |
+| CTL: Q1,Q2 | STD25NF20 | 497-13749-1-ND | 511-STD25NF20 | C388326 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | N-ch MOSFET 200V 18A DPAK [STMicroelectronics] | Yes | Pending |
 | PM: R1 | ERJ-3EKF2323V | P232KHCT-ND | 667-ERJ-3EKF2323V | C403086 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 232kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R2 | ERJ-3EKF2872V | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 28.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R3 | ERA-3VEB2100V | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 210Ω 0.1% 0603 [Panasonic] | Yes | ✔ |
@@ -87,7 +88,7 @@
 | PM: U16 | SN74LVC1G175DBVR | 296-17617-1-ND | 595-SN74LVC1G175DBVR | C128412 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | D-type flip-flop shutdown latch SOT-23-6 [Texas Instruments] | Yes | ✔ |
 | PM: U17; STA: U3 | SN74LVC1G08DBVR | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | 1 | - | - | - | - | - | 1 | - | - | - | - | 2 | Single AND gate SOT-23-5 [Texas Instruments] | Yes | ✔ |
 | CTL: BT1 | 3034TR | 36-3034CT-ND | 534-3034TR | C5213768 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CR2032 holder SMD horizontal [Keystone Electronics]; Footprint adapted from KiCAD 10.0 standard library (unofficial, not manufacturer-supplied) | Yes* | Yes* |
-| CTL: C17 | C0402C103K1RACAUTO | 399-C0402C103K1RACAUTOCT-ND | 80-C0402C103K1RAUTO | C19862710 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 10nF 100V X7R 0402 [Kemet] | Yes | ✔ |
+| CTL: C17 | C0805C223K2RACAUTO | 399-17630-1-ND | 80-C0805C223K2RAUTO | C3843023 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 22nF 200V X7R 0805 [Kemet]; supersedes C0402C103K1RACAUTO (10nF 100V 0402) | Yes | Pending |
 | PM: C20; CTL: C1-C5,C7-C11; USM: C5-C14; ENC: C9-C13; AM: C5; STA: C9-C13,C22-C26; REF: C1-C5; EXT: C1-C5,C7-C11; ROT-26: C10-C14; ROT-64: C10-C14 | CL21B106KAYQNNE | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | 1 | 10 | - | 10 | 5 | 1 | 10 | 5 | 10 | 5 | 5 | 77 | 10µF X7R 25V 0805 [Samsung] | Yes | ✔ |
 | CTL: J1-J3 | 1-1674231-1 | A119250-ND | 571-1-1674231-1 | C3683260 | - | - | 3 | - | - | - | - | - | - | - | - | - | 3 | 10-pos 2.5mm receptacle vertical [TE Connectivity] | Yes | ✔ |
 | CTL: J4,J5 | 2195630015 | 900-2195630015-ND | 538-219563-0015 | - | Global sourcing | - | 2 | - | - | - | - | - | - | - | - | - | 2 | 5-pwr+15-sig press-fit receptacle hybrid [Molex] | Yes | ✔ |
@@ -99,8 +100,9 @@
 | STA: J1,J2; EXT: J4,J5; ROT-26: J4,J5; ROT-64: J4,J5 | ERF8-005-05.0-S-DV-K-TR | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | - | - | - | - | - | - | - | 2 | - | 2 | 2 | 2 | 14 | 10-pin 2x5 0.8mm female SMT [Samtec] | Yes | ✔ |
 | ROT-26: J7,J8,J9; ROT-64: J7,J8,J9 | RS1-05-G | 2057-RS1-05-G-ND | 737-RS1-05-G | C3321119 | - | - | - | - | - | - | - | - | - | - | 3 | 3 | 15 | 1x5 2.54mm female socket THT [Adam Tech] | Yes | ✔ |
 | CTL: J14,J15 | 10164227-1004A1RLF | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | CM5 SO-DIMM 100-pin 4mm [Amphenol] | Yes | ✔ |
+| CTL: L1 | PA4343.333NLT | 553-3457-1-ND | 673-PA4343.333NLT | C2453886 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 33µH ≥6A Isat shielded SMT ferrite power inductor [Yageo]; DCR typ 48mΩ/max 58mΩ — max exceeds ≤50mΩ spec, accepted procurement exception. See DR-CTL-25, DEC-063 | Yes | Pending |
 | CTL: MH13-MH16 | 9774040151R | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | 4 | - | - | - | - | - | - | - | - | - | 4 | M2.5x4.0mm SMT standoff [Wurth Elektronik] | Yes | ✔ |
-| CTL: T1 | POE600F-12L | N/A | N/A | N/A | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE transformer 1500V 12-pin SMT; only available direct from Coilcraft [Coilcraft] | Yes | ✔ |
+| CTL: T1 | B82806D0060A120 | 495-76653-1-ND | 871-B82806D0060A120 | C7218686 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | ACF Forward PoE transformer 60W 1500V 12-pin SMT; 2:1:1 turns ratio [TDK] | Yes | ✔ |
 | CTL: U1 | CM5 | - | - | - | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CM5 module SO-DIMM [Raspberry Pi Ltd] | N/A | N/A |
 | CTL: U2 | TPS2065CDBVR | 296-39353-1-ND | 595-TPS2065CDBVR | C353882 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | USB power switch SOT-23-5 [Texas Instruments] | Yes | ✔ |
 | CTL: U3 | AP2331W-7 | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | HDMI power switch SOT-23-5 [Diodes Inc] | Yes | ✔ |

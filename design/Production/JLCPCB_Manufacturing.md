@@ -101,7 +101,7 @@ available** on the standard 4-layer or 6-layer service.
 
 | Via type | Supported | Notes |
 | :--- | :--- | :--- |
-| Through-hole via | ✅ Yes | Standard; min drill 0.2mm, min pad 0.45mm |
+| Through-hole via | ✔ Yes | Standard; min drill 0.2mm, min pad 0.45mm |
 | Blind via | ❌ No | Not available on standard service |
 | Buried via | ❌ No | Not available on standard service |
 | Micro-via | ⚠️ Non-standard service | Available; requires advanced/HDI service tier — verify current offering on JLCPCB capabilities page |

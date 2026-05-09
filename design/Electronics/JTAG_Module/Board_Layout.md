@@ -1,6 +1,6 @@
 # JTAG Module Layout Visualisations
 
-**Status:** Draft
+**Status:** In Review
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0

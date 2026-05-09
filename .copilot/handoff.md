@@ -325,3 +325,129 @@ These are still open design review items, but they are not yet committed design 
 4. During the final deep-dive and manual review before declaring Version 1 complete, re-confirm the
    chosen military battery connector details, especially the remaining 6-pin contact assignment,
    `BATT_PRES_N` position, reserved/unused contact behaviour, cable selection, and interposer fit.
+
+---
+
+## Post-2026-04-26 sessions (checkpoint 209 state save)
+
+This section covers all design review work completed between the 2026-04-26 handoff and the
+pre-shutdown state save at checkpoint 209.
+
+### Pass 5 electronics review
+
+Pass 5 was a full electronics review across all boards. All findings F-98–F-110 were triaged and
+resolved:
+
+- **F-98**: `PWR_BUT` renamed to `PWR_BUT_N` (active-low confirmed); propagated to CTL, PM,
+  System_Architecture.md, Software/Linux_OS/Power_Management.md, RPi-cm5-datasheet.md,
+  CTL/Board_Layout.md; `DEC-054` appended to Design_Log.md
+- **F-99**: `USB_FAULT` renamed to `USB_FAULT_N` (TPS2065C open-drain, active-low)
+- **F-100**: MH1–MH4 notes corrected (chassis mounting holes — no standoffs, no BOM row)
+- **F-101**: Stator mounting hole spec added (DR-STA-17); Board_Layout §12 added
+- **F-102/103**: Rotor Board A and Board B mounting holes specified; Board_Layout §9 added
+- **F-104**: Rotor 100nF bypass cap BOM notes corrected
+- **F-105/106/107**: Rotor_64_Char and Rotor_26_Char variant C16/C17 notes corrected
+- **F-108**: DF40 connector swap deferred; became its own workstream (DEC-059 / later DEC-058)
+- **F-109**: Silkscreen rule review completed and appended to Global_Routing_Spec.md
+- **F-110**: USM mounting hole section added to Board_Layout.md
+- `design/Production/JLCPCB_Manufacturing.md` created; link added from Global_Routing_Spec.md
+- DEC-054 appended (signal polarity naming convention)
+
+### Pass 5 supplementary work
+
+- **RefDes audit** across all boards: FR/DR identifiers audited; consecutive renumbering applied;
+  committed as a batch
+- **Consolidated BOM F-108 updates**: DF40 connector swap applied to Consolidated_BOM.md (DEC-055,
+  DEC-056)
+- **DEC-056**: Board-level DF40 swaps committed — all boards upgraded from their previous BtB
+  connector to Hirose DF40C series
+- **DEC-057**: Mounting hole RefDes standardisation rules formalised and applied across all boards;
+  GRS §4.3 added
+- **DEC-058**: JTAG Module BtB connector upgraded to Hirose DF40C-20DP; JDB renamed to JTAG Module
+  (JM) throughout all design docs — all occurrences of `JDB` updated to `JM`
+- **DEC-059**: (see Design_Log.md for full entry)
+- **DEC-060**: JTAG Daughterboard officially renamed to JTAG Module; all cross-references updated
+
+### Pass 6 electronics review
+
+Pass 6 ran across all boards and produced 101 findings. HIGH findings were triaged first:
+
+- CTL-P6-03/04/05: R4 pull-up network and PoE passive documentation corrected
+- JM (JDB) BtB connector: DF40 upgrade validated; connector pinout confirmed
+- `bom-func-notes-sweep` done: PM equations added to spec body; all BOM functional notes normalized
+- Board statuses: All boards confirmed "In Review" post-Pass 6 (EXT remained "Draft")
+- MH RefDes standardisation (`mh-refdes-standardise` todo) completed and committed (checkpoint 127)
+- ENC connector RefDes renumbering completed (checkpoint 128)
+
+### Pass 7 electronics review
+
+Pass 7 was the most recent completed review pass. Key items from Pass 7:
+
+- **NEW-GRS-7-01**: Global_Routing_Spec.md §3.2 JLCPCB PN for the 10µF 0805 bulk cap corrected
+  from stale value to `C960916` (Samsung CL21B106KAYQNNE); user verified before change
+- **NEW-STA-01**: Stator DR-STA-12 updated to specify I²C address pin configuration for the
+  onboard mux IC (was unspecified)
+- **NEW-BO-7-01**: Board statuses audited; all boards set to "In Review" except EXT which stays
+  "Draft" pending outstanding todo; EXT board status confirmed by user
+- **DEC-061** appended to Design_Log.md covering all Pass 7 resolutions
+- Board status table updated in Boards_Overview.md / each Design_Spec.md header
+
+### KiCAD library work
+
+- **Library migration**: All SamacSys component libraries migrated from legacy KiCAD 5 format
+  (`.lib`/`.dcm`/`.mod`) to modern KiCAD 6+ format (`.kicad_sym`/`.kicad_mod`). Both formats
+  are retained for compatibility
+- **3034TR symbol**: Symbol gap identified in `SamacSys_Parts.kicad_sym` — 3034TR was present in
+  legacy formats but absent from the modern `.kicad_sym` file. Symbol added manually:
+  - 3 pins: `+_1` (pin 1), `-` (pin 3), `+_2` (pin 2)
+  - Reference prefix corrected from SamacSys default `U` to `BT` (battery holders)
+  - Body polyline rectangle added; all 12 standard KiCAD properties set
+  - File grew from 29,614 → 29,848 lines
+  - Modern footprint `3034TR.kicad_mod` added by user to `SamacSys_Parts.pretty/`
+- **SG73S1ERTTP4702D**: Placeholder entry in BOM — footprint download still pending
+
+### T1 transformer investigation (CTL)
+
+T1 on the Controller Board is the PoE flyback transformer. Current BOM entry (Coilcraft POE600F-12L)
+was rejected because JLCPCB **cannot machine-fit** that part. Three candidates investigated:
+
+| Part | Status | Notes |
+|------|--------|-------|
+| Coilcraft POE600F-12L | ❌ Rejected | JLCPCB cannot machine-fit |
+| Bourns POE060-FD20120S | ⚠️ Candidate | JLCPCB consignment; 1.71:1 turns ratio; 250 kHz; 1875 Vac hipot; DCR 39/90/12 mΩ |
+| Würth 750318938 | ✅ Preferred | TI TIDA-050045 reference design uses TPS23730 ACF (same IC as CTL); validated at 5V — CTL uses 12V |
+
+- Aux/secondary winding swap rejected: aux winding wire gauge not rated for 5 A
+- **Würth 750318938 datasheet PDF** at `design/Datasheets/Wurth-750318938-datasheet.pdf`
+- **Markdown datasheet not yet generated** — generate at next session using agent script in
+  `.copilot/agent-scripts/`
+- **No BOM change until user explicitly confirms (PRIMARY DIRECTIVE)**
+- Next action: generate Würth markdown, complete side-by-side comparison, present to user
+
+### Design_Log.md state
+
+- Last appended entry: **DEC-061** (Pass 7 resolutions)
+- **Next entry: DEC-062** — do NOT use any lower number; append-only
+
+### Board status summary (checkpoint 209)
+
+| Board | Status |
+|-------|--------|
+| PM | In Review |
+| CTL | In Review (T1 pending) |
+| Stator | In Review |
+| Rotor (26-char) | In Review |
+| Rotor (64-char) | In Review |
+| Reflector | In Review |
+| EXT | Draft |
+| JM (JTAG Module) | In Review |
+| USM | In Review |
+| ENC | In Review |
+| AM | In Review |
+
+### Pending todos (checkpoint 209)
+
+- `review-pass-8`: pending — clean review after all Pass 7 changes
+- `connector-stacking-height-review`: pending (deferred to prototype)
+- `enc-connector-review-pre-pcb`: pending (pre-PCB gate)
+- `jdb-ft232h-3v3-vregin`: blocked (FT232H Rev C availability)

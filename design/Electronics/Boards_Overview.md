@@ -1,6 +1,6 @@
 # Enigma-NG Board Overview
 
-**Status:** Reference
+**Status:** In Review
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
@@ -58,7 +58,7 @@ Only the Power Module implements the intentional `GND` ↔ `GND_CHASSIS` bond.
 | **Actuation Module** | Daughterboard; STM32G071K8T3TR MCU; provides motor/solenoid actuation control; mounts on Controller Board via 20-pin 0.4mm Hirose BtB connector (DF40C plug on AM, DF40HC receptacle on CTL J11) | 4-Layer / 2oz | **In Review** |
 | **Controller Board** | Fixed motherboard; CM5 host; external RJ45, Ethernet ESD/magnetics, PoE front-end, HDMI, USB 3.0, and service docks for PM + Stator | 6-Layer / 2oz | **In Review** |
 | **Encoder Module** | Dual-use Keyboard / Plugboard / Lampboard logic using a single Intel MAX II EPM570T100I5N CPLD per board with role selected by programming | 4-Layer / 2oz | **In Review** |
-| **Extension Board** | Re-buffers TCK/TMS between 5-rotor groups; forwards/reinjects clean power and bridges `TTD_RETURN` between stacks | 4-Layer / 2oz | **In Review** |
+| **Extension Board** | Re-buffers TCK/TMS between 5-rotor groups; forwards/reinjects clean power and bridges `TTD_RETURN` between stacks | 4-Layer / 2oz | **Draft** |
 | **JTAG Module** | Internal FT232H-based hardware programmer | 4-Layer / 2oz | **In Review** |
 | **Power Module** | Removable power-conditioning / UPS cartridge with supercaps, eFuse, OR-ing, USB-C input, battery input, and PM-local status expander | 6-Layer / 2oz | **In Review** |
 | **Reflector Board** | Mandatory terminating turnaround board for the rotor stack return path | 4-Layer / 2oz | **In Review** |
