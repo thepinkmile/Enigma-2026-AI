@@ -140,3 +140,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 133 | Board Layout PoE/CM5 Additions; SO-DIMM Terminology Fixed | 133-board-layout-poe-cm5-sodimm-fix.md |
 | 134 | ASCII to Mermaid diagrams complete | 134-ascii-to-mermaid-diagrams-complete.md |
 | 135 | Mermaid diagram todos created | 135-mermaid-diagram-todos-created.md |
+| 136 | Review Pass 8 fixes committed | 136-review-pass-8-fixes-committed.md |

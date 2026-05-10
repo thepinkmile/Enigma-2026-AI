@@ -1,6 +1,6 @@
 # Enigma-NG — PoE Front-End Power Analysis: TDK B82806D0060A120 ACF Forward
 
-**Date:** 2026-05-09
+**Date:** 2026-05-10
 **Status:** Active — TDK B82806D0060A120 selected; see DEC-062
 **Affected design document:** `design/Electronics/Controller/Design_Spec.md`
 **Prior analysis (Coilcraft / ACF Flyback):** `design/Electronics/Controller/PoE_Power_Analysis_Coilcraft_v2.md`
@@ -120,38 +120,39 @@ Using worst-case Llk = 0.18µH MAX and I_pk = 2.867A (nominal):
 E_Ls = ½ × 0.18µH × 2.867² = ½ × 0.18 × 8.22 = 0.740µJ
 ```
 
-Reflected output voltage: `V_refl = n × (Vout + Vf) = 2 × 12.4 = 24.8V`
-
-Minimum C17 for ΔV_clamp ≤30%:
+Minimum C17 from resonant energy-recovery formula (DR-CTL-18):
 
 ```
-ΔV_clamp_max = 0.30 × V_refl = 7.44V
-Cclamp_min   = E_Ls / ΔV_clamp_max = 0.740µJ / 7.44V = 99.5nF → use E24 value: 100nF
+Cclamp_min = Llk × Ipk² / ΔVclamp²
 ```
 
-Cross-check with 22nF standard value:
+Where:
+- Llk = 0.18µH (worst-case MAX, TDK B82806D0060A120 datasheet)
+- Ipk = 1.375A (TPS23730RMTR current-limit threshold, SLVSER6B §8.3)
+- ΔVclamp = Vclamp − Vin_max = 61.14V − 57V = 4.14V (10% above Vin_max = 57V)
 
 ```
-ΔV_clamp (22nF) = 0.740µJ / 22nF = 33.6V → 33.6/24.8 = 135%  ← too high; clamp voltage excessive
+Cclamp_min = 0.18µH × 1.375² / 4.14² = 0.18 × 1.891 / 17.14 = 0.3403µJ / 17.14 = 19.9nF
 ```
 
-**Recalculation with 22nF and correct formula:**
+Next E24 value above 19.9nF: **22nF**. ✔
 
-The clamp voltage is limited by: `V_clamp = Vin + ΔV_clamp`
-
-For the clamp to safely absorb leakage energy without exceeding Vds_peak:
+Voltage headroom check:
 
 ```
-V_clamp_max = Vds_rating × 0.8 − Vin_max = 200×0.8 − 57 = 103V  (available headroom: large)
+Vclamp_peak = Vin_max + ΔVclamp = 57 + 4.14 = 61.14V
+Vds_peak    = Vin_max + Vclamp_peak = 57 + 61.14 = 118.1V  (< 160V derating limit)
 ```
 
-In practice, the TI PMP23253 reference design uses **22nF for comparable Llk values** based on
-empirical clamp optimisation. The 22nF value is retained as the design value following that
-reference design, with the understanding that:
-- Vds_peak with clamp action: 81.8V + some overshoot → well within 160V derating limit
-- Clamp energy per cycle is low: P_clamp = 0.74µJ × 200kHz = 0.148W (negligible dissipation)
+Dissipation check:
+
+```
+P_clamp = ½ × Llk × Ipk² × fsw = ½ × 0.18µH × 1.891 × 200kHz = 0.034W  (negligible)
+```
 
 **Selected: C17 = 22nF (Kemet C0805C223K2RACAUTO, 22nF X7R 200V 0805)**
+
+A 200V 0805 rating is required: worst-case Vclamp reaches 72V and X7R DC bias derating at 100V reduces effective capacitance below the 19.9nF minimum. See DR-CTL-18.
 
 See DR-CTL-18 for the design requirement. See `design/Electronics/Controller/Design_Spec.md` BOM for
 supplier PNs.

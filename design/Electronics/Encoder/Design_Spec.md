@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-10
 
 ## 1. Overview
 
@@ -167,7 +167,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 - **Termination:**
   - **Cable Output (R6, 75 Ω):** series resistor placed within 2 mm of U1 TDO, before J1 pin 14.
 - **Programming:** Supports in-system debugging via the CM5 GUI. Role is selected by the image
-  programmed into the module based on it's known JTAG-chain position; no local role switch or role-specific RC
+  programmed into the module based on its known JTAG-chain position; no local role switch or role-specific RC
   population is part of the active design.
 
 ## 6. Key Mapping (64-Character Code Space with 40-Position HID Layout)
@@ -247,7 +247,7 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 | J2-J65 | 6.35mm PCB spade blade terminals THT vertical | 1285-ST | Keystone Electronics | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | Yes | Pending | 64 |
 | C1-C8 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 8 |
 | C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 5 |
-| D1 | Green SMD LED Vf≈2.0V 0402 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | Yes | Pending | 1 |
+| D1 | Green SMD LED Vf≈2.0V 0603 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | Yes | Pending | 1 |
 | J1 | 20-pin 2x10 2.54mm shrouded THT | BHR-20-VUA | Adam Tech | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | Yes | ✔ | 1 |
 | R1 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | Yes | Pending | 1 |
 | R2-R5 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | Pending | 4 |

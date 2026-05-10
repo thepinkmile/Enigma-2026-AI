@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-09
+**Last Updated:** 2026-05-10
 
 ---
 
@@ -105,9 +105,9 @@
 | CTL: T1 | B82806D0060A120 | 495-76653-1-ND | 871-B82806D0060A120 | C7218686 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | ACF Forward PoE transformer 60W 1500V 12-pin SMT; 2:1:1 turns ratio [TDK] | Yes | ✔ |
 | CTL: U1 | CM5 | - | - | - | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CM5 module SO-DIMM [Raspberry Pi Ltd] | N/A | N/A |
 | CTL: U2 | TPS2065CDBVR | 296-39353-1-ND | 595-TPS2065CDBVR | C353882 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | USB power switch SOT-23-5 [Texas Instruments] | Yes | ✔ |
-| CTL: U3 | AP2331W-7 | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | HDMI power switch SOT-23-5 [Diodes Inc] | Yes | ✔ |
-| CTL: U7 | TPS2372-4RGWR | 296-45285-1-ND | 595-TPS2372-4RGWR | C470955 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE PD interface VQFN-24 4x4mm [Texas Instruments] | Yes | ✔ |
-| CTL: U8 | TPS23730RMTR | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | C3189530 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE auxiliary controller WSON-10 3x3mm [Texas Instruments] | Yes | ✔ |
+| CTL: U3 | AP2331W-7 | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | HDMI power switch SC59 [Diodes Inc] | Yes | ✔ |
+| CTL: U7 | TPS2372-4RGWR | 296-45285-1-ND | 595-TPS2372-4RGWR | C470955 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE PD interface VQFN-20 5x5mm [Texas Instruments] | Yes | ✔ |
+| CTL: U8 | TPS23730RMTR | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | C3189530 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | PoE auxiliary controller VQFN-45 7x5mm [Texas Instruments] | Yes | ✔ |
 | JM: C5; AM: C4 | CGA6P3X7R1H475K250AD | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 4.7µF X7R 50V 1210 [TDK] | Yes | ✓ |
 | JM: C10,C11 | C0402C330J5GAUTO | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | - | - | 2 | - | - | - | - | - | - | - | - | 2 | 33pF C0G/NP0 crystal load 0402; C0G/NP0 exception approved [Kemet] | Yes | ✔ |
 | AM: J2-J5; ROT-26: J11,J12,J13; ROT-64: J11,J12,J13 | PH1-05-UA | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | - | - | - | - | - | 4 | - | - | - | 3 | 3 | 10 | 1x5 2.54mm male THT [Adam Tech] | Yes | ✔ |
@@ -125,7 +125,7 @@
 | USM: SW11; AM: SW1,SW2 | B3F-1070 | SW406-ND | 653-B3F-1070 | C726011 | - | - | - | - | 1 | - | 2 | - | - | - | - | - | 3 | SPST NO tactile THT [Omron] | Yes | ✔ |
 | USM: U1-U3; STA: U6-U8 | MCP23017T-E/SO | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | - | - | - | - | 3 | - | - | 3 | - | - | - | - | 6 | I²C GPIO expander SOIC-28 [Microchip Technology] | Yes | ✔ |
 | ENC: J2-J65 | 1285-ST | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | - | - | - | 64 | - | - | - | - | - | - | 64 | 6.35mm PCB spade blade terminals THT vertical [Keystone Electronics] | Yes | ✔ |
-| ENC: D1; AM: D1-D3 | 150060VS75000 | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | - | - | - | 1 | 3 | - | - | - | - | - | 4 | Green SMD LED Vf≈2.0V 0402 [Wurth Elektronik] | Yes | ✔ |
+| ENC: D1; AM: D1-D3 | 150060VS75000 | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | - | - | - | 1 | 3 | - | - | - | - | - | 4 | Green SMD LED Vf≈2.0V 0603 [Wurth Elektronik] | Yes | ✔ |
 | ENC: J1; STA: J4-J9 | BHR-20-VUA | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | - | - | - | 1 | - | 6 | - | - | - | - | 7 | 20-pin 2x10 2.54mm shrouded box THT [Adam Tech] | Yes | ✔ |
 | STA: J10; REF: J4; EXT: J7,J8 | 2BHR-30-VUA | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | - | - | - | - | - | 1 | 1 | 2 | - | - | 4 | 30-pin 2x15 2.54mm shrouded box THT [Adam Tech]. Per DEC-053 | No | Pending |
 | ENC: R1; AM: R1-R3 | ERJ-2RKF3300X | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | - | - | - | 1 | 3 | - | - | - | - | - | 4 | 330Ω 1% 0402 [Panasonic] | Yes | ✔ |

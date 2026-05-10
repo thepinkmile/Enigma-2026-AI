@@ -222,6 +222,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "Panasonic-ERJ-datasheet.pdf",
+      "markdown": "Panasonic-ERJ-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "RPi-cm5-datasheet.pdf",
       "markdown": "RPi-cm5-datasheet.md",
       "mapping_type": "same_stem"

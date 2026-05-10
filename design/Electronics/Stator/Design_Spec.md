@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-10
 
 The Stator Board is the mechanical and electrical backbone of the rotor stack. It provides the high-current distribution and signal routing for the 30 modular rotors.
 
@@ -224,7 +224,7 @@ net `SYS_RESET_N`:
 | Vendor / Schematic Notation | Scope | Project Net / Note |
 | :--- | :--- | :--- |
 | `/RESET` (MCP23017 pin 9, active-LOW chip reset) | U6, U7, U8 chip-reset pins only | Chip-local; pull-up to `3V3_ENIG` (R36, R37, R38); **NOT** connected to `SYS_RESET_N` |
-| `SYS_RESET_N` | Board-level active-low system reset | Driven by U7 GPA[7]; connects to Stator CPLD `DEV_CLRN` via external AND gate |
+| `SYS_RESET_N` | Board-level active-low system reset | Driven by U7 GPA[7]; connects to Stator CPLD `DEV_CLR_N` via external AND gate |
 
 * **MCP23017 /RESET pull-ups (R36, R37, R38 - 10kΩ to 3V3_ENIG, placed near U6, U7, U8 respectively):**
   Each MCP23017 /RESET pin (active-low, pin 9) is held deasserted (HIGH) by a dedicated pull-up.
@@ -233,7 +233,7 @@ net `SYS_RESET_N`:
 * **Reset / Apply path:** `SYS_RESET_N` remains the active-low global reset. `CFG_APPLY_N` is a
   separate active-low Stator-only apply/reset pulse driven by U8 GPA[4]. A dedicated external
   `SN74LVC1G08DBVR` 2-input AND gate combines `SYS_RESET_N` and `CFG_APPLY_N` into the Stator CPLD
-  `DEV_CLRN` path so a low on either signal resets the Stator CPLD. R17 (10kΩ pull-up to 3V3_ENIG)
+  `DEV_CLR_N` path so a low on either signal resets the Stator CPLD. R17 (10kΩ pull-up to 3V3_ENIG)
   holds `CFG_APPLY_N` deasserted (HIGH) at power-up when U8 GPA[4] is uninitialised, preventing an
   inadvertent CPLD reset at startup.
 
@@ -246,7 +246,7 @@ See `design/Standards/Global_Routing_Spec.md §10`.
 | Component Pin Name | Design Net Name | Notes |
 | :--- | :--- | :--- |
 | `/RESET` (MCP23017 pin 9, U6, U7, U8) | — (chip-local) | Active-low chip reset; held HIGH via R36 (U6), R37 (U7), R38 (U8) 10kΩ pull-ups to `3V3_ENIG`; **NOT** connected to `SYS_RESET_N` |
-| `DEV_CLRN` (EPM570T100I5N U1) | `AND(SYS_RESET_N, CFG_APPLY_N)` | Dedicated CPLD device-clear input; driven by AND gate U3 (SN74LVC1G08DBVR) — either `SYS_RESET_N` or `CFG_APPLY_N` asserted LOW clears the CPLD routing matrix |
+| `DEV_CLR_N` (EPM570T100I5N U1) | `AND(SYS_RESET_N, CFG_APPLY_N)` | Dedicated CPLD device-clear input; driven by AND gate U3 (SN74LVC1G08DBVR) — either `SYS_RESET_N` or `CFG_APPLY_N` asserted LOW clears the CPLD routing matrix. Intel vendor pin name is `DEV_CLRN`; GRS §10 mandates `DEV_CLR_N` throughout all design documentation. |
 | `TDI` (EPM570T100I5N U1) | `TTD` (inbound from J12) | Incoming JTAG serial data from the Controller JTAG chain; `TTD` is the unified T-prefix net name for JTAG data throughout the rotor stack (see `Rotor/Design_Spec.md §3.4`) |
 | `TDO` (EPM570T100I5N U1) | — (Stator-local; via R24 → J4 TDI) | CPLD TDO exits via series resistor R24 into the first encoder JTAG chain at J4; the chain eventually returns as `TTD_RETURN` on J12 |
 
@@ -280,10 +280,10 @@ remains hard-wired active and `KEY_CM5_ACTIVE` continues to occupy GPA[6].
 
 #### CPLD I/O Budget
 
-The EPM570T100I5N (U1) provides **70 user I/O pins** in the TQFP-100 package (100 total pins; remaining
-pins are dedicated JTAG inputs, device clear, power, and ground). All 70 user I/O pins are allocated.
-Dedicated pins — TCK, TMS, TDI, TDO (JTAG) and DEV\_CLRN (device clear) — are not part of the user
-I/O budget (see §3 Device-to-Design Net Name Mapping for DEV\_CLRN details).
+The EPM570T100I5N (U1) provides **76 user I/O pins** in the TQFP-100 package (100 total pins; remaining
+pins are dedicated JTAG inputs, device clear, power, and ground). 70 are allocated, 6 spare for future use.
+Dedicated pins — TCK, TMS, TDI, TDO (JTAG) and `DEV_CLR_N` (device clear) — are not part of the user
+I/O budget (see §3 Device-to-Design Net Name Mapping for `DEV_CLR_N` details).
 
 | Signal Group | Count | Direction |
 | :--- | :--- | :--- |
@@ -301,7 +301,7 @@ I/O budget (see §3 Device-to-Design Net Name Mapping for DEV\_CLRN details).
 | U8 routing config input (`CFG_ROUTE[3:0]`) | 4 | Input |
 | U8 reflector map input (`CFG_REFMAP[5:0]`) | 6 | Input |
 | **Config subtotal** | **10** | — |
-| **Total user I/O** | **70 / 70** | — |
+| **Total user I/O** | **70 / 76** | — |
 
 > **Notes:**
 >
@@ -436,9 +436,9 @@ full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
   U2-U8; U8 placement remains subject to `Stator/Board_Layout.md §6`.
 * **Rail entry decoupling:** C9–C13 provide 5 × 10µF X7R 25V bulk decoupling for the `5V_MAIN` rail
   at the `J11` power entry region; C22–C26 provide 5 × 10µF X7R 25V bulk decoupling for the
-  `3V3_ENIG` rail at the `J11` power entry region, per `design/Standards/Global_Routing_Spec.md §3`
-  Bulk Entry Bank Rule. Placement is inferred from board topology (J11 power entry and RefDes
-  grouping); confirm exact positions against the schematic when available.
+  `3V3_ENIG` rail at the `J12` power entry region, per `design/Standards/Global_Routing_Spec.md §3`
+  Bulk Entry Bank Rule. Placement is inferred from board topology (J11 power entry (5V_MAIN) and J12 power entry (3V3_ENIG))
+  and RefDes grouping; confirm exact positions against the schematic when available.
 
 ## 6. EMI & Mechanical
 
@@ -498,4 +498,4 @@ full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
 | U3 | Single AND gate SOT-23-5 | SN74LVC1G08DBVR | Texas Instruments | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | - | Yes | ✔ | 1 |
 | U4, U5 | Quad 2-to-1 mux TSSOP-16 | 74HC157PW-Q100,118 | Nexperia | 1727-74HC157PW-Q100,118CT-ND | 771-74HC157PWQ100118 | C546614 | - | - | Yes | Pending | 2 |
 | U6-U8 | I²C GPIO expander SOIC-28 | MCP23017T-E/SO | Microchip Technology | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | - | - | Yes | Pending | 3 |
-| U9-U12 | 4-ch bidirectional ESD array USON-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | Pending | 4 |
+| U9-U12 | 4-ch unidirectional ESD array USON-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | Pending | 4 |

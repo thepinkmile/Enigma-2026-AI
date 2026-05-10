@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-10
 
 ## 1. Overview
 
@@ -45,7 +45,7 @@ group without Controller-side live servo control.
 | DR-EXT-03 | Output connectors | J4 = ERF8-005 (JTAG out), J5 = ERF8-005 (Power out), J6 = ERF8-010 (ENC out) | §2 Connectivity; BOM J4-J6 |
 | DR-EXT-04 | JTAG buffer | U1 = SN74LVC2G125DCUR (dual-channel; TCK and TMS only; TDI passes unbuffered) | §2 Connectivity; BOM U1 (SN74LVC2G125DCUR) |
 | DR-EXT-05 | Buffer output pin assignment | TCK → J4 pin 2; TMS → J4 pin 4 (per DEC-018 pinout) | §2 Connectivity; Design_Log.md DEC-018 |
-| DR-EXT-06 | Buffer bypass capacitor | C6 = 100 nF 0402 within 2 mm of U1 VCC pin (L1) | §4 PCB Fabrication & Stackup; BOM C6 (100nF X7R) |
+| DR-EXT-06 | Buffer bypass capacitor | C6 = 100 nF 0402; placement per GRS §3.2 bypass capacitor proximity requirements | §4 PCB Fabrication & Stackup; BOM C6 (100nF X7R) |
 | DR-EXT-07 | System quantity | Up to x5 Extension boards per system (Rev A power budget); Rev A prototype uses x1 | §1 Overview; System_Architecture.md |
 | DR-EXT-08 | Extension Port connector family | J7/J8 = Adam Tech 2BHR-30-VUA 30-pin 2x15 shrouded headers. Per DEC-053 | §2 Connectivity; BOM J7, J8 |
 | DR-EXT-09 | Actuation Module host dock | J9 = Hirose DF40HC(3.5)-20DS-0.4V(51) receptacle (20-pin, 0.4mm pitch, 3.5mm stacking height); host-side mating connector for AM J1 (DF40C-20DP-0.4V(51)); carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` | §2 Connectivity; BOM J9 |
@@ -105,6 +105,12 @@ group without Controller-side live servo control.
   * TCK buffer output → J4 pin **2** (TCK) and broadcast to all 5 rotors in the output group.
   * TMS buffer output → J4 pin **4** (TMS) and broadcast.
   * Buffer enable (OE#): tied to GND permanently (always enabled).
+    > **By design — OE# tie to GND:** OE# is active-low on the SN74LVC2G125; outputs are enabled when
+    > OE# is LOW and disabled when HIGH. Permanent GND tie is intentional to always enable the buffer.
+    > Power-up transient behaviour (outputs active from ~1.65 V VCC rising) is a known, accepted design
+    > decision at 10 MHz TCK with EPM570T input clamping. Confirmed by TI SN74LVC2G125 datasheet:
+    > "1Y = 1A and 2Y = 2A when their corresponding OE input is LOW." Future reviews must not flag this
+    > as an error — the GND tie is deliberate, not a default that should be replaced with a pull-up.
   * Part: SN74LVC2G125DCUR (TI, VSSOP-8) - Mouser 595-SN74LVC2G125DCUR,
     DigiKey 296-SN74LVC2G125DCURCT-ND, JLCPCB C21404.
   * At 5 rotors per group connected via BtB (ERM8/ERF8), signal integrity analysis confirms this
@@ -120,7 +126,7 @@ group without Controller-side live servo control.
   prevent voltage sag across long stacks and to power the local Actuation Module.
 * Decoupling and bulk entry capacitor requirements per `design/Standards/Global_Routing_Spec.md §3`.
 * **JTAG TTD_RETURN / TDI:** TTD_RETURN (TDO chain return) is carried passively via Extension Port
-  pin 15. TDI passes unbuffered board-to-board via BtB throughout the rotor stack - no series
+  pin 16. TDI passes unbuffered board-to-board via BtB throughout the rotor stack - no series
   resistors are placed at each BtB hop. The JTAG chain terminates at the Reflector (R1 22 Ω
   end-of-chain damping). TTD_RETURN then returns from the Reflector to the Stator via the
   dedicated Reflector J4 → Stator J10 ribbon cable. The 75 Ω series resistors on the Stator
@@ -172,7 +178,7 @@ group without Controller-side live servo control.
   (TCK, TMS, and TDI travel to the rotor stack via Stator J1-J3, not via the Extension Port). TTD_RETURN traces on L1 shall be routed at **0.127 mm (5 mil)**
   over the L2 GND plane, targeting **50 Ω controlled impedance**. See
   `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016. Stackup defined per DEC-017.
-* **U1 Bypass:** C6 (100nF) must be placed within 2mm of U1 VCC pin on L1.
+* **U1 Bypass:** C6 (100nF) shall be placed per GRS §3.2 bypass capacitor proximity requirements.
 
 ## 5. Thermal & ESD
 
@@ -191,7 +197,11 @@ group without Controller-side live servo control.
   * **U6** - 1x TPD4E05U06QDQARQ1 on J4 (JTAG out); channels: TCK, TMS, TTD, SYS_RESET_N.
   * **U7, U8, U9** - 3x TPD4E05U06QDQARQ1 on J6 (ENC out); 12 channels: ENC_IN[5:0] + ENC_OUT[5:0].
   Per DEC-045, all Samtec ERM8/ERF8 rotor-facing connectors require TPD4E05U06QDQARQ1 arrays.
-  All arrays shall be placedwithin 3mm of their respective connector mating edge on L1.
+  All arrays shall be placed within 3mm of their respective connector mating edge on L1.
+  > **Note:** TTD is the system-level net name for the inter-rotor JTAG data link; it
+  > appears as TDI on the input device pin and TDO on the output device pin, but TTD is used
+  > consistently at connector level across all boards for cross-board net-name continuity. This is
+  > by design — future reviewers must not flag TTD as an undefined signal or suggest substituting TDI.
 * **ESD - all other connectors (no TVS required):**
   * J2 (Power in, ERM8-005) and J5 (Power out, ERF8-005): power rail (3V3_ENIG / GND) only - no signal protection required (explicitly outside DEC-048 scope - power-only rails, no signal data).
   * J7, J8 (Extension Port ribbons, 2BHR-30-VUA): internal IDC connectors; not accessible during live rotor swap.

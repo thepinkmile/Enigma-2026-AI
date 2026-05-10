@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-09
+Last updated: 2026-05-10
 
 ---
 
@@ -32,7 +32,7 @@ Last updated: 2026-05-09
 | `display-addon-board` | [display-addon-board.md](todos/display-addon-board.md) | **blocked** (v2.0) | — |
 | `cpld-production-replacement` | [cpld-production-replacement.md](todos/cpld-production-replacement.md) | **blocked** (v2.0) | — |
 | `connector-thermal-verification` | — | done | — |
-| `full-pn-review` | [full-pn-review.md](todos/full-pn-review.md) | pending | `extension-mechanical-usage`, `battery-connector-final-review`, `coupon-testing-review` |
+| `full-pn-review` | [full-pn-review.md](todos/full-pn-review.md) | pending | `extension-mechanical-usage`, `battery-connector-final-review`, `coupon-testing-review`, `am-button-review-production` |
 | `footprint-requests-pending` | [footprint-requests-pending.md](todos/footprint-requests-pending.md) | pending | `full-pn-review` |
 | `bom-func-notes-sweep` | — | done | — |
 | `m25-m3-dec-exception` | — | done | — |
@@ -66,7 +66,7 @@ Last updated: 2026-05-09
 | `ctl-t1-wurth-datasheet-review` | — | done | — |
 | `ctl-t1-transformer-decision` | — | done | — |
 | `review-mounting-holes` | — | done | — |
-| `interim-electronics-review-1` | [interim-electronics-review-1.md](todos/interim-electronics-review-1.md) | pending | `review-pass-10` |
+| `interim-electronics-review-1` | [interim-electronics-review-1.md](todos/interim-electronics-review-1.md) | pending | `review-pass-10`, `stackup-impedance-recalc`, `bulk-caps-per-power-source-or-conversion`, `ctl-l02-refdes-gap`, `enc-cpld-spare-pins-rule`, `jtag-pin1-silkscreen-grs`, `jtag-integrity-resistor-value-reconcile`, `mcp23017-gpb7-silicon-fixed-review`, `rot-i2c-residual-removal`, `consolidate-design-spec-content`, `usm-spdt-switch-floating-review` |
 | `interim-electronics-review-2` | [interim-electronics-review-2.md](todos/interim-electronics-review-2.md) | pending | `interim-electronics-review-1`, `coupon-testing-review`, `review-mounting-holes` |
 | `interim-electronics-review-3` | [interim-electronics-review-3.md](todos/interim-electronics-review-3.md) | pending | `interim-electronics-review-2`, `full-pn-review`, `footprint-requests-pending` |
 | `interim-electronics-review-4` | [interim-electronics-review-4.md](todos/interim-electronics-review-4.md) | pending | `prototype-system-complete`, `compliance-testing` |
@@ -95,6 +95,22 @@ Last updated: 2026-05-09
 | `emc-testing` | [emc-testing.md](todos/emc-testing.md) | pending | `version-1-documentation` |
 | `environmental-testing` | [environmental-testing.md](todos/environmental-testing.md) | pending | `version-1-documentation` |
 | `security-testing` | [security-testing.md](todos/security-testing.md) | pending | `version-1-documentation` |
+| `stackup-impedance-recalc` | [stackup-impedance-recalc.md](todos/stackup-impedance-recalc.md) | pending | — |
+| `bulk-caps-per-power-source-or-conversion` | [bulk-caps-per-power-source-or-conversion.md](todos/bulk-caps-per-power-source-or-conversion.md) | pending | — |
+| `ctl-l02-refdes-gap` | [ctl-l02-refdes-gap.md](todos/ctl-l02-refdes-gap.md) | pending | — |
+| `enc-cpld-spare-pins-rule` | [enc-cpld-spare-pins-rule.md](todos/enc-cpld-spare-pins-rule.md) | pending | — |
+| `jtag-pin1-silkscreen-grs` | [jtag-pin1-silkscreen-grs.md](todos/jtag-pin1-silkscreen-grs.md) | pending | — |
+| `jtag-integrity-resistor-value-reconcile` | [jtag-integrity-resistor-value-reconcile.md](todos/jtag-integrity-resistor-value-reconcile.md) | pending | — |
+| `mcp23017-gpb7-silicon-fixed-review` | [mcp23017-gpb7-silicon-fixed-review.md](todos/mcp23017-gpb7-silicon-fixed-review.md) | pending | — |
+| `rot-i2c-residual-removal` | [rot-i2c-residual-removal.md](todos/rot-i2c-residual-removal.md) | pending | — |
+| `consolidate-design-spec-content` | [consolidate-design-spec-content.md](todos/consolidate-design-spec-content.md) | pending | `enc-connector-review-pre-pcb` |
+| `usm-spdt-switch-floating-review` | [usm-spdt-switch-floating-review.md](todos/usm-spdt-switch-floating-review.md) | pending | — |
+| `am-button-review-production` | [am-button-review-production.md](todos/am-button-review-production.md) | pending | — |
+| `ctl-t1-tdk-a120-component-analysis` | [ctl-t1-tdk-a120-component-analysis.md](todos/ctl-t1-tdk-a120-component-analysis.md) | in progress | — |
+| `ctl-t1-tdk-topology-confirm` | [ctl-t1-tdk-topology-confirm.md](todos/ctl-t1-tdk-topology-confirm.md) | pending | — |
+| `ctl-t1-tdk-library-import` | [ctl-t1-tdk-library-import.md](todos/ctl-t1-tdk-library-import.md) | pending | — |
+| `ctl-t1-bourns-component-analysis` | [ctl-t1-bourns-component-analysis.md](todos/ctl-t1-bourns-component-analysis.md) | pending | `ctl-t1-transformer-decision` |
+| `ctl-t1-coilcraft-v2-review` | [ctl-t1-coilcraft-v2-review.md](todos/ctl-t1-coilcraft-v2-review.md) | pending (v2.0) | `ctl-t1-transformer-decision` |
 
 ---
 
@@ -189,7 +205,25 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('enc-component-diagram',             'block-beta ENC circuit component diagram in Encoder/Design_Spec.md',     'pending'),
 ('jm-component-diagram',              'block-beta JM circuit component diagram in JTAG_Module/Design_Spec.md',  'pending'),
 ('usm-component-diagram',             'block-beta USM circuit component diagram in User_Settings_Module/Design_Spec.md', 'pending'),
-('am-component-diagram',              'block-beta AM circuit component diagram in Actuation_Module/Design_Spec.md',      'pending');
+('am-component-diagram',              'block-beta AM circuit component diagram in Actuation_Module/Design_Spec.md',      'pending'),
+-- Review Pass 8 new todos
+('stackup-impedance-recalc',                  'Select optimal JLCPCB stackup based on impedance-controlled trace width manufacturability', 'pending'),
+('bulk-caps-per-power-source-or-conversion',  'Bulk decoupling at every power source and conversion point',                                'pending'),
+('ctl-l02-refdes-gap',                        'Fix Controller board RefDes numbering gap',                                                 'pending'),
+('enc-cpld-spare-pins-rule',                  'Add CPLD spare-pins rule to review agent-directives',                                       'pending'),
+('jtag-pin1-silkscreen-grs',                  'Add pin-1 silkscreen marker requirement to GRS',                                            'pending'),
+('jtag-integrity-resistor-value-reconcile',   'Reconcile JTAG termination resistor values across all boards',                              'pending'),
+('mcp23017-gpb7-silicon-fixed-review',        'Review and fix MCP23017 GPB7 silicon-fixed output-only pin issue',                         'pending'),
+('rot-i2c-residual-removal',                  'Remove residual I2C references from Rotor design',                                          'pending'),
+('consolidate-design-spec-content',           'Consolidate and normalise all Design Spec content',                                         'pending'),
+('usm-spdt-switch-floating-review',           'Review USM SPDT switch floating pin concern',                                               'pending'),
+('am-button-review-production',               'Review Actuation Module buttons for production version',                                     'pending'),
+-- T1 transformer analysis todos
+('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'pending'),
+('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'pending'),
+('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'in_progress'),
+('ctl-t1-tdk-library-import',                 'Import TDK B82806D footprint zip and add 3D model to legacy library',                       'pending'),
+('ctl-t1-tdk-topology-confirm',               'Contact TDK apps engineering — B82806D0060A120 topology confirmation',                      'pending');
 ```
 
 ### Dependencies
@@ -272,6 +306,20 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('release-candidate-production', 'bom-pre-production-check'),
 -- interim-electronics-review-1 gates
 ('interim-electronics-review-1', 'rotor-refdes-reallocate'),
+('interim-electronics-review-1', 'review-pass-10'),
+('interim-electronics-review-1', 'bulk-caps-per-power-source-or-conversion'),
+('interim-electronics-review-1', 'ctl-l02-refdes-gap'),
+('interim-electronics-review-1', 'enc-cpld-spare-pins-rule'),
+('interim-electronics-review-1', 'jtag-pin1-silkscreen-grs'),
+('interim-electronics-review-1', 'jtag-integrity-resistor-value-reconcile'),
+('interim-electronics-review-1', 'mcp23017-gpb7-silicon-fixed-review'),
+('interim-electronics-review-1', 'rot-i2c-residual-removal'),
+('interim-electronics-review-1', 'consolidate-design-spec-content'),
+('interim-electronics-review-1', 'usm-spdt-switch-floating-review'),
+-- consolidate-design-spec-content gates
+('consolidate-design-spec-content', 'enc-connector-review-pre-pcb'),
+-- am-button-review-production gates full-pn-review
+('full-pn-review', 'am-button-review-production'),
 -- interim-electronics-review-2 gates
 ('interim-electronics-review-2', 'interim-electronics-review-1'),
 ('interim-electronics-review-2', 'coupon-testing-review'),
@@ -306,6 +354,5 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('review-pass-8',                   'ctl-t1-transformer-decision'),
 ('ctl-t1-transformer-decision',     'ctl-t1-wurth-datasheet-review'),
 ('review-pass-9',             'review-pass-8'),
-('review-pass-10',            'review-pass-9'),
-('interim-electronics-review-1', 'review-pass-10');
+('review-pass-10',            'review-pass-9');
 ```

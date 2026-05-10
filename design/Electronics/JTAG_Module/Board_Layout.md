@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-10
 
 This board implements our version of an Intel (Altera) USB Blaster II device for programming CPLDs.
 
@@ -80,7 +80,7 @@ R1 = outer (bottom) edge; R2 = inner row.
 | C9R2  | TDO        | CTL → JM   | JTAG Data Out (return from chain)                   |
 | C10R2 | GND        | —          | Ground                                              |
 
-## 5. PCB Stackup - JLC04161H-7628 (4-Layer)
+## 4. PCB Stackup - JLC04161H-7628 (4-Layer)
 
 **Stackup:** JLC04161H-7628 (JLCPCB standard 4-layer)
 
@@ -91,13 +91,13 @@ R1 = outer (bottom) edge; R2 = inner row.
 | L3 | Power distribution pours (5V_USB + 3V3_ENIG) | Inner power layer |
 | L4 | GND pour shield | Faces away from Controller (exterior/top when mounted) |
 
-## 6. Grounding Notes
+## 5. Grounding Notes
 
 GND_CHASSIS is not implemented on the JM - see DEC-023. Mounting holes connect to GND (circuit return).
 
 ---
 
-## 7. Routing - Trace Width Specifications
+## 6. Routing - Trace Width Specifications
 
 **Board specs:** 4-layer / 2oz finished copper (JLC04161H-7628).
 L1 = GND plane (component side); L2 = all signal traces (inner layer); L3 = power pours; L4 = GND pour.
@@ -106,7 +106,7 @@ L1 = GND plane (component side); L2 = all signal traces (inner layer); L3 = powe
 External: ~0.15 mm/A. Internal: multiply by 2.5x for same thermal rise.
 See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category table.
 
-### 7.1 Trace Width Table
+### 6.1 Trace Width Table
 
 | Net | Peak Current | IPC Calc (2oz) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -117,7 +117,7 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
 | GND pours (outer layers) | - | - | pour | **copper pour** | L1 + L4 | Both outer layers = solid GND; provides dual-sided shielding for L2 signals |
 | Power pours (inner power layer) | ≤ 400 mA | - | pour | **copper pour** | L3 | Separate pour zones for 5V_USB and 3V3_ENIG |
 
-### 7.2 Notes
+### 6.2 Notes
 
 * All JTAG traces on L2 are sandwiched between the L1 GND reference (top) and L3 power pour (bottom),
   providing inherent shielding and a well-defined impedance environment.
@@ -131,7 +131,7 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
 
 ---
 
-## 8. Mounting Holes
+## 7. Mounting Holes
 
 JM mounting holes MH1–MH4 are M2.5 NPTH holes with a GND annular ring.
 Net: **GND** (not GND_CHASSIS — daughterboard exception per DEC-057).

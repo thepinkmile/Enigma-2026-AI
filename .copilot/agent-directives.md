@@ -394,8 +394,28 @@ Each cycle comprises two complementary review types:
 
 ### Agent execution model
 
+- **BEFORE launching any batch of agents, always call `list_agents` first.** Confirm the number
+  of currently running agents. Only launch new agents if the total (existing + new) will not exceed
+  4. If a stale agent from a prior run is still active, wait for it to complete or ask the user to
+  terminate it before launching new agents. Never assume the slot count is correct from memory.
 - Launch all planned review agents in parallel batches of **maximum 4 agents at a time**.
 - Each agent is given a specific review scope (e.g. one board, or one cross-board interface pair).
+- **Every review agent prompt must begin with the SEPTENARY DIRECTIVE mandatory preamble block**
+  (the block defined under the SEPTENARY DIRECTIVE heading in this file). This is non-negotiable.
+  The preamble explicitly enumerates all primary directives so the sub-agent cannot miss them.
+- Each board-level review agent must read the following in order before reviewing board files:
+  1. This file (`agent-directives.md`) in full.
+  2. `design\Standards\Global_Routing_Spec.md` — board specs only document **exceptions** to global
+     rules. Only raise a finding where a board value explicitly **contradicts** a global rule.
+  3. The board's `Design_Spec.md`, `Board_Layout.md`, and all supplementary docs scoped to that
+     board (e.g. `Rotor_26_Char_Design.md` and `Rotor_64_Char_Design.md` belong to the Rotor agent,
+     not the integration agent).
+  4. All datasheets relevant to the board's components from `design\Datasheets\` (markdown first,
+     then local PDF; no web search).
+  5. The relevant rows in `design\Electronics\Consolidated_BOM.md`.
+- Each review agent must adopt the persona of a **senior electronics engineer**: scrutinise the
+  design for flaws, missing components, invalid calculations, and datasheet non-compliance. Do not
+  produce shallow or summary-only findings.
 - All planned review batches must complete before any fixes are applied. Running the fix agent
   mid-cycle would leave the design in a potentially misaligned state while findings from later
   batches are still outstanding.

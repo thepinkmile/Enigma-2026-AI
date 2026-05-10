@@ -4,7 +4,7 @@
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
-**Date:** 2026-04-05
+**Date:** 2026-05-10
 **Affects:** Controller, Stator, Encoder, Reflector, Extension, JTAG Module (JM)
 
 ---
@@ -30,9 +30,9 @@ design decision adopted.
 ```text
 FT232H (JM)
     |  U2 SN74LVC2G125DCUR buffer (TCK, TMS)
-    |  R2/R3 33Ω after U2 output (TCK/TMS); R1 33Ω at FT232H TDI; R4 33Ω before J2 (TDI)
+    |  R2/R3 33Ω after U2 output (TCK/TMS); R1 33Ω at FT232H TDI; R4 33Ω before J1 (TDI)
     ↓
-J2 JTAG header → Controller hat-header (pass-through: no active components)
+J1 connector → Controller hat-header (pass-through: no active components)
     ↓
 Controller J5 ↔ Stator J12 logic dock (BtB, no cable)
     |
@@ -72,6 +72,11 @@ Stator CPLD (U1)
                  the Stator CPLD reflector-boundary path - these are NOT part of the JTAG chain)
                 Stator J10 → Controller-facing `J5/J12` `TTD_RETURN` path → FT232H
 ```
+
+> **Net name map:** `TTD_RETURN` is the system-level net name for the TDO return path from the last
+> device in the JTAG chain back to the FT232H on the JTAG Module. It maps to the `TDO` input pin on
+> U1 (FT232H). The name reflects signal direction (chain return travelling toward the JTAG master)
+> rather than the device-level signal name.
 
 **TCK and TMS** are broadcast to all devices. On the Stator they fan out to:
 
@@ -460,19 +465,19 @@ distance on the trace.
 | Board | New refs | Value | Qty | Location |
 | --- | --- | --- | --- | --- |
 | JM | R1 | 33 Ω | 1 | TDI termination/pull at FT232H TDI output - maintains defined TDI signal state and provides source damping on the JM TDI network |
-| JM | R2 | 33 Ω | 1 | TCK after U2 buffer, before J2 JTAG header pin 1 (TCK) |
-| JM | R3 | 33 Ω | 1 | TMS after U2 buffer, before J2 JTAG header pin 7 (TMS) |
-| JM | R4 | 33 Ω | 1 | TDI series damping (not buffered - from FT232H), before J2 JTAG header pin 3 (TDI) |
+| JM | R2 | 33 Ω | 1 | TCK after U2 buffer, before J1 connector pin C1R1 (TCK) |
+| JM | R3 | 33 Ω | 1 | TMS after U2 buffer, before J1 connector pin C2R2 (TMS) |
+| JM | R4 | 33 Ω | 1 | TDI series damping (not buffered - from FT232H), before J1 connector pin C10R1 (TDI) |
 | Stator | R7-R12 | 75 Ω | 6 | TCK → J4/J5/J6/J7/J8/J9 encoder ribbon port outputs |
 | Stator | R33-R38 | 75 Ω | 6 | TMS → J4/J5/J6/J7/J8/J9 encoder ribbon port outputs |
 | Stator | R27-R32 | 75 Ω | 6 | TDI chain drive: Stator CPLD TDO → J4; J4 return → J5; J5 return → J6; J6 return → J7; J7 return → J8; J8 return → J9 |
-| Encoder | R6 | 75 Ω | 1 per board | U1 TDO → J2 connector pin 13 (ribbon drive back to Stator) |
+| Encoder | R6 | 75 Ω | 1 per board | U1 TDO → J1 pin 14 (ribbon drive back to Stator) |
 | Reflector | R1 (existing) | 22 Ω | 1 | TDO end-of-chain series damping - JTAG chain END |
 
 > **Controller JTAG pass-through:** The Controller board carries no active JTAG components. All
 > buffering (U2 SN74LVC2G125DCUR) and series damping (R1-R4, 33 Ω 0402) are located on the JM.
 > R1 is a termination/pull resistor at the FT232H TDI output; R2 and R3 damp TCK and TMS after the U2 buffer;
-> R4 provides series damping on TDI before J2.
+> R4 provides series damping on TDI before J1.
 > The Controller `J5` ↔ Stator `J12` logic dock is a direct BtB connection (no cable), so 33 Ω
 > applies there (not the 75 Ω cable-driving rule). See DEC-024.
 >

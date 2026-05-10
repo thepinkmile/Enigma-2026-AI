@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-10
 
 ## 1. Overview
 
@@ -48,7 +48,7 @@ diagnostics.
 | DR-AM-04 | Servo loom header | J2 = Adam Tech PH1-05-UA, manually fitted post-PCBA; only pins 1-3 are active in Rev A | §3.2; BOM J2 |
 | DR-AM-05 | Home-switch loom header | J3 = Adam Tech PH1-05-UA, manually fitted post-PCBA; twisted-pair wiring required for the active signal and return | §3.3; BOM J3 |
 | DR-AM-06 | Local controller architecture | U1 shall be a small 3.3V local controller with native hardware PWM, at least 2 digital inputs, at least 4 spare / LED-capable GPIOs, power-on reset, and a package suitable for low-profile service-module assembly | §4; BOM U1 |
-| DR-AM-07 | Diagnostics LED parts and placement | Reuse the existing green 0402 status LED and 330Ω 0402 resistor already used on Encoder boards, but place the LED footprints at the visible board edge on the PCBA side so their light remains observable when the AM is installed upside-down | BOM D1-D3, R1-R3; `Board_Layout.md` |
+| DR-AM-07 | Diagnostics LED parts and placement | Reuse the existing green 0603 status LED and 330Ω 0402 resistor already used on Encoder boards, but place the LED footprints at the visible board edge on the PCBA side so their light remains observable when the AM is installed upside-down | BOM D1-D3, R1-R3; `Board_Layout.md` |
 | DR-AM-08 | Home-input biasing | `ACTUATION_HOME_N` uses a local 10kΩ pull-up to `3V3_ENIG` plus a 1µF local RC debounce capacitor - RC time constant 10 ms | BOM R4, C1 |
 | DR-AM-09 | Mounting orientation | Module is intended to mount upside-down from the host board, similar to the JM service-board approach | `Board_Layout.md` |
 | DR-AM-10 | SWD service connector | J4 = Adam Tech PH1-05-UA, manually fitted 1x5 2.54mm SWD header using the common compact 5-pin STM32/ST-LINK flying-lead order (`VTref`, `SWCLK`, `GND`, `SWDIO`, `RESET_N`) | §3.4; BOM J4 |
@@ -285,7 +285,7 @@ That software document is the source of truth for:
 * the SWD and UART boot / programming paths
 * the SW1 / SW2 UART bootloader button sequence
 * the STM32 firmware state machine
-* homing, actuation, and fault behavior
+* homing, actuation, and fault behaviour
 * firmware bring-up order and implementation notes
 
 This hardware design spec remains the source of truth for the AM's electrical interface, connector
@@ -299,7 +299,7 @@ pinouts, mechanical constraints, and BOM.
 | C2-C3, C6-C7 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | ✔ | Pending | 4 |
 | C4 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | see DEC-046 | ✔ | Pending | 1 |
 | C5 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | ✔ | ✔ | 1 |
-| D1-D3 | Green SMD LED diagnostic 0402 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | ✔ | Pending | 3 |
+| D1-D3 | Green SMD LED diagnostic 0603 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | ✔ | Pending | 3 |
 | J1 | 20-pin 0.4mm pitch BtB plug | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | ✔ | ✔ | 1 |
 | J2-J5 | 1x5 2.54mm male THT | PH1-05-UA | Adam Tech | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | manually-fit | ✔ | ✔ | 4 |
 | R1-R3 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | ✔ | Pending | 3 |

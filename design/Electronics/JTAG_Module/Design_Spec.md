@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-20
+**Last Updated:** 2026-05-10
 
 ## 1. Overview
 
@@ -34,14 +34,14 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 | DR-JM-07 | Board-to-Board connector | J1 = Hirose DF40C-20DP-0.4V(51) 20-pin 0.4mm pitch BtB plug (bottom-centre of board; R1 on outer/bottom edge) | §3 Interface & Wiring; BOM J1 |
 | DR-JM-08 | GND_CHASSIS exemption | M2.5 NPTH clearance holes. Electrical connection: GND (not GND_CHASSIS). Per DEC-057 daughterboard exception. | §3 Interface & Wiring |
 | DR-JM-09 | Bulk cap exception | JM exempt from 5x bulk entry bank rule; C1-C4, C6-C9 = 8x 100nF per-IC decoupling (one per FT232H supply pin: VCCA, VCORE, VCCD, VCCIOx3, VPLL, VPHY) + C5 = 4.7µF 5V_USB entry filter | §6 Electrical Requirements; BOM C1-C9; GRS §3 |
-| DR-JM-10 | JTAG buffer | U2 = SN74LVC2G125DCUR (VSSOP-8) dual-channel buffer for TCK and TMS; placed between FT232H and J2 header | §6 Electrical Requirements; BOM U2; DEC-024 |
-| DR-JM-11 | TCK series damping after buffer | R2 = 33 Ω 0402 after U2 TCK output, before J2 pin 1 (TCK) | §6 Electrical Requirements; BOM R2; DEC-024 |
-| DR-JM-12 | TMS series damping after buffer | R3 = 33 Ω 0402 after U2 TMS output, before J2 pin 7 (TMS) | §6 Electrical Requirements; BOM R3; DEC-024 |
-| DR-JM-13 | TDI series damping before J2 | R4 = 33 Ω 0402 before J2 pin 3 (TDI) | §6 Electrical Requirements; BOM R4; DEC-024 |
-| DR-JM-14 | TMS pull-up near J2 | R6 = 10 kΩ 0402 pull-up from TMS to 3V3_ENIG near J2 header; idle-state TAP control | §6 Electrical Requirements; BOM R6 |
-| DR-JM-15 | TCK pull-down near J2 | R7 = 10 kΩ 0402 pull-down from TCK to GND near J2 header; idle-state TAP control | §6 Electrical Requirements; BOM R7 |
+| DR-JM-10 | JTAG buffer | U2 = SN74LVC2G125DCUR (VSSOP-8) dual-channel buffer for TCK and TMS; placed between FT232H and J1 connector | §6 Electrical Requirements; BOM U2; DEC-024 |
+| DR-JM-11 | TCK series damping after buffer | R2 = 33 Ω 0402 after U2 TCK output, before J1 pin C1R1 (TCK) | §6 Electrical Requirements; BOM R2; DEC-024 |
+| DR-JM-12 | TMS series damping after buffer | R3 = 33 Ω 0402 after U2 TMS output, before J1 pin C2R2 (TMS) | §6 Electrical Requirements; BOM R3; DEC-024 |
+| DR-JM-13 | TDI series damping before J1 | R4 = 33 Ω 0402 before J1 pin C10R1 (TDI) | §6 Electrical Requirements; BOM R4; DEC-024 |
+| DR-JM-14 | TMS pull-up near J1 | R6 = 10 kΩ 0402 pull-up from TMS to 3V3_ENIG near J1 connector; idle-state TAP control | §6 Electrical Requirements; BOM R6 |
+| DR-JM-15 | TCK pull-down near J1 | R7 = 10 kΩ 0402 pull-down from TCK to GND near J1 connector; idle-state TAP control | §6 Electrical Requirements; BOM R7 |
 | DR-JM-16 | FT232H RESET_N pull-up | R5 = 10 kΩ 0402 pull-up from FT232H RESET_N (FT232H pin 34; IC datasheet designates this pin as RESET#; renamed RESET_N per project convention) to 3V3_ENIG; holds RESET_N deasserted (HIGH) during normal operation per FTDI application note AN_108; absence of pull-up risks chip latching in reset | §6 Electrical Requirements; BOM R5 |
-| DR-JM-17 | JTAG buffer VCC bypass | C12 = 100nF X7R 0402 bypass capacitor shall be placed on the VCC supply of U2 (SN74LVC2G125DCUR) within 0.5mm of the VCC pin | §6 Electrical Requirements; BOM C12 |
+| DR-JM-17 | JTAG buffer VCC bypass | C12 = 100nF X7R 0402 bypass capacitor shall be placed on the VCC supply of U2 (SN74LVC2G125DCUR) within 0.5mm of the VCC pin; 1OE and 2OE (active-low output enables) are permanently tied to GND, keeping both buffer channels always enabled | §6 Electrical Requirements; BOM C12 |
 | DR-JM-18 | Mounting holes | JM mounting holes MH1–MH4 shall be NPTH M2.5 holes with a GND annular ring. Conductive standoffs connect to GND only (not GND_CHASSIS), per DEC-057 daughterboard exception. No purchasable BOM component — mounting hardware is owned by and specified in the Controller Board BOM (MH9–MH12, 9774035151R). See `design/Standards/Global_Routing_Spec.md §4` for module mounting hole rules. | §4 Aesthetics & Mounting; DEC-057; DEC-058 |
 | DR-JM-19 | BtB connector placement and orientation | J1 (DF40C-20DP) shall be placed at **bottom-centre** of the JM board (positional keying — cannot accidentally mate with AM location on CTL). R1 of J1 shall be on the outer (bottom) edge. When mounted on the CTL, R1 shall face the LINK-BETA connector (J4/J5) to minimise JTAG trace lengths to the Stator. Orientation is enforced by the asymmetric MH1–MH4 pattern and silkscreen pin-1 markers (DF40 is mechanically polarity-free per Hirose Note 4). | §3 Interface & Wiring; §4 Aesthetics & Mounting |
 | DR-JM-20 | No-component zone — underside | A minimum 1.0mm component-free zone shall be maintained on the underside (L4 face) of the JM, measured from the board outline. This ensures clearance above the CTL board when the JM is mounted as a hat. | §4 Aesthetics & Mounting; DEC-058 |
@@ -150,7 +150,7 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
 
 > **Note - Inverted Stackup:** The JM uses an intentionally inverted 4-layer assignment (L1=GND, L2=signals, L3=power, L4=GND) vs. the standard
 > pattern (L1=signal, L2=GND, L3=power, L4=signal). Placing signals on L2 immediately adjacent to the L1 GND plane achieves equivalent controlled
-> impedance to outer-layer microstrip, consistent with DEC-016. See `design/Electronics/JTAG_Module/Board_Layout.md §7.1` for JTAG trace impedance compliance detail.
+> impedance to outer-layer microstrip, consistent with DEC-016. See `design/Electronics/JTAG_Module/Board_Layout.md §6.1` for JTAG trace impedance compliance detail.
 
 ## 6. Electrical Requirements
 
@@ -191,7 +191,8 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
   * **R4 (33Ω):** Series damping on TDI signal (not buffered) before J1 (TDI pin, C10R1). Combined with R1 at FT232H, provides damping at both ends of the FT232H-to-J1 TDI path.
   * **U2 (SN74LVC2G125DCUR, VSSOP-8):** Dual-channel 3-state buffer placed between the FT232H and
     J1 connector (JTAG OUTPUT side), buffering TCK and TMS for the 37-device JTAG chain load. TDI is not
-    buffered - FT232H TDI drives only the first device in the chain directly.
+    buffered - FT232H TDI drives only the first device in the chain directly. 1OE and 2OE (active-low
+    output enables) are permanently tied to GND, keeping both buffer channels always enabled.
   * **R2 (33Ω):** Series damping on U2 TCK output, placed within 2mm of the U2 output pin, before
     J1 DF40 connector (TCK pin, C1R1). Source impedance after U2: U2_out (≈15Ω) + R2 (33Ω) ≈ 48Ω - matched
     to 50Ω BtB trace impedance per DEC-024.

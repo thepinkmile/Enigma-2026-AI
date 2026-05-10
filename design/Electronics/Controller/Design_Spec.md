@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-09
+**Last Updated:** 2026-05-10
 
 ---
 
@@ -278,13 +278,12 @@ The PoE front-end (U7 TPS2372-4RGWR, U8 TPS23730RMTR, T1 TDK B82806D0060A120) re
 support capacitors in addition to the per-IC VCC bypass capacitors specified in DR-CTL-16 (C18 for U7,
 C19 for U8).
 
-* **C17 (22nF X7R 100V 0402) — ACF Clamp Capacitor (Cclamp):** Placed in the U8 (TPS23730RMTR)
+* **C17 (22nF X7R 200V 0805) — ACF Clamp Capacitor (Cclamp):** Placed in the U8 (TPS23730RMTR)
   primary-side active-clamp circuit. In ACF operating mode (selected by DEC-019), Cclamp stores and
-  recycles transformer leakage inductance energy each switching cycle. The 100V voltage rating is
-  required by the primary-side operating environment: the PoE bus voltage can reach 57V and primary-side
-  drain transients during switching exceed this level. Value 22nF derived from TDK B82806D0060A120
-  leakage inductance (Llk=0.18µH); see DR-CTL-18 and
-  `design/Electronics/Controller/PoE_Power_Analysis.md`.
+  recycles transformer leakage inductance energy each switching cycle. A 200V 0805 rating is required:
+  worst-case Vclamp reaches 72V and X7R DC bias derating at 100V reduces effective capacitance below the
+  19.9nF minimum — see DR-CTL-18. Value 22nF derived from TDK B82806D0060A120 leakage inductance
+  (Llk=0.18µH); see DR-CTL-18 and `design/Electronics/Controller/PoE_Power_Analysis.md`.
 * **C12, C15, C16 (100nF X7R 50V 0402) — PoE Application Circuit Support Capacitors:** Three additional
   local decoupling and application-circuit filter capacitors within the U7/U8 PoE subsystem, distinct
   from the per-IC VCC bypass capacitors C18 (U7) and C19 (U8) specified in DR-CTL-16. Typical
@@ -545,10 +544,10 @@ Estimated Controller-local power dissipation at system peak load:
 | T1 | ACF Forward PoE transformer 60W 1500V 12-pin SMT | B82806D0060A120 | TDK | 495-76653-1-ND | 871-B82806D0060A120 | C7218686 | - | Replaces Coilcraft POE600F-12L. ACF Forward topology; 2:1:1 turns ratio (Np:Ns:Naux); Lm=100µH; Llk=0.18µH. See DEC-062. PCB layout note: TDK datasheet permits solder bridges between pins 1–2 and pins 7–8 (intra-group within same net only; not primary-to-secondary). Confirm against footprint drawing during PCB layout phase. | Yes | ✔ | 1 |
 | U1 | CM5 module | CM5 | Raspberry Pi Ltd | N/A - source from RPi distributors | various CM5 SKUs | N/A - not stocked at JLCPCB | - | - | N/A | N/A | 1 |
 | U2 | USB power switch SOT-23-5 | TPS2065CDBVR | Texas Instruments | 296-39353-1-ND | 595-TPS2065CDBVR | C353882 | - | - | Yes | ✔ | 1 |
-| U3 | HDMI power switch SOT-23-5 | AP2331W-7 | Diodes Inc | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | Yes | ✔ | 1 |
+| U3 | HDMI power switch SC59 | AP2331W-7 | Diodes Inc | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | Yes | ✔ | 1 |
 | U4-U6 | 4-ch ESD ±15kV 0.5pF U-DFN-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | Pending | 3 |
-| U7 | PoE PD interface VQFN-24 4x4mm | TPS2372-4RGWR | Texas Instruments | 296-45285-1-ND | 595-TPS2372-4RGWR | C470955 | - | - | Yes | Pending | 1 |
-| U8 | PoE auxiliary controller WSON-10 3x3mm | TPS23730RMTR | Texas Instruments | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | C3189530 | - | - | Yes | ✔ | 1 |
+| U7 | PoE PD interface VQFN-20 5x5mm | TPS2372-4RGWR | Texas Instruments | 296-45285-1-ND | 595-TPS2372-4RGWR | C470955 | - | - | Yes | Pending | 1 |
+| U8 | PoE auxiliary controller VQFN-45 7x5mm | TPS23730RMTR | Texas Instruments | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | C3189530 | - | - | Yes | ✔ | 1 |
 
 ### BOM Notes
 

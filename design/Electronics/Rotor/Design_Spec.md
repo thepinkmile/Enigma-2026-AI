@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-10
 
 ## 1. Overview
 
@@ -14,8 +14,9 @@ where the internal scrambled wiring is emulated by a dedicated logic chip on eac
 
 Each rotor assembly consists of **two circular PCBs** (Board A and Board B), each **Ø92mm**,
 inside an aluminium shroud (Ø100mm outer face, 4mm radial wall). The two boards are separated
-by an ~11.8mm gap and connected by four single-row 2.54mm THT headers (J7 1x5, J8 1x5,
-J9 1x5, J10 1x7; 22 pins total; mixed gender for physical keying) on
+by an ~11.8mm gap and connected by **4 connectors per rotor side** (Board A has J7, J8, J11, J14;
+Board B has J9, J10, J12, J13; 8 single-row 2.54mm THT headers total; 44 pins; mixed gender for
+physical keying) on
 their inner (facing) surfaces. Total rotor thickness is ~15mm, matching original Enigma rotor
 proportions. These internal headers are manually assembled post-JLCPCB SMT pick-and-place.
 
@@ -89,7 +90,7 @@ not be used as a local chassis-bond point.
 | DR-ROT-08 | Mechanical retention | 4x M3 PTH (plated through-hole) mounting holes, Ø3.2mm clearance, per rotor assembly (2x on Board A + 2x on Board B), positioned at the 4 corners of the inscribed square in the Ø92mm circular footprint (approx. ±32.5 mm from board centre); electrical connection: `GND_CHASSIS`; designators: MH1A, MH2A (Board A); MH1B, MH2B (Board B); no BOM entry required — plain chassis mounting holes, no components to fit; 8mm solid metal support rod (non-threaded) through all 30 rotors for alignment and connector stress relief; stack is horizontal | §2.3 Mechanical Details; `design/Electronics/Rotor/Board_Layout.md §9`; `design/Standards/Global_Routing_Spec.md §4` |
 | DR-ROT-09 | Ring setting DIP switches (SW1) | 6-position DIP switch on input side only; SW1[5:0] summed mod N with CPLD STGC-decoded position to yield effective rotor position | §2.3 Mechanical Details; BOM SW1 |
 | DR-ROT-10 | Map selection DIP switches (SW2 / SW3) | 6-position DIP on each face: bits [4:0] = map index (0-20 valid), bit [5] = direction (0=forward, 1=reverse); identical mechanism on both variants | §2.2 Logic & Transposition; BOM SW2, SW3 |
-| DR-ROT-11 | Internal connectors (J7-J14) | Eight single-row 2.54mm THT headers on inner face of both boards (four per board; J7: 1x5 female RS1-05-G on Board A; J8: 1x5 female RS1-05-G on Board A; J9: 1x5 female RS1-05-G on Board B; J10: 1x7 female RS1-07-G on Board B; J11: 1x5 male PH1-05-UA on Board A; J12: 1x5 male PH1-05-UA on Board B; J13: 1x5 male PH1-05-UA on Board B; J14: 1x7 male PH1-07-UA on Board A; 44 total pins); mixed gender between boards provides physical keying; manually assembled post-JLCPCB SMT | §3.4 Connector Pinouts; BOM J7-J14 |
+| DR-ROT-11 | Internal connectors (J7-J14) | **4 connectors per rotor side**: Board A has J7 (1x5 female RS1-05-G), J8 (1x5 female RS1-05-G), J11 (1x5 male PH1-05-UA), J14 (1x7 male PH1-07-UA); Board B has J9 (1x5 female RS1-05-G), J10 (1x7 female RS1-07-G), J12 (1x5 male PH1-05-UA), J13 (1x5 male PH1-05-UA). Board A connectors mate with Board B connectors (J7↔J12, J8↔J13, J11↔J9, J14↔J10); 8 total headers; 44 total pins; mixed gender provides physical keying; manually assembled post-JLCPCB SMT. | §3.4 Connector Pinouts; BOM J7-J14 |
 | DR-ROT-12 | Two-PCB assembly | Board A and Board B together constitute one logical rotor board; all BOM entries, reference designators, and design rules apply to the combined two-PCB assembly | §1 Overview |
 
 ## 2. Core Design
@@ -344,7 +345,7 @@ the full net-naming convention.
 | TDO | Out — J4 pin 6 | `TTD` | Outgoing serial data to the next board's TDI input |
 | TCK | In/pass-through — J1 pin 2 → J4 pin 2 | `TCK` | JTAG clock; unmodified throughout the chain |
 | TMS | In/pass-through — J1 pin 4 → J4 pin 4 | `TMS` | JTAG mode select; unmodified throughout the chain |
-| TRST (optional) | In — J1 pin 8 | `SYS_RESET_N` | System-wide active-low reset; also resets the JTAG TAP |
+| TRST (optional) | In — J1 pin 8 | `SYS_RESET_N` | System-wide active-low reset; also resets the JTAG TAP; ESD-protected via U3 ch4 (Board A) and U7 ch4 (Board B) |
 
 > **TTD inter-board net name:** `TTD` (JTAG Transmission Data) is the net name for the
 > TDO-to-TDI board-to-board trace. Because the trace is simultaneously the TDO output of one
@@ -589,9 +590,9 @@ connector body, before any series resistors or downstream logic (see `Global_Rou
 
 | Connector | Board | Interface | Signal Lines Requiring TVS |
 | :--- | :---: | :--- | :--- |
-| J1 | A | JTAG input (ERM8-005 male) | `TDI`, `TMS`, `TCK` - 3 lines |
+| J1 | A | JTAG input (ERM8-005 male) | `TDI`, `TMS`, `TCK`, `SYS_RESET_N` - 4 lines |
 | J3 | A | Encoder data input (ERM8-010 male) | `ENC_IN[5:0]`, `ENC_OUT[5:0]` - 12 lines |
-| J4 | B | JTAG output (ERF8-005 female) | `TDO`, `TMS`, `TCK` - 3 lines |
+| J4 | B | JTAG output (ERF8-005 female) | `TDO`, `TMS`, `TCK`, `SYS_RESET_N` - 4 lines |
 | J6 | B | Encoder data output (ERF8-010 female) | `ENC_IN[5:0]`, `ENC_OUT[5:0]` - 12 lines |
 
 > Power rail connectors `J2` (Board A) and `J5` (Board B) do not require dedicated TVS devices;
@@ -613,11 +614,12 @@ no new part numbers required. Placement per `Global_Routing_Spec.md §9` with DE
 
 | Ref | Board | Protects | Channels used |
 | :--- | :---: | :--- | :--- |
-| U3 | A | J1 JTAG input | `TDI`, `TMS`, `TCK` (1 spare channel) |
+| U3 | A | J1 JTAG input | `TDI`, `TMS`, `TCK`, `SYS_RESET_N` |
 | U4 | A | J3 encoder input (array 1 of 3) | `ENC_IN[3:0]` |
 | U5 | A | J3 encoder input (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
 | U6 | A | J3 encoder input (array 3 of 3) | `ENC_OUT[5:2]` |
-| U7 | B | J4 JTAG output | `TDO`, `TMS`, `TCK` (1 spare channel) |
+| U7 | B | J4 JTAG output | `TDO`, `TMS`, `TCK`, `SYS_RESET_N` |
 | U8 | B | J6 encoder output (array 1 of 3) | `ENC_IN[3:0]` |
 | U9 | B | J6 encoder output (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
 | U10 | B | J6 encoder output (array 3 of 3) | `ENC_OUT[5:2]` |
+
