@@ -141,3 +141,5 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 134 | ASCII to Mermaid diagrams complete | 134-ascii-to-mermaid-diagrams-complete.md |
 | 135 | Mermaid diagram todos created | 135-mermaid-diagram-todos-created.md |
 | 136 | Review Pass 8 fixes committed | 136-review-pass-8-fixes-committed.md |
+| 137 | Stackup decisions finalised; PM analysis complete | 137-stackup-decisions-finalised-pm-complete.md |
+| 138 | Impedance results complete; Molex drawing markdown added | 138-impedance-complete-molex-drawing-added.md |

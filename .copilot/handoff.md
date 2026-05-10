@@ -451,3 +451,58 @@ was rejected because JLCPCB **cannot machine-fit** that part. Three candidates i
 - `connector-stacking-height-review`: pending (deferred to prototype)
 - `enc-connector-review-pre-pcb`: pending (pre-PCB gate)
 - `jdb-ft232h-3v3-vregin`: blocked (FT232H Rev C availability)
+
+---
+
+## 2026-05-10 Stackup / Impedance-Recalc work (checkpoint 090 state)
+
+Active todo: `stackup-impedance-recalc` — **in progress, not yet committed**.
+
+All current boards specify stackups where the impedance-controlled prepreg dielectric height
+makes the GRS-specified 5 mil / 50 ohm trace width geometrically impossible. This workstream
+replaces all board stackup codes and CI trace width rules with verified values.
+
+### Decisions confirmed (user, 2026-05-10)
+
+- **All 4-layer boards**: `JLC041621-3313` (2oz outer / 1oz inner / 3313 prepreg)
+  - W50_outer approx 5.1 mil, W50_inner approx 6.6 mil, margin +3.1 mil above 3.5 mil floor
+  - CI service required
+
+- **CTL (6-layer)**: `JLC061621-3313` (2oz outer / 1oz inner / 3313 prepreg)
+  - Same trace widths as 4-layer; CI service required
+  - Two independent justifications: Ethernet BI_DB crossover (pins 3 and 6) cannot be routed on
+    a single inner layer; USB 3.0 Molex 48406-0003 SS pairs require separate inner layers per port
+
+- **PM (6-layer)**: `JLC061621-3313` (same physical stackup as CTL)
+  - CI service NOT required (PM carries zero CI signals — no USB data, no GbE MDI, no HDMI)
+  - Justified independently: 2oz outer for fills; 1oz inner preferred over H/HOZ for current capacity
+  - 41mm x 81mm supercap shadow zone, Type VII thermal vias, GND_CHASSIS ring all compatible
+
+Net result: one stackup per layer-count group; no mixed variants.
+
+### Pending before any design file changes
+
+1. **JLCPCB calculator verification** — user must manually run the JLCPCB impedance calculator for
+   both stackups and record authoritative trace widths. See `.copilot/discussions/stackup-impedance-analysis.md`
+   Section 20 for exact inputs required (50 ohm microstrip/stripline, 90 ohm diff microstrip, 100 ohm
+   diff stripline; both stackup codes). IPC-2141A estimates in the analysis file are for reference only.
+
+2. After calculator results are in hand and user approves, **SENARY approval required per file**:
+   - `design/Production/JLCPCB_Manufacturing.md`
+   - `design/Standards/Global_Routing_Spec.md`
+   - All 10 board `Design_Spec.md` files (separate approval each)
+   - `design/Design_Log.md` (append-only; check last DEC number — currently DEC-061, next is DEC-062)
+
+3. **Open question still pending**: JM / AM layer order convention (GND as bottom layer for carrier-
+   mounted boards).
+
+### Archive
+
+Full analysis in `.copilot/discussions/stackup-impedance-analysis.md` (approx 830 lines):
+- All six JLCPCB copper weight combination stackup data
+- 10-option comparison table with eliminations
+- RJ45 THT and USB 3.0 connector routing analysis
+- Calibrated IPC-2141A formula and calibration point
+- PM analysis
+- JLCPCB calculator guide
+

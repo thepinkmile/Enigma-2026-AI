@@ -197,6 +197,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "Molex-48406-0003-drawing.pdf",
+      "markdown": "Molex-48406-0003-drawing.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "Molex-ExtremeGuardianHD-2141130000-PS-000-specification.pdf",
       "markdown": "Molex-ExtremeGuardianHD-2141130000-PS-000-specification.md",
       "mapping_type": "same_stem"
