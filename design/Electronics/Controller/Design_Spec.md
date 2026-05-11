@@ -18,7 +18,7 @@ Controller, and all enclosure-edge I/O is grouped on the Controller side.
 
 * **Module:** Raspberry Pi Compute Module 5 (CM5).
 * **Role:** Master traffic controller for power, external I/O, and encryption logic.
-* **Stackup:** 6-Layer / 2oz Finished Copper (JLC061621-3313) for 5Gbps differential pair integrity.
+* **Stackup:** 6-Layer / 2oz Finished Copper per `design/Standards/Global_Routing_Spec.md §2.3.3` (required for 5Gbps differential pair integrity).
 * **Shielding:** High-speed signals (Ethernet, USB 3.0, HDMI, USB 2.0) routed as Striplines on L2–L5,
   with GND copper pours on all layers providing inter-layer shielding; L1 and L6 outer layers carry
   SMT components, power fills, and JTAG/silkscreen respectively.
@@ -461,7 +461,7 @@ See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
 
 ### 9.1. PCB Fabrication (JLCPCB Specs)
 
-* **Layers:** **6-Layer** (JLC061621-3313 stackup).
+* **Layers:** **6-Layer** per `design/Standards/Global_Routing_Spec.md §2.3.3`.
   JLCPCB Controlled Impedance (CI) service **required** for all production runs: TDR-verified trace widths
   for USB 3.0 SS (100Ω diff stripline), USB 2.0 (100Ω diff stripline), HDMI (100Ω diff stripline),
   and Ethernet BI_D (100Ω diff stripline) on inner layers L2–L5.
@@ -469,7 +469,7 @@ See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
 * **Solder Mask:** **Dark Green** (Vintage Industrial Lacquer aesthetic).
 * **Silkscreen:** White, Typewriter-style font, Bilingual (ALL-CAPS GERMAN / Sentence-case English).
 
-### 9.2. Advanced Layer Stackup (6-Layer / 2oz) [JLCPCB JLC061621-3313]
+### 9.2. Advanced Layer Stackup (6-Layer / 2oz) [GRS §2.3.3]
 
 Physical stackup properties: see `design/Production/JLCPCB_Manufacturing.md §1.2` and `design/Standards/Global_Routing_Spec.md §2.3.3`.
 
@@ -495,7 +495,7 @@ increases crosstalk risk. Port 1 SS is assigned to L2, Port 2 SS to L5, for phys
 
 ### 9.3. Trace Widths & Impedance
 
-All controlled-impedance values are JLCPCB-calculator-authoritative for JLC061621-3313 (non-coplanar).
+All controlled-impedance values are JLCPCB-calculator-authoritative for the stackup defined in `design/Standards/Global_Routing_Spec.md §2.3.3` (non-coplanar).
 JLCPCB CI service is **required** for all production runs of the Controller Board.
 
 | Net Class | Target Impedance | Trace Width | Spacing | Layer | Type |
@@ -519,7 +519,7 @@ signal pads require via-in-pad construction to route high-density 0.4mm-pitch si
 All via-in-pad holes on the CM5 connector footprint shall be:
 
 * **Type VII (IPC-4761):** Resin-filled and capped (epoxy fill + copper cap).
-* **Stub resonance:** Via stubs from L1 to L2 in the JLC061621-3313 stackup resonate at approximately
+* **Stub resonance:** Via stubs from L1 to L2 in the `design/Standards/Global_Routing_Spec.md §2.3.3` stackup resonate at approximately
   27 GHz — well above the 5 Gbps USB 3.0 Nyquist (2.5 GHz). Back-drilling is **not required**.
 * **Anti-pad:** GND copper pour shall include an anti-pad clearance of drill diameter + 0.2–0.3 mm
   around all CI signal vias to prevent unintended GND shorting.

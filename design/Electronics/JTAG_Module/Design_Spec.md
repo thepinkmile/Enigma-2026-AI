@@ -139,7 +139,7 @@ remains on the Power Module at the common power-entry point immediately before t
 
 ## 5. PCB Fabrication & Stackup
 
-Inverted 4-layer stackup per `design/Standards/Global_Routing_Spec.md §2.3.2` (JLC041621-3313).
+Inverted 4-layer stackup per `design/Standards/Global_Routing_Spec.md §2.3.2`.
 Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`. For JTAG CI trace width compliance, see `Board_Layout.md §6.1`.
 
 ## 6. Electrical Requirements
@@ -190,7 +190,7 @@ Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`. For 
   * **Pull Resistors:** TMS 10kΩ pull-up (R6) and TCK 10kΩ pull-down (R7) near J1 connector to hold JTAG TAP in defined state
     when idle (see §5 and JTAG best-practice note in `design/Electronics/JTAG_Module/JTAG_Integrity.md`).
   * **Trace Width Rule:** All JTAG signal traces on L2 (signal layer) shall be routed at **0.1478 mm (5.82 mil)** over the L1 GND reference plane,
-    targeting **50 Ω controlled impedance** per the JLC041621-3313 stackup (inner stripline). See DEC-016.
+    targeting **50 Ω controlled impedance** per `design/Standards/Global_Routing_Spec.md §2.3.2` (inner stripline). See DEC-016.
 
 > **Signal Integrity note (JM as complete JTAG master):** The JM hosts all JTAG buffering and
 > termination for the system. U2 buffers TCK and TMS for the 37-device chain load. Series damping

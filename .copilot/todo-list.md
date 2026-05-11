@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-11
+Last updated: 2026-05-11 (sync: design-log-dec066, jlcpcb-mfg-cross-refs, grs-stackup-section added as done; stackup-simplify sweep added as pending; all 10 stackup-simplify todos completed)
 
 ---
 
@@ -96,6 +96,19 @@ Last updated: 2026-05-11
 | `environmental-testing` | [environmental-testing.md](todos/environmental-testing.md) | pending | `version-1-documentation` |
 | `security-testing` | [security-testing.md](todos/security-testing.md) | pending | `version-1-documentation` |
 | `stackup-impedance-recalc` | [stackup-impedance-recalc.md](todos/stackup-impedance-recalc.md) | done | — |
+| `grs-stackup-section` | — | done | — |
+| `design-log-dec066` | — | done | — |
+| `jlcpcb-mfg-cross-refs` | — | done | — |
+| `am-stackup-simplify` | — | done | `grs-stackup-section` |
+| `ctl-stackup-simplify` | — | done | `grs-stackup-section` |
+| `enc-stackup-simplify` | — | done | `grs-stackup-section` |
+| `ext-stackup-simplify` | — | done | `grs-stackup-section` |
+| `jm-stackup-simplify` | — | done | `grs-stackup-section` |
+| `pm-stackup-simplify` | — | done | `grs-stackup-section` |
+| `ref-stackup-simplify` | — | done | `grs-stackup-section` |
+| `rot-stackup-simplify` | — | done | `grs-stackup-section` |
+| `sta-stackup-simplify` | — | done | `grs-stackup-section` |
+| `usm-stackup-simplify` | — | done | `grs-stackup-section` |
 | `bulk-caps-per-power-source-or-conversion` | [bulk-caps-per-power-source-or-conversion.md](todos/bulk-caps-per-power-source-or-conversion.md) | pending | — |
 | `ctl-l02-refdes-gap` | [ctl-l02-refdes-gap.md](todos/ctl-l02-refdes-gap.md) | done | — |
 | `enc-cpld-spare-pins-rule` | [enc-cpld-spare-pins-rule.md](todos/enc-cpld-spare-pins-rule.md) | done | — |
@@ -223,7 +236,21 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'pending'),
 ('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'in_progress'),
 ('ctl-t1-tdk-library-import',                 'Import TDK B82806D footprint zip and add 3D model to legacy library',                       'pending'),
-('ctl-t1-tdk-topology-confirm',               'Contact TDK apps engineering — B82806D0060A120 topology confirmation',                      'pending');
+('ctl-t1-tdk-topology-confirm',               'Contact TDK apps engineering — B82806D0060A120 topology confirmation',                      'pending'),
+-- Stackup consolidation sweep (grs-stackup-section done; simplify passes pending)
+('grs-stackup-section',                        'Add GRS §2.3 PCB Stackup Definitions',                                                         'done'),
+('design-log-dec066',                          'Append DEC-066 to Design_Log.md',                                                              'done'),
+('jlcpcb-mfg-cross-refs',                      'Update JLCPCB_Manufacturing.md §1.1 and §1.2 cross-refs',                                      'done'),
+('am-stackup-simplify',                        'Simplify AM DR-AM-01, DR-AM-09, remove blockquote',                                            'done'),
+('ctl-stackup-simplify',                       'Simplify CTL §9.2 — remove physical table, add GRS ref',                                       'done'),
+('enc-stackup-simplify',                       'Simplify ENC §9; add GRS §2.3.1 reference',                                                    'done'),
+('ext-stackup-simplify',                       'Simplify EXT §4 + fix DR-EXT-01 stale code',                                                   'done'),
+('jm-stackup-simplify',                        'Simplify JM §5 + fix DR-JM-01 stale code',                                                     'done'),
+('pm-stackup-simplify',                        'Update PM DR-PM-13 and §1; add GRS §2.3.3 reference',                                          'done'),
+('ref-stackup-simplify',                       'Simplify REF §6; add GRS §2.3.1 reference',                                                    'done'),
+('rot-stackup-simplify',                       'Simplify ROT §4; add GRS §2.3.1 reference',                                                    'done'),
+('sta-stackup-simplify',                       'Simplify STA §7; add GRS §2.3.1 reference',                                                    'done'),
+('usm-stackup-simplify',                       'Simplify USM §8; add GRS §2.3.1 reference',                                                    'done');
 ```
 
 ### Dependencies
@@ -354,5 +381,16 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('review-pass-8',                   'ctl-t1-transformer-decision'),
 ('ctl-t1-transformer-decision',     'ctl-t1-wurth-datasheet-review'),
 ('review-pass-9',             'review-pass-8'),
-('review-pass-10',            'review-pass-9');
+('review-pass-10',            'review-pass-9'),
+-- stackup-simplify sweep gates on grs-stackup-section (done)
+('am-stackup-simplify',  'grs-stackup-section'),
+('ctl-stackup-simplify', 'grs-stackup-section'),
+('enc-stackup-simplify', 'grs-stackup-section'),
+('ext-stackup-simplify', 'grs-stackup-section'),
+('jm-stackup-simplify',  'grs-stackup-section'),
+('pm-stackup-simplify',  'grs-stackup-section'),
+('ref-stackup-simplify', 'grs-stackup-section'),
+('rot-stackup-simplify', 'grs-stackup-section'),
+('sta-stackup-simplify', 'grs-stackup-section'),
+('usm-stackup-simplify', 'grs-stackup-section');
 ```

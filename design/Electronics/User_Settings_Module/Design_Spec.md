@@ -30,7 +30,7 @@ daemon over I²C.
 
 * **Location:** Right side of enclosure top face, near rotors.
 * **Mounting:** Panel-mount switches through enclosure panel; PCB mounted behind panel.
-* **Stackup:** 4-layer JLC041621-3313 / 2oz outer / 1oz inner copper.
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`.
 * **Role:** User-accessible configuration panel; I²C peripheral to Stator Board.
 
 ### Functional & Design Requirements
@@ -365,7 +365,7 @@ automatic polling intervals.
 
 ## 8. PCB Fabrication
 
-* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313). Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`.
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`. Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`.
 * **JTAG chain:** None — User Settings Module is not in any JTAG chain.
 
 ### 8.1 Manually Fitted Components

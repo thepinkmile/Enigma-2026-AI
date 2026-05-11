@@ -174,13 +174,13 @@ group without Controller-side live servo control.
 
 ## 4. PCB Fabrication & Stackup
 
-* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313).
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`.
 * **Finish:** ENIG (Gold) for connector surfaces.
 * **Aesthetics:** Dark Green Solder Mask; Typewriter font (ALL-CAPS GERMAN).
 * **JTAG Trace Width Rule:** The Extension board carries only the **TTD_RETURN** signal on its J7/J8 pass-through path
   (TCK, TMS, and TDI travel to the rotor stack via Stator J1-J3, not via the Extension Port). TTD_RETURN traces on L1 shall be routed at **0.1425 mm (5.61 mil)**
-  over the L2 GND plane, targeting **50 Ω controlled impedance**. See
-  `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016. Stackup per `design/Standards/Global_Routing_Spec.md §2.3.1`.
+  over the L2 GND plane, targeting **50 Ω controlled impedance** per `design/Standards/Global_Routing_Spec.md §2.3.1`. See
+  `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016.
 * **U1 Bypass:** C6 (100nF) shall be placed per GRS §3.2 bypass capacitor proximity requirements.
 
 ## 5. Thermal & ESD

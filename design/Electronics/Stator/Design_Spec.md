@@ -11,7 +11,7 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 
 ## 1. Overview
 
-* **Stackup:** 4-Layer / 2oz Finished Copper (JLC041621-3313).
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`.
 * **Layer Mapping:** L1: Signal (JTAG/routing) | L2: GND | L3: 3V3_ENIG | L4: ENC Data.
 * **Role:** Removable vertical daughterboard and master switchboard for the 30-rotor stack and peripheral encoder boards.
 
@@ -451,7 +451,7 @@ full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
 
 ## 7. PCB Fabrication & Stackup
 
-* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313). Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`.
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`. Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`.
 
 ## 8. Thermal & ESD
 

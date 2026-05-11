@@ -314,9 +314,8 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
 * **Layer Stack:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`; layer
   assignments as defined there.
 * **JTAG Trace Width Rule:** All JTAG signal traces on L1 shall be routed at **0.1425 mm (5.61 mil)**
-  width over the L2 GND plane, targeting **50 Ω controlled impedance** per the JLC041621-3313
-  stackup (h=0.092mm, t=0.030mm, Eᵣ=4.2). See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`
-  for the copper-weight note (2oz finished uses 1oz base copper t=0.030mm in the 3313 prepreg geometry) and DEC-016.
+  width over the L2 GND plane, targeting **50 Ω controlled impedance** per `design/Standards/Global_Routing_Spec.md §2.3.1`
+  (physical properties in `design/Production/JLCPCB_Manufacturing.md §1.1`). See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1` and DEC-016.
 * **TTD path policy:** The rotor-stack `TTD` path is a direct board-to-board chain. No series resistor is
   placed at each rotor hop; `TTD` exits the CPLD and continues straight to J4 pin 6. Cable-driving
   damping is reserved for the ribbon-port interfaces on the Stator / Encoder boards, while the
@@ -532,7 +531,7 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 >
 ## 4. PCB Fabrication & Stackup
 
-* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313).
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`.
 * **Finish:** ENIG (Gold) for the edge-rate connector pads.
 * **Aesthetics:** Dark Green Solder Mask with Typewriter font labeling (e.g., "WALZE I").
 

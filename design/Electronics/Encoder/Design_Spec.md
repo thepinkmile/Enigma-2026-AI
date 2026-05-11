@@ -229,7 +229,7 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 
 ## 9. PCB Fabrication & Stackup
 
-- **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313).
+- **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`.
 - **Finish:** ENIG.
 - **Aesthetics:** dark green solder mask; typewriter font (all-caps German where applicable).
 - **Placement:** one CPLD centred behind the 64-line terminal bank; J2 kept on the service edge for

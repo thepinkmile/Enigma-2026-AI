@@ -41,7 +41,7 @@ second CPLD on the Reflector itself.
 
 ## 2. Architecture
 
-* **PCB:** 4-Layer / 2oz Copper (JLC041621-3313) / ENIG Gold / 2.0mm Filleted Corners.
+* **PCB:** 4-Layer / 2oz Copper per `design/Standards/Global_Routing_Spec.md §2.3.1` / ENIG Gold / 2.0mm Filleted Corners.
 * **Standard:** Includes Inverted White Data Plate on bottom layer.
 
 ### System Role: The "Turnaround"
@@ -158,7 +158,7 @@ Reflector.
 
 ## 6. PCB Fabrication & Stackup
 
-* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313).
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`.
 * **Contacts:** ERM8-005 (x2, 10-pin, JTAG and Power) + ERM8-010 (x1, 20-pin, ENC Data) - male headers on J1-J3.
 * **Fillets:** 2.0mm Rounded PCB corners for consistent "Museum-Grade" enclosure fit.
 * **Routing:** Global **0.5mm Fixed-Radius Circular Arcs** for all loopback traces.

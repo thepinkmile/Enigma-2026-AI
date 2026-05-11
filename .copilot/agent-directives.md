@@ -175,6 +175,7 @@ The todo tracking system uses **two layers**:
    description, notes, blocked-by rationale, links to relevant design files.
 
 Rules:
+
 - When a new todo is identified, **both** a row in the summary table **and** a detail
   file in `.copilot/todos/` must be created before the todo is considered tracked.
 - When a todo is closed (status → done), remove the File link from the summary table row

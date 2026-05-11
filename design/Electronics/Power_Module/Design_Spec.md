@@ -78,7 +78,7 @@ Controller Board via dock connector `J1`.
 >
 ### 1. PCB Architecture
 
-* **Stackup:** 6-layer per `design/Standards/Global_Routing_Spec.md §2.3.3` (JLC061621-3313).
+* **Stackup:** 6-layer per `design/Standards/Global_Routing_Spec.md §2.3.3`.
   JLCPCB Controlled Impedance service is **not required** for the Power Module — this is a
   power-dominated board with no high-speed differential pairs requiring TDR-verified widths.
 * **Substrate:** High-Tg FR4 for thermal stability.
