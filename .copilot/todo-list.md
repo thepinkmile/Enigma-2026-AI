@@ -95,7 +95,7 @@ Last updated: 2026-05-10
 | `emc-testing` | [emc-testing.md](todos/emc-testing.md) | pending | `version-1-documentation` |
 | `environmental-testing` | [environmental-testing.md](todos/environmental-testing.md) | pending | `version-1-documentation` |
 | `security-testing` | [security-testing.md](todos/security-testing.md) | pending | `version-1-documentation` |
-| `stackup-impedance-recalc` | [stackup-impedance-recalc.md](todos/stackup-impedance-recalc.md) | pending | — |
+| `stackup-impedance-recalc` | [stackup-impedance-recalc.md](todos/stackup-impedance-recalc.md) | done | — |
 | `bulk-caps-per-power-source-or-conversion` | [bulk-caps-per-power-source-or-conversion.md](todos/bulk-caps-per-power-source-or-conversion.md) | pending | — |
 | `ctl-l02-refdes-gap` | [ctl-l02-refdes-gap.md](todos/ctl-l02-refdes-gap.md) | pending | — |
 | `enc-cpld-spare-pins-rule` | [enc-cpld-spare-pins-rule.md](todos/enc-cpld-spare-pins-rule.md) | pending | — |
@@ -207,7 +207,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('usm-component-diagram',             'block-beta USM circuit component diagram in User_Settings_Module/Design_Spec.md', 'pending'),
 ('am-component-diagram',              'block-beta AM circuit component diagram in Actuation_Module/Design_Spec.md',      'pending'),
 -- Review Pass 8 new todos
-('stackup-impedance-recalc',                  'Select optimal JLCPCB stackup based on impedance-controlled trace width manufacturability', 'pending'),
+('stackup-impedance-recalc',                  'Select optimal JLCPCB stackup based on impedance-controlled trace width manufacturability', 'done'),
 ('bulk-caps-per-power-source-or-conversion',  'Bulk decoupling at every power source and conversion point',                                'pending'),
 ('ctl-l02-refdes-gap',                        'Fix Controller board RefDes numbering gap',                                                 'pending'),
 ('enc-cpld-spare-pins-rule',                  'Add CPLD spare-pins rule to review agent-directives',                                       'pending'),

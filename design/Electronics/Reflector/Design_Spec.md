@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-11
 
 ## 1. Overview
 
@@ -31,7 +31,7 @@ second CPLD on the Reflector itself.
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-REF-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §6 PCB Fabrication & Stackup |
+| DR-REF-01 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.1` | §6 PCB Fabrication & Stackup |
 | DR-REF-02 | Input connectors | J1 = ERM8-005 (JTAG, plugs into Rotor 30 J4), J2 = ERM8-005 (Power, Rotor 30 J5), J3 = ERM8-010 (ENC, Rotor 30 J6) | §4 Rotor Interface Connectors; BOM J1-J3 |
 | DR-REF-03 | TTD_RETURN output | J4 connector (mates with Stator J10); `TTD_RETURN` on J4 pin 16; 30-pin 2x15 layout per DEC-053; `5V_MAIN` on pins 1-2/29-30 (not connected — present for cable family compatibility only); `3V3_ENIG` on pins 3-4/27-28 (sole power entry for this board); GND guard pairs at pins 5-6, 13-14, 17-18, 25-26 | §3 JTAG & Logic Hub; BOM J4 (30-pin 2x15 shrouded) |
 | DR-REF-04 | End-of-chain damping | R1 = 22 Ω, 0603, on TDO line | §3 JTAG & Logic Hub; BOM R1 (22Ω) |
@@ -41,7 +41,7 @@ second CPLD on the Reflector itself.
 
 ## 2. Architecture
 
-* **PCB:** 4-Layer / 2oz Copper (JLC04161H-7628) / ENIG Gold / 2.0mm Filleted Corners.
+* **PCB:** 4-Layer / 2oz Copper (JLC041621-3313) / ENIG Gold / 2.0mm Filleted Corners.
 * **Standard:** Includes Inverted White Data Plate on bottom layer.
 
 ### System Role: The "Turnaround"
@@ -158,8 +158,7 @@ Reflector.
 
 ## 6. PCB Fabrication & Stackup
 
-* **Stackup:** 4-Layer / 2oz Copper (JLC04161H-7628).
-* **Layer Mapping:** L1: Signal (JTAG/routing) | L2: GND | L3: 3V3_ENIG | L4: Signal (Data Plate).
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313).
 * **Contacts:** ERM8-005 (x2, 10-pin, JTAG and Power) + ERM8-010 (x1, 20-pin, ENC Data) - male headers on J1-J3.
 * **Fillets:** 2.0mm Rounded PCB corners for consistent "Museum-Grade" enclosure fit.
 * **Routing:** Global **0.5mm Fixed-Radius Circular Arcs** for all loopback traces.

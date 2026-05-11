@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-11
 
 ## 1. Overview
 
@@ -62,7 +62,7 @@ Controller Board via dock connector `J1`.
 | DR-PM-10 | 5V_MAIN backup bulk capacitor | C14 + C15: 2x Samsung CL32B226KAJNNNE in parallel = 44µF at 25V X7R 1210 - holds 5V_MAIN above backup threshold (4.812V) for ≥4 LTC3350 cycles at 400 kHz during backup switchover at 3A load | §5 Protection & Logic; BOM C14, C15 - see DEC-030 |
 | DR-PM-11 | LTC3350 RT frequency-setting resistor | R23: 33.2 kΩ (E96) to GND - sets LTC3350 switching frequency to 400 kHz (vs default 200 kHz with RT=INTVCC); required to achieve ≥4 cycles within 10.2µs backup switchover window | §5 Protection & Logic; BOM R23 (33.2kΩ) - see DEC-030 |
 | DR-PM-12 | Controller dock connectors | `J1/J2/J3` = TE `1123684-7` 10-position 2.5mm plugs mating with Controller `1-1674231-1` receptacles | BOM J1-J3 |
-| DR-PM-13 | PCB stackup | 6-layer, 2oz finished copper (JLC06161H-2116) | §1 PCB Architecture |
+| DR-PM-13 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.3` | §1 PCB Architecture |
 | DR-PM-14 | Per-IC bypass capacitors | All ICs shall have a dedicated 100nF X7R 50V 0402 bypass capacitor on each VCC/VCCIO/VCC_IO pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 | BOM C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 |
 | DR-PM-15 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. No purchasable BOM entry — plain chassis mounting holes; no components to fit. Exact XY positions TBD at PCB layout. | §1 PCB Architecture (Mounting Holes); `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Power_Module/Board_Layout.md §7` |
 
@@ -78,10 +78,9 @@ Controller Board via dock connector `J1`.
 >
 ### 1. PCB Architecture
 
-* **Stackup:** 6-Layer / 2oz Finished Copper (JLC06161H-2116).
-  For production runs requiring verified controlled impedance, specify JLCPCB's 'Controlled Impedance'
-  service (TDR-verified, ±10% tolerance). Prototype orders may omit this service per DEC-017
-  (calculated trace widths within ±10% of target based on JLC06161H-2116 datasheet parameters).
+* **Stackup:** 6-layer per `design/Standards/Global_Routing_Spec.md §2.3.3` (JLC061621-3313).
+  JLCPCB Controlled Impedance service is **not required** for the Power Module — this is a
+  power-dominated board with no high-speed differential pairs requiring TDR-verified widths.
 * **Substrate:** High-Tg FR4 for thermal stability.
 * **Finish:** ENIG (Gold) for all user-touch points and thermal pads.
 * **Enclosure:** ≥30mm internal clearance Aluminium "Power Can" with internal compression ribs

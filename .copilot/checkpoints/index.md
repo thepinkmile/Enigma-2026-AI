@@ -143,3 +143,6 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 136 | Review Pass 8 fixes committed | 136-review-pass-8-fixes-committed.md |
 | 137 | Stackup decisions finalised; PM analysis complete | 137-stackup-decisions-finalised-pm-complete.md |
 | 138 | Impedance results complete; Molex drawing markdown added | 138-impedance-complete-molex-drawing-added.md |
+| 139 | Stackup & impedance changes fully applied across all boards | 139-stackup-impedance-all-changes-applied.md |
+| 140 | Metadata policy directive clarified; Last Updated date sweep complete | 140-metadata-policy-directive-date-sweep-complete.md |
+| 141 | GRS stackup consolidation complete — all 10 board specs reference GRS §2.3 | 141-grs-stackup-consolidation-complete.md |

@@ -3,7 +3,7 @@
 **Status:** Draft
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-20
+**Last Updated:** 2026-05-11
 
 ## 1. Trace & Via Geometry
 
@@ -14,9 +14,12 @@
 * **Mitres:** Sharp 45/90-degree corners are strictly prohibited to ensure signal integrity and reduce EMI.
 * **Internal Layers:** 10 mil minimum width for signal traces on multi-layer boards.
   * **CI Exception:** Controlled-impedance traces targeting 50 Ω (per DEC-016) shall be routed at the
-    width calculated for the target stackup - typically **0.127 mm (5 mil)** on outer layers over a
-    contiguous GND plane (microstrip). This overrides the 10 mil minimum for CI-designated JTAG and
-    differential signal nets only.
+    width specified by the JLCPCB calculator for the board's assigned stackup — see
+    `design/Production/JLCPCB_Manufacturing.md §1` for per-stackup authoritative trace widths.
+    Typically **0.1425 mm (5.61 mil)** on outer layers (microstrip, JLC041621-3313 and JLC061621-3313)
+    or **0.1478 mm (5.82 mil)** on inner layers (stripline, 4-layer) / **0.1387 mm (5.46 mil)**
+    (stripline, 6-layer). This overrides the 10 mil minimum for CI-designated JTAG and
+    differential signal nets only. Do **not** use IPC-2141A estimates for CI trace widths.
 * **Clearance:** 10 mil minimum spacing to reduce crosstalk and noise.
 * **Grid Snap:** 0.5mm strict snap for all primary component placement and trace nodes.
 
@@ -28,7 +31,7 @@ Internal signal traces: use 2.5x the external minimum width for equivalent therm
 
 | Category | Current Range | Min Width - External (2oz) | Min Width - Internal (2oz) | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| Signal / CI | < 0.5 A | 0.20 mm | 0.254 mm (10 mil); CI exception (DEC-016) applies to outer layers only | Logic, I2C, GPIO; JTAG/diff CI at 0.127 mm on outer layers per DEC-016 |
+| Signal / CI | < 0.5 A | 0.20 mm | 0.254 mm (10 mil); CI exception (DEC-016) applies — see per-stackup trace widths in `design/Production/JLCPCB_Manufacturing.md §1` | Logic, I2C, GPIO; JTAG/diff CI at stackup-specific width per JLCPCB calculator |
 | Low-power supply | 0.5 A - 1.0 A | 0.50 mm | 0.75 mm | 3V3 feeds to low-draw loads |
 | Medium supply | 1.0 A - 3.0 A | 0.50 mm - 1.00 mm | 1.00 mm - 2.00 mm | 12 V feeds |
 | 3V3_ENIG (canonical) | ≤ 3.0 A | 0.80 mm (system-wide fixed) | copper pour (L3) | Fixed at 0.80 mm on ALL boards regardless of local load; inner L3 pour carries bus current. Any 3V3_ENIG surface trace below 0.80 mm is non-conformant. |
@@ -67,6 +70,61 @@ Internal signal traces: use 2.5x the external minimum width for equivalent therm
 * **Bottom Layer (L_MAX):** Reserved primarily for Data Plates and `GND_CHASSIS` pours / shield
   features where the board layout requires them. Any future coupon-based diagnostics should use the
   dedicated coupon area rather than permanent production-board probe banks.
+
+### 2.3. PCB Stackup Definitions
+
+The following subsections define the canonical PCB stackup variants used across the Enigma-NG system.
+Each entry identifies the JLCPCB stackup code, logical layer assignment, and which boards use it.
+Physical properties (prepreg thicknesses, dielectric constants) and controlled-impedance trace widths
+are documented in `design/Production/JLCPCB_Manufacturing.md §1`.
+
+#### 2.3.1 Standard 4-Layer — JLC041621-3313
+
+Used by: **Rotor (A+B), Stator, Extension, Reflector, Encoder, User Settings Module (USM)**
+
+| Layer | Role | Typical Content |
+| :--- | :--- | :--- |
+| **L1 (Top outer — component side)** | Signal + component placement | Signal routing; SMT component placement |
+| **L2 (Inner)** | GND plane | Solid GND pour |
+| **L3 (Inner)** | Power distribution | 3V3\_ENIG pour (and other rails where required) |
+| **L4 (Bottom outer)** | Signal + shield | Signal routing; GND\_CHASSIS pour; Data Plate silkscreen |
+
+Physical properties and CI trace widths: see `design/Production/JLCPCB_Manufacturing.md §1.1`.
+
+#### 2.3.2 Inverted 4-Layer — JLC041621-3313
+
+Used by: **JTAG Module, Actuation Module**
+
+Same physical stackup code as §2.3.1. Layer assignment is **inverted** because both modules mount
+upside-down on the carrier (Controller) Board — connectors face the host PCB, placing L1 against
+the carrier board surface and L4 as the user-visible exterior face.
+
+| Layer | Role | Typical Content |
+| :--- | :--- | :--- |
+| **L1 (Component/connector side — host-PCB facing)** | GND plane | Solid GND pour; faces carrier PCB when installed |
+| **L2 (Inner)** | Signal routing | All signal traces; shielded between L1 GND and L3 power planes |
+| **L3 (Inner)** | Power distribution | Power pours (5V and 3V3\_ENIG as applicable) |
+| **L4 (Exterior — user-visible face)** | GND shield | GND pour; user-visible exterior face |
+
+Assembly is single-sided (components on L1 only). Physical properties and CI trace widths:
+see `design/Production/JLCPCB_Manufacturing.md §1.1`. Reference: DEC-016, DEC-065.
+
+#### 2.3.3 Six-Layer — JLC061621-3313
+
+Used by: **Controller Board, Power Module**
+
+| Board | CI service required? | Reason |
+| :--- | :--- | :--- |
+| Controller Board | **Yes — required** | USB 3.0 SS, USB 2.0, HDMI, Ethernet BI\_D diff pairs on inner signal layers; TDR-verified widths mandatory |
+| Power Module | **No — not required** | Power-dominated board; no high-speed differential pairs requiring TDR-verified widths |
+
+Layer signal assignments differ between these boards and are documented individually:
+
+* **Controller Board:** see `design/Electronics/Controller/Design_Spec.md §9.2`
+* **Power Module:** see `design/Electronics/Power_Module/Design_Spec.md §1` (PCB Architecture)
+
+Physical properties and CI trace widths: see `design/Production/JLCPCB_Manufacturing.md §1.2`.
+Reference: DEC-016, DEC-065.
 
 > For full JLCPCB fabrication capabilities, assembly constraints, and stackup specifications,
 > see `design/Production/JLCPCB_Manufacturing.md`.

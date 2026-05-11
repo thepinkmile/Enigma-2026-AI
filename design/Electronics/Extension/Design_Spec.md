@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-11
 
 ## 1. Overview
 
@@ -40,7 +40,7 @@ group without Controller-side live servo control.
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-EXT-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §4 PCB Fabrication & Stackup |
+| DR-EXT-01 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.1` | §4 PCB Fabrication & Stackup |
 | DR-EXT-02 | Input connectors | J1 = ERM8-005 (JTAG in), J2 = ERM8-005 (Power in), J3 = ERM8-010 (ENC in) | §2 Connectivity; BOM J1-J3 |
 | DR-EXT-03 | Output connectors | J4 = ERF8-005 (JTAG out), J5 = ERF8-005 (Power out), J6 = ERF8-010 (ENC out) | §2 Connectivity; BOM J4-J6 |
 | DR-EXT-04 | JTAG buffer | U1 = SN74LVC2G125DCUR (dual-channel; TCK and TMS only; TDI passes unbuffered) | §2 Connectivity; BOM U1 (SN74LVC2G125DCUR) |
@@ -170,14 +170,13 @@ group without Controller-side live servo control.
 
 ## 4. PCB Fabrication & Stackup
 
-* **Layers:** 4-Layer (JLC04161H-7628).
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313).
 * **Finish:** ENIG (Gold) for connector surfaces.
-* **Layer Mapping:** L1: Signal (JTAG pass-through / routing) | L2: GND | L3: 3V3_ENIG | L4: Signal (Data Plate).
 * **Aesthetics:** Dark Green Solder Mask; Typewriter font (ALL-CAPS GERMAN).
 * **JTAG Trace Width Rule:** The Extension board carries only the **TTD_RETURN** signal on its J7/J8 pass-through path
-  (TCK, TMS, and TDI travel to the rotor stack via Stator J1-J3, not via the Extension Port). TTD_RETURN traces on L1 shall be routed at **0.127 mm (5 mil)**
+  (TCK, TMS, and TDI travel to the rotor stack via Stator J1-J3, not via the Extension Port). TTD_RETURN traces on L1 shall be routed at **0.1425 mm (5.61 mil)**
   over the L2 GND plane, targeting **50 Ω controlled impedance**. See
-  `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016. Stackup defined per DEC-017.
+  `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016. Stackup per `design/Standards/Global_Routing_Spec.md §2.3.1`.
 * **U1 Bypass:** C6 (100nF) shall be placed per GRS §3.2 bypass capacitor proximity requirements.
 
 ## 5. Thermal & ESD

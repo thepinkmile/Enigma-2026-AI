@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-09
+**Last Updated:** 2026-05-11
 
 This file records key architectural and component decisions made during the design of the Enigma-NG system. Each entry captures the decision taken, the rationale behind it, the alternatives that were
 considered, and any constraints or caveats that future designers should be aware of.
@@ -3793,7 +3793,7 @@ to attach a daughterboard. The **daughterboard itself shall not contain standoff
 its own attachment points.
 
 | Carrier Board | Standoff Entries Owned | Qty per Board |
-|:--------------|:-----------------------|:--------------|
+| :--- | :--- | :--- |
 | CTL | AM dock standoffs (MH5-MH8, 9774035151R, M2.5×3.5mm SMT) | 4 |
 | CTL | JDB dock standoffs (MH13-MH16, M2.5 — to be created at CTL schematic capture) | 4 |
 | EXT | AM dock standoffs (MH5-MH8, 9774035151R, M2.5×3.5mm SMT) | 4 |
@@ -3805,7 +3805,7 @@ boards' Design_Specs.
 #### 4. Summary Table — All Boards
 
 | Board | Category | Hole Size | Net | Standoffs in BOM? | Carrier |
-|:------|:---------|:----------|:----|:------------------|:--------|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | PM | Chassis | M3 PTH | `GND_CHASSIS` | N/A | — |
 | CTL MH1-4 | SoM dock | M2.5 | `GND` | Yes (CM5 screws) | — |
 | CTL MH5-8 | Daughterboard dock | M2.5 SMT | `GND` | Yes (AM standoffs) | — |
@@ -3852,26 +3852,32 @@ reference for reviewers and future design agents.
 
 ### Context
 
-The JTAG Daughterboard (JDB) originally used two separate 2.54mm pin-header connectors: J1 (1×5 POWER INPUT) and J2 (1×10 JTAG OUTPUT). These hat-style connectors produced a tall board-to-board stack of approximately 12–15mm, with no mechanical keying to prevent incorrect installation. The JTAG signals were routed on separate pins with no differential-pair adjacency for the USB lines. Following the AM daughterboard BtB upgrade pattern (DEC-057), a parallel upgrade was evaluated for the JDB.
+The JTAG Daughterboard (JDB) originally used two separate 2.54mm pin-header connectors: J1 (1×5 POWER INPUT) and J2 (1×10 JTAG OUTPUT).
+These hat-style connectors produced a tall board-to-board stack of approximately 12–15mm, with no mechanical keying to prevent incorrect installation.
+The JTAG signals were routed on separate pins with no differential-pair adjacency for the USB lines.
+Following the AM daughterboard BtB upgrade pattern (DEC-057), a parallel upgrade was evaluated for the JDB.
 
 ### Decision
 
-Replace J1 + J2 hat-header connectors with a single Hirose DF40C-20DP-0.4V(51) 20-pin board-to-board plug on the JDB, mating with a Hirose DF40HC(3.5)-20DS-0.4V(51) receptacle (J12) on the CTL board. The CTL board carries four M2.5×3.5mm Würth 9774035151R standoffs at MH13–MH16 to establish the 3.5mm stack height and provide mechanical support for the JDB.
+Replace J1 + J2 hat-header connectors with a single Hirose DF40C-20DP-0.4V(51) 20-pin board-to-board plug on the JDB,
+mating with a Hirose DF40HC(3.5)-20DS-0.4V(51) receptacle (J12) on the CTL board.
+The CTL board carries four M2.5×3.5mm Würth 9774035151R standoffs at MH13–MH16 to establish the 3.5mm stack height and provide mechanical support for the JDB.
 
 ### Rationale
 
 - **Stack height**: 3.5mm vs ~12–15mm hat — significant reduction in mechanical profile within the chassis.
-- **Positional keying**: Asymmetric mounting hole pattern (MH1/MH2 at corners top edge; MH3/MH4 inset bottom edge) combined with bottom-centre connector placement prevents incorrect orientation and rules out accidental mating with the AM dock location on the CTL board.
+- **Positional keying**: Asymmetric mounting hole pattern (MH1/MH2 at corners top edge; MH3/MH4 inset bottom edge)
+  combined with bottom-centre connector placement prevents incorrect orientation and rules out accidental mating with the AM dock location on the CTL board.
 - **USB differential pair integrity**: USB+ (C5R2) and USB− (C6R2) are placed adjacent on the connector, forming a proper USB 2.0 FS differential pair as required.
 - **Pattern consistency**: Matches the AM daughterboard BtB approach, standardising the daughterboard interface across the system.
 - **VREF removal**: With 3V3_ENIG available directly on pin C7R1, a separate VREF pin is redundant; removing it simplifies the pinout.
 
 ### Finalised 20-Pin Pinout
 
-```
+```text
       C1     C2     C3     C4     C5     C6     C7     C8     C9    C10
- R1:  TCK    GND    GND   5V_U   GND    GND   3V3    GND    GND    TDI
- R2:  GND    TMS    GND    GND   USB+   USB-   GND    GND    TDO    GND
+ R1:  TCK    GND    GND    5V_U   GND    GND    3V3    GND    GND   TDI
+ R2:  GND    TMS    GND    GND    USB+   USB-   GND    GND    TDO   GND
 ```
 
 - R1 = outer (bottom) edge of JDB; when mounted on CTL, R1 must face toward LINK-BETA (J4/J5) to minimise JTAG trace length into the Stator.
@@ -3887,7 +3893,9 @@ Replace J1 + J2 hat-header connectors with a single Hirose DF40C-20DP-0.4V(51) 2
 
 ### Deferred
 
-- **FT232H 3.3V operation** (`jdb-ft232h-3v3-vregin`, v2.0): FT232H Rev C supports 3.0–3.6V on VREGIN, which would eliminate the 5V_USB pin from the connector entirely. Deferred pending Rev C availability confirmation; same timeline as display screen deferred todo.
+- **FT232H 3.3V operation** (`jdb-ft232h-3v3-vregin`, v2.0): FT232H Rev C supports 3.0–3.6V on VREGIN,
+  which would eliminate the 5V_USB pin from the connector entirely.
+  Deferred pending Rev C availability confirmation; same timeline as display screen deferred todo.
 
 ### Files Affected
 
@@ -3895,7 +3903,9 @@ Replace J1 + J2 hat-header connectors with a single Hirose DF40C-20DP-0.4V(51) 2
 - `design/Electronics/JTAG_Daughterboard/Board_Layout.md`: §1–§4 connector and ASCII art updated; §7.1 trace pin references updated; §8 Mounting Holes section added.
 - `design/Electronics/Controller/Design_Spec.md`: DR-CTL-19/20 added; §8.3 replaced with DF40HC section and 20-pin pinout table; BOM J12/J13 hat-header rows removed, J12 DF40HC and MH13–MH16 rows added.
 - `design/Electronics/Controller/Board_Layout.md`: ASCII art updated (`[ JDB DF40 dock ]`).
-- `design/Electronics/Consolidated_BOM.md`: RS1-05-G CTL row removed (CTL no longer uses); RS1-10-G row removed (CTL J13 eliminated); PH1-05-UA JDB row removed; PH1-10-UA row removed; DF40HC CTL qty 1→2; DF40C-20DP JDB qty 0→1; 9774035151R CTL qty 4→8.
+- `design/Electronics/Consolidated_BOM.md`: RS1-05-G CTL row removed (CTL no longer uses);
+  RS1-10-G row removed (CTL J13 eliminated); PH1-05-UA JDB row removed; PH1-10-UA row removed;
+  DF40HC CTL qty 1→2; DF40C-20DP JDB qty 0→1; 9774035151R CTL qty 4→8.
 
 ---
 
@@ -4209,7 +4219,9 @@ component (L1, 33µH) must be added to the CTL BOM and routed in the PCB layout.
 
 ### Files Changed
 
-- `design/Electronics/Controller/Design_Spec.md`: T1 BOM row updated (POE600F-12L → B82806D0060A120 with supplier PNs). C17 BOM row updated (10nF → 22nF TBD). New L1 BOM row added. DR-CTL-18/22/23/24 updated for ACF Forward. New DR-CTL-25 (output inductor specification) added. §7.1 section updated throughout. Power table updated. BOM Notes updated.
+- `design/Electronics/Controller/Design_Spec.md`: T1 BOM row updated (POE600F-12L → B82806D0060A120 with supplier PNs).
+  C17 BOM row updated (10nF → 22nF TBD). New L1 BOM row added. DR-CTL-18/22/23/24 updated for ACF Forward.
+  New DR-CTL-25 (output inductor specification) added. §7.1 section updated throughout. Power table updated. BOM Notes updated.
 - `design/Electronics/Consolidated_BOM.md`: CTL T1 row updated (POE600F-12L → B82806D0060A120). New CTL L1 row added (TBD).
 - `README.md`: Lines 83 and 99 updated from POE600F-12LD to TDK B82806D0060A120.
 - `.copilot/discussions/ctl-t1-poe-transformer-investigation.md`: Status banner updated UNDER EVALUATION → SELECTED. Topology references updated Flyback → Forward. Pending Actions resolved.
@@ -4231,12 +4243,14 @@ component (L1, 33µH) must be added to the CTL BOM and routed in the PCB layout.
 The ACF Forward topology change (DEC-062) introduced L1 as a new output inductor requirement (DR-CTL-25). Three candidates were evaluated:
 
 - **Würth 74436413300**: Eliminated — oversized body, non-standard 3-pin configuration, and marginal saturation current.
-- **Bourns SRP1265A-330M**: Eliminated — carbonyl powder (iron) core. At 200kHz switching frequency, iron-powder cores exhibit unacceptable core loss. Hard disqualified by DR-CTL-25 (ferrite only, no iron-powder cores).
+- **Bourns SRP1265A-330M**: Eliminated — carbonyl powder (iron) core. At 200kHz switching frequency, iron-powder cores exhibit
+  unacceptable core loss. Hard disqualified by DR-CTL-25 (ferrite only, no iron-powder cores).
 - **Yageo PA4343.333NLT**: Only viable option. 33µH ±20%, Isat=11A @30% inductance drop, DCR typ 48mΩ / max 58mΩ, Irms 8A, 13.5×12.5×6.2mm, shielded ferrite SMT, AEC-Q200.
 
 ### Decision
 
-**L1 selected: Yageo PA4343.333NLT.** DigiKey: 553-3457-1-ND; Mouser: 673-PA4343.333NLT; JLCPCB: C2453886. KiCAD footprint downloaded (zip in temp folder, pending library addition at schematic capture stage).
+**L1 selected: Yageo PA4343.333NLT.** DigiKey: 553-3457-1-ND; Mouser: 673-PA4343.333NLT; JLCPCB: C2453886.
+KiCAD footprint downloaded (zip in temp folder, pending library addition at schematic capture stage).
 
 ### Rationale
 
@@ -4245,7 +4259,9 @@ The ACF Forward topology change (DEC-062) introduced L1 as a new output inductor
 
 ### DCR Compliance Note
 
-DR-CTL-25 specifies DCR ≤50mΩ. The Yageo PA4343.333NLT has a typical DCR of 48mΩ (compliant) but a manufacturer maximum of 58mΩ (non-compliant). This is the best available option at current procurement time; accepted as a qualified exception. The DR limit is retained at ≤50mΩ and this entry documents the exception.
+DR-CTL-25 specifies DCR ≤50mΩ. The Yageo PA4343.333NLT has a typical DCR of 48mΩ (compliant) but a
+manufacturer maximum of 58mΩ (non-compliant). This is the best available option at current procurement time;
+accepted as a qualified exception. The DR limit is retained at ≤50mΩ and this entry documents the exception.
 
 ### Files Changed
 
@@ -4266,10 +4282,13 @@ DR-CTL-25 specifies DCR ≤50mΩ. The Yageo PA4343.333NLT has a typical DCR of 4
 
 ### Context
 
-DEC-062 updated C17 value from 10nF to 22nF but deferred MPN selection. Worst-case Vclamp = Vin×D/(1−D) = 36×0.667/0.333 = 72V. A 100V-rated 22nF X7R MLCC in 0402 package was initially specified in DR-CTL-18; two problems emerged:
+DEC-062 updated C17 value from 10nF to 22nF but deferred MPN selection.
+Worst-case Vclamp = Vin×D/(1−D) = 36×0.667/0.333 = 72V.
+A 100V-rated 22nF X7R MLCC in 0402 package was initially specified in DR-CTL-18; two problems emerged:
 
 1. **Package constraint:** 22nF at 100V+ cannot fit in 0402 — 0603 is the minimum practical package for this voltage/capacitance combination in X7R.
-2. **DC bias derating:** At 72V/100V = 72% of rating, X7R capacitance degrades by approximately 25–35%, leaving effective capacitance of only 15–18nF — significantly below the 22nF target and approaching the 19.9nF minimum from DR-CTL-18.
+2. **DC bias derating:** At 72V/100V = 72% of rating, X7R capacitance degrades by approximately 25–35%,
+   leaving effective capacitance of only 15–18nF — significantly below the 22nF target and approaching the 19.9nF minimum from DR-CTL-18.
 
 A 200V-rated 0805 part resolves both issues: at 72V/200V = 36% of rating, DC bias derating is only ~5%, giving effective capacitance of ~21nF — compliant with DR-CTL-18.
 
@@ -4279,7 +4298,10 @@ A 200V-rated 0805 part resolves both issues: at 72V/200V = 36% of rating, DC bia
 
 Package and voltage rating in DR-CTL-18 updated from `100V 0402` to `200V 0805`.
 
-The Open Mode (J-series, FO-CAP) variant (C0805J223K2RACAUTO) was considered — it provides fail-open behaviour as a reliability enhancement — but is not stocked at JLCPCB. The standard C-series hard-termination part (C0805C223K2RACAUTO) satisfies all electrical requirements; Open Mode is a desirable reliability enhancement but not an electrical necessity for this application.
+The Open Mode (J-series, FO-CAP) variant (C0805J223K2RACAUTO) was considered — it provides fail-open behaviour
+as a reliability enhancement — but is not stocked at JLCPCB.
+The standard C-series hard-termination part (C0805C223K2RACAUTO) satisfies all electrical requirements;
+Open Mode is a desirable reliability enhancement but not an electrical necessity for this application.
 
 ### Rationale
 
@@ -4293,3 +4315,159 @@ The Open Mode (J-series, FO-CAP) variant (C0805J223K2RACAUTO) was considered —
 - `design/Electronics/Controller/Design_Spec.md`: DR-CTL-18 package/voltage updated (100V 0402 → 200V 0805). BOM C17 row updated (TBD → C0805C223K2RACAUTO with supplier PNs and corrected spec).
 - `design/Electronics/Consolidated_BOM.md`: CTL C17 row updated (C0402C103K1RACAUTO → C0805C223K2RACAUTO with supplier PNs).
 
+---
+
+## DEC-065 — System-Wide Stackup Code Correction and JLCPCB-Authoritative Impedance Values
+
+| Field | Value |
+| :--- | :--- |
+| **Decision ID** | DEC-065 |
+| **Status** | Confirmed |
+| **Date** | 2026-07-13 |
+| **Author** | Izzyonstage & Copilot (session e39f3cc4) |
+| **Amends** | All prior board Design_Spec.md files referencing stackup codes; DEC-016 (CI trace widths updated); DEC-017 (Extension stackup code corrected) |
+
+### Context
+
+All board Design_Spec.md files, the JLCPCB Manufacturing Specification, and the Global Routing
+Specification were written using stackup codes `JLC04161H-7628` (4-layer) and `JLC06161H-2116`
+(6-layer). These codes were incorrect interpretations of the JLCPCB stackup naming scheme and did
+not correspond to any real JLCPCB stackup offering.
+
+Additionally, all controlled-impedance trace widths across board specs and the GRS were estimated
+using IPC-2141A rather than the JLCPCB impedance calculator. IPC-2141A estimates were found to be
+significantly inaccurate for these stackups, deviating by −9% to +21% from JLCPCB calculator values.
+
+### Decision
+
+**Correct 4-layer stackup code:** `JLC041621-3313`
+**Correct 6-layer stackup code:** `JLC061621-3313`
+
+Code structure: `JLC` + `0N` (layer count) + `16` (1.6mm thickness) + `21` (2oz outer / 1oz inner) + `-3313` (primary prepreg type).
+
+**JLCPCB-authoritative controlled-impedance trace widths (non-coplanar):**
+
+| Target | Type | JLC041621-3313 (4L) | JLC061621-3313 (6L) | Spacing |
+| :--- | :--- | :--- | :--- | :--- |
+| 50Ω SE | Microstrip (L1 outer) | 0.1425 mm / 5.61 mil | 0.1425 mm / 5.61 mil | — |
+| 50Ω SE | Stripline (inner) | 0.1478 mm / 5.82 mil | 0.1387 mm / 5.46 mil | — |
+| 90Ω diff | Diff microstrip (L1 outer) | 0.1468 mm / 5.78 mil | 0.1468 mm / 5.78 mil | 0.2032 mm / 8.00 mil |
+| 100Ω diff | Diff stripline (inner) | 0.1128 mm / 4.44 mil | 0.1123 mm / 4.42 mil | 0.2032 mm / 8.00 mil |
+
+**IPC-2141A accuracy finding:**
+
+| Estimate | IPC value | JLCPCB value | Error |
+| :--- | :--- | :--- | :--- |
+| Outer 50Ω microstrip | ~0.130 mm | 0.1425 mm | −9% (IPC too low) |
+| Inner 50Ω stripline (4L) | ~0.167 mm | 0.1478 mm | +13% (IPC too high) |
+| Inner 50Ω stripline (6L) | ~0.167 mm | 0.1387 mm | +21% (IPC too high) |
+
+IPC-2141A shall not be used for CI trace width calculation in this design. All CI trace widths must
+use the JLCPCB impedance calculator for the assigned stackup code.
+
+**Physical stackup — JLC041621-3313 (4-layer):**
+
+- L1/L4: 2oz outer copper = 0.070 mm; Prepreg: 3313 RC57% = 0.092 mm (h = 0.092 mm, Eᵣ = 4.2)
+- L2/L3: 1oz inner copper = 0.030 mm; Core (1/1oz without copper) ≈ 1.231 mm
+- Total ≈ 1.6 mm ✓
+
+**Physical stackup — JLC061621-3313 (6-layer):**
+
+- L1/L6: 2oz outer copper = 0.070 mm; Outer prepreg: 3313 RC57% = 0.092 mm
+- L2–L5: 1oz inner copper = 0.030 mm each
+- Core L2–L3 and L4–L5: 0.450 mm each; Mid prepreg: 2× 2116 RC54% = 0.109 mm each
+- Total ≈ 1.6 mm ✓
+
+**JTAG Module inverted stackup note (DEC-016):** JM uses L1=GND, L2=signals, L3=power, L4=GND
+(intentionally inverted per DEC-016). JM CI trace width uses the 4-layer inner stripline value
+(0.1478 mm), not the outer microstrip value.
+
+**Controlled impedance service requirement:**
+
+- Controller Board: CI service **required** — USB 3.0 SS, USB 2.0, HDMI, and Ethernet BI_D diff pairs on inner signal layers require TDR-verified trace widths.
+- Power Module: CI service **not required** — power-dominated board; no high-speed differential pairs. 6-layer layer count was already correct; only the stackup code was wrong.
+
+### Rationale
+
+- JLCPCB impedance calculator results are authoritative for the fab process and supersede any
+  IPC-formula estimates for this design.
+- Correcting the stackup codes ensures future ordering and fab review match what is actually
+  specified; incorrect codes would cause JLCPCB to use a different prepreg, invalidating all CI
+  trace widths.
+- The Rotor, Stator, Extension, Reflector, Encoder, JTAG Module, Actuation Module, and USM are
+  all 4-layer 2oz designs; the Controller and Power Module are 6-layer 2oz designs.
+
+### Files Changed
+
+- `design/Electronics/Rotor/Design_Spec.md`: DR-ROT-01, §3.3 physical params (h/t/Eᵣ corrected), §4 stackup code
+- `design/Electronics/Stator/Design_Spec.md`: Line 14 stackup code, DR-STA-01, §7 stackup code; bug fix §7 "0.5oz inner" → "1oz inner"
+- `design/Electronics/Extension/Design_Spec.md`: DR-EXT stackup code, §4 trace width → 0.1425 mm
+- `design/Electronics/Reflector/Design_Spec.md`: DR-REF-01, §2 heading, §6 stackup code
+- `design/Electronics/Encoder/Design_Spec.md`: DR-ENC-01, §9 stackup code, §5 trace width → 0.1425 mm
+- `design/Electronics/JTAG_Module/Design_Spec.md`: §5 stackup code, §6 trace width → 0.1478 mm (inner stripline)
+- `design/Electronics/Actuation_Module/Design_Spec.md`: DR-AM-01 stackup code
+- `design/Electronics/User_Settings_Module/Design_Spec.md`: overview, DR-USM-01, §8 stackup code; copper weight description corrected
+- `design/Electronics/Power_Module/Design_Spec.md`: DR-PM-13 stackup code, §1 stackup text (CI not required clarified)
+- `design/Electronics/Controller/Design_Spec.md`: Overview, DR-CTL-01, §9.1–§9.4 (full rewrite: layer assignments, physical stackup, authoritative trace widths, via design rules)
+- `design/Production/JLCPCB_Manufacturing.md`: Full §1 rewrite (naming convention added, §1.0–§1.3; §4 cross-refs corrected)
+- `design/Standards/Global_Routing_Spec.md`: §1 CI exception updated to per-stackup table reference; GRS trace width table Signal/CI row updated
+
+---
+
+## DEC-066 — GRS Canonical PCB Stackup Authority (Consolidation)
+
+| Field | Value |
+| :--- | :--- |
+| **Decision ID** | DEC-066 |
+| **Status** | Confirmed |
+| **Date** | 2026-05-11 |
+| **Author** | Izzyonstage & Copilot |
+| **Amends** | DEC-065 (stackup authority consolidated into GRS §2.3); DEC-016 (inverted stackup extended to Actuation Module) |
+
+### Context
+
+Following the stackup code correction in DEC-065, the JLCPCB identifiers and layer assignments were
+still duplicated across all 10 board Design_Spec.md files. Each board contained its own stackup
+section with the code, layer assignment table, and rationale — multiple sources of truth that would
+need to be kept in sync independently for any future change.
+
+Additionally, DEC-065 documented the JTAG Module inverted stackup note but the Actuation Module —
+which also mounts upside-down on the carrier board — was missing an equivalent inverted stackup note.
+
+### Decision
+
+Stackup definitions are consolidated into the Global Routing Specification as new section
+**§2.3 PCB Stackup Definitions**, with three named subsections:
+
+- **§2.3.1** — Standard 4-layer (JLC041621-3313): Rotor (A+B), Stator, Extension, Reflector, Encoder, USM
+- **§2.3.2** — Inverted 4-layer (JLC041621-3313): JTAG Module, Actuation Module (upside-down mounting; DEC-016)
+- **§2.3.3** — Six-layer (JLC061621-3313): Controller Board, Power Module (board-specific layer signal assignments remain in respective board specs)
+
+`JLCPCB_Manufacturing.md §1` remains the physical authority (prepreg thicknesses, CI trace widths).
+GRS §2.3 is the logical layer assignment authority.
+
+All 10 board Design_Spec.md stackup sections are simplified to a single GRS §2.3.x reference.
+Two stale DR table stackup codes — JM DR-JM-01 and EXT DR-EXT-01 still showing old `JLC04161H-7628`
+(missed in DEC-065 workstream) — are corrected as part of this work.
+
+### Rationale
+
+A single source of truth in the GRS eliminates duplication and ensures future stackup or layer
+assignment changes propagate from one location only. Board specs retain only board-specific
+operational content (CI routing rules, layer signal assignments for CTL §9.2).
+
+### Files Changed
+
+- `design/Standards/Global_Routing_Spec.md`: New §2.3 PCB Stackup Definitions (three subsections)
+- `design/Production/JLCPCB_Manufacturing.md`: §1.1 and §1.2 design rule cross-refs updated to GRS §2.3
+- `design/Electronics/JTAG_Module/Design_Spec.md`: DR-JM-01 stale code corrected; §5 simplified to GRS §2.3.2 reference
+- `design/Electronics/Actuation_Module/Design_Spec.md`: DR-AM-01 and DR-AM-09 simplified; inverted stackup blockquote removed; content moved to GRS §2.3.2
+- `design/Electronics/Extension/Design_Spec.md`: DR-EXT-01 stale code corrected; §4 simplified to GRS §2.3.1 reference
+- `design/Electronics/Controller/Design_Spec.md`: §9.2 physical stackup table removed
+  (duplicate of JLCPCB_Manufacturing.md §1.2); GRS §2.3.3 reference added; layer signal assignment table and CI routing table retained
+- `design/Electronics/Power_Module/Design_Spec.md`: §1 PCB Architecture and DR-PM-13 updated with GRS §2.3.3 reference
+- `design/Electronics/Rotor/Design_Spec.md`: DR-ROT-01 and §4 simplified to GRS §2.3.1 reference
+- `design/Electronics/Stator/Design_Spec.md`: DR-STA-01 and §7 simplified to GRS §2.3.1 reference
+- `design/Electronics/Reflector/Design_Spec.md`: DR-REF-01 and §6 simplified to GRS §2.3.1 reference
+- `design/Electronics/Encoder/Design_Spec.md`: DR-ENC-01 and §9 simplified to GRS §2.3.1 reference
+- `design/Electronics/User_Settings_Module/Design_Spec.md`: DR-USM-01 and §8 simplified to GRS §2.3.1 reference

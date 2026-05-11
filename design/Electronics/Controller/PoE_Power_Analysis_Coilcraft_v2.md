@@ -419,8 +419,8 @@ Formula: `D = n × (Vout + Vf) / (Vin + n × (Vout + Vf))`
 
 Assuming Naux:Ns = 1:1 (same as TDK design — **verify from Coilcraft datasheet when reverting**):
 
-```
-V_aux = Vout × (Naux/Ns) = 12 × 1.0 = 12.0V
+```text
+V_aux= Vout × (Naux/Ns) = 12 × 1.0 = 12.0V
 VCC   = V_aux − Vf_aux   = 12.0 − 0.4 = 11.6V
 ```
 
@@ -428,8 +428,8 @@ Within TPS23730 VCC spec (7–20V) ✔ — **verify Naux:Ns ratio before confirm
 
 ### 4.3 MOSFET Vds Stress (Q1, Q2)
 
-```
-Vds_peak = Vin_max + n × (Vout + Vf) = 57 + 1.71 × 12.4 = 78.2V
+```text
+Vds_peak= Vin_max + n × (Vout + Vf) = 57 + 1.71 × 12.4 = 78.2V
 ```
 
 MOSFET class required: ≥150V; 200V with derating is recommended. The **STD25NF20** (200V Vds, 18A Id)
@@ -455,8 +455,8 @@ C17 specification at 47nF: **X7R, 100V, 0402** (or 0805 if 100V X7R 0402 not ava
 ACF Flyback does **not** require a separate output inductor. Lm provides the inductive energy
 storage function. C20 is the only output filter element on `VIN_POE_12V`.
 
-```
-Cout_min = Iout × D / (fsw × Vripple)
+```text
+Cout_min= Iout × D / (fsw × Vripple)
          = 5A × 37.1% / (200kHz × 0.12V) = 77µF
 ```
 
@@ -465,8 +465,8 @@ exceeds this requirement ✔. C20 BOM row is unchanged when reverting.
 
 ### 4.6 Conduction Losses (n = 1.71, Vin = 36V worst case)
 
-```
-I_pri_RMS ≈ Iout × (1−D) / (n × √D) = 5 × 0.629 / (1.71 × 0.609) = 3.145 / 1.041 = 2.83A
+```text
+I_pri_RMS≈ Iout × (1−D) / (n × √D) = 5 × 0.629 / (1.71 × 0.609) = 3.145 / 1.041 = 2.83A
 I_sec_RMS ≈ Iout / √(1−D)            = 5 / √0.629 = 5 / 0.793 = 6.31A
 ```
 
@@ -483,14 +483,14 @@ B82806D0060A120 (8mΩ secondary DCR) saves approximately 3.3W over this design.
 
 Using Bourns Llk proxy (0.35µH) and C17 = 47nF:
 
-```
-P_clamp = E_Ls × fsw = 1.86µJ × 200kHz = 0.37W
+```text
+P_clamp = E_Ls × fsw = 1.86µJ× 200kHz = 0.37W
 ```
 
 ### 4.8 ACF Flyback Design Equations Reference
 
-```
-Duty cycle:         D = n × (Vout + Vf) / (Vin + n × (Vout + Vf))
+```text
+Duty cycle:D = n × (Vout + Vf) / (Vin + n × (Vout + Vf))
 Vds stress:         Vds_peak = Vin_max + n × (Vout + Vf)
 Aux winding VCC:    V_aux = Vout × (Naux/Ns);  VCC = V_aux − Vf_aux
 Peak primary I:     I_pk = Iout/n + ΔI_Lm/2

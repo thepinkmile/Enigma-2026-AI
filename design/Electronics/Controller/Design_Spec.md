@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-11
 
 ---
 
@@ -18,9 +18,10 @@ Controller, and all enclosure-edge I/O is grouped on the Controller side.
 
 * **Module:** Raspberry Pi Compute Module 5 (CM5).
 * **Role:** Master traffic controller for power, external I/O, and encryption logic.
-* **Stackup:** 6-Layer / 2oz Finished Copper (JLC06161H-2116) for 5Gbps differential pair integrity.
-* **Shielding:** High-speed signals (Ethernet, USB 3.0, HDMI) routed as Striplines on L3, shielded by L2/L5 GND planes
-  and L4 (Internal) for High-Current Power Plane (5V_MAIN / 3V3_ENIG).
+* **Stackup:** 6-Layer / 2oz Finished Copper (JLC061621-3313) for 5Gbps differential pair integrity.
+* **Shielding:** High-speed signals (Ethernet, USB 3.0, HDMI, USB 2.0) routed as Striplines on L2–L5,
+  with GND copper pours on all layers providing inter-layer shielding; L1 and L6 outer layers carry
+  SMT components, power fills, and JTAG/silkscreen respectively.
 * **RJ45 / PoE:** Ethernet entry, magnetics, ESD, and the PoE front-end are hosted locally on the Controller.
   The PoE front-end delivers its regulated auxiliary output to the Power Module over `J2`.
 * **Power from PM:** The Controller receives `5V_MAIN` and `3V3_ENIG` from the Power Module over `J1`.
@@ -55,7 +56,7 @@ source is active.
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-CTL-01 | PCB stackup | 6-layer, 2oz finished copper (JLC06161H-2116) | §9 PCB Fabrication & Stackup |
+| DR-CTL-01 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.3` | §9 PCB Fabrication & Stackup |
 | DR-CTL-02 | CM5 module | Raspberry Pi Compute Module 5. Multiple current CM5 variants are acceptable. Minimum spec: 4 GB RAM and 8 GB eMMC; on-board Wi-Fi may be fitted or omitted. CM5 Lite (no onboard eMMC) is NOT permitted. BOM reference: various CM5 SKUs. | BOM U1 |
 | DR-CTL-03 | Controller-to-Power-Module dock connectors | `J1/J2/J3` = TE `1-1674231-1` 10-position 2.5mm receptacles | BOM J1-J3 |
 | DR-CTL-04 | Controller-to-Stator dock connectors | `J4/J5` = Molex `2195630015` hybrid receptacles (5 power + 15 signal) | BOM J4, J5 |
@@ -456,36 +457,74 @@ See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
 
 ### 9.1. PCB Fabrication (JLCPCB Specs)
 
-* **Layers:** **6-Layer** (JLC06161H-2116 stackup).
-  For production runs requiring verified controlled impedance (differential pairs: USB/HDMI/GbE),
-  specify JLCPCB's 'Controlled Impedance' service (TDR-verified, ±10% tolerance). Prototype orders
-  may omit this per DEC-017.
+* **Layers:** **6-Layer** (JLC061621-3313 stackup).
+  JLCPCB Controlled Impedance (CI) service **required** for all production runs: TDR-verified trace widths
+  for USB 3.0 SS (100Ω diff stripline), USB 2.0 (100Ω diff stripline), HDMI (100Ω diff stripline),
+  and Ethernet BI_D (100Ω diff stripline) on inner layers L2–L5.
 * **Finish:** **ENIG (Gold)** for all pads.
 * **Solder Mask:** **Dark Green** (Vintage Industrial Lacquer aesthetic).
 * **Silkscreen:** White, Typewriter-style font, Bilingual (ALL-CAPS GERMAN / Sentence-case English).
 
-### 9.2. Advanced Layer Stackup (6-Layer / 2oz) [JLCPCB JLC06161H-2116]
+### 9.2. Advanced Layer Stackup (6-Layer / 2oz) [JLCPCB JLC061621-3313]
 
-* **L1 (Top):** SMT Components, I2C + PWR Control GPIOs & Shielded Ground Pour.
-* **L2 (Internal):** Primary GND Plane (Logic Reference).
-* **L3 (Internal):** High-Speed Data Striplines (USB/HDMI/GBE).
-  * 90Ω Diff: 5.5 mil width / 7.5 mil gap (USB 3.0).
-  * 100Ω Diff: 4.5 mil width / 8.5 mil gap (HDMI, Ethernet).
-* **L4 (Internal):** High-Current Power Plane (5V_MAIN / 3V3_ENIG).
-* **L5 (Internal):** Secondary GND Plane (Shielding).
-* **L6 (Bottom):** JTAG/Data Plate (Signal/Copper Pour).
+Physical stackup properties: see `design/Production/JLCPCB_Manufacturing.md §1.2` and `design/Standards/Global_Routing_Spec.md §2.3.3`.
+
+**Layer signal assignments:**
+
+| Layer | Role | Primary Signals |
+| :--- | :--- | :--- |
+| **L1 (Top outer)** | SMT components + GND/power copper fills | Power control GPIOs, I2C, passive components |
+| **L2 (Inner signal)** | High-speed stripline group A | USB 3.0 SS Port 1 TX+/TX−/RX+/RX−; Ethernet BI_DB diff pairs |
+| **L3 (Inner signal)** | High-speed stripline group B | USB 2.0 D+/D−; HDMI diff pairs; DSI1 primary lanes |
+| **L4 (Inner signal)** | High-speed stripline group C | DSI1 continued; secondary high-speed signal routing |
+| **L5 (Inner signal)** | High-speed stripline group D | USB 3.0 SS Port 2 TX+/TX−/RX+/RX−; Ethernet BI_DC diff pairs |
+| **L6 (Bottom outer)** | GND/power copper fills + silkscreen | JTAG pass-through traces; Data Plate silkscreen |
+
+**Ethernet BI_DB crossover rationale:** The Würth 7499111121A RJ45 connector physically places the BI_DC
+pairs (pins 4 & 5) between the BI_DB pairs (pins 3 & 6) on the PCB landing, making a same-layer non-crossing
+layout geometrically impossible. The crossover is resolved by assigning BI_DB to L2 and BI_DC to L5, with via
+transitions at the connector pads.
+
+**USB 3.0 dual-stack isolation rationale:** The Molex 48406-0003 dual-stack Type-A connector carries two
+independent SuperSpeed pairs (Port 1 and Port 2). Routing both on the same layer requires crossovers and
+increases crosstalk risk. Port 1 SS is assigned to L2, Port 2 SS to L5, for physical isolation.
 
 ### 9.3. Trace Widths & Impedance
 
-| Net Class | Target Impedance | Width / Spacing | Layer |
-| :--- | :--- | :--- | :--- |
-| **3V3_ENIG power** | N/A (Power) | 0.80 mm (31.5 mil) - 3.0A LDO max output; consistent with PM §9 and Global_Routing_Spec §1.1 Medium supply (1.0-3.0A); 2oz copper system-wide | L1 surface + L4 inner pour |
-| **5V_MAIN power rail** | N/A (Low Drop) | 78.7 mil (2.00 mm) min + inner pour - 8.76A worst-case; Very High Current (> 5.5A) per Global_Routing_Spec §1.1 | L1 surface + L4 inner pour |
-| **Ethernet/HDMI** | 100Ω Differential | 4.5 mil / 8.5 mil | L3 (Stripline) |
-| **JTAG signals** | 50Ω Single-ended | 5.0 mil (0.127 mm) | L6 |
-| **Logic/I2C** | N/A | 0.20 mm (7.87 mil) | L1 |
-| **USB 2.0** | 90Ω Differential | 5.5 mil / 7.5 mil | L3 (Stripline) |
-| **USB 3.0** | 90Ω Differential | 5.5 mil / 7.5 mil | L3 (Stripline) |
+All controlled-impedance values are JLCPCB-calculator-authoritative for JLC061621-3313 (non-coplanar).
+JLCPCB CI service is **required** for all production runs of the Controller Board.
+
+| Net Class | Target Impedance | Trace Width | Spacing | Layer | Type |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **3V3_ENIG power** | N/A (Power) | 0.80 mm (31.5 mil) | — | L1 + L6 copper fill | Power trace |
+| **5V_MAIN power rail** | N/A (Power) | 2.00 mm (78.7 mil) min | — | L1 + L6 copper fill | Power trace |
+| **USB 3.0 SS diff pairs (Port 1)** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L2 | Diff stripline |
+| **Ethernet BI_DB diff pairs** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L2 | Diff stripline |
+| **USB 2.0 D+/D−** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L3 | Diff stripline |
+| **HDMI diff pairs** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L3 | Diff stripline |
+| **USB 3.0 SS diff pairs (Port 2)** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L5 | Diff stripline |
+| **Ethernet BI_DC diff pairs** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L5 | Diff stripline |
+| **JTAG signals** | 50Ω Single-ended | **0.1425 mm (5.61 mil)** | — | L6 (outer) | Microstrip |
+| **Logic / I2C** | N/A | 0.20 mm (7.87 mil) | — | L1 | General routing |
+
+### 9.4. Via Design Rules
+
+**CM5 Amphenol connector (via-in-pad):**
+The Raspberry Pi CM5 module connects via the Hirose DF40HC 200-pin 0.4mm-pitch connector (J11/J12). Many CM5
+signal pads require via-in-pad construction to route high-density 0.4mm-pitch signals to inner layers.
+All via-in-pad holes on the CM5 connector footprint shall be:
+
+* **Type VII (IPC-4761):** Resin-filled and capped (epoxy fill + copper cap).
+* **Stub resonance:** Via stubs from L1 to L2 in the JLC061621-3313 stackup resonate at approximately
+  27 GHz — well above the 5 Gbps USB 3.0 Nyquist (2.5 GHz). Back-drilling is **not required**.
+* **Anti-pad:** GND copper pour shall include an anti-pad clearance of drill diameter + 0.2–0.3 mm
+  around all CI signal vias to prevent unintended GND shorting.
+
+**ESD TVS placement (Ethernet/PoE++):**
+Per DR-CTL-19, ESD TVS protection (D2–D6, PRTR5V0U2X) shall be placed **line-side** — between the RJ45
+connector pads and the primary winding of the magnetics integrated in J8 (Würth 7499111121A). This ensures
+ESD transients and PoE++ overvoltage events are clamped before reaching the transformer primary, protecting
+both the magnetics and all downstream ICs. Do **not** place TVS on the secondary (IC) side of the magnetics.
 
 ## 10. Thermal & Branding
 

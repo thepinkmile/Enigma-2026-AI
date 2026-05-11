@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-11
 
 ## 1. Overview
 
@@ -66,7 +66,7 @@ The HID path is split mechanically and electrically:
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-ENC-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §9 PCB Fabrication & Stackup |
+| DR-ENC-01 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.1` | §9 PCB Fabrication & Stackup |
 | DR-ENC-02 | CPLD | Intel MAX II EPM570T100I5N (TQFP-100) | §3 Single-Module Architecture; BOM U1 |
 | DR-ENC-03 | Stator interface connector | 20-pin 2x10 IDC (mates with one Stator encoder port) | §4 Interconnects; BOM J1 |
 | DR-ENC-04 | Supply voltage | 3.3V via the 3V3_ENIG power rail | §2 Power Requirements; BOM J1 |
@@ -156,7 +156,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 
 - **Entry/Exit:** JTAG enters and exits via the IDC ribbon cable connection (J1) to the Stator.
 - **Local Chain:** one JTAG device per Encoder Module: U1 only.
-- **Trace Width:** all JTAG signal traces on L1 shall be routed at **0.127 mm (5 mil)** over the L2
+- **Trace Width:** all JTAG signal traces on L1 shall be routed at **0.1425 mm (5.61 mil)** over the L2
   GND plane, targeting **50 Ω controlled impedance** per DEC-016. See
   `design/Electronics/JTAG_Module/JTAG_Integrity.md`.
 - **Pull Resistors (x4, placed near U1):**
@@ -229,7 +229,7 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 
 ## 9. PCB Fabrication & Stackup
 
-- **Layers:** 4-layer (JLC04161H-7628).
+- **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313).
 - **Finish:** ENIG.
 - **Aesthetics:** dark green solder mask; typewriter font (all-caps German where applicable).
 - **Placement:** one CPLD centred behind the 64-line terminal bank; J2 kept on the service edge for

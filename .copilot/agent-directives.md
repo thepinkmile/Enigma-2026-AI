@@ -203,11 +203,19 @@ and it wastes context budget. The user will provide any information that is not 
 
 ---
 
-## Version Metadata
+## Document Header Metadata
 
-Do **not** update any document `Version` field unless the user explicitly requests it. Do not infer
-version bumps from the scope or significance of changes. The current baseline for all active docs
-is `v.0.1.0`.
+Design document headers contain several fields (e.g. `Status`, `Version`, `Author`, `Last Updated`,
+`Associated Hardware Revision`). The rules for each are:
+
+- **`Last Updated`** — **ALWAYS update** this field to the current date whenever any content change
+  is made to the file. This is mandatory; do not skip it.
+- **`Version`** — **NEVER update** this field. Version bumps are solely the user's responsibility
+  and will only be requested explicitly. The current baseline for all active docs is `v.0.1.0`.
+- **All other header fields** (`Status`, `Author`, `Associated Hardware Revision`, etc.) — **NEVER
+  update** any of these fields. They are the user's responsibility to manage.
+
+In summary: the only header field an agent may ever change is `Last Updated`.
 
 ---
 

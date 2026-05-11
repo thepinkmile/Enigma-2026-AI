@@ -6,12 +6,15 @@
 
 ---
 
-## Current Status (as of checkpoint 209)
+## Current Status (as of checkpoint 140)
 
-Design review passes 5, 6, and 7 are **complete**. All findings resolved.
-`review-pass-8` is **pending** — clean verification pass after all Pass 7 changes.
-T1 transformer decision is **open** (see below).
-3034TR KiCAD symbol library sync is **complete**.
+The **stackup-impedance-recalc** workstream is **complete**. All 10 board Design_Spec.md files,
+JLCPCB_Manufacturing.md, Global_Routing_Spec.md, and Design_Log.md (DEC-065) have been updated
+with correct JLCPCB stackup codes and authoritative JLCPCB-calculator impedance values. The
+research archive has been moved to `.recycle-bin/`. All changes are written to disk; not staged
+(user to review and commit).
+
+Review passes through Pass 8 are complete. Design is in post-pass-8 state awaiting next workstream.
 
 ## Board Design Status
 
@@ -33,13 +36,7 @@ T1 transformer decision is **open** (see below).
 
 ### Immediate (next session start)
 
-1. **review-pass-8** — Launch clean pass-8 review agents (post-pass-7 verification)
-   - Use SEPTENARY preamble from `.copilot/agent-directives.md` lines 141–159
-   - Apply Pass 8 suppression list: items 1–11 from session-state checkpoint 206 must NOT be
-     re-flagged
-   - Scope: all boards, all pass-7 changes
-
-2. **T1 Transformer Decision (CTL)** — Choose between:
+1. **T1 Transformer Decision (CTL)** — Choose between:
    - **Würth 750318938**: TI TIDA-050045 validated with TPS23730 ACF (same IC) — validated at 5V,
      not 12V; consignment only
    - **Bourns POE060-FD20120S**: JLCPCB-listed (consignment); 1.71:1 turns ratio; 250 kHz; 12V/5A;
@@ -49,7 +46,7 @@ T1 transformer decision is **open** (see below).
    - PDF at `design/Datasheets/Wurth-750318938-datasheet.pdf`
    - **PRIMARY DIRECTIVE: No BOM change to T1 until user explicitly confirms**
 
-3. **Pass 7 review-report.md section** — Append Pass 7 findings/resolutions to
+2. **Pass 7 review-report.md section** — Append Pass 7 findings/resolutions to
    `.copilot/review-report.md`
 
 ### Deferred / Blocked
@@ -97,9 +94,8 @@ Read these files in order:
 1. `.copilot/agent-directives.md` (always first)
 2. This `plan.md`
 3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/index.md` → checkpoint 209 (pre-shutdown state save)
-5. Launch review-pass-8 when user confirms ready
-- wiki-sync exclusion of `design/Datasheets`
+4. `.copilot/checkpoints/index.md` → checkpoint 140 (metadata policy + date sweep complete)
+5. Review all stackup changes and commit when satisfied
 - numeric component refdes normalization across active design docs and the consolidated BOM
 - document metadata version headers reset to `v.0.1.0` because the project is still in design phase
 - local PDF datasheets now have markdown companions under `design/Datasheets/`, with reviewed

@@ -14,6 +14,34 @@ Use the active `design/` documents as the authoritative record:
 - relevant mechanical and software `Design_Spec.md` files
 - `design/Datasheets/` for preserved vendor and project-side reference material
 
+## 2026-05-11 session result
+
+The latest repository state includes the completed stackup workstream (DEC-065) and the document
+header metadata policy clarification.
+
+Main outcomes:
+
+- **Stackup workstream complete (DEC-065):** All 10 board Design_Spec.md files updated with correct
+  JLCPCB stackup codes (`JLC041621-3313` for 4-layer boards, `JLC061621-3313` for the Controller),
+  authoritative JLCPCB-calculator impedance values, and correct `§9` Board_Layout sections for the
+  Controller. `JLCPCB_Manufacturing.md` and `Global_Routing_Spec.md` fully rewritten for the new
+  stackup codes. `Design_Log.md` has DEC-065 appended. `stackup-impedance-analysis.md` moved to
+  `.recycle-bin/`.
+
+- **Metadata policy clarified:** `agent-directives.md` now has an unambiguous "Document Header
+  Metadata" section. Rule: `Last Updated` **must** be updated on every content change. `Version`
+  and all other header fields (`Status`, `Author`, `Associated Hardware Revision`) are the user's
+  responsibility only and must never be touched by agents.
+
+- **Last Updated date sweep:** All 13 files modified during the stackup workstream had their
+  `Last Updated` corrected to `2026-05-11`. `JLCPCB_Manufacturing.md` also had an anomalous future
+  date (`2026-07-11`) corrected to `2026-05-11`.
+
+- **Molex USB connector drawing markdown:** Generated from the user's downloaded Molex drawings;
+  inventory JSON updated accordingly.
+
+All changes are written to disk; user to review and commit ("Let's lock this in").
+
 ## 2026-04-26 session result
 
 The latest repository state now includes the Encoder CPLD consolidation and logic-spec capture,

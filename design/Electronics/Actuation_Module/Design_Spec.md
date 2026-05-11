@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-11
 
 ## 1. Overview
 
@@ -42,7 +42,7 @@ diagnostics.
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-AM-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | `Board_Layout.md` |
+| DR-AM-01 | PCB stackup | Inverted stackup per `design/Standards/Global_Routing_Spec.md §2.3.2` | `Board_Layout.md` |
 | DR-AM-02 | Host dock connector | J1 = Hirose DF40C-20DP-0.4V(51) (module-side 20-pin plug, 0.4mm pitch); host uses matching DF40HC(3.5)-20DS-0.4V(51) receptacle; stacking height = 3.5mm; carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` on a single connector | §3.1; BOM J1 |
 | DR-AM-03 | AM mounting holes | MH1-MH4 shall be M2.5mm NPTH through-holes with copper annular ring using the KiCAD built-in `MountingHole_Pad` footprint (no purchasable BOM component); pads shall be connected to `GND`. Matching 3.5mm SMT standoffs (9774035151R) on the host board (EXT MH5-MH8 or CTL MH5-MH8). Placement shall follow the asymmetric pattern: MH1 (top-left) and MH3 (bottom-left) at 7 mm from the left edge and 7 mm from the top and bottom edges respectively; MH2 (top-right) and MH4 (bottom-right) at 7 mm from the right edge and 12 mm from the top and bottom edges respectively. This non-square pattern enforces a single valid mating orientation, compensating for the polarity-free DF40 connector body. Exact coordinates to be confirmed at PCB layout stage. Per DEC-057 daughterboard exception — AM mounts to CTL/EXT via M2.5 standoffs and uses GND (not GND_CHASSIS). | `Board_Layout.md`; §3.1 |
 | DR-AM-04 | Servo loom header | J2 = Adam Tech PH1-05-UA, manually fitted post-PCBA; only pins 1-3 are active in Rev A | §3.2; BOM J2 |
@@ -50,7 +50,7 @@ diagnostics.
 | DR-AM-06 | Local controller architecture | U1 shall be a small 3.3V local controller with native hardware PWM, at least 2 digital inputs, at least 4 spare / LED-capable GPIOs, power-on reset, and a package suitable for low-profile service-module assembly | §4; BOM U1 |
 | DR-AM-07 | Diagnostics LED parts and placement | Reuse the existing green 0603 status LED and 330Ω 0402 resistor already used on Encoder boards, but place the LED footprints at the visible board edge on the PCBA side so their light remains observable when the AM is installed upside-down | BOM D1-D3, R1-R3; `Board_Layout.md` |
 | DR-AM-08 | Home-input biasing | `ACTUATION_HOME_N` uses a local 10kΩ pull-up to `3V3_ENIG` plus a 1µF local RC debounce capacitor - RC time constant 10 ms | BOM R4, C1 |
-| DR-AM-09 | Mounting orientation | Module is intended to mount upside-down from the host board, similar to the JM service-board approach | `Board_Layout.md` |
+| DR-AM-09 | Mounting orientation and layer assignment | Module mounts upside-down on host board using intentionally inverted 4-layer assignment per `design/Standards/Global_Routing_Spec.md §2.3.2` and DEC-016; L1 (component/connector-facing side) faces host PCB, L4 (exterior face) is user-visible side | `Board_Layout.md`; DEC-016 |
 | DR-AM-10 | SWD service connector | J4 = Adam Tech PH1-05-UA, manually fitted 1x5 2.54mm SWD header using the common compact 5-pin STM32/ST-LINK flying-lead order (`VTref`, `SWCLK`, `GND`, `SWDIO`, `RESET_N`) | §3.4; BOM J4 |
 | DR-AM-11 | Inter-board component envelope | All PCBA-fitted parts on the enclosed connector-facing side of the AM shall remain low profile and shall not exceed 2.0 mm installed height above the PCB; all manual-fit loom / service headers remain on the opposite side | `Board_Layout.md`; §4 |
 | DR-AM-12 | UART bootloader connector | J5 = Adam Tech PH1-05-UA, manually fitted 1x5 2.54mm UART bootloader header; pins 1-4 shall follow the common 3.3V TTL serial order (`GND`, `3V3`, `TX`, `RX`) and pin 5 shall expose `BOOT0` | §3.5; BOM J5 |
@@ -215,7 +215,7 @@ temporary jumper or second hand on the header itself.
 The following table maps STM32G071 device pin names to the board-level net names used in this document and in the KiCAD schematic:
 
 | Component Pin Name | Design Net Name | Notes |
-|--------------------|-----------------|-------|
+| --- | --- | --- |
 | NRST | RESET_N | STM32 reset pin; active-low; board-local net (does not conflict with system-level SYS_RESET_N) |
 
 ## 4. Local Control Behaviour

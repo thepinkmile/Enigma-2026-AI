@@ -72,7 +72,7 @@ All operating points are well within the TPS23730 duty cycle range.
 
 Turns ratio Naux:Ns = 1:1, therefore:
 
-```
+```text
 V_aux = Vout × (Naux/Ns) = 12.0 × 1.0 = 12.0V
 VCC   = V_aux − Vf_aux   = 12.0 − 0.4 = 11.6V
 ```
@@ -85,7 +85,7 @@ TPS23730 VCC operating range: 7–20V. Result: **11.6V ✔**
 
 Formula: `Vds_peak = Vin_max + n × (Vout + Vf)`
 
-```
+```text
 Vds_peak = 57 + 2 × (12.0 + 0.4) = 57 + 24.8 = 81.8V
 ```
 
@@ -102,36 +102,37 @@ of reflected output voltage.
 
 ### 6.1 Peak primary current (worst case: Vin = 36V)
 
-```
+```text
 ΔI_Lm = Vin × D / (Lm × fsw) = 36 × 0.408 / (100µH × 200kHz) = 0.734A
 I_pk   = Iout/n + ΔI_Lm/2    = 5/2 + 0.367 = 2.867A
 ```
 
 Lm ±30% worst case (Lm_min = 70µH):
 
-```
+```text
 ΔI_Lm_max = 36 × 0.408 / (70µH × 200kHz) = 1.048A
 I_pk_max   = 2.5 + 0.524 = 3.024A  (+5.5% vs nominal)
 ```
 
 Using worst-case Llk = 0.18µH MAX and I_pk = 2.867A (nominal):
 
-```
+```text
 E_Ls = ½ × 0.18µH × 2.867² = ½ × 0.18 × 8.22 = 0.740µJ
 ```
 
 Minimum C17 from resonant energy-recovery formula (DR-CTL-18):
 
-```
+```text
 Cclamp_min = Llk × Ipk² / ΔVclamp²
 ```
 
 Where:
+
 - Llk = 0.18µH (worst-case MAX, TDK B82806D0060A120 datasheet)
 - Ipk = 1.375A (TPS23730RMTR current-limit threshold, SLVSER6B §8.3)
 - ΔVclamp = Vclamp − Vin_max = 61.14V − 57V = 4.14V (10% above Vin_max = 57V)
 
-```
+```text
 Cclamp_min = 0.18µH × 1.375² / 4.14² = 0.18 × 1.891 / 17.14 = 0.3403µJ / 17.14 = 19.9nF
 ```
 
@@ -139,18 +140,18 @@ Next E24 value above 19.9nF: **22nF**. ✔
 
 Voltage headroom check:
 
-```
+```text
 Vclamp_peak = Vin_max + ΔVclamp = 57 + 4.14 = 61.14V
 Vds_peak    = Vin_max + Vclamp_peak = 57 + 61.14 = 118.1V  (< 160V derating limit)
 ```
 
 Dissipation check:
 
-```
+```text
 P_clamp = ½ × Llk × Ipk² × fsw = ½ × 0.18µH × 1.891 × 200kHz = 0.034W  (negligible)
 ```
 
-**Selected: C17 = 22nF (Kemet C0805C223K2RACAUTO, 22nF X7R 200V 0805)**
+Selected: **C17 = 22nF (Kemet C0805C223K2RACAUTO, 22nF X7R 200V 0805)**
 
 A 200V 0805 rating is required: worst-case Vclamp reaches 72V and X7R DC bias derating at 100V reduces effective capacitance below the 19.9nF minimum. See DR-CTL-18.
 
@@ -169,7 +170,7 @@ provides the second energy storage element in the LC output filter.
 
 L1 specification: 33µH, ≥6A Isat, DCR ≤50mΩ, shielded ferrite, SMT.
 
-```
+```text
 ΔIL1 = (Vout × (1−D)) / (L1 × fsw)
       = 12 × (1 − 0.408) / (33µH × 200kHz)
       = 12 × 0.592 / 6.6 = 1.076A (ripple at Vin = 36V, D = 40.8%)
@@ -185,7 +186,7 @@ See DR-CTL-25 and `design/Electronics/Consolidated_BOM.md` for L1 details.
 
 ### 7.2 C20 — Output Capacitor
 
-```
+```text
 Cout_min = Iout × D / (fsw × Vripple) = 5 × 0.408 / (200kHz × 0.12V) = 85µF
 ```
 
@@ -200,7 +201,7 @@ ESR: ≤2.5mΩ total at 200kHz ✔. See DR-CTL-22.
 
 ### 8.1 RMS currents (Vin = 36V, D = 40.8%)
 
-```
+```text
 I_pri_RMS = √(Iout²/n² + ΔI_Lm²/12) × √D
            ≈ √(6.25 + 0.045) × √0.408 = 2.510 × 0.639 = 2.70A (conservative approximation)
 
@@ -224,7 +225,7 @@ loss by ~3.3W compared to the original Coilcraft design.
 
 TDK Lm tolerance: ±30%. Worst case: Lm_min = 70µH.
 
-```
+```text
 ΔI_Lm_max = 36 × 0.408 / (70µH × 200kHz) = 1.048A  (+43% vs nominal 0.734A)
 I_pk_max   = 2.5 + 0.524 = 3.024A  (+5.5% vs nominal 2.867A)
 ```
@@ -239,7 +240,7 @@ duty cycle at fixed Vout). No operating-point issues at Lm extremes.
 
 Using Llk_max = 0.18µH and I_pk = 2.867A:
 
-```
+```text
 P_clamp = E_Ls × fsw = 0.740µJ × 200kHz = 0.148W
 ```
 
@@ -268,7 +269,7 @@ Recycled to primary bus by ACF clamp network — not dissipated.
 
 ## 12. ACF Forward Design Reference Equations
 
-```
+```text
 Duty cycle:         D = n × (Vout + Vf) / (Vin + n × (Vout + Vf))
 Vds stress:         Vds_peak = Vin_max + n × (Vout + Vf)
 Aux winding VCC:    V_aux = Vout × (Naux/Ns);  VCC = V_aux − Vf_aux

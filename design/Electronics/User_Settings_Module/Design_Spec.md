@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-11
 
 ---
 
@@ -30,7 +30,7 @@ daemon over I²C.
 
 * **Location:** Right side of enclosure top face, near rotors.
 * **Mounting:** Panel-mount switches through enclosure panel; PCB mounted behind panel.
-* **Stackup:** 4-layer JLC04161H-7628 / 2oz copper.
+* **Stackup:** 4-layer JLC041621-3313 / 2oz outer / 1oz inner copper.
 * **Role:** User-accessible configuration panel; I²C peripheral to Stator Board.
 
 ### Functional & Design Requirements
@@ -49,7 +49,7 @@ daemon over I²C.
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-USM-01 | PCB stackup | 4-layer, 2oz finished copper (JLCPCB JLC04161H-7628) | §8 PCB Fabrication |
+| DR-USM-01 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.1` | §8 PCB Fabrication |
 | DR-USM-02 | Switch + indicator type | 10x E-Switch 200MSP1T2B4M2QE panel-mount SPDT latching toggle switches plus 12x Kingbright WP154A4SEJ3VBDZGW/CA common-anode RGB through-hole LEDs; 10 LEDs mirror config bits and 2 LEDs indicate CM5-vs-user authority | §3 Configuration Bank Descriptions; BOM SW1-SW10, D1-D12 |
 | DR-USM-03 | Switch input expander | U1 = MCP23017T-E/SO @ 0x23; SOIC-28; contiguous after the Stator expander block | §4 I²C Devices - U1; BOM U1 |
 | DR-USM-04 | LED control expanders | U2 = MCP23017T-E/SO @ 0x24 (Bank 1); U3 = MCP23017T-E/SO @ 0x25 (Bank 2); SOIC-28; per-indicator anodes plus shared RGB bank rails | §4 I²C Devices - U2, U3; §5 LED Control Logic; BOM U2, U3 |
@@ -365,15 +365,8 @@ automatic polling intervals.
 
 ## 8. PCB Fabrication
 
-* **Manufacturer:** JLCPCB
-* **Layer count:** 4-layer
-* **Stackup:** JLC04161H-7628
-* **Board thickness:** 1.6mm
-* **Copper weight:** 2oz outer (system-wide standard)
-* **Surface finish:** ENIG
-* **Min trace/space:** 0.1mm / 0.1mm
-* **Min drill:** 0.2mm
-* **JTAG chain:** None - User Settings Module is not in any JTAG chain.
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313). Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`.
+* **JTAG chain:** None — User Settings Module is not in any JTAG chain.
 
 ### 8.1 Manually Fitted Components
 

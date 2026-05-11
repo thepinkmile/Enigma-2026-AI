@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-11
 
 ## 1. Overview
 
@@ -80,7 +80,7 @@ not be used as a local chassis-bond point.
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-ROT-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §4 PCB Fabrication & Stackup |
+| DR-ROT-01 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.1` | §4 PCB Fabrication & Stackup |
 | DR-ROT-02 | CPLD | Intel MAX II EPM570T100I5N (TQFP-100); 570 LEs; 21 UFM forward maps; SW2/SW3 direction bit gives 42 effective configs; character width in variant design files | §2.2 Logic & Transposition; BOM U1 (EPM570T100I5N) |
 | DR-ROT-03 | Position sensor | Split dual-track capacitive encoder: FDC2114RGHR U2 on Board A (Track A, r≈44mm, bits[5:3] N=64 or STGC bits[3:0] N=26, addr 0x2A); FDC2114RGHR U11A on Board A (addr 0x2B, CH0 = STGC bit[4] - N=26 builds only; not populated for N=64); FDC2114RGHR U11B on Board B (Track B, r≈44mm, bits[2:0] N=64 only - not populated for N=26, addr 0x2B); PCB Ø=92mm; track patterns in variant design files | §2.1 Position Sensing; BOM U2/U11A (Board A), U11B (Board B, N=64 only) |
 | DR-ROT-04 | Input connectors (Board A) | J1 = ERM8-005 (JTAG in), J2 = ERM8-005 (Power in), J3 = ERM8-010 (ENC in) | §3.4 Connector Pinouts; BOM J1-J3 |
@@ -284,7 +284,8 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
   See `design/Electronics/Power_Budgets.md` for full budget - 30 rotors draw **1.63A typical / 1.65A budget**; the 150mA/rotor figure previously used was a conservative overestimate.
 * **Filtering:** Local **10uF X7R** bulk entry bank on each rotor; upstream rail filtering uses the **Stator ferrite bead bank** to suppress stack switching noise.
 * Decoupling and bulk entry capacitor requirements per `design/Standards/Global_Routing_Spec.md §3`.
-* Decoupling assignment: C1–C8 are CPLD VCC/VCCIO bypass caps; C9 is FDC2114 (0x2A) VDD bypass cap; C10–C14 are CPLD VCC/VCCIO bulk decoupling caps; C15 is FDC2114 (0x2A) VDD bulk decoupling cap. See GRS §3.2.
+* Decoupling assignment: C1–C8 are CPLD VCC/VCCIO bypass caps; C9 is FDC2114 (0x2A) VDD bypass cap;
+  C10–C14 are CPLD VCC/VCCIO bulk decoupling caps; C15 is FDC2114 (0x2A) VDD bulk decoupling cap. See GRS §3.2.
 
 ### 3.2 Communication Bus
 
@@ -315,10 +316,10 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
   * **L2:** GND plane (solid, contiguous) - provides reference for L1 controlled-impedance traces.
   * **L3:** 3V3_ENIG power plane - provides local decoupling reference.
   * **L4:** Signal (secondary routing + data plate silkscreen on bottom).
-* **JTAG Trace Width Rule:** All JTAG signal traces on L1 shall be routed at **0.127 mm (5 mil)**
-  width over the L2 GND plane, targeting **50 Ω controlled impedance** per the JLC04161H-7628
-  stackup (h=0.087mm, t=0.035mm, Eᵣ=4.4). See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`
-  for the copper-weight note (2oz finished uses 1oz base copper t=0.035mm in the IPC-2141A formula) and DEC-016.
+* **JTAG Trace Width Rule:** All JTAG signal traces on L1 shall be routed at **0.1425 mm (5.61 mil)**
+  width over the L2 GND plane, targeting **50 Ω controlled impedance** per the JLC041621-3313
+  stackup (h=0.092mm, t=0.030mm, Eᵣ=4.2). See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`
+  for the copper-weight note (2oz finished uses 1oz base copper t=0.030mm in the 3313 prepreg geometry) and DEC-016.
 * **TTD path policy:** The rotor-stack `TTD` path is a direct board-to-board chain. No series resistor is
   placed at each rotor hop; `TTD` exits the CPLD and continues straight to J4 pin 6. Cable-driving
   damping is reserved for the ribbon-port interfaces on the Stator / Encoder boards, while the
@@ -534,7 +535,7 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 >
 ## 4. PCB Fabrication & Stackup
 
-* **Layers:** 4-Layer (JLC04161H-7628).
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313).
 * **Finish:** ENIG (Gold) for the edge-rate connector pads.
 * **Aesthetics:** Dark Green Solder Mask with Typewriter font labeling (e.g., "WALZE I").
 
@@ -622,4 +623,3 @@ no new part numbers required. Placement per `Global_Routing_Spec.md §9` with DE
 | U8 | B | J6 encoder output (array 1 of 3) | `ENC_IN[3:0]` |
 | U9 | B | J6 encoder output (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
 | U10 | B | J6 encoder output (array 3 of 3) | `ENC_OUT[5:2]` |
-

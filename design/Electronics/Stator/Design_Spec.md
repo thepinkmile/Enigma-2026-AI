@@ -5,13 +5,13 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-11
 
 The Stator Board is the mechanical and electrical backbone of the rotor stack. It provides the high-current distribution and signal routing for the 30 modular rotors.
 
 ## 1. Overview
 
-* **Stackup:** 4-Layer / 2oz Finished Copper.
+* **Stackup:** 4-Layer / 2oz Finished Copper (JLC041621-3313).
 * **Layer Mapping:** L1: Signal (JTAG/routing) | L2: GND | L3: 3V3_ENIG | L4: ENC Data.
 * **Role:** Removable vertical daughterboard and master switchboard for the 30-rotor stack and peripheral encoder boards.
 
@@ -39,7 +39,7 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-STA-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §7 PCB Fabrication & Stackup |
+| DR-STA-01 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.1` | §7 PCB Fabrication & Stackup |
 | DR-STA-02 | Layer mapping | L1 = Signal (JTAG/routing), L2 = GND, L3 = 3V3_ENIG, L4 = ENC Data | §1 Overview |
 | DR-STA-03 | Rotor interface (per slot) | J1 = ERF8-005 (JTAG), J2 = ERF8-005 (Power), J3 = ERF8-010 (ENC); 1 slot set | §4 Interconnects; BOM J1-J3 (ERF8-005/ERF8-010) |
 | DR-STA-04 | Encoder interface | J4/J5/J6/J7/J8/J9 = 20-pin 2x10 IDC (6 fixed-role encoder ports in 3 banks of 2) carrying generic Encoder `ENC_DATA[5:0]`, `ENC_ACTIVE_N`, and Stator-owned aliases | §4 Interconnects; BOM J4-J9 |
@@ -451,14 +451,7 @@ full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
 
 ## 7. PCB Fabrication & Stackup
 
-* **Manufacturer:** JLCPCB
-* **Layer count:** 4-layer
-* **Stackup:** JLC04161H-7628
-* **Board thickness:** 1.6mm
-* **Copper weight:** 2oz outer / 0.5oz inner
-* **Surface finish:** ENIG
-* **Min trace/space:** 0.1mm / 0.1mm
-* **Min drill:** 0.2mm
+* **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1` (JLC041621-3313). Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`.
 
 ## 8. Thermal & ESD
 

@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-11
 
 ## 1. Overview
 
@@ -25,7 +25,7 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 
 | ID | Design Requirement | Specification | Satisfied By / Cross-Ref |
 | :--- | :--- | :--- | :--- |
-| DR-JM-01 | PCB stackup | 4-layer, 2oz finished copper (JLC04161H-7628) | §5 PCB Fabrication & Stackup |
+| DR-JM-01 | PCB stackup | Inverted stackup per `design/Standards/Global_Routing_Spec.md §2.3.2` | §5 PCB Fabrication & Stackup |
 | DR-JM-02 | USB-to-JTAG bridge | FTDI FT232H (U1) in MPSSE mode | §2 Core Logic; BOM U1 (FT232HL LQFP-48) |
 | DR-JM-03 | TDI series damping at FT232H | R1 = 33 Ω 0402 at FT232H TDI output | §6 Electrical Requirements; BOM R1 |
 | DR-JM-04 | JTAG chain device count | 37 devices total (1 Stator CPLD + 6 Encoder CPLDs + 30 Rotor CPLDs) | §2 Core Logic; BOM U1 (FT232H) |
@@ -135,22 +135,8 @@ remains on the Power Module at the common power-entry point immediately before t
 
 ## 5. PCB Fabrication & Stackup
 
-**Stackup:** JLC04161H-7628 (JLCPCB standard 4-layer, same as all other non-CTL/PM boards in the system)
-
-| Layer | Role | Notes |
-| :--- | :--- | :--- |
-| L1 | GND plane + SMT component pads (component side) | Faces toward the Controller Board when JM is mounted as a hat |
-| L2 | All signal traces (inner layer) | Shielded between L1 GND reference and L3 power |
-| L3 | Power distribution pours (5V_USB + 3V3_ENIG) | Inner power layer |
-| L4 | GND pour shield | Faces away from the Controller (exterior/top when mounted) |
-
-**Rationale:** Board mounts face-down on Controller (L1 toward Controller PCB). L4 GND provides exterior
-shielding. L2 signals are sandwiched between two reference planes for good signal integrity. Single-side
-assembly on L1 is consistent with JLCPCB SMT assembly requirements.
-
-> **Note - Inverted Stackup:** The JM uses an intentionally inverted 4-layer assignment (L1=GND, L2=signals, L3=power, L4=GND) vs. the standard
-> pattern (L1=signal, L2=GND, L3=power, L4=signal). Placing signals on L2 immediately adjacent to the L1 GND plane achieves equivalent controlled
-> impedance to outer-layer microstrip, consistent with DEC-016. See `design/Electronics/JTAG_Module/Board_Layout.md §6.1` for JTAG trace impedance compliance detail.
+Inverted 4-layer stackup per `design/Standards/Global_Routing_Spec.md §2.3.2` (JLC041621-3313).
+Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`. For JTAG CI trace width compliance, see `Board_Layout.md §6.1`.
 
 ## 6. Electrical Requirements
 
@@ -199,7 +185,8 @@ assembly on L1 is consistent with JLCPCB SMT assembly requirements.
   * **R3 (33Ω):** Series damping on U2 TMS output - same function as R2 (TCK). Placed before J1 (TMS pin, C2R2).
   * **Pull Resistors:** TMS 10kΩ pull-up (R6) and TCK 10kΩ pull-down (R7) near J1 connector to hold JTAG TAP in defined state
     when idle (see §5 and JTAG best-practice note in `design/Electronics/JTAG_Module/JTAG_Integrity.md`).
-  * **Trace Width Rule:** All JTAG signal traces on L2 (signal layer) shall be routed at **0.127 mm (5 mil)** over the L1 GND reference plane, targeting **50 Ω controlled impedance**. See DEC-016.
+  * **Trace Width Rule:** All JTAG signal traces on L2 (signal layer) shall be routed at **0.1478 mm (5.82 mil)** over the L1 GND reference plane,
+    targeting **50 Ω controlled impedance** per the JLC041621-3313 stackup (inner stripline). See DEC-016.
 
 > **Signal Integrity note (JM as complete JTAG master):** The JM hosts all JTAG buffering and
 > termination for the system. U2 buffers TCK and TMS for the 37-device chain load. Series damping
