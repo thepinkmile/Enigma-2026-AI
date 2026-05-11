@@ -311,11 +311,8 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
 ### 3.3 Signal Integrity
 
 * **Impedance:** 50Ω single-ended traces for JTAG and data lines to prevent reflections.
-* **Layer Stack (4-Layer DEC-017):**
-  * **L1:** Signal (JTAG routing + data traces). JTAG traces run on L1 over L2 GND plane.
-  * **L2:** GND plane (solid, contiguous) - provides reference for L1 controlled-impedance traces.
-  * **L3:** 3V3_ENIG power plane - provides local decoupling reference.
-  * **L4:** Signal (secondary routing + data plate silkscreen on bottom).
+* **Layer Stack:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`; layer
+  assignments as defined there.
 * **JTAG Trace Width Rule:** All JTAG signal traces on L1 shall be routed at **0.1425 mm (5.61 mil)**
   width over the L2 GND plane, targeting **50 Ω controlled impedance** per the JLC041621-3313
   stackup (h=0.092mm, t=0.030mm, Eᵣ=4.2). See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`

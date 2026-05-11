@@ -146,3 +146,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 139 | Stackup & impedance changes fully applied across all boards | 139-stackup-impedance-all-changes-applied.md |
 | 140 | Metadata policy directive clarified; Last Updated date sweep complete | 140-metadata-policy-directive-date-sweep-complete.md |
 | 141 | GRS stackup consolidation complete — all 10 board specs reference GRS §2.3 | 141-grs-stackup-consolidation-complete.md |
+| 142 | jtag-pin1-silkscreen-grs complete — GRS §7.1 cross-refs added to all carrier boards (CTL, EXT, JM, AM) | 142-jtag-pin1-grs-7-1-all-carrier-boards-complete.md |

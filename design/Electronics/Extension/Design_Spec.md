@@ -48,7 +48,7 @@ group without Controller-side live servo control.
 | DR-EXT-06 | Buffer bypass capacitor | C6 = 100 nF 0402; placement per GRS §3.2 bypass capacitor proximity requirements | §4 PCB Fabrication & Stackup; BOM C6 (100nF X7R) |
 | DR-EXT-07 | System quantity | Up to x5 Extension boards per system (Rev A power budget); Rev A prototype uses x1 | §1 Overview; System_Architecture.md |
 | DR-EXT-08 | Extension Port connector family | J7/J8 = Adam Tech 2BHR-30-VUA 30-pin 2x15 shrouded headers. Per DEC-053 | §2 Connectivity; BOM J7, J8 |
-| DR-EXT-09 | Actuation Module host dock | J9 = Hirose DF40HC(3.5)-20DS-0.4V(51) receptacle (20-pin, 0.4mm pitch, 3.5mm stacking height); host-side mating connector for AM J1 (DF40C-20DP-0.4V(51)); carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` | §2 Connectivity; BOM J9 |
+| DR-EXT-09 | Actuation Module host dock | J9 = Hirose DF40HC(3.5)-20DS-0.4V(51) receptacle (20-pin, 0.4mm pitch, 3.5mm stacking height); host-side mating connector for AM J1 (DF40C-20DP-0.4V(51)); carries `5V_MAIN`, `3V3_ENIG`, `ACTUATE_REQUEST_N`, and `GND` | §2 Connectivity; BOM J9; `design/Standards/Global_Routing_Spec.md §7.1` |
 | DR-EXT-10 | Actuation Module host envelope | The Extension area beneath the installed AM shall be a no-component placement zone except for J9 and four M2.5x3.5mm SMT standoffs (MH5-MH8, 9774035151R) and the copper / vias needed to route J9; standoff placement shall follow the pattern defined in `AM Design_Spec.md DR-AM-03`; MH5-MH8 positions shall mirror the AM mounting hole pattern; MH5-MH8 pads shall be connected to `GND`; do not crowd the module with nearby tall parts or enclosure walls that would trap heat or obstruct service access. **PCB layout for J9 and MH5-MH8 cannot be finalised until AM schematic capture and PCB layout are complete.** | §2 Connectivity; `Board_Layout.md` |
 | DR-EXT-11 | 5V_MAIN entry decoupling bank | C7-C11 (5x 10µF X7R 25V 0805) shall be placed at the 5V_MAIN entry point (J7 pins 1-2 and 29-30) using a star/spoke topology matching the 3V3_ENIG entry bank (C1-C5); both rails must be locally decoupled at the Extension Port entry | §2 Connectivity; §5 Thermal & ESD; BOM C7-C11 |
 | DR-EXT-12 | ESD protection - rotor-facing BtB connectors | U2-U5 (J1/J3 in) + U6-U9 (J4/J6 out); 8x TPD4E05U06QDQARQ1 within 3mm of mating edge per DEC-048 | §5 Thermal & ESD; BOM U2-U9 |
@@ -157,6 +157,10 @@ group without Controller-side live servo control.
   > capture and PCB layout are complete. MH5-MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
   > connect to `GND`.
 * **J9** - single 20-pin Hirose DF40HC(3.5)-20DS-0.4V(51) AM host socket (stacking height = 3.5mm)
+* **Polarity enforcement:** The DF40 connector body is polarity-free (Note 4 in Hirose datasheet);
+  asymmetric placement of MH5-MH8 standoffs (per `AM Design_Spec.md DR-AM-03`) is mandatory to
+  enforce a single valid mating orientation. A silkscreen pin-1 marker is required on both boards
+  (per `design/Standards/Global_Routing_Spec.md §7.1`).
 * **MH5-MH8** - four M2.5x3.5mm SMT standoffs (9774035151R); positions mirror `AM Design_Spec.md
   DR-AM-03`; pads connected to `GND`; no-component placement zone (except J9, MH5-MH8, and routing)
 * **Cross-ref:** For interconnect pinouts on power (3V3_ENIG/GND), `ENC_OUT_REF` / `ENC_IN_REF`, and

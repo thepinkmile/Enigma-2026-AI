@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-10
+Last updated: 2026-05-11
 
 ---
 
@@ -97,12 +97,12 @@ Last updated: 2026-05-10
 | `security-testing` | [security-testing.md](todos/security-testing.md) | pending | `version-1-documentation` |
 | `stackup-impedance-recalc` | [stackup-impedance-recalc.md](todos/stackup-impedance-recalc.md) | done | — |
 | `bulk-caps-per-power-source-or-conversion` | [bulk-caps-per-power-source-or-conversion.md](todos/bulk-caps-per-power-source-or-conversion.md) | pending | — |
-| `ctl-l02-refdes-gap` | [ctl-l02-refdes-gap.md](todos/ctl-l02-refdes-gap.md) | pending | — |
-| `enc-cpld-spare-pins-rule` | [enc-cpld-spare-pins-rule.md](todos/enc-cpld-spare-pins-rule.md) | pending | — |
-| `jtag-pin1-silkscreen-grs` | [jtag-pin1-silkscreen-grs.md](todos/jtag-pin1-silkscreen-grs.md) | pending | — |
+| `ctl-l02-refdes-gap` | [ctl-l02-refdes-gap.md](todos/ctl-l02-refdes-gap.md) | done | — |
+| `enc-cpld-spare-pins-rule` | [enc-cpld-spare-pins-rule.md](todos/enc-cpld-spare-pins-rule.md) | done | — |
+| `jtag-pin1-silkscreen-grs` | [jtag-pin1-silkscreen-grs.md](todos/jtag-pin1-silkscreen-grs.md) | done | — |
 | `jtag-integrity-resistor-value-reconcile` | [jtag-integrity-resistor-value-reconcile.md](todos/jtag-integrity-resistor-value-reconcile.md) | pending | — |
 | `mcp23017-gpb7-silicon-fixed-review` | [mcp23017-gpb7-silicon-fixed-review.md](todos/mcp23017-gpb7-silicon-fixed-review.md) | pending | — |
-| `rot-i2c-residual-removal` | [rot-i2c-residual-removal.md](todos/rot-i2c-residual-removal.md) | pending | — |
+| `rot-i2c-residual-removal` | [rot-i2c-residual-removal.md](todos/rot-i2c-residual-removal.md) | done | — |
 | `consolidate-design-spec-content` | [consolidate-design-spec-content.md](todos/consolidate-design-spec-content.md) | pending | `enc-connector-review-pre-pcb` |
 | `usm-spdt-switch-floating-review` | [usm-spdt-switch-floating-review.md](todos/usm-spdt-switch-floating-review.md) | pending | — |
 | `am-button-review-production` | [am-button-review-production.md](todos/am-button-review-production.md) | pending | — |
@@ -209,12 +209,12 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 -- Review Pass 8 new todos
 ('stackup-impedance-recalc',                  'Select optimal JLCPCB stackup based on impedance-controlled trace width manufacturability', 'done'),
 ('bulk-caps-per-power-source-or-conversion',  'Bulk decoupling at every power source and conversion point',                                'pending'),
-('ctl-l02-refdes-gap',                        'Fix Controller board RefDes numbering gap',                                                 'pending'),
-('enc-cpld-spare-pins-rule',                  'Add CPLD spare-pins rule to review agent-directives',                                       'pending'),
-('jtag-pin1-silkscreen-grs',                  'Add pin-1 silkscreen marker requirement to GRS',                                            'pending'),
+('ctl-l02-refdes-gap',                        'Fix Controller board RefDes numbering gap',                                                 'done'),
+('enc-cpld-spare-pins-rule',                  'Add CPLD spare-pins rule to review agent-directives',                                       'done'),
+('jtag-pin1-silkscreen-grs',                  'Add pin-1 silkscreen marker requirement to GRS',                                            'done'),
 ('jtag-integrity-resistor-value-reconcile',   'Reconcile JTAG termination resistor values across all boards',                              'pending'),
 ('mcp23017-gpb7-silicon-fixed-review',        'Review and fix MCP23017 GPB7 silicon-fixed output-only pin issue',                         'pending'),
-('rot-i2c-residual-removal',                  'Remove residual I2C references from Rotor design',                                          'pending'),
+('rot-i2c-residual-removal',                  'Remove residual I2C references from Rotor design',                                          'done'),
 ('consolidate-design-spec-content',           'Consolidate and normalise all Design Spec content',                                         'pending'),
 ('usm-spdt-switch-floating-review',           'Review USM SPDT switch floating pin concern',                                               'pending'),
 ('am-button-review-production',               'Review Actuation Module buttons for production version',                                     'pending'),

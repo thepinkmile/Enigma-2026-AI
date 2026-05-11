@@ -481,3 +481,11 @@ as findings until the referenced pre-condition is complete.
   differences as review findings at any severity level. Do not suggest that a part number is
   "missing" letters or digits. Do not compare a Mouser/DigiKey/JLCPCB PN to the full manufacturer
   MPN and flag discrepancies. The approved BOM values are intentional and final.
+
+- **CPLD unused I/O pins:** All unused I/O pins on any CPLD (e.g. Intel MAX II EPM570T100I5N, or
+  any equivalent device) are assumed not connected. The default treatment in VHDL and the Quartus
+  pin-assignment file is to configure each unused pin as an **input with a weak internal pull-up**;
+  this avoids floating-input power draw and undefined logic state without requiring external
+  components. Boards currently carrying a CPLD: Rotor (U1), Encoder (U1). Raise as a **High**
+  severity finding only if unused I/O pins are configured as anything other than input-with-pull-up
+  (e.g. output, tri-state, or explicitly left floating).
