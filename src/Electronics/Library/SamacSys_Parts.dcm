@@ -606,4 +606,16 @@ K SMT spacer standoff mounting hole Wurth
 F https://www.we-online.com/components/products/datasheet/9774040151R.pdf
 $ENDCMP
 #
+$CMP 0ZRB0600FF1A
+D PTC Resettable Fuse 6A(hold) 12A(trip) 30VDC 40A 3.5W 16s 0.005Ohm Radial 16.5 X 3 X 24.9mm Bulk Automotive
+K
+F https://www.arrow.com/en/products/0zrb0600ff1a/bel-group
+$ENDCMP
+#
+$CMP ERJ-3EKF2263V
+D Panasonic ERJ3EK Series Precision Thick Film Surface Mount Resistor 0603 Case 226k +/-1% 0.1W +/-100ppm/C
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
 #End Doc Library

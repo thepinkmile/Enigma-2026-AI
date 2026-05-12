@@ -362,6 +362,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "belfuse-ds-cp-0zrb-series-datasheet.pdf",
+      "markdown": "belfuse-ds-cp-0zrb-series-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "bhr-xx-vua-data-sheet.pdf",
       "markdown": "bhr-xx-vua-data-sheet.md",
       "mapping_type": "same_stem"

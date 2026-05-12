@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-12 (checkpoint 144: diagram quality pass complete; am-button-review-production closed — DEC-067 added to Design_Log)
+Last updated: 2026-05-12 (ctl-t1-tdk-a120-component-analysis closed — work confirmed complete in PoE_Power_Analysis.md)
 
 ---
 
@@ -109,7 +109,7 @@ Last updated: 2026-05-12 (checkpoint 144: diagram quality pass complete; am-butt
 | `rot-stackup-simplify` | — | done | `grs-stackup-section` |
 | `sta-stackup-simplify` | — | done | `grs-stackup-section` |
 | `usm-stackup-simplify` | — | done | `grs-stackup-section` |
-| `bulk-caps-per-power-source-or-conversion` | [bulk-caps-per-power-source-or-conversion.md](todos/bulk-caps-per-power-source-or-conversion.md) | pending | — |
+| `bulk-caps-per-power-source-or-conversion` | [bulk-caps-per-power-source-or-conversion.md](todos/bulk-caps-per-power-source-or-conversion.md) | done | — |
 | `ctl-l02-refdes-gap` | [ctl-l02-refdes-gap.md](todos/ctl-l02-refdes-gap.md) | done | — |
 | `enc-cpld-spare-pins-rule` | [enc-cpld-spare-pins-rule.md](todos/enc-cpld-spare-pins-rule.md) | done | — |
 | `jtag-pin1-silkscreen-grs` | [jtag-pin1-silkscreen-grs.md](todos/jtag-pin1-silkscreen-grs.md) | done | — |
@@ -119,7 +119,7 @@ Last updated: 2026-05-12 (checkpoint 144: diagram quality pass complete; am-butt
 | `consolidate-design-spec-content` | [consolidate-design-spec-content.md](todos/consolidate-design-spec-content.md) | pending | `enc-connector-review-pre-pcb` |
 | `usm-spdt-switch-floating-review` | [usm-spdt-switch-floating-review.md](todos/usm-spdt-switch-floating-review.md) | pending | — |
 | `am-button-review-production` | [am-button-review-production.md](todos/am-button-review-production.md) | done | — |
-| `ctl-t1-tdk-a120-component-analysis` | [ctl-t1-tdk-a120-component-analysis.md](todos/ctl-t1-tdk-a120-component-analysis.md) | in progress | — |
+| `ctl-t1-tdk-a120-component-analysis` | [ctl-t1-tdk-a120-component-analysis.md](todos/ctl-t1-tdk-a120-component-analysis.md) | done | — |
 | `ctl-t1-tdk-topology-confirm` | [ctl-t1-tdk-topology-confirm.md](todos/ctl-t1-tdk-topology-confirm.md) | pending | — |
 | `ctl-t1-tdk-library-import` | [ctl-t1-tdk-library-import.md](todos/ctl-t1-tdk-library-import.md) | pending | — |
 | `ctl-t1-bourns-component-analysis` | — | ~~done~~ (superseded by TDK decision) | `ctl-t1-transformer-decision` |
@@ -221,7 +221,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('am-component-diagram',              'block-beta AM circuit component diagram in Actuation_Module/Design_Spec.md',      'pending'),
 -- Review Pass 8 new todos
 ('stackup-impedance-recalc',                  'Select optimal JLCPCB stackup based on impedance-controlled trace width manufacturability', 'done'),
-('bulk-caps-per-power-source-or-conversion',  'Bulk decoupling at every power source and conversion point',                                'pending'),
+('bulk-caps-per-power-source-or-conversion',  'Bulk decoupling at every power source and conversion point',                                'done'),
 ('ctl-l02-refdes-gap',                        'Fix Controller board RefDes numbering gap',                                                 'done'),
 ('enc-cpld-spare-pins-rule',                  'Add CPLD spare-pins rule to review agent-directives',                                       'done'),
 ('jtag-pin1-silkscreen-grs',                  'Add pin-1 silkscreen marker requirement to GRS',                                            'done'),
@@ -234,7 +234,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 -- T1 transformer analysis todos
 ('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'done'),  -- superseded by TDK decision
 ('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'pending'),
-('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'in_progress'),
+('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'done'),
 ('ctl-t1-tdk-library-import',                 'Import TDK B82806D footprint zip and add 3D model to legacy library',                       'pending'),
 ('ctl-t1-tdk-topology-confirm',               'Contact TDK apps engineering — B82806D0060A120 topology confirmation',                      'pending'),
 -- Stackup consolidation sweep (grs-stackup-section done; simplify passes pending)

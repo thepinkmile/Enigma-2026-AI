@@ -55,7 +55,7 @@ Controller Board via dock connector `J1`.
 | DR-PM-03 | 3V3_ENIG rail | 3.3 V ±3%, ≤3.0 A maximum (TPS75733 LDO hard limit) | §5 Protection & Logic; BOM U7 (TPS75733) |
 | DR-PM-04 | Buck converter | Dual-phase interleaved LMQ61460AFSQRJRRQ1 pair | §2 Power & UPS Hub; BOM U2A/U2B (LMQ61460AFSQRJRRQ1) |
 | DR-PM-05 | LDO | TPS75733 (3.3 V, 3.0 A, TO-263 (KTT) 5-pin 10.16x15.24 mm) | §5 Protection & Logic; BOM U7 (TPS75733) |
-| DR-PM-06 | eFuse | TPS259804ONRGER, 7 A trip current (R_ILIM = ERA-3VEB2100V, 210 Ω, 0.1% thin-film), OVLO = 16.9 V (silicon-fixed) | §5 Protection & Logic; BOM U1 (TPS259804ONRGER), R1 (232kΩ), R2 (28.7kΩ), R3 (210Ω) |
+| DR-PM-06 | eFuse | TPS259804ONRGER, 7 A trip current (R_ILIM = ERA-3VEB2100V, 210 Ω, 0.1% thin-film), OVLO = 16.9 V (silicon-fixed), UVLO ≈ 10.786 V at eFuse EN_UVLO pin (≈ 11 V source, recalculated from 232 kΩ to compensate for F2/F3/F4 polyfuse series drop — see DEC-069) | §5 Protection & Logic; BOM U1 (TPS259804ONRGER), R1 (226kΩ ERJ-3EKF2263V), R2 (28.7kΩ), R3 (210Ω) |
 | DR-PM-07 | Supercapacitor bank | 8x 25 F / 2.7 V in 2S4P configuration = 50 F effective at 5.4 V | §2 Power & UPS Hub; BOM U3 (LTC3350), C_SC1-8 |
 | DR-PM-08 | Backup activation threshold | 4.812 V (R11 = 30.1 kΩ, E96 0.1% thin-film - see DEC-030) - fires 312 mV before MCP121T 4.50 V threshold, providing ≥4 LTC3350 cycles at 400 kHz for backup switchover | §5 Protection & Logic; BOM R11 (30.1kΩ), R12 (10.0kΩ) |
 | DR-PM-09 | Holdup duration | ≥33.5 s at 15 W load (CM5 typical 5V x 3A) | §2 Power & UPS Hub; BOM C_SC1-8 (25F/2.7V), U3 (LTC3350) |
@@ -65,14 +65,28 @@ Controller Board via dock connector `J1`.
 | DR-PM-13 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.3` | §1 PCB Architecture |
 | DR-PM-14 | Per-IC bypass capacitors | All ICs shall have a dedicated 100nF X7R 50V 0402 bypass capacitor on each VCC/VCCIO/VCC_IO pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 | BOM C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 |
 | DR-PM-15 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. No purchasable BOM entry — plain chassis mounting holes; no components to fit. Exact XY positions TBD at PCB layout. | §1 PCB Architecture (Mounting Holes); `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Power_Module/Board_Layout.md §7` |
+| DR-PM-16 | Pre-OR-ing per-input bulk capacitors | Each of the three power inputs shall have a tight parallel cluster of 3× Samsung CL32B226KAJNNNE (22µF X7R 25V 1210) placed adjacent to the corresponding LM74700 OR-ing controller ANODE pin (C59–C67, 9 caps total). Three-cap banks use a tight parallel cluster to minimise loop inductance; the GRS §3 five-cap star formation does not apply to three-cap banks. Voltage derating: 25V rated at 11–16.9V = 1.5–2.3×. See DEC-068. | BOM C59–C67; DEC-068 |
+| DR-PM-17 | 5V_MAIN output bulk capacitor bank | A bank of 5× Samsung CL21B106KAYQNNE (10µF X7R 25V 0805) shall be placed adjacent to the J1 dock connector 5V_MAIN output pins (C68–C72). Placement and purpose are distinct from C14/C15 (LTC3350 backup-switchover energy storage per DEC-030). Voltage derating: 25V rated at 5V = 5×. See DEC-068. | BOM C68–C72; DEC-068; DEC-030 |
+| DR-PM-18 | 3V3_ENIG output bulk capacitor bank | A bank of 5× Samsung CL21B106KAYQNNE (10µF X7R 25V 0805) shall be placed adjacent to the J1 dock connector 3V3_ENIG output pins (C73–C77). Placement and purpose are distinct from C23 (TPS75733 LDO minimum-stability capacitor). Voltage derating: 25V rated at 3.3V = 7.6×. See DEC-068. | BOM C73–C77; DEC-068 |
+| DR-PM-19 | Per-input polyfuse protection | Each of the three power inputs (VIN_POE_12V, USB-C, Battery) shall have a Bel Fuse 0ZRB0600FF1A (6 A hold / 12 A trip, THT, AEC-Q200 qualified, ≤40 mΩ hold resistance) placed series upstream of the corresponding LM74700 OR-ing controller. F2 = VIN_POE_12V path, F3 = Battery path, F4 = USB-C path. Required for CE/UKCA compliance. F1 (AC72ABD) is the battery-cell thermal cutoff (non-PCB, welded to cell tabs) and is unaffected. See DEC-069. | BOM F2, F3, F4 (0ZRB0600FF1A); DEC-069 |
 
 ### Component Block Diagram
 
 ```mermaid
 flowchart TD
   subgraph PowerInput["Power Input"]
-    J4["J4 USB-C PD"]
-    J5["J5 Battery"]
+    J2["J2 PoE Aux (from CTL)"]
+    J4["J4 Battery"]
+    J5["J5 USB-C PD"]
+  end
+
+  subgraph InputProtection["Input Protection (per DEC-069)"]
+    F2["F2 Polyfuse 0ZRB (PoE)"]
+    F3["F3 Polyfuse 0ZRB (Battery)"]
+    F4["F4 Polyfuse 0ZRB (USB-C)"]
+    U6a["U6a LM74700 OR-ing"]
+    U6b["U6b LM74700 OR-ing"]
+    U6c["U6c LM74700 OR-ing"]
   end
 
   subgraph Protection["Protection"]
@@ -105,8 +119,10 @@ flowchart TD
     CTRL["Controller Board"]
   end
 
-  J4 --> U1
-  J5 --> U3
+  J2 --> F2 --> U6a
+  J4 --> F3 --> U6b
+  J5 --> F4 --> U6c
+  U6a & U6b & U6c --> U1
   U1 --> U2A
   U2A -- "5V_MAIN" --> U2B
   U2A -- "charge" --> U3
@@ -129,8 +145,12 @@ flowchart TD
 > **EXCEPTION - GRS §3 Bulk-Entry Capacitor Banks:** The Power Module is the **rail source** - it
 > generates `5V_MAIN` and `3V3_ENIG` from the battery/PoE input. GRS §3 bulk-entry bank requirements
 > apply to boards that **receive** externally-generated rails, not to the board that generates them.
-> The PM's input-filter bulk capacitors (C1-C4, C14/C15) fulfil the equivalent energy-storage role on
+> The PM's input-filter bulk capacitors (C1-C13, C14/C15) fulfil the equivalent energy-storage role on
 > the raw input side. The GRS §3 bulk-entry check is therefore **exempt** for this board.
+>
+> **NOTE — DEC-068 Output Banks:** C59–C67 (pre-OR-ing per-input bulk), C68–C72 (5V_MAIN J1 output
+> bulk), and C73–C77 (3V3_ENIG J1 output bulk) are PM-side source-quality design requirements
+> (DEC-068), not GRS §3 compliance items.
 >
 ### 1. PCB Architecture
 
@@ -317,7 +337,9 @@ GND ------+---------------------------------------------------+---------------+-
 
 > **Note on L1/L2 placement:** L1 and L2 are cascaded common-mode chokes on the **combined post-OR-ing bus** (VIN_RAW), not per-input filters.
 > All three input sources (PoE, USB-C, Battery) are OR-ed first via Q1-Q3 and U6a/U6b/U6c, then the combined rail passes through L1→L2→L3 before reaching the eFuse (U1).
-> Only the Battery input (J4) has no dedicated input-side ESD filter - D1/D2 provide transient protection at the connector.
+> All three inputs have per-input polyfuse protection (F2/F3/F4, Bel Fuse 0ZRB0600FF1A, 6A hold / 12A trip) placed upstream
+> of their respective OR-ing controllers. The Battery input (J4) has no dedicated input-side ESD filter;
+> D1/D2 provide transient protection at the battery connector. See DEC-069.
 
 ### 5. Protection & Logic
 
@@ -337,9 +359,9 @@ GND ------+---------------------------------------------------+---------------+-
   handles PoE negotiation and exports the resulting regulated auxiliary rail to
   the PM, but the Power Module still performs the triple-input OR-ing / source
   selection before the selected input is passed into the eFuse path.
-* **eFuse:** TPS259804ONRGER (16.9V OVLO silicon-fixed, VQFN 4x4mm) - 7A ILIM, 11.0V UVLO, 16.9V OVLO, 3mΩ RON (typ.).
+* **eFuse:** TPS259804ONRGER (16.9V OVLO silicon-fixed, VQFN 4x4mm) - 7A ILIM, 10.786V UVLO at eFuse EN_UVLO pin (≈11V source after F2/F3/F4 polyfuse series drop; see DEC-069), 16.9V OVLO, 3mΩ RON (typ.).
   * UVLO / ILIM resistor network:
-    * **R1** - 232kΩ `R_UVLO_HI` - 1% Thick-Film 0603.
+    * **R1** - 226kΩ `R_UVLO_HI` - 1% Thick-Film 0603 (ERJ-3EKF2263V; recalculated from 232kΩ to compensate for F2/F3/F4 polyfuse series drop at max load — see DEC-069).
     * **R2** - 28.7kΩ `R_UVLO_LO` - 1% Thick-Film 0603.
     * **R3** - 210Ω `R_ILIM` - 0.1% Thin-Film 0603.
     * Note: OVLO is silicon-fixed on TPS259804ONRGER - no external OVLO resistor required or present.
@@ -491,7 +513,9 @@ To prevent the CM5 from attempting to boot during the 12V-15V "Enigma Rail" ramp
 
 1. **Input:** 11-16.9V enters via Controller-fed `VIN_POE_12V`, USB-C (STUSB4500 negotiated 15V), or Battery (11-16.4V).
    All three sources are within the TPS25980 eFuse window (UVLO 11V / OVLO 16.9V).
-2. **Gate:** TPS25980 eFuse validates voltage (11V-16.9V) and current (≤7A); TCO F1 provides thermal protection.
+2. **Gate:** F2/F3/F4 polyfuses (0ZRB0600FF1A, 6A hold / 12A trip) protect each input upstream of the OR-ing stage;
+   TPS25980 eFuse validates voltage (≤10.786V UVLO at eFuse EN_UVLO pin / ≥11V source, 16.9V OVLO) and current (≤7A)
+   on the combined VIN_RAW bus; TCO F1 (AC72ABD) provides thermal cutoff at the battery cell tabs.
 3. **Bucks:** Dual LMQ61460AFSQRJRRQ1 5V interleaved buck regulators (U2A/U2B, 180° DRSS phase offset) and TPS75733 3V3_ENIG LDO (U7) start.
 4. **Supercap charging:** LTC3350 begins managed soft-charge of the 8-cell supercap bank (50F/5.4V) from 5V_MAIN, current-limited to 0.5A (RICHARGE programmed accordingly).
    Charge duration from fully depleted state: approximately 9 minutes. Once fully charged, the bank provides ≥33.5 seconds of hold-up at the 15W CM5 graceful shutdown load.
@@ -565,6 +589,9 @@ Estimated PM-local power dissipation at system peak load:
 | C14, C15 | 22µF 25V X7R 1210 | CL32B226KAJNNNE | Samsung | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | see DEC-030 | Yes | Pending | 2 |
 | C16-C19 | 47µF 25V X7R 2220 | CGA9N3X7R1E476M230KB | TDK | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | - | Yes | Pending | 4 |
 | C20 | 10µF 25V X7R 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 1 |
+| C59-C67 | 22µF 25V X7R 1210 | CL32B226KAJNNNE | Samsung | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | see DEC-068 | Yes | Pending | 9 |
+| C68-C72 | 10µF 25V X7R 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | see DEC-068 | Yes | ✔ | 5 |
+| C73-C77 | 10µF 25V X7R 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | see DEC-068 | Yes | ✔ | 5 |
 | C21-C23, C51, C53-C55 | 1µF 50V X7R 0805 | C0805C105K5RACTU | Kemet | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | - | Yes | Pending | 7 |
 | C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 | 100nF 50V X7R 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 24 |
 | C38 | 100pF X7R 25V 0402 | C0402C101K3RACAUTO | Kemet | 399-C0402C101K3RACAUTOCT-ND | 80-C0402C101K3RAUTO | C5272912 | - | - | Yes | Pending | 1 |
@@ -578,6 +605,7 @@ Estimated PM-local power dissipation at system peak load:
 | D4 | 18V 600W unidirectional TVS SMB (DO-214AA) | SMBJ18A-Q | Bourns | 118-SMBJ18A-QCT-ND | 652-SMBJ18A-Q | C1979859 (Extended) | - | - | Yes | Pending | 1 |
 | D5, D6 | Schottky SOT-23 | BAT54 | Vishay | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | - | Yes | Pending | 2 |
 | F1 | 72°C SMD Thermal Cutoff | AC72ABD | Bourns | AC72ABD-ND | 652-AC72ABD | C17468669 | - | No PCB footprint — component is laser/spot-welded to battery cell tabs; not suitable for PCB mounting per Bourns datasheet | No | N/A | 1 |
+| F2, F3, F4 | 6A hold / 12A trip THT AEC-Q200 polyfuse | 0ZRB0600FF1A | Bel Fuse | 5923-0ZRB0600FF1A-ND | 530-0ZRB0600FF1A | C3762696 | - | see DEC-069; one per input (F2 = PoE, F3 = Battery, F4 = USB-C) | Yes | ✔ | 3 |
 | FB1 | 600Ω ±25% @100MHz ferrite bead 0805 AEC-Q200 Gr.1 | BMC-Q2AY0600M (2-2176748-1) | TE Connectivity | 1712-2-2176748-1CT-ND | 279-BMC-Q2AY0600M | Global sourcing / consignment | Global sourcing / consignment | see design/Datasheets/TE-DS_1773178-3_A3-datasheet.md | Yes | Pending | 1 |
 | J1-J3 | 10-pos 2.5mm RA plug | 1123684-7 | TE Connectivity | A114780-ND | 571-1123684-7 | C3683043 (consignment - verify stock; post-assembly install if unavailable) | - | - | Yes | Pending | 3 |
 | J4 | 5-pin Micro-Fit 3.0 THT vertical | 0436500519 | Molex | WM14587-ND | 538-43650-0519 | C563849 | - | see Millitary_Battery_Connection_Option.md | Yes | Pending | 1 |
@@ -587,7 +615,7 @@ Estimated PM-local power dissipation at system peak load:
 | L3 | 10µH 15.5A Isat shielded SMT 13.5x12.5x6.2mm | SRP1265A-100M | Bourns | SRP1265A-100MCT-ND | 652-SRP1265A-100M | C840531 | - | - | Yes | Pending | 1 |
 | Q1, Q2, Q3 | N-ch MOSFET 30V 10A SON-8 3.3x3.3mm | CSD17578Q5A | Texas Instruments | 296-48512-1-ND | 595-CSD17578Q5A | C2871447 | - | - | Yes | ✔ | 3 |
 | Q4-Q10 | N-ch MOSFET 50V 200mA SOT-23 | BSS138 | onsemi | BSS138CT-ND | 512-BSS138 | C52895 | - | - | Yes | Pending | 7 |
-| R1 | 232kΩ 1% 0603 | ERJ-3EKF2323V | Panasonic | P232KHCT-ND | 667-ERJ-3EKF2323V | C403086 | - | - | Yes | Pending | 1 |
+| R1 | 226kΩ 1% 0603 | ERJ-3EKF2263V | Panasonic | P226KHCT-ND | 667-ERJ-3EKF2263V | C403081 | - | see DEC-069 | Yes | ✔ | 1 |
 | R2 | 28.7kΩ 1% 0603 | ERJ-3EKF2872V | Panasonic | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | - | Yes | Pending | 1 |
 | R3 | 210Ω 0.1% 0603 | ERA-3VEB2100V | Panasonic | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | - | Yes | Pending | 1 |
 | R4, R7, R8, R13, R15, R22 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 6 |

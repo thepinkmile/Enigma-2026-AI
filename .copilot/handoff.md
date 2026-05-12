@@ -14,6 +14,63 @@ Use the active `design/` documents as the authoritative record:
 - relevant mechanical and software `Design_Spec.md` files
 - `design/Datasheets/` for preserved vendor and project-side reference material
 
+## 2026-05-12 session result (follow-up)
+
+DEC-068/069 workstream fully closed. Three post-implementation fixes applied:
+
+- **Mermaid diagram bug (PM Design_Spec.md):** All four J4/J5 and F3/F4 node labels were swapped.
+  Corrected to: J4=Battery, J5=USB-C, F3=Battery path, F4=USB-C path.
+
+- **DEC-069 `### Voltage Rating Selection` added:** Documents 24V derivation (EPR unavailable,
+  battery max transient 19.7V → 20V floor, 24V chosen, 0ZRB at 30VDC gives 6V margin, THT
+  justified as no AEC-Q200 SMD part exists at 6A/12A/≥24V spec).
+
+- **DEC-068 Q1 voltage derating added:** CL32B226KAJNNNE 25V rated at 11–16.9V input = 1.5–2.3×
+  derating, consistent with C1–C15 on same rail.
+
+- **Third full audit pass** of discussion file confirmed all technical content mirrored in DECs.
+  No remaining gaps — discussion file status confirmed Closed/Implemented.
+
+Lint: markdownlint exit 0 on both files.
+
+Open action (not in todos): Confirm PM enclosure max sustained ambient temperature — 0ZRB at 85°C
+derated to 2.64A hold, below 5.35A worst-case system load.
+
+## 2026-05-14 session result
+
+PM per-input polyfuse protection + UVLO recalculation (DEC-069) fully applied across all design
+files. KiCAD libraries updated for both new parts in prior sessions.
+
+Main outcomes:
+
+- **PM polyfuse protection (DEC-069):** Bel Fuse 0ZRB0600FF1A polyfuses (F2/F3/F4) added
+  upstream of each LM74700 OR-ing FET (PoE, USB-C, Battery inputs). CE/UKCA compliance
+  requirement. THT package forced — no qualifying SMD part (6A hold/12A trip, AEC-Q200, ≥24V)
+  exists.
+
+- **UVLO recalculation:** R1 changed 232kΩ → 226kΩ (ERJ-3EKF2263V) to account for polyfuse
+  hold-state drop (≤40 mΩ × 5.35A = 0.214V) so eFuse EN_UVLO threshold remains at ≈11V source.
+  OVLO silicon-fixed at 16.9V — unaffected.
+
+- **Design files updated:**
+  - `design/Electronics/Power_Module/Design_Spec.md` — DR-PM-06, DR-PM-19 added; mermaid
+    rebuilt; protection description, R1 body, startup timeline, BOM all updated (Last Updated: 2026-05-14)
+  - `design/Electronics/Consolidated_BOM.md` — F2/F3/F4 row inserted; R1 row updated
+  - `design/Design_Log.md` — DEC-069 appended
+
+- **Discussion closed:** `.copilot/discussions/pm-bulk-caps-and-per-input-protection.md` status
+  set to "Closed / Implemented (DEC-068, DEC-069; all design file changes applied 2026-05-14)"
+
+- **Lint clean:** markdownlint exit 0 on all three design files after two MD013 line-wrap fixes.
+
+- **KiCAD library imports (earlier in session thread):** `SamacSys_Parts.kicad_sym` and
+  `SamacSys_Parts.lib` / `.dcm` updated with 0ZRB0600FF1A and ERJ-3EKF2263V.
+
+All changes are written to disk; user to review and commit ("Let's lock this in").
+
+Next workstreams: `jtag-integrity-resistor-value-reconcile`, `mcp23017-gpb7-silicon-fixed-review`,
+`usm-spdt-switch-floating-review`, `consolidate-design-spec-content`.
+
 ## 2026-05-11 session result
 
 The latest repository state includes the completed stackup workstream (DEC-065) and the document

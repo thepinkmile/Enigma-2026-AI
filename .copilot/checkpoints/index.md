@@ -149,3 +149,6 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 142 | jtag-pin1-silkscreen-grs complete — GRS §7.1 cross-refs added to all carrier boards (CTL, EXT, JM, AM) | 142-jtag-pin1-grs-7-1-all-carrier-boards-complete.md |
 | 143 | All component diagrams complete — block-beta diagram added to all 10 board Design_Specs | 143-all-component-diagrams-complete.md |
 | 144 | Diagram quality pass complete — signal naming, newline fixes, structural corrections, terminology | 144-diagram-quality-pass-complete.md |
+| 145 | PM bulk-cap DEC-068 propagation complete | 145-pm-bulk-caps-dec-068-propagation-complete.md |
+| 146 | PM per-input polyfuse & UVLO recalculation complete | 146-pm-polyfuse-design-changes-complete.md |
+| 147 | DEC-068/069 audit complete, Mermaid fixed | 147-dec-068-069-audit-complete-mermaid-fixed.md |

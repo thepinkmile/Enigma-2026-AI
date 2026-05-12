@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-12
 
 ---
 
@@ -27,7 +27,7 @@
 
 | Board (RefDes) | MPN | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | PM Qty | CTL Qty | JM Qty | USM Qty | ENC Qty | AM Qty | STA Qty | REF Qty | EXT Qty | ROT-26 Qty | ROT-64 Qty | System Qty | Notes | Footprint Available | Footprint Downloaded |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| PM: C1-C15 | CL32B226KAJNNNE | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | 15 | - | - | - | - | - | - | - | - | - | - | 15 | 22µF 25V X7R 1210 [Samsung] | Yes | ✔ |
+| PM: C1-C15,C59-C67 | CL32B226KAJNNNE | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | 24 | - | - | - | - | - | - | - | - | - | - | 24 | 22µF 25V X7R 1210 [Samsung] | Yes | ✔ |
 | PM: C16-C19 | CGA9N3X7R1E476M230KB | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | 4 | - | - | - | - | - | - | - | - | - | - | 4 | 47µF 25V X7R 2220 [TDK] | Yes | ✔ |
 | PM: C21-C23,C53,C55-C57; AM: C1 | C0805C105K5RACTU | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | 7 | - | - | - | - | 1 | - | - | - | - | - | 8 | 1µF 50V X7R 0805 [Kemet] | Yes | ✔ |
 | PM: C24-C30,C31-C37,C41-C48,C50,C56; CTL: C6,C12-C16,C18,C19; JM: C1-C4,C6-C9,C12; USM: C1-C4; ENC: C1-C8; AM: C2,C3,C6,C7; STA: C1-C8,C14-C21; EXT: C6; ROT-26: C1-C9,C20A; ROT-64: C1-C9,C20B | CL05B104KB5NNNC | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | 24 | 8 | 9 | 4 | 8 | 4 | 16 | - | 1 | 10 | 10 | 124 | 100nF 50V X7R 0402 [Samsung] | Yes | ✔ |
@@ -42,6 +42,7 @@
 | PM: D4 | SMBJ18A-Q | 118-SMBJ18A-QCT-ND | 652-SMBJ18A-Q | C1979859 (Extended) | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 18V 600W unidirectional TVS SMB (DO-214AA) [Bourns] | Yes | ✔ |
 | PM: D5,D6; CTL: D1 | BAT54 | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | 2 | 1 | - | - | - | - | - | - | - | - | - | 3 | Schottky SOT-23 [Diotec] | Yes | ✔ |
 | PM: F1 | AC72ABD | AC72ABD-ND | 652-AC72ABD | C17468669 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 72°C SMD Thermal Cutoff [Bourns]; No PCB footprint — component is laser/spot-welded to battery cell tabs; not suitable for PCB mounting per Bourns datasheet | No | N/A |
+| PM: F2,F3,F4 | 0ZRB0600FF1A | 5923-0ZRB0600FF1A-ND | 530-0ZRB0600FF1A | C3762696 | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | 6A hold / 12A trip THT AEC-Q200 polyfuse [Bel Fuse]; see DEC-069 | Yes | ✔ |
 | PM: FB1 | BMC-Q2AY0600M (2-2176748-1) | 1712-2-2176748-1CT-ND | 279-BMC-Q2AY0600M | - | Global sourcing / consignment | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 600Ω ±25% @100MHz ferrite bead 0805 AEC-Q200 Gr.1 [TE Connectivity] | Yes | ✔ |
 | PM: J1-J3 | 1123684-7 | A114780-ND | 571-1123684-7 | C3683043 (consignment - see BOM Notes) | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | 10-pos 2.5mm RA plug [TE Connectivity] | Yes | ✔ |
 | PM: J4 | 0436500519 | WM14587-ND | 538-43650-0519 | C563849 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 5-pin Micro-Fit 3.0 THT vertical [Molex] | Yes | ✔ |
@@ -51,7 +52,7 @@
 | PM: Q1-Q3 | CSD17578Q5A | 296-48512-1-ND | 595-CSD17578Q5A | C2871447 | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | N-ch MOSFET 30V 10A SON-8 3.3x3.3mm [Texas Instruments] | Yes | ✔ |
 | PM: Q4-Q10; USM: Q1-Q18 | BSS138 | BSS138CT-ND | 512-BSS138 | C52895 | - | 7 | - | - | 18 | - | - | - | - | - | - | - | 25 | N-ch MOSFET 50V 200mA SOT-23 [onsemi] | Yes | ✔ |
 | CTL: Q1,Q2 | STD25NF20 | 497-13749-1-ND | 511-STD25NF20 | C388326 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | N-ch MOSFET 200V 18A DPAK [STMicroelectronics] | Yes | Pending |
-| PM: R1 | ERJ-3EKF2323V | P232KHCT-ND | 667-ERJ-3EKF2323V | C403086 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 232kΩ 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R1 | ERJ-3EKF2263V | P226KHCT-ND | 667-ERJ-3EKF2263V | C403081 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 226kΩ 1% 0603 [Panasonic]; see DEC-069 | Yes | ✔ |
 | PM: R2 | ERJ-3EKF2872V | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 28.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R3 | ERA-3VEB2100V | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 210Ω 0.1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R4,R7,R8,R13,R15,R22; CTL: R1-R4; USM: R1-R11 | ERJ-3EKF1002V | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | 6 | 4 | - | 11 | - | - | - | - | - | - | - | 21 | 10kΩ 1% 0603 [Panasonic] | Yes | ✔ |
@@ -89,7 +90,7 @@
 | PM: U17; STA: U3 | SN74LVC1G08DBVR | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | 1 | - | - | - | - | - | 1 | - | - | - | - | 2 | Single AND gate SOT-23-5 [Texas Instruments] | Yes | ✔ |
 | CTL: BT1 | 3034TR | 36-3034CT-ND | 534-3034TR | C5213768 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CR2032 holder SMD horizontal [Keystone Electronics]; Footprint adapted from KiCAD 10.0 standard library (unofficial, not manufacturer-supplied) | Yes* | Yes* |
 | CTL: C17 | C0805C223K2RACAUTO | 399-17630-1-ND | 80-C0805C223K2RAUTO | C3843023 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 22nF 200V X7R 0805 [Kemet]; supersedes C0402C103K1RACAUTO (10nF 100V 0402) | Yes | Pending |
-| PM: C20; CTL: C1-C5,C7-C11; USM: C5-C14; ENC: C9-C13; AM: C5; STA: C9-C13,C22-C26; REF: C1-C5; EXT: C1-C5,C7-C11; ROT-26: C10-C14; ROT-64: C10-C14 | CL21B106KAYQNNE | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | 1 | 10 | - | 10 | 5 | 1 | 10 | 5 | 10 | 5 | 5 | 77 | 10µF X7R 25V 0805 [Samsung] | Yes | ✔ |
+| PM: C20,C68-C77; CTL: C1-C5,C7-C11; USM: C5-C14; ENC: C9-C13; AM: C5; STA: C9-C13,C22-C26; REF: C1-C5; EXT: C1-C5,C7-C11; ROT-26: C10-C14; ROT-64: C10-C14 | CL21B106KAYQNNE | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | 11 | 10 | - | 10 | 5 | 1 | 10 | 5 | 10 | 5 | 5 | 87 | 10µF X7R 25V 0805 [Samsung] | Yes | ✔ |
 | CTL: J1-J3 | 1-1674231-1 | A119250-ND | 571-1-1674231-1 | C3683260 | - | - | 3 | - | - | - | - | - | - | - | - | - | 3 | 10-pos 2.5mm receptacle vertical [TE Connectivity] | Yes | ✔ |
 | CTL: J4,J5 | 2195630015 | 900-2195630015-ND | 538-219563-0015 | - | Global sourcing | - | 2 | - | - | - | - | - | - | - | - | - | 2 | 5-pwr+15-sig press-fit receptacle hybrid [Molex] | Yes | ✔ |
 | CTL: J6 | 48406-0003 | WM10420-ND | 538-48406-0003 | C565298 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | USB 3.0 Type-A dual-stack [Molex] | Yes | ✔ |

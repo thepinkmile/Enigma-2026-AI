@@ -6,7 +6,100 @@
 
 ---
 
-## Current Status (as of checkpoint 144)
+## Current Status (as of checkpoint 147)
+
+All PM per-input protection and UVLO recalculation work (DEC-069) is complete and all design
+files are updated. Post-implementation fixes applied: PM Design_Spec.md Mermaid diagram node
+labels (J4/J5/F3/F4) corrected; DEC-069 `### Voltage Rating Selection` section added; DEC-068
+Q1 voltage derating note added. Third full audit pass of discussion file confirmed no remaining
+content gaps. The stackup consolidation (DEC-065, DEC-066), bulk-capacitor placement (DEC-068),
+and PM polyfuse protection (DEC-069) workstreams are all fully closed.
+
+The project is in interim-electronics-review-1 pre-flight: all blocking todos for that
+review are now done except `jtag-integrity-resistor-value-reconcile`,
+`mcp23017-gpb7-silicon-fixed-review`, `usm-spdt-switch-floating-review`, and
+`consolidate-design-spec-content`.
+
+## Board Design Status
+
+| Board | Status | Notes |
+|-------|--------|-------|
+| Power Module (PM) | In Review | F2/F3/F4 THT polyfuse placement not yet in Board_Layout |
+| Controller Board (CTL) | In Review | T1 decision complete (DEC-067); board layout not started |
+| Stator | In Review | |
+| Rotor (26-char) | In Review | |
+| Rotor (64-char) | In Review | |
+| Reflector | In Review | |
+| Extension Board (EXT) | Draft | consolidate-design-spec-content todo pending |
+| JTAG Module (JM) | In Review | jtag-integrity-resistor-value-reconcile pending |
+| User Settings Module (USM) | In Review | usm-spdt-switch-floating-review pending |
+| Encoder (ENC) | In Review | enc-connector-review-pre-pcb pending |
+| Actuation Module (AM) | In Review | |
+
+## Open Workstreams
+
+### Immediate (next session start)
+
+1. **JTAG integrity resistor value reconcile** (`jtag-integrity-resistor-value-reconcile`)
+   - See `.copilot/todos/jtag-integrity-resistor-value-reconcile.md` for detail
+
+2. **MCP23017 GPB7 silicon-fixed review** (`mcp23017-gpb7-silicon-fixed-review`)
+   - See `.copilot/todos/mcp23017-gpb7-silicon-fixed-review.md` for detail
+
+3. **USM SPDT switch floating review** (`usm-spdt-switch-floating-review`)
+   - See `.copilot/todos/usm-spdt-switch-floating-review.md` for detail
+
+4. **Consolidate design spec content** (`consolidate-design-spec-content`)
+   - Blocked by `enc-connector-review-pre-pcb`
+   - See `.copilot/todos/consolidate-design-spec-content.md` for detail
+
+### Deferred / Blocked
+
+- `battery-connector-final-review` — blocked: awaiting supplier response
+- `connector-stacking-height-review` — deferred to prototype stage
+- `enc-connector-review-pre-pcb` — ENC J1/J2 and 100nF cap review; blocks consolidate-design-spec-content
+- `jdb-ft232h-3v3-vregin` — blocked (v2.0), pending FT232H Rev C availability
+- `display-addon-board`, `cpld-production-replacement`, `display-aperture` — blocked (v2.0)
+
+## Key Design Decisions (recent)
+
+| Entry | Summary |
+|-------|---------|
+| DEC-065 | Stackup code correction sweep (JLC041621-3313 / JLC061621-3313) |
+| DEC-066 | GRS §2.3 stackup consolidation; board specs reference GRS |
+| DEC-067 | CTL T1 transformer decision (see Design_Log.md) |
+| DEC-068 | PM bulk-cap placement (pre-OR-ing, 5V_MAIN, 3V3_ENIG) |
+| DEC-069 | PM per-input polyfuse (F2/F3/F4) + UVLO recalculation (R1 → ERJ-3EKF2263V) |
+| DEC-070 | **NEXT entry** — reserved for next design decision |
+
+## Library Status
+
+| File | Status |
+|------|--------|
+| `SamacSys_Parts.kicad_sym` | 0ZRB0600FF1A and ERJ-3EKF2263V added ✅ |
+| `SamacSys_Parts.lib` / `.dcm` | Both parts present (legacy KiCAD 5) ✅ |
+| Molex USB drawing markdown | `design/Datasheets/Molex-USB-drawings.md` added ✅ |
+
+## Critical Standing Rules
+
+- **NEVER commit** without "Let's lock it in" or "Save state" from user
+- **Design_Log.md is append-only** — next entry = DEC-070; never modify existing entries
+- **PRIMARY DIRECTIVE**: Never modify any MPN/supplier part numbers without explicit user
+  confirmation
+- **Last Updated** dates must be updated on every content change; **Version** is user-only
+- All board statuses: "In Review" (EXT = "Draft", PM board layout not updated for F2/F3/F4)
+- Move unwanted files to `.recycle-bin/`; never delete
+
+## Next Session Start Point
+
+Read these files in order:
+
+1. `.copilot/agent-directives.md` (always first)
+2. This `plan.md`
+3. `.copilot/handoff.md` (latest section first)
+4. `.copilot/checkpoints/index.md` → checkpoint 147
+5. Relevant todos from `.copilot/todos/` (see Open Workstreams above)
+
 
 All 10 component block diagrams are complete and quality-checked. The diagram phase is fully closed:
 signal naming correct (SYS_RESET_N, PWR_GD, STA topology), all `\n` → `<br>` newline fixes applied,
