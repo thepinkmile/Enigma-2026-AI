@@ -82,6 +82,60 @@ source is active.
 | DR-CTL-24 | PoE ACF clamp switch MOSFET | Q2 shall be a 150V N-channel MOSFET, ≥5A continuous drain current, ≤20nC total gate charge (Qg), SMT package — same specification as Q1 (DR-CTL-23). Q2 is driven by the TPS23730RMTR GATE_C pin as the active clamp switch in the ACF Forward topology. Same MPN as Q1 is acceptable. Selected: STMicroelectronics STD25NF20 — same MPN as Q1. | BOM: Q2; §7.1 |
 | DR-CTL-25 | PoE ACF Forward output inductor | L1 shall be a 33µH shielded ferrite SMT power inductor, ≥6A saturation current (7A preferred), DCR ≤50mΩ, rated for 200kHz operation. No iron-powder cores. L1 is required by the ACF Forward topology: energy is transferred to the secondary during switch ON time, requiring a buck-style LC output filter to smooth the secondary waveform (L1 + C20 on `VIN_POE_12V`). Value derived from L = Vout × (1-D) / (ΔiL × fsw); at worst-case Vin=57V (D=0.42) and ΔiL=30%×Iout=1.5A: L_min=23.2µH; 33µH selected (next standard value) for ≥28% ripple margin at all operating points. Selected: Yageo PA4343.333NLT — 33µH ±20%, Isat=11A @30% inductance drop, DCR typ 48mΩ / max 58mΩ, Irms 8A, 13.5×12.5×6.2mm, shielded ferrite SMT, AEC-Q200. DigiKey: 553-3457-1-ND; Mouser: 673-PA4343.333NLT; JLCPCB: C2453886. Note: DCR specification is ≤50mΩ; the selected part meets this at typical (48mΩ) but the manufacturer maximum (58mΩ) slightly exceeds the limit — accepted as a procurement-constrained exception; this is the best available option at current procurement time. See DEC-063 and `.copilot/discussions/ctl-t1-poe-transformer-investigation.md`. | BOM: L1; §7.1 |
 
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph PWR_IN["Power Input"]
+    J1_3["J1-J3 PM Dock"]
+    J6_POE["J6 PoE In"]
+  end
+
+  subgraph POE_PATH["PoE Path"]
+    U7["U7 TPS2372-4"]
+    U8["U8 TPS23730"]
+    T1["T1 Transformer"]
+  end
+
+  subgraph COMPUTE["Compute"]
+    U1["U1 CM5"]
+  end
+
+  subgraph USB_SW["USB Switches"]
+    U2["U2 TPS2065C"]
+    U3["U3 AP2331W"]
+  end
+
+  subgraph EXT_IO["External I/O"]
+    J6_ETH["J6 Ethernet"]
+    J7["J7 HDMI"]
+    J8["J8 USB-A"]
+    J9["J9 DSI1"]
+  end
+
+  subgraph DOCKS["Board Docks"]
+    J4_J5["J4/J5 Stator"]
+    J11["J11 AM"]
+    J12["J12 JM"]
+  end
+
+  J6_POE --> U7
+  U7 --> U8
+  U8 --> T1
+  T1 --> U1
+  J1_3 --> U1
+  U1 <--> J6_ETH
+  U1 --> J7
+  U1 --> U2
+  U2 --> J8
+  U1 --> U3
+  U3 --> J12
+  U1 --> J9
+  U1 <--> J4_J5
+  U1 <--> J11
+  U1 <--> J12
+```
+
 ## 2. Dock Interfaces
 
 The Controller is the fixed motherboard of the enclosure and carries both removable-board docks.

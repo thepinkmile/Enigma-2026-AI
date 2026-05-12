@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-12
 
 ## 1. Overview
 
@@ -71,6 +71,32 @@ The HID path is split mechanically and electrically:
 | DR-ENC-03 | Stator interface connector | 20-pin 2x10 IDC (mates with one Stator encoder port) | §4 Interconnects; BOM J1 |
 | DR-ENC-04 | Supply voltage | 3.3V via the 3V3_ENIG power rail | §2 Power Requirements; BOM J1 |
 | DR-ENC-05 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. Exact XY coordinates TBD at PCB layout. | §2 GND_CHASSIS Single-Point Bond; `design/Standards/Global_Routing_Spec.md §4.3` |
+
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph J1if["J1 — Stator Interface (20-pin IDC)"]
+    PWR["3V3_ENIG (pins 1 and 20)"]
+    ENC_BUS["ENC_DATA / ENC_ACTIVE_N / SYS_RESET_N"]
+    JTAG_I["JTAG in: TDI / TCK / TMS / SYS_RESET_N"]
+    JTAG_O["JTAG out: TDO"]
+  end
+
+  U1["U1 — Intel MAX II EPM570T100I5N (TQFP-100)"]
+
+  subgraph TB1["TB1 — Physical Interface (64-line spade terminals)"]
+    LINES["64 signal lines (keyboard / lightboard / plugboard)"]
+  end
+
+  PWR --> U1
+  ENC_BUS --> U1
+  U1 --> ENC_BUS
+  JTAG_I --> U1
+  U1 --> JTAG_O
+  U1 --> LINES
+  LINES --> U1
+```
 
 ## 2. Power Requirements
 

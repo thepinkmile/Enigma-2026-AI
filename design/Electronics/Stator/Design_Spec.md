@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-12
 
 The Stator Board is the mechanical and electrical backbone of the rotor stack. It provides the high-current distribution and signal routing for the 30 modular rotors.
 
@@ -56,6 +56,87 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 | DR-STA-15 | `CFG_APPLY_N` signal | `CFG_APPLY_N` = active-low Stator-only apply/reset pulse from U8 GPA[4]; combined with `SYS_RESET_N` through U3 (`SN74LVC1G08DBVR`) so either signal can assert the Stator CPLD reset path; forcing `CFG_APPLY_N` LOW reloads `CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]` without resetting the wider system; R17 (10kΩ pull-up to 3V3_ENIG) holds `CFG_APPLY_N` deasserted at power-up when U8 is uninitialised | BOM U8, U3, R17; §3 Configuration Bank 1 (Routing) |
 | DR-STA-16 | ESD protection - rotor-facing BtB connectors | U9 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, SYS_RESET_N) + U10-U12 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §8 Thermal & ESD; BOM U9-U12 |
 | DR-STA-17 | Mounting holes | MH1–MH4 shall be 4× M3 PTH (Ø3.2 mm drill) mounting holes tied to `GND_CHASSIS` per GRS §4; ENIG annular ring per GRS §4. Placement follows GRS §4.3 Pattern B (D-shaped board): MH1 bottom-left corner, MH2 bottom-right corner, MH3 board-centre, MH4 top-centre arc midpoint — all at 7 mm inset from nearest edge. No BOM entry — plain chassis mounting holes, no components to fit. Exact XY coordinates TBD at PCB layout. | §2 (GND_CHASSIS bond note); `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Stator/Board_Layout.md §12` |
+
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph ctrl["Controller Interface"]
+    J11["J11 Power Dock"]
+    J12["J12 Signal Dock"]
+  end
+
+  subgraph encEng["System Component Mapper"]
+    U1["U1 EPM570 CPLD"]
+  end
+
+  subgraph rstSense["Current Sense and Reset"]
+    U2["U2 INA219"]
+    U3["U3 AND Gate"]
+  end
+
+  subgraph i2cExp["I2C Expanders"]
+    U6["U6 MCP23017"]
+    U7["U7 MCP23017"]
+    U8["U8 MCP23017"]
+  end
+
+  subgraph esdProt["ESD Protection"]
+    U9U12["U9 to U12 TPD4E05U06"]
+  end
+
+  subgraph usmIface["USM Interface"]
+    J13["J13 JST PH 6-pin"]
+  end
+
+  subgraph rotorIface["Rotor Interface"]
+    J1J3["J1-J3 ERF8 Sockets"]
+  end
+
+  subgraph encIface["Encoder Interface"]
+    J4J9["J4-J9 20-pin IDC"]
+  end
+
+  subgraph refExtRet["REF/EXT Return"]
+    J10["J10 30-pin Reflector"]
+  end
+
+  %% Power rails (5V_MAIN and 3V3_ENIG from Controller dock)
+  J11 -- "PWR" --> U1
+  J11 -- "PWR" --> U6
+  J11 -- "PWR" --> U7
+  J11 -- "PWR" --> U8
+  J11 -- "PWR" --> J1J3
+  J11 -- "PWR" --> J4J9
+  J12 -- "PWR" --> J13
+
+  %% I2C bus (CM5 I2C-1 via J12)
+  J12 -- "I2C" --> U2
+  J12 -- "I2C" --> U6
+  J12 -- "I2C" --> U7
+  J12 -- "I2C" --> U8
+  J12 -- "I2C" --> J13
+
+  %% JTAG chain (J12 hosts; U1 is device 1; chain continues to rotors and encoders)
+  J12 -- "JTAG_HOST" --> U1
+  U1 -- "JTAG" --> J1J3
+  U1 -- "JTAG" --> J4J9
+
+  %% ENC cipher path (bidirectional through U1 CPLD)
+  U1 <--> J1J3
+  U1 <--> J4J9
+  U1 <--> J10
+
+  %% SYS_RESET_N: driven by U7 (MCP23017 GPA[7]); distributed outward and into AND gate
+  U7 -- "SYS_RESET_N" --> U3
+  U3 -- "SYS_RESET_N" --> U1
+
+  %% TTD_RETURN: JTAG TDO return from REF/EXT chain back to Controller dock
+  J10 -- "TTD_RETURN" --> J12
+
+  %% ESD protection on rotor-facing connectors
+  U9U12 --> J1J3
+```
 
 ## 2. Core Features
 

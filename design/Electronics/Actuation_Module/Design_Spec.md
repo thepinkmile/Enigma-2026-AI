@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-12
 
 ## 1. Overview
 
@@ -67,6 +67,48 @@ diagnostics.
 > edge clearance each side) and a minimum board width of approximately **28 mm** (7 mm insets each
 > side plus clearance for the DF40C connector body). These are guidance values only; final dimensions
 > shall be determined during schematic capture and PCB layout.
+
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph host["Host Interface"]
+    J1["J1 DF40C-20<br>5V_MAIN · 3V3_ENIG · ACTUATE_REQUEST_N"]
+  end
+
+  subgraph mcu["MCU"]
+    U1["U1 STM32G071K8T3TR LQFP-32"]
+  end
+
+  subgraph actuator["Actuator Interface"]
+    J2["J2 Servo Loom PH1-05-UA"]
+    J3["J3 Home Switch PH1-05-UA"]
+  end
+
+  subgraph debug["Service / Debug"]
+    J4["J4 SWD Header<br>SWCLK · SWDIO · RESET_N · VTref"]
+    J5["J5 UART / BOOT0<br>GND · 3V3 · TX · RX · BOOT0"]
+    SW1["SW1 RESET_N B3F-1070"]
+    SW2["SW2 BOOT0 B3F-1070"]
+  end
+
+  subgraph leds["Indicators"]
+    D1["D1 PWR green 0603"]
+    D2["D2 HOMED green 0603"]
+    D3["D3 ACT green 0603"]
+  end
+
+  J1 --> U1
+  U1 --> J2
+  J3 --> U1
+  J4 --> U1
+  J5 --> U1
+  SW1 --> U1
+  SW2 --> U1
+  U1 --> D1
+  U1 --> D2
+  U1 --> D3
+```
 
 ## 3. Connectivity
 

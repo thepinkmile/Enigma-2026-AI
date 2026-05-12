@@ -93,6 +93,67 @@ not be used as a local chassis-bond point.
 | DR-ROT-11 | Internal connectors (J7-J14) | **4 connectors per rotor side**: Board A has J7 (1x5 female RS1-05-G), J8 (1x5 female RS1-05-G), J11 (1x5 male PH1-05-UA), J14 (1x7 male PH1-07-UA); Board B has J9 (1x5 female RS1-05-G), J10 (1x7 female RS1-07-G), J12 (1x5 male PH1-05-UA), J13 (1x5 male PH1-05-UA). Board A connectors mate with Board B connectors (J7↔J12, J8↔J13, J11↔J9, J14↔J10); 8 total headers; 44 total pins; mixed gender provides physical keying; manually assembled post-JLCPCB SMT. | §3.4 Connector Pinouts; BOM J7-J14 |
 | DR-ROT-12 | Two-PCB assembly | Board A and Board B together constitute one logical rotor board; all BOM entries, reference designators, and design rules apply to the combined two-PCB assembly | §1 Overview |
 
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph sideAIn["Side A — Input (Stator-facing)"]
+    J1["J1: JTAG In (ERM8-005)"]
+    J2["J2: Power In 3V3_ENIG (ERM8-005)"]
+    J3["J3: ENC In ENC_IN/OUT (ERM8-010)"]
+  end
+
+  subgraph sideALogic["Side A — Logic"]
+    U1["U1: MAX II CPLD (EPM570T100I5N)"]
+    U2["U2: FDC2114RGER Cap-Sensor A"]
+    SW1["SW1: Ring DIP (6-pos)"]
+    SW2["SW2: Fwd Map DIP (26-pos)"]
+  end
+
+  subgraph sideBLogic["Side B — Logic"]
+    U11B["U11B: FDC2114RGER Cap-Sensor B"]
+    SW3["SW3: Return Map DIP (26-pos)"]
+  end
+
+  subgraph sideBOut["Side B — Output (Away from Stator)"]
+    J4["J4: JTAG Out (ERF8-005)"]
+    J5["J5: Power Out 3V3_ENIG (ERF8-005)"]
+    J6["J6: ENC Out ENC_IN/OUT (ERF8-010)"]
+  end
+
+  subgraph jtagSvc["JTAG Service Headers (J7-J14)"]
+    J7to10["J7-J10: Board A programming"]
+    J11to14["J11-J14: Board B programming"]
+  end
+
+  %% JTAG daisy-chain
+  J1 --> U1
+  U1 --> J4
+
+  %% ENC cipher path (substitution)
+  J3 --> U1
+  U1 --> J6
+
+  %% Capacitance sensing (I2C) to CPLD
+  U2 --> U1
+  U11B --> U1
+
+  %% Power distribution
+  J2 --> U1
+  J2 --> U2
+  J2 --> U11B
+  J2 --> J5
+
+  %% Ring and map select inputs
+  SW1 --> U1
+  SW2 --> U1
+  SW3 --> U1
+
+  %% JTAG service / programming
+  J7to10 --> U1
+  J11to14 --> U11B
+```
+
 ## 2. Core Design
 
 ### 2.1 Position Sensing (Dual-Track Capacitive Encoder)

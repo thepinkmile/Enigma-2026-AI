@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-12
 
 ## 1. Overview
 
@@ -65,6 +65,62 @@ Controller Board via dock connector `J1`.
 | DR-PM-13 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.3` | §1 PCB Architecture |
 | DR-PM-14 | Per-IC bypass capacitors | All ICs shall have a dedicated 100nF X7R 50V 0402 bypass capacitor on each VCC/VCCIO/VCC_IO pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 | BOM C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 |
 | DR-PM-15 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. No purchasable BOM entry — plain chassis mounting holes; no components to fit. Exact XY positions TBD at PCB layout. | §1 PCB Architecture (Mounting Holes); `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Power_Module/Board_Layout.md §7` |
+
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph PowerInput["Power Input"]
+    J4["J4 USB-C PD"]
+    J5["J5 Battery"]
+  end
+
+  subgraph Protection["Protection"]
+    U1["U1 eFuse TPS259804"]
+  end
+
+  subgraph Regulation["Regulation"]
+    U2A["U2A 5V Buck LMQ61460"]
+    U2B["U2B 3V3 Buck LMQ61460"]
+  end
+
+  subgraph Backup["Backup"]
+    U3["U3 LTC3350 SC Charger"]
+    CSC["C_SC1-8 Supercaps"]
+  end
+
+  subgraph Supervisory["Supervisory"]
+    U7["U7 LDO TPS75733"]
+    U8["U8 Supervisor MCP121T"]
+    U13["U13 Timer MIC1555"]
+    U14["U14 IO Exp PCA9534A"]
+  end
+
+  subgraph Monitoring["Monitoring"]
+    U10["U10 INA219 Pwr Monitor"]
+  end
+
+  subgraph Dock["Controller Dock"]
+    J1J3["J1-J3 DF40C"]
+    CTRL["Controller Board"]
+  end
+
+  J4 --> U1
+  J5 --> U3
+  U1 --> U2A
+  U2A -- "5V_MAIN" --> U2B
+  U2A -- "charge" --> U3
+  U3 -- "hold-up" --> U2A
+  U3 --> CSC
+  U2A -- "5V_MAIN" --> J1J3
+  U2B -- "3V3_ENIG" --> J1J3
+  U7 --> U8
+  U7 --> U13
+  U8 -- "PWR_GD" --> J1J3
+  U14 -- "I2C" --> J1J3
+  U10 -- "I2C" --> J1J3
+  J1J3 --> CTRL
+```
 
 ## 2. Design
 >

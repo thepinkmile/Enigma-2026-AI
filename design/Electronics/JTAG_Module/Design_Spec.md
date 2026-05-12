@@ -46,6 +46,49 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 | DR-JM-19 | BtB connector placement and orientation | J1 (DF40C-20DP) shall be placed at **bottom-centre** of the JM board (positional keying — cannot accidentally mate with AM location on CTL). R1 of J1 shall be on the outer (bottom) edge. When mounted on the CTL, R1 shall face the LINK-BETA connector (J4/J5) to minimise JTAG trace lengths to the Stator. Orientation is enforced by the asymmetric MH1–MH4 pattern and silkscreen pin-1 markers (DF40 is mechanically polarity-free per Hirose Note 4). | §3 Interface & Wiring; §4 Aesthetics & Mounting; `design/Standards/Global_Routing_Spec.md §7.1` |
 | DR-JM-20 | No-component zone — underside | A minimum 1.0mm component-free zone shall be maintained on the underside (L4 face) of the JM, measured from the board outline. This ensures clearance above the CTL board when the JM is mounted as a hat. | §4 Aesthetics & Mounting; DEC-058 |
 
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph ctrlIface["Controller Interface"]
+    J1["J1: DF40C-20 BtB"]
+  end
+
+  subgraph bridge["USB-JTAG Bridge"]
+    U1["U1: FT232H (MPSSE)"]
+    Y1["Y1: 12 MHz Crystal"]
+  end
+
+  subgraph cond["JTAG Output Conditioning"]
+    U2["U2: SN74LVC2G125 Buffer"]
+    R1["R1: 33 ohm (TDI damp)"]
+    R2["R2: 33 ohm (TCK damp)"]
+    R3["R3: 33 ohm (TMS damp)"]
+    R4["R4: 33 ohm (TDI to J1)"]
+  end
+
+  subgraph bias["Idle-State Biasing"]
+    R5["R5: 10k (RESET_N pull-up)"]
+    R6["R6: 10k (TMS pull-up)"]
+    R7["R7: 10k (TCK pull-down)"]
+  end
+
+  J1 -- "5V_USB / 3V3_ENIG" --> U1
+  J1 -- "USB D+/D-" --> U1
+  U1 -- "TDO" --> J1
+  U1 -- "TDI" --> R1
+  R1 --> R4
+  R4 -- "TDI" --> J1
+  U1 -- "TCK / TMS" --> U2
+  U2 --> R2
+  U2 --> R3
+  R2 -- "TCK" --> J1
+  R3 -- "TMS" --> J1
+  R5 --> U1
+  R6 --> J1
+  R7 --> J1
+```
+
 ## 2. Core Logic
 
 * **Role:** Converts the CM5's USB 2.0 signals into standard JTAG signalling (TCK, TMS, TDI, TDO) commands.

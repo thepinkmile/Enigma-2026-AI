@@ -6,13 +6,12 @@
 
 ---
 
-## Current Status (as of checkpoint 140)
+## Current Status (as of checkpoint 144)
 
-The **stackup-impedance-recalc** workstream is **complete**. All 10 board Design_Spec.md files,
-JLCPCB_Manufacturing.md, Global_Routing_Spec.md, and Design_Log.md (DEC-065) have been updated
-with correct JLCPCB stackup codes and authoritative JLCPCB-calculator impedance values. The
-research archive has been moved to `.recycle-bin/`. All changes are written to disk; not staged
-(user to review and commit).
+All 10 component block diagrams are complete and quality-checked. The diagram phase is fully closed:
+signal naming correct (SYS_RESET_N, PWR_GD, STA topology), all `\n` → `<br>` newline fixes applied,
+EXT structural corrections done, STA terminology corrected to "System Component Mapper".
+"Encryption Engine" confirmed absent from all documentation (grep clean).
 
 Review passes through Pass 8 are complete. Design is in post-pass-8 state awaiting next workstream.
 

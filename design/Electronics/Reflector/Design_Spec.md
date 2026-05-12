@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-12
 
 ## 1. Overview
 
@@ -38,6 +38,37 @@ second CPLD on the Reflector itself.
 | DR-REF-05 | Active logic | None - passive turnaround board only; reflector-map selection remains Stator-owned | §2 Architecture |
 | DR-REF-06 | ESD protection - rotor-facing BtB connectors | U1 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, SYS_RESET_N) + U2-U4 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §5 Thermal & ESD; BOM U1-U4 |
 | DR-REF-07 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. No BOM entry — plain chassis mounting holes. Placement follows GRS §4.3 Pattern B (D-shaped board): MH1 bottom-left corner, MH2 bottom-right corner, MH3 board-centre, MH4 top-centre arc midpoint — all at 7 mm inset from nearest edge. Exact XY coordinates TBD at PCB layout. | §6 PCB Fabrication & Stackup; `design/Standards/Global_Routing_Spec.md §4.3` |
+
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph RI["Rotor Interface"]
+    J1["J1 · ERM8-005<br>JTAG in: TCK · TMS · TTD · SYS_RESET_N"]
+    J2["J2 · ERM8-005<br>3V3_ENIG from Rotor 30 (NC on this board)"]
+    J3["J3 · ERM8-010<br>ENC in: ENC_IN / ENC_OUT"]
+  end
+
+  subgraph PT["Passive Turnaround — no active logic"]
+    U1["U1 TPD4E05U06QDQARQ1<br>ESD Array · JTAG"]
+    R1["R1 · 22 ohm<br>Series damping · TDO end-of-chain"]
+    U2U4["U2 · U3 · U4 TPD4E05U06QDQARQ1 x3<br>ESD Arrays · ENC"]
+    TT["Passive turnaround traces<br>2 oz · 10 mil (no active IC)"]
+  end
+
+  subgraph SR["Stator Return"]
+    J4["J4 · 2BHR-30-VUA<br>30-pin 2x15 shrouded<br>3V3_ENIG sole power entry (pins 3-4/27-28)<br>to Stator J10"]
+  end
+
+  J1 -- "TCK / TMS / TTD / SYS_RESET_N" --> U1
+  U1 -- "TDO" --> R1
+  R1 -- "TTD_RETURN (pin 16)" --> J4
+  J3 -- "ENC_IN/OUT" --> U2U4
+  U2U4 --> TT
+  TT -- "ENC_IN_REF / ENC_OUT_REF<br>pins 19-24 / 7-12" --> J4
+  J4 -- "3V3_ENIG" --> U1
+  J4 -- "3V3_ENIG" --> U2U4
+```
 
 ## 2. Architecture
 

@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-11 (sync: design-log-dec066, jlcpcb-mfg-cross-refs, grs-stackup-section added as done; stackup-simplify sweep added as pending; all 10 stackup-simplify todos completed)
+Last updated: 2026-05-12 (checkpoint 144: diagram quality pass complete — signal naming fixes, `\n`→`<br>` newline fixes, EXT structural corrections, STA "System Component Mapper" terminology; "Encryption Engine" confirmed absent from all docs)
 
 ---
 
@@ -81,16 +81,16 @@ Last updated: 2026-05-11 (sync: design-log-dec066, jlcpcb-mfg-cross-refs, grs-st
 | `ascii-to-mermaid-diagrams` | — | done | — |
 | `board-interconnect-diagram` | [board-interconnect-diagram.md](todos/board-interconnect-diagram.md) | pending | — |
 | `system-config-variants-diagrams` | [system-config-variants-diagrams.md](todos/system-config-variants-diagrams.md) | pending | — |
-| `ctl-component-diagram` | [ctl-component-diagram.md](todos/ctl-component-diagram.md) | pending | — |
-| `pm-component-diagram` | [pm-component-diagram.md](todos/pm-component-diagram.md) | pending | — |
-| `sta-component-diagram` | [sta-component-diagram.md](todos/sta-component-diagram.md) | pending | — |
-| `rotor-component-diagram` | [rotor-component-diagram.md](todos/rotor-component-diagram.md) | pending | — |
-| `ext-component-diagram` | [ext-component-diagram.md](todos/ext-component-diagram.md) | pending | — |
-| `ref-component-diagram` | [ref-component-diagram.md](todos/ref-component-diagram.md) | pending | — |
-| `enc-component-diagram` | [enc-component-diagram.md](todos/enc-component-diagram.md) | pending | — |
-| `jm-component-diagram` | [jm-component-diagram.md](todos/jm-component-diagram.md) | pending | — |
-| `usm-component-diagram` | [usm-component-diagram.md](todos/usm-component-diagram.md) | pending | — |
-| `am-component-diagram` | [am-component-diagram.md](todos/am-component-diagram.md) | pending | — |
+| `ctl-component-diagram` | [ctl-component-diagram.md](todos/ctl-component-diagram.md) | done | — |
+| `pm-component-diagram` | [pm-component-diagram.md](todos/pm-component-diagram.md) | done | — |
+| `sta-component-diagram` | [sta-component-diagram.md](todos/sta-component-diagram.md) | done | — |
+| `rotor-component-diagram` | [rotor-component-diagram.md](todos/rotor-component-diagram.md) | done | — |
+| `ext-component-diagram` | [ext-component-diagram.md](todos/ext-component-diagram.md) | done | — |
+| `ref-component-diagram` | [ref-component-diagram.md](todos/ref-component-diagram.md) | done | — |
+| `enc-component-diagram` | [enc-component-diagram.md](todos/enc-component-diagram.md) | done | — |
+| `jm-component-diagram` | [jm-component-diagram.md](todos/jm-component-diagram.md) | done | — |
+| `usm-component-diagram` | [usm-component-diagram.md](todos/usm-component-diagram.md) | done | — |
+| `am-component-diagram` | [am-component-diagram.md](todos/am-component-diagram.md) | done | — |
 | `version-1-documentation` | [version-1-documentation.md](todos/version-1-documentation.md) | pending | `board-interconnect-diagram`, `system-config-variants-diagrams`, `ctl-component-diagram`, `pm-component-diagram`, `sta-component-diagram`, `rotor-component-diagram`, `ext-component-diagram`, `ref-component-diagram`, `enc-component-diagram`, `jm-component-diagram`, `usm-component-diagram`, `am-component-diagram` |
 | `emc-testing` | [emc-testing.md](todos/emc-testing.md) | pending | `version-1-documentation` |
 | `environmental-testing` | [environmental-testing.md](todos/environmental-testing.md) | pending | `version-1-documentation` |
@@ -122,7 +122,7 @@ Last updated: 2026-05-11 (sync: design-log-dec066, jlcpcb-mfg-cross-refs, grs-st
 | `ctl-t1-tdk-a120-component-analysis` | [ctl-t1-tdk-a120-component-analysis.md](todos/ctl-t1-tdk-a120-component-analysis.md) | in progress | — |
 | `ctl-t1-tdk-topology-confirm` | [ctl-t1-tdk-topology-confirm.md](todos/ctl-t1-tdk-topology-confirm.md) | pending | — |
 | `ctl-t1-tdk-library-import` | [ctl-t1-tdk-library-import.md](todos/ctl-t1-tdk-library-import.md) | pending | — |
-| `ctl-t1-bourns-component-analysis` | [ctl-t1-bourns-component-analysis.md](todos/ctl-t1-bourns-component-analysis.md) | pending | `ctl-t1-transformer-decision` |
+| `ctl-t1-bourns-component-analysis` | — | ~~done~~ (superseded by TDK decision) | `ctl-t1-transformer-decision` |
 | `ctl-t1-coilcraft-v2-review` | [ctl-t1-coilcraft-v2-review.md](todos/ctl-t1-coilcraft-v2-review.md) | pending (v2.0) | `ctl-t1-transformer-decision` |
 
 ---
@@ -232,7 +232,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('usm-spdt-switch-floating-review',           'Review USM SPDT switch floating pin concern',                                               'pending'),
 ('am-button-review-production',               'Review Actuation Module buttons for production version',                                     'pending'),
 -- T1 transformer analysis todos
-('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'pending'),
+('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'done'),  -- superseded by TDK decision
 ('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'pending'),
 ('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'in_progress'),
 ('ctl-t1-tdk-library-import',                 'Import TDK B82806D footprint zip and add 3D model to legacy library',                       'pending'),

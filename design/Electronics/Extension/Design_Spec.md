@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-12
 
 ## 1. Overview
 
@@ -54,6 +54,52 @@ group without Controller-side live servo control.
 | DR-EXT-12 | ESD protection - rotor-facing BtB connectors | U2-U5 (J1/J3 in) + U6-U9 (J4/J6 out); 8x TPD4E05U06QDQARQ1 within 3mm of mating edge per DEC-048 | §5 Thermal & ESD; BOM U2-U9 |
 | DR-EXT-13 | 3V3_ENIG entry decoupling bank | C1-C5 (5x 10µF X7R 25V 0805) shall be placed at the 3V3_ENIG entry point (J7 pins 3-4 and 27-28) using a star/spoke topology per `design/Standards/Global_Routing_Spec.md §3`; both supply rails must be locally decoupled at the Extension Port entry | §2 Connectivity; BOM C1-C5 |
 | DR-EXT-14 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern B (D-shaped board): MH1 bottom-left corner, MH2 bottom-right corner, MH3 board-centre, MH4 top-centre arc midpoint — all at 7 mm inset from nearest edge. Exact XY coordinates TBD at PCB layout. | §2 Connectivity; `design/Standards/Global_Routing_Spec.md §4.3` |
+
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph SEI["Stator / Extension Interface"]
+    J7["J7 — Ext Port IN<br>30-pin 2x15"]
+  end
+
+  subgraph RI["Rotor Input"]
+    J1["J1 — JTAG In<br>ERM8-005"]
+    J2["J2 — Power In<br>ERM8-005, NC"]
+    J3["J3 — ENC Data In<br>ERM8-010"]
+  end
+
+  subgraph SC["Signal Conditioning"]
+    U1["U1 — JTAG Buffer<br>SN74LVC2G125DCUR"]
+    ESD_IN["U2-U5 — ESD Arrays<br>Input-side"]
+    ESD_OUT["U6-U9 — ESD Arrays<br>Output-side"]
+  end
+
+  subgraph RO["Rotor Output (Slots 11-20)"]
+    J4["J4 — JTAG Out<br>ERF8-005"]
+    J6["J6 — ENC Data Out<br>ERF8-010"]
+    J8["J8 — Ext Port OUT<br>30-pin 2x15"]
+  end
+
+  subgraph ERI["Extension / Reflector Interface"]
+    J5["J5 — Power Out<br>ERF8-005"]
+  end
+
+  subgraph AI["AM Interface"]
+    J9["J9 — AM Dock<br>DF40HC-20"]
+  end
+
+  J1 -- "JTAG (TCK/TMS/TDI/TDO)" --> U1
+  U1 -- "JTAG buffered" --> J4
+  J3 -- "ENC data" --> ESD_IN
+  ESD_IN --> ESD_OUT
+  ESD_OUT -- "ENC data" --> J6
+  J7 -- "3V3_ENIG / 5V_MAIN" --> J5
+  J7 -- "3V3_ENIG / 5V_MAIN + ACTUATE_REQUEST_N" --> J9
+  J7 -- "ENC / JTAG / Power" --> J8
+  J7 -- "SYS_RESET_N" --> J8
+  J7 -- "TTD_RETURN" --> J8
+```
 
 ## 2. Connectivity
 

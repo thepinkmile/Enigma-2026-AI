@@ -62,6 +62,49 @@ daemon over I²C.
 | DR-USM-11 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. Exact XY coordinates TBD at PCB layout. | §2 Core Features (GND_CHASSIS section); `design/Standards/Global_Routing_Spec.md §4.3` |
 | DR-USM-12 | Per-IC bypass capacitors | Per-IC bypass capacitor rule applies per `design/Standards/Global_Routing_Spec.md §3.2`. C1, C2, and C3 are the bypass capacitors for U1, U2, and U3 respectively. | §10 BOM (C1-C3); §12 Component Count Summary; `design/Standards/Global_Routing_Spec.md §3.2` |
 
+### Component Block Diagram
+
+```mermaid
+flowchart TD
+  subgraph stator["Stator Interface"]
+    J1["J1 JST-PH 6-pin"]
+    r3v3["3V3_ENIG"]
+    r5v["5V_MAIN"]
+  end
+
+  subgraph expanders["I2C Expanders"]
+    U1["U1 MCP23017 0x23"]
+    U2["U2 MCP23017 0x24"]
+    U3["U3 MCP23017 0x25"]
+  end
+
+  subgraph controls["User Controls"]
+    SW1_10["SW1-SW10 Toggles"]
+    SW11["SW11 CFG_APPLY_N Button"]
+  end
+
+  subgraph led_drive["LED Drive"]
+    Q1_6["Q1-Q6 N-FETs (colour rails)"]
+    Q7_30["Q7-Q30 PMOS/NMOS (per-anode)"]
+    D1_12["D1-D12 RGB LEDs"]
+  end
+
+  J1 -- "I2C" --> U1
+  J1 -- "I2C" --> U2
+  J1 -- "I2C" --> U3
+  J1 --> r3v3
+  J1 --> r5v
+  r3v3 --> U1
+  r3v3 --> U2
+  r3v3 --> U3
+  r5v --> Q7_30
+  U1 --> SW1_10
+  U3 --> SW11
+  U2 -- "GPIO" --> Q1_6
+  Q1_6 --> Q7_30
+  Q7_30 --> D1_12
+```
+
 ---
 
 ## 2. Core Features
