@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-12 (checkpoint 144: diagram quality pass complete — signal naming fixes, `\n`→`<br>` newline fixes, EXT structural corrections, STA "System Component Mapper" terminology; "Encryption Engine" confirmed absent from all docs)
+Last updated: 2026-05-12 (checkpoint 144: diagram quality pass complete; am-button-review-production closed — DEC-067 added to Design_Log)
 
 ---
 
@@ -118,7 +118,7 @@ Last updated: 2026-05-12 (checkpoint 144: diagram quality pass complete — sign
 | `rot-i2c-residual-removal` | [rot-i2c-residual-removal.md](todos/rot-i2c-residual-removal.md) | done | — |
 | `consolidate-design-spec-content` | [consolidate-design-spec-content.md](todos/consolidate-design-spec-content.md) | pending | `enc-connector-review-pre-pcb` |
 | `usm-spdt-switch-floating-review` | [usm-spdt-switch-floating-review.md](todos/usm-spdt-switch-floating-review.md) | pending | — |
-| `am-button-review-production` | [am-button-review-production.md](todos/am-button-review-production.md) | pending | — |
+| `am-button-review-production` | [am-button-review-production.md](todos/am-button-review-production.md) | done | — |
 | `ctl-t1-tdk-a120-component-analysis` | [ctl-t1-tdk-a120-component-analysis.md](todos/ctl-t1-tdk-a120-component-analysis.md) | in progress | — |
 | `ctl-t1-tdk-topology-confirm` | [ctl-t1-tdk-topology-confirm.md](todos/ctl-t1-tdk-topology-confirm.md) | pending | — |
 | `ctl-t1-tdk-library-import` | [ctl-t1-tdk-library-import.md](todos/ctl-t1-tdk-library-import.md) | pending | — |
@@ -230,7 +230,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('rot-i2c-residual-removal',                  'Remove residual I2C references from Rotor design',                                          'done'),
 ('consolidate-design-spec-content',           'Consolidate and normalise all Design Spec content',                                         'pending'),
 ('usm-spdt-switch-floating-review',           'Review USM SPDT switch floating pin concern',                                               'pending'),
-('am-button-review-production',               'Review Actuation Module buttons for production version',                                     'pending'),
+('am-button-review-production',               'Review Actuation Module buttons for production version',                                     'done'),
 -- T1 transformer analysis todos
 ('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'done'),  -- superseded by TDK decision
 ('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'pending'),
