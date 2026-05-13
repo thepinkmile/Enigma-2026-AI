@@ -4,7 +4,7 @@
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
-**Date:** 2026-05-10
+**Date:** 2026-05-13
 **Affects:** Controller, Stator, Encoder, Reflector, Extension, JTAG Module (JM)
 
 ---
@@ -456,8 +456,8 @@ distance on the trace.
 > end-of-chain TDO damping. TTD_RETURN then returns to the Stator via the Reflector J4 ribbon cable.
 >
 > **Encoder chain (ribbon cable):** The six encoder ports (J4/J5/J6/J7/J8/J9) on the Stator form one
-> serial six-module JTAG chain ahead of the rotor stack. 75 Ω series resistors (R7-R12, R27-R32,
-> and R33-R38 on Stator; R6 on each Encoder board) apply ONLY to these ribbon cable segments. They
+> serial six-module JTAG chain ahead of the rotor stack. 75 Ω series resistors (R7-R12, R24-R29,
+> and R30-R35 on Stator; R6 on each Encoder board) apply ONLY to these ribbon cable segments. They
 > are NOT present on or applicable to the rotor BtB stack.
 >
 ### 7.4 Per-Board Implementation
@@ -469,8 +469,8 @@ distance on the trace.
 | JM | R3 | 33 Ω | 1 | TMS after U2 buffer, before J1 connector pin C2R2 (TMS) |
 | JM | R4 | 33 Ω | 1 | TDI series damping (not buffered - from FT232H), before J1 connector pin C10R1 (TDI) |
 | Stator | R7-R12 | 75 Ω | 6 | TCK → J4/J5/J6/J7/J8/J9 encoder ribbon port outputs |
-| Stator | R33-R38 | 75 Ω | 6 | TMS → J4/J5/J6/J7/J8/J9 encoder ribbon port outputs |
-| Stator | R27-R32 | 75 Ω | 6 | TDI chain drive: Stator CPLD TDO → J4; J4 return → J5; J5 return → J6; J6 return → J7; J7 return → J8; J8 return → J9 |
+| Stator | R30-R35 | 75 Ω | 6 | TMS → J4/J5/J6/J7/J8/J9 encoder ribbon port outputs |
+| Stator | R24-R29 | 75 Ω | 6 | TDI chain drive: Stator CPLD TDO → J4; J4 return → J5; J5 return → J6; J6 return → J7; J7 return → J8; J8 return → J9 |
 | Encoder | R6 | 75 Ω | 1 per board | U1 TDO → J1 pin 14 (ribbon drive back to Stator) |
 | Reflector | R1 (existing) | 22 Ω | 1 | TDO end-of-chain series damping - JTAG chain END |
 
@@ -481,8 +481,8 @@ distance on the trace.
 > The Controller `J5` ↔ Stator `J12` logic dock is a direct BtB connection (no cable), so 33 Ω
 > applies there (not the 75 Ω cable-driving rule). See DEC-024.
 >
-> **Reflector and Extension:** Upgraded to 4-layer JLC04161H-7628 per DEC-017. Both boards now
-> have a solid L2 GND plane. JTAG traces route on L1 at 0.127 mm (50 Ω controlled impedance),
+> **Reflector and Extension:** Upgraded to 4-layer JLC041621-3313 per DEC-017 and DEC-065. Both boards now
+> have a solid L2 GND plane. JTAG traces route on L1 at 0.1425 mm (50 Ω controlled impedance),
 > consistent with all other 4-layer boards. The "uncontrolled impedance" note from DEC-016 is
 > superseded.
 
@@ -492,12 +492,12 @@ distance on the trace.
 
 | Board | Stackup | JTAG Layer | Target Zo | Trace width | Status |
 | --- | --- | --- | --- | --- | --- |
-| JM | JLC04161H-7628 (4L) | L2 over L1 GND | 50 Ω | **0.127 mm (5 mil)** | JM is the complete JTAG master. U2 buffer and R1-R4 series damping on JM. R1: TDI termination/pull at FT232H output. Controller is pass-through. |
-| Controller | JLC06161H-2116 (6L) | L6 over L5 GND | 50 Ω | **0.127 mm (5 mil)** | Pass-through only - no active JTAG components on Controller (see DEC-024) |
-| Stator | JLC04161H-7628 (4L) | L1 over L2 GND | 50 Ω | **0.127 mm (5 mil)** | CPLD JTAG routing on L1; R7-R12, R27-R38 series resistors per §7.4 |
-| Encoder | JLC04161H-7628 (4L) | L1 over L2 GND | 50 Ω | **0.127 mm (5 mil)** | CPLD JTAG routing on L1; R6 (75 Ω) TDO cable output per §7.4 |
-| Reflector | JLC04161H-7628 (4L) | L1 over L2 GND | 50 Ω | **0.127 mm (5 mil)** | Updated per DEC-017 |
-| Extension | JLC04161H-7628 (4L) | L1 over L2 GND | 50 Ω | **0.127 mm (5 mil)** | Updated per DEC-017. U1 (SN74LVC2G125DCUR) re-buffers TCK/TMS at rotor group boundary. |
+| JM | JLC041621-3313 (4L) | L2 over L1 GND | 50 Ω | **0.1478 mm (5.82 mil)** | JM is the complete JTAG master. U2 buffer and R1-R4 series damping on JM. R1: TDI termination/pull at FT232H output. Controller is pass-through. |
+| Controller | JLC061621-3313 (6L) | L6 over L5 GND | 50 Ω | **0.1425 mm (5.61 mil)** | Pass-through only - no active JTAG components on Controller (see DEC-024) |
+| Stator | JLC041621-3313 (4L) | L1 over L2 GND | 50 Ω | **0.1425 mm (5.61 mil)** | CPLD JTAG routing on L1; R7-R12, R24-R35 series resistors per §7.4 |
+| Encoder | JLC041621-3313 (4L) | L1 over L2 GND | 50 Ω | **0.1425 mm (5.61 mil)** | CPLD JTAG routing on L1; R6 (75 Ω) TDO cable output per §7.4 |
+| Reflector | JLC041621-3313 (4L) | L1 over L2 GND | 50 Ω | **0.1425 mm (5.61 mil)** | Updated per DEC-017 and DEC-065 |
+| Extension | JLC041621-3313 (4L) | L1 over L2 GND | 50 Ω | **0.1425 mm (5.61 mil)** | Updated per DEC-017 and DEC-065. U1 (SN74LVC2G125DCUR) re-buffers TCK/TMS at rotor group boundary. |
 
 ---
 
@@ -505,13 +505,13 @@ distance on the trace.
 
 | Item | Unit cost | Qty (full system) | Total |
 | --- | --- | --- | --- |
-| 75 Ω 1% 0603 (Stator R7-R12, R27-R38) | ~£0.002 | 18 | <£0.04 |
+| 75 Ω 1% 0402 (Stator R7-R12, R24-R35) | ~£0.002 | 18 | <£0.04 |
 | 75 Ω 1% 0402 (Encoder R6, x6 boards) | ~£0.001 | 6 | <£0.01 |
-| 33 Ω 1% 0402 (JM R2-R4) | ~£0.002 | 3 | <£0.01 |
+| 33 Ω 1% 0402 (JM R1-R4) | ~£0.002 | 4 | <£0.01 |
 | Controlled impedance JLCPCB certification (optional) | ~£40/order | Per board type | ~£120 total if verified |
 | **Controlled impedance design only (self-calc, no cert)** | **£0** | - | **£0** |
 
-> **Recommendation:** Specify the 0.127 mm trace width in design rules. Do not pay for JLCPCB
+> **Recommendation:** Specify the 0.1425 mm (L1 outer) / 0.1478 mm (JM L2 inner) trace widths in design rules. Do not pay for JLCPCB
 > impedance verification on prototype boards - the self-calculated value is within ±10% of the
 > target, which is well within the functional margin for 1-10 MHz JTAG signals. Impedance
 > certification adds value only for production runs where consistency must be guaranteed.

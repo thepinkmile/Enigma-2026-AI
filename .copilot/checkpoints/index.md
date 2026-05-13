@@ -152,3 +152,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 145 | PM bulk-cap DEC-068 propagation complete | 145-pm-bulk-caps-dec-068-propagation-complete.md |
 | 146 | PM per-input polyfuse & UVLO recalculation complete | 146-pm-polyfuse-design-changes-complete.md |
 | 147 | DEC-068/069 audit complete, Mermaid fixed | 147-dec-068-069-audit-complete-mermaid-fixed.md |
+| 148 | JTAG integrity reconcile complete | 148-jtag-integrity-reconcile-complete.md |

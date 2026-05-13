@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-12
+**Last Updated:** 2026-05-13
 
 ## 1. Overview
 
@@ -176,7 +176,7 @@ flowchart TD
   resistors are placed at each BtB hop. The JTAG chain terminates at the Reflector (R1 22 Ω
   end-of-chain damping). TTD_RETURN then returns from the Reflector to the Stator via the
   dedicated Reflector J4 → Stator J10 ribbon cable. The 75 Ω series resistors on the Stator
-  (R7-R12, R27-R32, R33-R38) and Encoder boards (R6) are for the **encoder ribbon cable ports**
+  (R7-R12, R24-R29, R30-R35) and Encoder boards (R6) are for the **encoder ribbon cable ports**
   (J4-J9) only -
   they are NOT placed on the BtB rotor stack interface. See
   `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016.

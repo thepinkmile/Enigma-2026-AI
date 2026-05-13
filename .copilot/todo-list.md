@@ -113,7 +113,7 @@ Last updated: 2026-05-12 (ctl-t1-tdk-a120-component-analysis closed — work con
 | `ctl-l02-refdes-gap` | [ctl-l02-refdes-gap.md](todos/ctl-l02-refdes-gap.md) | done | — |
 | `enc-cpld-spare-pins-rule` | [enc-cpld-spare-pins-rule.md](todos/enc-cpld-spare-pins-rule.md) | done | — |
 | `jtag-pin1-silkscreen-grs` | [jtag-pin1-silkscreen-grs.md](todos/jtag-pin1-silkscreen-grs.md) | done | — |
-| `jtag-integrity-resistor-value-reconcile` | [jtag-integrity-resistor-value-reconcile.md](todos/jtag-integrity-resistor-value-reconcile.md) | pending | — |
+| `jtag-integrity-resistor-value-reconcile` | [jtag-integrity-resistor-value-reconcile.md](todos/jtag-integrity-resistor-value-reconcile.md) | done | — |
 | `mcp23017-gpb7-silicon-fixed-review` | [mcp23017-gpb7-silicon-fixed-review.md](todos/mcp23017-gpb7-silicon-fixed-review.md) | pending | — |
 | `rot-i2c-residual-removal` | [rot-i2c-residual-removal.md](todos/rot-i2c-residual-removal.md) | done | — |
 | `consolidate-design-spec-content` | [consolidate-design-spec-content.md](todos/consolidate-design-spec-content.md) | pending | `enc-connector-review-pre-pcb` |
@@ -225,7 +225,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('ctl-l02-refdes-gap',                        'Fix Controller board RefDes numbering gap',                                                 'done'),
 ('enc-cpld-spare-pins-rule',                  'Add CPLD spare-pins rule to review agent-directives',                                       'done'),
 ('jtag-pin1-silkscreen-grs',                  'Add pin-1 silkscreen marker requirement to GRS',                                            'done'),
-('jtag-integrity-resistor-value-reconcile',   'Reconcile JTAG termination resistor values across all boards',                              'pending'),
+('jtag-integrity-resistor-value-reconcile',   'Reconcile JTAG termination resistor values across all boards',                              'done'),
 ('mcp23017-gpb7-silicon-fixed-review',        'Review and fix MCP23017 GPB7 silicon-fixed output-only pin issue',                         'pending'),
 ('rot-i2c-residual-removal',                  'Remove residual I2C references from Rotor design',                                          'done'),
 ('consolidate-design-spec-content',           'Consolidate and normalise all Design Spec content',                                         'pending'),
