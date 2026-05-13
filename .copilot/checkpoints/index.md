@@ -159,3 +159,5 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 152 | Todo-list audit and cleanup | 152-todo-list-audit-and-cleanup.md |
 | 153 | CFG_APPLY_N GPA[4]→GPA[6] correction complete; DEC-070 updated | 153-cfg-apply-n-gpa4-gpa6-dec070-updated.md |
 | 154 | Pin format fixes, NC cleanup, todo dep restoration | 154-pin-format-nc-cleanup-todo-deps-restored.md |
+| 155 | README full-board audit complete; AM section added | 155-readme-full-audit-am-added.md |
+| 156 | README system architecture Mermaid diagram complete | 156-readme-mermaid-diagram-complete.md |

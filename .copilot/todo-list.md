@@ -123,7 +123,7 @@ Last updated: 2026-05-13 (todo-list audit: stale file links removed from done ro
 | `ctl-t1-tdk-topology-confirm` | — | done | — |
 | `ctl-t1-tdk-library-import` | — | done | — |
 | `ctl-t1-bourns-component-analysis` | — | ~~done~~ (superseded by TDK decision) | `ctl-t1-transformer-decision` |
-| `ctl-t1-coilcraft-v2-review` | [ctl-t1-coilcraft-v2-review.md](todos/ctl-t1-coilcraft-v2-review.md) | pending (v2.0) | `ctl-t1-transformer-decision` |
+| `ctl-t1-coilcraft-v2-review` | [ctl-t1-coilcraft-v2-review.md](todos/ctl-t1-coilcraft-v2-review.md) | **blocked** (v2.0) | `ctl-t1-transformer-decision` |
 
 ---
 
@@ -137,7 +137,7 @@ Use `INSERT OR IGNORE` to make the script idempotent (re-runnable without error)
 ```sql
 INSERT OR IGNORE INTO todos (id, title, status) VALUES
 -- Open Workstreams
-('extension-mechanical-usage',        'Extension mechanical linkage spec',             'pending'),
+('extension-mechanical-usage',        'Extension interconnect architecture review',    'pending'),
 ('coupon-testing-review',             'Board-level coupon & PAS test coverage',        'pending'),
 ('battery-connector-final-review',    'Battery connector final review',                'blocked'),
 ('general-pin-mapping-schematic-capture', 'General pin mapping / schematic capture',  'done'),
@@ -233,7 +233,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('am-button-review-production',               'Review Actuation Module buttons for production version',                                     'done'),
 -- T1 transformer analysis todos
 ('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'done'),  -- superseded by TDK decision
-('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'pending'),
+('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'blocked'),
 ('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'done'),
 ('ctl-t1-tdk-library-import',                 'Import TDK B82806D footprint zip and add 3D model to legacy library',                       'done'),
 ('ctl-t1-tdk-topology-confirm',               'Contact TDK apps engineering — B82806D0060A120 topology confirmation',                      'done'),

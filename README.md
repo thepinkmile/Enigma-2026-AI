@@ -44,6 +44,7 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
   plugboard encode / decode roles.
 * **Settings Board:** Panel-mount switch and RGB indicator board on the shared Stator I2C-1 bus.
 * **JTAG Module:** Internal FT232H-based USB-to-JTAG bridge for programming all system CPLDs.
+* **Actuation Module:** STM32-based servo-driver service board; one mounts on the Controller (virtual keypress depression bar) and one on each Extension Board (group-boundary carry actuation).
 
 ## Core Requirements
 
@@ -70,6 +71,69 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 | Encoder Module | In Review |
 | Settings Board | In Review |
 | JTAG Module | In Review |
+| Actuation Module | In Review |
+
+## 🗺️ System Architecture
+
+```mermaid
+flowchart BT
+    REF["🔵 Reflector Board<br>Passive turnaround · 30-pin J4"]
+
+    subgraph RSTACK["🔄 Rotor Stack  — up to 30 rotors"]
+        subgraph G1["Group 1  (Rotors 1–5)"]
+            ROT["Rotor Module ×5<br>EPM570 CPLD · FDC2114 sensor<br>10 wiring sets · 4-pos DIP"]
+        end
+    end
+
+    subgraph STATOR["⚙️ Stator + Config"]
+        STA["Stator Board<br>EPM570T100I5N CPLD · ENC routing matrix"]
+        SET["Settings Board<br>10× toggle · 12× RGB LED · MCP23017 ×3"]
+        STA -. "I²C harness" .-> SET
+    end
+
+    subgraph PWR["⚡ Power Module"]
+        PM["Power Module<br>PoE+ 802.3bt · USB-C PD · Battery<br>eFuse · Buck · LDO · Supercap UPS"]
+    end
+
+    subgraph ENCS["🔡 Encoder Modules  ×6"]
+        KBD["KBD_ENC"]
+        LBD["LBD_DEC"]
+        PLG["PLG_PASS1_ENC · PLG_PASS1_DEC<br>PLG_PASS2_ENC · PLG_PASS2_DEC"]
+    end
+
+    subgraph CTRL["🖥️ Controller Board  (CM5 Carrier)"]
+        CB["Raspberry Pi CM5<br>Link-Alpha & Link-Beta docks"]
+        JTAG["JTAG Module<br>FT232H USB Blaster"]
+        AM_C["Actuation Module<br>Depression bar  (STM32G071K8T3TR)"]
+        CB -. "internal BtB J12" .-> JTAG
+        CB -. "DF40C-20 BtB" .-> AM_C
+    end
+
+    subgraph EXTRSTACK["🔄 Extension Rotor Stack  — up to 30 rotors"]
+        subgraph EXTG["Extension Board  +  Actuation Module  ×up to 5"]
+            EXT["Extension Board<br>JTAG re-buffer · power bridge"]
+            AME["Actuation Module<br>Group-boundary carry  (STM32G071K8T3TR)"]
+            EXT -. "DF40HC J9" .-> AME
+        end
+    end
+
+    REF ~~~ RSTACK ~~~ STATOR
+    STATOR ~~~ PWR
+    ENCS ~~~ CTRL
+    EXTRSTACK ~~~ RSTACK
+
+    PWR -- "Link-Alpha<br>3× TE 2.5mm docks<br>5V_MAIN · 3V3_ENIG" --> CTRL
+    CTRL -- "Link-Beta<br>2× Molex EXTreme Guardian HD<br>ENC_DATA · JTAG · I²C" --> STATOR
+    JTAG -- "JTAG chain entry" --> STA
+    KBD -- "ENC_IN[5:0]" --> STA
+    STA -- "ENC_OUT[5:0]" --> LBD
+    PLG <-- "ENC_DATA" --> STA
+    STA -- "Tri-connector Bus<br>Power · JTAG · ENC_DATA" --> ROT
+    ROT -- "ENC_DATA" --> REF
+    ROT <---> EXT
+    REF -- "ENC_OUT[5:0]<br>TTD_RETURN" --> STA
+    STA -- "ENC_IN[5:0]<br>5V_MAIN · 3V3_ENIG" --> REF
+```
 
 ---
 
@@ -102,7 +166,7 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 * **Protection:** Over-voltage and over-current protection provided by Power Module eFuse upstream; local reverse-polarity and ESD protection on BtB interface.
 * **Rotor Rail:** The rotor stack is powered by the **3V3_ENIG** rail (TPS75733KTTRG3 LDO, 3A) generated on the Power Module; routed to rotor stack via Controller Board → Link-Beta. CM5 GPIO 16
   (ROTOR_EN) gates the LDO enable for sequenced power-up.
-* **JTAG Master:** Embedded FT232H (Permanent USB Blaster) on internal USB 2.0.
+* **JTAG Master:** Hosts the JTAG Module (FT232H-based USB Blaster) via internal BtB connector (J12); routes JTAG pass-through to the Stator logic dock (J5).
 * **Connectivity:** Native USB 3.0 (SMT), HDMI (SMT), and Gigabit Ethernet.
 
 ### 3. JTAG Module
@@ -111,9 +175,20 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 * **Role:** Programs the full 37-device JTAG chain (1 Stator + 6 Encoder + 30 Rotor CPLDs).
 * **Mounting:** Small internal hat-style daughterboard on the Controller; no external connectors.
 
-### 4. Stator Board (Nervous System)
+### 4. Actuation Module (AM)
 
-* **Role:** Removable vertical daughterboard and electrical backbone of the rotor stack.
+* **Logic:** STM32G071K8T3TR MCU; owns power-up homing, request latching / one-shot behaviour, servo
+  PWM generation, and local LED diagnostics.
+* **Role:** Provides a single servo-driven actuation cycle on demand; the host board asserts only an
+  active-low `ACTUATE_REQUEST_N` line — no PWM or position feedback wires are needed from the host.
+* **Mounting:** Small internal daughterboard (inverted, component-side facing host PCB) via a 20-pin
+  Hirose DF40C BtB connector plus four M2.5 standoffs. Fitted once on the Controller (virtual
+  keypress depression bar) and once on each Extension Board (group-boundary carry actuation).
+* **Service Headers:** Local SWD (J4) and UART bootloader (J5) headers plus dedicated RESET_N (SW1)
+  and BOOT0 (SW2) buttons allow programming and debug without host-board involvement.
+
+### 5. Stator Board (Nervous System)
+
 * **Routing Hub:** Stator CPLD is the ENC_DATA routing matrix, reflector-map application point, and
   first device in the system JTAG chain.
 * **Interconnects:** Hosts the Controller hybrid docks, rotor sockets, reflector / extension return
@@ -121,25 +196,25 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 * **Peripherals:** Owns the rotor-stack INA219 current monitor, three MCP23017 expanders, and the
   PCA9685 servo PWM driver.
 
-### 5. Encoder Module (Universal Interface)
+### 6. Encoder Module (Universal Interface)
 
 * **Generic PCB:** One single-sided board reused in six roles: `KBD_ENC`, `LBD_DEC`,
   `PLG_PASS1_DEC`, `PLG_PASS1_ENC`, `PLG_PASS2_DEC`, and `PLG_PASS2_ENC`.
-* **Logic:** Intel **MAX II EPM240T100I5N** CPLD per board.
+* **Logic:** Intel **MAX II EPM570T100I5N** CPLD per board.
 * **HID Path:** Physical keyboard layout is 40 positions (`[a-z0-9+=]` plus left / right Shift),
   while the logical repertoire remains the full 64-character code space.
 * **Plugboard Path:** Two decode / encode board pairs provide the two configurable passive plugboard
   passes.
 
-### 6. Settings Board (Configuration Panel)
+### 7. Settings Board (Configuration Panel)
 
-* **Role:** User-accessible configuration board with 12 panel-mount toggles, 12 RGB LEDs, and a
-  `CFG_APPLY` pushbutton.
+* **Role:** User-accessible configuration board with 10 panel-mount toggles, 12 RGB LEDs, and a
+  `CFG_APPLY_N` pushbutton.
 * **Interface:** Shared Stator I2C-1 bus over a 6-wire harness (`3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`,
   `SCL`, `GND`).
 * **Expanders:** MCP23017 devices at `0x23`, `0x24`, and `0x25`.
 
-### 7. Rotor Module (The Engine)
+### 8. Rotor Module (The Engine)
 
 * **Logic:** Intel **MAX II EPM570T100I5N** CPLD.
 * **Dimensions:** Ø92 mm PCB / **Ø100 mm shroud outer**.
@@ -148,25 +223,27 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 * **Sensing:** FDC2114RGHR capacitive encoder ICs (dual-track, 3+3 per rotor).
 * **Tri-Connector Bus:**
   * Power (2x2), JTAG (2x4 Shielded), and Enigma (2x6 Bidirectional Relay) in a "Tripod" layout.
-* **Signal Integrity:** **SN74LVC2G125DCUR** buffer on each Extension Board (one per 5-rotor group) for TCK/TMS regeneration.
 
-### 8. Extension Board
+### 9. Extension Board
 
 * **Role:** Mid-stack bridge inserted between 5-rotor groups in extended builds.
 * **JTAG Support:** Re-buffers `TCK` and `TMS` with `SN74LVC2G125DCUR` to restore timing margin for
   the downstream rotor group.
 * **Power / Return Path:** Receives `3V3_ENIG` and `GND` through the Extension Port, passes
-  `ENC_IN[0:5]`, `ENC_OUT[0:5]`, `SYS_RESET_N`, and `TTD_RETURN`, and avoids a parallel power path
+  `ENC_IN[5:0]`, `ENC_OUT[5:0]`, `SYS_RESET_N`, and `TTD_RETURN`, and avoids a parallel power path
   through the rotor BtB power connector.
 * **Scale:** Up to five Extension Boards may be fitted in the full 30-rotor architecture.
+* **Actuation Module Host:** Each Extension Board hosts one AM via J9 (DF40HC dock) to regenerate a
+  group-boundary carry event into a local single-step actuation of the next 5-rotor group without
+  requiring live Controller-side servo supervision.
 
-### 9. Reflector Board
+### 10. Reflector Board
 
 * **Role:** Passive end-of-stack turnaround board for the final rotor group.
 * **Mapping Ownership:** No local CPLD; the Stator CPLD remains responsible for reflector-map
   selection and application.
 * **JTAG Return:** Terminates the JTAG daisy-chain and returns `TTD_RETURN` to the Stator through the
-  16-pin reflector ribbon.
+  30-pin reflector ribbon connector (J4).
 * **Signal Path:** Returns the 6-bit ENC path back toward the Stator over a separate electrical path
   while keeping the board itself logically passive.
 
@@ -212,15 +289,16 @@ This end-goal will involve the definition of a new RFC for the "Enigma-Packet-Pr
 
 ## 📅 Development Roadmap
 
-1. **Battery connector review:** confirm whether alternative battery-connector options should replace
+1. **Switch and connector review:** finalise USM SPDT switch GPIO expander pin mapping and confirm
+   ENC module J1/J2 connector choices before PCB capture.
+2. **Extension architecture review:** define full-system extension interconnect topology across all
+   supported rotor-count variants (5–30); assess Stator/Reflector board merge and Extension A/B split.
+3. **Battery connector review:** confirm whether alternative battery-connector options should replace
    or supplement the present Power Module choice.
-2. **Encoder board updates:** finish the current Encoder review / update pass and confirm whether any
-   structural split work is still required.
-3. **Extension follow-up:** review mechanical usage and whether notch-rotation pass-through needs extra
-   circuitry.
-4. **Coupon / PAS planning:** add and review board-level coupons and acceptance-test hooks across the
-   design set.
-5. **Deep review rerun:** rerun the review passes after the next material design-document change set.
+4. **Coupon / acceptance-test planning:** add and review board-level coupons and acceptance-test hooks
+   across the design set.
+5. **Review passes and interim electronics review:** complete clean-pass verifications before
+   proceeding to prototype PCB manufacturing.
 
 ## Contributions
 

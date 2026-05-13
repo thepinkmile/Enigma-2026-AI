@@ -1,10 +1,10 @@
 # CTL T1 Coilcraft v2.0 Review
 
 **ID:** `ctl-t1-coilcraft-v2-review`
-**Status:** pending (v2.0)
+**Status:** blocked (v2.0)
 **Category:** Electronics
 **Source:** T1 transformer analysis — v2.0 deferred
-**Blocked by:** None (v2.0 deferred)
+**Blocked by:** v2.0 scope gate
 
 ---
 

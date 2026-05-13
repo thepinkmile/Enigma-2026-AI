@@ -3,6 +3,43 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
+## 2026-05-13 session result (README Mermaid diagram — checkpoint 156)
+
+### README.md system architecture diagram finalised
+
+A `flowchart BT` Mermaid diagram was added to `README.md` under
+`## 🗺️ System Architecture`. The diagram represents all boards, their subgraph
+groupings, and directional signal connections at a high level.
+
+**Subgraphs:** PWR · CTRL · ENCS · STATOR · RSTACK (Group 1 only) · EXTRSTACK ·
+REF standalone
+
+**Key edges:**
+- `PWR --> CTRL` Link-Alpha (5V_MAIN · 3V3_ENIG)
+- `CTRL --> STATOR` Link-Beta (ENC_DATA · JTAG · I²C)
+- `KBD --> STA` ENC_IN[5:0]; `STA --> LBD` ENC_OUT[5:0]; `PLG <--> STA` bidirectional
+- `STA --> ROT` Tri-connector Bus (Power · JTAG · ENC_DATA)
+- `ROT --> REF` ENC_DATA; `ROT <---> EXT` bidirectional
+- `REF --> STA` TTD_RETURN; `STA --> REF` ENC_IN + 5V_MAIN · 3V3_ENIG via ribbon
+- Invisible rank hints: `REF ~~~ RSTACK ~~~ STATOR ~~~ PWR`; `ENCS ~~~ CTRL`; `EXTRSTACK ~~~ RSTACK`
+
+**Confirmed:** Power to Reflector and Extension is delivered directly from the
+Stator via ribbon cable — NOT via the rotor chain. `STA --> REF` edge is
+intentional.
+
+**Groups 2–6 omitted** pending `extension-mechanical-usage` architecture review.
+Note added to that todo to reinstate in diagram after review.
+
+Also this session:
+- `ctl-t1-coilcraft-v2-review.md` status → blocked (v2.0 item)
+- `todo-list.md` updated accordingly
+- Checkpoint 155 internal header corrected (was labelled "151")
+
+Next workstreams (unblocked): `usm-spdt-switch-floating-review`,
+`enc-connector-review-pre-pcb`.
+
+---
+
 ## Canonical design sources
 
 Use the active `design/` documents as the authoritative record:

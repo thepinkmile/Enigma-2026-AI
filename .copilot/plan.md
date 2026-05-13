@@ -6,22 +6,23 @@
 
 ---
 
-## Current Status (as of checkpoint 153)
+## Current Status (as of checkpoint 156)
 
-All PM per-input protection and UVLO recalculation work (DEC-069) is complete. JTAG integrity
-resistor value reconcile is complete (checkpoint 148). MCP23017 GPA[7]/GPB[7] silicon restriction
-review is complete (checkpoints 149–151): all six MCP23017 instances across USM and Stator have
-full pin tables with directional details, DS20001952D §1 citations on all GPA[7]/GPB[7] rows, and
-silicon restriction note blocks. CFG_APPLY_N reassigned USM U1 GPB[7] → GPA[6] (DEC-070, resolved).
-DEC-070 has been enriched with all four supplemental discussion points (D4 — no part replacement,
-D5 — U6 ENC service-bus function, pin-7-only scope, CFG_APPLY_N disambiguation). Discussion and
+All PM per-input protection and UVLO recalculation work (DEC-069) is complete.
+MCP23017 GPA[7]/GPB[7] silicon restriction review complete (checkpoints 149–151);
+CFG_APPLY_N reassigned USM U1 GPB[7] → GPA[6] (DEC-070, resolved).
+Todo-list full audit complete (checkpoint 152). Pin format/NC cleanup complete
+(checkpoint 154). README full-board audit complete (checkpoint 155): AM section
+added, all boards represented.
 
-Todo-list full audit complete (checkpoint 152): component diagram rows correct, stale file links
-removed, Blocked By entries updated, 3 missing detail files created, SQL section corrected.
-TDK transformer todos confirmed done by user.
+README system architecture Mermaid diagram added and finalised (checkpoint 156):
+`flowchart BT` with PWR/CTRL/ENCS/STATOR/RSTACK/EXTRSTACK subgraphs and REF
+standalone node. Arrow directions correct; Stator→Reflector ribbon power path
+confirmed intentional. Groups 2–6 rotors deferred to `extension-mechanical-usage`.
 
 The project is in interim-electronics-review-1 pre-flight. Remaining open todos:
-`usm-spdt-switch-floating-review`, `enc-connector-review-pre-pcb`, `consolidate-design-spec-content`.
+`usm-spdt-switch-floating-review`, `enc-connector-review-pre-pcb`,
+`consolidate-design-spec-content`, `extension-mechanical-usage`.
 
 ## Board Design Status
 
@@ -97,7 +98,7 @@ Read these files in order:
 1. `.copilot/agent-directives.md` (always first)
 2. This `plan.md`
 3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/index.md` → checkpoint 153
+4. `.copilot/checkpoints/index.md` → checkpoint 156
 5. Relevant todos from `.copilot/todos/` (see Open Workstreams above)
 
 
