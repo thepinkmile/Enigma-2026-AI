@@ -153,3 +153,9 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 146 | PM per-input polyfuse & UVLO recalculation complete | 146-pm-polyfuse-design-changes-complete.md |
 | 147 | DEC-068/069 audit complete, Mermaid fixed | 147-dec-068-069-audit-complete-mermaid-fixed.md |
 | 148 | JTAG integrity reconcile complete | 148-jtag-integrity-reconcile-complete.md |
+| 149 | MCP23017 GPB7 discussion points responded; diagram fixed | 149-mcp23017-gpb7-discussion-points-responded.md |
+| 150 | MCP23017 GPA7/GPB7 review complete — all violations resolved, all pin tables documented | 150-mcp23017-gpb7-review-complete.md |
+| 151 | DEC-070 enriched, DS20001952D citations complete, bookkeeping done | 151-dec070-enriched-bookkeeping-complete.md |
+| 152 | Todo-list audit and cleanup | 152-todo-list-audit-and-cleanup.md |
+| 153 | CFG_APPLY_N GPA[4]→GPA[6] correction complete; DEC-070 updated | 153-cfg-apply-n-gpa4-gpa6-dec070-updated.md |
+| 154 | Pin format fixes, NC cleanup, todo dep restoration | 154-pin-format-nc-cleanup-todo-deps-restored.md |

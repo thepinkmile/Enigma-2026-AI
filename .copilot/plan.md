@@ -6,19 +6,22 @@
 
 ---
 
-## Current Status (as of checkpoint 147)
+## Current Status (as of checkpoint 153)
 
-All PM per-input protection and UVLO recalculation work (DEC-069) is complete and all design
-files are updated. Post-implementation fixes applied: PM Design_Spec.md Mermaid diagram node
-labels (J4/J5/F3/F4) corrected; DEC-069 `### Voltage Rating Selection` section added; DEC-068
-Q1 voltage derating note added. Third full audit pass of discussion file confirmed no remaining
-content gaps. The stackup consolidation (DEC-065, DEC-066), bulk-capacitor placement (DEC-068),
-and PM polyfuse protection (DEC-069) workstreams are all fully closed.
+All PM per-input protection and UVLO recalculation work (DEC-069) is complete. JTAG integrity
+resistor value reconcile is complete (checkpoint 148). MCP23017 GPA[7]/GPB[7] silicon restriction
+review is complete (checkpoints 149–151): all six MCP23017 instances across USM and Stator have
+full pin tables with directional details, DS20001952D §1 citations on all GPA[7]/GPB[7] rows, and
+silicon restriction note blocks. CFG_APPLY_N reassigned USM U1 GPB[7] → GPA[6] (DEC-070, resolved).
+DEC-070 has been enriched with all four supplemental discussion points (D4 — no part replacement,
+D5 — U6 ENC service-bus function, pin-7-only scope, CFG_APPLY_N disambiguation). Discussion and
 
-The project is in interim-electronics-review-1 pre-flight: all blocking todos for that
-review are now done except `jtag-integrity-resistor-value-reconcile`,
-`mcp23017-gpb7-silicon-fixed-review`, `usm-spdt-switch-floating-review`, and
-`consolidate-design-spec-content`.
+Todo-list full audit complete (checkpoint 152): component diagram rows correct, stale file links
+removed, Blocked By entries updated, 3 missing detail files created, SQL section corrected.
+TDK transformer todos confirmed done by user.
+
+The project is in interim-electronics-review-1 pre-flight. Remaining open todos:
+`usm-spdt-switch-floating-review`, `enc-connector-review-pre-pcb`, `consolidate-design-spec-content`.
 
 ## Board Design Status
 
@@ -40,16 +43,13 @@ review are now done except `jtag-integrity-resistor-value-reconcile`,
 
 ### Immediate (next session start)
 
-1. **JTAG integrity resistor value reconcile** (`jtag-integrity-resistor-value-reconcile`)
-   - See `.copilot/todos/jtag-integrity-resistor-value-reconcile.md` for detail
-
-2. **MCP23017 GPB7 silicon-fixed review** (`mcp23017-gpb7-silicon-fixed-review`)
-   - See `.copilot/todos/mcp23017-gpb7-silicon-fixed-review.md` for detail
-
-3. **USM SPDT switch floating review** (`usm-spdt-switch-floating-review`)
+1. **USM SPDT switch floating review** (`usm-spdt-switch-floating-review`)
    - See `.copilot/todos/usm-spdt-switch-floating-review.md` for detail
 
-4. **Consolidate design spec content** (`consolidate-design-spec-content`)
+2. **ENC connector review pre-PCB** (`enc-connector-review-pre-pcb`)
+   - ENC J1/J2 and 100nF cap review; see `.copilot/todos/enc-connector-review-pre-pcb.md`
+
+3. **Consolidate design spec content** (`consolidate-design-spec-content`)
    - Blocked by `enc-connector-review-pre-pcb`
    - See `.copilot/todos/consolidate-design-spec-content.md` for detail
 
@@ -70,7 +70,7 @@ review are now done except `jtag-integrity-resistor-value-reconcile`,
 | DEC-067 | CTL T1 transformer decision (see Design_Log.md) |
 | DEC-068 | PM bulk-cap placement (pre-OR-ing, 5V_MAIN, 3V3_ENIG) |
 | DEC-069 | PM per-input polyfuse (F2/F3/F4) + UVLO recalculation (R1 → ERJ-3EKF2263V) |
-| DEC-070 | **NEXT entry** — reserved for next design decision |
+| DEC-070 | MCP23017 GPA[7]/GPB[7] output-only restriction; CFG_APPLY_N reassigned USM U1 GPB[7]→GPA[6] |
 
 ## Library Status
 
@@ -83,7 +83,7 @@ review are now done except `jtag-integrity-resistor-value-reconcile`,
 ## Critical Standing Rules
 
 - **NEVER commit** without "Let's lock it in" or "Save state" from user
-- **Design_Log.md is append-only** — next entry = DEC-070; never modify existing entries
+- **Design_Log.md is append-only** — next entry = DEC-071; never modify existing entries (DEC-070 was modified in-session with explicit user override because it was not yet committed/locked in)
 - **PRIMARY DIRECTIVE**: Never modify any MPN/supplier part numbers without explicit user
   confirmation
 - **Last Updated** dates must be updated on every content change; **Version** is user-only
@@ -97,7 +97,7 @@ Read these files in order:
 1. `.copilot/agent-directives.md` (always first)
 2. This `plan.md`
 3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/index.md` → checkpoint 147
+4. `.copilot/checkpoints/index.md` → checkpoint 153
 5. Relevant todos from `.copilot/todos/` (see Open Workstreams above)
 
 

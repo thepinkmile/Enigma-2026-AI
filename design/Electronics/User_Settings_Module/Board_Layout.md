@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-13
 
 ---
 
@@ -77,19 +77,21 @@ TOP EDGE / ENCLOSURE PANEL FACE
 
 | Port | Pin | Signal | Direction | Pull | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| GPA | [0] | `CFG_ROUTE[0]` | Input | 10k pull-down | Bank 1 routing config bit 0 (`SW1`) |
-| GPA | [1] | `CFG_ROUTE[1]` | Input | 10k pull-down | Bank 1 routing config bit 1 (`SW2`) |
-| GPA | [2] | `CFG_ROUTE[2]` | Input | 10k pull-down | Bank 1 routing config bit 2 (`SW3`) |
-| GPA | [3] | `CFG_ROUTE[3]` | Input | 10k pull-down | Bank 1 routing config bit 3 (`SW4`) |
-| GPA | [4:7] | - | - | - | Spare |
-| GPB | [0] | `CFG_REFMAP[0]` | Input | 10k pull-down | Bank 2 reflector-map bit 0 (`SW5`) |
-| GPB | [1] | `CFG_REFMAP[1]` | Input | 10k pull-down | Bank 2 reflector-map bit 1 (`SW6`) |
-| GPB | [2] | `CFG_REFMAP[2]` | Input | 10k pull-down | Bank 2 reflector-map bit 2 (`SW7`) |
-| GPB | [3] | `CFG_REFMAP[3]` | Input | 10k pull-down | Bank 2 reflector-map bit 3 (`SW8`) |
-| GPB | [4] | `CFG_REFMAP[4]` | Input | 10k pull-down | Bank 2 reflector-map bit 4 (`SW9`) |
-| GPB | [5] | `CFG_REFMAP[5]` | Input | 10k pull-down | Bank 2 reflector-map bit 5 (`SW10`) |
-| GPB | [6] | - | - | - | Spare |
-| GPB | [7] | `CFG_APPLY_N` | Input | 10k pull-up | Active-low momentary pushbutton (`SW11`) |
+| GPA | [0] | `CFG_ROUTE[0]` | Bidirectional(Input) | 10k pull-down | Bank 1 routing config bit 0 (`SW1`) |
+| GPA | [1] | `CFG_ROUTE[1]` | Bidirectional(Input) | 10k pull-down | Bank 1 routing config bit 1 (`SW2`) |
+| GPA | [2] | `CFG_ROUTE[2]` | Bidirectional(Input) | 10k pull-down | Bank 1 routing config bit 2 (`SW3`) |
+| GPA | [3] | `CFG_ROUTE[3]` | Bidirectional(Input) | 10k pull-down | Bank 1 routing config bit 3 (`SW4`) |
+| GPA | [5:4] | NC | Bidirectional | - | - |
+| GPA | [6] | `CFG_APPLY_N` | Bidirectional(Input) | 10k pull-up | Active-low momentary pushbutton (`SW11`) |
+| GPA | [7] | NC | Output | - | - |
+| GPB | [0] | `CFG_REFMAP[0]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 0 (`SW5`) |
+| GPB | [1] | `CFG_REFMAP[1]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 1 (`SW6`) |
+| GPB | [2] | `CFG_REFMAP[2]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 2 (`SW7`) |
+| GPB | [3] | `CFG_REFMAP[3]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 3 (`SW8`) |
+| GPB | [4] | `CFG_REFMAP[4]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 4 (`SW9`) |
+| GPB | [5] | `CFG_REFMAP[5]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 5 (`SW10`) |
+| GPB | [6] | NC | Bidirectional | - | - |
+| GPB | [7] | NC | Output | - | - |
 
 ---
 
@@ -102,15 +104,16 @@ TOP EDGE / ENCLOSURE PANEL FACE
 
 | Port | Pin | Signal | Direction | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| GPA | [0] | `LED_B1_SRC_A` | Output | Drives Q7 gate → Q19 high-side → D1 anode |
-| GPA | [1] | `LED_B1_0_A` | Output | Drives Q8 gate → Q20 high-side → D2 anode |
-| GPA | [2] | `LED_B1_1_A` | Output | Drives Q9 gate → Q21 high-side → D3 anode |
-| GPA | [3] | `LED_B1_2_A` | Output | Drives Q10 gate → Q22 high-side → D4 anode |
-| GPA | [4] | `LED_B1_3_A` | Output | Drives Q11 gate → Q23 high-side → D5 anode |
-| GPA | [5] | `BNK1_R` | Output | Drives `Q1` gate (Bank 1 red colour-rail) |
-| GPA | [6] | `BNK1_G` | Output | Drives `Q2` gate (Bank 1 green colour-rail) |
+| GPA | [0] | `LED_B1_SRC_A` | Bidirectional(Output) | Drives Q7 gate → Q19 high-side → D1 anode |
+| GPA | [1] | `LED_B1_0_A` | Bidirectional(Output) | Drives Q8 gate → Q20 high-side → D2 anode |
+| GPA | [2] | `LED_B1_1_A` | Bidirectional(Output) | Drives Q9 gate → Q21 high-side → D3 anode |
+| GPA | [3] | `LED_B1_2_A` | Bidirectional(Output) | Drives Q10 gate → Q22 high-side → D4 anode |
+| GPA | [4] | `LED_B1_3_A` | Bidirectional(Output) | Drives Q11 gate → Q23 high-side → D5 anode |
+| GPA | [5] | `BNK1_R` | Bidirectional(Output) | Drives `Q1` gate (Bank 1 red colour-rail) |
+| GPA | [6] | `BNK1_G` | Bidirectional(Output) | Drives `Q2` gate (Bank 1 green colour-rail) |
 | GPA | [7] | `BNK1_B` | Output | Drives `Q3` gate (Bank 1 blue colour-rail) |
-| GPB | [7:0] | - | - | Spare |
+| GPB | [6:0] | NC | Bidirectional | - |
+| GPB | [7] | NC | Output | - |
 
 ### 5.2 U3 - MCP23017 @ 0x25
 
@@ -119,17 +122,18 @@ TOP EDGE / ENCLOSURE PANEL FACE
 
 | Port | Pin | Signal | Direction | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| GPA | [0] | `LED_B2_SRC_A` | Output | Drives Q12 gate → Q24 high-side → D6 anode |
-| GPA | [1] | `LED_B2_0_A` | Output | Drives Q13 gate → Q25 high-side → D7 anode |
-| GPA | [2] | `LED_B2_1_A` | Output | Drives Q14 gate → Q26 high-side → D8 anode |
-| GPA | [3] | `LED_B2_2_A` | Output | Drives Q15 gate → Q27 high-side → D9 anode |
-| GPA | [4] | `LED_B2_3_A` | Output | Drives Q16 gate → Q28 high-side → D10 anode |
-| GPA | [5] | `LED_B2_4_A` | Output | Drives Q17 gate → Q29 high-side → D11 anode |
-| GPA | [6] | `LED_B2_5_A` | Output | Drives Q18 gate → Q30 high-side → D12 anode |
+| GPA | [0] | `LED_B2_SRC_A` | Bidirectional(Output) | Drives Q12 gate → Q24 high-side → D6 anode |
+| GPA | [1] | `LED_B2_0_A` | Bidirectional(Output) | Drives Q13 gate → Q25 high-side → D7 anode |
+| GPA | [2] | `LED_B2_1_A` | Bidirectional(Output) | Drives Q14 gate → Q26 high-side → D8 anode |
+| GPA | [3] | `LED_B2_2_A` | Bidirectional(Output) | Drives Q15 gate → Q27 high-side → D9 anode |
+| GPA | [4] | `LED_B2_3_A` | Bidirectional(Output) | Drives Q16 gate → Q28 high-side → D10 anode |
+| GPA | [5] | `LED_B2_4_A` | Bidirectional(Output) | Drives Q17 gate → Q29 high-side → D11 anode |
+| GPA | [6] | `LED_B2_5_A` | Bidirectional(Output) | Drives Q18 gate → Q30 high-side → D12 anode |
 | GPA | [7] | `BNK2_R` | Output | Drives `Q4` gate (Bank 2 red colour-rail) |
-| GPB | [0] | `BNK2_G` | Output | Drives `Q5` gate (Bank 2 green colour-rail) |
-| GPB | [1] | `BNK2_B` | Output | Drives `Q6` gate (Bank 2 blue colour-rail) |
-| GPB | [2:7] | - | - | Spare |
+| GPB | [0] | `BNK2_G` | Bidirectional(Output) | Drives `Q5` gate (Bank 2 green colour-rail) |
+| GPB | [1] | `BNK2_B` | Bidirectional(Output) | Drives `Q6` gate (Bank 2 blue colour-rail) |
+| GPB | [6:2] | NC | Bidirectional | - |
+| GPB | [7] | NC | Output | - |
 
 ---
 
@@ -189,7 +193,7 @@ CM5 firmware normally selects one colour rail per bank at a time:
 | `SW8` / `D10` | `U1.GPB[3]` (`CFG_REFMAP[3]`) | `U3.GPA[4]` (`LED_B2_3_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
 | `SW9` / `D11` | `U1.GPB[4]` (`CFG_REFMAP[4]`) | `U3.GPA[5]` (`LED_B2_4_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
 | `SW10` / `D12` | `U1.GPB[5]` (`CFG_REFMAP[5]`) | `U3.GPA[6]` (`LED_B2_5_A`) | `U3.GPA[7]` / `U3.GPB[0:1]` |
-| `SW11` | `U1.GPB[7]` (`CFG_APPLY_N`) | - | - |
+| `SW11` | `U1.GPA[6]` (`CFG_APPLY_N`) | - | - |
 
 ---
 

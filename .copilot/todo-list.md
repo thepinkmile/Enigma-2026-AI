@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-12 (ctl-t1-tdk-a120-component-analysis closed — work confirmed complete in PoE_Power_Analysis.md)
+Last updated: 2026-05-13 (todo-list audit: stale file links removed from done rows; ctl-t1-tdk-topology-confirm and ctl-t1-tdk-library-import marked done; Blocked By updated for interim-electronics-review-1/2, prototype-pcb-manufacturing, full-pn-review, ctl-t1-coilcraft-v2-review; 3 missing detail files created; 10 component diagram todos confirmed done — flowchart TD with subgraphs, not block-beta; detail files moved to .recycle-bin)
 
 ---
 
@@ -81,21 +81,21 @@ Last updated: 2026-05-12 (ctl-t1-tdk-a120-component-analysis closed — work con
 | `ascii-to-mermaid-diagrams` | — | done | — |
 | `board-interconnect-diagram` | [board-interconnect-diagram.md](todos/board-interconnect-diagram.md) | pending | — |
 | `system-config-variants-diagrams` | [system-config-variants-diagrams.md](todos/system-config-variants-diagrams.md) | pending | — |
-| `ctl-component-diagram` | [ctl-component-diagram.md](todos/ctl-component-diagram.md) | done | — |
-| `pm-component-diagram` | [pm-component-diagram.md](todos/pm-component-diagram.md) | done | — |
-| `sta-component-diagram` | [sta-component-diagram.md](todos/sta-component-diagram.md) | done | — |
-| `rotor-component-diagram` | [rotor-component-diagram.md](todos/rotor-component-diagram.md) | done | — |
-| `ext-component-diagram` | [ext-component-diagram.md](todos/ext-component-diagram.md) | done | — |
-| `ref-component-diagram` | [ref-component-diagram.md](todos/ref-component-diagram.md) | done | — |
-| `enc-component-diagram` | [enc-component-diagram.md](todos/enc-component-diagram.md) | done | — |
-| `jm-component-diagram` | [jm-component-diagram.md](todos/jm-component-diagram.md) | done | — |
-| `usm-component-diagram` | [usm-component-diagram.md](todos/usm-component-diagram.md) | done | — |
-| `am-component-diagram` | [am-component-diagram.md](todos/am-component-diagram.md) | done | — |
+| `ctl-component-diagram` | — | done | — |
+| `pm-component-diagram` | — | done | — |
+| `sta-component-diagram` | — | done | — |
+| `rotor-component-diagram` | — | done | — |
+| `ext-component-diagram` | — | done | — |
+| `ref-component-diagram` | — | done | — |
+| `enc-component-diagram` | — | done | — |
+| `jm-component-diagram` | — | done | — |
+| `usm-component-diagram` | — | done | — |
+| `am-component-diagram` | — | done | — |
 | `version-1-documentation` | [version-1-documentation.md](todos/version-1-documentation.md) | pending | `board-interconnect-diagram`, `system-config-variants-diagrams`, `ctl-component-diagram`, `pm-component-diagram`, `sta-component-diagram`, `rotor-component-diagram`, `ext-component-diagram`, `ref-component-diagram`, `enc-component-diagram`, `jm-component-diagram`, `usm-component-diagram`, `am-component-diagram` |
 | `emc-testing` | [emc-testing.md](todos/emc-testing.md) | pending | `version-1-documentation` |
 | `environmental-testing` | [environmental-testing.md](todos/environmental-testing.md) | pending | `version-1-documentation` |
 | `security-testing` | [security-testing.md](todos/security-testing.md) | pending | `version-1-documentation` |
-| `stackup-impedance-recalc` | [stackup-impedance-recalc.md](todos/stackup-impedance-recalc.md) | done | — |
+| `stackup-impedance-recalc` | — | done | — |
 | `grs-stackup-section` | — | done | — |
 | `design-log-dec066` | — | done | — |
 | `jlcpcb-mfg-cross-refs` | — | done | — |
@@ -109,19 +109,19 @@ Last updated: 2026-05-12 (ctl-t1-tdk-a120-component-analysis closed — work con
 | `rot-stackup-simplify` | — | done | `grs-stackup-section` |
 | `sta-stackup-simplify` | — | done | `grs-stackup-section` |
 | `usm-stackup-simplify` | — | done | `grs-stackup-section` |
-| `bulk-caps-per-power-source-or-conversion` | [bulk-caps-per-power-source-or-conversion.md](todos/bulk-caps-per-power-source-or-conversion.md) | done | — |
-| `ctl-l02-refdes-gap` | [ctl-l02-refdes-gap.md](todos/ctl-l02-refdes-gap.md) | done | — |
-| `enc-cpld-spare-pins-rule` | [enc-cpld-spare-pins-rule.md](todos/enc-cpld-spare-pins-rule.md) | done | — |
-| `jtag-pin1-silkscreen-grs` | [jtag-pin1-silkscreen-grs.md](todos/jtag-pin1-silkscreen-grs.md) | done | — |
-| `jtag-integrity-resistor-value-reconcile` | [jtag-integrity-resistor-value-reconcile.md](todos/jtag-integrity-resistor-value-reconcile.md) | done | — |
-| `mcp23017-gpb7-silicon-fixed-review` | [mcp23017-gpb7-silicon-fixed-review.md](todos/mcp23017-gpb7-silicon-fixed-review.md) | pending | — |
-| `rot-i2c-residual-removal` | [rot-i2c-residual-removal.md](todos/rot-i2c-residual-removal.md) | done | — |
+| `bulk-caps-per-power-source-or-conversion` | — | done | — |
+| `ctl-l02-refdes-gap` | — | done | — |
+| `enc-cpld-spare-pins-rule` | — | done | — |
+| `jtag-pin1-silkscreen-grs` | — | done | — |
+| `jtag-integrity-resistor-value-reconcile` | — | done | — |
+| `mcp23017-gpb7-silicon-fixed-review` | — | done | — |
+| `rot-i2c-residual-removal` | — | done | — |
 | `consolidate-design-spec-content` | [consolidate-design-spec-content.md](todos/consolidate-design-spec-content.md) | pending | `enc-connector-review-pre-pcb` |
 | `usm-spdt-switch-floating-review` | [usm-spdt-switch-floating-review.md](todos/usm-spdt-switch-floating-review.md) | pending | — |
-| `am-button-review-production` | [am-button-review-production.md](todos/am-button-review-production.md) | done | — |
-| `ctl-t1-tdk-a120-component-analysis` | [ctl-t1-tdk-a120-component-analysis.md](todos/ctl-t1-tdk-a120-component-analysis.md) | done | — |
-| `ctl-t1-tdk-topology-confirm` | [ctl-t1-tdk-topology-confirm.md](todos/ctl-t1-tdk-topology-confirm.md) | pending | — |
-| `ctl-t1-tdk-library-import` | [ctl-t1-tdk-library-import.md](todos/ctl-t1-tdk-library-import.md) | pending | — |
+| `am-button-review-production` | — | done | — |
+| `ctl-t1-tdk-a120-component-analysis` | — | done | — |
+| `ctl-t1-tdk-topology-confirm` | — | done | — |
+| `ctl-t1-tdk-library-import` | — | done | — |
 | `ctl-t1-bourns-component-analysis` | — | ~~done~~ (superseded by TDK decision) | `ctl-t1-transformer-decision` |
 | `ctl-t1-coilcraft-v2-review` | [ctl-t1-coilcraft-v2-review.md](todos/ctl-t1-coilcraft-v2-review.md) | pending (v2.0) | `ctl-t1-transformer-decision` |
 
@@ -209,16 +209,16 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 -- Mermaid Diagrams
 ('board-interconnect-diagram',        'block-beta board interconnect diagram in Boards_Overview.md',            'pending'),
 ('system-config-variants-diagrams',   'flowchart TD system config variants in System_Architecture.md',          'pending'),
-('ctl-component-diagram',             'block-beta CTL circuit component diagram in Controller/Design_Spec.md',   'pending'),
-('pm-component-diagram',              'block-beta PM circuit component diagram in Power_Module/Design_Spec.md',  'pending'),
-('sta-component-diagram',             'block-beta STA circuit component diagram in Stator/Design_Spec.md',      'pending'),
-('rotor-component-diagram',           'block-beta Rotor circuit component diagram in Rotor/Design_Spec.md',     'pending'),
-('ext-component-diagram',             'block-beta EXT circuit component diagram in Extension/Design_Spec.md',   'pending'),
-('ref-component-diagram',             'block-beta REF circuit component diagram in Reflector/Design_Spec.md',   'pending'),
-('enc-component-diagram',             'block-beta ENC circuit component diagram in Encoder/Design_Spec.md',     'pending'),
-('jm-component-diagram',              'block-beta JM circuit component diagram in JTAG_Module/Design_Spec.md',  'pending'),
-('usm-component-diagram',             'block-beta USM circuit component diagram in User_Settings_Module/Design_Spec.md', 'pending'),
-('am-component-diagram',              'block-beta AM circuit component diagram in Actuation_Module/Design_Spec.md',      'pending'),
+('ctl-component-diagram',             'flowchart TD CTL circuit component diagram in Controller/Design_Spec.md',   'done'),
+('pm-component-diagram',              'flowchart TD PM circuit component diagram in Power_Module/Design_Spec.md',  'done'),
+('sta-component-diagram',             'flowchart TD STA circuit component diagram in Stator/Design_Spec.md',      'done'),
+('rotor-component-diagram',           'flowchart TD Rotor circuit component diagram in Rotor/Design_Spec.md',     'done'),
+('ext-component-diagram',             'flowchart TD EXT circuit component diagram in Extension/Design_Spec.md',   'done'),
+('ref-component-diagram',             'flowchart TD REF circuit component diagram in Reflector/Design_Spec.md',   'done'),
+('enc-component-diagram',             'flowchart TD ENC circuit component diagram in Encoder/Design_Spec.md',     'done'),
+('jm-component-diagram',              'flowchart TD JM circuit component diagram in JTAG_Module/Design_Spec.md',  'done'),
+('usm-component-diagram',             'flowchart TD USM circuit component diagram in User_Settings_Module/Design_Spec.md', 'done'),
+('am-component-diagram',              'flowchart TD AM circuit component diagram in Actuation_Module/Design_Spec.md',      'done'),
 -- Review Pass 8 new todos
 ('stackup-impedance-recalc',                  'Select optimal JLCPCB stackup based on impedance-controlled trace width manufacturability', 'done'),
 ('bulk-caps-per-power-source-or-conversion',  'Bulk decoupling at every power source and conversion point',                                'done'),
@@ -226,7 +226,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('enc-cpld-spare-pins-rule',                  'Add CPLD spare-pins rule to review agent-directives',                                       'done'),
 ('jtag-pin1-silkscreen-grs',                  'Add pin-1 silkscreen marker requirement to GRS',                                            'done'),
 ('jtag-integrity-resistor-value-reconcile',   'Reconcile JTAG termination resistor values across all boards',                              'done'),
-('mcp23017-gpb7-silicon-fixed-review',        'Review and fix MCP23017 GPB7 silicon-fixed output-only pin issue',                         'pending'),
+('mcp23017-gpb7-silicon-fixed-review',        'Review and fix MCP23017 GPB7 silicon-fixed output-only pin issue',                         'done'),
 ('rot-i2c-residual-removal',                  'Remove residual I2C references from Rotor design',                                          'done'),
 ('consolidate-design-spec-content',           'Consolidate and normalise all Design Spec content',                                         'pending'),
 ('usm-spdt-switch-floating-review',           'Review USM SPDT switch floating pin concern',                                               'pending'),
@@ -235,8 +235,8 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'done'),  -- superseded by TDK decision
 ('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'pending'),
 ('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'done'),
-('ctl-t1-tdk-library-import',                 'Import TDK B82806D footprint zip and add 3D model to legacy library',                       'pending'),
-('ctl-t1-tdk-topology-confirm',               'Contact TDK apps engineering — B82806D0060A120 topology confirmation',                      'pending'),
+('ctl-t1-tdk-library-import',                 'Import TDK B82806D footprint zip and add 3D model to legacy library',                       'done'),
+('ctl-t1-tdk-topology-confirm',               'Contact TDK apps engineering — B82806D0060A120 topology confirmation',                      'done'),
 -- Stackup consolidation sweep (grs-stackup-section done; simplify passes pending)
 ('grs-stackup-section',                        'Add GRS §2.3 PCB Stackup Definitions',                                                         'done'),
 ('design-log-dec066',                          'Append DEC-066 to Design_Log.md',                                                              'done'),
@@ -392,5 +392,7 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('ref-stackup-simplify', 'grs-stackup-section'),
 ('rot-stackup-simplify', 'grs-stackup-section'),
 ('sta-stackup-simplify', 'grs-stackup-section'),
-('usm-stackup-simplify', 'grs-stackup-section');
+('usm-stackup-simplify', 'grs-stackup-section'),
+-- ctl-t1-coilcraft-v2-review gates
+('ctl-t1-coilcraft-v2-review', 'ctl-t1-transformer-decision');
 ```

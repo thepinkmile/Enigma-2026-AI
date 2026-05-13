@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-13
 
 ---
 
@@ -42,7 +42,7 @@ daemon over I²C.
 | FR-USM-01 | Provide 10 user-accessible toggle switches with matching RGB status LEDs for hardware configuration without opening the enclosure | 4 toggles for routing config, 6 for reflector-map config, plus 2 RGB source-status LEDs; panel-mount through enclosure top face | §3 Configuration Bank Descriptions; §4 I²C Devices |
 | FR-USM-02 | Allow CM5 firmware / GUI presets to override the user-intent configuration on a per-bank basis | CM5 decides authority in software, drives the final applied config on the Stator, and reflects source state back to the Settings indicators via `CFG_ROUTE_CM5_ACTIVE` / `CFG_REFMAP_CM5_ACTIVE` | §5 LED Control Logic; `design/Electronics/Stator/Design_Spec.md` FR-STA-08/09 |
 | FR-USM-03 | Provide visual feedback via RGB LED illumination showing configuration source and active bit state | Green = user-intent forwarded; Red = CM5-defined override active; per-bank shared colour rails + per-bit individual LED anode drive with per-colour cathode-return resistors | §5 LED Control Logic |
-| FR-USM-04 | Provide a momentary `CFG_APPLY_N` pushbutton that requests Stator CPLD configuration reload | CM5 daemon polls U1 GPB[7]; active-low; 10kΩ pull-up + 100nF X7R 0402 debounce cap. A board-mounted tactile switch actuated through the enclosure is acceptable; the switch itself need not be panel-mount. | §6 `CFG_APPLY_N` Button |
+| FR-USM-04 | Provide a momentary `CFG_APPLY_N` pushbutton that requests Stator CPLD configuration reload | CM5 daemon polls U1 GPA[6]; active-low; 10kΩ pull-up + 100nF X7R 0402 debounce cap. A board-mounted tactile switch actuated through the enclosure is acceptable; the switch itself need not be panel-mount. | §6 `CFG_APPLY_N` Button |
 | FR-USM-05 | Connect to the Stator Board via a 6-wire I²C harness (`3V3_ENIG`, `5V_MAIN`, 2x `GND`, `SDA`, `SCL`) | J1 = 6-pin JST PH 2.0mm connector; shares Stator I²C-1 bus; `5V_MAIN` powers the indicator LEDs | §7 Interconnects; BOM J1 |
 
 #### Design Requirements
@@ -55,7 +55,7 @@ daemon over I²C.
 | DR-USM-04 | LED control expanders | U2 = MCP23017T-E/SO @ 0x24 (Bank 1); U3 = MCP23017T-E/SO @ 0x25 (Bank 2); SOIC-28; per-indicator anodes plus shared RGB bank rails | §4 I²C Devices - U2, U3; §5 LED Control Logic; BOM U2, U3 |
 | DR-USM-05 | LED colour-rail transistors | 6x BSS138 SOT-23 N-channel MOSFETs (`Q1-Q6`); gate driven via 1kΩ resistor; GPIO HIGH = transistor ON | §5 LED Control Logic; BOM Q1-Q6 |
 | DR-USM-06 | LED power supply | `5V_MAIN` from the Stator via J1 pin 2; full RGB operation at 5V uses 150Ω red and 100Ω green/blue series resistors; LED anodes connect to `5V_MAIN` via per-anode PMOS high-side switches (Q19-Q30) - see DR-USM-10 | §7 Interconnects - J1; §5 LED Control Logic; BOM R18-R53, Q7-Q30, R54-R77 |
-| DR-USM-07 | `CFG_APPLY_N` button | SW11 = Omron B3F-1070 or equivalent SPST NO through-hole tactile switch, active-low; mounted on the User Settings Module and actuated through the enclosure by a mechanical plunger/cap; 10kΩ pull-up to 3V3_ENIG + 100nF debounce cap; U1 GPB[7] | §6 `CFG_APPLY_N` Button; BOM SW11, R11, C4 |
+| DR-USM-07 | `CFG_APPLY_N` button | SW11 = Omron B3F-1070 or equivalent SPST NO through-hole tactile switch, active-low; mounted on the User Settings Module and actuated through the enclosure by a mechanical plunger/cap; 10kΩ pull-up to 3V3_ENIG + 100nF debounce cap; U1 GPA[6] | §6 `CFG_APPLY_N` Button; BOM SW11, R11, C4 |
 | DR-USM-08 | I²C connector | J1 = 6-pin JST PH 2.0mm B6B-PH-K-S(LF)(SN); pins: `3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`; harness to Stator J13 | §7 Interconnects; BOM J1 |
 | DR-USM-09 | Switch input pull-downs | 10x 10kΩ 0603 pull-down resistors on all toggle-switch inputs to U1 (GPA[3:0], GPB[5:0]); HIGH when closed | §4 I²C Devices - U1; BOM R1-R10 |
 | DR-USM-10 | Per-anode LED high-side switch | 12x two-stage per-anode high-side switch: MCP23017 GPIO → 1 kΩ gate resistor (R54-R65) → BSS138 NMOS pre-driver (Q7-Q18); BSS138 drain pulls PMOS gate low; 47 kΩ pull-up (R66-R77) from PMOS gate to `5V_MAIN`; PMOS source at `5V_MAIN`, drain to LED anode; GPIO HIGH → LED ON (non-inverted logic); this topology isolates the MCP23017 3.3 V GPIO from direct-driving 5 V LED anodes | §5 LED Control Logic; BOM Q7-Q30, R54-R77 |
@@ -99,7 +99,7 @@ flowchart TD
   r3v3 --> U3
   r5v --> Q7_30
   U1 --> SW1_10
-  U3 --> SW11
+  U1 --> SW11
   U2 -- "GPIO" --> Q1_6
   Q1_6 --> Q7_30
   Q7_30 --> D1_12
@@ -225,22 +225,28 @@ Reads the 10 toggle-switch states and the active-low `CFG_APPLY_N` momentary but
 
 | Port | Pin | Signal | Direction | Pull | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| GPA | [0] | CFG_ROUTE[0] | Input | 10kΩ pull-down | Routing config bit 0 |
-| GPA | [1] | CFG_ROUTE[1] | Input | 10kΩ pull-down | Routing config bit 1 |
-| GPA | [2] | CFG_ROUTE[2] | Input | 10kΩ pull-down | Routing config bit 2 |
-| GPA | [3] | CFG_ROUTE[3] | Input | 10kΩ pull-down | Routing config bit 3 |
-| GPA | [4:7] | - | Input | - | Spare (reserved future use) |
-| GPB | [0] | CFG_REFMAP[0] | Input | 10kΩ pull-down | Reflector-map config bit 0 |
-| GPB | [1] | CFG_REFMAP[1] | Input | 10kΩ pull-down | Reflector-map config bit 1 |
-| GPB | [2] | CFG_REFMAP[2] | Input | 10kΩ pull-down | Reflector-map config bit 2 |
-| GPB | [3] | CFG_REFMAP[3] | Input | 10kΩ pull-down | Reflector-map config bit 3 |
-| GPB | [4] | CFG_REFMAP[4] | Input | 10kΩ pull-down | Reflector-map config bit 4 |
-| GPB | [5] | CFG_REFMAP[5] | Input | 10kΩ pull-down | Reflector-map config bit 5 |
-| GPB | [6] | - | Input | - | Spare (reserved future use) |
-| GPB | [7] | CFG_APPLY_N | Input | 10kΩ pull-up to 3V3_ENIG | Active-low momentary; 100nF X7R debounce cap to GND |
+| GPA | [0] | `CFG_ROUTE[0]` | Bidirectional(Input) | 10kΩ pull-down | Routing config bit 0 |
+| GPA | [1] | `CFG_ROUTE[1]` | Bidirectional(Input) | 10kΩ pull-down | Routing config bit 1 |
+| GPA | [2] | `CFG_ROUTE[2]` | Bidirectional(Input) | 10kΩ pull-down | Routing config bit 2 |
+| GPA | [3] | `CFG_ROUTE[3]` | Bidirectional(Input) | 10kΩ pull-down | Routing config bit 3 |
+| GPA | [5:4] | NC | Bidirectional | - | Spare (reserved future use) |
+| GPA | [6] | `CFG_APPLY_N` | Bidirectional(Input) | 10kΩ pull-up to 3V3_ENIG | Active-low momentary; 100nF X7R debounce cap to GND |
+| GPA | [7] | NC | Output | — | MCP23017 silicon restriction: GPA[7] is output-only on I²C variant (DS20001952D §1) |
+| GPB | [0] | `CFG_REFMAP[0]` | Bidirectional(Input) | 10kΩ pull-down | Reflector-map config bit 0 |
+| GPB | [1] | `CFG_REFMAP[1]` | Bidirectional(Input) | 10kΩ pull-down | Reflector-map config bit 1 |
+| GPB | [2] | `CFG_REFMAP[2]` | Bidirectional(Input) | 10kΩ pull-down | Reflector-map config bit 2 |
+| GPB | [3] | `CFG_REFMAP[3]` | Bidirectional(Input) | 10kΩ pull-down | Reflector-map config bit 3 |
+| GPB | [4] | `CFG_REFMAP[4]` | Bidirectional(Input) | 10kΩ pull-down | Reflector-map config bit 4 |
+| GPB | [5] | `CFG_REFMAP[5]` | Bidirectional(Input) | 10kΩ pull-down | Reflector-map config bit 5 |
+| GPB | [6] | NC | Bidirectional | - | Spare (reserved future use) |
+| GPB | [7] | NC | Output | — | MCP23017 silicon restriction: GPB[7] is output-only on I²C variant (DS20001952D §1) |
 
+> **Silicon note:** GPA[7] and GPB[7] on the MCP23017 I²C variant are output-only (DS20001952D §1);
+> this restriction applies to pin 7 of each port only — all other 14 GPIO (GPA[0:6] and GPB[0:6])
+> are fully bidirectional. GPA[5:4], GPA[7] and GPB[7:6] are NC.
+>
 > All toggle-switch signal inputs (GPA[3:0], GPB[5:0]) use 10kΩ pull-down resistors: open/off switch = logic-0.
-> `CFG_APPLY_N` (GPB[7]) uses 10kΩ pull-up: active button press = logic-0.
+> `CFG_APPLY_N` (GPA[6]) uses 10kΩ pull-up: active button press = logic-0.
 >
 > Each `200MSP1T2B4M2QE` toggle is wired as an SPDT-used-as-SPST input: the centre COM lug goes
 > to the named `CFG_*` signal net, the asserted throw goes to `3V3_ENIG`, and the opposite throw is
@@ -256,16 +262,22 @@ BSS138 NMOS pre-drivers (Q7-Q11), and Bank 1 RGB colour-rail low-side transistor
 
 | Port | Pin | Signal | Direction | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| GPA | [0] | LED_B1_SRC_A | Output | Bank 1 source-status LED high-side switch trigger; HIGH drives Q7 gate (BSS138 ON → Q19 PMOS ON → anode at 5V) |
-| GPA | [1] | LED_B1_0_A | Output | Bank 1 bit 0 LED high-side switch trigger; HIGH drives Q8 gate (BSS138 ON → Q20 PMOS ON → anode at 5V) |
-| GPA | [2] | LED_B1_1_A | Output | Bank 1 bit 1 LED high-side switch trigger; HIGH drives Q9 gate (BSS138 ON → Q21 PMOS ON → anode at 5V) |
-| GPA | [3] | LED_B1_2_A | Output | Bank 1 bit 2 LED high-side switch trigger; HIGH drives Q10 gate (BSS138 ON → Q22 PMOS ON → anode at 5V) |
-| GPA | [4] | LED_B1_3_A | Output | Bank 1 bit 3 LED high-side switch trigger; HIGH drives Q11 gate (BSS138 ON → Q23 PMOS ON → anode at 5V) |
-| GPA | [5] | BNK1_R | Output | Bank 1 red cathode rail; drives gate of Q1; HIGH = red rail active |
-| GPA | [6] | BNK1_G | Output | Bank 1 green cathode rail; drives gate of Q2; HIGH = green rail active |
+| GPA | [0] | LED_B1_SRC_A | Bidirectional(Output) | Bank 1 source-status LED high-side switch trigger; HIGH drives Q7 gate (BSS138 ON → Q19 PMOS ON → anode at 5V) |
+| GPA | [1] | LED_B1_0_A | Bidirectional(Output) | Bank 1 bit 0 LED high-side switch trigger; HIGH drives Q8 gate (BSS138 ON → Q20 PMOS ON → anode at 5V) |
+| GPA | [2] | LED_B1_1_A | Bidirectional(Output) | Bank 1 bit 1 LED high-side switch trigger; HIGH drives Q9 gate (BSS138 ON → Q21 PMOS ON → anode at 5V) |
+| GPA | [3] | LED_B1_2_A | Bidirectional(Output) | Bank 1 bit 2 LED high-side switch trigger; HIGH drives Q10 gate (BSS138 ON → Q22 PMOS ON → anode at 5V) |
+| GPA | [4] | LED_B1_3_A | Bidirectional(Output) | Bank 1 bit 3 LED high-side switch trigger; HIGH drives Q11 gate (BSS138 ON → Q23 PMOS ON → anode at 5V) |
+| GPA | [5] | BNK1_R | Bidirectional(Output) | Bank 1 red cathode rail; drives gate of Q1; HIGH = red rail active |
+| GPA | [6] | BNK1_G | Bidirectional(Output) | Bank 1 green cathode rail; drives gate of Q2; HIGH = green rail active |
 | GPA | [7] | BNK1_B | Output | Bank 1 blue cathode rail; drives gate of Q3; HIGH = blue rail active |
-| GPB | [7:0] | - | - | Spare (reserved future use) |
+| GPB | [6:0] | NC | Bidirectional | Reserved future use |
+| GPB | [7] | NC | Output | MCP23017 silicon restriction: GPB[7] is output-only on I²C variant (DS20001952D §1) |
 
+> **Silicon note:** GPA[7] and GPB[7] on the MCP23017 I²C variant are output-only (DS20001952D §1);
+> this restriction applies to pin 7 of each port only — all other 14 GPIO (GPA[0:6] and GPB[0:6])
+> are fully bidirectional. GPA[7] is assigned `BNK1_B` (Output) — silicon-compatible; no violation.
+> GPB[7:0] are NC.
+>
 > LED anode signals drive the gates of BSS138 NMOS pre-drivers (Q7-Q11) through 1 kΩ gate resistors
 > (R54-R58). Each BSS138 drain pulls down the gate of a PMOS high-side switch (Q19-Q23); 47 kΩ pull-ups
 > (R66-R70) hold the PMOS gates HIGH when the BSS138 is OFF, keeping the PMOS OFF and the anode
@@ -284,18 +296,24 @@ BSS138 NMOS pre-drivers (Q12-Q18), and Bank 2 RGB colour-rail low-side transisto
 
 | Port | Pin | Signal | Direction | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| GPA | [0] | LED_B2_SRC_A | Output | Bank 2 source-status LED high-side switch trigger; HIGH drives Q12 gate (BSS138 ON → Q24 PMOS ON → anode at 5V) |
-| GPA | [1] | LED_B2_0_A | Output | Bank 2 bit 0 LED high-side switch trigger; HIGH drives Q13 gate (BSS138 ON → Q25 PMOS ON → anode at 5V) |
-| GPA | [2] | LED_B2_1_A | Output | Bank 2 bit 1 LED high-side switch trigger; HIGH drives Q14 gate (BSS138 ON → Q26 PMOS ON → anode at 5V) |
-| GPA | [3] | LED_B2_2_A | Output | Bank 2 bit 2 LED high-side switch trigger; HIGH drives Q15 gate (BSS138 ON → Q27 PMOS ON → anode at 5V) |
-| GPA | [4] | LED_B2_3_A | Output | Bank 2 bit 3 LED high-side switch trigger; HIGH drives Q16 gate (BSS138 ON → Q28 PMOS ON → anode at 5V) |
-| GPA | [5] | LED_B2_4_A | Output | Bank 2 bit 4 LED high-side switch trigger; HIGH drives Q17 gate (BSS138 ON → Q29 PMOS ON → anode at 5V) |
-| GPA | [6] | LED_B2_5_A | Output | Bank 2 bit 5 LED high-side switch trigger; HIGH drives Q18 gate (BSS138 ON → Q30 PMOS ON → anode at 5V) |
+| GPA | [0] | LED_B2_SRC_A | Bidirectional(Output) | Bank 2 source-status LED high-side switch trigger; HIGH drives Q12 gate (BSS138 ON → Q24 PMOS ON → anode at 5V) |
+| GPA | [1] | LED_B2_0_A | Bidirectional(Output) | Bank 2 bit 0 LED high-side switch trigger; HIGH drives Q13 gate (BSS138 ON → Q25 PMOS ON → anode at 5V) |
+| GPA | [2] | LED_B2_1_A | Bidirectional(Output) | Bank 2 bit 1 LED high-side switch trigger; HIGH drives Q14 gate (BSS138 ON → Q26 PMOS ON → anode at 5V) |
+| GPA | [3] | LED_B2_2_A | Bidirectional(Output) | Bank 2 bit 2 LED high-side switch trigger; HIGH drives Q15 gate (BSS138 ON → Q27 PMOS ON → anode at 5V) |
+| GPA | [4] | LED_B2_3_A | Bidirectional(Output) | Bank 2 bit 3 LED high-side switch trigger; HIGH drives Q16 gate (BSS138 ON → Q28 PMOS ON → anode at 5V) |
+| GPA | [5] | LED_B2_4_A | Bidirectional(Output) | Bank 2 bit 4 LED high-side switch trigger; HIGH drives Q17 gate (BSS138 ON → Q29 PMOS ON → anode at 5V) |
+| GPA | [6] | LED_B2_5_A | Bidirectional(Output) | Bank 2 bit 5 LED high-side switch trigger; HIGH drives Q18 gate (BSS138 ON → Q30 PMOS ON → anode at 5V) |
 | GPA | [7] | BNK2_R | Output | Bank 2 red cathode rail; drives gate of Q4; HIGH = red rail active |
-| GPB | [0] | BNK2_G | Output | Bank 2 green cathode rail; drives gate of Q5; HIGH = green rail active |
-| GPB | [1] | BNK2_B | Output | Bank 2 blue cathode rail; drives gate of Q6; HIGH = blue rail active |
-| GPB | [2:7] | - | - | Spare (reserved future use) |
+| GPB | [0] | BNK2_G | Bidirectional(Output) | Bank 2 green cathode rail; drives gate of Q5; HIGH = green rail active |
+| GPB | [1] | BNK2_B | Bidirectional(Output) | Bank 2 blue cathode rail; drives gate of Q6; HIGH = blue rail active |
+| GPB | [6:2] | NC | Bidirectional | Reserved future use |
+| GPB | [7] | NC | Output | MCP23017 silicon restriction: GPB[7] is output-only on I²C variant (DS20001952D §1) |
 
+> **Silicon note:** GPA[7] and GPB[7] on the MCP23017 I²C variant are output-only (DS20001952D §1);
+> this restriction applies to pin 7 of each port only — all other 14 GPIO (GPA[0:6] and GPB[0:6])
+> are fully bidirectional. GPA[7] is assigned `BNK2_R` (Output) — silicon-compatible; no violation.
+> GPB[7:2] are NC.
+>
 > LED anode signals drive the gates of BSS138 NMOS pre-drivers (Q12-Q18) through 1 kΩ gate resistors
 > (R59-R65). Each BSS138 drain pulls down the gate of a PMOS high-side switch (Q24-Q30); 47 kΩ pull-ups
 > (R71-R77) hold the PMOS gates HIGH when the BSS138 is OFF. GPIO HIGH → BSS138 ON → PMOS gate ≈0 V →
@@ -359,17 +377,17 @@ rail disabled.
 ## 6. `CFG_APPLY_N` Button
 
 SW11 is a board-mounted momentary tactile switch (SPST, active-low) connected to
-U1 GPB[7]. The switch itself does not need to be panel-mount; the enclosure may use a
+U1 GPA[6]. The switch itself does not need to be panel-mount; the enclosure may use a
 simple plunger or cap to mechanically actuate the switch through the panel opening.
 
 * **Pull-up:** 10kΩ to 3V3_ENIG (R11) - idle state = logic HIGH.
 * **Debounce:** 100nF X7R 0402 capacitor to GND (C4; RC τ = 1ms).
-* **Operation:** CM5 enigma daemon polls GPB[7] during its main loop. On detecting LOW (button
+* **Operation:** CM5 enigma daemon polls GPA[6] during its main loop. On detecting LOW (button
   pressed, after debounce), the daemon:
   1. Reads U1 (full 16-bit state).
   2. Determines whether each bank should forward User Settings Module user intent or apply a CM5 override.
   3. Writes final configuration to U8 GPA[3:0] and GPB[5:0] on the Stator Board.
-  4. Pulses the Stator-side `CFG_APPLY_N` output (U8 GPA[4]) LOW then HIGH to trigger a
+  4. Pulses the Stator-side `CFG_APPLY_N` output (U8 GPA[6]) LOW then HIGH to trigger a
      Stator-only configuration reload.
   5. Updates U2 and U3 outputs to reflect the new configuration source and state.
 

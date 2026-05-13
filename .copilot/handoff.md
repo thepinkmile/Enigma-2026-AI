@@ -14,6 +14,98 @@ Use the active `design/` documents as the authoritative record:
 - relevant mechanical and software `Design_Spec.md` files
 - `design/Datasheets/` for preserved vendor and project-side reference material
 
+## 2026-05-13 session result (post-reboot cleanup — checkpoint 152)
+
+Todo-list full audit and cleanup completed.
+
+**Corrections applied to `.copilot/todo-list.md` (12 edits):**
+- 10 component diagram todos corrected `done` → `pending` (grep confirmed zero `block-beta` hits
+  across all Design_Spec.md files)
+- Stale file links cleared to `—` for 9 done todos (bulk-caps, ctl-l02-refdes-gap,
+  enc-cpld-spare-pins-rule, jtag-pin1-silkscreen-grs, jtag-integrity-resistor-value-reconcile,
+  mcp23017-gpb7-silicon-fixed-review, rot-i2c-residual-removal, am-button-review-production,
+  ctl-t1-tdk-a120-component-analysis)
+- `ctl-t1-tdk-topology-confirm` and `ctl-t1-tdk-library-import` changed `pending` → `done`
+  (user confirmed both complete)
+- Blocked By cleaned for: `interim-electronics-review-1` (trimmed to 3 relevant blockers),
+  `interim-electronics-review-2`, `prototype-pcb-manufacturing`, `full-pn-review`,
+  `ctl-t1-coilcraft-v2-review` (was blocked by now-done `ctl-t1-transformer-decision`)
+- SQL section: `mcp23017-gpb7-silicon-fixed-review`, `ctl-t1-tdk-library-import`,
+  `ctl-t1-tdk-topology-confirm` all updated `'pending'` → `'done'`
+
+**Missing detail files created:**
+- `.copilot/todos/usm-spdt-switch-floating-review.md` — SPDT switch pin mapping + pull-down check
+- `.copilot/todos/consolidate-design-spec-content.md` — Design_Spec.md simplification (blocked by
+  `enc-connector-review-pre-pcb`)
+- `.copilot/todos/ctl-t1-coilcraft-v2-review.md` — v2.0 Coilcraft review (now unblocked)
+
+All changes written to disk; user to review and commit ("Let's lock this in").
+
+Next workstreams (unblocked): `usm-spdt-switch-floating-review`, `enc-connector-review-pre-pcb`.
+
+## 2026-05-13 session result (CFG_APPLY_N correction — checkpoint 153)
+
+Corrected the `CFG_APPLY_N` Stator U8 pin assignment error introduced in DEC-032 (GPA[4] was
+wrong; correct pin is GPA[6]). All affected design files updated.
+
+**Files corrected:**
+- `design/Electronics/Stator/Design_Spec.md` — user manually fixed (DR-STA-13, DR-STA-15, U8
+  pin table, note block all now show GPA[6])
+- `design/Electronics/User_Settings_Module/Design_Spec.md` — §6 step 4: "U8 GPA[4]" → "U8 GPA[6]"
+- `design/Electronics/User_Settings_Module/Board_Layout.md` — U1 pin table `GPB[7]` → `GPA[6]`;
+  signal table `U1.GPB[7]` → `U1.GPA[6]`; Last Updated 2026-05-13
+- `design/Design_Log.md` — DEC-070 updated in-place (user-authorised, not yet locked in):
+  Amends field updated; D6 added; Files Changed updated; DEC-071 (written in error) removed
+
+## 2026-05-13 session result
+
+Two workstreams completed across this session date.
+
+### JTAG integrity resistor value reconcile (checkpoint 148)
+
+All JTAG series termination and line-length data updated to match the new 6-layer 2oz Controller
+Board stackup (JLC061621-3313). Four Design_Spec files updated (CTL, EXT, JM, AM) and
+`Global_Routing_Spec.md` §8 updated with correct propagation velocity and length values.
+Discussion and todo files moved to `.recycle-bin/`.
+
+### MCP23017 GPA[7]/GPB[7] silicon restriction review (checkpoints 149–151)
+
+**Root cause:** MCP23017 I²C variant (DS20001952D) pins GPA[7] and GPB[7] are output-only;
+restriction is silicon-level, present in all die revisions, applies to pin 7 of each port only.
+
+**Violation found and resolved:**
+- USM U1 GPB[7] was assigned `CFG_APPLY_N` (Input) — silicon violation
+- Resolved: `CFG_APPLY_N` moved from USM U1 GPB[7] → GPA[6] (per DEC-070 D1)
+- GPA[7] and GPB[7] on all six MCP23017 instances are now spare/NC or correctly output-assigned
+
+**DEC-070 enriched with four supplemental points:**
+- D1: CFG_APPLY_N reassignment to GPA[6]
+- D2: all USM and Stator MCP23017 pin tables documented with directional details
+- D3: all GPA[7]/GPB[7] cells confirmed output-only with silicon restriction note
+- D4: no part replacement needed — restriction is pin-7 only; 14 other GPIO fully bidirectional;
+  SPI variant (MCP23S17) would remove restriction but requires SPI bus wiring — not warranted
+- D5: U6 (Stator 0x20) function clarified as ENC service-bus monitoring — read-only telemetry;
+  monitors ENC_IN[5:0] + ENC_ACTIVE_KBD_N + ENC_OUT[5:0] + ENC_ACTIVE_LBD_N via Stator CPLD;
+  all 14 active pins are inputs (GPA[0:6], GPB[0:6]) — no silicon violation on U6
+
+**Design files updated (all Last Updated: 2026-05-13):**
+- `design/Design_Log.md` — DEC-070 date corrected; Context/Decision/Rationale/Files Changed
+  sections enriched with all four supplemental points; DS20001952D citations added
+- `design/Electronics/User_Settings_Module/Design_Spec.md` — FR-USM-04, DR-USM-07, pin tables,
+  §4.2, §6 Operation updated; U1/U2/U3 silicon restriction note blocks added; DS20001952D §1
+  citation on all six GPA[7]/GPB[7] inline cells
+- `design/Electronics/Stator/Design_Spec.md` — U6 pin table added; U7/U8 pin tables added;
+  all tables include directional details; silicon note blocks updated with pin-7-only scope;
+  DS20001952D §1 citation on all six GPA[7]/GPB[7] inline cells
+
+**Bookkeeping:** `.copilot/todos/mcp23017-gpb7-silicon-fixed-review.md` → `.recycle-bin/`;
+`.copilot/todo-list.md` Last updated: 2026-05-13. Checkpoint 151 created.
+
+All changes are written to disk; user to review and commit ("Let's lock this in").
+
+Next workstreams: `usm-spdt-switch-floating-review`, `enc-connector-review-pre-pcb`,
+`consolidate-design-spec-content` (blocked by enc-connector-review-pre-pcb).
+
 ## 2026-05-12 session result (follow-up)
 
 DEC-068/069 workstream fully closed. Three post-implementation fixes applied:

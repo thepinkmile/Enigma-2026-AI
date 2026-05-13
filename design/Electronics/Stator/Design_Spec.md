@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-12
+**Last Updated:** 2026-05-13
 
 The Stator Board is the mechanical and electrical backbone of the rotor stack. It provides the high-current distribution and signal routing for the 30 modular rotors.
 
@@ -51,9 +51,9 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 | DR-STA-10 | Routing configuration selection | Logical `CFG_ROUTE[3:0]` inputs are driven by U8 GPA[3:0]; 4x 10kΩ pull-down resistors R13-R16 retained on CPLD inputs as power-up safe defaults (hold 0 when U8 is uninitialised) | §3 Configuration Bank 1 (Routing); BOM U8, R13-R16 |
 | DR-STA-11 | Reflector map selection | Logical `CFG_REFMAP[5:0]` inputs are driven by U8 GPB[5:0]; 6x 10kΩ pull-down resistors R18-R23 retained on CPLD inputs as power-up safe defaults | §3 Configuration Bank 2 (Reflector Mapping); BOM U8, R18-R23 |
 | DR-STA-12 | I²C GPIO expanders | U6 = MCP23017T-E/SO (A2=LOW, A1=LOW, A0=LOW; 0x20); U7 = MCP23017T-E/SO (A2=LOW, A1=LOW, A0=HIGH; 0x21); U8 = MCP23017T-E/SO; SOIC-28 package; on shared I²C-1 bus (see `Controller/Design_Spec.md §4.1` for I²C address assignments); each IC requires a dedicated /RESET pull-up: R36 (U6), R37 (U7), R38 (U8) - 10kΩ each to 3V3_ENIG; U7 cannot share SYS_RESET_N for /RESET because U7 GPA[7] drives SYS_RESET_N (circular dependency) | BOM U6, U7, U8, R36, R37, R38 |
-| DR-STA-13 | U8 specification | U8 = MCP23017T-E/SO; SOIC-28; A2=LOW, A1=HIGH, A0=LOW; GPA[3:0] = `CFG_ROUTE[3:0]` outputs; GPA[4] = active-low `CFG_APPLY_N` Stator-only apply/reset output; GPB[5:0] = `CFG_REFMAP[5:0]` outputs | BOM U8 |
+| DR-STA-13 | U8 specification | U8 = MCP23017T-E/SO; SOIC-28; A2=LOW, A1=HIGH, A0=LOW; GPA[3:0] = `CFG_ROUTE[3:0]` outputs; GPA[6] = active-low `CFG_APPLY_N` Stator-only apply/reset output; GPB[5:0] = `CFG_REFMAP[5:0]` outputs | BOM U8 |
 | DR-STA-14 | J13 connector | J13 = 6-pin JST PH 2.0mm B6B-PH-K-S(LF)(SN); pins: `3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`; connects to User Settings Module J1 via 6-wire harness. `5V_MAIN` is derived from the Controller-fed `J11` branch. | BOM J13 |
-| DR-STA-15 | `CFG_APPLY_N` signal | `CFG_APPLY_N` = active-low Stator-only apply/reset pulse from U8 GPA[4]; combined with `SYS_RESET_N` through U3 (`SN74LVC1G08DBVR`) so either signal can assert the Stator CPLD reset path; forcing `CFG_APPLY_N` LOW reloads `CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]` without resetting the wider system; R17 (10kΩ pull-up to 3V3_ENIG) holds `CFG_APPLY_N` deasserted at power-up when U8 is uninitialised | BOM U8, U3, R17; §3 Configuration Bank 1 (Routing) |
+| DR-STA-15 | `CFG_APPLY_N` signal | `CFG_APPLY_N` = active-low Stator-only apply/reset pulse from U8 GPA[6]; combined with `SYS_RESET_N` through U3 (`SN74LVC1G08DBVR`) so either signal can assert the Stator CPLD reset path; forcing `CFG_APPLY_N` LOW reloads `CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]` without resetting the wider system; R17 (10kΩ pull-up to 3V3_ENIG) holds `CFG_APPLY_N` deasserted at power-up when U8 is uninitialised | BOM U8, U3, R17; §3 Configuration Bank 1 (Routing) |
 | DR-STA-16 | ESD protection - rotor-facing BtB connectors | U9 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, SYS_RESET_N) + U10-U12 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §8 Thermal & ESD; BOM U9-U12 |
 | DR-STA-17 | Mounting holes | MH1–MH4 shall be 4× M3 PTH (Ø3.2 mm drill) mounting holes tied to `GND_CHASSIS` per GRS §4; ENIG annular ring per GRS §4. Placement follows GRS §4.3 Pattern B (D-shaped board): MH1 bottom-left corner, MH2 bottom-right corner, MH3 board-centre, MH4 top-centre arc midpoint — all at 7 mm inset from nearest edge. No BOM entry — plain chassis mounting holes, no components to fit. Exact XY coordinates TBD at PCB layout. | §2 (GND_CHASSIS bond note); `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Stator/Board_Layout.md §12` |
 
@@ -312,10 +312,10 @@ net `SYS_RESET_N`:
   Separate pull-ups are required for each IC because U7 GPA[7] drives `SYS_RESET_N`; connecting U7
   /RESET back to `SYS_RESET_N` would create a circular dependency.
 * **Reset / Apply path:** `SYS_RESET_N` remains the active-low global reset. `CFG_APPLY_N` is a
-  separate active-low Stator-only apply/reset pulse driven by U8 GPA[4]. A dedicated external
+  separate active-low Stator-only apply/reset pulse driven by U8 GPA[6]. A dedicated external
   `SN74LVC1G08DBVR` 2-input AND gate combines `SYS_RESET_N` and `CFG_APPLY_N` into the Stator CPLD
   `DEV_CLR_N` path so a low on either signal resets the Stator CPLD. R17 (10kΩ pull-up to 3V3_ENIG)
-  holds `CFG_APPLY_N` deasserted (HIGH) at power-up when U8 GPA[4] is uninitialised, preventing an
+  holds `CFG_APPLY_N` deasserted (HIGH) at power-up when U8 GPA[6] is uninitialised, preventing an
   inadvertent CPLD reset at startup.
 
 #### Device-to-Design Net Name Mapping
@@ -500,6 +500,97 @@ full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
 | MCP23017 | U7 | `CM5_KEY_DATA[5:0]`, `KEY_CM5_ACTIVE`, `SYS_RESET_N`, `CM5_KEY_ACTIVE_N`, `KEY_SRC_ACTIVE_N`, spare GPIO (16 GPIO) |
 | MCP23017 | U8 | CPLD configuration output driver: `CFG_ROUTE[3:0]` + `CFG_REFMAP[5:0]` + `CFG_APPLY_N` (16 GPIO) (per DEC-032) |
 | INA219 | U2 | Rotor stack current/power telemetry |
+
+### U6 - MCP23017T-E/SO @ 0x20
+
+Monitors the HID cipher path: keyboard-source input bus (post keyboard-source mux) and
+lightboard output bus, plus their respective activity sidebands. All active pins are inputs.
+
+**Address:** 0x20 - MCP23017 base 0x20; A2=LOW, A1=LOW, A0=LOW → 0x20 | 0b000 = 0x20
+
+| Port | Pin | Signal | Direction | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| GPA | [0] | `ENC_IN[0]` | Bidirectional(Input) | Monitor: cipher input bit 0 — post keyboard-source mux, forward path to CPLD |
+| GPA | [1] | `ENC_IN[1]` | Bidirectional(Input) | Monitor: cipher input bit 1 |
+| GPA | [2] | `ENC_IN[2]` | Bidirectional(Input) | Monitor: cipher input bit 2 |
+| GPA | [3] | `ENC_IN[3]` | Bidirectional(Input) | Monitor: cipher input bit 3 |
+| GPA | [4] | `ENC_IN[4]` | Bidirectional(Input) | Monitor: cipher input bit 4 |
+| GPA | [5] | `ENC_IN[5]` | Bidirectional(Input) | Monitor: cipher input bit 5 |
+| GPA | [6] | `ENC_ACTIVE_KBD_N` | Bidirectional(Input) | Monitor: selected keyboard-source activity sideband (active-LOW) |
+| GPA | [7] | NC | Output | MCP23017 silicon restriction: GPA[7] output-only (DS20001952D §1); NC |
+| GPB | [0] | `ENC_OUT[0]` | Bidirectional(Input) | Monitor: cipher output bit 0 — CPLD return path to lightboard |
+| GPB | [1] | `ENC_OUT[1]` | Bidirectional(Input) | Monitor: cipher output bit 1 |
+| GPB | [2] | `ENC_OUT[2]` | Bidirectional(Input) | Monitor: cipher output bit 2 |
+| GPB | [3] | `ENC_OUT[3]` | Bidirectional(Input) | Monitor: cipher output bit 3 |
+| GPB | [4] | `ENC_OUT[4]` | Bidirectional(Input) | Monitor: cipher output bit 4 |
+| GPB | [5] | `ENC_OUT[5]` | Bidirectional(Input) | Monitor: cipher output bit 5 |
+| GPB | [6] | `ENC_ACTIVE_LBD_N` | Bidirectional(Input) | Monitor: lightboard output activity sideband (active-LOW) |
+| GPB | [7] | NC | Output | MCP23017 silicon restriction: GPB[7] output-only (DS20001952D §1); NC |
+
+> **Silicon note:** GPA[7] and GPB[7] on the MCP23017 I²C variant are output-only (DS20001952D §1);
+> this restriction applies to pin 7 of each port only — all other 14 GPIO (GPA[0:6] and GPB[0:6])
+> are fully bidirectional. Both GPA[7] and GPB[7] are NC on U6. All 14 active
+> monitoring signals (ENC_IN[5:0] + ENC_ACTIVE_KBD_N + ENC_OUT[5:0] + ENC_ACTIVE_LBD_N) occupy
+> GPA[0:6] and GPB[0:6] only — no violation.
+
+### U7 - MCP23017T-E/SO @ 0x21
+
+Handles CM5 virtual-key injection into the keyboard-source mux, mux-select control, board-level
+`SYS_RESET_N` output, and CM5 activity sideband monitoring.
+
+**Address:** 0x21 — MCP23017 base 0x20; A2=LOW, A1=LOW, A0=HIGH → 0x20 | 0b001 = 0x21
+
+| Port | Pin | Signal | Direction | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| GPA | [0] | `CM5_KEY_DATA[0]` | Bidirectional(Output) | CM5 virtual-key bus bit 0 — driven to keyboard-source mux (U4/U5) input |
+| GPA | [1] | `CM5_KEY_DATA[1]` | Bidirectional(Output) | CM5 virtual-key bus bit 1 |
+| GPA | [2] | `CM5_KEY_DATA[2]` | Bidirectional(Output) | CM5 virtual-key bus bit 2 |
+| GPA | [3] | `CM5_KEY_DATA[3]` | Bidirectional(Output) | CM5 virtual-key bus bit 3 |
+| GPA | [4] | `CM5_KEY_DATA[4]` | Bidirectional(Output) | CM5 virtual-key bus bit 4 |
+| GPA | [5] | `CM5_KEY_DATA[5]` | Bidirectional(Output) | CM5 virtual-key bus bit 5 |
+| GPA | [6] | `KEY_CM5_ACTIVE` | Bidirectional(Output) | Mux select: LOW = physical keyboard forwarded; HIGH = CM5 virtual-key forwarded |
+| GPA | [7] | `SYS_RESET_N` | Output | Board-level active-low system reset; drives Stator CPLD `DEV_CLR_N` via AND gate U3; GPA[7] is output-only on I²C variant (DS20001952D §1) — Output assignment is silicon-compatible |
+| GPB | [0] | `CM5_KEY_ACTIVE_N` | Bidirectional(Output) | CM5 virtual-key activity sideband (active-LOW); forwarded by mux when `KEY_CM5_ACTIVE`=HIGH |
+| GPB | [1] | `KEY_SRC_ACTIVE_N` | Bidirectional(Input) | Selected keyboard-source activity state monitoring (post-mux, active-LOW) |
+| GPB | [6:2] | NC | Bidirectional | Reserved future use |
+| GPB | [7] | NC | Output | MCP23017 silicon restriction: GPB[7] output-only (DS20001952D §1); NC |
+
+> **Silicon note:** GPA[7] and GPB[7] on the MCP23017 I²C variant are output-only (DS20001952D §1);
+> this restriction applies to pin 7 of each port only — all other 14 GPIO (GPA[0:6] and GPB[0:6])
+> are fully bidirectional. GPA[7] is assigned `SYS_RESET_N` (Output) — silicon-compatible; no
+> violation. GPB[7] is NC.
+
+### U8 - MCP23017T-E/SO @ 0x22
+
+CPLD configuration output driver: delivers final routing configuration (`CFG_ROUTE[3:0]`), reflector
+substitution map (`CFG_REFMAP[5:0]`), and configuration apply pulse (`CFG_APPLY_N`) to the Stator CPLD
+(per DEC-032). Pull-down resistors R13–R16 (`CFG_ROUTE`) and R18–R23 (`CFG_REFMAP`) hold CPLD inputs at
+logic-0 when U8 is uninitialised; pull-up R17 holds `CFG_APPLY_N` deasserted at power-up.
+
+**Address:** 0x22 — MCP23017 base 0x20; A2=LOW, A1=HIGH, A0=LOW → 0x20 | 0b010 = 0x22
+
+| Port | Pin | Signal | Direction | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| GPA | [0] | `CFG_ROUTE[0]` | Bidirectional(Output) | CPLD routing config bit 0; 10kΩ pull-down R13 on CPLD input |
+| GPA | [1] | `CFG_ROUTE[1]` | Bidirectional(Output) | CPLD routing config bit 1; 10kΩ pull-down R14 on CPLD input |
+| GPA | [2] | `CFG_ROUTE[2]` | Bidirectional(Output) | CPLD routing config bit 2; 10kΩ pull-down R15 on CPLD input |
+| GPA | [3] | `CFG_ROUTE[3]` | Bidirectional(Output) | CPLD routing config bit 3; 10kΩ pull-down R16 on CPLD input |
+| GPA | [5:4] | NC | Bidirectional | Reserved future use |
+| GPA | [6] | `CFG_APPLY_N` | Bidirectional(Output) | Active-low Stator-only config apply/reload pulse; combined with `SYS_RESET_N` through AND gate U3 to drive CPLD `DEV_CLR_N`; 10kΩ pull-up R17 to `3V3_ENIG` |
+| GPA | [7] | NC | Output | MCP23017 silicon restriction: GPA[7] output-only (DS20001952D §1); NC |
+| GPB | [0] | `CFG_REFMAP[0]` | Bidirectional(Output) | CPLD reflector map bit 0; 10kΩ pull-down R18 on CPLD input |
+| GPB | [1] | `CFG_REFMAP[1]` | Bidirectional(Output) | CPLD reflector map bit 1; 10kΩ pull-down R19 on CPLD input |
+| GPB | [2] | `CFG_REFMAP[2]` | Bidirectional(Output) | CPLD reflector map bit 2; 10kΩ pull-down R20 on CPLD input |
+| GPB | [3] | `CFG_REFMAP[3]` | Bidirectional(Output) | CPLD reflector map bit 3; 10kΩ pull-down R21 on CPLD input |
+| GPB | [4] | `CFG_REFMAP[4]` | Bidirectional(Output) | CPLD reflector map bit 4; 10kΩ pull-down R22 on CPLD input |
+| GPB | [5] | `CFG_REFMAP[5]` | Bidirectional(Output) | CPLD reflector map bit 5; 10kΩ pull-down R23 on CPLD input |
+| GPB | [6] | NC | Bidirectional | Reserved future use |
+| GPB | [7] | NC | Output | MCP23017 silicon restriction: GPB[7] output-only (DS20001952D §1); NC |
+
+> **Silicon note:** GPA[7] and GPB[7] on the MCP23017 I²C variant are output-only (DS20001952D §1);
+> this restriction applies to pin 7 of each port only — all other 14 GPIO (GPA[0:6] and GPB[0:6])
+> are fully bidirectional. Both GPA[7] and GPB[7] are NC on U8. All 11 active signals
+> (`CFG_ROUTE[3:0]` + `CFG_APPLY_N` + `CFG_REFMAP[5:0]`) occupy GPA[0:3], GPA[6] and GPB[0:5] only — no violation.
 
 ## 5. Power Telemetry (The "Encryption Load")
 
