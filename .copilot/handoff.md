@@ -3,6 +3,34 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
+## 2026-05-14 session result (Review Pass 9 complete — checkpoint 159)
+
+### Review Pass 9: all fixes applied
+
+75 findings reviewed; 16 fixed, 5 closed, 54 deferred to Pass 10.
+
+**Design file changes:**
+- `Power_Module/Design_Spec.md` — R8/R22 net 3V3_ENIG → 5V_MAIN (MIC1555 must be active at power-on)
+- `Controller/Design_Spec.md` — Phantom PRTR5V0U2X removed; D2 1.5SMBJ36CA ESD section added; VREF phantom removed; CM5 socket wording generalised
+- `Controller/Board_Layout.md` — J14→J13, J15→J14 throughout §7
+- `JTAG_Module/Design_Spec.md` — TTD_RETURN propagated; USB trace width → GRS §2.3 cross-ref
+- `JTAG_Module/Board_Layout.md` — USB trace width → GRS §2.3 cross-ref
+- `USM/Design_Spec.md` — R2–R11 330Ω series resistors added; R11→R1 CFG_APPLY_N pull-up renumber
+- `Consolidated_BOM.md` — 9 BOM corrections; ERJ-2RKF3300X and 1.5SMBJ36CA rows added
+- `Global_Routing_Spec.md` — §3.2 bypass cap proximity wording
+- `Datasheets/Bourns-1-5smbj-datasheet.md` — H1 title fix
+- `Design_Log.md` — DEC-072 appended; next = DEC-073
+- `SamacSys_Parts.kicad_sym` — 1.5SMBJ36CA symbol inserted (30532 lines)
+- `SamacSys_Parts.pretty/DIONM5436X244N.kicad_mod` — DO-214AA footprint created
+
+**Housekeeping:** `review-report.md` now complete through Pass 9 (Pass 6 Fix Status + full Pass 7/8/9 sections); `review-pass-9` todo closed.
+
+**New parts:** ERJ-2RKF3300X (330Ω 0402), 1.5SMBJ36CA (36V TVS DO-214AA/SMB).
+
+**Next:** `review-pass-10` is now unblocked (54 deferred Pass 9 findings). Other unblocked: `extension-mechanical-usage`, `system-config-variants-diagrams`, `consolidate-design-spec-content`.
+
+---
+
 ## 2026-05-14 session result (ENC connector review complete — checkpoint 158)
 
 ### enc-connector-review-pre-pcb closed

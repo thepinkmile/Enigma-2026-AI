@@ -618,4 +618,16 @@ K
 F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
 $ENDCMP
 #
+$CMP 1.5SMBJ36CA-H
+D DIO TVS VRWM 36V 1500W BIDIR SMB 7" REEL
+K
+F https://bourns.com/docs/product-datasheets/1-5SMBJ.pdf
+$ENDCMP
+#
+$CMP 1.5SMBJ36CA
+D DIO TVS VRWM 36V 1500W BIDIR SMB
+K
+F https://www.bourns.com/docs/product-datasheets/smbj.pdf?sfvrsn=34552159_17
+$ENDCMP
+#
 #End Doc Library

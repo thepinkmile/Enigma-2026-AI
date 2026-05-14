@@ -57,7 +57,7 @@ daemon over I²C.
 | DR-USM-06 | LED power supply | `5V_MAIN` from the Stator via J1 pin 2; full RGB operation at 5V uses 150Ω red and 100Ω green/blue series resistors; LED anodes connect to `5V_MAIN` via per-anode PMOS high-side switches (Q19-Q30) - see DR-USM-10 | §7 Interconnects - J1; §5 LED Control Logic; BOM R18-R53, Q7-Q30, R54-R77 |
 | DR-USM-07 | `CFG_APPLY_N` button | SW11 = Omron B3F-1070 or equivalent SPST NO through-hole tactile switch, active-low; mounted on the User Settings Module and actuated through the enclosure by a mechanical plunger/cap; 10kΩ pull-up to 3V3_ENIG + 100nF debounce cap; U1 GPA[6] | §6 `CFG_APPLY_N` Button; BOM SW11, R1, C4 |
 | DR-USM-08 | I²C connector | J1 = 6-pin JST PH 2.0mm B6B-PH-K-S(LF)(SN); pins: `3V3_ENIG`, `5V_MAIN`, `GND`, `SDA`, `SCL`, `GND`; harness to Stator J13 | §7 Interconnects; BOM J1 |
-| DR-USM-09 | Switch input wiring | Each SPDT toggle (SW1–SW10): NC terminal to GND, NO terminal to 3V3_ENIG, COM terminal to U1 input (GPA[3:0], GPB[5:0]); both throws hard-terminated; GPIO HIGH when switch ON, LOW when OFF | §4 I²C Devices - U1; BOM SW1-SW10 |
+| DR-USM-09 | Switch input wiring | Each SPDT toggle (SW1–SW10): NC terminal to GND, NO terminal to 3V3_ENIG, COM terminal via 330Ω series resistor (R2–R11) to U1 input (GPA[3:0], GPB[5:0]); both throws hard-terminated; GPIO HIGH when switch ON, LOW when OFF | §4 I²C Devices - U1; BOM SW1-SW10, R2-R11 |
 | DR-USM-10 | Per-anode LED high-side switch | 12x two-stage per-anode high-side switch: MCP23017 GPIO → 1 kΩ gate resistor (R54-R65) → BSS138 NMOS pre-driver (Q7-Q18); BSS138 drain pulls PMOS gate low; 47 kΩ pull-up (R66-R77) from PMOS gate to `5V_MAIN`; PMOS source at `5V_MAIN`, drain to LED anode; GPIO HIGH → LED ON (non-inverted logic); this topology isolates the MCP23017 3.3 V GPIO from direct-driving 5 V LED anodes | §5 LED Control Logic; BOM Q7-Q30, R54-R77 |
 | DR-USM-11 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. Exact XY coordinates TBD at PCB layout. | §2 Core Features (GND_CHASSIS section); `design/Standards/Global_Routing_Spec.md §4.3` |
 | DR-USM-12 | Per-IC bypass capacitors | Per-IC bypass capacitor rule applies per `design/Standards/Global_Routing_Spec.md §3.2`. C1, C2, and C3 are the bypass capacitors for U1, U2, and U3 respectively. | §10 BOM (C1-C3); §12 Component Count Summary; `design/Standards/Global_Routing_Spec.md §3.2` |
@@ -225,19 +225,19 @@ Reads the 10 toggle-switch states and the active-low `CFG_APPLY_N` momentary but
 
 | Port | Pin | Signal | Direction | Pull | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| GPA | [0] | `CFG_ROUTE[0]` | Bidirectional(Input) | — (switch-terminated) | Routing config bit 0 |
-| GPA | [1] | `CFG_ROUTE[1]` | Bidirectional(Input) | — (switch-terminated) | Routing config bit 1 |
-| GPA | [2] | `CFG_ROUTE[2]` | Bidirectional(Input) | — (switch-terminated) | Routing config bit 2 |
-| GPA | [3] | `CFG_ROUTE[3]` | Bidirectional(Input) | — (switch-terminated) | Routing config bit 3 |
+| GPA | [0] | `CFG_ROUTE[0]` | Bidirectional(Input) | 330Ω series (R2–R11) | Routing config bit 0 |
+| GPA | [1] | `CFG_ROUTE[1]` | Bidirectional(Input) | 330Ω series (R2–R11) | Routing config bit 1 |
+| GPA | [2] | `CFG_ROUTE[2]` | Bidirectional(Input) | 330Ω series (R2–R11) | Routing config bit 2 |
+| GPA | [3] | `CFG_ROUTE[3]` | Bidirectional(Input) | 330Ω series (R2–R11) | Routing config bit 3 |
 | GPA | [5:4] | NC | Bidirectional | - | Spare (reserved future use) |
 | GPA | [6] | `CFG_APPLY_N` | Bidirectional(Input) | 10kΩ pull-up to 3V3_ENIG | Active-low momentary; 100nF X7R debounce cap to GND |
 | GPA | [7] | NC | Output | — | MCP23017 silicon restriction: GPA[7] is output-only on I²C variant (DS20001952D §1) |
-| GPB | [0] | `CFG_REFMAP[0]` | Bidirectional(Input) | — (switch-terminated) | Reflector-map config bit 0 |
-| GPB | [1] | `CFG_REFMAP[1]` | Bidirectional(Input) | — (switch-terminated) | Reflector-map config bit 1 |
-| GPB | [2] | `CFG_REFMAP[2]` | Bidirectional(Input) | — (switch-terminated) | Reflector-map config bit 2 |
-| GPB | [3] | `CFG_REFMAP[3]` | Bidirectional(Input) | — (switch-terminated) | Reflector-map config bit 3 |
-| GPB | [4] | `CFG_REFMAP[4]` | Bidirectional(Input) | — (switch-terminated) | Reflector-map config bit 4 |
-| GPB | [5] | `CFG_REFMAP[5]` | Bidirectional(Input) | — (switch-terminated) | Reflector-map config bit 5 |
+| GPB | [0] | `CFG_REFMAP[0]` | Bidirectional(Input) | 330Ω series (R2–R11) | Reflector-map config bit 0 |
+| GPB | [1] | `CFG_REFMAP[1]` | Bidirectional(Input) | 330Ω series (R2–R11) | Reflector-map config bit 1 |
+| GPB | [2] | `CFG_REFMAP[2]` | Bidirectional(Input) | 330Ω series (R2–R11) | Reflector-map config bit 2 |
+| GPB | [3] | `CFG_REFMAP[3]` | Bidirectional(Input) | 330Ω series (R2–R11) | Reflector-map config bit 3 |
+| GPB | [4] | `CFG_REFMAP[4]` | Bidirectional(Input) | 330Ω series (R2–R11) | Reflector-map config bit 4 |
+| GPB | [5] | `CFG_REFMAP[5]` | Bidirectional(Input) | 330Ω series (R2–R11) | Reflector-map config bit 5 |
 | GPB | [6] | NC | Bidirectional | - | Spare (reserved future use) |
 | GPB | [7] | NC | Output | — | MCP23017 silicon restriction: GPB[7] is output-only on I²C variant (DS20001952D §1) |
 
@@ -246,7 +246,7 @@ Reads the 10 toggle-switch states and the active-low `CFG_APPLY_N` momentary but
 > are fully bidirectional. GPA[5:4], GPA[7] and GPB[7:6] are NC.
 >
 > Toggle-switch signal inputs (GPA[3:0], GPB[5:0]) are switch-terminated: NC terminal to GND, NO terminal
-> to 3V3_ENIG, COM terminal to GPIO — no external pull resistors required. `CFG_APPLY_N` (GPA[6]) uses
+> to 3V3_ENIG, COM terminal via 330Ω series resistor (R2–R11) to GPIO. `CFG_APPLY_N` (GPA[6]) uses
 > 10kΩ pull-up (R1): active button press = logic-0.
 >
 > Each `200MSP1T2B4M2QE` toggle is a 3-terminal SPDT: NC terminal to GND, NO terminal to 3V3_ENIG,
@@ -463,6 +463,7 @@ JLCPCB PCBA and are excluded from the JLCPCB SMT assembly BOM.
 | Q1-Q18 | N-MOSFET 50V 200mA SOT-23 | BSS138 | onsemi | BSS138CT-ND | 512-BSS138 | C52895 | - | - | Yes | Pending | 18 |
 | Q19-Q30 | P-MOSFET AEC-Q101 SOT-23 | SQ2319ADS-T1_BE3 | Vishay | 742-SQ2319ADS-T1_BE3CT-ND | 78-SQ2319ADS-T1_BE3 | C3280190 | - | - | Yes | Pending | 12 |
 | R1 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 1 |
+| R2-R11 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | Yes | Pending | 10 |
 | R12-R17,R54-R65 | 1kΩ 1% 0402 | ERJ-2RKF1001X | Panasonic | P1.00KLCT-ND | 667-ERJ-2RKF1001X | C242161 | - | - | Yes | Pending | 18 |
 | R18-R29 | 150Ω 1% 0603 | ERJ-3EKF1500V | Panasonic | P150HCT-ND | 667-ERJ-3EKF1500V | C400650 | - | - | Yes | Pending | 12 |
 | R30-R53 | 100Ω 1% 0603 | ERJ-3EKF1000V | Panasonic | P100HCT-ND | 667-ERJ-3EKF1000V | C193336 | - | - | Yes | Pending | 24 |
@@ -512,6 +513,7 @@ JLCPCB PCBA and are excluded from the JLCPCB SMT assembly BOM.
 | **PMOS MOSFETs (per-anode high-side switch)** | 12 | Q19-Q30 - Vishay SQ2319ADS-T1_BE3; source at 5V_MAIN, drain to LED anode |
 | **0603 LED path resistors** | 36 | 12x red (150Ω), 12x green (100Ω), 12x blue (100Ω) |
 | **0603 Resistors** | 1 | R1: 10kΩ |
+| **0402 Resistors (switch series)** | 10 | R2-R11: ERJ-2RKF3300X 330Ω |
 | **0402 Resistors (colour-rail gate)** | 6 | R12-R17: 1kΩ colour-rail MOSFET gate resistors |
 | **0402 Resistors (per-anode gate)** | 12 | R54-R65: 1kΩ BSS138 pre-driver gate resistors |
 | **0402 Resistors (PMOS pull-up)** | 12 | R66-R77: KOA Speer SG73S1ERTTP4702D 47 kΩ ±0.5% PMOS gate pull-ups |
@@ -523,7 +525,7 @@ JLCPCB PCBA and are excluded from the JLCPCB SMT assembly BOM.
 | **Pushbutton Switch** | 1 | SW11 - Omron B3F-1070 SPST NO through-hole tactile switch |
 
 **Total unique part numbers:** ~20
-**Total component count:** 156
+**Total component count:** 166
 
 ---
 

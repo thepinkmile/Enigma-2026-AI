@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-10
+**Last Updated:** 2026-05-14
 
 This board implements our version of an Intel (Altera) USB Blaster II device for programming CPLDs.
 
@@ -113,7 +113,7 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
 | 5V_USB (J1 C4R1 → FT232H VCC) | 400 mA | 0.06 mm | 0.50 mm | **0.50 mm** | L1 + L3 pour | FT232H absolute max VCC draw; power-rail minimum applies |
 | 3V3_ENIG (J1 C7R1 → FT232H VCCIO) | 15 mA | 0.002 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | VCCIO domain; 3V3_ENIG canonical 0.80 mm (design/Standards/Global_Routing_Spec.md §1.1) |
 | JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L2 (inner) | JM inverted stackup (DEC-017): L2 is immediately below the L1 GND plane (buried microstrip, h ≈ 0.087 mm); 0.127 mm achieves ≈50 Ω, equivalent to outer-layer microstrip. Compliant - inverted stackup (L1=GND) places L2 immediately adjacent to the L1 GND reference plane, achieving equivalent controlled impedance per DEC-016 via buried-microstrip topology. |
-| USB D+ / D- differential pair | signal | - | 0.15 mm | **0.15 mm (6 mil)** | L2 (inner) | 90 Ω differential USB 2.0; must be length-matched to within 0.1 mm; routed as a tightly-coupled pair |
+| USB D+ / D- differential pair | signal | — | see GRS §2.3 | **see `design/Production/JLCPCB_Manufacturing.md §1`** | L2 (inner) | 90 Ω differential USB 2.0; must be length-matched to within 0.1 mm; routed as a tightly-coupled pair |
 | GND pours (outer layers) | - | - | pour | **copper pour** | L1 + L4 | Both outer layers = solid GND; provides dual-sided shielding for L2 signals |
 | Power pours (inner power layer) | ≤ 400 mA | - | pour | **copper pour** | L3 | Separate pour zones for 5V_USB and 3V3_ENIG |
 
@@ -126,8 +126,8 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
   impedance. This calculation is identical to the outer-layer microstrip at the same h value;
   applicable here because L2 is immediately adjacent to the L1 GND plane (DEC-017 inverted stackup).
   See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`.
-* USB D+/D- traces at 0.15 mm over the L1 GND plane yield approximately 90 Ω differential
-  on the JLC04161H-7628 inner signal layer - correct for USB 2.0 Full Speed.
+* USB D+/D- trace width and differential impedance shall comply with `design/Production/JLCPCB_Manufacturing.md §1`
+  and `design/Standards/Global_Routing_Spec.md §2.3` for the board's assigned stackup.
 
 ---
 

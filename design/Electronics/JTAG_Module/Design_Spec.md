@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-14
 
 ## 1. Overview
 
@@ -75,7 +75,7 @@ flowchart TD
 
   J1 -- "5V_USB / 3V3_ENIG" --> U1
   J1 -- "USB D+/D-" --> U1
-  U1 -- "TDO" --> J1
+  U1 -- "TTD_RETURN" --> J1
   U1 -- "TDI" --> R1
   R1 --> R4
   R4 -- "TDI" --> J1
@@ -118,7 +118,7 @@ flowchart TD
 ```text
          C1     C2     C3     C4     C5     C6     C7     C8     C9    C10
   R1:   TCK    GND    GND   5V_U   GND    GND   3V3    GND    GND    TDI
-  R2:   GND    TMS    GND    GND   USB+   USB-   GND    GND    TDO    GND
+  R2:   GND    TMS    GND    GND   USB+   USB-   GND    GND   TTD_RETURN   GND
 ```
 
 | Pin   | Signal   | Direction  | Description                                     |
@@ -141,7 +141,7 @@ flowchart TD
 | C6R2  | USB−     | Bidir      | USB 2.0 D− to CM5                               |
 | C7R2  | GND      | —          | Ground                                          |
 | C8R2  | GND      | —          | Ground                                          |
-| C9R2  | TDO      | CTL → JM   | JTAG Data Out (return)                          |
+| C9R2  | TTD_RETURN | CTL → JM   | JTAG Data Out (return)                          |
 | C10R2 | GND      | —          | Ground                                          |
 
 > **No external connectors:** The JM has no external connectors. USB is entirely internal via J1 (DF40C-20 BtB connector).

@@ -3,7 +3,7 @@
 **Status:** Draft
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-14
 
 ## 1. Trace & Via Geometry
 
@@ -162,8 +162,8 @@ placed within 1mm of the IC on the same layer.
 
 * **Standard part:** Samsung CL05B104KB5NNNC (Mouser: 187-CL05B104KB5NNNC,
   DigiKey: 1276-CL05B104KB5NNNCCT-ND, JLCPCB: C960916) - same as the RTC bypass capacitors in the Controller BOM.
-* **Placement:** Within 1mm of the IC supply pin on the same layer; connect directly to the Vcc
-  pad with the shortest possible trace before joining the power plane.
+* **Placement:** As close as physically possible to the IC VCC pin, within 1mm on the same layer;
+  connect directly to the VCC pad with the shortest possible trace before joining the power plane.
 * **Shared bypass:** Two adjacent ICs whose Vcc pins are ≤2mm apart may share one capacitor;
   otherwise each IC requires a dedicated capacitor.
 * **Board-local scope:** Where a board design spec does not explicitly list per-IC bypass

@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-09
+**Last Updated:** 2026-05-14
 
 ---
 
@@ -163,25 +163,25 @@ See **§6** for connector ownership, net-to-net mapping, standoff GND net, and P
 
 ---
 
-## 7. CM5 Module Carrier (J14, J15, MH13–MH16)
+## 7. CM5 Module Carrier (J13, J14, MH13–MH16)
 
 The CM5 Compute Module 5 mounts on the Controller via two Amphenol `10164227-1004A1RLF` carrier
-sockets (J14, J15) and four SMT standoffs (MH13–MH16).
+sockets (J13, J14) and four SMT standoffs (MH13–MH16).
 
-### 7.1 J14 and J15 — CM5 Module Carrier Connectors
+### 7.1 J13 and J14 — CM5 Module Carrier Connectors
 
 - **Part:** Amphenol `10164227-1004A1RLF` — CM5 carrier socket, 4.0mm stack height.
-- **Placement:** J14 and J15 are placed in the central board region beneath the CM5 module
+- **Placement:** J13 and J14 are placed in the central board region beneath the CM5 module
   footprint. Both connectors must be positioned to align with the CM5 module edge connector
   interface per the Raspberry Pi CM5 mechanical drawing. Trace routing and copper fills are
   permitted in the CM5 shadow area; active or tall components are not (see §7.2 height rule).
 - **Stack height:** 4.0mm from Controller PCB surface to the underside of the CM5 module PCB.
-- **Cross-ref:** `design/Electronics/Controller/Design_Spec.md §2.3`; BOM J14, J15.
+- **Cross-ref:** `design/Electronics/Controller/Design_Spec.md §2.3`; BOM J13, J14.
 
 ### 7.2 MH13–MH16 — CM5 Carrier Standoffs
 
 - **Part:** Wurth Elektronik `9774040151R` — M2.5×4.0mm SMT standoff; four instances.
-- **Function:** Mechanical standoffs that set the 4.0mm stack height for J14/J15 and provide
+- **Function:** Mechanical standoffs that set the 4.0mm stack height for J13/J14 and provide
   rigidity under the CM5 module.
 - **GND:** MH13–MH16 pads shall be connected to `GND` — **not** `GND_CHASSIS`. See
   `design/Standards/Global_Routing_Spec.md` for module mounting hole grounding rules.

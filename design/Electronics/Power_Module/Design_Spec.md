@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-12
+**Last Updated:** 2026-05-14
 
 ## 1. Overview
 
@@ -407,7 +407,7 @@ GND ------+---------------------------------------------------+---------------+-
   * `POE_STAT` remains available to software through the PM-local `PCA9534A`.
   * **LDO Enable (ROTOR_EN_N - Active-LOW):**
   * `ROTOR_EN_N` (3.3V drive from the Controller) drives the TPS75733 (U7) EN pin. The TPS75733 has an **active-LOW enable** (EN LOW = enabled, EN HIGH = shutdown) - no level-shifting required.
-  * A 10kΩ pull-**up** resistor (R8) from the EN pin to 3V3_ENIG holds the LDO **disabled** at startup (EN=HIGH=shutdown). This ensures the rotor stack remains de-energised while the CM5 is booting.
+  * A 10kΩ pull-**up** resistor (R8) from the EN pin to 5V_MAIN holds the LDO **disabled** at startup (EN=HIGH=shutdown). This ensures the rotor stack remains de-energised while the CM5 is booting.
   * ROTOR_EN_N asserted (LOW by CM5) → LDO **enabled** → 3V3_ENIG present (CPLDs + rotor stack powered).
   * ROTOR_EN_N de-asserted (HIGH / released to pull-up) → LDO **disabled** → 3V3_ENIG off (all rotor and CPLD loads de-energised).
   * **Thermal Budget (TPS75733):**
@@ -423,7 +423,7 @@ GND ------+---------------------------------------------------+---------------+-
     Formula: `f = 1.44 / ((R_A + 2×R_B) × C) = 1.44 / ((10kΩ + 2×715kΩ) × 1µF) = 1.44 / (1,440,000 × 0.000001) = 1.44 / 1.44 = 1.00Hz ✓`.
     Duty cycle: `D = R_B / (R_A + 2×R_B) = 715 / 1440 ≈ 49.7% ≈ 50% ✓`.
 * **PWR_BUT_N One-Shot (U13):** Second MIC1555 (SOT-23-5) configured as a monostable (one-shot) timer.
-  Triggered by a falling edge on LTC3350 `LTC_INTB_N` (R22 10kΩ pull-up to 3V3_ENIG keeps the line HIGH
+  Triggered by a falling edge on LTC3350 `LTC_INTB_N` (R22 10kΩ pull-up to 5V_MAIN keeps the line HIGH
   when idle). On trigger, U13 output goes HIGH for t = 1.1 x R21 x C40 = 1.1 x 274kΩ x 10µF ≈ **3.01 seconds**,
   driving Q5 (BSS138 N-FET) which pulls the `PWR_BUT_N` line LOW. The CM5 internal 10kΩ
   pull-up holds `PWR_BUT_N` HIGH at all other times. The 3-second pulse is centred in the 1-5 second PMIC
@@ -695,7 +695,7 @@ Estimated PM-local power dissipation at system peak load:
 > * **U5 STUSB4500LQTR** - JLCPCB C506650 confirmed in stock (L-variant). Both are pin-compatible; non-L variant STUSB4500QTR has slightly higher Iq (~210µA vs 160µA).
 > * **U7 TPS75733KTTRG3** - Replaces the previous high-dissipation LDO. Fixed 3.3V output, 3A continuous, TO-263 (KTT) 5-pin 10.16x15.24mm package.
 >   **Active-LOW enable:** EN LOW = LDO enabled; EN HIGH = shutdown.
-> R8 changed to pull-**up** (10kΩ to 3V3_ENIG) to hold LDO **disabled** (EN HIGH = shutdown) at power-up until CM5 asserts `ROTOR_EN_N` LOW.
+> R8 pull-**up** (10kΩ to 5V_MAIN) holds the LDO **disabled** (EN HIGH = shutdown) at power-up until CM5 asserts `ROTOR_EN_N` LOW.
 > Signal renamed `ROTOR_EN_N` (active-LOW: drive LOW to enable). This ensures the rotor stack is sequenced on only after the CM5 has fully booted.
 > Thermal dissipation greatly improved: ~0.33W typical (1.85A, Vdo≈0.18V) vs 3.1W with the previous part - ≥200mm² copper pour requirement removed.
 > Mouser: `595-TPS75733KTTRG3`; DigiKey: `296-50559-1-ND`; JLCPCB: `C3749924`.

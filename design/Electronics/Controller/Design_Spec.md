@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-14
 
 ---
 
@@ -194,7 +194,7 @@ overhang** rule defined in `design/Standards/Global_Routing_Spec.md §4.1`.
 
 The Controller provides JTAG pass-through only. All JTAG chain architecture, device ordering, buffering, termination, and timing specifications are defined in the JM Design_Spec.
 
-* **Controller Pass-Through:** JTAG lines (TCK, TMS, TDI, TTD_RETURN, VREF) are routed directly
+* **Controller Pass-Through:** JTAG lines (TCK, TMS, TDI, TTD_RETURN) are routed directly
   from the JM BtB connector (`J12`) to the Stator logic dock (`J5`) on the Controller board without any active
   components. No buffer or series resistors reside on the Controller for JTAG signals.
 * **Cross-ref:** See `design/Electronics/JTAG_Module/Design_Spec.md` for all JTAG chain architecture, FT232H module schematics, buffering, and assembly details. See DEC-016, DEC-024.
@@ -568,7 +568,7 @@ JLCPCB CI service is **required** for all production runs of the Controller Boar
 ### 9.4. Via Design Rules
 
 **CM5 Amphenol connector (via-in-pad):**
-The Raspberry Pi CM5 module connects via the Hirose DF40HC 200-pin 0.4mm-pitch connector (J13/J14). Many CM5
+The CM5 underside connector mates with the Amphenol `10164227-1004A1RLF` 100-pin carrier sockets (J13/J14). Many CM5
 signal pads require via-in-pad construction to route high-density 0.4mm-pitch signals to inner layers.
 All via-in-pad holes on the CM5 connector footprint shall be:
 
@@ -579,10 +579,14 @@ All via-in-pad holes on the CM5 connector footprint shall be:
   around all CI signal vias to prevent unintended GND shorting.
 
 **ESD TVS placement (Ethernet/PoE++):**
-Per DR-CTL-19, ESD TVS protection (D2–D6, PRTR5V0U2X) shall be placed **line-side** — between the RJ45
-connector pads and the primary winding of the magnetics integrated in J8 (Würth 7499111121A). This ensures
-ESD transients and PoE++ overvoltage events are clamped before reaching the transformer primary, protecting
-both the magnetics and all downstream ICs. Do **not** place TVS on the secondary (IC) side of the magnetics.
+Per DR-CTL-19, two tiers of ESD protection are implemented on the Ethernet/PoE front-end:
+
+* **Power-side (D2):** Bourns `1.5SMBJ36CA` unidirectional TVS (DO-214AA) placed between the primary winding
+  of the integrated magnetics in J8 (Würth 7499111121A) and the TPS23730 PD controller (U8). This clamps
+  PoE++ overvoltage transients before reaching the PD controller and ACF forward converter.
+* **Data-side (U4–U6):** Texas Instruments `TPD4E05U06QDQARQ1` 4-channel ESD arrays placed **line-side** —
+  between the RJ45 connector pads and the primary winding of the magnetics — to clamp ESD transients on
+  the Ethernet differential pairs before the transformer primary.
 
 ## 10. Thermal & Branding
 
@@ -622,6 +626,7 @@ Estimated Controller-local power dissipation at system peak load:
 | C17 | 22nF 200V X7R 0805 | C0805C223K2RACAUTO | Kemet | 399-17630-1-ND | 80-C0805C223K2RAUTO | C3843023 | - | Supersedes C0402C103K1RACAUTO (10nF 100V 0402). Package/voltage upgraded 0402/100V→0805/200V for DC bias derating margin. See DR-CTL-18, DEC-064. | Yes | Pending | 1 |
 | C20 | 47µF 25V X7R 2220 | CGA9N3X7R1E476M230KB | TDK | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | 4× in parallel for ACF output filter — see DR-CTL-22 | Yes | Pending | 4 |
 | D1 | Schottky SOT-23 | BAT54 | Vishay | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | - | Yes | Pending | 1 |
+| D2 | 36V 1500W TVS DO-214AA | 1.5SMBJ36CA | Bourns | 118-1.5SMBJ36CACT-ND | 652-1.5SMBJ36CA | C5439937 | - | - | Yes | Pending | 1 |
 | J1-J3 | 10-pos 2.5mm receptacle 10-pos vert | 1-1674231-1 | TE Connectivity | A119250-ND | 571-1-1674231-1 | C3683260 | - | - | Yes | ✔ | 3 |
 | J4, J5 | 5-pwr+15-sig press-fit receptacle hybrid | 2195630015 | Molex | 900-2195630015-ND | 538-219563-0015 | Global sourcing / consignment | Global sourcing | - | Yes | ✔ | 2 |
 | J6 | USB 3.0 Type-A dual-stack | 48406-0003 | Molex | WM10420-ND | 538-48406-0003 | C565298 | - | - | Yes | ✔ | 1 |
@@ -656,8 +661,8 @@ filter C20 are in §7.1 and DR-CTL-22/23/24/25.
 Dock-connector ownership and mating-part specifications are in §8. The matching PM dock plugs are
 `TE 1123684-7`; the matching Stator dock plugs are `Molex 2195620015`.
 
-The Controller also owns the Ethernet / PoE front-end (`TPS2372-4RGWR` U7, `TPS23730RMTR` U8, `B82806D0060A120` T1, and
-the Ethernet-entry ESD arrays U5/U6 - TPD4E05U06QDQARQ1, one per pair of GbE differential pairs, placed between J8 and the integrated magnetics). Those parts are tracked as Controller-owned in
+The Controller also owns the Ethernet / PoE front-end (`TPS2372-4RGWR` U7, `TPS23730RMTR` U8, `B82806D0060A120` T1, power-side TVS D2 `1.5SMBJ36CA`, and
+the Ethernet-entry ESD arrays U4–U6 - TPD4E05U06QDQARQ1, one per pair of GbE differential pairs, placed between J8 and the integrated magnetics). Those parts are tracked as Controller-owned in
 `design/Electronics/Consolidated_BOM.md`; connector and local ESD rows are also repeated here for completeness.
 
 T1 selected: TDK B82806D0060A120 (ACF Forward PoE transformer, 60W, 2:1:1). Q1/Q2 selected:

@@ -67,6 +67,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "Bourns-1-5smbj-datasheet.pdf",
+      "markdown": "Bourns-1-5smbj-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "Bourns-AC72ABD-datasheet.pdf",
       "markdown": "Bourns-AC72ABD-datasheet.md",
       "mapping_type": "same_stem"
