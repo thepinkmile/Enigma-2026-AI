@@ -4,7 +4,7 @@
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
-**Last Updated:** 2026-04-20
+**Last Updated:** 2026-05-14
 
 ## 1. Overview
 
@@ -13,6 +13,72 @@ motherboard and two removable service modules: the Power Module and the Stator.
 
 The `design/Standards/Global_Routing_Spec.md` applies to all boards except where a board-level design
 spec explicitly records an exemption.
+
+### 1.1 System Interconnect Diagram
+
+> **Note:** The Extension Rotor Stack block is shown in simplified form pending resolution of the
+> `extension-mechanical-usage` architecture review. Once that topology is finalised, both this
+> diagram and `README.md` will be updated to show the full Groups 2–6 detail.
+
+```mermaid
+flowchart BT
+    REF["🔵 Reflector Board<br>Passive turnaround · 30-pin J4"]
+
+    subgraph RSTACK["🔄 Rotor Stack  — up to 30 rotors"]
+        subgraph G1["Group 1  (Rotors 1–5)"]
+            ROT["Rotor Module ×5<br>EPM570 CPLD · FDC2114 sensor<br>10 wiring sets · 4-pos DIP"]
+        end
+    end
+
+    subgraph STATOR["⚙️ Stator + Config"]
+        STA["Stator Board<br>EPM570T100I5N CPLD · ENC routing matrix"]
+        SET["Settings Board<br>10× toggle · 12× RGB LED · MCP23017 ×3"]
+        STA -. "I²C harness" .-> SET
+    end
+
+    subgraph PWR["⚡ Power Module"]
+        PM["Power Module<br>PoE+ 802.3bt · USB-C PD · Battery<br>eFuse · Buck · LDO · Supercap UPS"]
+    end
+
+    subgraph ENCS["🔡 Encoder Modules  ×6"]
+        KBD["KBD_ENC"]
+        LBD["LBD_DEC"]
+        PLG["PLG_PASS1_ENC · PLG_PASS1_DEC<br>PLG_PASS2_ENC · PLG_PASS2_DEC"]
+    end
+
+    subgraph CTRL["🖥️ Controller Board  (CM5 Carrier)"]
+        CB["Raspberry Pi CM5<br>Link-Alpha & Link-Beta docks"]
+        JTAG["JTAG Module<br>FT232H USB Blaster"]
+        AM_C["Actuation Module<br>Depression bar  (STM32G071K8T3TR)"]
+        CB -. "internal BtB J12" .-> JTAG
+        CB -. "DF40C-20 BtB" .-> AM_C
+    end
+
+    subgraph EXTRSTACK["🔄 Extension Rotor Stack  — up to 30 rotors"]
+        subgraph EXTG["Extension Board  +  Actuation Module  ×up to 5"]
+            EXT["Extension Board<br>JTAG re-buffer · power bridge"]
+            AME["Actuation Module<br>Group-boundary carry  (STM32G071K8T3TR)"]
+            EXT -. "DF40HC J9" .-> AME
+        end
+    end
+
+    REF ~~~ RSTACK ~~~ STATOR
+    STATOR ~~~ PWR
+    ENCS ~~~ CTRL
+    EXTRSTACK ~~~ RSTACK
+
+    PWR -- "Link-Alpha<br>3× TE 2.5mm docks<br>5V_MAIN · 3V3_ENIG" --> CTRL
+    CTRL -- "Link-Beta<br>2× Molex EXTreme Guardian HD<br>ENC_DATA · JTAG · I²C" --> STATOR
+    JTAG -- "JTAG chain entry" --> STA
+    KBD -- "ENC_IN[5:0]" --> STA
+    STA -- "ENC_OUT[5:0]" --> LBD
+    PLG <-- "ENC_DATA" --> STA
+    STA -- "Tri-connector Bus<br>Power · JTAG · ENC_DATA" --> ROT
+    ROT -- "ENC_DATA" --> REF
+    ROT <---> EXT
+    REF -- "ENC_OUT[5:0]<br>TTD_RETURN" --> STA
+    STA -- "ENC_IN[5:0]<br>5V_MAIN · 3V3_ENIG" --> REF
+```
 
 ## 2. Power Rail Glossary
 

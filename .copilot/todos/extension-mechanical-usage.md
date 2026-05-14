@@ -28,4 +28,4 @@ Changes here will affect the Stator, Reflector, and Extension board design speci
 
 The shared AM (Actuation Module) architectural answer is already locked; this review is focused on the inter-board extension interconnect topology only.
 
-When the architecture is resolved, update the system architecture diagram in `README.md` to reinstate a representation of Groups 2–6 (Rotors 6–30) within the rotor stack, which was removed during diagram simplification pending this review.
+When the architecture is resolved, update the system architecture diagrams in both `README.md` and `design/Electronics/Boards_Overview.md` §1.1 to reinstate a representation of Groups 2–6 (Rotors 6–30) within the rotor stack, which was removed during diagram simplification pending this review.

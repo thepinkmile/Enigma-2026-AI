@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-13 (todo-list audit: stale file links removed from done rows; ctl-t1-tdk-topology-confirm and ctl-t1-tdk-library-import marked done; Blocked By updated for interim-electronics-review-1/2, prototype-pcb-manufacturing, full-pn-review, ctl-t1-coilcraft-v2-review; 3 missing detail files created; 10 component diagram todos confirmed done — flowchart TD with subgraphs, not block-beta; detail files moved to .recycle-bin)
+Last updated: 2026-05-14 (board-interconnect-diagram marked done; diagram added to Boards_Overview.md §1.1; coupon-testing-review → extension-mechanical-usage dep added to SQL; dep corrections: emc/environmental-testing → prototype-pcb-manufacturing; security-testing → prototype-pcb-manufacturing + prototype-system-complete; version-1-documentation adds release-candidate-production + prototype-system-complete deps; compliance-testing removes erroneous version-1-documentation dep; version-one-complete adds version-1-documentation dep; emc-testing/environmental-testing/security-testing/version-1-documentation added to SQL todos INSERT; SQL deps wrapped with PRAGMA foreign_keys OFF/ON)
 
 ---
 
@@ -49,7 +49,7 @@ Last updated: 2026-05-13 (todo-list audit: stale file links removed from done ro
 | `da-02` | — | done | — |
 | `naming-convention-sweep` | — | done | — |
 | `da-04` | — | done | — |
-| `compliance-testing` | [compliance-testing.md](todos/compliance-testing.md) | pending | `prototype-pcb-manufacturing`, `version-1-documentation`, `emc-testing`, `environmental-testing`, `security-testing` |
+| `compliance-testing` | [compliance-testing.md](todos/compliance-testing.md) | pending | `prototype-pcb-manufacturing`, `emc-testing`, `environmental-testing`, `security-testing` |
 | `bom-pre-prototype-check` | [bom-pre-prototype-check.md](todos/bom-pre-prototype-check.md) | pending | `full-pn-review`, `interim-electronics-review-3` |
 | `bom-pre-production-check` | [bom-pre-production-check.md](todos/bom-pre-production-check.md) | pending | `bom-pre-prototype-check`, `prototype-system-complete` |
 | `jdb-board-rename` | — | done | — |
@@ -73,13 +73,13 @@ Last updated: 2026-05-13 (todo-list audit: stale file links removed from done ro
 | `prototype-pcb-manufacturing` | [prototype-pcb-manufacturing.md](todos/prototype-pcb-manufacturing.md) | pending | `review-mounting-holes`, `interim-electronics-review-3`, `bom-pre-prototype-check`, `enc-connector-review-pre-pcb` |
 | `prototype-system-complete` | [prototype-system-complete.md](todos/prototype-system-complete.md) | pending | `rerun-deep-reviews`, `ltc3350-telemetry`, `cpld-timing-load`, `rotor-shaft-diameter`, `rotor-rolling-element`, `rotor-alloy-grade`, `rotor-shaft-mechanism`, `system-assembly-harnesses`, `system-assembly-connectors` |
 | `release-candidate-production` | [release-candidate-production.md](todos/release-candidate-production.md) | pending | `rerun-deep-reviews`, `prototype-system-complete`, `compliance-testing`, `interim-electronics-review-4`, `bom-pre-production-check` |
-| `version-one-complete` | [version-one-complete.md](todos/version-one-complete.md) | pending | `release-candidate-production` |
+| `version-one-complete` | [version-one-complete.md](todos/version-one-complete.md) | pending | `release-candidate-production`, `version-1-documentation` |
 | `review-pass-7` | — | done | — |
 | `review-pass-8` | [review-pass-8.md](todos/review-pass-8.md) | pending | — |
 | `review-pass-9` | [review-pass-9.md](todos/review-pass-9.md) | pending | `review-pass-8` |
 | `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | pending | `review-pass-9` |
 | `ascii-to-mermaid-diagrams` | — | done | — |
-| `board-interconnect-diagram` | [board-interconnect-diagram.md](todos/board-interconnect-diagram.md) | pending | — |
+| `board-interconnect-diagram` | — | done | — |
 | `system-config-variants-diagrams` | [system-config-variants-diagrams.md](todos/system-config-variants-diagrams.md) | pending | — |
 | `ctl-component-diagram` | — | done | — |
 | `pm-component-diagram` | — | done | — |
@@ -91,10 +91,10 @@ Last updated: 2026-05-13 (todo-list audit: stale file links removed from done ro
 | `jm-component-diagram` | — | done | — |
 | `usm-component-diagram` | — | done | — |
 | `am-component-diagram` | — | done | — |
-| `version-1-documentation` | [version-1-documentation.md](todos/version-1-documentation.md) | pending | `board-interconnect-diagram`, `system-config-variants-diagrams`, `ctl-component-diagram`, `pm-component-diagram`, `sta-component-diagram`, `rotor-component-diagram`, `ext-component-diagram`, `ref-component-diagram`, `enc-component-diagram`, `jm-component-diagram`, `usm-component-diagram`, `am-component-diagram` |
-| `emc-testing` | [emc-testing.md](todos/emc-testing.md) | pending | `version-1-documentation` |
-| `environmental-testing` | [environmental-testing.md](todos/environmental-testing.md) | pending | `version-1-documentation` |
-| `security-testing` | [security-testing.md](todos/security-testing.md) | pending | `version-1-documentation` |
+| `version-1-documentation` | [version-1-documentation.md](todos/version-1-documentation.md) | pending | `board-interconnect-diagram`, `system-config-variants-diagrams`, `ctl-component-diagram`, `pm-component-diagram`, `sta-component-diagram`, `rotor-component-diagram`, `ext-component-diagram`, `ref-component-diagram`, `enc-component-diagram`, `jm-component-diagram`, `usm-component-diagram`, `am-component-diagram`, `release-candidate-production`, `prototype-system-complete` |
+| `emc-testing` | [emc-testing.md](todos/emc-testing.md) | pending | `prototype-pcb-manufacturing` |
+| `environmental-testing` | [environmental-testing.md](todos/environmental-testing.md) | pending | `prototype-pcb-manufacturing` |
+| `security-testing` | [security-testing.md](todos/security-testing.md) | pending | `prototype-pcb-manufacturing`, `prototype-system-complete` |
 | `stackup-impedance-recalc` | — | done | — |
 | `grs-stackup-section` | — | done | — |
 | `design-log-dec066` | — | done | — |
@@ -131,6 +131,8 @@ Last updated: 2026-05-13 (todo-list audit: stale file links removed from done ro
 
 At session start, run these INSERT statements to reconstruct the `todos` and `todo_deps` tracking tables.
 Use `INSERT OR IGNORE` to make the script idempotent (re-runnable without error).
+**Note:** The `todo_deps` INSERT must be wrapped with `PRAGMA foreign_keys = OFF/ON` because some
+dependencies reference done todos that are not inserted into the `todos` table (done todos are omitted to keep the table lean).
 
 ### Todos
 
@@ -174,6 +176,9 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('naming-convention-sweep',           'Naming consistency sweep: PM dock / Stator dock', 'done'),
 ('da-04',                             'DA-04: Consolidated BOM PM component update',  'done'),
 ('compliance-testing',                'Environmental and EMC compliance testing',     'pending'),
+('emc-testing',                       'EMC testing',                                   'pending'),
+('environmental-testing',             'Environmental testing',                         'pending'),
+('security-testing',                  'Security testing',                              'pending'),
 ('bom-pre-prototype-check',           'BOM verification gate 1 (pre-prototype)',      'pending'),
 ('bom-pre-production-check',          'BOM verification gate 2 (pre-production)',     'pending'),
 -- Pass 6 Deferred Items
@@ -209,6 +214,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 -- Mermaid Diagrams
 ('board-interconnect-diagram',        'block-beta board interconnect diagram in Boards_Overview.md',            'pending'),
 ('system-config-variants-diagrams',   'flowchart TD system config variants in System_Architecture.md',          'pending'),
+('version-1-documentation',           'Version 1.0 documentation package',                                      'pending'),
 ('ctl-component-diagram',             'flowchart TD CTL circuit component diagram in Controller/Design_Spec.md',   'done'),
 ('pm-component-diagram',              'flowchart TD PM circuit component diagram in Power_Module/Design_Spec.md',  'done'),
 ('sta-component-diagram',             'flowchart TD STA circuit component diagram in Stator/Design_Spec.md',      'done'),
@@ -256,6 +262,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ### Dependencies
 
 ```sql
+PRAGMA foreign_keys = OFF;
 INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 -- rotor chain
 ('rotor-power-analysis-ministack',  'rotor-variant-refdes-schematic'),
@@ -269,6 +276,8 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('full-pn-review',              'coupon-testing-review'),
 -- footprint gated by full-pn-review
 ('footprint-requests-pending',  'full-pn-review'),
+-- coupon-testing-review needs extension architecture first
+('coupon-testing-review',       'extension-mechanical-usage'),
 -- rerun-deep-reviews runs after prototype boards exist; prototype-system-complete depends on it
 ('rerun-deep-reviews',          'prototype-pcb-manufacturing'),
 -- software deferrals need deep reviews + prototype hardware
@@ -394,5 +403,23 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('sta-stackup-simplify', 'grs-stackup-section'),
 ('usm-stackup-simplify', 'grs-stackup-section'),
 -- ctl-t1-coilcraft-v2-review gates
-('ctl-t1-coilcraft-v2-review', 'ctl-t1-transformer-decision');
+('ctl-t1-coilcraft-v2-review', 'ctl-t1-transformer-decision'),
+-- emc/environmental testing need prototype hardware
+('emc-testing',               'prototype-pcb-manufacturing'),
+('environmental-testing',     'prototype-pcb-manufacturing'),
+-- security-testing needs prototype hardware + full SW/HW implementation
+('security-testing',          'prototype-pcb-manufacturing'),
+('security-testing',          'prototype-system-complete'),
+-- compliance-testing depends on all three testing phases
+('compliance-testing',        'emc-testing'),
+('compliance-testing',        'environmental-testing'),
+('compliance-testing',        'security-testing'),
+-- version-1-documentation depends on live diagrams + production manufacturing + full assembly testing
+('version-1-documentation',   'board-interconnect-diagram'),
+('version-1-documentation',   'system-config-variants-diagrams'),
+('version-1-documentation',   'release-candidate-production'),
+('version-1-documentation',   'prototype-system-complete'),
+-- version-one-complete needs docs package + release candidate
+('version-one-complete',      'version-1-documentation');
+PRAGMA foreign_keys = ON;
 ```
