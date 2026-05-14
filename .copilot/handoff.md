@@ -3,7 +3,21 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
-## 2026-05-14 session result (USM switch topology complete — checkpoint 157)
+## 2026-05-14 session result (ENC connector review complete — checkpoint 158)
+
+### enc-connector-review-pre-pcb closed
+
+- **J2 → J1 typo** fixed in `Encoder/Design_Spec.md` §9: placement note for the 20-pin IDC header incorrectly referenced J2 (a spade terminal); corrected to J1.
+- **Bypass cap placement**: GRS §3 (CPLD: within 2mm) and §3.2 (per-IC: within 1mm) confirmed adequate — no additional DR needed.
+- `review-pass-8` tracking error corrected (checkpoint 152 had incorrectly reset it to pending; checkpoint 136 confirms it was done).
+
+**Files updated:** `Encoder/Design_Spec.md`, `.copilot/todo-list.md`.
+
+Next unblocked todos: `review-pass-9`, `extension-mechanical-usage`, `system-config-variants-diagrams`.
+
+---
+
+
 
 ### USM SPDT switch topology resolved — R1-R10 removed, R11 → R1, DEC-071 appended
 

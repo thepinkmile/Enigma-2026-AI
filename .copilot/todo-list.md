@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-14 (board-interconnect-diagram marked done; diagram added to Boards_Overview.md §1.1; coupon-testing-review → extension-mechanical-usage dep added to SQL; dep corrections: emc/environmental-testing → prototype-pcb-manufacturing; security-testing → prototype-pcb-manufacturing + prototype-system-complete; version-1-documentation adds release-candidate-production + prototype-system-complete deps; compliance-testing removes erroneous version-1-documentation dep; version-one-complete adds version-1-documentation dep; emc-testing/environmental-testing/security-testing/version-1-documentation added to SQL todos INSERT; SQL deps wrapped with PRAGMA foreign_keys OFF/ON; usm-spdt-switch-floating-review marked done; R1-R10 pull-downs removed from USM design, R11 renumbered R1; DEC-071 written)
+Last updated: 2026-05-14 (board-interconnect-diagram marked done; diagram added to Boards_Overview.md §1.1; coupon-testing-review → extension-mechanical-usage dep added to SQL; dep corrections: emc/environmental-testing → prototype-pcb-manufacturing; security-testing → prototype-pcb-manufacturing + prototype-system-complete; version-1-documentation adds release-candidate-production + prototype-system-complete deps; compliance-testing removes erroneous version-1-documentation dep; version-one-complete adds version-1-documentation dep; emc-testing/environmental-testing/security-testing/version-1-documentation added to SQL todos INSERT; SQL deps wrapped with PRAGMA foreign_keys OFF/ON; usm-spdt-switch-floating-review marked done; R1-R10 pull-downs removed from USM design, R11 renumbered R1; DEC-071 written; review-pass-8 corrected to done — was reset incorrectly in checkpoint-152 audit; enc-connector-review-pre-pcb marked done — J2→J1 typo fixed in Encoder Design_Spec §9; GRS §3/§3.2 confirmed adequate for bypass cap placement)
 
 ---
 
@@ -57,7 +57,7 @@ Last updated: 2026-05-14 (board-interconnect-diagram marked done; diagram added 
 | `reset-n-prefix-decision` | — | done | — |
 | `connector-stacking-height-review` | — | done | — |
 | `plugboard-assembly-spec` | — | done | — |
-| `enc-connector-review-pre-pcb` | [enc-connector-review-pre-pcb.md](todos/enc-connector-review-pre-pcb.md) | pending | — |
+| `enc-connector-review-pre-pcb` | — | done | — |
 | `bom-system-qty-audit` | — | done | — |
 | `mh-refdes-standardise` | — | done | — |
 | `jdb-standoff-height` | — | done | — |
@@ -75,8 +75,8 @@ Last updated: 2026-05-14 (board-interconnect-diagram marked done; diagram added 
 | `release-candidate-production` | [release-candidate-production.md](todos/release-candidate-production.md) | pending | `rerun-deep-reviews`, `prototype-system-complete`, `compliance-testing`, `interim-electronics-review-4`, `bom-pre-production-check` |
 | `version-one-complete` | [version-one-complete.md](todos/version-one-complete.md) | pending | `release-candidate-production`, `version-1-documentation` |
 | `review-pass-7` | — | done | — |
-| `review-pass-8` | [review-pass-8.md](todos/review-pass-8.md) | pending | — |
-| `review-pass-9` | [review-pass-9.md](todos/review-pass-9.md) | pending | `review-pass-8` |
+| `review-pass-8` | — | done | — |
+| `review-pass-9` | [review-pass-9.md](todos/review-pass-9.md) | pending | — |
 | `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | pending | `review-pass-9` |
 | `ascii-to-mermaid-diagrams` | — | done | — |
 | `board-interconnect-diagram` | — | done | — |
@@ -187,7 +187,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('reset-n-prefix-decision',           'RESET_N net name prefix decision',             'done'),
 ('connector-stacking-height-review',  'ERF8/ERM8 stacking height review',             'done'),
 ('plugboard-assembly-spec',           'Plugboard Assembly specification',              'done'),
-('enc-connector-review-pre-pcb',      'ENC connector review pre-PCB manufacturing',   'pending'),
+('enc-connector-review-pre-pcb',      'ENC connector review pre-PCB manufacturing',   'done'),
 ('bom-system-qty-audit',              'Consolidated BOM system quantity audit',        'done'),
 ('mh-refdes-standardise',             'Mounting hole RefDes standardisation',         'done'),
 ('jdb-standoff-height',               'JDB standoff height and DF40 BtB connector',   'done'),
@@ -206,7 +206,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('release-candidate-production',      'Release candidate production manufacturing',  'pending'),
 ('version-one-complete',              'Version 1.0 complete',                        'pending'),
 ('review-pass-7',                     'Design review pass 7',                        'done'),
-('review-pass-8',                     'Design review pass 8',                        'pending'),
+('review-pass-8',                     'Design review pass 8',                        'done'),
 ('review-pass-9',                     'Design review pass 9',                        'pending'),
 ('review-pass-10',                    'Design review pass 10',                       'pending'),
 -- Documentation improvements

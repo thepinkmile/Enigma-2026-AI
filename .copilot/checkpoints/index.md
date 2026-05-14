@@ -161,3 +161,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 154 | Pin format fixes, NC cleanup, todo dep restoration | 154-pin-format-nc-cleanup-todo-deps-restored.md |
 | 155 | README full-board audit complete; AM section added | 155-readme-full-audit-am-added.md |
 | 157 | USM switch topology complete — R1-R10 removed, R11→R1, dual-terminated wiring, DEC-071 | 157-usm-switch-topology-complete.md |
+| 158 | ENC connector review complete; review-pass-8 corrected | 158-enc-connector-review-complete-pass8-corrected.md |
