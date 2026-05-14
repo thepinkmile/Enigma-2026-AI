@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-13
+**Last Updated:** 2026-05-14
 
 ---
 
@@ -43,7 +43,7 @@ TOP EDGE / ENCLOSURE PANEL FACE
 
 - **Top edge:** 10 configuration toggle switches, 12 indicator LEDs (including 2 source-status LEDs), and the `SW11` actuator position
 - **Left edge:** `J1` 6-pin JST PH connector, cable exit toward Stator `J13`
-- **Centre-left:** `U1`, switch pull-downs, `R11`, `C4`
+- **Centre-left:** `U1`, `R1`, `C4`
 - **Centre / centre-right:** `U2` and `U3`, LED series resistors, per-anode two-stage switches
   (`Q7-Q18` BSS138 pre-drivers + `Q19-Q30` PMOS high-side, Cat B), and anode-routing fanout
 - **Right edge:** 6 RGB BSS138 colour-rail transistors (`Q1-Q6`) with adjacent gate resistors

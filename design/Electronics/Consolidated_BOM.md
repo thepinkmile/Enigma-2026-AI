@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-12
+**Last Updated:** 2026-05-14
 
 ---
 
@@ -55,7 +55,7 @@
 | PM: R1 | ERJ-3EKF2263V | P226KHCT-ND | 667-ERJ-3EKF2263V | C403081 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 226kΩ 1% 0603 [Panasonic]; see DEC-069 | Yes | ✔ |
 | PM: R2 | ERJ-3EKF2872V | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 28.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R3 | ERA-3VEB2100V | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 210Ω 0.1% 0603 [Panasonic] | Yes | ✔ |
-| PM: R4,R7,R8,R13,R15,R22; CTL: R1-R4; USM: R1-R11 | ERJ-3EKF1002V | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | 6 | 4 | - | 11 | - | - | - | - | - | - | - | 21 | 10kΩ 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R4,R7,R8,R13,R15,R22; CTL: R1-R4; USM: R1 | ERJ-3EKF1002V | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | 6 | 4 | - | 1 | - | - | - | - | - | - | - | 11 | 10kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R5,R6 | ERJ-3EKF4701V | P4.70KHCT-ND | 667-ERJ-3EKF4701V | C192166 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 4.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R9 | ERJ-3EKF3010V | P301HCT-ND | 667-ERJ-3EKF3010V | C403144 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 301Ω 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R10,R16; STA: R1 | KRL6432T4-M-R010-F-T1 | KRL6432T4-M-R010-F-T1 | 754-KRL6432T4MR010FT | C4076514 | - | 2 | - | - | - | - | - | 1 | - | - | - | - | 3 | 10mΩ ±1% 2W 6432 (2512) Kelvin 4-terminal shunt [Susumu] | Yes | ✔ |

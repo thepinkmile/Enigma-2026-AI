@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-14 (board-interconnect-diagram marked done; diagram added to Boards_Overview.md §1.1; coupon-testing-review → extension-mechanical-usage dep added to SQL; dep corrections: emc/environmental-testing → prototype-pcb-manufacturing; security-testing → prototype-pcb-manufacturing + prototype-system-complete; version-1-documentation adds release-candidate-production + prototype-system-complete deps; compliance-testing removes erroneous version-1-documentation dep; version-one-complete adds version-1-documentation dep; emc-testing/environmental-testing/security-testing/version-1-documentation added to SQL todos INSERT; SQL deps wrapped with PRAGMA foreign_keys OFF/ON)
+Last updated: 2026-05-14 (board-interconnect-diagram marked done; diagram added to Boards_Overview.md §1.1; coupon-testing-review → extension-mechanical-usage dep added to SQL; dep corrections: emc/environmental-testing → prototype-pcb-manufacturing; security-testing → prototype-pcb-manufacturing + prototype-system-complete; version-1-documentation adds release-candidate-production + prototype-system-complete deps; compliance-testing removes erroneous version-1-documentation dep; version-one-complete adds version-1-documentation dep; emc-testing/environmental-testing/security-testing/version-1-documentation added to SQL todos INSERT; SQL deps wrapped with PRAGMA foreign_keys OFF/ON; usm-spdt-switch-floating-review marked done; R1-R10 pull-downs removed from USM design, R11 renumbered R1; DEC-071 written)
 
 ---
 
@@ -66,7 +66,7 @@ Last updated: 2026-05-14 (board-interconnect-diagram marked done; diagram added 
 | `ctl-t1-wurth-datasheet-review` | — | done | — |
 | `ctl-t1-transformer-decision` | — | done | — |
 | `review-mounting-holes` | — | done | — |
-| `interim-electronics-review-1` | [interim-electronics-review-1.md](todos/interim-electronics-review-1.md) | pending | `review-pass-10`, `stackup-impedance-recalc`, `bulk-caps-per-power-source-or-conversion`, `ctl-l02-refdes-gap`, `enc-cpld-spare-pins-rule`, `jtag-pin1-silkscreen-grs`, `jtag-integrity-resistor-value-reconcile`, `mcp23017-gpb7-silicon-fixed-review`, `rot-i2c-residual-removal`, `consolidate-design-spec-content`, `usm-spdt-switch-floating-review` |
+| `interim-electronics-review-1` | [interim-electronics-review-1.md](todos/interim-electronics-review-1.md) | pending | `review-pass-10`, `stackup-impedance-recalc`, `bulk-caps-per-power-source-or-conversion`, `ctl-l02-refdes-gap`, `enc-cpld-spare-pins-rule`, `jtag-pin1-silkscreen-grs`, `jtag-integrity-resistor-value-reconcile`, `mcp23017-gpb7-silicon-fixed-review`, `rot-i2c-residual-removal`, `consolidate-design-spec-content` |
 | `interim-electronics-review-2` | [interim-electronics-review-2.md](todos/interim-electronics-review-2.md) | pending | `interim-electronics-review-1`, `coupon-testing-review`, `review-mounting-holes` |
 | `interim-electronics-review-3` | [interim-electronics-review-3.md](todos/interim-electronics-review-3.md) | pending | `interim-electronics-review-2`, `full-pn-review`, `footprint-requests-pending` |
 | `interim-electronics-review-4` | [interim-electronics-review-4.md](todos/interim-electronics-review-4.md) | pending | `prototype-system-complete`, `compliance-testing` |
@@ -117,7 +117,7 @@ Last updated: 2026-05-14 (board-interconnect-diagram marked done; diagram added 
 | `mcp23017-gpb7-silicon-fixed-review` | — | done | — |
 | `rot-i2c-residual-removal` | — | done | — |
 | `consolidate-design-spec-content` | [consolidate-design-spec-content.md](todos/consolidate-design-spec-content.md) | pending | `enc-connector-review-pre-pcb` |
-| `usm-spdt-switch-floating-review` | [usm-spdt-switch-floating-review.md](todos/usm-spdt-switch-floating-review.md) | pending | — |
+| `usm-spdt-switch-floating-review` | — | done | — |
 | `am-button-review-production` | — | done | — |
 | `ctl-t1-tdk-a120-component-analysis` | — | done | — |
 | `ctl-t1-tdk-topology-confirm` | — | done | — |
@@ -235,7 +235,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('mcp23017-gpb7-silicon-fixed-review',        'Review and fix MCP23017 GPB7 silicon-fixed output-only pin issue',                         'done'),
 ('rot-i2c-residual-removal',                  'Remove residual I2C references from Rotor design',                                          'done'),
 ('consolidate-design-spec-content',           'Consolidate and normalise all Design Spec content',                                         'pending'),
-('usm-spdt-switch-floating-review',           'Review USM SPDT switch floating pin concern',                                               'pending'),
+('usm-spdt-switch-floating-review',           'Review USM SPDT switch floating pin concern',                                               'done'),
 ('am-button-review-production',               'Review Actuation Module buttons for production version',                                     'done'),
 -- T1 transformer analysis todos
 ('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'done'),  -- superseded by TDK decision

@@ -3,7 +3,21 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
-## 2026-05-13 session result (README Mermaid diagram — checkpoint 156)
+## 2026-05-14 session result (USM switch topology complete — checkpoint 157)
+
+### USM SPDT switch topology resolved — R1-R10 removed, R11 → R1, DEC-071 appended
+
+Switch wiring changed from pull-down resistor topology to dual-terminated scheme:
+NC → GND, NO → 3V3_ENIG, COM → CFG_* GPIO (U1). Both throws hard-terminated; no pull resistors needed.
+R1–R10 (switch pull-downs) removed. R11 (CFG_APPLY_N pull-up) renumbered R1.
+LED architecture confirmed independent (U2/U3 under software control only).
+
+**Files updated:** `USM/Design_Spec.md`, `USM/Board_Layout.md`, `Consolidated_BOM.md`, `Design_Log.md` (DEC-071).
+
+Next unblocked todos: `enc-connector-review-pre-pcb`.
+
+---
+
 
 ### README.md system architecture diagram finalised
 
