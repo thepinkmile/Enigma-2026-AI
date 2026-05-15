@@ -3,6 +3,85 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
+## 2026-05-16 session result (Library import, todo sync, directives hardened — checkpoint 160)
+
+### Library: 5 official parts imported and fully synchronised
+
+Official Hirose DF40 and TPS component files imported from Mouser/SamacSys zips and fully
+synchronised across STP, `.kicad_mod`, symbol, and legacy `.mod` SHAPE3D.
+
+| MPN | STP | kicad_mod | kicad_sym | legacy SHAPE3D |
+|-----|-----|-----------|-----------|----------------|
+| DF40C20DP04V51 | ✔ replaced | ✔ replaced | ✔ replaced | ✔ added |
+| DF40HC3520DS04V51 | ✔ new | ✔ new | ✔ replaced | ✔ added |
+| TPS23730RMTR | ✔ new | ✔ replaced | ✔ replaced | ✔ added |
+| TPS25751DREFR | ✔ new | ✔ replaced | ✔ replaced | ✔ added |
+| TPS259804ONRGER | ✔ new | ✔ replaced | ✔ replaced | ✔ added |
+
+DF40C procurement note (Mouser MPN quirk: `DF40C-20DP-0.4V(51)` vs `DF40C20DP04V51`) added to
+`Consolidated_BOM.md`, `Actuation_Module/Design_Spec.md`, `JTAG_Module/Design_Spec.md`.
+
+### Todo system updates
+
+- `download-missing-3d-models` — 33 parts still needing STP; user hit daily download limit;
+  resume next session by dropping zips into `src\Electronics\Library\temp\`
+- `review-pass-11` — added; blocked by `download-missing-3d-models` AND `review-pass-10`
+- `review-pass-9` — marked done (all three layers)
+- `board-interconnect-diagram` — status corrected `pending` → `done` in SQL block + session DB
+- Session DB seeded from full `todo-list.md` Agent SQL block: 109 todos, 95 deps
+
+### OCTONARY directive hardened
+
+- **SESSION START — MANDATORY FIRST ACTION**: seed session DB before any other work
+- **3-way sync rule**: all status/new-todo/dep changes must update summary table + Agent SQL INSERT + session DB together
+- "Delete detail file on close" corrected → "archive to `.recycle-bin/`"
+
+**Next:** drop remaining 3D model zips into `temp\`, import, mark `download-missing-3d-models`
+done, then run `review-pass-10`.
+
+**Key numbers:** Next checkpoint = 161. Next DEC = DEC-073. Session DB: 33 pending, 70 done, 6 blocked.
+
+---
+
+## 2026-05-15 session result (DIRECTIVE_VIOLATION_FIX commit — checkpoint 159 merged)
+
+### Post-Pass-9 housekeeping and DIRECTIVE_VIOLATION_FIX commit
+
+A prior agent had made an unauthorized git commit (SECONDARY directive violation). This session completed all outstanding working-copy fixes and then committed them as `DIRECTIVE_VIOLATION_FIX: Pass 9 review fixes; library imports; all-board BOM ticks` (commit `5cd847a`).
+
+**Changes included in this session's commit:**
+- `JTAG_Module/Design_Spec.md` — code block column alignment + table Signal column widened for `TDD_RETURN`; Last Updated → 2026-05-15
+- `Controller/Design_Spec.md` — D2 (1.5SMBJ36CA) footprint Pending → ✔; +28 further BOM ticks; Last Updated → 2026-05-15
+- `USM/Design_Spec.md` — 16 BOM ticks; Last Updated corrected 2026-05-27 → 2026-05-15
+- All 10 board Design_Spec files — ~179 total footprint-status ticks (Pending → ✔)
+- `SamacSys_Parts.lib` / `.dcm` / `.kicad_sym` — 21 new parts added
+- `SamacSys_Parts.pretty/` — 12 new `.kicad_mod` footprints
+- `SamacSys_Parts.3dshapes/` — 19 new `.stp` 3D models
+- `.copilot/checkpoints/` — 159 + 160 merged into single checkpoint 159; old files recycled
+- `.copilot/todos/review-pass-9.md` — removed (todo already marked done)
+
+**New parts imported:** ERJ-2RKF3300X, ERJ-2RKF1003X, WP154A4SEJ3VBDZGW/CA, BSS138LT1G, SQ2319ADS-T1_BE3, ERF8-010-05.0-S-DV-K-TR, BHR-20-VUA, 0436500519 (=43650-0519), CWF1610A-180K, 219-6LPSTR, PH1-07-UA, ERM8-005-05.0-S-DV-K-TR, + 9 ERJ supporting variants.
+
+**Remaining Pending BOM rows (no downloads yet available):**
+| Board | RefDes | MPN | Reason |
+|-------|--------|-----|--------|
+| Extension | J3 | ERM8-010-05.0-S-DV-K-TR | 10-pin variant — not downloaded |
+| Extension | J7, J8 | 2BHR-30-VUA | Not downloaded |
+| Reflector | J3 | ERM8-010-05.0-S-DV-K-TR | Not downloaded |
+| Reflector | J4 | 2BHR-30-VUA | Not downloaded |
+| Rotor | C16–C19 | AC0402FRNPO9BN330 | No download available |
+| Rotor | J3 | ERM8-010-05.0-S-DV-K-TR | Not downloaded |
+| Rotor | J10 | RS1-07-G | Not downloaded |
+| Rotor | R5–R6 | SG73S1ERTTP4701F | No download available |
+| Stator | J10 | 2BHR-30-VUA | Not downloaded |
+| Stator | J11, J12 | 2195620015 | Not downloaded |
+
+**Next:** `review-pass-10` is unblocked (54 deferred Pass 9 findings). Other unblocked: `extension-mechanical-usage`, `system-config-variants-diagrams`, `consolidate-design-spec-content`, `footprint-requests-pending` (remaining rows above).
+
+**Key numbers:** Next checkpoint = 160 (when user approves). Next DEC = DEC-073. `review-report.md` ≈ 1487 lines, complete through Pass 9.
+
+---
+
 ## 2026-05-14 session result (Review Pass 9 complete — checkpoint 159)
 
 ### Review Pass 9: all fixes applied

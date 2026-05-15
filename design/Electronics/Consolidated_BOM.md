@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-14
+**Last Updated:** 2026-05-15
 
 ---
 
@@ -74,7 +74,7 @@
 | PM: R42-R46; STA: R39,R40 | ERJ-2RKF10R0X | P10.0LCT-ND | 667-ERJ-2RKF10R0X | C413044 | - | 5 | - | - | - | - | - | 2 | - | - | - | - | 7 | 10Ω 1% Thin-Film 0402 [Panasonic] | Yes | ✔ |
 | PM: SW1 | 4660 | 1528-4660-ND | 485-4660 | - | Global sourcing | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 16mm panel latching RGB metal switch [Adafruit] | N/A | N/A |
 | PM: SW2 | 3350 | 1528-2546-ND | 485-3350 | - | Global sourcing | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 16mm panel momentary RGB metal switch [Adafruit] | N/A | N/A |
-| PM: BT_SW1_1-6,BT_SW2_1-6 | 1211 | 36-1211-ND | 534-1211 | C3029550 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 2.8mm PCB male spade tabs THT Quick-Fit [Keystone Electronics] | Yes | ✔ |
+| PM: J_SW1_1-6,J_SW2_1-6 | 1211 | 36-1211-ND | 534-1211 | C3029550 | - | 12 | - | - | - | - | - | - | - | - | - | - | 12 | 2.8mm PCB male spade tabs THT Quick-Fit [Keystone Electronics] | Yes | ✔ |
 | PM: U1 | TPS259804ONRGER | 296-TPS259804ONRGERCT-ND | 595-TPS259804ONRGER | C2878936 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | eFuse 16.9V fixed OVLO VQFN-24 4x4mm; variant-locked [Texas Instruments] | Yes | ✔ |
 | PM: U2A,U2B | LMQ61460AFSQRJRRQ1 | 296-LMQ61460AFSQRJRRQ1CT-ND | 595-LMQ61460AFSQRJRRQ1 | C1518767 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 5V buck x2 180° interleaved VQFN-HR 14-pin 4x3.5mm [Texas Instruments] | Yes | ✔ |
 | PM: U3 | LTC3350EUHF#PBF | 505-LTC3350EUHF#PBF-ND | 584-LTC3350EUHF#PBF | C580711 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | Supercap manager QFN-38 5x7mm [Analog Devices] | Yes | ✔ |
@@ -122,7 +122,7 @@
 | USM: Q19-Q30 | SQ2319ADS-T1_BE3 | 742-SQ2319ADS-T1_BE3CT-ND | 78-SQ2319ADS-T1_BE3 | C3280190 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | P-MOSFET AEC-Q101 SOT-23 [Vishay] | No | Requested |
 | USM: R18-R29 | ERJ-3EKF1500V | P150HCT-ND | 667-ERJ-3EKF1500V | C400650 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 150Ω 1% 0603 [Panasonic] | Yes | ✔ |
 | USM: R30-R53 | ERJ-3EKF1000V | P100HCT-ND | 667-ERJ-3EKF1000V | C193336 | - | - | - | - | 24 | - | - | - | - | - | - | - | 24 | 100Ω 1% 0603 [Panasonic] | Yes | ✔ |
-| USM: R66-R77 | SG73S1ERTTP4702D | 2019-SG73S1ERTTP4702DTR-ND | 660-SG73S1ERTTP4702D | C5915648 (MOQ 40) | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 47kΩ ±0.5% AEC-Q200 0402; JLCPCB MOQ 40 [KOA Speer]; generic Resistor_SMD:R_0402_1005Metric placeholder from KiCAD 10.0 standard library (official footprint requested) | Yes* | Yes* |
+| USM: R66-R77 | SG73S1ERTTP4702D | 2019-SG73S1ERTTP4702DTR-ND | 660-SG73S1ERTTP4702D | C5915648 (MOQ 40) | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 47kΩ ±0.5% AEC-Q200 0402; JLCPCB MOQ 40 [KOA Speer] | Yes | ✔ |
 | USM: SW1-SW10 | 200MSP1T2B4M2QE | EG5525-ND | 612-200MSP1T2B4M2QE | C5491263 | - | - | - | - | 10 | - | - | - | - | - | - | - | 10 | SPDT latching toggle panel-mount THT [E-Switch] | Yes | ✔ |
 | USM: SW11; AM: SW1,SW2 | B3F-1070 | SW406-ND | 653-B3F-1070 | C726011 | - | - | - | - | 1 | - | 2 | - | - | - | - | - | 3 | SPST NO tactile THT [Omron] | Yes | ✔ |
 | USM: U1-U3; STA: U6-U8 | MCP23017T-E/SO | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | - | - | - | - | 3 | - | - | 3 | - | - | - | - | 6 | I²C GPIO expander SOIC-28 [Microchip Technology] | Yes | ✔ |
@@ -136,7 +136,7 @@
 | ENC: U1; STA: U1; ROT-26: U1; ROT-64: U1 | EPM570T100I5N | 544-2281-ND | 989-EPM570T100I5N | C27319 | - | - | - | - | - | 1 | - | 1 | - | - | 1 | 1 | 7 | MAX II 570 LEs CPLD TQFP-100 [Intel (Altera)] | Yes | ✔ |
 | REF: J1,J2; EXT: J1,J2; ROT-26: J1,J2; ROT-64: J1,J2 | ERM8-005-05.0-S-DV-K-TR | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | - | - | - | - | - | - | 2 | 2 | 2 | 2 | 14 | 10-pin 2x5 0.8mm male SMT [Samtec] | Yes | ✔ |
 | CTL: J11, J12; EXT: J9 | DF40HC(3.5)-20DS-0.4V(51) | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | 2 | - | - | - | - | - | - | 1 | - | - | 3 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack [Hirose] | Yes | ✔ |
-| AM: J1; JM: J1 | DF40C-20DP-0.4V(51) | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 20-pin 0.4mm pitch BtB plug [Hirose] | Yes | ✔ |
+| AM: J1; JM: J1 | DF40C-20DP-0.4V(51) | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | - | 1 | - | - | 1 | - | - | - | - | - | 2 | 20-pin 0.4mm pitch BtB plug [Hirose]; Mouser lists as DF40C-20DP-0.4V(51) — search by Mouser PN 798-DF40C20DP0.4V51 | Yes | ✔ |
 | CTL: MH5-MH8, MH9-MH12; EXT: MH5-MH8 | 9774035151R | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | 8 | - | - | - | - | - | - | 4 | - | - | 12 | M2.5x3.5mm SMT standoff [Wurth Elektronik] | Yes | ✔ |
 | AM: U1 | STM32G071K8T3TR | 497-STM32G071K8T3TR-ND | 511-STM32G071K8T3TR | - | Global sourcing | - | - | - | - | - | 1 | - | - | - | - | - | 1 | Local actuation controller LQFP32; JLCPCB consignment only [STMicroelectronics] | Yes | ✔ |
 | STA: J3; EXT: J6; ROT-26: J6; ROT-64: J6 | ERF8-010-05.0-S-DV-K-TR | SAM8618CT-ND | 200-ERF8010050SDVKTR | C3646170 | - | - | - | - | - | - | - | 1 | - | 1 | 1 | 1 | 7 | 20-pin 2x10 0.8mm female SMT [Samtec] | Yes | ✔ |

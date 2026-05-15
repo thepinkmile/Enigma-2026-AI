@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-20
+**Last Updated:** 2026-05-15
 
 For mechanical tolerances and shroud assembly details, see
 `design/Mechanical/Rotor/Design_Spec.md`.
@@ -251,7 +251,7 @@ not consume extra board-level I/O pins.
 
 ## 7. Routing - Trace Width Specifications
 
-**Board specs:** 4-layer / 2oz finished copper (JLC04161H-7628).
+**Board specs:** 4-layer / 2oz finished copper — stackup per GRS §2.3.1.
 L1 = signal (JTAG/routing); L2 = GND plane; L3 = 3V3_ENIG power pour; L4 = secondary routing / data plate.
 
 **IPC-2221A basis (2oz copper, external, 10°C rise, 25°C ambient):**
@@ -283,7 +283,7 @@ Board 3V3_ENIG trunk traces).
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | Signal (ENC_IN/OUT, FDC2114 I2C SDA/SCL, SYS_RESET_N) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic; CPLD data I/O; I2C to FDC2114 capacitive encoder; SYS_RESET_N is a slow-logic CPLD reset sourced from Stator U7 GPA[7] - not a CI signal |
-| JTAG signals: TCK, TMS, TTD in/out (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. |
+| JTAG signals: TCK, TMS, TTD in/out (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. |
 | 3V3_ENIG local draw (J2 → CPLD + FDC2114 supply) | 55 mA | 0.008 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | 3V3_ENIG canonical 0.80 mm (Global_Routing_Spec §1.1); local IC supply only |
 | 3V3_ENIG pass-through rail (J2 input → J5 output bus) | 275 mA (Rotor 1 of mini-stack; 5 rotors max) | 0.04 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | Canonical 3V3_ENIG trunk width (Global_Routing_Spec §1.1); Rotor 1 worst case for a 5-rotor mini-stack; feeds L3 pour via thermal vias between J2 and J5 |
 | 3V3_ENIG distribution (inner power pour) | up to 275 mA | - | pour | **copper pour** | L3 | Full uninterrupted 2oz plane; primary distribution across the board |
@@ -291,9 +291,7 @@ Board 3V3_ENIG trunk traces).
 
 ### 7.2 Notes
 
-* **JTAG CI traces:** 0.127 mm (5 mil) on L1 over the L2 GND plane achieves 50 Ω controlled
-  impedance on the JLC04161H-7628 stackup (h = 0.087 mm, t = 0.035 mm, Eᵣ = 4.4). Per DEC-016.
-  See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`.
+* **JTAG CI traces:** 50 Ω controlled impedance on L1 over the L2 GND plane. Trace width per GRS §2.3.1 and `design/Production/JLCPCB_Manufacturing.md §1.1`.
 * **No series termination on BtB stack path.** 75 Ω series termination applies to the Stator ribbon
   cable ports only (see `Stator/Board_Layout.md §8`). Rotor-to-rotor BtB connectors (J4/J5) are
   unterminated; no series termination resistor is used on this board.

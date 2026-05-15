@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-14
+**Last Updated:** 2026-05-15
 
 ---
 
@@ -77,19 +77,19 @@ TOP EDGE / ENCLOSURE PANEL FACE
 
 | Port | Pin | Signal | Direction | Pull | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| GPA | [0] | `CFG_ROUTE[0]` | Bidirectional(Input) | 10k pull-down | Bank 1 routing config bit 0 (`SW1`) |
-| GPA | [1] | `CFG_ROUTE[1]` | Bidirectional(Input) | 10k pull-down | Bank 1 routing config bit 1 (`SW2`) |
-| GPA | [2] | `CFG_ROUTE[2]` | Bidirectional(Input) | 10k pull-down | Bank 1 routing config bit 2 (`SW3`) |
-| GPA | [3] | `CFG_ROUTE[3]` | Bidirectional(Input) | 10k pull-down | Bank 1 routing config bit 3 (`SW4`) |
+| GPA | [0] | `CFG_ROUTE[0]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 1 routing config bit 0 (`SW1`) |
+| GPA | [1] | `CFG_ROUTE[1]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 1 routing config bit 1 (`SW2`) |
+| GPA | [2] | `CFG_ROUTE[2]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 1 routing config bit 2 (`SW3`) |
+| GPA | [3] | `CFG_ROUTE[3]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 1 routing config bit 3 (`SW4`) |
 | GPA | [5:4] | NC | Bidirectional | - | - |
 | GPA | [6] | `CFG_APPLY_N` | Bidirectional(Input) | 10k pull-up | Active-low momentary pushbutton (`SW11`) |
 | GPA | [7] | NC | Output | - | - |
-| GPB | [0] | `CFG_REFMAP[0]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 0 (`SW5`) |
-| GPB | [1] | `CFG_REFMAP[1]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 1 (`SW6`) |
-| GPB | [2] | `CFG_REFMAP[2]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 2 (`SW7`) |
-| GPB | [3] | `CFG_REFMAP[3]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 3 (`SW8`) |
-| GPB | [4] | `CFG_REFMAP[4]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 4 (`SW9`) |
-| GPB | [5] | `CFG_REFMAP[5]` | Bidirectional(Input) | 10k pull-down | Bank 2 reflector-map bit 5 (`SW10`) |
+| GPB | [0] | `CFG_REFMAP[0]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 2 reflector-map bit 0 (`SW5`) |
+| GPB | [1] | `CFG_REFMAP[1]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 2 reflector-map bit 1 (`SW6`) |
+| GPB | [2] | `CFG_REFMAP[2]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 2 reflector-map bit 2 (`SW7`) |
+| GPB | [3] | `CFG_REFMAP[3]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 2 reflector-map bit 3 (`SW8`) |
+| GPB | [4] | `CFG_REFMAP[4]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 2 reflector-map bit 4 (`SW9`) |
+| GPB | [5] | `CFG_REFMAP[5]` | Bidirectional(Input) | 330Ω series (R2–R11) | Bank 2 reflector-map bit 5 (`SW10`) |
 | GPB | [6] | NC | Bidirectional | - | - |
 | GPB | [7] | NC | Output | - | - |
 
@@ -201,7 +201,7 @@ CM5 firmware normally selects one colour rail per bank at a time:
 
 **Manufacturer:** JLCPCB  
 **Layer count:** 4-layer  
-**Stackup:** JLC04161H-7628  
+**Stackup:** per GRS §2.3.1  
 **Copper:** 2oz outer  
 **Finish:** ENIG
 
@@ -250,14 +250,14 @@ provides a placeholder for the assembly constraint.
 
 ### 10.2 Positions
 
-Exact XY coordinates to be confirmed at PCB Layout. Intended placement:
+Follows GRS §4.3 Pattern A — exact XY positions TBD at PCB layout per GRS §4.2.
 
 | Hole | Position Description |
 | :--- | :--- |
-| MH1 | Top-left corner |
-| MH2 | Top-right corner |
-| MH3 | Bottom-right corner |
-| MH4 | Bottom-left corner |
+| MH1 | Bottom-left corner |
+| MH2 | Bottom-right corner |
+| MH3 | Top-right corner |
+| MH4 | Top-left corner |
 
 > **Note:** The USM mounts inside the main enclosure panel. Exact hole positions are subject to
 > review at Schematic Capture and PCB Layout to account for panel cutout geometry and component

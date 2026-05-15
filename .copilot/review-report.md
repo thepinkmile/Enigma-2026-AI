@@ -1401,72 +1401,72 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | F-ID | Status | Files Modified | Notes |
 | :--- | :--- | :--- | :--- |
 | PM-P9-01 | 🔒 CLOSED | — | R23=33.2kΩ confirmed correct for 400kHz per DEC-030. No change required. |
-| PM-P9-02 | ⏸ DEFERRED | — | Stale stackup code. Deferred to Pass 10 (stackup family). |
+| PM-P9-02 | 🔒 CLOSED | — | PM Board_Layout.md confirmed already using GRS §2.3 cross-references; no stale stackup code present. |
 | PM-P9-03 | ✅ Fixed | `Power_Module/Design_Spec.md` | R8 rail 3V3_ENIG → 5V_MAIN. |
-| PM-P9-04 | ⏸ DEFERRED | — | Stale CI trace widths. Deferred to Pass 10 (stackup family). |
+| PM-P9-04 | 🔒 CLOSED | — | PM Board_Layout.md confirmed already using GRS §2.3 cross-references; no stale CI trace widths present. |
 | PM-P9-05 | ✅ Fixed | `Power_Module/Design_Spec.md` | R22 rail 3V3_ENIG → 5V_MAIN. |
-| PM-P9-06 | ⏸ DEFERRED | — | RefDes inconsistencies in CBOM. Deferred to Pass 10. |
-| PM-P9-07 | ⏸ DEFERRED | — | Stale component values in Board_Layout §7. Deferred to Pass 10. |
-| PM-P9-08 | ⏸ DEFERRED | — | Keystone RefDes mismatch J_SW vs BT_SW. Deferred to Pass 10. |
-| PM-P9-09 | ⏸ DEFERRED | — | Signal names in polyfuse Notes field. Deferred to Pass 10. |
-| PM-P9-10 | ⏸ DEFERRED | — | Flat-count arithmetic. Deferred to Pass 10. |
+| PM-P9-06 | 🔒 CLOSED | — | CBOM RefDes confirmed consistent with PM Design_Spec. No inconsistencies beyond J_SW/BT_SW captured in PM-P9-08. |
+| PM-P9-07 | 🔒 CLOSED | — | Board_Layout §7 is the MH section, not power sequencing; all component values confirmed correct. No change required. |
+| PM-P9-08 | ✅ Fixed | `Consolidated_BOM.md` | BT_SW → J_SW RefDes corrected; Qty 2 → 12 (6 contacts × 2 switches; also resolves PM-P9-10). |
+| PM-P9-09 | 🔒 CLOSED | — | CBOM polyfuse Notes field contains no signal names; DR-PM-19 already has net-to-RefDes mapping. No change required. |
+| PM-P9-10 | ✅ Fixed | `Consolidated_BOM.md` | Spade tab Qty 2 → 12 corrected (addressed within PM-P9-08 fix). |
 | CTL-P9-01 | ✅ Fixed | `Controller/Design_Spec.md`, `Consolidated_BOM.md` | Phantom PRTR5V0U2X ESD parts replaced; D2 1.5SMBJ36CA TVS added (Power-Side PoE ESD). Existing TPD4E05U06QDQARQ1 retained for Data-Side. DR-CTL-19 updated. |
-| CTL-P9-02 | ⏸ DEFERRED | — | Stale 6-layer stackup code. Deferred to Pass 10 (stackup family). |
-| CTL-P9-03 | ⏸ DEFERRED | — | Stale CI trace widths and formulas. Deferred to Pass 10. |
-| CTL-P9-04 | ⏸ DEFERRED | — | Stale dielectric params in SI narrative §7. Deferred to Pass 10. |
+| CTL-P9-02 | 🔒 CLOSED | — | CTL Board_Layout.md confirmed already using GRS §2.3.x cross-references for 6-layer stackup; no stale code present. |
+| CTL-P9-03 | 🔒 CLOSED | — | CTL Board_Layout.md confirmed already using GRS §2.3.x cross-references for CI trace widths. |
+| CTL-P9-04 | 🔒 CLOSED | — | CTL Board_Layout.md SI narrative §7 confirmed already referencing GRS §2.3 for dielectric parameters. |
 | CTL-P9-05 | ✅ Fixed | `Controller/Board_Layout.md` | J14→J13, J15→J14 CM5 socket designators throughout §7. |
 | CTL-P9-06 | ✅ Fixed | `Controller/Design_Spec.md`, `JTAG_Module/Design_Spec.md`, `JTAG_Module/Board_Layout.md` | J12 pin table TDO → TTD_RETURN. JTAG_Module TTD_RETURN propagated throughout §3.1 and §5. |
 | CTL-P9-07 | 🔒 CLOSED | — | ZVS derating note already present in DR-CTL-23. No change required. |
 | CTL-P9-08 | ✅ Fixed | `Consolidated_BOM.md` | CTL C20 row added (4× CGA9N3X7R1E476M230KB); system qty corrected 4 → 8. |
-| CTL-P9-09 | ⏸ DEFERRED | — | MH pattern vs GRS §4.3 Pattern A. Deferred to Pass 10. |
+| CTL-P9-09 | ✅ Fixed | `Controller/Board_Layout.md` | Chassis MH1–MH4 section (§9) added per GRS §4.3 Pattern A; section was entirely absent. |
 | CTL-P9-10 | ✅ Fixed | `Controller/Design_Spec.md` | Phantom VREF net removed from §3 signal list. |
-| CTL-P9-11 | ⏸ DEFERRED | — | DEC-023 → DEC-057 citation. Deferred to Pass 10 (citation family). |
+| CTL-P9-11 | 🔒 CLOSED | — | CTL Board_Layout.md already carries DEC-057 citation; no stale DEC-023 reference present. |
 | CTL-P9-12 | ✅ Fixed | `Controller/Design_Spec.md` | CM5 socket description generalised: "CM5 underside connector mates with the Amphenol…". |
-| CTL-P9-13 | ⏸ DEFERRED | — | Stale cross-references. Deferred to Pass 10. |
-| STA-P9-01 | ⏸ DEFERRED | — | Stale stackup code. Deferred to Pass 10 (stackup family). |
-| STA-P9-02 | ⏸ DEFERRED | — | Stale CI trace widths. Deferred to Pass 10. |
-| STA-P9-03 | ⏸ DEFERRED | — | Stale dielectric params. Deferred to Pass 10. |
-| STA-P9-04 | ⏸ DEFERRED | — | DEC-023 → DEC-057 citation. Deferred to Pass 10 (citation family). |
-| STA-P9-05 | ⏸ DEFERRED | — | Stale cross-reference. Deferred to Pass 10. |
-| ROT-P9-01 | ⏸ DEFERRED | — | Stale stackup code (3 occurrences). Deferred to Pass 10 (stackup family). |
-| ROT-P9-02 | ⏸ DEFERRED | — | Stale CI trace widths. Deferred to Pass 10. |
-| ROT-P9-03 | ⏸ DEFERRED | — | Stale h/Er values. Deferred to Pass 10. |
-| ROT-P9-04 | ⏸ DEFERRED | — | Stale USB trace widths/gap. Deferred to Pass 10. |
-| ROT-P9-05 | ⏸ DEFERRED | — | Stale cross-references. Deferred to Pass 10. |
-| ROT-P9-06 | ⏸ DEFERRED | — | DEC-023 → DEC-057 citation. Deferred to Pass 10 (citation family). |
-| ROT-P9-07 | ⏸ DEFERRED | — | Stale references in Board_Layout. Deferred to Pass 10. |
-| ROT-P9-08 | ⏸ DEFERRED | — | Stale dielectric narrative. Deferred to Pass 10. |
-| ROT-P9-09 | ⏸ DEFERRED | — | Flat-count qty arithmetic. Deferred to Pass 10. |
-| EXT-P9-01 | ⏸ DEFERRED | — | Stale stackup code. Deferred to Pass 10 (stackup family). |
-| EXT-P9-02 | ⏸ DEFERRED | — | Stale CI trace widths/gap. Deferred to Pass 10. |
-| EXT-P9-03 | ⏸ DEFERRED | — | DEC-023 → DEC-057 citation. Deferred to Pass 10 (citation family). |
-| EXT-P9-04 | ⏸ DEFERRED | — | Stale dielectric narrative. Deferred to Pass 10. |
-| REF-P9-01 | ⏸ DEFERRED | — | Stale stackup code. Deferred to Pass 10 (stackup family). |
-| REF-P9-02 | ⏸ DEFERRED | — | Stale CI trace widths. Deferred to Pass 10. |
-| REF-P9-03 | ⏸ DEFERRED | — | CI width/gap spec conflict. Deferred to Pass 10. |
-| REF-P9-04 | ⏸ DEFERRED | — | DEC-023 → DEC-057 citation. Deferred to Pass 10 (citation family). |
-| ENC-P9-01 | ⏸ DEFERRED | — | Stale stackup code. Deferred to Pass 10 (stackup family). |
-| ENC-P9-02 | ⏸ DEFERRED | — | Stale CI trace widths. Deferred to Pass 10. |
-| ENC-P9-03 | ⏸ DEFERRED | — | CI width/gap spec conflict. Deferred to Pass 10. |
-| ACT-P9-01 | ⏸ DEFERRED | — | Stale stackup reference. Deferred to Pass 10 (stackup family). |
-| ACT-P9-02 | ⏸ DEFERRED | — | Stale dielectric params. Deferred to Pass 10. |
-| ACT-P9-03 | ⏸ DEFERRED | — | DEC-023 → DEC-057 citation. Deferred to Pass 10 (citation family). |
-| ACT-P9-04 | ⏸ DEFERRED | — | Stale cross-references. Deferred to Pass 10. |
-| ACT-P9-05 | ⏸ DEFERRED | — | Minor editorial. Deferred to Pass 10. |
-| USM-P9-01 | ⏸ DEFERRED | — | Board_Layout §4 pull-column stale. Deferred to Pass 10. |
-| USM-P9-02 | ⏸ DEFERRED | — | Stale stackup code. Deferred to Pass 10 (stackup family). |
+| CTL-P9-13 | 🔒 CLOSED | — | CTL Board_Layout.md cross-references confirmed current; no stale references present. |
+| STA-P9-01 | ✅ Fixed | `Stator/Board_Layout.md` | Stackup code JLC04161H-7628 → JLC041621-3313. |
+| STA-P9-02 | ✅ Fixed | `Stator/Board_Layout.md`, `Stator/Design_Spec.md` | CI trace widths 0.127mm → 0.1425mm; Design_Spec CI rule cross-referenced to GRS §2.3. |
+| STA-P9-03 | ✅ Fixed | `Stator/Board_Layout.md` | Stale h/Eᵣ values replaced with cross-references to JLCPCB_Manufacturing.md §1.1. |
+| STA-P9-04 | 🔒 CLOSED | — | STA Board_Layout.md already carries DEC-057 citation; no stale DEC-023 reference present. |
+| STA-P9-05 | ✅ Fixed | `Stator/Board_Layout.md` | Stale GRS cross-references updated to current section numbers. |
+| ROT-P9-01 | ✅ Fixed | `Rotor/Board_Layout.md` | Stackup code JLC04161H-7628 → JLC041621-3313 (3 occurrences). |
+| ROT-P9-02 | ✅ Fixed | `Rotor/Board_Layout.md` | CI trace widths 0.127mm → 0.1425mm; cross-references to GRS §2.3 added. |
+| ROT-P9-03 | ✅ Fixed | `Rotor/Board_Layout.md` | Stale h/Eᵣ values replaced with cross-references to JLCPCB_Manufacturing.md §1.1. |
+| ROT-P9-04 | ✅ Fixed | `Rotor/Board_Layout.md` | Stale USB trace widths/gap replaced with GRS §2.3 cross-reference. |
+| ROT-P9-05 | ✅ Fixed | `Rotor/Board_Layout.md` | Stale cross-references updated to current GRS section numbers. |
+| ROT-P9-06 | 🔒 CLOSED | — | ROT Board_Layout.md already carries DEC-057 citation; no stale DEC-023 reference present. |
+| ROT-P9-07 | ✅ Fixed | `Rotor/Board_Layout.md` | Stale references updated throughout Board_Layout. |
+| ROT-P9-08 | ✅ Fixed | `Rotor/Board_Layout.md` | Stale dielectric narrative replaced with cross-reference to JLCPCB_Manufacturing.md §1.1. |
+| ROT-P9-09 | 🔒 CLOSED | — | ROT CBOM flat-count Qty arithmetic confirmed correct. No change required. |
+| EXT-P9-01 | ✅ Fixed | `Extension/Board_Layout.md` | Stackup code JLC04161H-7628 → JLC041621-3313. |
+| EXT-P9-02 | ✅ Fixed | `Extension/Board_Layout.md` | CI trace widths/gap 0.127mm → 0.1425mm; cross-references to GRS §2.3 added. |
+| EXT-P9-03 | 🔒 CLOSED | — | EXT Board_Layout.md already carries DEC-057 citation; no stale DEC-023 reference present. |
+| EXT-P9-04 | ✅ Fixed | `Extension/Board_Layout.md` | Stale dielectric narrative replaced with cross-reference to JLCPCB_Manufacturing.md §1.1. |
+| REF-P9-01 | ✅ Fixed | `Reflector/Board_Layout.md` | Stackup code JLC04161H-7628 → JLC041621-3313. |
+| REF-P9-02 | ✅ Fixed | `Reflector/Board_Layout.md`, `Reflector/Design_Spec.md` | CI trace widths 0.127mm → 0.1425mm; Design_Spec CI rule cross-referenced to GRS §2.3. |
+| REF-P9-03 | ✅ Fixed | `Reflector/Board_Layout.md`, `Reflector/Design_Spec.md` | CI width/gap conflict resolved; both documents now reference GRS §2.3 uniformly. |
+| REF-P9-04 | 🔒 CLOSED | — | REF Board_Layout.md already carries DEC-057 citation; no stale DEC-023 reference present. |
+| ENC-P9-01 | ✅ Fixed | `Encoder/Board_Layout.md` | Stackup code JLC04161H-7628 → JLC041621-3313. |
+| ENC-P9-02 | ✅ Fixed | `Encoder/Board_Layout.md` | CI trace widths 0.127mm → 0.1425mm; cross-references to GRS §2.3 added. |
+| ENC-P9-03 | ✅ Fixed | `Encoder/Board_Layout.md` | CI width/gap conflict resolved; cross-reference to GRS §2.3. |
+| ACT-P9-01 | 🔒 CLOSED | — | ACT Board_Layout.md confirmed already using GRS §2.3 cross-references for stackup; no stale code present. |
+| ACT-P9-02 | 🔒 CLOSED | — | ACT Board_Layout.md confirmed already using GRS §2.3 cross-references for dielectric params. |
+| ACT-P9-03 | 🔒 CLOSED | — | ACT Board_Layout.md already carries DEC-057 citation; no stale DEC-023 reference present. |
+| ACT-P9-04 | 🔒 CLOSED | — | ACT Board_Layout.md cross-references confirmed current; no stale references present. |
+| ACT-P9-05 | 🔒 CLOSED | — | ACT Board_Layout.md editorial confirmed correct. No change required. |
+| USM-P9-01 | ✅ Fixed | `User_Settings_Module/Board_Layout.md` | Board_Layout §4 GPIO pull-column: `10k pull-down` → `330Ω series (R2–R11)` for GPA[0:3]/GPB[0:5] rows. |
+| USM-P9-02 | ✅ Fixed | `User_Settings_Module/Board_Layout.md` | Stackup code JLC04161H-7628 → JLC041621-3313. |
 | USM-P9-03 | ✅ Fixed | `User_Settings_Module/Design_Spec.md`, `Consolidated_BOM.md` | Series 330Ω fault-current resistors R2–R11 added to switch COM-to-GPIO path. ERJ-2RKF3300X selected (DigiKey: P330LCT-ND, Mouser: 667-ERJ-2RKF3300X, JLCPCB: C278592). |
-| USM-P9-04 | ⏸ DEFERRED | — | MH pattern inverted vs GRS §4.3 Pattern A. Deferred to Pass 10. |
-| USM-P9-05 | ⏸ DEFERRED | — | KiCAD placeholder in BOM Notes. Deferred to Pass 10. |
-| JM-P9-01 | ⏸ DEFERRED | — | Stale stackup code (3 occurrences). Deferred to Pass 10 (stackup family). |
-| JM-P9-02 | ⏸ DEFERRED | — | JTAG CI trace width 0.127mm vs correct 0.1478mm. Deferred to Pass 10. |
+| USM-P9-04 | ✅ Fixed | `User_Settings_Module/Board_Layout.md` | MH1–MH4 positions corrected: were inverted top-to-bottom vs GRS §4.3 Pattern A; MH1↔MH4 and MH2↔MH3 swapped to correct positions. |
+| USM-P9-05 | ✅ Fixed | `Consolidated_BOM.md` | R66–R77 KiCAD placeholder note removed; `Yes*`/`Yes*` footprint status → `Yes`/`✔` (standard R_0402_1005Metric confirmed). |
+| JM-P9-01 | ✅ Fixed | `JTAG_Module/Board_Layout.md`, `JTAG_Integrity.md` | Stackup code JLC04161H-7628 → JLC041621-3313 (3 occurrences). |
+| JM-P9-02 | ✅ Fixed | `JTAG_Module/Board_Layout.md`, `JTAG_Integrity.md` | JTAG CI trace widths: outer L1 0.127mm → 0.1425mm; buried L2 0.127mm → 0.1478mm. Full impedance recalculation in JTAG_Integrity.md. |
 | JM-P9-03 | ✅ Fixed | `JTAG_Module/Design_Spec.md` | USB D+/D− trace widths → GRS §2.3 cross-reference (no explicit value). |
 | JM-P9-04 | 🔒 CLOSED | — | R1+R4 dual-stage damping intentional per FR-JM-02. No change required. |
-| JM-P9-05 | ⏸ DEFERRED | — | JTAG_Integrity stale stackup/h/Er. Deferred to Pass 10. |
-| JM-P9-06 | ⏸ DEFERRED | — | DEC-023 → DEC-057 citation. Deferred to Pass 10 (citation family). |
-| JM-P9-07 | ⏸ DEFERRED | — | Stale stackup code in historical note. Deferred to Pass 10. |
-| JM-P9-08 | ⏸ DEFERRED | — | DR-JM-09 bypass cap citation omission. Deferred to Pass 10. |
-| JM-P9-09 | ℹ️ NOTE ONLY | — | Design_Log DEC-065/066 date inversion. TERTIARY DIRECTIVE prohibits modification. |
+| JM-P9-05 | ✅ Fixed | `JTAG_Integrity.md` | Full recalculation with JLC041621-3313 parameters: h=0.092mm, Eᵣ=4.2; outer W=0.1425mm, buried W=0.1478mm. All impedance results updated. |
+| JM-P9-06 | ✅ Fixed | `JTAG_Module/Board_Layout.md` | DEC-023 → DEC-057 citation updated (§5; sole remaining occurrence across all boards). |
+| JM-P9-07 | ✅ Fixed | `JTAG_Module/Board_Layout.md` | Stale stackup code in historical note removed; cross-reference to GRS §2.3 substituted per historical-data rule. |
+| JM-P9-08 | ✅ Fixed | `JTAG_Module/Design_Spec.md` | DR-JM-09 Specification column updated: GRS §3.2 cross-reference added; redundant hardcoded bypass-cap distance detail removed. |
+| JM-P9-09 | ✅ Fixed | `design/Design_Log.md` | DEC-065 date corrected from erroneous `2026-07-13` (future date, likely parallel-agent write error) → `2026-05-11`. Both DEC-065 and DEC-066 now correctly dated 2026-05-11, the session in which both were written. TERTIARY DIRECTIVE exception granted by user. |
 | INT-BOM-P9-01 | ✅ Fixed | `Consolidated_BOM.md` | CTL C20 row added; system qty 4 → 8. |
 | INT-BOM-P9-02A | ✅ Fixed | `Consolidated_BOM.md` | C51 MPN corrected (10nF → 1µF). |
 | INT-BOM-P9-02B | ✅ Fixed | `Consolidated_BOM.md` | C57 MPN corrected (1µF → 100nF). |
@@ -1475,13 +1475,36 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | INT-BOM-P9-06 | ✅ Fixed | `Consolidated_BOM.md` | CSD17578Q5A Part Spec corrected "10A 3.3×3.3mm" → "25A SON 5×6mm". |
 | INT-BOM-P9-07 | ✅ Fixed | `Consolidated_BOM.md` | BAT54 Manufacturer "Vishay" → "Diotec Semiconductor AG". |
 | INT-BOM-P9-10 | ℹ️ NOTE ONLY | — | ROT variant qty not verifiable without variant spec files. |
-| INT-CON-P9-06 | ⏸ DEFERRED | — | USM node label "Settings Board". Deferred to Pass 10. |
+| INT-CON-P9-06 | ✅ Fixed | `Boards_Overview.md` | Mermaid node label "Settings Board" → "User Settings Module". |
 
 **Additional work completed (not a review finding):**
 - GRS §3.2 bypass cap proximity wording updated (from `enc-connector-review-pre-pcb` todo closure)
 - JTAG_Module TTD_RETURN net name propagated throughout Design_Spec §3.1 and Board_Layout §5 (scope of CTL-P9-06 fix)
 - USM R11 → R1 RefDes renumber (CFG_APPLY_N pull-up; pre-existing numbering rationalisation)
 
-**Pass 9 fix summary:** 16 named findings fixed (15 unique finding IDs; INT-BOM-P9-02 addressed as two sub-finding actions 02A+02B) · 5 closed (no fix required) · 54 deferred to Pass 10 · 2 note-only items
+**Post-Pass-9 housekeeping (2026-05-15 session):**
+- `JTAG_Module/Design_Spec.md` — signal table (lines 118–122) and code-block column widths widened to accommodate `TDD_RETURN` (longer than previous `TDO`); direct follow-on from CTL-P9-06/TDD_RETURN propagation
+- `Controller/Design_Spec.md` — CTL D2 (1.5SMBJ36CA) KiCAD Footprint status confirmed and updated Pending → ✔; legacy `.lib` and new `.kicad_sym` verified in sync
+- `User_Settings_Module/Design_Spec.md` — Last Updated date corrected from erroneous 2026-05-27 → 2026-05-15
+- Library expanded: 21 new parts added to `SamacSys_Parts.lib` / `.dcm` / `.kicad_sym`; 12 new `.kicad_mod` footprints; 19 new `.stp` 3D models. New parts: ERJ-2RKF3300X, ERJ-2RKF1003X, WP154A4SEJ3VBDZGW/CA, BSS138LT1G (accepted as footprint for BSS138), SQ2319ADS-T1_BE3, ERF8-010-05.0-S-DV-K-TR (8-pin), BHR-20-VUA (20-way), 0436500519 (Molex Micro-Fit 5-ckt), CWF1610A-180K, 219-6LPSTR, PH1-07-UA, ERM8-005-05.0-S-DV-K-TR (no 3D), + 9 ERJ/supporting variants
+- ~179 KiCAD Footprint status ticks applied (Pending → ✔) across all 10 board Design_Spec files (ACT, CTL, ENC, EXT, JTAG, PM, REF, ROT, STA, USM)
+
+**Remaining Pending footprint rows (downloads not yet available):**
+| Board | RefDes | MPN | Reason |
+|-------|--------|-----|--------|
+| Extension | J3 | ERM8-010-05.0-S-DV-K-TR | 10-pin variant — not downloaded |
+| Extension | J7, J8 | 2BHR-30-VUA | Not downloaded |
+| Reflector | J3 | ERM8-010-05.0-S-DV-K-TR | Not downloaded |
+| Reflector | J4 | 2BHR-30-VUA | Not downloaded |
+| Rotor | C16–C19 | AC0402FRNPO9BN330 | No download available |
+| Rotor | J3 | ERM8-010-05.0-S-DV-K-TR | Not downloaded |
+| Rotor | J10 | RS1-07-G | Not downloaded |
+| Rotor | R5–R6 | SG73S1ERTTP4701F | No download available |
+| Stator | J10 | 2BHR-30-VUA | Not downloaded |
+| Stator | J11, J12 | 2195620015 | Not downloaded |
+
+**Pass 9 fix summary:** 16 named findings fixed in-cycle (15 unique finding IDs; INT-BOM-P9-02 addressed as two sub-finding actions 02A+02B) · 5 closed in-cycle (no fix required) · 2 note-only items · 54 deferred items resolved post-cycle (2026-05-15): 34 fixed, 20 confirmed already correct (closed)
+
+**Pass 9 deferred resolution (2026-05-15):** All 54 deferred items addressed in a follow-up session. Families resolved: stackup/CI sweep (10 files), DEC-023→DEC-057 citation sweep (1 change; all other boards confirmed clean), MH pattern sweep (CTL §9 added, USM MH1–MH4 corrected), PM/ROT/USM/JM/INT-CON targeted fixes. Additionally: EXT and REF Pattern B chassis MH sections added (gap items discovered during MH sweep, not original Pass 9 findings); stale R1=232kΩ historical note removed from PM Design_Spec (historical-data rule violation); `agent-directives.md` review agent checklist updated to make historical-content check a cardinal HIGH-severity item in both stand-alone and integration review scopes.
 
 ---

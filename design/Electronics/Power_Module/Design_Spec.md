@@ -760,9 +760,6 @@ Estimated PM-local power dissipation at system peak load:
 >   Confirmed stock: Farnell ~1,143 pcs (£1.18 each); Heilind 756 pcs.
 > Mouser: `538-43650-0519`; DigiKey: `WM14587-ND` (confirmed); JLCPCB: `C563849` (confirmed).
 > ⚠️ **REVIEW REQUIRED:** Confirm Molex 43650-0519 Micro-Fit 3.0 is suitable for battery connector application - verify current rating, connector type, and locking mechanism meet battery safety requirements.
-> * **R1 ERJ-3EKF2323V (232kΩ)** - Corrected from 732kΩ (calculation error). R1 = 28700 x (11/1.21 - 1) = 232kΩ
-> for 11V UVLO threshold with R2 = 28.7kΩ. E96 standard value 232kΩ. Panasonic ERJ-3EKF series 1% thick-film.
-> Mouser 667-ERJ-3EKF2323V / DigiKey P232KHCT-ND / JLCPCB C403086.
 > * **R1, R2, R4-R9, R13, R14, R15, R17, R21, R22 ERJ-3EKF series** - UVLO dividers (R1/R2), pull-ups, LED limiters, and charge current set resistors
 >   are Panasonic **1% thick-film** (ERJ-3EKF 0603). The IC UVLO reference tolerance (±1.7%) dominates
 > the UVLO accuracy budget; 1% vs 0.1% resistors are indistinguishable in practice. 1% tolerance is fully adequate for pull-ups, LED limiters, and charge current set resistors.

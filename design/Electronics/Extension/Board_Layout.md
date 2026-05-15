@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
 
 ---
 
@@ -98,7 +98,7 @@ Mark clearly on silkscreen: `ERM8/ERF8 / 0.8mm / NICHT 2.54mm`.
 
 ## 6. Routing - Trace Width Specifications
 
-**Board specs:** 4-layer / 2oz finished copper (JLC04161H-7628).
+**Board specs:** 4-layer / 2oz finished copper — stackup per GRS §2.3.1.
 L1 = signal (JTAG/routing); L2 = GND plane; L3 = 3V3_ENIG power pour; L4 = secondary routing / data plate.
 
 **IPC-2221A basis (2oz copper, external, 10°C rise, 25°C ambient):**
@@ -122,7 +122,7 @@ supported). All Extension boards share an identical PCB layout; traces are sized
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | Signal (ENC_IN/OUT, SYS_RESET_N, ACTUATE_REQUEST_N) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic signals; pass-through from J7 to J8 and local AM trigger routing |
-| JTAG signals: TTD_RETURN (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. See `JTAG_Integrity.md`. |
+| JTAG signals: TTD_RETURN (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. See `JTAG_Integrity.md`. |
 | 3V3_ENIG J7 entry trunk (J7 → L3 pour → J5 and J8) | 1.65 A (design budget; 30 rotors x 55 mA) | 0.25 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | 3V3_ENIG canonical 0.80 mm (Global_Routing_Spec §1.1); conservative full-system budget; resolved by DEC-053 (4 dedicated pins for 0.41 A/conductor) |
 | 3V3_ENIG J5 output (J5 → downstream mini-stack J2) | 275 mA (5-rotor mini-stack worst case) | 0.04 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | Canonical 0.80 mm minimum; 275 mA = Rotor 1 of downstream mini-stack |
 | 3V3_ENIG local draw (J7 → U1 VCC) | ≤ 10 mA | 0.002 mm | 0.80 mm | **0.80 mm** | L1 | Buffer IC supply; 3V3_ENIG canonical 0.80 mm minimum |
@@ -132,9 +132,7 @@ supported). All Extension boards share an identical PCB layout; traces are sized
 
 ### 6.2 Notes
 
-* **JTAG CI traces:** 0.127 mm (5 mil) on L1 over the L2 GND plane achieves 50 Ω controlled
-  impedance on the JLC04161H-7628 stackup (h = 0.087 mm, t = 0.035 mm, Eᵣ = 4.4). Per DEC-016.
-  See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`.
+* **JTAG CI traces:** 50 Ω controlled impedance on L1 over the L2 GND plane. Trace width per GRS §2.3.1 and `design/Production/JLCPCB_Manufacturing.md §1.1`.
 * **3V3_ENIG pass-through:** The 0.80 mm is the canonical system-wide minimum for all 3V3_ENIG
   surface traces (Global_Routing_Spec §1.1). IPC calculation for worst-case J7 entry 1.65 A at
   2oz external: 1.65 x 0.15 mm = 0.25 mm → **0.80 mm** canonical width provides 3.2x margin.
@@ -154,3 +152,38 @@ supported). All Extension boards share an identical PCB layout; traces are sized
   Arrays are assigned to U2-U9 (see `Design_Spec.md §5`).
 * **Internal connectors (no TVS required):** J7, J8 (Extension Port 2BHR-30-VUA shrouded box) and J9 (AM dock, DF40HC-20DS) are not operator-accessible during live rotor swap.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.
+
+---
+
+## 8. Mounting Holes
+
+The Extension board uses 4x M3 PTH mounting holes for chassis attachment per DR-EXT-14.
+
+### 8.1 Specifications
+
+- **Count:** 4x M3 PTH
+- **Hole diameter:** Ø3.2mm (clearance for M3 fastener)
+- **Annular ring:** 6.0mm ENIG exposed pad (per GRS §4)
+- **Net:** `GND_CHASSIS` — copper ring pads tied to chassis ground for Faraday-cage continuity
+- **BOM:** No BOM entry; these are plain chassis mounting holes with no fitted components
+
+### 8.2 Positions
+
+Positions follow GRS §4.3 Pattern B (D-shaped board). Exact XY coordinates to be confirmed at PCB layout per GRS §4.2; the following describe the intended placement:
+
+| Hole | Position Description |
+| :--- | :--- |
+| MH1 | Bottom-left corner |
+| MH2 | Bottom-right corner |
+| MH3 | Board geometric centre |
+| MH4 | Top-centre: midpoint of the rounded top arc, 7 mm inset along the arc normal |
+
+> **Note:** Exact coordinates TBD at PCB layout per GRS §4.2. The Extension board outline, connector clearances, and AM-dock standoffs (MH5–MH8) must be factored in before finalising hole positions.
+
+### 8.3 Cross-References
+
+| Document | Relevance |
+| :--- | :--- |
+| `design/Standards/Global_Routing_Spec.md §4` | Mechanical grounding, ENIG annular ring, GND_CHASSIS bonding rules |
+| `design/Standards/Global_Routing_Spec.md §4.3` | Default mounting hole placement Pattern B (D-shaped board) |
+| `design/Electronics/Extension/Design_Spec.md DR-EXT-14` | Design requirement for chassis mounting holes |

@@ -33,7 +33,7 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 | DR-JM-06 | Power source | 5V_USB and 3V3_ENIG from Controller Board via J1 DF40C-20 BtB connector; FT232H self-powered USB mode | §6 Electrical Requirements |
 | DR-JM-07 | Board-to-Board connector | J1 = Hirose DF40C-20DP-0.4V(51) 20-pin 0.4mm pitch BtB plug (bottom-centre of board; R1 on outer/bottom edge) | §3 Interface & Wiring; BOM J1 |
 | DR-JM-08 | GND_CHASSIS exemption | M2.5 NPTH clearance holes. Electrical connection: GND (not GND_CHASSIS). Per DEC-057 daughterboard exception. | §3 Interface & Wiring |
-| DR-JM-09 | Bulk cap exception | JM exempt from 5x bulk entry bank rule; C1-C4, C6-C9 = 8x 100nF per-IC decoupling (one per FT232H supply pin: VCCA, VCORE, VCCD, VCCIOx3, VPLL, VPHY) + C5 = 4.7µF 5V_USB entry filter | §6 Electrical Requirements; BOM C1-C9; GRS §3 |
+| DR-JM-09 | Bulk cap exception | JM exempt from 5x bulk entry bank rule; C1-C4, C6-C9 = 8x 100nF per-IC decoupling (one per FT232H supply pin: VCCA, VCORE, VCCD, VCCIOx3, VPLL, VPHY) + C5 = 4.7µF 5V_USB entry filter. Bypass cap placement follows GRS §3.2 (within 1mm of IC Vcc pin, same layer). | §6 Electrical Requirements; BOM C1-C9; GRS §3; GRS §3.2 |
 | DR-JM-10 | JTAG buffer | U2 = SN74LVC2G125DCUR (VSSOP-8) dual-channel buffer for TCK and TMS; placed between FT232H and J1 connector | §6 Electrical Requirements; BOM U2; DEC-024 |
 | DR-JM-11 | TCK series damping after buffer | R2 = 33 Ω 0402 after U2 TCK output, before J1 pin C1R1 (TCK) | §6 Electrical Requirements; BOM R2; DEC-024 |
 | DR-JM-12 | TMS series damping after buffer | R3 = 33 Ω 0402 after U2 TMS output, before J1 pin C2R2 (TMS) | §6 Electrical Requirements; BOM R3; DEC-024 |
@@ -257,7 +257,7 @@ Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`. For 
 | C1-C4, C6-C9, C12 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | ✔ | 9 |
 | C5 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | Yes | ✔ | 1 |
 | C10-C11 | 33pF C0G/NP0 crystal load 0402 | C0402C330J5GAUTO | Kemet | 399-12979-1-ND | 80-C0402C330J5GAUTO | C2169327 | - | - | Yes | ✔ | 2 |
-| J1 | 20-pin 0.4mm pitch BtB plug (bottom-centre of board) | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | see DR-JM-19, DEC-058 | Yes | ✔ | 1 |
+| J1 | 20-pin 0.4mm pitch BtB plug (bottom-centre of board) | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | see DR-JM-19, DEC-058; Mouser lists as DF40C-20DP-0.4V(51) — search by Mouser PN 798-DF40C20DP0.4V51 | Yes | ✔ | 1 |
 | R1-R4 | 33Ω 1% 0402 | ERJ-2RKF33R0X | Panasonic | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | see DEC-016; see DEC-024 | Yes | ✔ | 4 |
 | R5-R7 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | ✔ | 3 |
 | U1 | USB 2.0 to MPSSE bridge LQFP-48 | FT232HL-REEL | FTDI Chip | 768-1101-1-ND | 895-FT232HL-REEL | C51997 | - | - | Yes | ✔ | 1 |

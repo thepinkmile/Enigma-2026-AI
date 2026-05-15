@@ -342,7 +342,7 @@ pinouts, mechanical constraints, and BOM.
 | C4 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | see DEC-046 | ✔ | ✔ | 1 |
 | C5 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | ✔ | ✔ | 1 |
 | D1-D3 | Green SMD LED diagnostic 0603 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | ✔ | ✔ | 3 |
-| J1 | 20-pin 0.4mm pitch BtB plug | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | - | ✔ | ✔ | 1 |
+| J1 | 20-pin 0.4mm pitch BtB plug | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | Mouser lists as DF40C-20DP-0.4V(51) — search by Mouser PN 798-DF40C20DP0.4V51 | ✔ | ✔ | 1 |
 | J2-J5 | 1x5 2.54mm male THT | PH1-05-UA | Adam Tech | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | manually-fit | ✔ | ✔ | 4 |
 | R1-R3 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | ✔ | ✔ | 3 |
 | R4-R5 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | ✔ | ✔ | 2 |

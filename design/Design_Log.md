@@ -4323,7 +4323,7 @@ Open Mode is a desirable reliability enhancement but not an electrical necessity
 | :--- | :--- |
 | **Decision ID** | DEC-065 |
 | **Status** | Confirmed |
-| **Date** | 2026-07-13 |
+| **Date** | 2026-05-11 |
 | **Author** | Izzyonstage & Copilot (session e39f3cc4) |
 | **Amends** | All prior board Design_Spec.md files referencing stackup codes; DEC-016 (CI trace widths updated); DEC-017 (Extension stackup code corrected) |
 

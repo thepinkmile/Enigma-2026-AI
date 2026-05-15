@@ -127,7 +127,7 @@ flowchart TD
 > Pull-up termination for TMS and TDI is already provided by the Stator (R3/R4) and Encoder boards (R3/R4) where those signals originate.
 
 * **JTAG Trace Width Rule:** All JTAG signal traces on L1 (TTD_RETURN and any in-board JTAG
-  routing) shall be routed at **0.127 mm (5 mil)** width over the L2 GND plane, targeting
+  routing) shall be routed at the width specified in GRS §2.3.1 and JLCPCB_Manufacturing.md §1.1 over the L2 GND plane, targeting
   **50 Ω controlled impedance**. Stackup upgraded to 4-Layer per DEC-017.
   See `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016.
 * **JTAG Return:** TDO from Rotor 30 is routed to Pin 16 (TTD_RETURN) for return to the Stator.

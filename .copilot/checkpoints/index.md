@@ -163,3 +163,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 157 | USM switch topology complete — R1-R10 removed, R11→R1, dual-terminated wiring, DEC-071 | 157-usm-switch-topology-complete.md |
 | 158 | ENC connector review complete; review-pass-8 corrected | 158-enc-connector-review-complete-pass8-corrected.md |
 | 159 | JTAG/USM/CTL fixes; Group 1-2-3 library imports; all-board BOM ticks | 159-jtag-usm-ctl-library-imports-all-board-bom-ticks.md |
+| 160 | Library import (Hirose + TPS), todo sync, directives hardened | 160-library-import-todo-sync-directives-hardened.md |

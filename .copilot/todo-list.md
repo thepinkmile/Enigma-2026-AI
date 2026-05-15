@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-14 (review-pass-9 marked done; review-report.md updated through Pass 9 including Pass 6 Fix Status, full Pass 7/8/9 sections; DEC-072 logged; 1.5SMBJ36CA KiCAD assets created; 54 findings deferred to Pass 10; board-interconnect-diagram marked done; diagram added to Boards_Overview.md §1.1; coupon-testing-review → extension-mechanical-usage dep added to SQL; dep corrections: emc/environmental-testing → prototype-pcb-manufacturing; security-testing → prototype-pcb-manufacturing + prototype-system-complete; version-1-documentation adds release-candidate-production + prototype-system-complete deps; compliance-testing removes erroneous version-1-documentation dep; version-one-complete adds version-1-documentation dep; emc-testing/environmental-testing/security-testing/version-1-documentation added to SQL todos INSERT; SQL deps wrapped with PRAGMA foreign_keys OFF/ON; usm-spdt-switch-floating-review marked done; R1-R10 pull-downs removed from USM design, R11 renumbered R1; DEC-071 written; review-pass-8 corrected to done — was reset incorrectly in checkpoint-152 audit; enc-connector-review-pre-pcb marked done — J2→J1 typo fixed in Encoder Design_Spec §9; GRS §3/§3.2 confirmed adequate for bypass cap placement)
+Last updated: 2026-05-16 (Pass 9 deferred-item resolution: stackup/trace-width GRS cross-reference sweep; DF40C/DF40HC/TPS Hirose lib imports; 3D model sync; download-missing-3d-models and review-pass-11 todos added)
 
 ---
 
@@ -78,6 +78,8 @@ Last updated: 2026-05-14 (review-pass-9 marked done; review-report.md updated th
 | `review-pass-8` | — | done | — |
 | `review-pass-9` | — | done | — |
 | `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | pending | `review-pass-9` |
+| `download-missing-3d-models` | [download-missing-3d-models.md](todos/download-missing-3d-models.md) | pending | — |
+| `review-pass-11` | [review-pass-11.md](todos/review-pass-11.md) | pending | `download-missing-3d-models`, `review-pass-10` |
 | `ascii-to-mermaid-diagrams` | — | done | — |
 | `board-interconnect-diagram` | — | done | — |
 | `system-config-variants-diagrams` | [system-config-variants-diagrams.md](todos/system-config-variants-diagrams.md) | pending | — |
@@ -207,12 +209,14 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('version-one-complete',              'Version 1.0 complete',                        'pending'),
 ('review-pass-7',                     'Design review pass 7',                        'done'),
 ('review-pass-8',                     'Design review pass 8',                        'done'),
-('review-pass-9',                     'Design review pass 9',                        'pending'),
+('review-pass-9',                     'Design review pass 9',                        'done'),
 ('review-pass-10',                    'Design review pass 10',                       'pending'),
+('download-missing-3d-models',        'Download remaining 3D models for library parts', 'pending'),
+('review-pass-11',                    'Design review pass 11',                       'pending'),
 -- Documentation improvements
 ('ascii-to-mermaid-diagrams',         'Replace ASCII flow/block diagrams with Mermaid fenced blocks', 'done'),
 -- Mermaid Diagrams
-('board-interconnect-diagram',        'block-beta board interconnect diagram in Boards_Overview.md',            'pending'),
+('board-interconnect-diagram',        'block-beta board interconnect diagram in Boards_Overview.md',            'done'),
 ('system-config-variants-diagrams',   'flowchart TD system config variants in System_Architecture.md',          'pending'),
 ('version-1-documentation',           'Version 1.0 documentation package',                                      'pending'),
 ('ctl-component-diagram',             'flowchart TD CTL circuit component diagram in Controller/Design_Spec.md',   'done'),
@@ -391,6 +395,8 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('ctl-t1-transformer-decision',     'ctl-t1-wurth-datasheet-review'),
 ('review-pass-9',             'review-pass-8'),
 ('review-pass-10',            'review-pass-9'),
+('review-pass-11',            'download-missing-3d-models'),
+('review-pass-11',            'review-pass-10'),
 -- stackup-simplify sweep gates on grs-stackup-section (done)
 ('am-stackup-simplify',  'grs-stackup-section'),
 ('ctl-stackup-simplify', 'grs-stackup-section'),

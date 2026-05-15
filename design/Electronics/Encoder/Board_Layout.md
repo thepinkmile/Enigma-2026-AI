@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-15
 
 ## 1. Component Areas
 
@@ -113,7 +113,7 @@ lines + 1 activity sideband + 1 LED**, plus the dedicated JTAG / reset pins abov
 
 ## 5. Routing - Trace Width Specifications
 
-**Board specs:** 4-layer / 2oz finished copper (JLC04161H-7628).  
+**Board specs:** 4-layer / 2oz finished copper — stackup per GRS §2.3.1.  
 L1 = signal (JTAG/routing); L2 = GND plane; L3 = 3V3_ENIG power pour; L4 = secondary routing /
 data plate.
 
@@ -130,15 +130,14 @@ constraints. See `Global_Routing_Spec.md §1.1` for the full current-category ta
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | Signal (`ENC_DATA`, key lines, lamp lines, jack lines) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic; CPLD I/O; spade-terminal traces |
-| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **0.127 mm (5 mil)** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016 |
+| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016 |
 | 3V3_ENIG power (J1 pin 1/20 -> CPLD + LED) | 104 mA | 0.016 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | Canonical 3V3_ENIG width |
 | 3V3_ENIG distribution (inner power pour) | 104 mA | - | pour | **copper pour** | L3 | Full uninterrupted 2oz plane |
 | GND return (inner GND pour) | - | - | pour | **copper pour** | L2 | Reference plane under all CI traces on L1 |
 
 ### 5.2 Notes
 
-* **JTAG CI traces:** 0.127 mm (5 mil) on L1 over the L2 GND plane achieves 50 Ω controlled
-  impedance on the JLC04161H-7628 stackup (h = 0.087 mm, t = 0.035 mm, E_r = 4.4). Per DEC-016.
+* **JTAG CI traces:** 50 Ω controlled impedance on L1 over the L2 GND plane. Trace width per GRS §2.3.1 and `design/Production/JLCPCB_Manufacturing.md §1.1`.
 * **Cable-output trace (U1 TDO -> R6 -> J1 pin 14):** R6 (75 Ω) is placed within 2 mm of U1 TDO;
   the post-R6 trace to the J1 connector pad should be kept short.
 * **3V3_ENIG power entry (J1 pins 1 and 20):** both power pins connect to the same L3 copper pour

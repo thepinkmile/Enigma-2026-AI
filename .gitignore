@@ -425,3 +425,6 @@ src/Electronics/Library/temp/
 *.msix
 *.msm
 *.msp
+
+# Local CLI / tool cache files
+*.lscache

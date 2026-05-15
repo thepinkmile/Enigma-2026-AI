@@ -282,7 +282,7 @@ symmetry. Pre-loaded indices:
   * **SYS_RESET_N:** 10kΩ pull-up to 3V3_ENIG (R6) - active-low signal; pull-up ensures CPLD remains
     out of reset by default.
 * **JTAG Trace Width Rule:** All JTAG signal traces on L1 (TCK, TMS, TDI, TDO) shall
-  be routed at **0.127 mm (5 mil)** width over the L2 GND plane, targeting **50 Ω controlled
+  be routed at the width specified in GRS §2.3.1 and JLCPCB_Manufacturing.md §1.1 over the L2 GND plane, targeting **50 Ω controlled
   impedance**. See `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016.
 * **JTAG Series Termination at Encoder Port Outputs:** 75 Ω series resistors placed within 2 mm of
   each encoder-port connector pad **on the Stator PCB**, targeting 95 Ω source impedance to match

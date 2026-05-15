@@ -4,7 +4,7 @@
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
-**Last Updated:** 2026-05-14
+**Last Updated:** 2026-05-15
 
 ## 1. Overview
 
@@ -32,7 +32,7 @@ flowchart BT
 
     subgraph STATOR["⚙️ Stator + Config"]
         STA["Stator Board<br>EPM570T100I5N CPLD · ENC routing matrix"]
-        SET["Settings Board<br>10× toggle · 12× RGB LED · MCP23017 ×3"]
+        SET["User Settings Module<br>10× toggle · 12× RGB LED · MCP23017 ×3"]
         STA -. "I²C harness" .-> SET
     end
 

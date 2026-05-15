@@ -4,7 +4,7 @@
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
-**Date:** 2026-05-13
+**Date:** 2026-05-15
 **Affects:** Controller, Stator, Encoder, Reflector, Extension, JTAG Module (JM)
 
 ---
@@ -119,21 +119,22 @@ Transmission line effects are negligible; no series resistor required.
 
 ### 3.1 4-Layer 1.6mm FR4 - Stator, Encoder, Rotor, Reflector, Extension, JTAG Module (JM)
 
-> For authoritative PCB stackup parameters, see `design/Standards/Global_Routing_Spec.md §2`.
+> For authoritative PCB stackup parameters, see `design/Standards/Global_Routing_Spec.md §2.3`.
 
 | Parameter | Value | Source |
 | --- | --- | --- |
-| Prepreg (L1→L2) | 2116 style | JLCPCB stackup document |
-| Dielectric height h | **0.087 mm** | Verified: JLCPCB calculator gives 50Ω at 0.127mm for this stackup |
-| Copper thickness t | 0.035 mm (1oz outer) | Standard |
-| Dielectric constant Eᵣ | 4.4 | FR4 2116 prepreg |
+| Prepreg (L1→L2) | 3313 RC57% | JLCPCB_Manufacturing.md §1.1 |
+| Dielectric height h | **0.092 mm** | JLCPCB_Manufacturing.md §1.1 |
+| Copper thickness t | 0.035 mm (1oz base) | IPC-2141A model (base copper before plating) |
+| Dielectric constant Eᵣ | 4.2 | FR4 3313 prepreg |
 | JTAG layer | L1 (top) - microstrip over L2 GND plane | See note below |
-| Manufacturing minimum trace width | 0.127 mm (5 mil) | JLCPCB standard process |
+| JTAG CI trace width (50 Ω, L1 outer) | 0.1425 mm (5.61 mil) | JLCPCB calculator; JLC041621-3313; mfg. min = 0.127 mm |
+| JTAG CI trace width (50 Ω, L2 JM only) | 0.1478 mm (5.82 mil) | JLCPCB calculator; JLC041621-3313 buried microstrip; JM inverted stackup only |
 
-> **Why L1?** On the JLC04161H-7628 stackup, L2 (GND) and L3 (3V3_ENIG power) are solid planes
+> **Why L1?** On the JLC041621-3313 stackup, L2 (GND) and L3 (3V3_ENIG power) are solid planes
 > dedicated to their functions - they are not available as signal layers. This leaves L1 (top) and
 > L4 (bottom) as the only signal layers. L1 over L2 GND provides the tightest dielectric coupling
-> (h = 0.087 mm) and the best achievable controlled impedance. L4 over L3 (power plane) is
+> (h = 0.092 mm) and the best achievable controlled impedance. L4 over L3 (power plane) is
 > functionally acceptable but less ideal. **L1 is therefore the mandatory JTAG routing layer on
 > all 4-layer boards.** This decision is EMC-optimal for this stackup: the contiguous L2 GND plane
 > immediately below L1 provides consistent return-current path and low radiated-field coupling.
@@ -144,21 +145,21 @@ Transmission line effects are negligible; no series resistor required.
 >
 ### 3.2 6-Layer 1.6mm FR4 - Controller
 
-> For authoritative PCB stackup parameters, see `design/Standards/Global_Routing_Spec.md §2`.
+> For authoritative PCB stackup parameters, see `design/Standards/Global_Routing_Spec.md §2.3`.
 
 | Parameter | Value | Source |
 | --- | --- | --- |
-| Prepreg (L5→L6) | 2116 style | JLCPCB 6-layer stackup |
-| Dielectric height h | **~0.087 mm** | Similar outer prepreg to 4-layer; same calculator result |
-| Copper thickness t | 0.035 mm (1oz outer) | Standard |
-| Dielectric constant Eᵣ | 4.4 | FR4 2116 |
+| Prepreg (L5→L6) | 3313 RC57% | JLCPCB_Manufacturing.md §1.2 |
+| Dielectric height h | **0.092 mm** | JLCPCB_Manufacturing.md §1.2 |
+| Copper thickness t | 0.035 mm (1oz base) | IPC-2141A model (base copper before plating) |
+| Dielectric constant Eᵣ | 4.2 | FR4 3313 prepreg |
 | JTAG layer | L6 (bottom) - microstrip over L5 GND plane | Per Controller stackup spec |
-| Manufacturing minimum | 0.127 mm (5 mil) | JLCPCB standard process |
+| JTAG CI trace width (50 Ω, L6 outer) | 0.1425 mm (5.61 mil) | JLCPCB calculator; JLC061621-3313; see JLCPCB_Manufacturing.md §1.2 |
 
 ### 3.3 2-Layer 1.6mm FR4 - Historical Reference (Superseded by DEC-017)
 >
 > **Note:** The Reflector and Extension boards originally used a 2-layer stackup. DEC-017 upgrades
-> all non-Controller boards to 4-layer JLC04161H-7628. The calculations in §4 below for 2-layer
+> all non-Controller boards to 4-layer JLC041621-3313. The calculations in §4 below for 2-layer
 > boards are retained for historical reference only. These boards now use the §3.1 parameters.
 
 | Parameter | Value | Notes |
@@ -183,24 +184,25 @@ Where:
   t   = copper thickness (mm)
 ```
 
-For the 4-layer/6-layer outer-layer stackup (h = 0.087 mm, t = 0.035 mm, Eᵣ = 4.4):
+For the 4-layer/6-layer outer-layer stackup (h = 0.092 mm, t = 0.035 mm, Eᵣ = 4.2):
 
 ```text
-K = 87 / √(4.4 + 1.41) = 87 / √5.81 = 87 / 2.410 = 36.1
+K = 87 / √(4.2 + 1.41) = 87 / √5.61 = 87 / 2.368 = 36.74
 ```
 
 ### Solving for 50Ω (w = ?)
 
 ```text
-50 = 36.1 x ln(5.98 x 0.087 / (0.8w + 0.035))
-50 = 36.1 x ln(0.520 / (0.8w + 0.035))
-1.385 = ln(0.520 / (0.8w + 0.035))
-3.994 = 0.520 / (0.8w + 0.035)
-0.8w + 0.035 = 0.130
-w = 0.119 mm → rounded to 0.127 mm (5 mil) for design rule consistency
+50 = 36.74 x ln(5.98 x 0.092 / (0.8w + 0.035))
+50 = 36.74 x ln(0.550 / (0.8w + 0.035))
+1.361 = ln(0.550 / (0.8w + 0.035))
+3.900 = 0.550 / (0.8w + 0.035)
+0.8w + 0.035 = 0.141
+w = 0.133 mm → JLCPCB calculator gives 0.1425 mm (5.61 mil); use calculator value
 ```
 
-✔ **0.127 mm is achievable** (JLCPCB minimum = 0.127 mm; confirmed by their online calculator)
+✔ **0.1425 mm (5.61 mil) per JLCPCB calculator** (IPC-2141A estimate: 0.133 mm; JLCPCB calculator
+is authoritative — see `design/Production/JLCPCB_Manufacturing.md §1.1`)
 
 > **Note on copper weight:** The IPC-2141A formula uses t = base copper thickness before plating.
 > JLCPCB's 2oz finished specification starts from 1oz (t=0.035mm) base copper plus plating.
@@ -212,14 +214,14 @@ w = 0.119 mm → rounded to 0.127 mm (5 mil) for design rule consistency
 ### Solving for 100Ω (w = ?)
 
 ```text
-100 = 36.1 x ln(0.520 / (0.8w + 0.035))
-2.770 = ln(0.520 / (0.8w + 0.035))
-15.96 = 0.520 / (0.8w + 0.035)
-0.8w + 0.035 = 0.0326
-0.8w = -0.0024   →   NEGATIVE - physically impossible
+100 = 36.74 x ln(0.550 / (0.8w + 0.035))
+2.722 = ln(0.550 / (0.8w + 0.035))
+15.21 = 0.550 / (0.8w + 0.035)
+0.8w + 0.035 = 0.0361
+0.8w = 0.0011   →   w ≈ 0.0014 mm - physically impossible
 ```
 
-❌ **100Ω single-ended is not achievable** on this stackup. The thin 0.087 mm prepreg
+❌ **100Ω single-ended is not achievable** on this stackup. The thin 0.092 mm prepreg
 (required for component density in 4-layer/6-layer boards) constrains the geometry such
 that 100Ω would require a trace narrower than 0 mm. This is a fundamental physics constraint,
 not a manufacturer limitation.
@@ -247,7 +249,7 @@ w = 0.538 mm
 ```
 
 ⚠️ **0.538 mm (21 mil) - achievable** but not useful here. The Reflector and Extension boards
-have been upgraded to 4-layer JLC04161H-7628 per DEC-017 and now have a solid L2 GND plane;
+have been upgraded to 4-layer JLC041621-3313 per DEC-017 and now have a solid L2 GND plane;
 the 2-layer calculation above is retained for historical reference only. At JTAG frequencies
 (1-10 MHz), even the longest traces are well below the λ/6 critical threshold (~100 mm for 3 ns
 rise time). Series termination resistors at the driving ends of each ribbon cable segment are
@@ -306,7 +308,7 @@ At 10 MHz with 3 ns rise times, false clock edges are possible on longer cables.
 ```text
 Series R        = 33 Ω
 Total source Z  = 20 + 33 = 53 Ω ≈ 50 Ω (matched to PCB trace)
-PCB trace Zo    = 50 Ω (controlled, 0.127 mm)
+PCB trace Zo    = 50 Ω (controlled, 0.1425 mm)
 ```
 
 **At PCB→cable transition (50 Ω → 100 Ω):**
@@ -350,7 +352,7 @@ If achievable, this would give perfect PCB-to-cable impedance matching with zero
 cable entry. The signal at the destination would still reach full logic swing via the open-end
 reflection (V_dest = 2 x V_launched = 2 x 1.65 V = 3.30 V ✔).
 
-❌ **Not achievable** on JLCPCB JLC04161H-7628 or JLC06161H-2116 stackups.
+❌ **Not achievable** on JLCPCB JLC041621-3313 or JLC061621-3313 stackups.
 See §4 trace width calculation.
 
 ---
@@ -363,7 +365,7 @@ the cable impedance (100 Ω)** rather than the PCB trace impedance (50 Ω).
 ```text
 Series R        = 75 Ω
 Total source Z  = 20 + 75 = 95 Ω ≈ 100 Ω (matched to cable Zo)
-PCB trace Zo    = 50 Ω (controlled, 0.127 mm - achievable)
+PCB trace Zo    = 50 Ω (controlled, 0.1425 mm - achievable)
 ```
 
 **At PCB→cable transition (50 Ω → 100 Ω):**

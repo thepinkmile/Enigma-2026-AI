@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-14
+**Last Updated:** 2026-05-15
 
 ---
 
@@ -235,3 +235,15 @@ U5 and U6 are also in this zone.
   output. Arrange in a 2×2 grid on the secondary side of L1 with a common pour to `VIN_POE_12V`.
 - **Cross-ref:** `design/Electronics/Controller/Design_Spec.md §7.1`; DR-CTL-18 to DR-CTL-25;
   `design/Electronics/Controller/PoE_Power_Analysis.md`.
+
+---
+
+## 9. Chassis Mounting Holes (MH1–MH4)
+
+Follows GRS §4.3 Pattern A — exact XY positions TBD at PCB layout per GRS §4.2.
+
+- **Count:** 4× M3 PTH mounting holes (one near each corner)
+- **Hole diameter:** Ø3.2mm (clearance for M3 fastener)
+- **Net:** `GND_CHASSIS` — bonded to chassis ground per GRS §4
+- **BOM:** No BOM entry; plain chassis mounting holes with no fitted components
+- **Cross-ref:** `design/Electronics/Controller/Design_Spec.md DR-CTL-21`; `design/Standards/Global_Routing_Spec.md §4.3`

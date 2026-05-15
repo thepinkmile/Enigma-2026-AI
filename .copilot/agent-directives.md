@@ -176,13 +176,29 @@ The todo tracking system uses **two layers**:
 
 Rules:
 
+- **SESSION START — MANDATORY FIRST ACTION:** Before any other work, run the Agent SQL
+  block from `.copilot/todo-list.md` to seed the session database. The block uses
+  `INSERT OR IGNORE` so it is safe to re-run. Steps:
+  1. Read the `### Todos` SQL block from `todo-list.md` and execute it via the `sql` tool.
+  2. Read the `### Dependencies` SQL block and execute it (wrapped in
+     `PRAGMA foreign_keys = OFF/ON` as shown in the file).
+  3. Verify the row counts match expectations before proceeding with any task.
+  Failure to seed the session DB at startup is a directive violation.
+
+- **KEEPING IN SYNC:** The summary table in `todo-list.md` is the **source of truth for
+  status**. The session DB and the Agent SQL block must both stay in sync with it at all
+  times:
+  - When a todo status changes, update **all three**: summary table, Agent SQL INSERT
+    value, and session DB (`UPDATE todos SET status = '...' WHERE id = '...'`).
+  - When a new todo is added, insert it into **all three**: summary table row, Agent SQL
+    INSERT value, session DB INSERT, and `todo_deps` if it has dependencies.
+  - When dependencies change, update **all three**: summary table Blocked By column, Agent
+    SQL `todo_deps` INSERT, and session DB `todo_deps` INSERT.
+
 - When a new todo is identified, **both** a row in the summary table **and** a detail
   file in `.copilot/todos/` must be created before the todo is considered tracked.
 - When a todo is closed (status → done), remove the File link from the summary table row
-  and delete (or archive) the corresponding detail file. Do not delete the row itself.
-- The summary table in `todo-list.md` is the **source of truth for status**. The Agent SQL
-  block must stay in sync: keep `INSERT OR IGNORE` statements accurate to the current state
-  of both todos and dependencies.
+  and archive the corresponding detail file to `.recycle-bin/`. Do not delete the row itself.
 - Do **not** add prose descriptions, workstream headers, or inline notes to `todo-list.md`.
   All detail belongs in the per-todo `.md` files.
 - When writing or updating a per-todo file, use the standard header format:
@@ -360,11 +376,20 @@ Each cycle comprises two complementary review types:
 > **contradicts** the global rule.
 
 1. **Stand-alone board reviews** — each board's `Design_Spec.md` and `Board_Layout.md` are reviewed
-   in isolation for internal consistency, completeness, FR/DR coverage, BOM accuracy, and correct
-   component values. A board's review agent must also include **all supplementary docs that belong
-   to that board** — for example, `Rotor_26_Char_Design.md` and `Rotor_64_Char_Design.md` are
-   scoped to the Rotor board agent, not the integration agent. These variant/supplementary docs
-   must **not** be delegated to the integration review.
+   in isolation for internal consistency, completeness, FR/DR coverage, BOM accuracy, correct
+   component values, and **no historical content** (see Design Document Content Rules). A board's
+   review agent **must read every file in that board's folder** — all files under
+   `design/Electronics/<BoardName>/` are considered part of that board's specification without
+   exception. For example, `Rotor_26_Char_Design.md` and `Rotor_64_Char_Design.md` are part of the
+   Rotor board's spec and must be read by the Rotor agent; variant qty totals and component details
+   in the board-level BOM must be cross-checked against those variant files. These files must
+   **not** be delegated to the integration review.
+
+   > **Historical content check (cardinal rule):** Any text in a `Design_Spec.md`,
+   > `Board_Layout.md`, or supplementary board doc that records a superseded value, a prior
+   > design rationale, a correction note, or any other historical detail **must** be raised as a
+   > **HIGH** severity finding. Current design state only. History belongs exclusively in
+   > `.copilot/checkpoints/` and `design/Design_Log.md`.
 
 2. **Integration review** — all boards are reviewed together using a single agent that reads the
    GRS first, then every board's `Design_Spec.md` and `Board_Layout.md`, and then all
@@ -401,6 +426,12 @@ Each cycle comprises two complementary review types:
    - `design/Electronics/Consolidated_BOM.md` is complete, accurate, and consistent with all
      board-level BOMs
 
+   **E. Historical content check (cardinal rule — applies to every document in scope)**
+   - No `Design_Spec.md`, `Board_Layout.md`, supplementary board doc, or top-level design document
+     may contain superseded values, prior design rationale, correction notes, or any other
+     historical detail. These belong exclusively in `.copilot/checkpoints/` and
+     `design/Design_Log.md`. Any violation must be raised as a **HIGH** severity finding.
+
 ### Agent execution model
 
 - **BEFORE launching any batch of agents, always call `list_agents` first.** Confirm the number
@@ -416,9 +447,12 @@ Each cycle comprises two complementary review types:
   1. This file (`agent-directives.md`) in full.
   2. `design\Standards\Global_Routing_Spec.md` — board specs only document **exceptions** to global
      rules. Only raise a finding where a board value explicitly **contradicts** a global rule.
-  3. The board's `Design_Spec.md`, `Board_Layout.md`, and all supplementary docs scoped to that
-     board (e.g. `Rotor_26_Char_Design.md` and `Rotor_64_Char_Design.md` belong to the Rotor agent,
-     not the integration agent).
+  3. **Every file in the board's folder** (`design\Electronics\<BoardName>\`). All files in that
+     folder are part of the board's specification — `Design_Spec.md`, `Board_Layout.md`, and every
+     supplementary/variant/analysis doc present (e.g. `Rotor_26_Char_Design.md`,
+     `Rotor_64_Char_Design.md`, `JTAG_Integrity.md`, `PoE_Power_Analysis.md`). Do **not** skip any
+     file on the grounds that it is a variant or supplementary doc — all are in scope. BOM qty
+     totals must be verified against all variant files in the folder.
   4. All datasheets relevant to the board's components from `design\Datasheets\` (markdown first,
      then local PDF; no web search).
   5. The relevant rows in `design\Electronics\Consolidated_BOM.md`.
