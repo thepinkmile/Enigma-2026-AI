@@ -630,4 +630,118 @@ K
 F https://www.bourns.com/docs/product-datasheets/smbj.pdf?sfvrsn=34552159_17
 $ENDCMP
 #
+$CMP ERJ-2RKF3300X
+D Precision Thick Film Chip Resistor, 0402, 0.063W
+K
+F https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERJ-2RKF1003X
+D Thick Film Resistors - SMD 0402 100Kohms 1% AEC-Q200
+K
+F https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+#
+$CMP ERJ-2RKF1001X
+D Thick Film Resistors - SMD 0402 1Kohms 1% AEC-Q200
+K
+F https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+
+$CMP ERJ-2RKF75R0X
+D Precision Thick Film Chip Resistor, 0402, 0.063W
+K
+F https://componentsearchengine.com/Datasheets/1/ERJ-2RKF75R0X.pdf
+$ENDCMP
+
+$CMP ERJ-2RKF10R0X
+D Precision Thick Film Chip Resistor, 0402, 0.063W
+K
+F https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+
+$CMP ERJ-2RKF8202X
+D Precision Thick Film Chip Resistor, 0402, 0.063W
+K
+F https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+
+$CMP ERJ-2RKF5232X
+D Panasonic Surface Mount Fixed Resistor 52.3 k 0.1 W +/-100 ppm/C
+K
+F https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+
+$CMP ERJ-3EKF2200V
+D Precision Thick Film Chip Resistor, 0603, 0.1W
+K
+F http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C86.pdf
+$ENDCMP
+
+$CMP STD25NF20
+D STMICROELECTRONICS - STD25NF20 - Power MOSFET, N Channel, 200 V, 18 A, 0.1 ohm, TO-252 (DPAK), Surface Mount
+K
+F https://componentsearchengine.com/Datasheets/1/STD25NF20.pdf
+$ENDCMP
+
+$CMP HI1206P121R-10
+D Electrical Properties DCR () Max 0.03000 Filter Type Both Power and Signal Lines Impedance (Ohm) at 1 GHz 105.00 Impedance (Ohm) at 100 MHz 120.00 Impedance (Ohm) at 25 MHz 56.00 Impedance (Ohm) at 500 MHz 120.00 Peak Impedance Freq. (MHz) 300.00 Rated Current (A) Max 4.000 Typical Peak Impedance() 142.00
+K
+F https://componentsearchengine.com/Datasheets/1/HI1206P121R-10.pdf
+$ENDCMP
+
+$CMP KAM05CR71A105KH
+D Multilayer Ceramic Capacitors MLCC - SMD/SMT 10V 1uF X7R 0402 10% AECQ2
+K
+F https://datasheets.kyocera-avx.com/AutoMLCCKAM.pdf
+$ENDCMP
+
+$CMP 150060VS75000
+D WL-SMCW SMT Mono-Color Chip LED Waterclear 0603, Bright Green, Typ.(@20mA): 570nm, 40mcd, 2.0V, 140 AlInGaP
+K
+F https://www.we-online.com/catalog/datasheet/150060VS75000.pdf
+$ENDCMP
+
+$CMP SQ2319ADS-T1_BE3
+D MOSFETs P-CHANNEL 40V (D-S).  TrenchFET power MOSFET  AEC-Q101 qualified c  100 % Rg and UIS tested  Material categorization: for definitions of compliance please see www.vishay.com/doc?99912
+K
+F https://www.vishay.com/doc?76397
+$ENDCMP
+
+$CMP ERF8-010-05.0-S-DV-K-TR
+D 20 Position, 0.80 mm Edge Rate&reg; Rugged High Speed Socket
+K
+F http://suddendocs.samtec.com/prints/erf8-xxx-xx.x-xxx-dv-xxxx-xx-mkt.pdf
+$ENDCMP
+
+$CMP BHR-20-VUA
+D Conn Shrouded Header (4 Sides) HDR 20 POS 2.54mm Solder ST Top Entry Thru-Hole Tray
+K
+F https://datasheet.datasheetarchive.com/originals/distributors/Datasheets_SAMA/695a8166aa40898d0a6b5857fa89f6fe.pdf
+$ENDCMP
+
+$CMP CWF1610A-180K
+D Ind,1.6x1x1mm,18uH+/-10%,0.22A,
+K
+F https://www.bourns.com/docs/Product-Datasheets/CWF1610A.pdf
+$ENDCMP
+
+$CMP 219-6LPST
+D Switch DIP ON OFF SPST 6 Flush Slide 0.1A 20VDC Gull Wing 2.54mm SMD Tube
+K
+F 
+$ENDCMP
+
+$CMP PH1-07-UA
+D PH1-07-UA
+K
+F https://app.adam-tech.com/products/download/data_sheet/201605/ph1-xx-ua-data-sheet.pdf
+$ENDCMP
+
+$CMP ERM8-005-05.0-S-DV-K-TR
+D 10 Position Connector Header, Center Strip Contacts Surface Mount
+K
+F http://suddendocs.samtec.com/prints/erm8-xxx-xx.x-xxx-dv-xxxx-xx-mkt.pdf
+$ENDCMP
+
 #End Doc Library

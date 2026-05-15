@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-14
+**Last Updated:** 2026-05-15
 
 ---
 
@@ -622,11 +622,11 @@ Estimated Controller-local power dissipation at system peak load:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | BT1 | CR2032 holder SMD horizontal | 3034TR | Keystone Electronics | 36-3034CT-ND | 534-3034TR | C5213768 | - | - | Yes* | Yes* | 1 |
 | C1-C5, C7-C11 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 10 |
-| C6, C12-C16, C18, C19 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | Pending | 8 |
-| C17 | 22nF 200V X7R 0805 | C0805C223K2RACAUTO | Kemet | 399-17630-1-ND | 80-C0805C223K2RAUTO | C3843023 | - | Supersedes C0402C103K1RACAUTO (10nF 100V 0402). Package/voltage upgraded 0402/100V→0805/200V for DC bias derating margin. See DR-CTL-18, DEC-064. | Yes | Pending | 1 |
-| C20 | 47µF 25V X7R 2220 | CGA9N3X7R1E476M230KB | TDK | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | 4× in parallel for ACF output filter — see DR-CTL-22 | Yes | Pending | 4 |
-| D1 | Schottky SOT-23 | BAT54 | Vishay | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | - | Yes | Pending | 1 |
-| D2 | 36V 1500W TVS DO-214AA | 1.5SMBJ36CA | Bourns | 118-1.5SMBJ36CACT-ND | 652-1.5SMBJ36CA | C5439937 | - | - | Yes | Pending | 1 |
+| C6, C12-C16, C18, C19 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | ✔ | 8 |
+| C17 | 22nF 200V X7R 0805 | C0805C223K2RACAUTO | Kemet | 399-17630-1-ND | 80-C0805C223K2RAUTO | C3843023 | - | Supersedes C0402C103K1RACAUTO (10nF 100V 0402). Package/voltage upgraded 0402/100V→0805/200V for DC bias derating margin. See DR-CTL-18, DEC-064. | Yes | ✔ | 1 |
+| C20 | 47µF 25V X7R 2220 | CGA9N3X7R1E476M230KB | TDK | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | 4× in parallel for ACF output filter — see DR-CTL-22 | Yes | ✔ | 4 |
+| D1 | Schottky SOT-23 | BAT54 | Vishay | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | - | Yes | ✔ | 1 |
+| D2 | 36V 1500W TVS DO-214AA | 1.5SMBJ36CA | Bourns | 118-1.5SMBJ36CACT-ND | 652-1.5SMBJ36CA | C5439937 | - | - | Yes | ✔ | 1 |
 | J1-J3 | 10-pos 2.5mm receptacle 10-pos vert | 1-1674231-1 | TE Connectivity | A119250-ND | 571-1-1674231-1 | C3683260 | - | - | Yes | ✔ | 3 |
 | J4, J5 | 5-pwr+15-sig press-fit receptacle hybrid | 2195630015 | Molex | 900-2195630015-ND | 538-219563-0015 | Global sourcing / consignment | Global sourcing | - | Yes | ✔ | 2 |
 | J6 | USB 3.0 Type-A dual-stack | 48406-0003 | Molex | WM10420-ND | 538-48406-0003 | C565298 | - | - | Yes | ✔ | 1 |
@@ -636,19 +636,19 @@ Estimated Controller-local power dissipation at system peak load:
 | J10 | 4-pin SH 1.0mm fan SMT | SM04B-SRSS-TB(LF)(SN) | JST | 455-SM04B-SRSS-TBCT-ND | 306-SM04BSRSSTBLFSN | C160404 | - | - | Yes | ✔ | 1 |
 | J11, J12 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack | DF40HC(3.5)-20DS-0.4V(51) | Hirose | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | Yes | ✔ | 2 |
 | J13-J14 | 100-pin CM5 carrier socket 4.0mm stack height | 10164227-1004A1RLF | Amphenol | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | Yes | ✔ | 2 |
-| L1 | 33µH ≥6A Isat ≤50mΩ DCR shielded SMT ferrite power inductor | PA4343.333NLT | Yageo | 553-3457-1-ND | 673-PA4343.333NLT | C2453886 | - | DCR spec ≤50mΩ; typ 48mΩ compliant, max 58mΩ exceeds limit — accepted procurement-constrained exception (best available at current procurement time). KiCAD footprint zip downloaded to temp folder. See DR-CTL-25, DEC-063. | Yes | Pending | 1 |
+| L1 | 33µH ≥6A Isat ≤50mΩ DCR shielded SMT ferrite power inductor | PA4343.333NLT | Yageo | 553-3457-1-ND | 673-PA4343.333NLT | C2453886 | - | DCR spec ≤50mΩ; typ 48mΩ compliant, max 58mΩ exceeds limit — accepted procurement-constrained exception (best available at current procurement time). KiCAD footprint zip downloaded to temp folder. See DR-CTL-25, DEC-063. | Yes | ✔ | 1 |
 | MH13-MH16 | M2.5x4.0mm SMT standoff | 9774040151R | Wurth Elektronik | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | Yes | ✔ | 4 |
 | MH5-MH8, MH9-MH12 | M2.5x3.5mm SMT standoff | 9774035151R | Wurth Elektronik | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | Yes | ✔ | 8 |
-| Q1 | 200V 18A N-ch MOSFET DPAK | STD25NF20 | STMicroelectronics | 497-13749-1-ND | 511-STD25NF20 | C388326 | - | - | Yes | Pending | 1 |
-| Q2 | 200V 18A N-ch MOSFET DPAK | STD25NF20 | STMicroelectronics | 497-13749-1-ND | 511-STD25NF20 | C388326 | - | - | Yes | Pending | 1 |
-| R1-R3 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 3 |
-| R4 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | Pending | 1 |
+| Q1 | 200V 18A N-ch MOSFET DPAK | STD25NF20 | STMicroelectronics | 497-13749-1-ND | 511-STD25NF20 | C388326 | - | - | Yes | ✔ | 1 |
+| Q2 | 200V 18A N-ch MOSFET DPAK | STD25NF20 | STMicroelectronics | 497-13749-1-ND | 511-STD25NF20 | C388326 | - | - | Yes | ✔ | 1 |
+| R1-R3 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | ✔ | 3 |
+| R4 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | ✔ | 1 |
 | T1 | ACF Forward PoE transformer 60W 1500V 12-pin SMT | B82806D0060A120 | TDK | 495-76653-1-ND | 871-B82806D0060A120 | C7218686 | - | Replaces Coilcraft POE600F-12L. ACF Forward topology; 2:1:1 turns ratio (Np:Ns:Naux); Lm=100µH; Llk=0.18µH. See DEC-062. PCB layout note: TDK datasheet permits solder bridges between pins 1–2 and pins 7–8 (intra-group within same net only; not primary-to-secondary). Confirm against footprint drawing during PCB layout phase. | Yes | ✔ | 1 |
 | U1 | CM5 module | CM5 | Raspberry Pi Ltd | N/A - source from RPi distributors | various CM5 SKUs | N/A - not stocked at JLCPCB | - | - | N/A | N/A | 1 |
 | U2 | USB power switch SOT-23-5 | TPS2065CDBVR | Texas Instruments | 296-39353-1-ND | 595-TPS2065CDBVR | C353882 | - | - | Yes | ✔ | 1 |
 | U3 | HDMI power switch SC59 | AP2331W-7 | Diodes Inc | AP2331W-7DICT-ND | 621-AP2331W-7 | C460346 | - | - | Yes | ✔ | 1 |
-| U4-U6 | 4-ch ESD ±15kV 0.5pF U-DFN-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | Pending | 3 |
-| U7 | PoE PD interface VQFN-20 5x5mm | TPS2372-4RGWR | Texas Instruments | 296-45285-1-ND | 595-TPS2372-4RGWR | C470955 | - | - | Yes | Pending | 1 |
+| U4-U6 | 4-ch ESD ±15kV 0.5pF U-DFN-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | ✔ | 3 |
+| U7 | PoE PD interface VQFN-20 5x5mm | TPS2372-4RGWR | Texas Instruments | 296-45285-1-ND | 595-TPS2372-4RGWR | C470955 | - | - | Yes | ✔ | 1 |
 | U8 | PoE auxiliary controller VQFN-45 7x5mm | TPS23730RMTR | Texas Instruments | 296-TPS23730RMTRCT-ND | 595-TPS23730RMTR | C3189530 | - | - | Yes | ✔ | 1 |
 
 ### BOM Notes
