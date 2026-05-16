@@ -107,6 +107,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "DiodesInc-DMP3028LK3Q-datasheet.pdf",
+      "markdown": "DiodesInc-DMP3028LK3Q-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "FT232H-datasheet.pdf",
       "markdown": "FT232H-datasheet.md",
       "mapping_type": "same_stem"
@@ -219,6 +224,11 @@
     {
       "pdf": "NL27WZ14-D.pdf",
       "markdown": "NL27WZ14-D.md",
+      "mapping_type": "same_stem"
+    },
+    {
+      "pdf": "Nexperia-74LVC2G3157_Q100-datasheet.pdf",
+      "markdown": "Nexperia-74LVC2G3157_Q100-datasheet.md",
       "mapping_type": "same_stem"
     },
     {

@@ -279,7 +279,7 @@ All GPIOs are referenced to **3V3_ENIG**. BCM2712 silicon limit: 50mA aggregate 
 | GPIO | Function | Type | Logic Level | Description |
 | :--- | :--- | :--- | :--- | :--- |
 | **2 / 3** | **I2C_SDA/SCL** | I2C | 3.3V | System I2C-1 shared with the devices listed in §4.1. |
-| **4** | **ROTOR_EN_N** | Output | 3.3V | Active-low: drive LOW to enable Power Module `3V3_ENIG` LDO for sequenced rotor-stack power-up; held HIGH by R8 pull-up on PM until CM5 asserts. Routed on `J3`. |
+| **4** | **ROTOR_EN_N** | Output | 3.3V | Active-low: drive LOW to enable Power Module `3V3_ENIG` for sequenced rotor-stack power-up; held HIGH by R52 (10kΩ to 3V3_MAIN) pull-up on PM until CM5 asserts. PM provides this pull-up; CTL does not carry a pull-up on this signal — it is an Output-only CM5 GPIO. Routed on `J3`. |
 | **5** | **PM_IO_INT_N** | Input | 3.3V | Optional interrupt input from the PM-local `PCA9534A @ 0x3F`, used to wake the power-management daemon for PM status changes. |
 | **6** | **USB_FAULT_N** | Input | 3.3V | Active Low: USB power fault from on-board TPS2065C (local to Controller; no BtB pin required). |
 | **7** | **PWR_GD** | Input | 3.3V | Direct PM rail-health telemetry only - HIGH while `5V_MAIN` ≥ 4.50V; does NOT trigger shutdown. Routed on `J3`. |

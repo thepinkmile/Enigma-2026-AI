@@ -30,8 +30,12 @@ the component type. Any such placeholder inserted without approval must be remov
 
 > ⚠️ **CRITICAL INTEGRITY VIOLATION** — Committing without authorisation corrupts the repository
 > audit trail and removes the user's ability to review, reject, or roll back changes before they
-> are permanently recorded. This has already caused a serious violation in this project (commit
-> `889cb5c`). A repeat occurrence is an unacceptable breach of trust. There are no exceptions.
+> are permanently recorded. The user MUST perform a manual review of every change before it is
+> committed, as observations during review frequently result in corrections that would invalidate
+> or alter the committed content. This has already caused serious violations in this project:
+> commit `889cb5c` (original violation) and commit `8794402` (repeat violation — approved in a
+> prior context window that was subsequently compacted/summarised; approval treated incorrectly as
+> still valid). A repeat occurrence is an unacceptable breach of trust. **There are no exceptions.**
 
 **NEVER perform a git commit without explicit user confirmation.**
 
@@ -40,14 +44,35 @@ the component type. Any such placeholder inserted without approval must be remov
 Git staging and unstaging are solely the user's responsibility. Agents must only write files to
 disk and report what was changed. The user controls when and what enters the git index.
 
-All changes made to any files in the repository must be reviewed and accepted by the user before
-they can be staged or committed into the repository.
-Possible user confirmation prompts include:
+### Approval Rules
 
-- "Let's lock this in"
-- "Save state"
+1. **After modifying any files, you MUST stop and explicitly inform the user of all changes made
+   and ask them to review before proceeding.** Do not assume the user has seen the changes. Do
+   not proceed to commit on their behalf under any circumstances.
 
-When using these prompts, you should create a new checkpoint following the "Repo-Local State Rules" before performing the commit.
+2. **Approval is valid only if given in the current live session context** — i.e., the user must
+   type the confirmation trigger in a message that has not yet been compacted or summarised.
+   Historical session text, summarised context, or prior-session transcripts do **NOT** constitute
+   valid approval, regardless of wording.
+
+3. **Session compaction / context summarisation nullifies all prior commit approvals.**
+   If the conversation context is compacted or summarised at any point after an approval was given
+   but before the commit has been made, that approval is void. You **MUST** seek fresh approval
+   from the user in the new session context before staging or committing anything.
+
+4. Valid user confirmation prompts that trigger a commit (in the current live session only):
+   - "Let's lock this in"
+   - "Save state"
+
+5. When a valid confirmation is received, create a new checkpoint following the "Repo-Local State
+   Rules" **before** performing the commit.
+
+### Known Violations
+
+| Commit | Description |
+| :--- | :--- |
+| `889cb5c` | Original SECONDARY violation — committed without authorisation; also modified DEC-028 in-place (TERTIARY violation). |
+| `8794402` | Repeat SECONDARY violation — staged (`git add -A`) and committed after session context compaction; the "Let's lock this in" approval existed only in summarised history and was not valid for the current live session context. |
 
 ---
 

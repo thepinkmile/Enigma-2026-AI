@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-16
 
 ---
 
@@ -30,7 +30,7 @@
 | PM: C1-C15,C59-C67 | CL32B226KAJNNNE | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | 24 | - | - | - | - | - | - | - | - | - | - | 24 | 22µF 25V X7R 1210 [Samsung] | Yes | ✔ |
 | PM: C16-C19; CTL: C20 | CGA9N3X7R1E476M230KB | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | 4 | 4 | - | - | - | - | - | - | - | - | - | 8 | 47µF 25V X7R 2220 [TDK] | Yes | ✔ |
 | PM: C21-C23,C51,C53-C55; AM: C1 | C0805C105K5RACTU | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | 7 | - | - | - | - | 1 | - | - | - | - | - | 8 | 1µF 50V X7R 0805 [Kemet] | Yes | ✔ |
-| PM: C26-C30,C31-C37,C41-C48,C50,C56,C57,C58; CTL: C6,C12-C16,C18,C19; JM: C1-C4,C6-C9,C12; USM: C1-C4; ENC: C1-C8; AM: C2,C3,C6,C7; STA: C1-C8,C14-C21; EXT: C6; ROT-26: C1-C9,C20A; ROT-64: C1-C9,C20B | CL05B104KB5NNNC | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | 24 | 8 | 9 | 4 | 8 | 4 | 16 | - | 1 | 10 | 10 | 124 | 100nF 50V X7R 0402 [Samsung] | Yes | ✔ |
+| PM: C26-C30,C31-C37,C41-C48,C50,C56,C57,C58,C78,C79; CTL: C6,C12-C16,C18,C19; JM: C1-C4,C6-C9,C12; USM: C1-C4; ENC: C1-C8; AM: C2,C3,C6,C7; STA: C1-C8,C14-C21; EXT: C6; ROT-26: C1-C9,C20A; ROT-64: C1-C9,C20B | CL05B104KB5NNNC | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | 26 | 8 | 9 | 4 | 8 | 4 | 16 | - | 1 | 10 | 10 | 126 | 100nF 50V X7R 0402 [Samsung] | Yes | ✔ |
 | PM: C38 | C0402C101K3RACAUTO | 399-C0402C101K3RACAUTOCT-ND | 80-C0402C101K3RAUTO | C5272912 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 100pF X7R 25V 0402 [Kemet] | Yes | ✔ |
 | PM: C_SC1-C_SC8 | ADCR-T02R7SA256MB | 535-ADCR-T02R7SA256MB-ND | 815-ADCRT02R7SA256MB | - | Global sourcing | 8 | - | - | - | - | - | - | - | - | - | - | 8 | 25F 2.7V supercap THT Radial 16x25mm [Abracon] | Yes | ✔ |
 | PM: C39 | CL10B223KB8WPNC | 1276-6534-1-ND | 187-CL10B223KB8WPNC | C346197 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 22nF X7R 25V 0603 [Samsung] | Yes | ✔ |
@@ -46,18 +46,19 @@
 | PM: F2,F3,F4 | 0ZRB0600FF1A | 5923-0ZRB0600FF1A-ND | 530-0ZRB0600FF1A | C3762696 | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | 6A hold / 12A trip THT AEC-Q200 polyfuse [Bel Fuse]; see DEC-069 | Yes | ✔ |
 | PM: FB1 | BMC-Q2AY0600M (2-2176748-1) | 1712-2-2176748-1CT-ND | 279-BMC-Q2AY0600M | - | Global sourcing / consignment | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 600Ω ±25% @100MHz ferrite bead 0805 AEC-Q200 Gr.1 [TE Connectivity] | Yes | ✔ |
 | PM: J1-J3 | 1123684-7 | A114780-ND | 571-1123684-7 | C3683043 (consignment - see BOM Notes) | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | 10-pos 2.5mm RA plug [TE Connectivity] | Yes | ✔ |
-| PM: J4 | 0436500519 | WM14587-ND | 538-43650-0519 | C563849 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 5-pin Micro-Fit 3.0 THT vertical [Molex] | Yes | ✔ |
+| PM: J4 | 0436500619 | WM20165-ND | 538-43650-0619 | C563852 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 6-pin Micro-Fit 3.0 THT vertical [Molex]; upgraded from 5-pin per DEC-076 | Yes | ✔ |
 | PM: J5 | USB4135-GF-A | 2073-USB4135-GF-ACT-ND | 640-USB4135-GF-A | C5438410 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | USB-C right-angle SMT [GCT] | Yes | ✔ |
 | PM: L1,L2 | 7448031002 | 732-5584-ND | 710-7448031002 | C1519839 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 10A 2mH nanocrystalline CMC THT [Wurth Elektronik] | Yes | ✔ |
 | PM: L3 | SRP1265A-100M | SRP1265A-100MCT-ND | 652-SRP1265A-100M | C840531 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 10µH 15.5A Isat shielded SMT 13.5x12.5x6.2mm [Bourns] | Yes | ✔ |
 | PM: Q1-Q3 | CSD17578Q5A | 296-48512-1-ND | 595-CSD17578Q5A | C2871447 | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | N-ch MOSFET 30V 25A 5.9mΩ SON-8 5x6mm [Texas Instruments] | Yes | ✔ |
-| PM: Q4-Q10; USM: Q1-Q18 | BSS138 | BSS138CT-ND | 512-BSS138 | C52895 | - | 7 | - | - | 18 | - | - | - | - | - | - | - | 25 | N-ch MOSFET 50V 200mA SOT-23 [onsemi] | Yes | ✔ |
+| PM: Q4-Q11; USM: Q1-Q18 | BSS138 | BSS138CT-ND | 512-BSS138 | C52895 | - | 8 | - | - | 18 | - | - | - | - | - | - | - | 26 | N-ch MOSFET 50V 200mA SOT-23 [onsemi] | Yes | ✔ |
+| PM: Q12a,Q12b | DMP3028LK3Q-13 | 31-DMP3028LK3Q-13CT-ND | 621-DMP3028LK3Q-13 | C3281294 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | P-ch MOSFET -30V -3.2A TO-252 AEC-Q101 [Diodes Inc]; see DEC-076 | No | No (pending) |
 | CTL: Q1,Q2 | STD25NF20 | 497-13749-1-ND | 511-STD25NF20 | C388326 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | N-ch MOSFET 200V 18A DPAK [STMicroelectronics] | Yes | Pending |
 | PM: R1 | ERJ-3EKF2263V | P226KHCT-ND | 667-ERJ-3EKF2263V | C403081 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 226kΩ 1% 0603 [Panasonic]; see DEC-069 | Yes | ✔ |
 | PM: R2 | ERJ-3EKF2872V | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 28.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R3 | ERA-3VEB2100V | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 210Ω 0.1% 0603 [Panasonic] | Yes | ✔ |
-| PM: R4,R7,R8,R13,R15,R22; CTL: R1-R4; USM: R1 | ERJ-3EKF1002V | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | 6 | 4 | - | 1 | - | - | - | - | - | - | - | 11 | 10kΩ 1% 0603 [Panasonic] | Yes | ✔ |
-| PM: R5,R6 | ERJ-3EKF4701V | P4.70KHCT-ND | 667-ERJ-3EKF4701V | C192166 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 4.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R4,R7,R8,R13,R15,R22,R51,R52; CTL: R1-R4; USM: R1 | ERJ-3EKF1002V | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | 8 | 4 | - | 1 | - | - | - | - | - | - | - | 13 | 10kΩ 1% 0603 [Panasonic] | Yes | ✔ |
+| PM: R5,R6,R47,R48,R49,R50 | ERJ-3EKF4701V | P4.70KHCT-ND | 667-ERJ-3EKF4701V | C192166 | - | 6 | - | - | - | - | - | - | - | - | - | - | 6 | 4.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R9 | ERJ-3EKF3010V | P301HCT-ND | 667-ERJ-3EKF3010V | C403144 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 301Ω 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R10,R16; STA: R1 | KRL6432T4-M-R010-F-T1 | KRL6432T4-M-R010-F-T1 | 754-KRL6432T4MR010FT | C4076514 | - | 2 | - | - | - | - | - | 1 | - | - | - | - | 3 | 10mΩ ±1% 2W 6432 (2512) Kelvin 4-terminal shunt [Susumu] | Yes | ✔ |
 | PM: R11 | ERA-3ARB3012V | 10-ERA-3ARB3012VCT-ND | 667-ERA-3ARB3012V | C1728516 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 30.1kΩ 0.1% 0603 [Panasonic] | Yes | ✔ |
@@ -89,6 +90,8 @@
 | PM: U14 | PCA9534APWR | 296-21760-1-ND | 595-PCA9534APWR | C2871127 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 8-bit I²C GPIO expander 0x3F TSSOP-16 [NXP Semiconductors] | Yes | ✔ |
 | PM: U16 | SN74LVC1G175DBVR | 296-17617-1-ND | 595-SN74LVC1G175DBVR | C128412 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | D-type flip-flop shutdown latch SOT-23-6 [Texas Instruments] | Yes | ✔ |
 | PM: U17; STA: U3 | SN74LVC1G08DBVR | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | 1 | - | - | - | - | - | 1 | - | - | - | - | 2 | Single AND gate SOT-23-5 [Texas Instruments] | Yes | ✔ |
+| PM: U18 | M24512-RDW6TP | 497-2700-1-ND | 511-M24512-RDW6TP | - | Global sourcing / consignment | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 512-Kbit I²C EEPROM SO8N [STMicroelectronics]; see DR-PM-20, DEC-075 | Yes | ✔ |
+| PM: U19 | 74LVC2G3157DP-Q10J | 1727-8684-1-ND | 771-4LVC2G3157DPQ10J | C548631 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | Dual SPDT I2C MUX TSSOP-10 [Nexperia]; see DR-PM-21, DEC-076 | Yes | ✔ |
 | CTL: BT1 | 3034TR | 36-3034CT-ND | 534-3034TR | C5213768 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CR2032 holder SMD horizontal [Keystone Electronics]; Footprint adapted from KiCAD 10.0 standard library (unofficial, not manufacturer-supplied) | Yes* | Yes* |
 | CTL: C17 | C0805C223K2RACAUTO | 399-17630-1-ND | 80-C0805C223K2RAUTO | C3843023 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 22nF 200V X7R 0805 [Kemet]; supersedes C0402C103K1RACAUTO (10nF 100V 0402) | Yes | Pending |
 | PM: C20,C68-C77; CTL: C1-C5,C7-C11; USM: C5-C14; ENC: C9-C13; AM: C5; STA: C9-C13,C22-C26; REF: C1-C5; EXT: C1-C5,C7-C11; ROT-26: C10-C14; ROT-64: C10-C14 | CL21B106KAYQNNE | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | 11 | 10 | - | 10 | 5 | 1 | 10 | 5 | 10 | 5 | 5 | 87 | 10µF X7R 25V 0805 [Samsung] | Yes | ✔ |

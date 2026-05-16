@@ -56,24 +56,42 @@ as permanent features on the production boards.
 
 The TPS25751 (U4) on the Power Module reads its USB-C PD source profile (5V/5A, 25W) from the
 M24512-RDW6TP EEPROM (U18) at start-up. The profile stored in U18 can be updated in the field
-via the I2Ct debug header J6 (5-pin, 2.54 mm) on the PM board.
+via the dual-purpose battery connector J4 (6-pin Molex Micro-Fit 3.0) on the PM board.
 
 > ⚠️ **Factory requirement:** U18 must be programmed with the correct PD profile before the PM is
 > installed into a system for the first time. An unprogrammed EEPROM will prevent the TPS25751
 > from negotiating a PD contract with the CM5, potentially causing CM5 throttling or failure to boot.
 
-### J6 Header Pinout (2.54 mm, 5-pin, single-row)
+### How J4 Dual-Purpose Switching Works
 
-| Pin | Signal | Notes |
-| :--- | :--- | :--- |
-| 1 (square pad) | GND | Reference ground |
-| 2 | LDO_3V3 | 3.3 V sense / reference — **do NOT source current into this pin** |
-| 3 | I2Ct_SCL | TPS25751 I²C target clock |
-| 4 | I2Ct_SDA | TPS25751 I²C target data |
-| 5 | I2Ct_IRQ | TPS25751 interrupt (optional) |
+J4 carries both SmartBattery and TPS25751 programming traffic on pins 2 and 3, switched by the
+U19 dual SPDT I2C MUX (74LVC2G3157DP-Q10J). The active path is selected by `PROG_EN_N` on J4 pin 6:
 
-> **I2Ct address:** 0x20 (fixed by ADCIN1=LDO_3V3, ADCIN2=GND per TPS25751 datasheet §8.3.6
-> Table 8-6; see DEC-075 and DR-PM-22).
+| `PROG_EN_N` state | J4 pin 6 | U19 routing | Result |
+| :--- | :--- | :--- | :--- |
+| **HIGH** (normal) | NC on standard battery cable; 10 kΩ pull-up to 3V3\_MAIN holds HIGH | J4 SMBUS\_SCL/SDA → I2C-1 | Normal SmartBattery operation |
+| **LOW** (programming) | Programming cable shorts pin 6 to GND | J4 SMBUS\_SCL/SDA → TPS25751 I2Ct (0x20) | EEPROM programming mode |
+
+A standard battery cable with pin 6 unconnected is completely unaffected.
+
+### J4 Connector Pinout (Molex Micro-Fit 3.0, 6-pin, 3.00 mm pitch)
+
+| Pin | Signal | Programming cable connection |
+| :---: | :--- | :--- |
+| 1 | `VBATT+` | Optional: bench supply V+ for standalone programming (see note below) |
+| 2 | `SMBUS_SCL` | I²C adapter SCL |
+| 3 | `SMBUS_SDA` | I²C adapter SDA |
+| 4 | `BATT_PRES_N` | Leave unconnected |
+| 5 | `VBATT-` | Optional: bench supply GND for standalone programming; also I²C adapter GND |
+| 6 | `PROG_EN_N` | **Short to GND** (activates programming path via U19) |
+
+> **Standalone programming:** The programming cable may supply power to the PM via pins 1
+> (VBATT+, 14.4 V nominal) and 5 (VBATT−/GND), allowing EEPROM programming without a running
+> system or J1–J3 connected. When powered this way, the 5V bucks, LDO (U7), and 3V3_MAIN rail
+> all come up normally, enabling U19 and TPS25751 to function.
+
+> **I2Ct address:** 0x20 (fixed by ADCIN1 = 3V3\_MAIN, ADCIN2 = GND per TPS25751 datasheet
+> §8.3.6 Table 8-6; see DEC-076).
 
 ### Required Tools
 
@@ -82,18 +100,22 @@ via the I2Ct debug header J6 (5-pin, 2.54 mm) on the PM board.
 
 - **Software:** TI USB-C Configuration Tool (TBD — download from ti.com for TPS25751/TPS25750EVM)
 - **Hardware:** USB-to-I²C adapter compatible with the TI tool (TBD — candidate: Total Phase Aardvark or FT232H-based adapter)
-- **Cable:** Custom 5-pin IDC-to-J6 harness (TBD — specification to be defined once software tool and adapter are confirmed)
+- **Cable:** Custom 6-pin Micro-Fit 3.0 programming harness with pin 6 shorted to GND (TBD — full specification to be defined once software tool and adapter are confirmed)
 
 ### Programming Procedure (Placeholder)
 
 > ⚠️ **TODO:** Full programming procedure to be documented once tool and cable are confirmed.
 
-1. Power the PM board (all I/O through J1–J3 connected, or bench supply on VIN_BUS/GND).
-2. Connect the programming cable to J6 (pin 1 = GND, square pad).
-3. Launch the TI USB-C Configuration Tool on the connected PC.
-4. Configure the desired PD source profile (5V/5A fixed source, no battery charger).
-5. Write the configuration to EEPROM via the tool — TPS25751 uses I2Ct to receive config and writes it to U18 via I2Cc.
-6. Power-cycle the PM board and verify the CM5 USB-C port negotiates the correct PD contract.
+1. Prepare the programming cable: 6-pin Micro-Fit 3.0 plug with pin 6 shorted to GND, I²C adapter wired to pins 2 (SCL) and 3 (SDA), GND reference on pin 5.
+2. Power the PM board — either via J1–J3 (normal system connection) or via the programming cable itself (bench supply on pins 1 and 5, 14.4 V).
+3. Connect the programming cable to J4. Pin 6 LOW → U19 switches SMBUS\_SCL/SDA to TPS25751 I2Ct port.
+4. Connect the I²C adapter to the host PC.
+5. Launch the TI USB-C Configuration Tool on the connected PC.
+6. Configure the desired PD source profile (5V/5A fixed source, no battery charger role).
+7. Write the configuration to EEPROM via the tool — TPS25751 receives config over I2Ct (0x20) and writes it to U18 via I2Cc.
+8. Disconnect the programming cable and refit a standard battery cable (pin 6 = NC → PROG\_EN\_N returns HIGH → U19 reverts to SmartBattery path).
+9. Power-cycle the PM board and verify the CM5 USB-C port negotiates the correct PD contract.
 
-> **Cross-reference:** PM Design_Spec.md §5 (U4/U18 description), DR-PM-20, DR-PM-21, DR-PM-22; DEC-075.
-> Datasheet refs: TPS25751 §8.3.11 Table 8-4; M24512 DS6520 §2.3/Table 3.
+> **Cross-reference:** PM Design_Spec.md §5 (U4/U18/U19 description); DEC-076.
+> Datasheet refs: TPS25751 §8.3.11 Tables 8-4/8-5; M24512 DS6520 §2.3/Table 3;
+> 74LVC2G3157-Q100 Table 10.
