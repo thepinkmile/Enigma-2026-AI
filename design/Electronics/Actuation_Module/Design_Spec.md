@@ -258,7 +258,7 @@ The following table maps STM32G071 device pin names to the board-level net names
 
 | Component Pin Name | Design Net Name | Notes |
 | --- | --- | --- |
-| NRST | RESET_N | STM32 reset pin; active-low; board-local net (does not conflict with system-level SYS_RESET_N) |
+| NRST | RESET_N | STM32 reset pin; active-low; board-local net (does not conflict with system-level CPLD_RESET_N) |
 
 ## 4. Local Control Behaviour
 

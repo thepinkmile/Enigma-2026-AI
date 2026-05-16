@@ -60,7 +60,7 @@ Controller Board via dock connector `J1`.
 | DR-PM-08 | Backup activation threshold | 4.812 V (R11 = 30.1 kΩ, E96 0.1% thin-film - see DEC-030) - fires 312 mV before MCP121T 4.50 V threshold, providing ≥4 LTC3350 cycles at 400 kHz for backup switchover | §5 Protection & Logic; BOM R11 (30.1kΩ), R12 (10.0kΩ) |
 | DR-PM-09 | Holdup duration | ≥33.5 s at 15 W load (CM5 typical 5V x 3A) | §2 Power & UPS Hub; BOM C_SC1-8 (25F/2.7V), U3 (LTC3350) |
 | DR-PM-10 | 5V_MAIN backup bulk capacitor | C14 + C15: 2x Samsung CL32B226KAJNNNE in parallel = 44µF at 25V X7R 1210 - holds 5V_MAIN above backup threshold (4.812V) for ≥4 LTC3350 cycles at 400 kHz during backup switchover at 3A load | §5 Protection & Logic; BOM C14, C15 - see DEC-030 |
-| DR-PM-11 | LTC3350 RT frequency-setting resistor | R23: 33.2 kΩ (E96) to GND - sets LTC3350 switching frequency to 400 kHz (vs default 200 kHz with RT=INTVCC); required to achieve ≥4 cycles within 10.2µs backup switchover window | §5 Protection & Logic; BOM R23 (33.2kΩ) - see DEC-030 |
+| DR-PM-11 | LTC3350 RT frequency-setting resistor | R23: 133 kΩ (E96, nearest to 133.75 kΩ) to GND - sets LTC3350 switching frequency to 402 kHz ≈ 400 kHz target (vs default 200 kHz with RT=INTVCC); required to achieve ≥4 cycles within 10.2µs backup switchover window. Formula: fSW(kHz) = 53,500 / RT(kΩ) → 53,500 / 133 = 402 kHz. Max rated fSW = 1 MHz (RT = 53.6 kΩ); original R23 = 33.2 kΩ gave 1,611 kHz (61% over max) — corrected per DEC-073 (amends DEC-030). | §5 Protection & Logic; BOM R23 (133kΩ, ERA-2AEB1333X) - see DEC-030, DEC-073 |
 | DR-PM-12 | Controller dock connectors | `J1/J2/J3` = TE `1123684-7` 10-position 2.5mm plugs mating with Controller `1-1674231-1` receptacles | BOM J1-J3 |
 | DR-PM-13 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.3` | §1 PCB Architecture |
 | DR-PM-14 | Per-IC bypass capacitors | All ICs shall have a dedicated 100nF X7R 50V 0402 bypass capacitor on each VCC/VCCIO/VCC_IO pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 | BOM C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 |
@@ -397,9 +397,14 @@ GND ------+---------------------------------------------------+---------------+-
     * Hold-up duration from fully-charged bank: ≥33.5 seconds at 15W CM5 graceful-shutdown load.
   * **Switching Frequency (R23):** Default LTC3350 operation with RT=INTVCC gives f_SW=200kHz (T_cycle=5µs).
     At 200kHz, the 10.2µs backup switchover window accommodates only 2 switching cycles — insufficient for
-    reliable output regulation recovery. R23=33.2kΩ (E96) connected from RT to GND increases f_SW to **400kHz**
-    (T_cycle=2.5µs), providing ≥4 switching cycles within the same 10.2µs window, ensuring reliable boost
-    converter startup on backup activation. Frequency value from LTC3350 datasheet RT programming table; see DEC-030.
+    reliable output regulation recovery. R23 sets the switching frequency via the LTC3350 RT pin.
+    Formula (from LTC3350 datasheet RT programming table): **fSW(kHz) = 53,500 / RT(kΩ)**
+    Derivation: datasheet calibration points: RT=267kΩ→200kHz, RT=107kΩ→500kHz, RT=53.6kΩ→1MHz (max rated).
+    Target: 400kHz (≥4 switching cycles within 10.2µs window). Required: RT = 53,500 / 400 = 133.75 kΩ.
+    Nearest E96 value: **133 kΩ** → actual fSW = 53,500 / 133 = **402 kHz ✔**.
+    R23 = 133 kΩ (ERA-2AEB1333X, Panasonic ERA-2, 0.1% thin-film, 0402) connected from RT to GND.
+    Note: DEC-030 originally documented R23 = 33.2 kΩ → 400 kHz (arithmetic error: 53,500/33.2 = 1,611 kHz,
+    61% over the 1 MHz maximum rated frequency). Corrected per DEC-073. See DEC-073 for rationale.
 * **Controller-fed PoE Auxiliary Path:**
   * The IEEE 802.3bt PD / ACF front-end resides on the Controller.
   * The Power Module receives only the regulated auxiliary feed `VIN_POE_12V` on `J2`.
@@ -629,7 +634,7 @@ Estimated PM-local power dissipation at system peak load:
 | R18, R20, R27-R29, R32-R33, R36-R37 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | ✔ | 9 |
 | R19 | 82.0kΩ 1% 0402 | ERJ-2RKF8202X | Panasonic | P82.0KLCT-ND | 667-ERJ-2RKF8202X | C400641 | - | - | Yes | ✔ | 1 |
 | R21 | 274kΩ 1% 0603 | ERJ-3EKF2743V | Panasonic | P274KHCT-ND | 667-ERJ-3EKF2743V | C403126 | - | - | Yes | ✔ | 1 |
-| R23 | 33.2kΩ 1% 0402 | ERA-2AEB3322X | Panasonic | P33.2KDCCT-ND | 667-ERA-2AEB3322X | C2087909 | - | see DEC-030 | Yes | ✔ | 1 |
+| R23 | 133kΩ 0.1% Thin-Film 0402 | ERA-2AEB1333X | Panasonic | P133KDCCT-ND | 667-ERA-2AEB1333X | C2199427 | - | LTC3350 RT pin: sets fSW=402kHz; see DEC-073 (amends DEC-030) | Yes | ✔ | 1 |
 | R24-R26, R30-R31 | 1kΩ 1% Thick-Film 0402 | ERJ-2RKF1001X | Panasonic | P1.00KLCT-ND | 667-ERJ-2RKF1001X | C242161 | - | - | Yes | ✔ | 5 |
 | R34-R35 | 52.3kΩ 1% 0402 | ERJ-2RKF5232X | Panasonic | P52.3KLCT-ND | 667-ERJ-2RKF5232X | Global sourcing / consignment | Global sourcing | - | Yes | ✔ | 2 |
 | R38-R41 | 100kΩ 1% 0402 | ERJ-2RKF1003X | Panasonic | P100KLCT-ND | 667-ERJ-2RKF1003X | Global sourcing / consignment | Global sourcing | - | Yes | ✔ | 4 |

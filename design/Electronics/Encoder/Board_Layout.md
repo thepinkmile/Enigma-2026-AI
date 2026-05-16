@@ -64,8 +64,8 @@ the six matching headers on the Stator.
 | 14 | TDO | Encoder->Stator | JTAG data out |
 | 15 | GND | - | TDO/TDI inter-pin shield |
 | 16 | TDI | Stator->Encoder | JTAG data in |
-| 17 | GND | - | TDI/SYS_RESET_N shield |
-| 18 | SYS_RESET_N | Stator->Encoder | Active-low CPLD reset |
+| 17 | GND | - | TDI/CPLD_RESET_N shield |
+| 18 | CPLD_RESET_N | Stator->Encoder | Active-low CPLD reset |
 | 19 | GND | - | Power return / trailing shield |
 | 20 | 3V3_ENIG | Stator->Encoder | Power supply |
 
@@ -93,7 +93,7 @@ the six matching headers on the Stator.
 | `TMS` | J1 pin 12 -> U1 | Dedicated JTAG mode input |
 | `TDI` | J1 pin 16 -> U1 | Dedicated JTAG serial input from the Stator-managed chain |
 | `TDO` | U1 -> R6 -> J1 pin 14 | Dedicated JTAG serial output back to the Stator-managed chain |
-| `DEV_CLR_N` / reset input | J1 pin 18 (`SYS_RESET_N`) -> U1 | Active-low device reset; held high locally by R5 (vendor pin name `DEV_CLRN` - see `design/Standards/Global_Routing_Spec.md §10`) |
+| `DEV_CLR_N` / reset input | J1 pin 18 (`CPLD_RESET_N`) -> U1 | Active-low device reset; held high locally by R5 (vendor pin name `DEV_CLRN` - see `design/Standards/Global_Routing_Spec.md §10`) |
 
 ### 4.2 General-purpose signal groups
 

@@ -78,8 +78,8 @@ The HID path is split mechanically and electrically:
 flowchart TD
   subgraph J1if["J1 — Stator Interface (20-pin IDC)"]
     PWR["3V3_ENIG (pins 1 and 20)"]
-    ENC_BUS["ENC_DATA / ENC_ACTIVE_N / SYS_RESET_N"]
-    JTAG_I["JTAG in: TDI / TCK / TMS / SYS_RESET_N"]
+    ENC_BUS["ENC_DATA / ENC_ACTIVE_N / CPLD_RESET_N"]
+    JTAG_I["JTAG in: TDI / TCK / TMS / CPLD_RESET_N"]
     JTAG_O["JTAG out: TDO"]
   end
 
@@ -189,7 +189,7 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
   - **TMS:** 10 kΩ pull-up to 3V3_ENIG (R2)
   - **TDI:** 10 kΩ pull-up to 3V3_ENIG (R3)
   - **TCK:** 10 kΩ pull-down to GND (R4)
-  - **SYS_RESET_N:** 10 kΩ pull-up to 3V3_ENIG (R5)
+  - **CPLD_RESET_N:** 10 kΩ pull-up to 3V3_ENIG (R5)
 - **Termination:**
   - **Cable Output (R6, 75 Ω):** series resistor placed within 2 mm of U1 TDO, before J1 pin 14.
 - **Programming:** Supports in-system debugging via the CM5 GUI. Role is selected by the image

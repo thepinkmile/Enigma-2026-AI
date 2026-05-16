@@ -358,7 +358,7 @@ any cipher commands:
    window (**3 seconds maximum**) before accepting any cipher commands.
 3. **MCP23017 port direction init:**
    - U6 (0x20): GPA = 0xFF (all inputs), GPB = 0xFF (all inputs).
-   - U7 (0x21): GPA = 0x00 (all outputs, including `SYS_RESET_N` on GPA[7]); GPB = 0xFF-equivalent spare state until any future functions are assigned.
+   - U7 (0x21): GPA = 0x00 (all outputs, including `CPLD_RESET_N` on GPA[7]); GPB = 0xFF-equivalent spare state until any future functions are assigned.
 
 ### Virtual Keypress Sequence (One Key Injection Cycle)
 

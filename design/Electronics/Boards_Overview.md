@@ -107,7 +107,7 @@ Only the Power Module implements the intentional `GND` ↔ `GND_CHASSIS` bond.
   - `0x09`: LTC3350 supercap charger / monitor (Power Module)
   - `0x0B`: Smart Battery / SMBus monitor (Power Module)
   - `0x20`: MCP23017 U6 (Stator ENC monitoring)
-  - `0x21`: MCP23017 U7 (Stator virtual keypress / SOURCE_SEL / SYS_RESET_N)
+  - `0x21`: MCP23017 U7 (Stator virtual keypress / SOURCE_SEL / CPLD_RESET_N)
   - `0x22`: MCP23017 U8 (Stator CPLD config output driver)
   - `0x23`: MCP23017 U1 (User Settings Module switch input)
   - `0x24`: MCP23017 U2 (User Settings Module Bank 1 LED controller)

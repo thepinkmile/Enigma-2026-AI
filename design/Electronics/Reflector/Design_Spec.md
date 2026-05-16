@@ -36,7 +36,7 @@ second CPLD on the Reflector itself.
 | DR-REF-03 | TTD_RETURN output | J4 connector (mates with Stator J10); `TTD_RETURN` on J4 pin 16; 30-pin 2x15 layout per DEC-053; `5V_MAIN` on pins 1-2/29-30 (not connected — present for cable family compatibility only); `3V3_ENIG` on pins 3-4/27-28 (sole power entry for this board); GND guard pairs at pins 5-6, 13-14, 17-18, 25-26 | §3 JTAG & Logic Hub; BOM J4 (30-pin 2x15 shrouded) |
 | DR-REF-04 | End-of-chain damping | R1 = 22 Ω, 0603, on TDO line | §3 JTAG & Logic Hub; BOM R1 (22Ω) |
 | DR-REF-05 | Active logic | None - passive turnaround board only; reflector-map selection remains Stator-owned | §2 Architecture |
-| DR-REF-06 | ESD protection - rotor-facing BtB connectors | U1 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, SYS_RESET_N) + U2-U4 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §5 Thermal & ESD; BOM U1-U4 |
+| DR-REF-06 | ESD protection - rotor-facing BtB connectors | U1 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, CPLD_RESET_N) + U2-U4 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §5 Thermal & ESD; BOM U1-U4 |
 | DR-REF-07 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. No BOM entry — plain chassis mounting holes. Placement follows GRS §4.3 Pattern B (D-shaped board): MH1 bottom-left corner, MH2 bottom-right corner, MH3 board-centre, MH4 top-centre arc midpoint — all at 7 mm inset from nearest edge. Exact XY coordinates TBD at PCB layout. | §6 PCB Fabrication & Stackup; `design/Standards/Global_Routing_Spec.md §4.3` |
 
 ### Component Block Diagram
@@ -44,7 +44,7 @@ second CPLD on the Reflector itself.
 ```mermaid
 flowchart TD
   subgraph RI["Rotor Interface"]
-    J1["J1 · ERM8-005<br>JTAG in: TCK · TMS · TTD · SYS_RESET_N"]
+    J1["J1 · ERM8-005<br>JTAG in: TCK · TMS · TTD · CPLD_RESET_N"]
     J2["J2 · ERM8-005<br>3V3_ENIG from Rotor 30 (NC on this board)"]
     J3["J3 · ERM8-010<br>ENC in: ENC_IN / ENC_OUT"]
   end
@@ -60,7 +60,7 @@ flowchart TD
     J4["J4 · 2BHR-30-VUA<br>30-pin 2x15 shrouded<br>3V3_ENIG sole power entry (pins 3-4/27-28)<br>to Stator J10"]
   end
 
-  J1 -- "TCK / TMS / TTD / SYS_RESET_N" --> U1
+  J1 -- "TCK / TMS / TTD / CPLD_RESET_N" --> U1
   U1 -- "TDO" --> R1
   R1 -- "TTD_RETURN (pin 16)" --> J4
   J3 -- "ENC_IN/OUT" --> U2U4
@@ -91,7 +91,7 @@ flowchart TD
 * **Interconnect:** 30-pin (2x15) 2.54mm Shrouded Box Header (Vertical). Per DEC-053.
   > **Connector Definition Owner:** `Stator/Board_Layout.md - J10`.
   > This board uses the mating connector as J4 (Adam Tech 2BHR-30-VUA - see BOM). The authoritative
-  > pinout is defined on the Stator; `TTD_RETURN` on pin 16, `SYS_RESET_N` on pin 15,
+  > pinout is defined on the Stator; `TTD_RETURN` on pin 16, `CPLD_RESET_N` on pin 15,
   > `ENC_OUT_REF[5:0]` on pins 7-12, `ENC_IN_REF[5:0]` on pins 19-24, `3V3_ENIG` on pins 3-4/27-28,
   > `5V_MAIN` on pins 1-2/29-30, GND guard pairs at pins 5-6, 13-14, 17-18, 25-26.
 
@@ -119,11 +119,11 @@ flowchart TD
 >   drive). `ENC_IN_REF[5:0]` (pins 19-24): reflected signal returned from passive Reflector
 >   turnaround to the Stator CPLD (Step 2 receive). **These are NOT JTAG signals.**
 >   See `Stator/Design_Spec.md §3 CPLD Signal Routing Matrix` for full signal flow details.
-> * **Pin 15 - SYS_RESET_N**, **Pins 3-4 and 27-28 - 3V3_ENIG**, **Pins 5-6, 13-14, 17-18, 25-26 - GND.**
+> * **Pin 15 - CPLD_RESET_N**, **Pins 3-4 and 27-28 - 3V3_ENIG**, **Pins 5-6, 13-14, 17-18, 25-26 - GND.**
 > * **Pins 1-2 and 29-30 - `5V_MAIN`:** Present for shared cable compatibility only; unused on the passive Reflector.
 >
 > **Note:** TMS and TDI pull-up resistors (R2/R3) previously listed in this section have been removed.
-> TMS and TDI are NOT routed on J4 (pin 16 = TTD_RETURN only for JTAG; pins 7-12 = ENC_OUT_REF; pins 19-24 = ENC_IN_REF; pin 15 = SYS_RESET_N).
+> TMS and TDI are NOT routed on J4 (pin 16 = TTD_RETURN only for JTAG; pins 7-12 = ENC_OUT_REF; pins 19-24 = ENC_IN_REF; pin 15 = CPLD_RESET_N).
 > Pull-up termination for TMS and TDI is already provided by the Stator (R3/R4) and Encoder boards (R3/R4) where those signals originate.
 
 * **JTAG Trace Width Rule:** All JTAG signal traces on L1 (TTD_RETURN and any in-board JTAG
@@ -148,7 +148,7 @@ on each Rotor's output side (J4/J5/J6). One set of three connectors per the Roto
 
 | Ref | Type | Signal Group | Part Series | MPN |
 | --- | ---- | ------------ | ----------- | --- |
-| J1 | ERM8-005 (10-pin, **male**) | JTAG (TCK, TMS, TTD, SYS_RESET_N + GND) | Samtec ERM8 | ERM8-005-05.0-S-DV-K-TR |
+| J1 | ERM8-005 (10-pin, **male**) | JTAG (TCK, TMS, TTD, CPLD_RESET_N + GND) | Samtec ERM8 | ERM8-005-05.0-S-DV-K-TR |
 | J2 | ERM8-005 (10-pin, **male**) | Power (3V3_ENIG x 5, GND x 5) - **power pins NC on this board** | Samtec ERM8 | ERM8-005-05.0-S-DV-K-TR |
 | J3 | ERM8-010 (20-pin, **male**) | ENC data (ENC_IN[5:0], ENC_OUT[5:0] + GND interleave) | Samtec ERM8 | ERM8-010-05.0-S-DV-K-TR |
 
@@ -176,7 +176,7 @@ Reflector.
 * **ESD - rotor-facing connectors (TVS required):**
   J1 (JTAG, ERM8-005) and J3 (ENC, ERM8-010) are exposed to operator handling during live rotor insertion and removal.
   Per DEC-045 and DEC-048, TVS/ESD protection is mandatory on both connector interfaces:
-  * **U1** - 1x TPD4E05U06QDQARQ1 on J1 (JTAG); channels: TCK, TMS, TTD, SYS_RESET_N.
+  * **U1** - 1x TPD4E05U06QDQARQ1 on J1 (JTAG); channels: TCK, TMS, TTD, CPLD_RESET_N.
   * **U2, U3, U4** - 3x TPD4E05U06QDQARQ1 on J3 (ENC); 12 channels: ENC_IN[5:0] + ENC_OUT[5:0].
   All arrays shall be placed within 3mm of their respective connector mating edge on L1.
   * **Working voltage note:** The TPD4E05U06QDQARQ1 maximum continuous working voltage is **5.5V**

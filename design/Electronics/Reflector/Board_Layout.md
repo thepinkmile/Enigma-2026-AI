@@ -61,7 +61,7 @@ Odd pins are on row 1; even pins on row 2.
 | 12  | ENC_OUT_REF[5]  | In              | Stator-driven outbound reflector-boundary bit 5 |
 | 13  | GND             | -               | Guard / return                                  |
 | 14  | GND             | -               | Guard / return                                  |
-| 15  | SYS_RESET_N     | In              | Active-low CPLD reset (broadcast from Stator)   |
+| 15  | CPLD_RESET_N    | In              | Active-low CPLD reset (broadcast from Stator)   |
 | 16  | TTD_RETURN      | Out             | JTAG Data Out Return to Stator                  |
 | 17  | GND             | -               | Guard / return                                  |
 | 18  | GND             | -               | Guard / return                                  |
@@ -93,7 +93,7 @@ See Global_Routing_Spec.md §1.1 for the full current-category table.
 
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Signal (`ENC_OUT_REF`/`ENC_IN_REF`, `SYS_RESET_N`) | < 5 mA | < 0.001 mm | 0.20 mm | **0.254 mm** | L1 | 3.3 V passive loopback logic signals (10 mil per Design_Spec §3) |
+| Signal (`ENC_OUT_REF`/`ENC_IN_REF`, `CPLD_RESET_N`) | < 5 mA | < 0.001 mm | 0.20 mm | **0.254 mm** | L1 | 3.3 V passive loopback logic signals (10 mil per Design_Spec §3) |
 | JTAG signals: TTD_RETURN (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. See `JTAG_Integrity.md`. |
 | 3V3_ENIG power (J4 pin 1 → bulk caps only) | ≤ 200 mA | 0.030 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | 3V3_ENIG canonical 0.80 mm (Global_Routing_Spec §1.1); passive board - minimal local draw; J2 power pins NC |
 | 3V3_ENIG distribution (inner power pour) | ≤ 200 mA | - | pour | **copper pour** | L3 | Full uninterrupted 2oz plane |
@@ -114,11 +114,11 @@ The Reflector board uses 4x M3 PTH mounting holes for chassis attachment per DR-
 
 ### 5.1 Specifications
 
-- **Count:** 4x M3 PTH
-- **Hole diameter:** Ø3.2mm (clearance for M3 fastener)
-- **Annular ring:** 6.0mm ENIG exposed pad (per GRS §4)
-- **Net:** `GND_CHASSIS` — copper ring pads tied to chassis ground for Faraday-cage continuity
-- **BOM:** No BOM entry; these are plain chassis mounting holes with no fitted components
+* **Count:** 4x M3 PTH
+* **Hole diameter:** Ø3.2mm (clearance for M3 fastener)
+* **Annular ring:** 6.0mm ENIG exposed pad (per GRS §4)
+* **Net:** `GND_CHASSIS` — copper ring pads tied to chassis ground for Faraday-cage continuity
+* **BOM:** No BOM entry; these are plain chassis mounting holes with no fitted components
 
 ### 5.2 Positions
 

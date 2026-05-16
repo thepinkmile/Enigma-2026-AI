@@ -39,7 +39,7 @@ TOP VIEW (L1) - 4-Layer / 2oz Copper / ENIG
 > This board uses the mating connector on J7. See BOM for part number.
 > Authoritative pinout per DEC-053: 30-pin 2x15 symmetric layout; `5V_MAIN` on pins 1-2 and 29-30,
 > `3V3_ENIG` on pins 3-4 and 27-28, `ENC_OUT_REF[5:0]` on pins 7-12, `ENC_IN_REF[5:0]` on pins 19-24,
-> `SYS_RESET_N` on pin 15, `TTD_RETURN` on pin 16, and GND guard pairs on pins 5-6, 13-14, 17-18, 25-26.
+> `CPLD_RESET_N` on pin 15, `TTD_RETURN` on pin 16, and GND guard pairs on pins 5-6, 13-14, 17-18, 25-26.
 
 ---
 
@@ -121,7 +121,7 @@ supported). All Extension boards share an identical PCB layout; traces are sized
 
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Signal (ENC_IN/OUT, SYS_RESET_N, ACTUATE_REQUEST_N) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic signals; pass-through from J7 to J8 and local AM trigger routing |
+| Signal (ENC_IN/OUT, CPLD_RESET_N, ACTUATE_REQUEST_N) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic signals; pass-through from J7 to J8 and local AM trigger routing |
 | JTAG signals: TTD_RETURN (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. See `JTAG_Integrity.md`. |
 | 3V3_ENIG J7 entry trunk (J7 → L3 pour → J5 and J8) | 1.65 A (design budget; 30 rotors x 55 mA) | 0.25 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | 3V3_ENIG canonical 0.80 mm (Global_Routing_Spec §1.1); conservative full-system budget; resolved by DEC-053 (4 dedicated pins for 0.41 A/conductor) |
 | 3V3_ENIG J5 output (J5 → downstream mini-stack J2) | 275 mA (5-rotor mini-stack worst case) | 0.04 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | Canonical 0.80 mm minimum; 275 mA = Rotor 1 of downstream mini-stack |

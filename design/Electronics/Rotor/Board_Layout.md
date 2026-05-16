@@ -224,7 +224,7 @@ rotor passes TTD to the **next rotor's TDI** directly via J4 pin 6 → next Roto
 | `TMS` | J1 pin 4 / J8 pin 3 -> U1 | Dedicated JTAG mode input; forwarded to Board B and onwards to J4 |
 | `TDI` | J1 pin 6 (`TTD`) -> U1 | Incoming serial JTAG data from the previous stage; connector name stays `TTD` for stack clarity |
 | `TDO` | U1 -> J8 pin 5 / J4 pin 6 (`TTD`) | Outgoing serial JTAG data to the next stage |
-| `DEV_CLR_N` / reset input | J1 pin 8 (`SYS_RESET_N`) / J8 pin 4 -> U1 | Active-low device reset; held high locally by R4 (vendor name `DEV_CLRN` renamed `DEV_CLR_N` per GRS active-low naming convention) |
+| `DEV_CLR_N` / reset input | J1 pin 8 (`CPLD_RESET_N`) / J8 pin 4 -> U1 | Active-low device reset; held high locally by R4 (vendor name `DEV_CLRN` renamed `DEV_CLR_N` per GRS active-low naming convention) |
 
 ### 6.2 General-purpose signal groups
 
@@ -282,7 +282,7 @@ Board 3V3_ENIG trunk traces).
 
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Signal (ENC_IN/OUT, FDC2114 I2C SDA/SCL, SYS_RESET_N) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic; CPLD data I/O; I2C to FDC2114 capacitive encoder; SYS_RESET_N is a slow-logic CPLD reset sourced from Stator U7 GPA[7] - not a CI signal |
+| Signal (ENC_IN/OUT, FDC2114 I2C SDA/SCL, CPLD_RESET_N) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic; CPLD data I/O; I2C to FDC2114 capacitive encoder; CPLD_RESET_N is a slow-logic CPLD reset sourced from Stator U7 GPA[7] - not a CI signal |
 | JTAG signals: TCK, TMS, TTD in/out (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. |
 | 3V3_ENIG local draw (J2 → CPLD + FDC2114 supply) | 55 mA | 0.008 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | 3V3_ENIG canonical 0.80 mm (Global_Routing_Spec §1.1); local IC supply only |
 | 3V3_ENIG pass-through rail (J2 input → J5 output bus) | 275 mA (Rotor 1 of mini-stack; 5 rotors max) | 0.04 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | Canonical 3V3_ENIG trunk width (Global_Routing_Spec §1.1); Rotor 1 worst case for a 5-rotor mini-stack; feeds L3 pour via thermal vias between J2 and J5 |

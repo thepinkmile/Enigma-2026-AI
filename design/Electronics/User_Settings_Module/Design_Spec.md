@@ -61,6 +61,7 @@ daemon over I²C.
 | DR-USM-10 | Per-anode LED high-side switch | 12x two-stage per-anode high-side switch: MCP23017 GPIO → 1 kΩ gate resistor (R54-R65) → BSS138 NMOS pre-driver (Q7-Q18); BSS138 drain pulls PMOS gate low; 47 kΩ pull-up (R66-R77) from PMOS gate to `5V_MAIN`; PMOS source at `5V_MAIN`, drain to LED anode; GPIO HIGH → LED ON (non-inverted logic); this topology isolates the MCP23017 3.3 V GPIO from direct-driving 5 V LED anodes | §5 LED Control Logic; BOM Q7-Q30, R54-R77 |
 | DR-USM-11 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes (KiCAD built-in `MountingHole` footprint; no purchasable BOM component), bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. Exact XY coordinates TBD at PCB layout. | §2 Core Features (GND_CHASSIS section); `design/Standards/Global_Routing_Spec.md §4.3` |
 | DR-USM-12 | Per-IC bypass capacitors | Per-IC bypass capacitor rule applies per `design/Standards/Global_Routing_Spec.md §3.2`. C1, C2, and C3 are the bypass capacitors for U1, U2, and U3 respectively. | §10 BOM (C1-C3); §12 Component Count Summary; `design/Standards/Global_Routing_Spec.md §3.2` |
+| DR-USM-13 | MCP23017 /RESET pull-up resistors | U1, U2, U3 /RESET (pin 17, active-low) each pulled to 3V3_ENIG via 10 kΩ 0402 resistor: R96 (U1), R97 (U2), R98 (U3). When 3V3_ENIG is unpowered (0 V), /RESET = 0 V → device held in reset; when 3V3_ENIG rises, pull-up de-asserts /RESET → clean power-on reset sequencing. The MCP23017 internal weak pull-up (~60 kΩ) is insufficient for reliable operation over PCB leakage paths during rail ramp conditions (MCP23017 datasheet §2.3). /RESET must NOT be connected to CPLD_RESET_N, which is a CPLD-only signal driven by the Stator and not valid until after CM5 boot. Consistent with Stator DR-STA-12 (R36/R37/R38 for STA U6/U7/U8). | §4 I²C Devices; BOM R96-R98; MCP23017 datasheet §2.3 |
 
 ### Component Block Diagram
 
@@ -254,6 +255,9 @@ Reads the 10 toggle-switch states and the active-low `CFG_APPLY_N` momentary but
 > position leaves the COM terminal floating. Panel orientation shall make the lever-up / marked-ON
 > position select the `3V3_ENIG` throw so the asserted state always reads logic-1.
 >
+> **/RESET (pin 17, active-low):** R96 = 10 kΩ 0402 pull-up to 3V3_ENIG. Holds U1 in reset while
+> 3V3_ENIG is unpowered; de-asserts on rail rise for clean power-on sequencing. See DR-USM-13.
+>
 ### U2 - MCP23017T-E/SO @ 0x24
 
 Drives Bank 1 LED high-side switch trigger signals (1 source-status LED + 4 config LEDs) via dedicated
@@ -287,6 +291,8 @@ BSS138 NMOS pre-drivers (Q7-Q11), and Bank 1 RGB colour-rail low-side transistor
 > `R_LED_G` = 100Ω, `R_LED_B` = 100Ω) to the shared bank colour rails switched by Q1-Q3.
 > 100 kΩ pull-down resistors (R84-R88 on Q7-Q11 gates; R78-R83 on Q1-Q6 gates) hold BSS138 gates LOW
 > during GPIO Hi-Z at power-up, preventing spurious transistor turn-on.
+>
+> **/RESET (pin 17, active-low):** R97 = 10 kΩ 0402 pull-up to 3V3_ENIG. See DR-USM-13.
 >
 ### U3 - MCP23017T-E/SO @ 0x25
 
@@ -322,6 +328,8 @@ BSS138 NMOS pre-drivers (Q12-Q18), and Bank 2 RGB colour-rail low-side transisto
 > shared Bank 2 colour rails switched by Q4-Q6.
 > 100 kΩ pull-down resistors (R89-R95 on Q12-Q18 gates; R78-R83 on Q1-Q6 gates) hold BSS138 gates LOW
 > during GPIO Hi-Z at power-up, preventing spurious transistor turn-on.
+>
+> **/RESET (pin 17, active-low):** R98 = 10 kΩ 0402 pull-up to 3V3_ENIG. See DR-USM-13.
 >
 
 ---
@@ -469,6 +477,7 @@ JLCPCB PCBA and are excluded from the JLCPCB SMT assembly BOM.
 | R30-R53 | 100Ω 1% 0603 | ERJ-3EKF1000V | Panasonic | P100HCT-ND | 667-ERJ-3EKF1000V | C193336 | - | - | Yes | ✔ | 24 |
 | R66-R77 | 47kΩ ±0.5% AEC-Q200 0402 | SG73S1ERTTP4702D | KOA Speer | 2019-SG73S1ERTTP4702DTR-ND ⚠️ MOQ 10000 | 660-SG73S1ERTTP4702D | C5915648 ⚠️ MOQ 40 | - | JLCPCB MOQ 40 | Yes | ✔ | 12 |
 | R78-R95 | 100kΩ 1% 0402 | ERJ-2RKF1003X | Panasonic | P100KLCT-ND | 667-ERJ-2RKF1003X | Global sourcing / consignment | Global sourcing | no JLCPCB stock | Yes | ✔ | 18 |
+| R96-R98 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | MCP23017 /RESET pull-up to 3V3_ENIG; R96=U1, R97=U2, R98=U3; see DR-USM-13 | Yes | ✔ | 3 |
 | SW1-SW10 | SPDT latching toggle panel-mount THT | 200MSP1T2B4M2QE | E-Switch | EG5525-ND | 612-200MSP1T2B4M2QE | C5491263 | - | - | Yes | ✔ | 10 |
 | SW11 | SPST NO tactile THT | B3F-1070 | Omron | SW406-ND | 653-B3F-1070 | C726011 | - | - | Yes | ✔ | 1 |
 | U1-U3 | I²C GPIO expander SOIC-28 | MCP23017T-E/SO | Microchip Technology | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | - | - | Yes | ✔ | 3 |
@@ -518,14 +527,15 @@ JLCPCB PCBA and are excluded from the JLCPCB SMT assembly BOM.
 | **0402 Resistors (per-anode gate)** | 12 | R54-R65: 1kΩ BSS138 pre-driver gate resistors |
 | **0402 Resistors (PMOS pull-up)** | 12 | R66-R77: KOA Speer SG73S1ERTTP4702D 47 kΩ ±0.5% PMOS gate pull-ups |
 | **0402 Resistors (BSS138 gate pull-down)** | 18 | R78-R95: 100kΩ Panasonic ERJ-2RKF1003X - holds gates LOW at power-up Hi-Z |
+| **0402 Resistors (MCP23017 /RESET pull-up)** | 3 | R96-R98: 10kΩ ERJ-2RKF1002X - /RESET to 3V3_ENIG for U1/U2/U3; see DR-USM-13 |
 | **0402 Capacitors (decoupling)** | 3 | 100nF X7R for 3x MCP23017s |
 | **0402 Capacitors (debounce)** | 1 | C4: 100nF X7R `CFG_APPLY_N` debounce |
 | **0805 Capacitors (power-entry bulk)** | 10 | C5-C14: 10µF X7R 25V Samsung CL21B106KAYQNNE - 5x on `3V3_ENIG`, 5x on `5V_MAIN` power-entry nodes; satisfies §3 bulk-entry bank rule |
 | **JST PH Connectors** | 1 | J1: 6-pin B6B-PH-K-S(LF)(SN) to Stator |
 | **Pushbutton Switch** | 1 | SW11 - Omron B3F-1070 SPST NO through-hole tactile switch |
 
-**Total unique part numbers:** ~20
-**Total component count:** 166
+**Total unique part numbers:** ~21
+**Total component count:** 169
 
 ---
 

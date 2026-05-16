@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-16
 
 ---
 
@@ -220,7 +220,7 @@ the Stator over `J5`.
 | 0x09 | LTC3350 | Power Module | Supercap charger/monitor |
 | 0x0B | Smart Battery | Power Module | SMBus battery monitoring |
 | 0x20 | MCP23017 (U6) | Stator | ENC_IN/ENC_OUT monitoring (16 GPIO) |
-| 0x21 | MCP23017 (U7) | Stator | Virtual keypress injection, SOURCE_SEL, SYS_RESET_N, spare GPIO |
+| 0x21 | MCP23017 (U7) | Stator | Virtual keypress injection, SOURCE_SEL, CPLD_RESET_N, spare GPIO |
 | 0x22 | MCP23017 (U8) | Stator | CPLD config output driver (DEC-032) |
 | 0x23 | MCP23017 (U1) | User Settings Module | Switch input reader (DEC-032) |
 | 0x24 | MCP23017 (U2) | User Settings Module | Bank 1 LED controller: 5x anodes + RGB bank-rail drivers (DEC-034) |
@@ -234,6 +234,10 @@ the Stator over `J5`.
 > address-selection wiring for U6 (0x20), U7 (0x21), and U8 (0x22) are defined in
 > `design/Electronics/Stator/Design_Spec.md §3` and the Stator BOM. This table lists I²C addresses
 > and high-level functions only.
+
+> **TPS25751 (PM U4) is intentionally absent from this I²C address map.** The TPS25751 is operated in
+> fixed passive PD emulator mode with its USB-C PDO profile stored in internal NVM. No I²C connection to
+> U4 is required or used in this design. See PM `Design_Spec.md §5` and DEC-012.
 
 ## 5. RTC Backup Battery
 
@@ -546,6 +550,16 @@ transitions at the connector pads.
 **USB 3.0 dual-stack isolation rationale:** The Molex 48406-0003 dual-stack Type-A connector carries two
 independent SuperSpeed pairs (Port 1 and Port 2). Routing both on the same layer requires crossovers and
 increases crosstalk risk. Port 1 SS is assigned to L2, Port 2 SS to L5, for physical isolation.
+
+**J8 (Molex 48406-0003) THT assembly note:**
+The Molex 48406-0003 drawing specifies a 1.2 mm PCB; the CTL board is a 6-layer JLC061621-3313 design with a
+finished thickness of ~1.60 mm. Tail protrusion below board: nominal 2.67 − 1.60 = **1.07 mm**; minimum
+2.37 − 1.60 = **0.77 mm**. Both exceed the IPC-A-610 minimum protrusion of 0.50 mm; wave solder or
+selective solder is feasible on the 1.6 mm CTL board. ✅
+
+**J8 mounting hole routing clearance:**
+The two ⌀2.30 mm Molex 48406-0003 mounting holes pass through all layers on the 6-layer CTL board.
+No CI signal routing is permitted within ≥0.5 mm of any mounting hole edge on any inner layer.
 
 ### 9.3. Trace Widths & Impedance
 

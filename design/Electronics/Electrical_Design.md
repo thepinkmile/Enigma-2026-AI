@@ -21,7 +21,7 @@
 | 0x3F | PCA9534A | Power Module | PM-local GPIO expander (`POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`, SW1 RGB control) |
 | 0x40 | INA219 | Power Module | 5V_MAIN current/power monitoring (10mΩ Kelvin-sense shunt R23) |
 | 0x20 | MCP23017 | Stator | ENC monitor expander (`U6`) |
-| 0x21 | MCP23017 | Stator | Virtual keypress / SOURCE_SEL / SYS_RESET_N expander (`U7`) |
+| 0x21 | MCP23017 | Stator | Virtual keypress / SOURCE_SEL / CPLD_RESET_N expander (`U7`) |
 | 0x22 | MCP23017 | Stator | CPLD configuration output expander (`U8`) |
 | 0x23 | MCP23017 | User Settings Module | Switch input expander (`U1`) |
 | 0x24 | MCP23017 | User Settings Module | Bank 1 LED controller (`U2`) |

@@ -5067,3 +5067,101 @@ Pass 9 was the first full-sweep pass following the major connector renumbering a
 - `design/Electronics/Consolidated_BOM.md` — 7 corrections + 1 new row (CTL D2 1.5SMBJ36CA); Last Updated 2026-05-14
 - `src/Electronics/Library/SamacSys_Parts.kicad_sym` — 1.5SMBJ36CA symbol added
 - `src/Electronics/Library/SamacSys_Parts.pretty/DIONM5436X244N.kicad_mod` — footprint created
+
+
+---
+
+## DEC-073 — LTC3350 RT Resistor Correction: 33.2 kΩ → 133 kΩ (Amends DEC-030)
+
+**Date:** 2026-05-15
+**Status:** Accepted
+**Author:** Izzyonstage & GitHub Copilot
+**Amends:** DEC-030
+
+### Decision
+
+R23 (LTC3350 RT frequency-setting resistor) is changed from **33.2 kΩ** to **133 kΩ** (E96 nearest value to 133.75 kΩ).
+BOM part changed from ERA-2AEB3322X (33.2 kΩ, Panasonic ERA-2, 0.1%, 0402) to ERA-2AEB1333X (133 kΩ, same series, same footprint).
+
+### Rationale
+
+DEC-030 stated that R23 = 33.2 kΩ sets the LTC3350 switching frequency to 400 kHz. This was an arithmetic error.
+
+**Formula (from LTC3350 datasheet RT programming table):** SW(kHz) = 53,500 / RT(kΩ)
+
+Verification at datasheet calibration points:
+| RT (kΩ) | Calculated fSW | Datasheet typical |
+|:--------|:---------------|:------------------|
+| 267 | 53,500 / 267 = 200 kHz | 200 kHz ✓ |
+| 107 | 53,500 / 107 = 500 kHz | 500 kHz ✓ |
+| 53.6 | 53,500 / 53.6 = 998 kHz | 1 MHz ✓ |
+
+**Error in DEC-030:** 33.2 kΩ → 53,500 / 33.2 = **1,611 kHz** (61% over the rated 1 MHz maximum frequency).
+Operating the LTC3350 switching converter above its rated maximum frequency is out-of-spec and risks
+converter instability, elevated losses, and component damage.
+
+**Correct calculation for 400 kHz target:**
+- Required: RT = 53,500 / 400 = 133.75 kΩ
+- Nearest E96 standard value: **133 kΩ**
+- Actual fSW: 53,500 / 133 = **402 kHz** (within 0.5% of target) ✔
+- Package/footprint: 0402 thin-film — identical to the replaced part; no PCB layout change needed.
+
+The 400 kHz switching frequency target (≥4 switching cycles within the 10.2µs backup switchover window) is unchanged from DEC-030. Only the resistor value and MPN are corrected.
+
+### Files Changed
+
+- design/Electronics/Power_Module/Design_Spec.md — DR-PM-11 updated: 33.2 kΩ → 133 kΩ; formula added with calculation; BOM R23 MPN updated; Last Updated 2026-05-15
+
+
+---
+
+## DEC-074 — Rename CPLD Reset Signal: SYS_RESET_N → CPLD_RESET_N
+
+**Date:** 2026-05-16
+**Status:** Accepted
+**Author:** Izzyonstage & GitHub Copilot
+**Amends:** DEC-031 (historical migration note only; DEC-031 content unchanged)
+
+### Decision
+
+The active-low CPLD reset signal previously named SYS_RESET_N is renamed to CPLD_RESET_N across all design documentation.
+
+### Rationale
+
+The name SYS_RESET_N implied a system-wide reset capability. In practice the signal:
+
+- Is driven exclusively by Stator U7 (MCP23017) GPA[7]
+- Resets only the Stator CPLD (EPM570T100I5N U1) via AND gate U3 combined with CFG_APPLY_N
+- Is distributed to Rotor, Encoder, and Reflector boards only as a CPLD DEV_CLR_N input
+- Does **not** reset the CM5, any MCP23017 expander IC, the FT232H, or any other system IC
+- Is not valid until after CM5 boot (driven from I²C-controlled expander U7)
+
+The misleading name caused a review finding (Pass 10) suggesting USM MCP23017 /RESET pins be connected to this signal — which would have been incorrect and was explicitly rejected (DR-USM-13, DR-STA-12). The correct approach (power-gated 3V3_ENIG pull-ups) was already established on both the Stator and USM boards.
+
+CPLD_RESET_N accurately scopes the signal to the Stator CPLD reset path only.
+
+### Scope of Rename
+
+All references in active design documentation updated. Historical DEC entries referencing the old name are preserved unchanged (DEC-031, DEC-032, DEC-033, DEC-053, DEC-059).
+
+### Files Changed
+
+- design/Electronics/Stator/Design_Spec.md — all signal table entries and silicon notes
+- design/Electronics/Stator/Board_Layout.md — connector pin tables, routing notes
+- design/Electronics/Controller/Design_Spec.md — I²C address table U7 description
+- design/Electronics/Encoder/Design_Spec.md — block diagram, pull-up note
+- design/Electronics/Encoder/Board_Layout.md — J1 pin 18, IC pin table
+- design/Electronics/Extension/Design_Spec.md — block diagram, pin description, ESD table
+- design/Electronics/Extension/Board_Layout.md — connector table, trace width table
+- design/Electronics/Reflector/Design_Spec.md — block diagram, connector pin table, ESD notes
+- design/Electronics/Reflector/Board_Layout.md — J1 pin 15, trace width table
+- design/Electronics/Rotor/Design_Spec.md — JTAG pin tables, connector tables, ESD tables
+- design/Electronics/Rotor/Board_Layout.md — IC pin table, trace width table
+- design/Electronics/JTAG_Module/Design_Spec.md — TRST/reset signal note
+- design/Electronics/JTAG_Module/JTAG_Integrity.md — signal integrity table entries
+- design/Electronics/User_Settings_Module/Design_Spec.md — DR-USM-13
+- design/Electronics/Actuation_Module/Design_Spec.md — reset pin note (clarifying CPLD_RESET_N not connected to STM32 NRST)
+- design/Electronics/Boards_Overview.md — I²C address map entry
+- design/Electronics/Electrical_Design.md — I²C address table
+- design/Electronics/System_Architecture.md — pull-up table, I²C map
+- design/Software/Linux_OS/Power_Management.md — U7 initialisation sequence note

@@ -225,7 +225,7 @@ through each CPLD.
 | R2 | Each Rotor | 10kΩ pull-up | TMS default-high |
 | R3 | Each Rotor | 10kΩ pull-up | TDI default-high |
 | R4 | Each Rotor | 10kΩ pull-down | TCK default-low |
-| R5 | Each Rotor | 10kΩ pull-up | SYS_RESET_N default-high (inactive) |
+| R5 | Each Rotor | 10kΩ pull-up | CPLD_RESET_N default-high (inactive) |
 
 ---
 
@@ -242,7 +242,7 @@ All system management devices remain on the single shared `I2C-1` bus:
 | 0x40 | INA219 | Power Module | 5V_MAIN telemetry |
 | 0x45 | INA219 | Stator | Rotor-stack telemetry |
 | 0x20 | MCP23017 | Stator | ENC monitoring |
-| 0x21 | MCP23017 | Stator | Virtual keypress + SOURCE_SEL + SYS_RESET_N |
+| 0x21 | MCP23017 | Stator | Virtual keypress + SOURCE_SEL + CPLD_RESET_N |
 | 0x22 | MCP23017 | Stator | CPLD config output driver |
 | 0x23 | MCP23017 | User Settings Module | Switch input reader |
 | 0x24 | MCP23017 | User Settings Module | Bank 1 LED controller |

@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-16 (Pass 9 deferred-item resolution: stackup/trace-width GRS cross-reference sweep; DF40C/DF40HC/TPS Hirose lib imports; 3D model sync; download-missing-3d-models and review-pass-11 todos added)
+Last updated: 2026-05-16 (Pass 10 triage: USM DR-USM-13 /RESET pull-ups; LTC3350 RT corrected DEC-073; FT232H REF/TEST passives; tps25751-i2c-review added; rename-sys-reset-n completed DEC-074; datasheet purity cleanup done)
 
 ---
 
@@ -77,7 +77,7 @@ Last updated: 2026-05-16 (Pass 9 deferred-item resolution: stackup/trace-width G
 | `review-pass-7` | — | done | — |
 | `review-pass-8` | — | done | — |
 | `review-pass-9` | — | done | — |
-| `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | pending | `review-pass-9` |
+| `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | done | `review-pass-9` |
 | `download-missing-3d-models` | [download-missing-3d-models.md](todos/download-missing-3d-models.md) | pending | — |
 | `review-pass-11` | [review-pass-11.md](todos/review-pass-11.md) | pending | `download-missing-3d-models`, `review-pass-10` |
 | `ascii-to-mermaid-diagrams` | — | done | — |
@@ -126,6 +126,8 @@ Last updated: 2026-05-16 (Pass 9 deferred-item resolution: stackup/trace-width G
 | `ctl-t1-tdk-library-import` | — | done | — |
 | `ctl-t1-bourns-component-analysis` | — | ~~done~~ (superseded by TDK decision) | `ctl-t1-transformer-decision` |
 | `ctl-t1-coilcraft-v2-review` | [ctl-t1-coilcraft-v2-review.md](todos/ctl-t1-coilcraft-v2-review.md) | **blocked** (v2.0) | `ctl-t1-transformer-decision` |
+| `tps25751-i2c-review` | [tps25751-i2c-review.md](todos/tps25751-i2c-review.md) | **blocked** | architectural decision required; see detail file |
+| `rename-sys-reset-n` | [rename-sys-reset-n.md](todos/rename-sys-reset-n.md) | done | — |
 
 ---
 
@@ -210,7 +212,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('review-pass-7',                     'Design review pass 7',                        'done'),
 ('review-pass-8',                     'Design review pass 8',                        'done'),
 ('review-pass-9',                     'Design review pass 9',                        'done'),
-('review-pass-10',                    'Design review pass 10',                       'pending'),
+('review-pass-10',                    'Design review pass 10',                       'done'),
 ('download-missing-3d-models',        'Download remaining 3D models for library parts', 'pending'),
 ('review-pass-11',                    'Design review pass 11',                       'pending'),
 -- Documentation improvements
@@ -244,6 +246,8 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 -- T1 transformer analysis todos
 ('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'done'),  -- superseded by TDK decision
 ('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'blocked'),
+('tps25751-i2c-review',                      'Review TPS25751 I2C connectivity for runtime PDO configuration',                             'blocked'),
+('rename-sys-reset-n',                       'Rename SYS_RESET_N signal to CPLD_RESET_N across all design files',                          'done'),
 ('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'done'),
 ('ctl-t1-tdk-library-import',                 'Import TDK B82806D footprint zip and add 3D model to legacy library',                       'done'),
 ('ctl-t1-tdk-topology-confirm',               'Contact TDK apps engineering — B82806D0060A120 topology confirmation',                      'done'),
@@ -410,6 +414,10 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('usm-stackup-simplify', 'grs-stackup-section'),
 -- ctl-t1-coilcraft-v2-review gates
 ('ctl-t1-coilcraft-v2-review', 'ctl-t1-transformer-decision'),
+-- tps25751-i2c-review: blocked on architectural decision; must resolve before review-pass-11
+('interim-electronics-review-1', 'tps25751-i2c-review'),
+-- rename-sys-reset-n should be done before review-pass-11
+('review-pass-11',               'rename-sys-reset-n'),
 -- emc/environmental testing need prototype hardware
 ('emc-testing',               'prototype-pcb-manufacturing'),
 ('environmental-testing',     'prototype-pcb-manufacturing'),

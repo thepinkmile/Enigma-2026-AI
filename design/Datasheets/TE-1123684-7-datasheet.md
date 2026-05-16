@@ -33,10 +33,6 @@
 | Dielectric withstanding voltage | 1 kVAC for 1 min; leakage ≤ 0.5 mA |
 | Insulation resistance | 1,000 MΩ min (initial); 100 MΩ min (after tests) |
 
-> **DEFSTAN temperature note:** The operating rating lower bound (-20°C) does not cover the
-> DEFSTAN design target (-40°C). The thermal shock test to -40°C is cited as supporting evidence.
-> See `Certification_Evidence.md §5.1` for the full exception record.
-
 ## Extraction Notes
 
 - Native extraction was empty; OCR text was inserted. Some OCR on bilingual notes remains imperfect, but it is materially more searchable than the original blank extraction.

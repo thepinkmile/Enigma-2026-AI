@@ -85,15 +85,6 @@ The VCCIO pins are independent and can be set to 1.5 V, 1.8 V, 2.5 V, or 3.3 V t
 the I/O voltage standard of each I/O bank. Multiple VCCIO voltages can be used simultaneously
 across different banks.
 
-## Application in This Design
-
-In the Enigma-NG project:
-
-- VCCINT is connected to `3V3_ENIG` (3.3 V).
-- VCCIO is connected to `3V3_ENIG` (3.3 V), giving LVTTL/LVCMOS 3.3 V I/O on all banks.
-- No external 1.8 V supply is present or required.
-- This part is used on: **Stator Board** (U1) and **Encoder Board** (U1).
-
 ## Package Information
 
 - Package: 100-pin Plastic Thin Quad Flat Pack (TQFP)

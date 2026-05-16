@@ -98,7 +98,7 @@ Stator J10).
 > The ENC signals are a separate Stator CPLD interface for configuring plugboard pass positions.
 > The JTAG chain terminates at the Reflector - it does NOT continue on this ribbon cable.
 
-**SYS_RESET_N** is a very low-frequency quasi-DC signal (transitions only on system reset events).
+**CPLD_RESET_N** is a very low-frequency quasi-DC signal (transitions only on system reset events).
 Transmission line effects are negligible; no series resistor required.
 
 ---
@@ -111,7 +111,7 @@ Transmission line effects are negligible; no series resistor required.
 | TMS | FT232H → all CPLDs | State (broadcast) | Transitions with TCK | ~2-3 ns |
 | TDI | FT232H → CPLD chain | Serial data | Stable on TCK edge | ~2-3 ns |
 | TDO | CPLD chain → FT232H | Serial data | Stable on TCK edge | ~2-3 ns |
-| SYS_RESET_N | CM5 → all CPLDs | Active-low reset | DC / rare | N/A |
+| CPLD_RESET_N | CM5 → all CPLDs | Active-low reset | DC / rare | N/A |
 
 ---
 
@@ -450,7 +450,7 @@ distance on the trace.
 | TMS | 75 Ω (at each Stator encoder port output, J4-J9) | Re-buffered by Extension U1 every 5-rotor group | State machine control |
 | TDI | 75 Ω (at each Stator-driven encoder cable segment) | Passes unbuffered via BtB in rotor stack | Chained data |
 | TDO | 75 Ω (at each Encoder U1 → cable output) | 22 Ω (Reflector R1, end-of-chain) | Return chain data |
-| SYS_RESET_N | None required | None required | Quasi-DC signal |
+| CPLD_RESET_N | None required | None required | Quasi-DC signal |
 
 > **Rotor stack BtB path:** TCK and TMS are re-buffered by U1 (SN74LVC2G125DCUR) on each Extension
 > board at every 5-rotor group boundary - no per-rotor termination required. TDI passes unbuffered

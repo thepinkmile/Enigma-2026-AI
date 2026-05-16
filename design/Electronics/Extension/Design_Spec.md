@@ -97,7 +97,7 @@ flowchart TD
   J7 -- "3V3_ENIG / 5V_MAIN" --> J5
   J7 -- "3V3_ENIG / 5V_MAIN + ACTUATE_REQUEST_N" --> J9
   J7 -- "ENC / JTAG / Power" --> J8
-  J7 -- "SYS_RESET_N" --> J8
+  J7 -- "CPLD_RESET_N" --> J8
   J7 -- "TTD_RETURN" --> J8
 ```
 
@@ -107,7 +107,7 @@ flowchart TD
   > **Connector Definition Owner:** `Stator/Board_Layout.md - J10`.
   > This board uses the mating connector on both J7 and J8 (Adam Tech 2BHR-30-VUA - see BOM).
   > Authoritative pinout per DEC-053: `5V_MAIN` on pins 1-2 and 29-30, `3V3_ENIG` on pins 3-4 and 27-28,
-  > `ENC_OUT_REF[5:0]` on pins 7-12, `ENC_IN_REF[5:0]` on pins 19-24, `SYS_RESET_N` on pin 15,
+  > `ENC_OUT_REF[5:0]` on pins 7-12, `ENC_IN_REF[5:0]` on pins 19-24, `CPLD_RESET_N` on pin 15,
   > `TTD_RETURN` on pin 16, GND guard pairs on pins 5-6, 13-14, 17-18, 25-26.
   > **Per DEC-043 then DEC-053:** The Extension Port was first widened from 16-pin to 20-pin (DEC-043)
   > and then from 20-pin to 30-pin (DEC-053) to resolve a power current budget violation.
@@ -181,7 +181,7 @@ flowchart TD
   they are NOT placed on the BtB rotor stack interface. See
   `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016.
   TCK and TMS are actively re-buffered by U1 (see JTAG Signal Buffering above).
-* **SYS_RESET_N:** Received via Extension Port pin 15; broadcast to all local rotor CPLDs in this group.
+* **CPLD_RESET_N:** Received via Extension Port pin 15; broadcast to all local rotor CPLDs in this group.
 * **Actuation Module host dock:** The Extension provides a single host socket for one shared
   Actuation Module.
   > **Connector Definition Owner:** `AM Design_Spec.md §3.1`.
@@ -241,9 +241,9 @@ flowchart TD
 * **ESD - rotor-facing connectors (TVS required):**
   J1/J3 (input side, ERM8 male) and J4/J6 (output side, ERF8 female) are exposed to operator handling during live rotor
   insertion and removal. Both sides of every hot-swap BtB interface are protected per DEC-045 and DEC-048:
-  * **U2** - 1x TPD4E05U06QDQARQ1 on J1 (JTAG in); channels: TCK, TMS, TTD, SYS_RESET_N.
+  * **U2** - 1x TPD4E05U06QDQARQ1 on J1 (JTAG in); channels: TCK, TMS, TTD, CPLD_RESET_N.
   * **U3, U4, U5** - 3x TPD4E05U06QDQARQ1 on J3 (ENC in); 12 channels: ENC_IN[5:0] + ENC_OUT[5:0].
-  * **U6** - 1x TPD4E05U06QDQARQ1 on J4 (JTAG out); channels: TCK, TMS, TTD, SYS_RESET_N.
+  * **U6** - 1x TPD4E05U06QDQARQ1 on J4 (JTAG out); channels: TCK, TMS, TTD, CPLD_RESET_N.
   * **U7, U8, U9** - 3x TPD4E05U06QDQARQ1 on J6 (ENC out); 12 channels: ENC_IN[5:0] + ENC_OUT[5:0].
   Per DEC-045, all Samtec ERM8/ERF8 rotor-facing connectors require TPD4E05U06QDQARQ1 arrays.
   All arrays shall be placed within 3mm of their respective connector mating edge on L1.

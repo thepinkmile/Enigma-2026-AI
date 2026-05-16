@@ -15,12 +15,6 @@
 | Mouser | 710-9774035151R |
 | JLCPCB | C22367582 |
 
-## Enigma-NG Project Design Notes
-
-Used as the four SMT standoffs on the Actuation Module (AM) carrier interface.
-Provides the 3.5mm stacking height required by the DF40HC(3.5)-20DS-0.4V(51) receptacle on the Controller and Extension boards.
-Standoff mounting holes (MH1-MH4) are tied to GND and also form the asymmetric keying pattern for the AM module (see AM Design_Spec.md DR-AM-03).
-
 ## Key Specifications
 
 The 9774035151R is a variant of the Wurth 97740 WA-SMSI series.

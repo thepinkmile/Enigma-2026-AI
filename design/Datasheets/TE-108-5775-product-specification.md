@@ -12,7 +12,7 @@
 ## Reviewed Summary
 
 This document is the electrical and environmental Product Specification for the TE Connectivity 2.5 mm pitch battery connector family. It covers both the plug (`1-1123684-7`) and receptacle
-(`1-1674231-1`) parts used in this project, and is the authoritative source for all rated electrical and environmental parameters for those parts.
+(`1-1674231-1`) parts covered by this specification, and is the authoritative source for all rated electrical and environmental parameters for those parts.
 
 **Applies to (Appendix 2):**
 
@@ -58,23 +58,6 @@ This document is the electrical and environmental Product Specification for the 
 | Salt spray (§3.5.14) | 5% NaCl, 35°C, 24 h | ΔR ≤ 20 mΩ |
 | Industrial gas - SO₂ (§3.5.15) | 10 ppm SO₂, 95% RH, 25°C, 24 h | ΔR ≤ 20 mΩ |
 | Temperature life / heat aging (§3.5.17) | 85°C, 96 hours (mated) | ΔR ≤ 20 mΩ |
-
-## Temperature Note - Operating Rating vs. Thermal Shock Test
-
-The connector's continuous operating temperature is rated at **-20°C to +80°C**. However, the
-thermal shock qualification test (§3.5.12) demonstrates full electrical and mechanical integrity after
-cycling to **-40°C / +85°C**, which spans and slightly exceeds the DEFSTAN design target of -40°C to +80°C.
-
-The thermal shock test is deliberately more demanding than a cold-soak storage test: it verifies material
-integrity and contact resistance stability through repeated rapid temperature transitions to -40°C. The
-connector passes (ΔR ≤ 20 mΩ) after five full cycles.
-
-Continuous operation at -40°C ambient is not within the stated continuous operating specification. This
-gap is documented as a note in `Certification_Evidence.md §5.1`. DEFSTAN military certification is
-a nice-to-have aspiration for this project rather than a hard requirement; the primary targets are
-CE / UKCA (IEC 60068-2 industrial). If DEFSTAN testing is ever formally pursued, a TE Connectivity
-confirmation or written equivalence statement for -40°C continuous operation would be recommended
-at that stage.
 
 ## Extraction Notes
 

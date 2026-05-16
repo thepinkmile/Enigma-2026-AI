@@ -32,7 +32,7 @@ return path for the JTAG chain.
 | 12 | ENC_OUT_REF[5] | Stator → Reflector / Ext | Outbound reflector-boundary bit 5 |
 | 13 | GND | - | Signal group guard return |
 | 14 | GND | - | Signal group guard return |
-| 15 | SYS_RESET_N | Stator → Reflector / Ext | Active-low CPLD reset broadcast |
+| 15 | CPLD_RESET_N | Stator → Reflector / Ext | Active-low CPLD reset broadcast |
 | 16 | TTD_RETURN | Reflector / Ext → Stator | JTAG TDO return path |
 | 17 | GND | - | Signal group guard return |
 | 18 | GND | - | Signal group guard return |
@@ -94,7 +94,7 @@ Bank 1 (HID)             Bank 2 (Plugboard Pass 1)    Bank 3 (Plugboard Pass 2)
 >
 ### 4.2 JTAG Chain
 
-TCK and TMS are broadcast to all six encoder ports and the rotor stack. SYS_RESET_N is broadcast to
+TCK and TMS are broadcast to all six encoder ports and the rotor stack. CPLD_RESET_N is broadcast to
 all devices. TDI/TDO form a serial chain routed internally on the Stator PCB:
 
 1. Controller `J5` / Stator `J12` TDI -> **Stator CPLD** TDI
@@ -145,8 +145,8 @@ self-describing.
 | 14 | TDO | Encoder->Stator | JTAG data out (chains to next device via Stator) |
 | 15 | GND | - | TDO/TDI inter-pin shield |
 | 16 | TDI | Stator->Encoder | JTAG data in (from previous device via Stator) |
-| 17 | GND | - | TDI/SYS_RESET_N shield |
-| 18 | SYS_RESET_N | Stator->Encoder | Active-low CPLD reset (broadcast to all encoder ports) |
+| 17 | GND | - | TDI/CPLD_RESET_N shield |
+| 18 | CPLD_RESET_N | Stator->Encoder | Active-low CPLD reset (broadcast to all encoder ports) |
 | 19 | GND | - | Power return / trailing shield |
 | 20 | 3V3_ENIG | Stator->Encoder | Power supply |
 
@@ -180,7 +180,7 @@ within 1 mm of each VDD pin.
 - **U6** (I²C address 0x20) - Encoder-bus activity monitoring: reads `ENC_ACTIVE_N` sidebands from
   all six encoder ports (J4-J9) and presents them to the CM5 over I²C.
 - **U7** (I²C address 0x21) - Virtual key injection, keyboard source selection, and system reset:
-  drives `CM5_KEY_DATA[5:0]`, `KEY_CM5_ACTIVE` (keyboard source select), and `SYS_RESET_N`
+  drives `CM5_KEY_DATA[5:0]`, `KEY_CM5_ACTIVE` (keyboard source select), and `CPLD_RESET_N`
   broadcast to the CPLD and all downstream boards.
 
 ---
@@ -228,7 +228,7 @@ R1 is on the 3V3\_ENIG entry trace; INA219 differential voltage sense pins strad
 | `TMS` | Controller dock `J12` -> U1 | Dedicated JTAG mode input; broadcast onwards to all encoder ports and the rotor stack |
 | `TDI` | Controller dock `J12` -> U1 | Head of the Stator-managed JTAG daisy chain |
 | `TDO` | U1 -> Stator JTAG chain -> `J4` | First JTAG chain output; continues through encoder ports, then the rotor stack |
-| `DEV_CLR_N` | `U3` (`SYS_RESET_N AND CFG_APPLY_N`) -> U1 | Dedicated device clear; not counted as a general-purpose routing I/O (vendor pin name `DEV_CLRN` - see `design/Standards/Global_Routing_Spec.md §10`) |
+| `DEV_CLR_N` | `U3` (`CPLD_RESET_N AND CFG_APPLY_N`) -> U1 | Dedicated device clear; not counted as a general-purpose routing I/O (vendor pin name `DEV_CLRN` - see `design/Standards/Global_Routing_Spec.md §10`) |
 
 ### 10.2 General-purpose signal groups
 
@@ -251,7 +251,7 @@ R1 is on the 3V3\_ENIG entry trace; INA219 differential voltage sense pins strad
 plus the dedicated JTAG / clear pins above.
 
 **Spare-pin policy:** one spare channel inside the `U4`/`U5` mux pair remains unallocated after the
-shared `ENC_ACTIVE_N` source-select path is added. `U7 GPA[7]` is allocated to `SYS_RESET_N`;
+shared `ENC_ACTIVE_N` source-select path is added. `U7 GPA[7]` is allocated to `CPLD_RESET_N`;
 `U7 GPB[0]` is allocated to `CM5_KEY_ACTIVE_N` and `U7 GPB[1]` to `KEY_SRC_ACTIVE_N` monitoring, so
 `U7 GPB[7:2]` remains spare/reserved for future Stator-side control additions.
 
@@ -267,7 +267,7 @@ plate.
 
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Signal (Encoder `ENC_DATA` aliases, `ENC_IN_REF`/`ENC_OUT_REF`, `SYS_RESET_N`, `CFG_APPLY_N`, I2C) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic signals |
+| Signal (Encoder `ENC_DATA` aliases, `ENC_IN_REF`/`ENC_OUT_REF`, `CPLD_RESET_N`, `CFG_APPLY_N`, I2C) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic signals |
 | JTAG signals: TCK, TMS, TDI, TDO, TTD_RETURN (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane |
 | JTAG fan-out to encoder ports (L1, cable-drive side) | signal | - | 0.20 mm | **0.20 mm** | L1 | Traces from series resistors to encoder-port connector pads |
 | 3V3_ENIG entry trace (`J12` dock -> shunt R1) | 2.05 A | 0.31 mm | 0.80 mm | **0.80 mm** | L1 | Carries full rotor-stack + encoder load |

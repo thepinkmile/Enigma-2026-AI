@@ -45,6 +45,8 @@ This module replicates the functionality of an **Intel (Altera) USB Blaster II**
 | DR-JM-18 | Mounting holes | JM mounting holes MH1–MH4 shall be NPTH M2.5 holes with a GND annular ring. Conductive standoffs connect to GND only (not GND_CHASSIS), per DEC-057 daughterboard exception. No purchasable BOM component — mounting hardware is owned by and specified in the Controller Board BOM (MH9–MH12, 9774035151R). See `design/Standards/Global_Routing_Spec.md §4` for module mounting hole rules. | §4 Aesthetics & Mounting; DEC-057; DEC-058 |
 | DR-JM-19 | BtB connector placement and orientation | J1 (DF40C-20DP) shall be placed at **bottom-centre** of the JM board (positional keying — cannot accidentally mate with AM location on CTL). R1 of J1 shall be on the outer (bottom) edge. When mounted on the CTL, R1 shall face the LINK-BETA connector (J4/J5) to minimise JTAG trace lengths to the Stator. Orientation is enforced by the asymmetric MH1–MH4 pattern and silkscreen pin-1 markers (DF40 is mechanically polarity-free per Hirose Note 4). | §3 Interface & Wiring; §4 Aesthetics & Mounting; `design/Standards/Global_Routing_Spec.md §7.1` |
 | DR-JM-20 | No-component zone — underside | A minimum 1.0mm component-free zone shall be maintained on the underside (L4 face) of the JM, measured from the board outline. This ensures clearance above the CTL board when the JM is mounted as a hat. | §4 Aesthetics & Mounting; DEC-058 |
+| DR-JM-21 | FT232H REF pin bias resistor | R8: 12 kΩ ±1% 0402 resistor from FT232H REF (pin 5) to GND. Sets the internal USB 2.0 High-Speed PHY bias reference current. Without R8, HS chirp negotiation fails and the device falls back to Full-Speed or fails to enumerate. Value and tolerance from FTDI FT232H datasheet §3.5 and Application Note AN_146. | §6 Electrical Requirements; BOM R8 (12kΩ, ERJ-2RKF1202X); FT232H datasheet §3.5, AN_146 |
+| DR-JM-22 | FT232H TEST pin | FT232H TEST (pin 42) shall be tied directly to GND by a PCB copper trace. No series component. Floating TEST activates internal factory test mode and corrupts USB enumeration behaviour. Per FTDI FT232H datasheet Table 3.2. | §6 Electrical Requirements; FT232H datasheet Table 3.2 |
 
 ### Component Block Diagram
 
@@ -202,12 +204,19 @@ Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`. For 
   Board upstream provides a fully-bypassed power rail. Per-IC decoupling per FT232H datasheet: C1-C4, C6-C9
   = 8x 100nF (one per FT232H supply pin: VCCA, VCORE, VCCD, VCCIOx3, VPLL, VPHY) plus a single 4.7µF
   entry filter (C5) on 5V_USB.
-* **FT232H RESET_N Biasing:** R5 (10kΩ) pulls FT232H RESET_N (pin 34) to 3V3_ENIG, ensuring the chip
+* **FT232H REF Pin Biasing (DR-JM-21):** R8 (12 kΩ ±1%, ERJ-2RKF1202X) connected from FT232H REF (pin 5) to GND.
+  The REF pin sets the USB 2.0 High-Speed PHY internal bias reference current. A precise 12 kΩ ±1% resistor
+  is required per FTDI FT232H datasheet §3.5 and Application Note AN_146. Without R8, the HS PHY cannot
+  negotiate chirp and the device falls back to USB Full-Speed (12 Mbps) or fails to enumerate entirely.
+* **FT232H TEST Pin (DR-JM-22):** FT232H TEST (pin 42) is tied directly to GND by a PCB copper trace.
+  No series component is placed. Per FTDI FT232H datasheet Table 3.2: TEST is a factory test pin that
+  must be connected to GND for normal operation. Leaving TEST floating enables internal factory test mode
+  and corrupts USB enumeration behaviour., ensuring the chip
   remains deasserted (RESET_N HIGH = normal operation) at all times during normal use. RESET_N is active-low;
   if left floating the pin may latch LOW and prevent the FT232H from operating. An external pull-up is
   required per FTDI application note AN_108 when RESET_N is not driven by the host (see DR-JM-16).
   `RESET_N` is a board-local net name scoped to JM; it does not conflict with the system-level
-  `SYS_RESET_N` net, which is driven by the Stator CPLD and distributed across inter-board connectors.
+  `CPLD_RESET_N` net, which is driven by the Stator CPLD and distributed across inter-board connectors.
   Separate KiCAD projects are used per board, so these net names remain naturally isolated at capture time.
 * **Clocking:** Dedicated 12MHz SMD crystal (Y1) for the FT232H reference clock. The FT232H internal PLL requires 12MHz; CM5 GPCLK
   option was considered and rejected - see DEC-022. Note: package corrected from SMD-3225 to SMD-5032 per CTS 435 datasheet. KiCAD footprint adapted from the unofficial
@@ -260,6 +269,7 @@ Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`. For 
 | J1 | 20-pin 0.4mm pitch BtB plug (bottom-centre of board) | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | see DR-JM-19, DEC-058; Mouser lists as DF40C-20DP-0.4V(51) — search by Mouser PN 798-DF40C20DP0.4V51 | Yes | ✔ | 1 |
 | R1-R4 | 33Ω 1% 0402 | ERJ-2RKF33R0X | Panasonic | P33.0LCT-ND | 667-ERJ-2RKF33R0X | C278594 | - | see DEC-016; see DEC-024 | Yes | ✔ | 4 |
 | R5-R7 | 10kΩ 1% 0402 | ERJ-2RKF1002X | Panasonic | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | - | Yes | ✔ | 3 |
+| R8 | 12kΩ 1% 0402 | ERJ-2RKF1202X | Panasonic | P12.0KLCT-ND | 667-ERJ-2RKF1202X | C25741 | - | FT232H REF pin bias; see DR-JM-21; FTDI datasheet §3.5, AN_146 | Yes | ✔ | 1 |
 | U1 | USB 2.0 to MPSSE bridge LQFP-48 | FT232HL-REEL | FTDI Chip | 768-1101-1-ND | 895-FT232HL-REEL | C51997 | - | - | Yes | ✔ | 1 |
 | U2 | Dual 3-state buffer VSSOP-8 | SN74LVC2G125DCUR | Texas Instruments | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | Yes | ✔ | 1 |
 | Y1 | 12MHz 20pF ±20ppm crystal SMD-5032 (5.0×3.2×1.1mm) | 435F12012IET | CTS | 110-435F12012IETTR-ND | 774-435F12012IET | C19766404 (Extended) | - | see DEC-022 | Yes* | Yes* | 1 |

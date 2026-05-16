@@ -4,7 +4,8 @@
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
-**Last Updated:** 2026-04-20
+**Last Updated:** 2026-05-16
+**Enigma-NG integration notes:** See `design/Electronics/Encoder/DPDT_Switch_Integration.md`
 **Source Listing:** eBay item `365271584375`
 **Seller:** `gadgetskingdom`
 **Brand Shown on Listing:** `uxcell`
@@ -24,18 +25,7 @@ component qualification trail is not available.
 
 ---
 
-## 2. Intended Enigma-NG Use
-
-- **Assembly:** `design/Mechanical/Keyboard_Assembly/Design_Spec.md`
-- **Board interface:** `design/Electronics/Encoder/Design_Spec.md`
-- **Function:** HID keyboard switch for the QWERTY-derived 40-position operator panel
-- **System quantity:** 40 switches total
-- **Electrical use in Enigma-NG:** only **Pole 1** is used electrically (`COM1 + NO1`); the second
-  pole is retained for mechanical anchoring only
-
----
-
-## 3. Observed Listing Specifications
+## 2. Observed Listing Specifications
 
 The following values were extracted directly from the eBay listing HTML:
 
@@ -62,19 +52,7 @@ Listing description text:
 
 ---
 
-## 4. Enigma-NG Integration Notes
-
-| Attribute | Enigma-NG usage note |
-| :--- | :--- |
-| Contact style | Treat as a normally-open momentary key input on Pole 1 |
-| Mounting | Keyboard-panel mounted with harness wiring back to Encoder spade inputs |
-| Logic interface | Active-low key input to Encoder CPLD (`COM1 -> input`, `NO1 -> GND`) |
-| Pole 2 | Do not assign an electrical net unless a future decision explicitly reuses it |
-| Panel role | Custom keyboard key actuator, not a general-purpose front-panel pushbutton |
-
----
-
-## 5. Known Unknowns / Unverified Parameters
+## 3. Known Unknowns / Unverified Parameters
 
 The listing did **not** provide a trustworthy manufacturer datasheet for these items:
 
@@ -93,7 +71,7 @@ These values remain **unverified** and should not be invented elsewhere in the d
 
 ---
 
-## 6. Procurement and Risk Notes
+## 4. Procurement and Risk Notes
 
 - This is a **single-source marketplace part** rather than a catalogue component with a stable MPN.
 - The seller name and the visible brand (`uxcell`) may change independently of the physical part.
@@ -103,7 +81,7 @@ These values remain **unverified** and should not be invented elsewhere in the d
 
 ---
 
-## 7. Document Status
+## 5. Document Status
 
 This pseudo datasheet is sufficient to preserve the currently known dimensions and switching style
 for the purchased Enigma-NG keyboard switches. It does **not** replace a real manufacturer datasheet.

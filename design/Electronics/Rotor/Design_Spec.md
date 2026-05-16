@@ -403,7 +403,7 @@ the full net-naming convention.
 | TDO | Out — J4 pin 6 | `TTD` | Outgoing serial data to the next board's TDI input |
 | TCK | In/pass-through — J1 pin 2 → J4 pin 2 | `TCK` | JTAG clock; unmodified throughout the chain |
 | TMS | In/pass-through — J1 pin 4 → J4 pin 4 | `TMS` | JTAG mode select; unmodified throughout the chain |
-| TRST (optional) | In — J1 pin 8 | `SYS_RESET_N` | System-wide active-low reset; also resets the JTAG TAP; ESD-protected via U3 ch4 (Board A) and U7 ch4 (Board B) |
+| TRST (optional) | In — J1 pin 8 | `CPLD_RESET_N` | System-wide active-low reset; also resets the JTAG TAP; ESD-protected via U3 ch4 (Board A) and U7 ch4 (Board B) |
 
 > **TTD inter-board net name:** `TTD` (JTAG Transmission Data) is the net name for the
 > TDO-to-TDI board-to-board trace. Because the trace is simultaneously the TDO output of one
@@ -568,7 +568,7 @@ Compact internal transfer of the four JTAG/reset nets plus one shared ground bet
 | 1 | TCK | A→B | JTAG clock |
 | 2 | GND | - | Shared signal return |
 | 3 | TMS | A→B | JTAG mode select |
-| 4 | SYS_RESET_N | A→B | Active-low reset forwarded to Board B and onward to J4 pin 8 |
+| 4 | CPLD_RESET_N | A→B | Active-low reset forwarded to Board B and onward to J4 pin 8 |
 | 5 | TTD | A→B | JTAG serial data (Board A J1 pin 6 input → Board B J4 pin 6 output path) |
 
 ##### J9/J11 - Board B Sensor Interface (1x5, 5-pin)
@@ -648,9 +648,9 @@ connector body, before any series resistors or downstream logic (see `Global_Rou
 
 | Connector | Board | Interface | Signal Lines Requiring TVS |
 | :--- | :---: | :--- | :--- |
-| J1 | A | JTAG input (ERM8-005 male) | `TDI`, `TMS`, `TCK`, `SYS_RESET_N` - 4 lines |
+| J1 | A | JTAG input (ERM8-005 male) | `TDI`, `TMS`, `TCK`, `CPLD_RESET_N` - 4 lines |
 | J3 | A | Encoder data input (ERM8-010 male) | `ENC_IN[5:0]`, `ENC_OUT[5:0]` - 12 lines |
-| J4 | B | JTAG output (ERF8-005 female) | `TDO`, `TMS`, `TCK`, `SYS_RESET_N` - 4 lines |
+| J4 | B | JTAG output (ERF8-005 female) | `TDO`, `TMS`, `TCK`, `CPLD_RESET_N` - 4 lines |
 | J6 | B | Encoder data output (ERF8-010 female) | `ENC_IN[5:0]`, `ENC_OUT[5:0]` - 12 lines |
 
 > Power rail connectors `J2` (Board A) and `J5` (Board B) do not require dedicated TVS devices;
@@ -672,11 +672,11 @@ no new part numbers required. Placement per `Global_Routing_Spec.md §9` with DE
 
 | Ref | Board | Protects | Channels used |
 | :--- | :---: | :--- | :--- |
-| U3 | A | J1 JTAG input | `TDI`, `TMS`, `TCK`, `SYS_RESET_N` |
+| U3 | A | J1 JTAG input | `TDI`, `TMS`, `TCK`, `CPLD_RESET_N` |
 | U4 | A | J3 encoder input (array 1 of 3) | `ENC_IN[3:0]` |
 | U5 | A | J3 encoder input (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
 | U6 | A | J3 encoder input (array 3 of 3) | `ENC_OUT[5:2]` |
-| U7 | B | J4 JTAG output | `TDO`, `TMS`, `TCK`, `SYS_RESET_N` |
+| U7 | B | J4 JTAG output | `TDO`, `TMS`, `TCK`, `CPLD_RESET_N` |
 | U8 | B | J6 encoder output (array 1 of 3) | `ENC_IN[3:0]` |
 | U9 | B | J6 encoder output (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
 | U10 | B | J6 encoder output (array 3 of 3) | `ENC_OUT[5:2]` |
