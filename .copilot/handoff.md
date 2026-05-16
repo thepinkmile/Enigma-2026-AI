@@ -3,6 +3,32 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
+## 2026-05-16 session result (TPS25751 EEPROM Option C — checkpoint 161)
+
+### tps25751-i2c-review resolved (DEC-075)
+
+Option C selected and fully implemented:
+- **ADCIN config:** ADCIN1=LDO_3V3 (decoded 7), ADCIN2=GND (decoded 0) → SafeMode + I2Ct address 0x20 (no resistors needed; direct ties only)
+- **U18 M24512-RDW6TP** (64KB SO8N EEPROM) added to PM BOM at I2C address 0x50 on isolated I2Cc bus; E2=E1=E0=GND per DS6520 §2.3/Table 3
+- **J6** 5-pin 2.54mm THT header (61300511121) added to PM BOM for I2Ct field programming; isolated from system I2C-1
+- **R47/R48** (I2Cc pull-ups), **R49/R50** (I2Ct pull-ups) — all 4.7kΩ ERJ-3EKF4701V; extend existing R5/R6 row (qty 2→6)
+- **C78** 100nF CL05B104KB5NNNC decoupling for U18 VCC; extends existing 100nF group (qty 24→25)
+- **DR-PM-20/21/22** added to PM requirements table
+- **DEC-075** appended to Design_Log.md
+- **Maintenance_Guide §5** added as placeholder (programming procedure + required tools TBD)
+- STM-M24512-RDW6TP-datasheet.md generated (DS6520 Rev 31, 47 pages)
+- M24512-RDW6TP and 61300511121 added to footprint-requests-pending.md
+
+### Open items from this session
+- `INT-P10-001` in `.copilot/review-report.md` still marked "false positive" — update to "resolved: DEC-075" (still outstanding)
+- Maintenance_Guide.md §5 programming procedure is placeholder — tool and cable spec TBD
+- U18/J6 footprints + 3D models pending download (user rate-limited)
+- DigiKey PN `497-2700-1-ND` for M24512 should be verified before ordering
+
+**Key numbers:** Next checkpoint = 162. Next DEC = DEC-076.
+
+---
+
 ## 2026-05-16 session result (Library import, todo sync, directives hardened — checkpoint 160)
 
 ### Library: 5 official parts imported and fully synchronised

@@ -247,6 +247,11 @@
       "mapping_type": "same_stem"
     },
     {
+      "pdf": "STM-M24512-RDW6TP-datasheet.pdf",
+      "markdown": "STM-M24512-RDW6TP-datasheet.md",
+      "mapping_type": "same_stem"
+    },
+    {
       "pdf": "STM-STD25NF20-datasheet.pdf",
       "markdown": "STM-STD25NF20-datasheet.md",
       "mapping_type": "same_stem"

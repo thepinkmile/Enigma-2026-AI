@@ -1,8 +1,8 @@
 # TODO: tps25751-i2c-review
 
 **ID:** `tps25751-i2c-review`
-**Status:** blocked
-**Blocked By:** architectural decision required (see Options below)
+**Status:** done
+**Resolved:** 2026-05-16 (Option C implemented — see DEC-075)
 **Must resolve before:** `interim-electronics-review-1`
 
 ---
@@ -77,14 +77,22 @@ Even if a free address were available:
 
 ## Actions Required
 
-1. **Decide**: static EEPROM config vs runtime I2C access vs EEPROM with field-update path?
-2. If Option B: check spare wire count on J1/J2/J3 PM dock connectors; assign dedicated I2C bus pin assignments.
-3. If Option A or C: confirm that the I2Cc EEPROM circuit is fully specified in PM Design_Spec (address 0x50, part number, BOM row).
-4. Update PM Design_Spec §5 and CTL §4.1 I2C address table with the chosen approach.
-5. Update `INT-P10-001` in `.copilot/review-report.md` from "false positive" to "design decision pending / resolved" status.
-6. Add a DEC entry to `design/Design_Log.md` documenting the decision.
+1. ~~**Decide**: static EEPROM config vs runtime I2C access vs EEPROM with field-update path?~~ ✔ Option C selected
+2. ~~If Option B: check spare wire count on J1/J2/J3 PM dock connectors; assign dedicated I2C bus pin assignments.~~ ✔ N/A (Option B rejected)
+3. ~~If Option A or C: confirm that the I2Cc EEPROM circuit is fully specified in PM Design_Spec (address 0x50, part number, BOM row).~~ ✔ U18, R47/R48, C78 added to BOM; DR-PM-20 added
+4. ~~Update PM Design_Spec §5 and CTL §4.1 I2C address table with the chosen approach.~~ ✔ U4 note updated; CTL §4.1 already correct (U4 absent from I2C-1)
+5. Update `INT-P10-001` in `.copilot/review-report.md` from "false positive" to "design decision pending / resolved" status. ← TODO
+6. ~~Add a DEC entry to `design/Design_Log.md` documenting the decision.~~ ✔ DEC-075 appended
 
 ---
+
+## Resolution
+
+**Option C implemented** (DEC-075, 2026-05-16):
+- ADCIN1=LDO_3V3, ADCIN2=GND → SafeMode, I2Ct address 0x20
+- U18 M24512-RDW6TP (64KB) on isolated I2Cc bus at 0x50
+- J6 5-pin 2.54mm debug header for I2Ct field programming (isolated from system I2C-1)
+- Pull-ups R47/R48 (I2Cc), R49/R50 (I2Ct); decoupling C78
 
 ## References
 

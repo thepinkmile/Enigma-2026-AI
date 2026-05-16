@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-16
 
 ## 1. Overview
 
@@ -69,6 +69,9 @@ Controller Board via dock connector `J1`.
 | DR-PM-17 | 5V_MAIN output bulk capacitor bank | A bank of 5× Samsung CL21B106KAYQNNE (10µF X7R 25V 0805) shall be placed adjacent to the J1 dock connector 5V_MAIN output pins (C68–C72). Placement and purpose are distinct from C14/C15 (LTC3350 backup-switchover energy storage per DEC-030). Voltage derating: 25V rated at 5V = 5×. See DEC-068. | BOM C68–C72; DEC-068; DEC-030 |
 | DR-PM-18 | 3V3_ENIG output bulk capacitor bank | A bank of 5× Samsung CL21B106KAYQNNE (10µF X7R 25V 0805) shall be placed adjacent to the J1 dock connector 3V3_ENIG output pins (C73–C77). Placement and purpose are distinct from C23 (TPS75733 LDO minimum-stability capacitor). Voltage derating: 25V rated at 3.3V = 7.6×. See DEC-068. | BOM C73–C77; DEC-068 |
 | DR-PM-19 | Per-input polyfuse protection | Each of the three power inputs (VIN_POE_12V, USB-C, Battery) shall have a Bel Fuse 0ZRB0600FF1A (6 A hold / 12 A trip, THT, AEC-Q200 qualified, ≤40 mΩ hold resistance) placed series upstream of the corresponding LM74700 OR-ing controller. F2 = VIN_POE_12V path, F3 = Battery path, F4 = USB-C path. Required for CE/UKCA compliance. F1 (AC72ABD) is the battery-cell thermal cutoff (non-PCB, welded to cell tabs) and is unaffected. See DEC-069. | BOM F2, F3, F4 (0ZRB0600FF1A); DEC-069 |
+| DR-PM-20 | TPS25751 PD profile EEPROM | U18 (M24512-RDW6TP, 64 KB SO8N) shall be connected on the U4 I2Cc bus (I2Cc_SCL ↔ U18 SCL, I2Cc_SDA ↔ U18 SDA) at I²C address 0x50 (E2=E1=E0=GND per M24512 datasheet DS6520 §2.3/Table 3, page 9). R47/R48 (4.7 kΩ to LDO_3V3) are the I2Cc SCL/SDA pull-ups (TPS25751 §8.3.11 requires external pull-ups to LDO_3V3). U18 WC pin shall be tied to GND (writes always enabled; programming is controlled via TPS25751 I2Ct protocol). C78 (100 nF, 50V X7R 0402) required on U18 VCC per DS6520 §2.6.1 (page 4). | BOM U18, R47, R48, C78; DEC-075; [TPS25751 datasheet §8.3.11, Table 8-4](../../Datasheets/tps25751-datasheet.md); [M24512 datasheet DS6520 §2.3/Table 3, §2.6.1](../../Datasheets/STM-M24512-RDW6TP-datasheet.md) |
+| DR-PM-21 | TPS25751 I2Ct field-programming header | J6 (5-pin 2.54 mm single-row THT male header) shall expose the TPS25751 I2Ct bus for factory NVM initial programming and field profile updates. Pin assignment (pin 1 = square pad, GND side): 1=GND, 2=LDO_3V3 (sense/reference only — must not source current), 3=I2Ct_SCL, 4=I2Ct_SDA, 5=I2Ct_IRQ. R49/R50 (4.7 kΩ to LDO_3V3) are the I2Ct SCL/SDA pull-ups. **J6 is an isolated programming interface — it is NOT connected to system I2C-1.** See Maintenance_Guide.md §5 for programming procedure and cable specification. | BOM J6, R49, R50; DEC-075; [TPS25751 datasheet §8.3.11, Tables 8-4/8-5](../../Datasheets/tps25751-datasheet.md); [Maintenance_Guide.md §5](../../Guides/Maintenance_Guide.md) |
+| DR-PM-22 | TPS25751 ADCIN startup configuration | ADCIN1 shall be tied directly to LDO_3V3 (decoded value 7, DIV = 0.9061–1.0) and ADCIN2 shall be tied directly to GND (decoded value 0, DIV = 0–0.0228). This selects **SafeMode** startup (source-only mode, loads PD configuration from EEPROM U18 on boot — recommended when EEPROM is present per TPS25751 §8.3.6 Table 8-6) with I2Ct address Index #1 = 0x20. No resistor dividers required — direct ties to LDO_3V3 and GND respectively. | BOM U4 (ADCIN1/ADCIN2 net assignments); DEC-075; [TPS25751 datasheet §8.3.6, Tables 8-2/8-5/8-6](../../Datasheets/tps25751-datasheet.md) |
 
 ### Component Block Diagram
 
@@ -348,9 +351,26 @@ GND ------+---------------------------------------------------+---------------+-
   U4 CC1/CC2 lines are routed through the Controller dock J1 power connector data-pin block to the CM5's CC pins on the Controller Board.
   No separate USB-C connector on the PM is required for this path.
 
-  > **Note:** Although the TPS25751 includes an I²C interface for dynamic PDO configuration, this
-  > design operates U4 in fixed passive PD emulator mode (profile stored in internal NVM). No I²C
-  > connection to U4 is required or used; U4 is intentionally absent from the PM I²C address map.
+  > **Note (DEC-075):** U4 operates in **SafeMode** (ADCIN1 tied to LDO_3V3 = decoded value 7;
+  > ADCIN2 tied to GND = decoded value 0 → I2Ct address Index #1 = **0x20**, per TPS25751
+  > datasheet §8.3.6 Tables 8-5/8-6). On boot, U4 reads its PD source profile from external
+  > EEPROM **U18** (M24512-RDW6TP, 64 KB, at I²C address **0x50** on the **I2Cc** bus; E2=E1=E0=GND
+  > per M24512 datasheet DS6520 §2.3/Table 3).
+  >
+  > The I2Cc bus (U4 ↔ U18) is **internal to the PM** and is not connected to system I2C-1.
+  > The I2Ct bus (address 0x20) is exposed only on **debug header J6** (5-pin 2.54 mm THT) for
+  > factory initial NVM programming and field profile updates. **J6 is an isolated programming
+  > interface — it is not connected to system I2C-1.** The address 0x20 conflict with system
+  > I2C-1 is irrelevant by design.
+  >
+  > Pull-ups **R47/R48** (4.7 kΩ to LDO_3V3) serve the I2Cc bus (SCL/SDA); pull-ups **R49/R50**
+  > (4.7 kΩ to LDO_3V3) serve I2Ct on J6. U18 WC pin is tied to GND (writes always enabled;
+  > programming is gated by the I2Ct interface protocol). **C78** (100 nF) decouples U18 VCC
+  > per M24512 datasheet DS6520 §2.6.1. U4 is intentionally absent from the system I2C-1
+  > address map. See
+  > [TPS25751 datasheet §8.3.6/§8.3.11 Tables 8-4/8-5/8-6](../../Datasheets/tps25751-datasheet.md),
+  > [M24512 datasheet DS6520 §2.2/§2.3/§2.4/§2.6.1](../../Datasheets/STM-M24512-RDW6TP-datasheet.md),
+  > [DR-PM-20/21/22](#design-requirements), and [Maintenance_Guide.md §5](../../Guides/Maintenance_Guide.md).
   > See [Controller/Design_Spec.md §4.1 I²C Bus Topology](../Controller/Design_Spec.md#41-i2c-bus-topology)
   > for the complete system I²C device table.
 * **Protection:** LM74700-Q1 controls the triple-input OR-ing network and drives Q1-Q3 PowerPAK ideal-diode FETs.
@@ -598,7 +618,7 @@ Estimated PM-local power dissipation at system peak load:
 | C68-C72 | 10µF 25V X7R 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | see DEC-068 | Yes | ✔ | 5 |
 | C73-C77 | 10µF 25V X7R 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | see DEC-068 | Yes | ✔ | 5 |
 | C21-C23, C51, C53-C55 | 1µF 50V X7R 0805 | C0805C105K5RACTU | Kemet | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | - | Yes | ✔ | 7 |
-| C26-C30, C31-C37, C41-C48, C50, C56, C57, C58 | 100nF 50V X7R 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | ✔ | 24 |
+| C26-C30, C31-C37, C41-C48, C50, C56, C57, C58, C78 | 100nF 50V X7R 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | C78 = U18 VCC decoupling per DS6520 §2.6.1 | Yes | ✔ | 25 |
 | C38 | 100pF X7R 25V 0402 | C0402C101K3RACAUTO | Kemet | 399-C0402C101K3RACAUTOCT-ND | 80-C0402C101K3RAUTO | C5272912 | - | - | Yes | ✔ | 1 |
 | C39 | 22nF X7R 25V 0603 | CL10B223KB8WPNC | Samsung | 1276-6534-1-ND | 187-CL10B223KB8WPNC | C346197 | - | - | Yes | ✔ | 1 |
 | C40, C52 | 10µF 16V X7R 1206 | CC1206KKX7R8BB106 | YAGEO | 311-1959-1-ND | 603-CC126KKX7R8BB106 | C70462 | - | - | Yes | ✔ | 2 |
@@ -615,6 +635,7 @@ Estimated PM-local power dissipation at system peak load:
 | J1-J3 | 10-pos 2.5mm RA plug | 1123684-7 | TE Connectivity | A114780-ND | 571-1123684-7 | C3683043 (consignment - verify stock; post-assembly install if unavailable) | - | - | Yes | ✔ | 3 |
 | J4 | 5-pin Micro-Fit 3.0 THT vertical | 0436500519 | Molex | WM14587-ND | 538-43650-0519 | C563849 | - | see Millitary_Battery_Connection_Option.md | Yes | ✔ | 1 |
 | J5 | USB-C right-angle SMT | USB4135-GF-A | GCT | 2073-USB4135-GF-ACT-ND | 640-USB4135-GF-A | C5438410 | - | - | Yes | ✔ | 1 |
+| J6 | 5-pin 2.54 mm single-row THT male pin header | 61300511121 | Würth Elektronik | 732-5315-ND | 710-61300511121 | Global sourcing / consignment | - | I2Ct debug/programming header; see DR-PM-21 and Maintenance_Guide.md §5 | Yes | Pending | 1 |
 | J_SW1_1-J_SW1_6, J_SW2_1-J_SW2_6 | 2.8mm PCB male spade tabs THT Quick-Fit | 1211 | Keystone Electronics | 36-1211-ND | 534-1211 | C3029550 | - | - | Yes | ✔ | 12 |
 | L1, L2 | 10A 2mH nanocrystalline CMC THT | 7448031002 | Wurth Elektronik | 732-5584-ND | 710-7448031002 | C1519839 | - | - | Yes | ✔ | 2 |
 | L3 | 10µH 15.5A Isat shielded SMT 13.5x12.5x6.2mm | SRP1265A-100M | Bourns | SRP1265A-100MCT-ND | 652-SRP1265A-100M | C840531 | - | - | Yes | ✔ | 1 |
@@ -624,7 +645,7 @@ Estimated PM-local power dissipation at system peak load:
 | R2 | 28.7kΩ 1% 0603 | ERJ-3EKF2872V | Panasonic | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | - | Yes | ✔ | 1 |
 | R3 | 210Ω 0.1% 0603 | ERA-3VEB2100V | Panasonic | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | - | Yes | ✔ | 1 |
 | R4, R7, R8, R13, R15, R22 | 10kΩ 1% 0603 | ERJ-3EKF1002V | Panasonic | P10.0KHCT-ND | 667-ERJ-3EKF1002V | C191124 | - | - | Yes | ✔ | 6 |
-| R5, R6 | 4.7kΩ 1% 0603 | ERJ-3EKF4701V | Panasonic | P4.70KHCT-ND | 667-ERJ-3EKF4701V | C192166 | - | - | Yes | ✔ | 2 |
+| R5, R6, R47, R48, R49, R50 | 4.7kΩ 1% 0603 | ERJ-3EKF4701V | Panasonic | P4.70KHCT-ND | 667-ERJ-3EKF4701V | C192166 | - | R47/R48 = I2Cc SCL/SDA pull-ups (LDO_3V3); R49/R50 = I2Ct SCL/SDA pull-ups on J6 (LDO_3V3); see DR-PM-20/21 | Yes | ✔ | 6 |
 | R9 | 301Ω 1% 0603 | ERJ-3EKF3010V | Panasonic | P301HCT-ND | 667-ERJ-3EKF3010V | C403144 | - | - | Yes | ✔ | 1 |
 | R10, R16 | 10mΩ ±1% 2W 6432 (2512) Kelvin 4-terminal shunt | KRL6432T4-M-R010-F-T1 | Susumu | KRL6432T4-M-R010-F-T1 | 754-KRL6432T4MR010FT | C4076514 | - | - | Yes | ✔ | 2 |
 | R11 | 30.1kΩ 0.1% 0603 | ERA-3ARB3012V | Panasonic | 10-ERA-3ARB3012VCT-ND | 667-ERA-3ARB3012V | C1728516 | - | - | Yes | ✔ | 1 |
@@ -655,6 +676,7 @@ Estimated PM-local power dissipation at system peak load:
 | U14 | 8-bit I²C GPIO expander 0x3F TSSOP-16 | PCA9534APWR | NXP Semiconductors | 296-21760-1-ND | 595-PCA9534APWR | C2871127 | - | - | Yes | ✔ | 1 |
 | U16 | D-type flip-flop shutdown latch SOT-23-6 | SN74LVC1G175DBVR | Texas Instruments | 296-17617-1-ND | 595-SN74LVC1G175DBVR | C128412 | - | - | Yes | ✔ | 1 |
 | U17 | Single AND gate SOT-23-5 | SN74LVC1G08DBVR | Texas Instruments | 296-11601-1-ND | 595-SN74LVC1G08DBVR | C7666 | - | - | Yes | ✔ | 1 |
+| U18 | 512-Kbit (64 KB) I²C EEPROM SO8N | M24512-RDW6TP | STMicroelectronics | 497-2700-1-ND | 511-M24512-RDW6TP | Global sourcing / consignment | - | TPS25751 PD profile NVM; I2Cc at 0x50 (E2=E1=E0=GND); see DR-PM-20 and DEC-075 | Yes | Pending | 1 |
 
 > **BOM Notes:**
 >
@@ -779,3 +801,19 @@ Estimated PM-local power dissipation at system peak load:
 >   (21% headroom over 12A DC), 16.5mΩ DCR, 13.5x12.5x6.2mm SMD. Farnell
 >   stock confirmed ~2,741 pcs; Mouser: `652-SRP1265A-100M`; DigiKey:
 > `SRP1265A-100MCT-ND`; JLCPCB: `C840531`.
+> * **U18 M24512-RDW6TP** — STMicroelectronics 512-Kbit (64 KB) SO8N EEPROM (DS6520 Rev 31).
+>   Serves as TPS25751 (U4) PD configuration store on the isolated I2Cc bus at address 0x50
+>   (E2=E1=E0=GND per DS6520 §2.3/Table 3, page 9). The `-R` order-code suffix indicates
+>   the 1.8V–5.5V wide supply range variant. The `-D` variant (not used) includes a lockable
+>   identification page — not required for this design. WC is tied to GND (writes always enabled;
+>   programming is controlled via TPS25751 I2Ct protocol). C78 (100 nF) decouples U18 VCC per
+>   DS6520 §2.6.1 (page 4). Datasheet: `design/Datasheets/STM-M24512-RDW6TP-datasheet.md`.
+>   Mouser: `511-M24512-RDW6TP`; DigiKey: `497-2700-1-ND` (verify before ordering);
+>   JLCPCB: global sourcing / consignment. Footprint: SO8N (150mil body, 6×4.9mm) — pending download.
+> * **J6 61300511121** — Würth Elektronik 5-pin 2.54 mm single-row THT male pin header for I2Ct
+>   programming / field reprogramming of TPS25751 NVM profile (see DR-PM-21 and DEC-075).
+>   Pin 1 (square pad) = GND, Pin 2 = LDO_3V3 (sense/reference only — **do NOT source current**
+>   into this pin via an external programmer), Pin 3 = I2Ct_SCL, Pin 4 = I2Ct_SDA,
+>   Pin 5 = I2Ct_IRQ. **J6 is not connected to system I2C-1.** See Maintenance_Guide.md §5 for
+>   programming cable specification and procedure.
+>   Mouser: `710-61300511121`; DigiKey: `732-5315-ND`; JLCPCB: global sourcing / consignment.

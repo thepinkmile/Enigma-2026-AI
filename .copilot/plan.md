@@ -6,19 +6,19 @@
 
 ---
 
-## Current Status (as of checkpoint 160)
+## Current Status (as of checkpoint 161)
 
-Review Pass 9 complete (checkpoint 159). Library import of official Hirose DF40 and TPS parts
+Review Pass 10 complete and triaged (checkpoints 161). `tps25751-i2c-review` TODO resolved:
+Option C implemented — M24512-RDW6TP EEPROM (U18) + J6 I2Ct debug header added to PM; DEC-075;
+DR-PM-20/21/22 added; Maintenance_Guide §5 added.
+
+Previous: Review Pass 9 complete (checkpoint 159). Library import of official Hirose DF40 and TPS parts
 complete (checkpoint 160): DF40C20DP04V51, DF40HC3520DS04V51, TPS23730RMTR, TPS25751DREFR,
-TPS259804ONRGER all synced across STP / `.kicad_mod` / symbol / legacy SHAPE3D.
+TPS259804ONRGER all synced.
 
-OCTONARY directive hardened: session DB seeding is now mandatory first action each session;
-3-way sync (summary table + Agent SQL INSERT + session DB) required for all todo changes.
+Session DB: 109 todos — ~32 pending, ~71 done, ~5 blocked (approximate; reseed from todo-list.md on next session).
 
-Session DB: 109 todos — 33 pending, 70 done, 6 blocked, 95 dependency rows.
-
-33 parts still missing 3D model STP files — tracked in `download-missing-3d-models` todo.
-`review-pass-10` is next unblocked review (54 deferred Pass 9 findings).
+Footprint pending: M24512-RDW6TP (SO8N) and 61300511121 (5-pin header) added to footprint-requests-pending.md.
 
 ## Board Design Status
 
@@ -71,6 +71,9 @@ Session DB: 109 todos — 33 pending, 70 done, 6 blocked, 95 dependency rows.
 | DEC-070 | MCP23017 GPA[7]/GPB[7] output-only restriction; CFG_APPLY_N reassigned USM U1 GPB[7]→GPA[6] |
 | DEC-071 | USM switch topology: dual-terminated (NC→GND, NO→3V3_ENIG); R1–R10 removed |
 | DEC-072 | Pass 9 resolutions (see Design_Log.md) |
+| DEC-073 | LTC3350 RT resistor correction (R23 → ERA-2AEB1333X 133kΩ; fSW = 402kHz) |
+| DEC-074 | Rename CPLD reset signal SYS_RESET_N → CPLD_RESET_N across all boards |
+| DEC-075 | TPS25751 Option C: SafeMode + M24512 EEPROM U18 + J6 I2Ct debug header on PM |
 
 ## Library Status
 
@@ -84,7 +87,7 @@ Session DB: 109 todos — 33 pending, 70 done, 6 blocked, 95 dependency rows.
 ## Critical Standing Rules
 
 - **NEVER commit** without "Let's lock this in" or "Save state" from user
-- **Design_Log.md is append-only** — next entry = DEC-073; never modify existing entries
+- **Design_Log.md is append-only** — next entry = DEC-076; never modify existing entries
 - **PRIMARY DIRECTIVE**: Never modify any MPN/supplier part numbers
 - **Last Updated** dates must be updated on every content change; **Version** is user-only
 - All board statuses: "In Review" (EXT = "Draft")
@@ -98,6 +101,6 @@ Read these files in order:
 1. `.copilot/agent-directives.md` (always first — then seed session DB immediately)
 2. This `plan.md`
 3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/index.md` → checkpoint 160
+4. `.copilot/checkpoints/index.md` → checkpoint 161
 5. Relevant todos from `.copilot/todos/` (see Open Workstreams above)
 

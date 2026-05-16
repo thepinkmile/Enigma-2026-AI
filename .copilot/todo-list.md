@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-16 (Pass 10 triage: USM DR-USM-13 /RESET pull-ups; LTC3350 RT corrected DEC-073; FT232H REF/TEST passives; tps25751-i2c-review added; rename-sys-reset-n completed DEC-074; datasheet purity cleanup done)
+Last updated: 2026-05-16 (tps25751-i2c-review resolved DEC-075: Option C EEPROM + J6 debug header; M24512-RDW6TP added to BOM as U18; DR-PM-20/21/22 added; Maintenance_Guide §5 added)
 
 ---
 
@@ -126,7 +126,7 @@ Last updated: 2026-05-16 (Pass 10 triage: USM DR-USM-13 /RESET pull-ups; LTC3350
 | `ctl-t1-tdk-library-import` | — | done | — |
 | `ctl-t1-bourns-component-analysis` | — | ~~done~~ (superseded by TDK decision) | `ctl-t1-transformer-decision` |
 | `ctl-t1-coilcraft-v2-review` | [ctl-t1-coilcraft-v2-review.md](todos/ctl-t1-coilcraft-v2-review.md) | **blocked** (v2.0) | `ctl-t1-transformer-decision` |
-| `tps25751-i2c-review` | [tps25751-i2c-review.md](todos/tps25751-i2c-review.md) | **blocked** | architectural decision required; see detail file |
+| `tps25751-i2c-review` | [tps25751-i2c-review.md](todos/tps25751-i2c-review.md) | **done** | Option C implemented: M24512 EEPROM U18 + J6 debug header; DEC-075; DR-PM-20/21/22 |
 | `rename-sys-reset-n` | [rename-sys-reset-n.md](todos/rename-sys-reset-n.md) | done | — |
 
 ---

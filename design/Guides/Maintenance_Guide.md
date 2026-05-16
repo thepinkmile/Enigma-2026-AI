@@ -3,7 +3,7 @@
 **Status:** Draft
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-20
+**Last Updated:** 2026-05-16
 
 ## 1. Safety Procedures
 
@@ -51,3 +51,49 @@ The Power Module TPS25980 eFuse may latch OFF under the following fault conditio
 
 Any future bring-up or service probe access should be implemented on removable coupons rather than
 as permanent features on the production boards.
+
+## 5. TPS25751 PD Profile Field Reprogramming
+
+The TPS25751 (U4) on the Power Module reads its USB-C PD source profile (5V/5A, 25W) from the
+M24512-RDW6TP EEPROM (U18) at start-up. The profile stored in U18 can be updated in the field
+via the I2Ct debug header J6 (5-pin, 2.54 mm) on the PM board.
+
+> ⚠️ **Factory requirement:** U18 must be programmed with the correct PD profile before the PM is
+> installed into a system for the first time. An unprogrammed EEPROM will prevent the TPS25751
+> from negotiating a PD contract with the CM5, potentially causing CM5 throttling or failure to boot.
+
+### J6 Header Pinout (2.54 mm, 5-pin, single-row)
+
+| Pin | Signal | Notes |
+| :--- | :--- | :--- |
+| 1 (square pad) | GND | Reference ground |
+| 2 | LDO_3V3 | 3.3 V sense / reference — **do NOT source current into this pin** |
+| 3 | I2Ct_SCL | TPS25751 I²C target clock |
+| 4 | I2Ct_SDA | TPS25751 I²C target data |
+| 5 | I2Ct_IRQ | TPS25751 interrupt (optional) |
+
+> **I2Ct address:** 0x20 (fixed by ADCIN1=LDO_3V3, ADCIN2=GND per TPS25751 datasheet §8.3.6
+> Table 8-6; see DEC-075 and DR-PM-22).
+
+### Required Tools
+
+> ⚠️ **TODO:** Software tool and programming cable specification to be confirmed. See
+> `.copilot/todos/tps25751-i2c-review.md` for investigation notes.
+
+- **Software:** TI USB-C Configuration Tool (TBD — download from ti.com for TPS25751/TPS25750EVM)
+- **Hardware:** USB-to-I²C adapter compatible with the TI tool (TBD — candidate: Total Phase Aardvark or FT232H-based adapter)
+- **Cable:** Custom 5-pin IDC-to-J6 harness (TBD — specification to be defined once software tool and adapter are confirmed)
+
+### Programming Procedure (Placeholder)
+
+> ⚠️ **TODO:** Full programming procedure to be documented once tool and cable are confirmed.
+
+1. Power the PM board (all I/O through J1–J3 connected, or bench supply on VIN_BUS/GND).
+2. Connect the programming cable to J6 (pin 1 = GND, square pad).
+3. Launch the TI USB-C Configuration Tool on the connected PC.
+4. Configure the desired PD source profile (5V/5A fixed source, no battery charger).
+5. Write the configuration to EEPROM via the tool — TPS25751 uses I2Ct to receive config and writes it to U18 via I2Cc.
+6. Power-cycle the PM board and verify the CM5 USB-C port negotiates the correct PD contract.
+
+> **Cross-reference:** PM Design_Spec.md §5 (U4/U18 description), DR-PM-20, DR-PM-21, DR-PM-22; DEC-075.
+> Datasheet refs: TPS25751 §8.3.11 Table 8-4; M24512 DS6520 §2.3/Table 3.
