@@ -15,8 +15,9 @@ For mechanical tolerances and shroud assembly details, see
 ## 1. Split Board Architecture Overview
 
 Each rotor assembly consists of two circular PCBs (Board A and Board B), each Ø92mm, separated
-by an 11.8mm gap and connected by four single-row 2.54mm THT headers (J7 1x5, J8 1x5,
-J9 1x5, J10 1x7; 22 pins total; mixed gender for keying).The two boards are mechanically
+by an 11.8mm gap and connected by eight single-row 2.54mm THT headers (J7–J14, 44 pins total; mixed gender for keying):
+Board A carries J7 (1×5), J8 (1×5), J11 (1×5), J14 (1×7); Board B carries J9 (1×5), J10 (1×7), J12 (1×5), J13 (1×5).
+The two boards are mechanically
 retained inside the aluminium shroud (Ø100mm outer face, 4mm radial wall, Ø92mm inner). Total
 rotor thickness is ~15mm.
 

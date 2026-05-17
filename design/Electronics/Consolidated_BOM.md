@@ -28,7 +28,7 @@
 | Board (RefDes) | MPN | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | PM Qty | CTL Qty | JM Qty | USM Qty | ENC Qty | AM Qty | STA Qty | REF Qty | EXT Qty | ROT-26 Qty | ROT-64 Qty | System Qty | Notes | Footprint Available | Footprint Downloaded |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | PM: C1-C15,C59-C67 | CL32B226KAJNNNE | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | 24 | - | - | - | - | - | - | - | - | - | - | 24 | 22µF 25V X7R 1210 [Samsung] | Yes | ✔ |
-| PM: C16-C19; CTL: C20 | CGA9N3X7R1E476M230KB | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | 4 | 4 | - | - | - | - | - | - | - | - | - | 8 | 47µF 25V X7R 2220 [TDK] | Yes | ✔ |
+| PM: C16-C19; CTL: C20 | CGA9N1X7R1V476M230KC | 445-CGA9N1X7R1V476M230KCCT-ND | 810-CGA9N1X7R1V476M2 | C3873016 | - | 4 | 4 | - | - | - | - | - | - | - | - | - | 8 | 47µF 35V X7R 2220 [TDK] | Yes | ✔ |
 | PM: C21-C23,C51,C53-C55; AM: C1 | C0805C105K5RACTU | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | 7 | - | - | - | - | 1 | - | - | - | - | - | 8 | 1µF 50V X7R 0805 [Kemet] | Yes | ✔ |
 | PM: C26-C30,C31-C37,C41-C48,C50,C56,C57,C58,C78,C79; CTL: C6,C12-C16,C18,C19; JM: C1-C4,C6-C9,C12; USM: C1-C4; ENC: C1-C8; AM: C2,C3,C6,C7; STA: C1-C8,C14-C21; EXT: C6; ROT-26: C1-C9,C20A; ROT-64: C1-C9,C20B | CL05B104KB5NNNC | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | 26 | 8 | 9 | 4 | 8 | 4 | 16 | - | 1 | 10 | 10 | 126 | 100nF 50V X7R 0402 [Samsung] | Yes | ✔ |
 | PM: C38 | C0402C101K3RACAUTO | 399-C0402C101K3RACAUTOCT-ND | 80-C0402C101K3RAUTO | C5272912 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 100pF X7R 25V 0402 [Kemet] | Yes | ✔ |
@@ -104,7 +104,7 @@
 | CTL: J10 | SM04B-SRSS-TB(LF)(SN) | 455-SM04B-SRSS-TBCT-ND | 306-SM04BSRSSTBLFSN | C160404 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 4-pin SH 1.0mm fan SMT [JST] | Yes | ✔ |
 | STA: J1,J2; EXT: J4,J5; ROT-26: J4,J5; ROT-64: J4,J5 | ERF8-005-05.0-S-DV-K-TR | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | - | - | - | - | - | - | - | 2 | - | 2 | 2 | 2 | 14 | 10-pin 2x5 0.8mm female SMT [Samtec] | Yes | ✔ |
 | ROT-26: J7,J8,J9; ROT-64: J7,J8,J9 | RS1-05-G | 2057-RS1-05-G-ND | 737-RS1-05-G | C3321119 | - | - | - | - | - | - | - | - | - | - | 3 | 3 | 15 | 1x5 2.54mm female socket THT [Adam Tech] | Yes | ✔ |
-| CTL: J14,J15 | 10164227-1004A1RLF | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | CM5 SO-DIMM 100-pin 4mm [Amphenol] | Yes | ✔ |
+| CTL: J13,J14 | 10164227-1004A1RLF | 609-10164227-1004A1RLFCT-ND | 649-101642271004RLF | C7435219 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | CM5 SO-DIMM 100-pin 4mm [Amphenol] | Yes | ✔ |
 | CTL: L1 | PA4343.333NLT | 553-3457-1-ND | 673-PA4343.333NLT | C2453886 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 33µH ≥6A Isat shielded SMT ferrite power inductor [Yageo]; DCR typ 48mΩ/max 58mΩ — max exceeds ≤50mΩ spec, accepted procurement exception. See DR-CTL-25, DEC-063 | Yes | Pending |
 | CTL: MH13-MH16 | 9774040151R | 732-7089-1-ND | 710-9774040151R | C5182034 | - | - | 4 | - | - | - | - | - | - | - | - | - | 4 | M2.5x4.0mm SMT standoff [Wurth Elektronik] | Yes | ✔ |
 | CTL: T1 | B82806D0060A120 | 495-76653-1-ND | 871-B82806D0060A120 | C7218686 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | ACF Forward PoE transformer 60W 1500V 12-pin SMT; 2:1:1 turns ratio [TDK] | Yes | ✔ |

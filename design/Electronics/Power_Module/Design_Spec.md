@@ -121,7 +121,7 @@ flowchart TD
   end
 
   subgraph Dock["Controller Dock"]
-    J1J3["J1-J3 DF40C"]
+    J1J3["J1-J3 TE 1123684-7"]
     CTRL["Controller Board"]
   end
 
@@ -394,9 +394,9 @@ GND ------+---------------------------------------------------+---------------+-
     * **R2** - 28.7kΩ `R_UVLO_LO` - 1% Thick-Film 0603.
     * **R3** - 210Ω `R_ILIM` - 0.1% Thin-Film 0603.
     * Note: OVLO is silicon-fixed on TPS259804ONRGER - no external OVLO resistor required or present.
-  * **Latch-off Recovery:** TPS25980 latches off on OVLO, UVLO, or sustained overcurrent. Recovery requires pulling the EN pin LOW (>1ms) then HIGH.
+  * **Latch-off Recovery:** TPS25980 latches off on sustained overcurrent (ILIM) or over-temperature (OTP/TSD at 150°C junction). UVLO and OVLO conditions are auto-recovery (no latch). Recovery from ILIM/OTP latch requires pulling the EN pin LOW (>1ms) then HIGH.
     **SW1 (power toggle switch) achieves this** - flip SW1 to OFF (EN pulled to GND via SW1 → eFuse latch reset), fix the fault condition,
-    then flip SW1 back to ON (EN pulled HIGH via R12 to VIN_BUS → normal operation resumes). At least one input source (PoE, USB-C, or
+    then flip SW1 back to ON (EN pulled HIGH via R15 to VIN_BUS → normal operation resumes). At least one input source (PoE, USB-C, or
     Battery) must remain present so VIN_BUS is available when the eFuse re-enables.
   * ⚠️ If all three input sources are simultaneously absent, the supercap bank must be recharged before the system will restart. No dedicated reset button is needed beyond SW1.
 * **Supercap Manager:** LTC3350 (QFN-38, 5x7mm) on 5V_MAIN bus. Manages 8-cell bank (2S4P, 50F/5.4V); provides 0.5A soft-charge current limit; automatic hold-up switchover on 5V_MAIN loss.
@@ -499,7 +499,7 @@ To prevent the CM5 from attempting to boot during the 12V-15V "Enigma Rail" ramp
 
 * **Power Toggle (SW1):** Panel-mount latching rugged metal power switch with RGB ring LED
   (Adafruit 4660) connected to the TPS25980 eFuse **EN pin**, not the main VIN_BUS power line.
-  When SW1 is open (ON position), R12 (10kΩ to VIN_BUS) holds EN HIGH → eFuse enabled. When SW1
+  When SW1 is open (ON position), R15 (10kΩ to VIN_BUS) holds EN HIGH → eFuse enabled. When SW1
   is closed (OFF position), EN is pulled to GND → eFuse output cut, all downstream power off.
   * **Current rating:** The EN contact is low-current logic only (microamp-scale load), but the
     selected front-panel hardware remains the Adafruit 4660 or an exact mechanical/electrical
@@ -593,9 +593,12 @@ The following sequence ensures the CM5 filesystem is clean and all loads are de-
 
 TPS25980 latches OFF under the following fault conditions:
 
-* **Overvoltage (OV):** Input > 16.9V (OVLO threshold).
-* **Overcurrent (OC):** Output > 7A (ILIM threshold).
-* **Thermal (TCO F1):** TCO opens at 72°C board temperature.
+* **Overcurrent (ILIM):** Output > 7A (ILIM threshold) — latch-off.
+* **Over-temperature (OTP/TSD):** Junction temperature > 150°C (internal thermal shutdown) — latch-off.
+
+Auto-recovery conditions (no latch): OVLO (input > 16.9V) and UVLO (input < programmed threshold) both cause the eFuse to turn off and automatically retry when the fault clears. These do **not** require SW1 cycling to recover.
+
+> Note: TCO F1 (72°C board-temperature cutoff) is an **external** battery protection thermal cutoff — it interrupts the battery input path and is not a TPS25980 internal fault condition.
 
 > **Recovery procedure:** See `design/Guides/Maintenance_Guide.md` for the Power Module eFuse
 > latch-off recovery procedure and service precautions.

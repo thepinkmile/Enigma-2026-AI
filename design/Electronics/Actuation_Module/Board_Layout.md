@@ -40,7 +40,7 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
 |                           [J4 SWD] |
 |                                    |
 |                     [J5 UART/BOOT] |
-|                         [SW1 NRST] |
+|                      [SW1 RESET_N] |
 |                        [SW2 BOOT0] |
 | [J3 HOME LOOM]                     |
 |____________________________________|
@@ -94,5 +94,5 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
   each side) and a minimum board width of approximately **28 mm** (7 mm insets each side plus clearance
   for the DF40C connector body). These are guidance values only; final dimensions shall be confirmed at
   PCB layout stage.
-* The module is electrically lightand mechanically non-load-bearing; the servo must not transfer
+* The module is electrically light and mechanically non-load-bearing; the servo must not transfer
   structural load into the AM PCB or its host dock.

@@ -1889,3 +1889,82 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 4. `INT-P10-001` — Resolve TPS25751 / STA MCP23017 I²C address conflict (0x20)
 5. `CTL-P10-13` / `INT-P10-020` — Upgrade C20 to ≥35V rating
 6. `JM-P10-03` / `INT-P10-030` — Add FT232H TEST pin GND tie
+
+---
+
+## Pass 10 — Resolution Status
+
+> Updated after session ending 2026-05-17. Status key: ✅ RESOLVED · 🔒 BLOCKED (user action needed) · 🔵 DEFERRED (pass-11 candidate)
+
+### All-Critical and Functional Blockers
+
+| ID | Finding | Status | Notes |
+|:---|:---|:---|:---|
+| INT-P10-001 | TPS25751 I²C 0x20 conflict | ✅ RESOLVED | Resolved by DEC-076; TPS25751 reassigned to unique address |
+| INT-P10-017 / PM-P10-10 | LTC3350 R23=33.2kΩ → 1.611 MHz | ✅ RESOLVED | R23→R16, 133kΩ; Power_Budgets.md and Design_Spec.md updated |
+| INT-P10-018 / USM-P10-02 | MCP23017 RESET pins undriven | ✅ RESOLVED | R96/R97/R98 pull-ups added to BOM and Design_Spec |
+| INT-P10-019 / JM-P10-01 | FT232H REF pin 12kΩ absent | ✅ RESOLVED | R8 added to JM BOM and Design_Spec |
+| INT-P10-030 / JM-P10-03 | FT232H TEST pin GND tie absent | ✅ RESOLVED | DR-JM-22 added; TEST→GND documented |
+| CTL-P10-13 / INT-P10-020 | C20 25V under-rated on 12V rail | ✅ RESOLVED | C20 replaced: TDK CGA9N1X7R1V476M230KC (47µF 35V X7R 2220). DR-CTL-22, BOM, and Consolidated_BOM updated. KiCAD library imported (all four formats + CAPC5750X280N footprint + 3D model). 35V satisfies 2.5× derating on 12V rail. |
+
+### HIGH Severity
+
+| ID | Finding | Status | Notes |
+|:---|:---|:---|:---|
+| CTL-P10-11 / CTL-P10-01 / CTL-P10-08 | PoE ACF Flyback formulas vs Forward topology | ✅ RESOLVED | PoE_Power_Analysis.md rewritten: §3 D formula, §5 Vds, §6.1 I_pk, §7.1 DCR+ripple, §7.2 Cout, §8 RMS, §9–10, §12 |
+| CTL-P10-09 / INT-P10-038 | D2 described as unidirectional; MPN = bidirectional | ✅ RESOLVED | Design_Spec §9.4 updated to bidirectional |
+| INT-P10-031 | BT1 footprint footnote undefined | ✅ RESOLVED | BOM Notes footnote added to CTL Design_Spec |
+| INT-P10-036 / CTL-P10-03 | L1 "TBD/Part selection pending" stale | ✅ RESOLVED | §7.1 updated to PA4343.333NLT; DCR exception noted |
+| CTL-P10-02 | L1 DCR spec DR-CTL-25 violated | ✅ RESOLVED | DR-CTL-25 updated to ≤58mΩ procurement exception |
+| CTL-P10-10 | Consolidated BOM CM5 SODIMM "J14,J15" | ✅ RESOLVED | Corrected to J13,J14 |
+| PM-P10-01 | TPS25980 EN pull-up misidentified as R12 | ✅ RESOLVED | Both §2.5 and §3.1 updated to R15 |
+| PM-P10-03 | Five stale cross-doc refs Power_Budgets/Electrical_Design | ✅ RESOLVED | U16→U14, R23→R16, U12→U10, R12→R10 in Power_Budgets; R23→R16 in Electrical_Design |
+| PM-P10-05 | TPS25980 fault table four errors | ✅ RESOLVED | UVLO/OVLO → auto-recovery; OTP/TSD → latch added; F1 TCO clarified |
+| PM-P10-07 | U2B mislabeled "3V3 Buck" | ✅ RESOLVED | Confirmed correct ("U2B 5V Buck LMQ61460") in prior session |
+| INT-P10-035 | Stale "CTL J5" in REF/JM/ROT | ✅ RESOLVED | FR-REF-03, JM Design_Spec §6, ROT Design_Spec §3.2 all updated to J12 |
+| INT-P10-037 | PM §1 Mermaid still "DF40C" | ✅ RESOLVED | Mermaid updated to "TE 1123684-7"; note: designator rename J1-J3→J1A/J1B/J1C remains open (PM-P10-09) |
+| JM-P10-02 | Board_Layout C9R2 still "TDO" | ✅ RESOLVED | Updated to TTD_RETURN |
+| USM-P10-01 | §3 pull-down description contradicts DEC-071 | ✅ RESOLVED | Updated to DEC-071 SPDT dual-terminated topology |
+
+### MAJOR Severity
+
+| ID | Finding | Status | Notes |
+|:---|:---|:---|:---|
+| ROT-P10-03 | §7 Note block: 100kΩ GND-tie vs LC tank contradiction | ✅ RESOLVED | Note block corrected to dummy LC tank description |
+| ROT-P10-06 | DEC-045 TVS RefDes stale; J2/J5 exemption unratified | ✅ RESOLVED | ROT Design_Spec §6 correctly uses U3–U10 and documents J2/J5 power-connector exemption; DEC-045 is an immutable historical entry and is not the authoritative source |
+| CTL-P10-10 | Consolidated BOM J14,J15 stale (duplicate entry; see HIGH) | ✅ RESOLVED | — |
+| INT-P10-034 / CTL-P10-12 | DEC-057/058 pre-DEC-061 MH assignments | ✅ RESOLVED | DEC-061 explicitly reassigns MH13–MH16 to CM5 SoM and MH9–MH12 to JM dock; CTL Design_Spec and GRS §4.3 are already correct; DEC-057/058 are immutable historical entries |
+| INT-P10-039 / ROT-P10-04 | IDRIVE register 0x7C00 → 0x7800 | ✅ RESOLVED | Design_Spec §2.1 corrected |
+
+### Key MINOR/LOW Fixes Applied
+
+| ID | Finding | Status |
+|:---|:---|:---|
+| ROT-P10-01 | Placeholder dates 2026-04-XX | ✅ RESOLVED |
+| ROT-P10-02 | Board_Layout header count 4→8, 22→44 pins | ✅ RESOLVED |
+| ROT-P10-05 | SW3[4:5] → SW3[5:4] | ✅ RESOLVED |
+| ROT-P10-07 | DEV_CLR_N note added to JTAG table | ✅ RESOLVED |
+| ROT-P10-14 | ESD table TDI/TDO → TTD | ✅ RESOLVED |
+| REF-P10-01 | FR-REF-03 J5 → J12 | ✅ RESOLVED |
+| REF-P10-02 | TDO → TTD in DR-REF-04, Mermaid, §3 prose | ✅ RESOLVED |
+| AM-P10-04 | Board_Layout SW1 NRST → RESET_N | ✅ RESOLVED |
+| AM-P10-05 | Typo "lightand" → "light and" | ✅ RESOLVED |
+| AM-P10-06 | §4 C2-C3 → C2, C3, C7 | ✅ RESOLVED |
+| CTL-P10-14 | DSI1 added to §9.1 CI list and §9.3 trace table | ✅ RESOLVED |
+| JM-P10-07 | JM Design_Spec §6 "Controller J5" clarified | ✅ RESOLVED |
+
+### Deferred to Pass 11
+
+The following items were out of scope for this session (GRS cross-reference documentation, layout annotations, BOM notes for non-functional fields, and items requiring further investigation) and are carried forward as pass-11 candidates:
+
+- **PM:** PM-P10-02 (U16/U17 subsection), PM-P10-06 (D4 TVS subsection), PM-P10-08 (DR-PM-14 Pi filter cap placement rule), PM-P10-09 (J1A/J1B/J1C dock designator rename — three locations remain)
+- **CTL:** CTL-P10-04 (DEC citations superseded annotations), CTL-P10-05 (hardcoded CI trace widths), CTL-P10-06 (BOM Notes bypass cap fields), CTL-P10-07 (remaining stale RefDes in Consolidated BOM), CTL-P10-08 (J11/MH5–MH8 gated on AM layout)
+- **ROT:** ROT-P10-08 (DEC-016 TTD series resistor exemption), ROT-P10-09 (CPLD_RESET_N stack loading analysis), ROT-P10-10 (GRS §6 Data Plate), ROT-P10-11 (GRS §7.1 pin-1 markers), ROT-P10-12 (ERM8 electrical data), ROT-P10-13 (stackup code inline), ROT-P10-15 (N=64 CH3 dummy LC RefDes mapping)
+- **REF:** REF-P10-03 (J4 NC pin notation), REF-P10-04 (DigiKey PN format), REF-P10-05 (footprints Pending), REF-P10-06 (GRS §7.1), REF-P10-07 (AUSGABE Data Plate), REF-P10-08 (BOM Notes)
+- **EXT:** EXT-P10-01 through EXT-P10-09
+- **ENC:** ENC-P10-01 through ENC-P10-06
+- **USM:** USM-P10-03 through USM-P10-09
+- **AM:** AM-P10-01, AM-P10-02, AM-P10-03
+- **JM:** JM-P10-04, JM-P10-05, JM-P10-06
+- **STA:** STA-P10-01, STA-P10-02, STA-P10-03
+- **INT:** INT-P10-006, INT-P10-010, INT-P10-040, INT-P10-041, INT-P10-043

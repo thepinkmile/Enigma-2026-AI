@@ -19,7 +19,7 @@
 | 0x0B | Smart Battery | Power Module | Smart battery / SMBus monitor |
 | 0x28 | STUSB4500 | Power Module | USB-C PD Controller |
 | 0x3F | PCA9534A | Power Module | PM-local GPIO expander (`POE_STAT`, `SYS_FAULT`, `BATT_PRES_N`, `USB_STAT`, SW1 RGB control) |
-| 0x40 | INA219 | Power Module | 5V_MAIN current/power monitoring (10mΩ Kelvin-sense shunt R23) |
+| 0x40 | INA219 | Power Module | 5V_MAIN current/power monitoring (10mΩ Kelvin-sense shunt R16) |
 | 0x20 | MCP23017 | Stator | ENC monitor expander (`U6`) |
 | 0x21 | MCP23017 | Stator | Virtual keypress / SOURCE_SEL / CPLD_RESET_N expander (`U7`) |
 | 0x22 | MCP23017 | Stator | CPLD configuration output expander (`U8`) |

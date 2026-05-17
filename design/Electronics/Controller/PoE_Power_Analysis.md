@@ -54,17 +54,19 @@ is preserved in `PoE_Power_Analysis_Coilcraft_v2.md` and is deferred pending par
 
 ## 3. Duty Cycle Analysis (n = 2)
 
-Formula: `D = n × (Vout + Vf) / (Vin + n × (Vout + Vf))`
+Formula (ACF Forward): `D = n × Vout / Vin`
 
-Assuming: Vout = 12V, Vf = 0.4V (secondary rectifier), fsw = 200kHz.
+Assuming: Vout = 12V, fsw = 200kHz.
 
 | Vin | D (n=2) | TPS23730 window (5–75%) |
 | :--- | :--- | :--- |
-| 36V (min) | 40.8% | ✔ |
-| 48V (nom) | 34.1% | ✔ |
-| 57V (max) | 30.3% | ✔ |
+| 36V (min) | 66.7% | ✔ |
+| 48V (nom) | 50.0% | ✔ |
+| 57V (max) | 42.1% | ✔ |
 
 All operating points are well within the TPS23730 duty cycle range.
+
+The previous formula `D = n × (Vout + Vf) / (Vin + n × (Vout + Vf))` was the ACF Flyback formula and is incorrect for this Forward topology.
 
 ---
 
@@ -83,14 +85,21 @@ TPS23730 VCC operating range: 7–20V. Result: **11.6V ✔**
 
 ## 5. MOSFET Vds Stress
 
-Formula: `Vds_peak = Vin_max + n × (Vout + Vf)`
+Formula (ACF Forward steady-state): `Vds_peak = Vin / (1 − D)`
+
+Worst case at minimum Vin where D is highest (Vin = 36V, D = 66.7%):
 
 ```text
-Vds_peak = 57 + 2 × (12.0 + 0.4) = 57 + 24.8 = 81.8V
+Vds_peak = 36 / (1 − 0.667) = 36 / 0.333 = 108V
 ```
 
-MOSFET class required: ≥100V minimum; **200V with standard derating recommended.**
+MOSFET class required: ≥108V minimum with derating; **200V with standard derating (108 × 1.5 = 162V < 200V) ✔**.
 Selected device STD25NF20: Vds = 200V ✔ — no change required.
+
+Note: §6 calculates a separate transient clamp voltage of 118.1V at Vin_max = 57V; this is a transient
+condition and does not change the steady-state design requirement above.
+
+The previous formula `Vds_peak = Vin_max + n × (Vout + Vf)` was the ACF Flyback reflected-voltage formula and is incorrect for this Forward topology.
 
 ---
 
@@ -103,21 +112,21 @@ of reflected output voltage.
 ### 6.1 Peak primary current (worst case: Vin = 36V)
 
 ```text
-ΔI_Lm = Vin × D / (Lm × fsw) = 36 × 0.408 / (100µH × 200kHz) = 0.734A
-I_pk   = Iout/n + ΔI_Lm/2    = 5/2 + 0.367 = 2.867A
+ΔI_Lm = Vin × D / (Lm × fsw) = 36 × 0.667 / (100µH × 200kHz) = 1.200A
+I_pk   = Iout/n + ΔI_Lm/2    = 5/2 + 0.600 = 3.100A
 ```
 
 Lm ±30% worst case (Lm_min = 70µH):
 
 ```text
-ΔI_Lm_max = 36 × 0.408 / (70µH × 200kHz) = 1.048A
-I_pk_max   = 2.5 + 0.524 = 3.024A  (+5.5% vs nominal)
+ΔI_Lm_max = 36 × 0.667 / (70µH × 200kHz) = 1.715A
+I_pk_max   = 2.5 + 0.858 = 3.358A  (+8.3% vs nominal)
 ```
 
-Using worst-case Llk = 0.18µH MAX and I_pk = 2.867A (nominal):
+Using worst-case Llk = 0.18µH MAX and I_pk = 3.100A (nominal):
 
 ```text
-E_Ls = ½ × 0.18µH × 2.867² = ½ × 0.18 × 8.22 = 0.740µJ
+E_Ls = ½ × 0.18µH × 3.100² = ½ × 0.18 × 9.61 = 0.865µJ
 ```
 
 Minimum C17 from resonant energy-recovery formula (DR-CTL-18):
@@ -172,14 +181,14 @@ L1 specification: 33µH, ≥6A Isat, DCR ≤50mΩ, shielded ferrite, SMT.
 
 ```text
 ΔIL1 = (Vout × (1−D)) / (L1 × fsw)
-      = 12 × (1 − 0.408) / (33µH × 200kHz)
-      = 12 × 0.592 / 6.6 = 1.076A (ripple at Vin = 36V, D = 40.8%)
+      = 12 × (1 − 0.421) / (33µH × 200kHz)
+      = 12 × 0.579 / 6.6 = 1.053A (ripple at Vin = 57V, D = 42.1% — worst case)
 ```
 
-Peak-to-peak ripple: 1.076A / 5A = **21.5% ✔** (target ≤28%).
+Peak-to-peak ripple: 1.053A / 5A = **21.1% ✔** (target ≤28%).
 
-Selected: **Yageo PA4343.333NLT** (33µH, 6.5A Isat, 35mΩ typ / 57mΩ max DCR, 1265 shielded ferrite).
-DCR note: Typ value (35mΩ) is within DR-CTL-25 (≤50mΩ); max value (57mΩ) marginally exceeds the DR.
+Selected: **Yageo PA4343.333NLT** (33µH, 6.5A Isat, 48mΩ typ / 58mΩ max DCR, 1265 shielded ferrite).
+DCR note: Typ value (48mΩ) is within DR-CTL-25 (≤50mΩ); max value (58mΩ) marginally exceeds the DR.
 Accepted at design phase: best available procurable part meeting all other parameters. See DR-CTL-25.
 
 See DR-CTL-25 and `design/Electronics/Consolidated_BOM.md` for L1 details.
@@ -187,10 +196,10 @@ See DR-CTL-25 and `design/Electronics/Consolidated_BOM.md` for L1 details.
 ### 7.2 C20 — Output Capacitor
 
 ```text
-Cout_min = Iout × D / (fsw × Vripple) = 5 × 0.408 / (200kHz × 0.12V) = 85µF
+Cout_min = ΔIL1 / (8 × fsw × Vripple) = 1.053 / (8 × 200kHz × 0.12V) = 1.053 / 192000 = 5.5µF
 ```
 
-Standard: 100µF / 25V minimum. Selected: **4× TDK CGA9N3X7R1E476M230KB** (47µF × 4 = 188µF nominal).
+Standard: 100µF / 25V minimum (highly conservative vs 5.5µF minimum; provides margin for DC-bias derating and long-term reliability). Selected: **4× TDK CGA9N3X7R1E476M230KB** (47µF × 4 = 188µF nominal).
 
 Effective worst-case capacitance (DC bias at 12V + ±20% tolerance + temperature): ≥103µF ✔
 ESR: ≤2.5mΩ total at 200kHz ✔. See DR-CTL-22.
@@ -199,25 +208,26 @@ ESR: ≤2.5mΩ total at 200kHz ✔. See DR-CTL-22.
 
 ## 8. Conduction Losses
 
-### 8.1 RMS currents (Vin = 36V, D = 40.8%)
+### 8.1 RMS currents (Vin = 36V, D = 66.7% — worst case for primary RMS)
 
 ```text
-I_pri_RMS = √(Iout²/n² + ΔI_Lm²/12) × √D
-           ≈ √(6.25 + 0.045) × √0.408 = 2.510 × 0.639 = 2.70A (conservative approximation)
+ΔI_Lm  = 36 × 0.667 / (100µH × 200kHz) = 1.200A
 
-I_sec_RMS = Iout × √(1−D) = 5 × √0.592 = 5 × 0.769 = 6.50A
+I_pri_RMS = √(Iout²/n² + ΔI_Lm²/12) × √D
+           = √(6.25 + 0.120) × √0.667 = 2.524 × 0.817 = 2.062A
+
+I_sec_RMS = Iout × √(1−D) = 5 × √0.333 = 5 × 0.577 = 2.887A
 ```
 
 ### 8.2 Winding losses
 
 | Winding | RMS Current | DCR | P_cu |
 | :--- | :--- | :--- | :--- |
-| Primary | 2.70A | 35mΩ | 2.70² × 0.035 = 0.255W |
-| Secondary | 6.50A | 8mΩ | 6.50² × 0.008 = 0.338W |
-| **Total** | | | **0.593W (0.99% of 60W)** |
+| Primary | 2.062A | 35mΩ | 2.062² × 0.035 = 0.149W |
+| Secondary | 2.887A | 8mΩ | 2.887² × 0.008 = 0.067W |
+| **Total** | | | **0.216W (0.36% of 60W)** |
 
-The low secondary DCR of the TDK B82806D (8mΩ vs 90mΩ for Coilcraft POE600F-12L) reduces winding
-loss by ~3.3W compared to the original Coilcraft design.
+The low secondary DCR of the TDK B82806D (8mΩ vs 90mΩ for Coilcraft POE600F-12L) significantly reduces winding loss compared to the original Coilcraft design.
 
 ---
 
@@ -226,8 +236,8 @@ loss by ~3.3W compared to the original Coilcraft design.
 TDK Lm tolerance: ±30%. Worst case: Lm_min = 70µH.
 
 ```text
-ΔI_Lm_max = 36 × 0.408 / (70µH × 200kHz) = 1.048A  (+43% vs nominal 0.734A)
-I_pk_max   = 2.5 + 0.524 = 3.024A  (+5.5% vs nominal 2.867A)
+ΔI_Lm_max = 36 × 0.667 / (70µH × 200kHz) = 1.715A  (+43% vs nominal 1.200A)
+I_pk_max   = 2.5 + 0.858 = 3.358A  (+8.3% vs nominal 3.100A)
 ```
 
 STD25NF20 pulsed drain current rating: 72A. I_pk_max well within device limits ✔.
@@ -238,10 +248,11 @@ duty cycle at fixed Vout). No operating-point issues at Lm extremes.
 
 ## 10. Clamp Energy
 
-Using Llk_max = 0.18µH and I_pk = 2.867A:
+Using Llk_max = 0.18µH and I_pk = 3.100A:
 
 ```text
-P_clamp = E_Ls × fsw = 0.740µJ × 200kHz = 0.148W
+E_Ls    = ½ × 0.18µH × 3.100² = ½ × 0.18 × 9.61 = 0.865µJ
+P_clamp = E_Ls × fsw = 0.865µJ × 200kHz = 0.173W
 ```
 
 Recycled to primary bus by ACF clamp network — not dissipated.
@@ -257,7 +268,7 @@ Recycled to primary bus by ACF clamp network — not dissipated.
 | Llk | 0.18µH MAX (published) | Not published |
 | Primary DCR | 35mΩ | 39mΩ |
 | Secondary DCR | **8mΩ** | **90mΩ** |
-| Total winding loss | **0.593W (0.99%)** | **3.896W (6.49%)** |
+| Total winding loss | **0.216W (0.36%)** | **3.896W (6.49%)** |
 | C17 value | 22nF | 47nF (conservative proxy) |
 | Output inductor L1 | **Required** (ACF Forward) | Not required (ACF Flyback) |
 | Topology | ACF Forward | ACF Flyback |
@@ -270,15 +281,15 @@ Recycled to primary bus by ACF clamp network — not dissipated.
 ## 12. ACF Forward Design Reference Equations
 
 ```text
-Duty cycle:         D = n × (Vout + Vf) / (Vin + n × (Vout + Vf))
-Vds stress:         Vds_peak = Vin_max + n × (Vout + Vf)
+Duty cycle:         D = n × Vout / Vin
+Vds stress:         Vds_peak = Vin / (1 − D)  [steady-state];  Vds_clamp = Vin + Vclamp_peak  [transient]
 Aux winding VCC:    V_aux = Vout × (Naux/Ns);  VCC = V_aux − Vf_aux
 Peak primary I:     I_pk  = Iout/n + ΔI_Lm/2
 Lm ripple current:  ΔI_Lm = Vin × D / (Lm × fsw)
 Clamp energy:       E_Ls  = ½ × Llk × I_pk²
 Clamp voltage:      ΔV_clamp = E_Ls / (Cclamp × V_refl)
 Output ripple (L1): ΔIL1  = Vout × (1−D) / (L1 × fsw)
-Output capacitor:   Cout_min = Iout × D / (fsw × Vripple)
+Output capacitor:   Cout_min = ΔIL / (8 × fsw × Vripple)
 Primary RMS I:      I_pri_RMS ≈ √(Iout²/n² + ΔI_Lm²/12) × √D
 Secondary RMS I:    I_sec_RMS ≈ Iout × √(1−D)
 Conduction loss:    P_cu = I_RMS² × DCR

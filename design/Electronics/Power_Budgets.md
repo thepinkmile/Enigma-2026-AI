@@ -52,7 +52,7 @@ being an unachievable worst-case peak).
 | INA219 current monitor (Power Module) | 1 | 1 | 1 | Negligible |
 | Stator GPIO expanders (MCP23017 x3) | 3 | 10 | 30 | `U6`, `U7`, `U8` on shared `I2C-1`; monitor / control overhead only |
 | Controller direct servo GPIO interface | - | - | Included in Controller-local housekeeping | Servo PWM / home sensing moved to direct CM5 GPIO on the Controller |
-| PM-local GPIO expander (PCA9534A x1) | 1 | 5 | 5 | `U16 @ 0x3F`; PM status + SW1 runtime RGB handoff control |
+| PM-local GPIO expander (PCA9534A x1) | 1 | 5 | 5 | `U14 @ 0x3F`; PM status + SW1 runtime RGB handoff control |
 | User Settings Module GPIO expanders (MCP23017 x3) | 3 | 25 | 75 | `U1`, `U2`, `U3` on the shared Stator `I2C-1` bus |
 | Extension Buffer ICs (SN74LVC2G125DCUR) | 5 | 2 | 10 | TCK/TMS re-drive for each 5-rotor group; one per Extension board; negligible load |
 | Controller-local housekeeping | - | - | 50 | Controller overhead subtracted before Stator distribution |
@@ -95,7 +95,7 @@ being an unachievable worst-case peak).
 * Power dissipation at 2.05A: 2.05² x 0.010 = **42 mW** - 2512 Kelvin package (rated ≥0.5W) is adequate with >10x margin.
 * Power dissipation at 3.00A max: 3.00² x 0.010 = **90 mW** - 2512 Kelvin package ≥0.5W still OK.
 * CAL register: 0x0400 (1024) - unchanged. CAL = 0.04096 / (Current_LSB x R_SHUNT) = 0.04096 / (0.004 x 0.010) = 1024 ✔
-* Part: CSS2H-2512R-R010ELF (Bourns 2512 Kelvin-sense, 10mΩ ±1%, 5A). Used on **PM R12** (LTC3350 RSENSE), **PM R23** (INA219 U12, 0x40, 5V_MAIN monitoring) and **Stator R1**
+* Part: CSS2H-2512R-R010ELF (Bourns 2512 Kelvin-sense, 10mΩ ±1%, 5A). Used on **PM R10** (LTC3350 RSENSE), **PM R16** (INA219 U10, 0x40, 5V_MAIN monitoring) and **Stator R1**
   (INA219 U2, 0x45, rotor-stack monitoring).
   Total build qty: 3.
 

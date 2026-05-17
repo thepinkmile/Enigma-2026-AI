@@ -154,10 +154,7 @@ user-intent image or a CM5-defined override. `CFG_ROUTE_CM5_ACTIVE` is the CM5-o
 used to colour the Bank 1 indicators: LOW = user-intent forwarded (green), HIGH = CM5-defined
 override active (red).
 
-Pull-down resistors (10kΩ, one per switch signal) hold each input at logic-0 when the
-corresponding switch is open. On the Stator, R16-R19 provide the corresponding pull-downs on the
-logical `CFG_ROUTE[3:0]` CPLD input pins to maintain a safe all-zero default before CM5 initialises
-U8.
+Each Bank 1 toggle switch uses dual-terminated SPDT wiring per DEC-071: the NO (normally open) contact connects to `3V3_ENIG` via a 330Ω series resistor, and the NC (normally closed) contact connects to GND. This gives a defined logic-0 default when the switch is open (NC→GND) and logic-1 when activated (NO→3V3_ENIG), without requiring external pull-down resistors. The Stator CFG_ROUTE[3:0] CPLD input pins receive the switch states directly via I²C from U1 (MCP23017).
 
 The final applied `CFG_ROUTE[3:0]` value is driven to the Stator CPLD by U8 GPA[3:0] via I²C.
 After CM5 writes the final value, it may assert the Stator-side `CFG_APPLY_N` output low to force a

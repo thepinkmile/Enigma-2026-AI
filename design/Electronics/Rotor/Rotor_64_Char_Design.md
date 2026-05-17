@@ -4,7 +4,7 @@
 **Project:** Enigma-NG
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-XX
+**Last Updated:** 2026-05-17
 **Parent Document:** `design/Electronics/Rotor/Design_Spec.md`
 **Mechanical Spec:** `design/Mechanical/Rotor/Design_Spec.md §5.1` - encoder slot machining
 tolerances and shroud geometry

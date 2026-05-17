@@ -241,7 +241,7 @@ Nominal resonant frequency: **~6.5 MHz**.
 
 * **Clock source:** CLKIN tied to GND - FDC2114 uses its internal oscillator (~43.35 MHz). No
   external crystal required.
-* **IDRIVE baseline:** `0b01111` (register `DRIVE_CURRENT_CHx` = 0x7C00). Lab validation required;
+* **IDRIVE baseline:** `0b01111` (register `DRIVE_CURRENT_CHx` = 0x7800; bit 10 is reserved and must be 0). Lab validation required;
   see `design/Procedures/Lab_Tests.md` **LT-001**.
 * **Deglitch setting:** `0b101` = 10 MHz (register `MUX_CONFIG` deglitch field = 0x0005). Lab
   validation required; see `design/Procedures/Lab_Tests.md` **LT-002**.
@@ -362,7 +362,7 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
     across mixed stacks. The 26-character variant leaves ENC[5] as NC.
   * This path is entirely separate from the JTAG TTD\_RETURN signal.
 * **JTAG TTD\_RETURN Path:** After the Reflector processes the cipher reversal, `TTD_RETURN` travels
-  separately: Reflector J4 → Stator J10 → Controller-facing `J5` logic dock → FT232H on JM (JTAG
+  separately: Reflector J4 → Stator J10 → Controller `J12` (JM BtB dock) → FT232H on JM (JTAG
   chain closure only).
 * **Control:** Each rotor has a local I²C bus for position sensing (FDC2114 U2/U11B for N=64; U2/U11A for N=26). The CPLD acts as I²C master; no I²C signals are exposed on J1-J6.
 * **JTAG:** Pass-through lines allow the **USB Blaster** on the Controller Board to program the
@@ -404,6 +404,8 @@ the full net-naming convention.
 | TCK | In/pass-through — J1 pin 2 → J4 pin 2 | `TCK` | JTAG clock; unmodified throughout the chain |
 | TMS | In/pass-through — J1 pin 4 → J4 pin 4 | `TMS` | JTAG mode select; unmodified throughout the chain |
 | TRST (optional) | In — J1 pin 8 | `CPLD_RESET_N` | System-wide active-low reset; also resets the JTAG TAP; ESD-protected via U3 ch4 (Board A) and U7 ch4 (Board B) |
+
+> **Vendor pin name note — `DEV_CLRN` → `DEV_CLR_N`:** The Intel MAX II EPM570T100I5N vendor pin name for the device-clear input is `DEV_CLRN` (no underscore separator). Per `design/Standards/Global_Routing_Spec.md §10`, this is renamed to `DEV_CLR_N` in the Enigma-NG net-naming convention. On the Rotor, this net is further labelled `CPLD_RESET_N` to distinguish it as a system-level reset signal. Cross-reference: `design/Electronics/Rotor/Board_Layout.md §6.1`.
 
 > **TTD inter-board net name:** `TTD` (JTAG Transmission Data) is the net name for the
 > TDO-to-TDI board-to-board trace. Because the trace is simultaneously the TDO output of one
@@ -543,7 +545,7 @@ Board B (J10): **RS1-07-G** (female) · Board A (J14): **PH1-07-UA** (male)
 | 7 | GND | - | Ground reference |
 
 > **SW3 bit coverage note:** All 6 SW3 DIP switch bits reach the CPLD on Board A via J14:
-> pins 1-4 carry SW3[3:0]; pins 5-6 carry SW3[4:5].
+> pins 1-4 carry SW3[3:0]; pins 5-6 carry SW3[5:4].
 >
 ##### J7/J12 - Power Distribution (1x5, 5-pin)
 
@@ -648,9 +650,9 @@ connector body, before any series resistors or downstream logic (see `Global_Rou
 
 | Connector | Board | Interface | Signal Lines Requiring TVS |
 | :--- | :---: | :--- | :--- |
-| J1 | A | JTAG input (ERM8-005 male) | `TDI`, `TMS`, `TCK`, `CPLD_RESET_N` - 4 lines |
+| J1 | A | JTAG input (ERM8-005 male) | `TTD`, `TMS`, `TCK`, `CPLD_RESET_N` - 4 lines |
 | J3 | A | Encoder data input (ERM8-010 male) | `ENC_IN[5:0]`, `ENC_OUT[5:0]` - 12 lines |
-| J4 | B | JTAG output (ERF8-005 female) | `TDO`, `TMS`, `TCK`, `CPLD_RESET_N` - 4 lines |
+| J4 | B | JTAG output (ERF8-005 female) | `TTD`, `TMS`, `TCK`, `CPLD_RESET_N` - 4 lines |
 | J6 | B | Encoder data output (ERF8-010 female) | `ENC_IN[5:0]`, `ENC_OUT[5:0]` - 12 lines |
 
 > Power rail connectors `J2` (Board A) and `J5` (Board B) do not require dedicated TVS devices;
@@ -672,11 +674,11 @@ no new part numbers required. Placement per `Global_Routing_Spec.md §9` with DE
 
 | Ref | Board | Protects | Channels used |
 | :--- | :---: | :--- | :--- |
-| U3 | A | J1 JTAG input | `TDI`, `TMS`, `TCK`, `CPLD_RESET_N` |
+| U3 | A | J1 JTAG input | `TTD`, `TMS`, `TCK`, `CPLD_RESET_N` |
 | U4 | A | J3 encoder input (array 1 of 3) | `ENC_IN[3:0]` |
 | U5 | A | J3 encoder input (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
 | U6 | A | J3 encoder input (array 3 of 3) | `ENC_OUT[5:2]` |
-| U7 | B | J4 JTAG output | `TDO`, `TMS`, `TCK`, `CPLD_RESET_N` |
+| U7 | B | J4 JTAG output | `TTD`, `TMS`, `TCK`, `CPLD_RESET_N` |
 | U8 | B | J6 encoder output (array 1 of 3) | `ENC_IN[3:0]` |
 | U9 | B | J6 encoder output (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
 | U10 | B | J6 encoder output (array 3 of 3) | `ENC_OUT[5:2]` |

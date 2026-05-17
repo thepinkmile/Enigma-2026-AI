@@ -77,10 +77,10 @@ source is active.
 | DR-CTL-19 | JM dock connector | J12 = Hirose DF40HC(3.5)-20DS-0.4V(51) 20-pin 0.4mm pitch BtB receptacle (3.5mm stack height) for the JTAG Module (JM) dock. Mates with JM J1 DF40C-20DP-0.4V(51). Placement and board location finalised at PCB layout time. | §8.3; BOM J12; `design/Standards/Global_Routing_Spec.md §7.1` |
 | DR-CTL-20 | JM dock no-component zone | The Controller area beneath the installed JM shall be a no-component placement zone except for J12 and four M2.5×3.5mm SMT standoffs (MH9–MH12, 9774035151R) and the copper / vias needed to route J12; MH9–MH12 pads shall be connected to `GND` (not `GND_CHASSIS`); standoff placement shall mirror the JM MH1–MH4 pattern per `design/Electronics/JTAG_Module/Design_Spec.md §4` and `design/Electronics/JTAG_Module/Board_Layout.md §8`. See DEC-057 (standoff ownership), DEC-058 (JM BtB upgrade). **PCB layout for J12 and MH9–MH12 cannot be finalised until JM schematic capture and PCB layout are complete.** | §8.3; `design/Electronics/Controller/Board_Layout.md` |
 | DR-CTL-21 | Chassis mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left — all at 7 mm inset from both nearest edges. No purchasable BOM entry — plain chassis mounting holes; no components to fit. Exact XY positions TBD at PCB layout. | `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Controller/Board_Layout.md` |
-| DR-CTL-22 | PoE output filter capacitor | C20 shall be 4× TDK CGA9N3X7R1E476M230KB (47µF 25V X7R 2220 MLCC, AEC-Q200) placed in parallel on the `VIN_POE_12V` rail at the ACF Forward secondary output LC filter (with L1, DR-CTL-25). Value derived from ACF Forward output ripple formula: Cout_min = ΔiL / (8 × fsw × Vripple), where ΔiL is set by L1. At L1=33µH, Vin=57V (D=0.42), ΔiL≈1.05A, Vripple=120mV: Cout_min ≈ 5.5µF. 4× 47µF in parallel = 188µF nominal; with DC bias derating (~25% at 12V / 25V rated) and ±20% tolerance, worst-case effective capacitance ≥103µF — well above the minimum. ESR ≤2.5mΩ total (4 chips in parallel at 200kHz switching frequency). No electrolytics or tantalum — ceramic X7R only per project certification standard. See `.copilot/discussions/ctl-t1-poe-transformer-investigation.md`. | BOM: C20; §7.1 |
+| DR-CTL-22 | PoE output filter capacitor | C20 shall be 4× TDK CGA9N1X7R1V476M230KC (47µF 35V X7R 2220 MLCC, AEC-Q200) placed in parallel on the `VIN_POE_12V` rail at the ACF Forward secondary output LC filter (with L1, DR-CTL-25). Value derived from ACF Forward output ripple formula: Cout_min = ΔiL / (8 × fsw × Vripple), where ΔiL is set by L1. At L1=33µH, Vin=57V (D=0.42), ΔiL≈1.05A, Vripple=120mV: Cout_min ≈ 5.5µF. 4× 47µF in parallel = 188µF nominal; with DC bias derating (~10% at 12V / 35V rated) and ±20% tolerance, worst-case effective capacitance ≥103µF — well above the minimum. ESR ≤2.5mΩ total (4 chips in parallel at 200kHz switching frequency). No electrolytics or tantalum — ceramic X7R only per project certification standard. See `.copilot/discussions/ctl-t1-poe-transformer-investigation.md`. | BOM: C20; §7.1 |
 | DR-CTL-23 | PoE ACF primary switch MOSFET | Q1 shall be a 150V N-channel MOSFET, ≥5A continuous drain current, ≤20nC total gate charge (Qg), SMT package. Q1 is driven by the TPS23730RMTR GATE_P pin as the primary switch in the ACF Forward topology. 150V minimum Vds is required by: Vds_peak ≈ Vin / (1-D); at worst-case Vin=36V (D=0.667): Vds_peak ≈ 108V; 200V rated part recommended. Selected: STMicroelectronics STD25NF20 — 200V Vds, 18A Id, 125mΩ Rds(on) max, DPAK (TO-252), AEC-Q101. Qg = 28nC at formal test conditions (160V/20A); estimated ~15nC at actual ACF operating conditions under ZVS at Vin≈57V. | BOM: Q1; §7.1 |
 | DR-CTL-24 | PoE ACF clamp switch MOSFET | Q2 shall be a 150V N-channel MOSFET, ≥5A continuous drain current, ≤20nC total gate charge (Qg), SMT package — same specification as Q1 (DR-CTL-23). Q2 is driven by the TPS23730RMTR GATE_C pin as the active clamp switch in the ACF Forward topology. Same MPN as Q1 is acceptable. Selected: STMicroelectronics STD25NF20 — same MPN as Q1. | BOM: Q2; §7.1 |
-| DR-CTL-25 | PoE ACF Forward output inductor | L1 shall be a 33µH shielded ferrite SMT power inductor, ≥6A saturation current (7A preferred), DCR ≤50mΩ, rated for 200kHz operation. No iron-powder cores. L1 is required by the ACF Forward topology: energy is transferred to the secondary during switch ON time, requiring a buck-style LC output filter to smooth the secondary waveform (L1 + C20 on `VIN_POE_12V`). Value derived from L = Vout × (1-D) / (ΔiL × fsw); at worst-case Vin=57V (D=0.42) and ΔiL=30%×Iout=1.5A: L_min=23.2µH; 33µH selected (next standard value) for ≥28% ripple margin at all operating points. Selected: Yageo PA4343.333NLT — 33µH ±20%, Isat=11A @30% inductance drop, DCR typ 48mΩ / max 58mΩ, Irms 8A, 13.5×12.5×6.2mm, shielded ferrite SMT, AEC-Q200. DigiKey: 553-3457-1-ND; Mouser: 673-PA4343.333NLT; JLCPCB: C2453886. Note: DCR specification is ≤50mΩ; the selected part meets this at typical (48mΩ) but the manufacturer maximum (58mΩ) slightly exceeds the limit — accepted as a procurement-constrained exception; this is the best available option at current procurement time. See DEC-063 and `.copilot/discussions/ctl-t1-poe-transformer-investigation.md`. | BOM: L1; §7.1 |
+| DR-CTL-25 | PoE ACF Forward output inductor | L1 shall be a 33µH shielded ferrite SMT power inductor, ≥6A saturation current (7A preferred), DCR ≤50mΩ nominal; procurement-constrained exception accepted for Yageo PA4343.333NLT (48mΩ typ / 58mΩ max — typ compliant; max exceeds limit as accepted exception per DEC-063), rated for 200kHz operation. No iron-powder cores. L1 is required by the ACF Forward topology: energy is transferred to the secondary during switch ON time, requiring a buck-style LC output filter to smooth the secondary waveform (L1 + C20 on `VIN_POE_12V`). Value derived from L = Vout × (1-D) / (ΔiL × fsw); at worst-case Vin=57V (D=0.42) and ΔiL=30%×Iout=1.5A: L_min=23.2µH; 33µH selected (next standard value) for ≥28% ripple margin at all operating points. Selected: Yageo PA4343.333NLT — 33µH ±20%, Isat=11A @30% inductance drop, DCR typ 48mΩ / max 58mΩ, Irms 8A, 13.5×12.5×6.2mm, shielded ferrite SMT, AEC-Q200. DigiKey: 553-3457-1-ND; Mouser: 673-PA4343.333NLT; JLCPCB: C2453886. Note: DCR specification is ≤50mΩ; the selected part meets this at typical (48mΩ) but the manufacturer maximum (58mΩ) slightly exceeds the limit — accepted as a procurement-constrained exception; this is the best available option at current procurement time. See DEC-063 and `.copilot/discussions/ctl-t1-poe-transformer-investigation.md`. | BOM: L1; §7.1 |
 
 ### Component Block Diagram
 
@@ -354,12 +354,12 @@ C19 for U8).
   See DR-CTL-23.
 * **Q2 (STD25NF20) — ACF Clamp Switch:** ACF Forward active clamp switch driven by TPS23730RMTR GATE_C.
   Same MPN as Q1 (STD25NF20). See DR-CTL-24.
-* **L1 (33µH shielded SMT power inductor, TBD) — ACF Forward Output Inductor:** Buck-style output
+* **L1 (Yageo PA4343.333NLT, 33µH shielded ferrite inductor) — ACF Forward Output Inductor:** Buck-style output
   inductor on `VIN_POE_12V`, forming the LC filter together with C20. Required by the ACF Forward
   topology; not present in flyback designs. Value 33µH selected for ≤28% peak-to-peak current ripple
-  at all Vin/Iout operating points (200kHz, 12V/5A, Vin=36–57V). Specification: ≥6A Isat, DCR ≤50mΩ,
-  shielded ferrite core. Part selection pending. See DR-CTL-25.
-* **C20 (4× TDK CGA9N3X7R1E476M230KB, 47µF 25V X7R 2220) — PoE Output Filter:** 4× in parallel on `VIN_POE_12V`
+  at all Vin/Iout operating points (200kHz, 12V/5A, Vin=36–57V). Specification: ≥6A Isat, DCR 48mΩ typ / 58mΩ max (procurement-constrained exception — best available; typ compliant with DR-CTL-25 ≤50mΩ, max accepted),
+  shielded ferrite core. See DR-CTL-25, DEC-063.
+* **C20 (4× TDK CGA9N1X7R1V476M230KC, 47µF 35V X7R 2220) — PoE Output Filter:** 4× in parallel on `VIN_POE_12V`
   rail. Forms the LC output filter together with L1 (ACF Forward topology). 188µF nominal, ≥103µF
   effective worst-case (DC bias + tolerance + temperature). ESR ≤2.5mΩ total at 200kHz. See DR-CTL-22.
 
@@ -522,7 +522,7 @@ See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
 * **Layers:** **6-Layer** per `design/Standards/Global_Routing_Spec.md §2.3.3`.
   JLCPCB Controlled Impedance (CI) service **required** for all production runs: TDR-verified trace widths
   for USB 3.0 SS (100Ω diff stripline), USB 2.0 (100Ω diff stripline), HDMI (100Ω diff stripline),
-  and Ethernet BI_D (100Ω diff stripline) on inner layers L2–L5.
+  Ethernet BI_D (100Ω diff stripline), and DSI1 (100Ω diff stripline, J9 `F52Q-1A7H1-11015`) on inner layers L2–L5.
 * **Finish:** **ENIG (Gold)** for all pads.
 * **Solder Mask:** **Dark Green** (Vintage Industrial Lacquer aesthetic).
 * **Silkscreen:** White, Typewriter-style font, Bilingual (ALL-CAPS GERMAN / Sentence-case English).
@@ -576,6 +576,7 @@ JLCPCB CI service is **required** for all production runs of the Controller Boar
 | **HDMI diff pairs** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L3 | Diff stripline |
 | **USB 3.0 SS diff pairs (Port 2)** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L5 | Diff stripline |
 | **Ethernet BI_DC diff pairs** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L5 | Diff stripline |
+| **DSI1 diff pairs (J9)** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L3/L4 | Diff stripline |
 | **JTAG signals** | 50Ω Single-ended | **0.1425 mm (5.61 mil)** | — | L6 (outer) | Microstrip |
 | **Logic / I2C** | N/A | 0.20 mm (7.87 mil) | — | L1 | General routing |
 
@@ -595,7 +596,7 @@ All via-in-pad holes on the CM5 connector footprint shall be:
 **ESD TVS placement (Ethernet/PoE++):**
 Per DR-CTL-19, two tiers of ESD protection are implemented on the Ethernet/PoE front-end:
 
-* **Power-side (D2):** Bourns `1.5SMBJ36CA` unidirectional TVS (DO-214AA) placed between the primary winding
+* **Power-side (D2):** Bourns `1.5SMBJ36CA` bidirectional TVS (DO-214AA, CA suffix = bidirectional) placed between the primary winding
   of the integrated magnetics in J8 (Würth 7499111121A) and the TPS23730 PD controller (U8). This clamps
   PoE++ overvoltage transients before reaching the PD controller and ACF forward converter.
 * **Data-side (U4–U6):** Texas Instruments `TPD4E05U06QDQARQ1` 4-channel ESD arrays placed **line-side** —
@@ -638,7 +639,7 @@ Estimated Controller-local power dissipation at system peak load:
 | C1-C5, C7-C11 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 10 |
 | C6, C12-C16, C18, C19 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | ✔ | 8 |
 | C17 | 22nF 200V X7R 0805 | C0805C223K2RACAUTO | Kemet | 399-17630-1-ND | 80-C0805C223K2RAUTO | C3843023 | - | Supersedes C0402C103K1RACAUTO (10nF 100V 0402). Package/voltage upgraded 0402/100V→0805/200V for DC bias derating margin. See DR-CTL-18, DEC-064. | Yes | ✔ | 1 |
-| C20 | 47µF 25V X7R 2220 | CGA9N3X7R1E476M230KB | TDK | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | 4× in parallel for ACF output filter — see DR-CTL-22 | Yes | ✔ | 4 |
+| C20 | 47µF 35V X7R 2220 | CGA9N1X7R1V476M230KC | TDK | 445-CGA9N1X7R1V476M230KCCT-ND | 810-CGA9N1X7R1V476M2 | C3873016 | - | 4× in parallel for ACF output filter — see DR-CTL-22. | Yes | ✔ | 4 |
 | D1 | Schottky SOT-23 | BAT54 | Vishay | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | - | Yes | ✔ | 1 |
 | D2 | 36V 1500W TVS DO-214AA | 1.5SMBJ36CA | Bourns | 118-1.5SMBJ36CACT-ND | 652-1.5SMBJ36CA | C5439937 | - | - | Yes | ✔ | 1 |
 | J1-J3 | 10-pos 2.5mm receptacle 10-pos vert | 1-1674231-1 | TE Connectivity | A119250-ND | 571-1-1674231-1 | C3683260 | - | - | Yes | ✔ | 3 |
@@ -667,6 +668,8 @@ Estimated Controller-local power dissipation at system peak load:
 
 ### BOM Notes
 
+**BT1 (Keystone 3034TR) footprint note:** The "Yes*" entries in the Footprint Available and Footprint Downloaded columns indicate this part uses the standard KiCAD library battery holder footprint — no custom zip download is required. The asterisk (*) denotes a library-standard footprint was used directly.
+
 Telemetry shunt specifications and Kelvin-sensing notes are detailed in §4. Protection, ESD, bulk
 decoupling, and `ACTUATE_REQUEST_N` pull-up (R4) are detailed in §7; PoE front-end passive assignments
 including the ACF clamp capacitor C17, application-circuit support capacitors C12, C15, C16, ACF
@@ -680,6 +683,6 @@ the Ethernet-entry ESD arrays U4–U6 - TPD4E05U06QDQARQ1, one per pair of GbE d
 `design/Electronics/Consolidated_BOM.md`; connector and local ESD rows are also repeated here for completeness.
 
 T1 selected: TDK B82806D0060A120 (ACF Forward PoE transformer, 60W, 2:1:1). Q1/Q2 selected:
-STMicroelectronics STD25NF20 (200V N-ch MOSFET, DPAK, AEC-Q101). C20 selected: 4× TDK CGA9N3X7R1E476M230KB.
+STMicroelectronics STD25NF20 (200V N-ch MOSFET, DPAK, AEC-Q101). C20 selected: 4× TDK CGA9N1X7R1V476M230KC.
 C17 confirmed: Kemet C0805C223K2RACAUTO (22nF 200V X7R 0805). L1 confirmed: Yageo PA4343.333NLT (33µH shielded ferrite). See DEC-063, DEC-064.
 See `.copilot/discussions/ctl-t1-poe-transformer-investigation.md` for full analysis. See DEC-062.

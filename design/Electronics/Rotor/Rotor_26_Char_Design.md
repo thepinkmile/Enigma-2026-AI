@@ -4,7 +4,7 @@
 **Project:** Enigma-NG
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-XX
+**Last Updated:** 2026-05-17
 **Parent Document:** `design/Electronics/Rotor/Design_Spec.md`
 **Mechanical Spec:** `design/Mechanical/Rotor/Design_Spec.md §5.2` - encoder slot machining
 tolerances and shroud geometry
@@ -165,7 +165,7 @@ retained. Codes not listed below are invalid and trigger a mechanical fault flag
 
 > **Note:** For the N=26 variant, U11B (FDC2114 on Board B) is not populated. U2 (Board A,
 > addr 0x2A) reads STGC bits[3:0] via CH0-CH3. U11A (Board A, addr 0x2B) reads STGC bit[4]
-> via CH0; CH1-CH3 are tied to GND via 100 kΩ. U11A is an additional FDC2114RGHR populated
+> via CH0; CH1-CH3 each carry a dummy LC tank (18 µH + 33 pF per TI unused-channel rule). U11A is an additional FDC2114RGHR populated
 > on Board A for N=26 builds only.
 
 | STGC Code | Binary | Position | | STGC Code | Binary | Position |

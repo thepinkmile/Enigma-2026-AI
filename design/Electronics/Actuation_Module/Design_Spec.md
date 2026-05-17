@@ -287,7 +287,7 @@ The AM should follow the same general daughterboard logic, but with one importan
 JM, the AM drives a local servo load from `5V_MAIN`, so it should include a **local 5V reservoir cap**
 as well as MCU decoupling. Rev A therefore requires:
 
-* **C2-C3:** 100nF X7R 0402 local decoupling at the STM32 supply domains
+* **C2, C3, C7:** 100nF X7R 0402 local decoupling at the STM32 VDD/VDDA supply domain (all three target pin 4 per DR-AM-15 and DR-AM-19)
 * **C4:** 4.7uF X7R local `3V3_ENIG` reservoir / entry filter
 * **C5:** 10uF X7R local `5V_MAIN` reservoir near the servo power path
 

@@ -77,7 +77,7 @@ R1 = outer (bottom) edge; R2 = inner row.
 | C6R2  | USB−       | Bidir      | USB 2.0 D− to CM5 (USB FS differential pair)        |
 | C7R2  | GND        | —          | Ground                                              |
 | C8R2  | GND        | —          | Ground                                              |
-| C9R2  | TDO        | CTL → JM   | JTAG Data Out (return from chain)                   |
+| C9R2  | TTD_RETURN | CTL → JM   | JTAG Transmission Data return from chain end        |
 | C10R2 | GND        | —          | Ground                                              |
 
 ## 4. PCB Stackup — see GRS §2.3.2

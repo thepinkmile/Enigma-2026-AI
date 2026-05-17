@@ -23,7 +23,7 @@ second CPLD on the Reflector itself.
 | :--- | :--- | :--- | :--- |
 | FR-REF-01 | Terminate the JTAG daisy-chain at the end of the 30-rotor stack | Connects to Rotor 30 J4/J5/J6 outputs | §3 JTAG & Logic Hub; BOM J1-J3 (ERM8) |
 | FR-REF-02 | Provide the mandatory physical turnaround path at the end of the rotor/extension chain while the selected reflection map is applied by the Stator CPLD | Passive turnaround board - no local CPLD required | §2 Architecture; BOM J1-J4 |
-| FR-REF-03 | Return the JTAG TTD_RETURN signal from the end of the chain to the Stator | Via J4 → Stator J10 → Controller-facing `J5` logic dock → FT232H | §3 JTAG & Logic Hub; BOM J4 (30-pin 2x15 shrouded), R1 (22Ω) |
+| FR-REF-03 | Return the JTAG TTD_RETURN signal from the end of the chain to the Stator | Via J4 → Stator J10 → Controller `J12` (JM BtB dock) → FT232H | §3 JTAG & Logic Hub; BOM J4 (30-pin 2x15 shrouded), R1 (22Ω) |
 | FR-REF-04 | Provide end-of-chain JTAG signal damping | Prevents reflections in the serial chain | §3 JTAG & Logic Hub; BOM R1 (22Ω) |
 | FR-REF-05 | Protect the J1 (JTAG) and J3 (ENC) rotor-facing BtB connector interfaces from ESD events during live rotor swap | J1 and J3 are exposed to operator handling during rotor insertion/removal; TVS/ESD arrays required on both connectors per DEC-048 | §5 Thermal & ESD; BOM U1-U4 |
 
@@ -34,7 +34,7 @@ second CPLD on the Reflector itself.
 | DR-REF-01 | PCB stackup | Stackup per `design/Standards/Global_Routing_Spec.md §2.3.1` | §6 PCB Fabrication & Stackup |
 | DR-REF-02 | Input connectors | J1 = ERM8-005 (JTAG, plugs into Rotor 30 J4), J2 = ERM8-005 (Power, Rotor 30 J5), J3 = ERM8-010 (ENC, Rotor 30 J6) | §4 Rotor Interface Connectors; BOM J1-J3 |
 | DR-REF-03 | TTD_RETURN output | J4 connector (mates with Stator J10); `TTD_RETURN` on J4 pin 16; 30-pin 2x15 layout per DEC-053; `5V_MAIN` on pins 1-2/29-30 (not connected — present for cable family compatibility only); `3V3_ENIG` on pins 3-4/27-28 (sole power entry for this board); GND guard pairs at pins 5-6, 13-14, 17-18, 25-26 | §3 JTAG & Logic Hub; BOM J4 (30-pin 2x15 shrouded) |
-| DR-REF-04 | End-of-chain damping | R1 = 22 Ω, 0603, on TDO line | §3 JTAG & Logic Hub; BOM R1 (22Ω) |
+| DR-REF-04 | End-of-chain damping | R1 = 22 Ω, 0603, on TTD line | §3 JTAG & Logic Hub; BOM R1 (22Ω) |
 | DR-REF-05 | Active logic | None - passive turnaround board only; reflector-map selection remains Stator-owned | §2 Architecture |
 | DR-REF-06 | ESD protection - rotor-facing BtB connectors | U1 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, CPLD_RESET_N) + U2-U4 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §5 Thermal & ESD; BOM U1-U4 |
 | DR-REF-07 | Mounting holes | MH1–MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. No BOM entry — plain chassis mounting holes. Placement follows GRS §4.3 Pattern B (D-shaped board): MH1 bottom-left corner, MH2 bottom-right corner, MH3 board-centre, MH4 top-centre arc midpoint — all at 7 mm inset from nearest edge. Exact XY coordinates TBD at PCB layout. | §6 PCB Fabrication & Stackup; `design/Standards/Global_Routing_Spec.md §4.3` |
@@ -51,7 +51,7 @@ flowchart TD
 
   subgraph PT["Passive Turnaround — no active logic"]
     U1["U1 TPD4E05U06QDQARQ1<br>ESD Array · JTAG"]
-    R1["R1 · 22 ohm<br>Series damping · TDO end-of-chain"]
+    R1["R1 · 22 ohm<br>Series damping · TTD end-of-chain"]
     U2U4["U2 · U3 · U4 TPD4E05U06QDQARQ1 x3<br>ESD Arrays · ENC"]
     TT["Passive turnaround traces<br>2 oz · 10 mil (no active IC)"]
   end
@@ -61,7 +61,7 @@ flowchart TD
   end
 
   J1 -- "TCK / TMS / TTD / CPLD_RESET_N" --> U1
-  U1 -- "TDO" --> R1
+  U1 -- "TTD" --> R1
   R1 -- "TTD_RETURN (pin 16)" --> J4
   J3 -- "ENC_IN/OUT" --> U2U4
   U2U4 --> TT
@@ -100,7 +100,7 @@ flowchart TD
 > present for cable family compatibility only.
 
 * Decoupling and bulk entry capacitor requirements per `design/Standards/Global_Routing_Spec.md §3`.
-* **Termination:**R1 (22Ω) is a series damping resistor on the TDO return line (end-of-chain
+* **Termination:**R1 (22Ω) is a series damping resistor on the TTD return line (end-of-chain
   signal from Rotor 30). It provides impedance damping at the final rotor output before the signal
   re-enters the Stator via the J4 return ribbon cable.
 
