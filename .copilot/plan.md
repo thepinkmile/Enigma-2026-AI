@@ -6,19 +6,21 @@
 
 ---
 
-## Current Status (as of checkpoint 161)
+## Current Status (as of checkpoint 162)
 
-Review Pass 10 complete and triaged (checkpoints 161). `tps25751-i2c-review` TODO resolved:
-Option C implemented — M24512-RDW6TP EEPROM (U18) + J6 I2Ct debug header added to PM; DEC-075;
-DR-PM-20/21/22 added; Maintenance_Guide §5 added.
+Pass 10 complete and all 38 findings resolved (commit `75b3707`). C20 upgraded to TDK
+CGA9N1X7R1V476M230KC (47µF 35V). Library imported. Temp directory cleaned.
 
-Previous: Review Pass 9 complete (checkpoint 159). Library import of official Hirose DF40 and TPS parts
-complete (checkpoint 160): DF40C20DP04V51, DF40HC3520DS04V51, TPS23730RMTR, TPS25751DREFR,
-TPS259804ONRGER all synced.
+This session focused on todo dependency restructuring:
+- `review-clean-passes-gate` added — aggregates all review-pass-x; manually closed when 2 consecutive clean passes achieved
+- `review-pass-12` added (pass 10 was not clean; two more passes needed)
+- `bom-pre-prototype-check` now also gates on `consolidate-design-spec-content`
+- `bom-pre-production-check` now also gates on all four testing todos
+- `consolidate-design-spec-content` deps on `review-clean-passes-gate` (not interim-electronics-review-3)
+- `system-config-variants-diagrams` now gates on `prototype-pcb-manufacturing`
+- `interim-electronics-review-1` restored dep on `consolidate-design-spec-content` (safe: circular dep resolved)
 
-Session DB: 109 todos — ~32 pending, ~71 done, ~5 blocked (approximate; reseed from todo-list.md on next session).
-
-Footprint pending: M24512-RDW6TP (SO8N) and 61300511121 (5-pin header) added to footprint-requests-pending.md.
+Session DB: 113 todos — 34 pending, 72 done, 7 blocked (seeded from todo-list.md Agent SQL block).
 
 ## Board Design Status
 
@@ -40,27 +42,24 @@ Footprint pending: M24512-RDW6TP (SO8N) and 61300511121 (5-pin header) added to 
 
 ### Immediate (next session start)
 
-1. **Download remaining 3D models** (`download-missing-3d-models`)
+1. **Download remaining 3D models** (`download-missing-3d-models`) — READY
    - 33 parts still need STP files; drop zips into `src\Electronics\Library\temp\` and import
-   - See `.copilot/todos/download-missing-3d-models.md` for full part list
+   - See `.copilot/todos/download-missing-3d-models.md` for full part list (13 generic IPC + 20 part-specific)
+   - Generic IPC models (13): use KiCAD standard library refs; part-specific (20): need SamacSys zips from user
 
-2. **Review Pass 10** (`review-pass-10`)
-   - 54 deferred findings from Pass 9; unblocked now that `review-pass-9` is done
-   - See `.copilot/todos/review-pass-10.md` for detail
-   - ENC J1/J2 and 100nF cap review; see `.copilot/todos/enc-connector-review-pre-pcb.md`
+2. **Extension interconnect architecture review** (`extension-mechanical-usage`) — READY
+   - See `.copilot/todos/extension-mechanical-usage.md`
 
-3. **Consolidate design spec content** (`consolidate-design-spec-content`)
-   - Blocked by `enc-connector-review-pre-pcb`
-   - See `.copilot/todos/consolidate-design-spec-content.md` for detail
+3. **Review Pass 11** (`review-pass-11`) — blocked by `download-missing-3d-models`
+   - Once pass 11 and pass 12 are both clean → `review-clean-passes-gate` can be closed
+   - See `.copilot/todos/review-pass-11.md`
 
 ### Deferred / Blocked
 
 - `battery-connector-final-review` — blocked: awaiting supplier response
-- `connector-stacking-height-review` — deferred to prototype stage
 - `jdb-ft232h-3v3-vregin` — blocked (v2.0), pending FT232H Rev C availability
 - `display-addon-board`, `cpld-production-replacement`, `display-aperture` — blocked (v2.0)
 - `ctl-t1-coilcraft-v2-review` — blocked (v2.0)
-- `review-pass-11` — blocked by `download-missing-3d-models` and `review-pass-10`
 
 ## Key Design Decisions (recent)
 
@@ -74,25 +73,27 @@ Footprint pending: M24512-RDW6TP (SO8N) and 61300511121 (5-pin header) added to 
 | DEC-073 | LTC3350 RT resistor correction (R23 → ERA-2AEB1333X 133kΩ; fSW = 402kHz) |
 | DEC-074 | Rename CPLD reset signal SYS_RESET_N → CPLD_RESET_N across all boards |
 | DEC-075 | TPS25751 Option C: SafeMode + M24512 EEPROM U18 + J6 I2Ct debug header on PM |
+| DEC-076 | TPS25751 I2C address conflict resolution (I2C1 address 0x20; EEPROM U18 at 0x50 on isolated I2Cc) |
 
 ## Library Status
 
 | File | Status |
 |------|--------|
-| `SamacSys_Parts.kicad_sym` | 5 parts replaced this session; ~31,943+ lines |
-| `SamacSys_Parts.mod` | SHAPE3D blocks added for all 5 parts ✅ |
-| `SamacSys_Parts.3dshapes/` | 32 STP files; 33 additional parts still pending download |
+| `SamacSys_Parts.kicad_sym` | CGA9N1X7R1V476M230KC added (commit 75b3707) |
+| `SamacSys_Parts.mod` | CGA9N1X7R1V476M230KC SHAPE3D added ✅ |
+| `SamacSys_Parts.3dshapes/` | 33 STP files; 33 additional parts still pending download |
 | `src/Electronics/Library/temp/` | Empty — ready for next batch of zips |
 
 ## Critical Standing Rules
 
 - **NEVER commit** without "Let's lock this in" or "Save state" from user
-- **Design_Log.md is append-only** — next entry = DEC-076; never modify existing entries
+- **Design_Log.md is append-only** — next entry = DEC-077; never modify existing entries
 - **PRIMARY DIRECTIVE**: Never modify any MPN/supplier part numbers
 - **Last Updated** dates must be updated on every content change; **Version** is user-only
 - All board statuses: "In Review" (EXT = "Draft")
 - Move unwanted files to `.recycle-bin/`; never delete
 - **OCTONARY**: Seed session DB from `todo-list.md` Agent SQL block as MANDATORY FIRST ACTION
+- **review-clean-passes-gate**: when adding a new `review-pass-x`, add it as a dep on the gate in todo-list.md AND the gate detail file AND session DB
 
 ## Next Session Start Point
 
@@ -101,6 +102,6 @@ Read these files in order:
 1. `.copilot/agent-directives.md` (always first — then seed session DB immediately)
 2. This `plan.md`
 3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/index.md` → checkpoint 161
+4. `.copilot/checkpoints/index.md` → checkpoint 162
 5. Relevant todos from `.copilot/todos/` (see Open Workstreams above)
 

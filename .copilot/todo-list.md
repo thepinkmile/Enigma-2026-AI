@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-16 (tps25751-i2c-review resolved DEC-075: Option C EEPROM + J6 debug header; M24512-RDW6TP added to BOM as U18; DR-PM-20/21/22 added; Maintenance_Guide §5 added)
+Last updated: 2026-05-17 (added review-clean-passes-gate; consolidate-design-spec-content now gates on it; bom/consolidation/system-variants deps restructured; circular dep removed from interim-electronics-review-1)
 
 ---
 
@@ -50,8 +50,8 @@ Last updated: 2026-05-16 (tps25751-i2c-review resolved DEC-075: Option C EEPROM 
 | `naming-convention-sweep` | — | done | — |
 | `da-04` | — | done | — |
 | `compliance-testing` | [compliance-testing.md](todos/compliance-testing.md) | pending | `prototype-pcb-manufacturing`, `emc-testing`, `environmental-testing`, `security-testing` |
-| `bom-pre-prototype-check` | [bom-pre-prototype-check.md](todos/bom-pre-prototype-check.md) | pending | `full-pn-review`, `interim-electronics-review-3` |
-| `bom-pre-production-check` | [bom-pre-production-check.md](todos/bom-pre-production-check.md) | pending | `bom-pre-prototype-check`, `prototype-system-complete` |
+| `bom-pre-prototype-check` | [bom-pre-prototype-check.md](todos/bom-pre-prototype-check.md) | pending | `full-pn-review`, `interim-electronics-review-3`, `consolidate-design-spec-content` |
+| `bom-pre-production-check` | [bom-pre-production-check.md](todos/bom-pre-production-check.md) | pending | `bom-pre-prototype-check`, `prototype-system-complete`, `compliance-testing`, `emc-testing`, `environmental-testing`, `security-testing` |
 | `jdb-board-rename` | — | done | — |
 | `bypass-cap-audit-100nf` | — | done | — |
 | `reset-n-prefix-decision` | — | done | — |
@@ -80,9 +80,11 @@ Last updated: 2026-05-16 (tps25751-i2c-review resolved DEC-075: Option C EEPROM 
 | `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | done | `review-pass-9` |
 | `download-missing-3d-models` | [download-missing-3d-models.md](todos/download-missing-3d-models.md) | pending | — |
 | `review-pass-11` | [review-pass-11.md](todos/review-pass-11.md) | pending | `download-missing-3d-models`, `review-pass-10` |
+| `review-pass-12` | [review-pass-12.md](todos/review-pass-12.md) | pending | `review-pass-11` |
+| `review-clean-passes-gate` | [review-clean-passes-gate.md](todos/review-clean-passes-gate.md) | pending | all `review-pass-x` todos — update when new passes are added |
 | `ascii-to-mermaid-diagrams` | — | done | — |
 | `board-interconnect-diagram` | — | done | — |
-| `system-config-variants-diagrams` | [system-config-variants-diagrams.md](todos/system-config-variants-diagrams.md) | pending | — |
+| `system-config-variants-diagrams` | [system-config-variants-diagrams.md](todos/system-config-variants-diagrams.md) | pending | `prototype-pcb-manufacturing` |
 | `ctl-component-diagram` | — | done | — |
 | `pm-component-diagram` | — | done | — |
 | `sta-component-diagram` | — | done | — |
@@ -118,7 +120,7 @@ Last updated: 2026-05-16 (tps25751-i2c-review resolved DEC-075: Option C EEPROM 
 | `jtag-integrity-resistor-value-reconcile` | — | done | — |
 | `mcp23017-gpb7-silicon-fixed-review` | — | done | — |
 | `rot-i2c-residual-removal` | — | done | — |
-| `consolidate-design-spec-content` | [consolidate-design-spec-content.md](todos/consolidate-design-spec-content.md) | pending | `enc-connector-review-pre-pcb` |
+| `consolidate-design-spec-content` | [consolidate-design-spec-content.md](todos/consolidate-design-spec-content.md) | pending | `enc-connector-review-pre-pcb`, `review-clean-passes-gate` |
 | `usm-spdt-switch-floating-review` | — | done | — |
 | `am-button-review-production` | — | done | — |
 | `ctl-t1-tdk-a120-component-analysis` | — | done | — |
@@ -215,6 +217,10 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('review-pass-10',                    'Design review pass 10',                       'done'),
 ('download-missing-3d-models',        'Download remaining 3D models for library parts', 'pending'),
 ('review-pass-11',                    'Design review pass 11',                       'pending'),
+('review-pass-12',                    'Design review pass 12',                       'pending'),
+-- Review clean passes gate: manually closed when 2 consecutive clean passes achieved
+-- MUST add new review-pass-x dep below whenever a new review pass is created
+('review-clean-passes-gate',          'Gate: two consecutive clean review passes achieved', 'pending'),
 -- Documentation improvements
 ('ascii-to-mermaid-diagrams',         'Replace ASCII flow/block diagrams with Mermaid fenced blocks', 'done'),
 -- Mermaid Diagrams
@@ -337,6 +343,7 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 -- bom-pre-prototype-check gates
 ('bom-pre-prototype-check',     'full-pn-review'),
 ('bom-pre-prototype-check',     'interim-electronics-review-3'),
+('bom-pre-prototype-check',     'consolidate-design-spec-content'),
 -- prototype-pcb-manufacturing depends on review-mounting-holes, interim-electronics-review-3, bom-pre-prototype-check, enc-connector-review-pre-pcb
 ('prototype-pcb-manufacturing', 'review-mounting-holes'),
 ('prototype-pcb-manufacturing', 'interim-electronics-review-3'),
@@ -345,10 +352,15 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 -- bom-pre-production-check gates
 ('bom-pre-production-check',    'bom-pre-prototype-check'),
 ('bom-pre-production-check',    'prototype-system-complete'),
+('bom-pre-production-check',    'compliance-testing'),
+('bom-pre-production-check',    'emc-testing'),
+('bom-pre-production-check',    'environmental-testing'),
+('bom-pre-production-check',    'security-testing'),
 -- release-candidate-production depends on rerun-deep-reviews, bom-pre-production-check, prototype-system-complete, compliance-testing, interim-electronics-review-4
 ('release-candidate-production', 'rerun-deep-reviews'),
 ('release-candidate-production', 'bom-pre-production-check'),
--- interim-electronics-review-1 gates
+-- interim-electronics-review-1 gates (does NOT depend on consolidate-design-spec-content —
+-- that dep was removed: consolidation depends on gate 3, not the other way round)
 ('interim-electronics-review-1', 'rotor-refdes-reallocate'),
 ('interim-electronics-review-1', 'review-pass-10'),
 ('interim-electronics-review-1', 'bulk-caps-per-power-source-or-conversion'),
@@ -361,7 +373,12 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('interim-electronics-review-1', 'consolidate-design-spec-content'),
 ('interim-electronics-review-1', 'usm-spdt-switch-floating-review'),
 -- consolidate-design-spec-content gates
+-- NOTE: depends on review-clean-passes-gate (NOT interim-electronics-review-3 directly)
+-- When a new review-pass-x is added, add it to review-clean-passes-gate deps below too
 ('consolidate-design-spec-content', 'enc-connector-review-pre-pcb'),
+('consolidate-design-spec-content', 'review-clean-passes-gate'),
+-- system-config-variants-diagrams gates on prototype hardware
+('system-config-variants-diagrams', 'prototype-pcb-manufacturing'),
 -- am-button-review-production gates full-pn-review
 ('full-pn-review', 'am-button-review-production'),
 -- interim-electronics-review-2 gates
@@ -401,6 +418,15 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('review-pass-10',            'review-pass-9'),
 ('review-pass-11',            'download-missing-3d-models'),
 ('review-pass-11',            'review-pass-10'),
+('review-pass-12',            'review-pass-11'),
+-- review-clean-passes-gate: depends on ALL review passes
+-- *** When adding a new review-pass-x todo, add a dep here too ***
+('review-clean-passes-gate',  'review-pass-7'),
+('review-clean-passes-gate',  'review-pass-8'),
+('review-clean-passes-gate',  'review-pass-9'),
+('review-clean-passes-gate',  'review-pass-10'),
+('review-clean-passes-gate',  'review-pass-11'),
+('review-clean-passes-gate',  'review-pass-12'),
 -- stackup-simplify sweep gates on grs-stackup-section (done)
 ('am-stackup-simplify',  'grs-stackup-section'),
 ('ctl-stackup-simplify', 'grs-stackup-section'),

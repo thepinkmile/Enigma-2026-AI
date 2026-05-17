@@ -165,3 +165,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 159 | JTAG/USM/CTL fixes; Group 1-2-3 library imports; all-board BOM ticks | 159-jtag-usm-ctl-library-imports-all-board-bom-ticks.md |
 | 160 | Library import (Hirose + TPS), todo sync, directives hardened | 160-library-import-todo-sync-directives-hardened.md |
 | 161 | TPS25751 EEPROM Option C implementation complete | 161-tps25751-eeprom-option-c-complete.md |
+| 162 | Todo restructuring and review-pass gate | 162-todo-restructuring-review-gates.md |

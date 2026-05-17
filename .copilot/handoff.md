@@ -3,7 +3,55 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
-## 2026-05-16 session result (TPS25751 EEPROM Option C — checkpoint 161)
+## 2026-05-17 session result (Todo restructuring and review-pass gate — checkpoint 162)
+
+### Pass 10 closed; C20 upgraded; library import complete (committed 75b3707)
+
+All 38 Pass 10 findings resolved and committed in the previous part of this session.
+C20 upgraded to TDK CGA9N1X7R1V476M230KC (47µF 35V X7R 2220 AEC-Q200); library imported to all 4 formats.
+Temp library directory cleaned to `.recycle-bin/library-temp-20260517/`.
+
+### Todo dependency restructuring
+
+Six todo dependency changes applied this session (DB + todo-list.md kept in sync):
+
+| Todo | Change |
+|---|---|
+| `bom-pre-prototype-check` | Added dep on `consolidate-design-spec-content` |
+| `bom-pre-production-check` | Added deps on `compliance-testing`, `emc-testing`, `environmental-testing`, `security-testing` |
+| `consolidate-design-spec-content` | Replaced dep on `interim-electronics-review-3` with dep on new `review-clean-passes-gate` |
+| `system-config-variants-diagrams` | Added dep on `prototype-pcb-manufacturing` |
+| `interim-electronics-review-1` | Restored dep on `consolidate-design-spec-content` (re-added after circular dep was resolved) |
+
+Circular dependency resolved: the old `interim-electronics-review-1 → consolidate-design-spec-content` dep caused a loop via `interim-electronics-review-3`. Now that consolidation deps on the gate (not on gate 3), the cycle is broken and the dep is safe to restore.
+
+### New todos added
+
+| ID | Title | Blocked by |
+|---|---|---|
+| `review-clean-passes-gate` | Gate: two consecutive clean review passes achieved | all `review-pass-x` todos (7–12) |
+| `review-pass-12` | Design review pass 12 | `review-pass-11` |
+
+`review-clean-passes-gate` is the canonical aggregator for all review passes. It must be **manually** closed when 2 consecutive clean passes are confirmed. Any new `review-pass-x` must be added as a dep here. `consolidate-design-spec-content` gates on this instead of individual passes.
+
+### 3-way sync state
+
+- Session SQL DB: fully seeded from updated `todo-list.md` Agent SQL block — 113 todos total (34 pending, 72 done, 7 blocked)
+- `todo-list.md` summary table and SQL block: in sync with session DB
+- Detail files: `todos/review-clean-passes-gate.md` and `todos/review-pass-12.md` created
+
+### Open items entering next session
+
+- `download-missing-3d-models` — READY (0 unmet deps); 33 parts still need STP; drop zips into `src\Electronics\Library\temp\` and import
+- `extension-mechanical-usage` — READY (0 unmet deps)
+- `review-pass-11` — blocked by `download-missing-3d-models`
+- Uncommitted disk changes: `.copilot/todo-list.md`, `.copilot/todos/review-clean-passes-gate.md`, `.copilot/todos/review-pass-12.md` (staged but not committed — await "Let's lock this in")
+
+**Key numbers:** Next checkpoint = 163. Next DEC = DEC-077. Session DB: 34 pending, 72 done, 7 blocked.
+
+---
+
+
 
 ### tps25751-i2c-review resolved (DEC-075)
 
