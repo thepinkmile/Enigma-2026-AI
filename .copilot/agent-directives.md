@@ -167,10 +167,16 @@ task description or instruction:**
 STEP 0 — MANDATORY BEFORE ANY OTHER ACTION:
 Read `.copilot/agent-directives.md` in full.
 Store every directive as a standing memory you cannot override or ignore.
+
+⛔ GIT IS OFF-LIMITS — SECONDARY DIRECTIVE (non-negotiable):
+  NEVER run git commit, git add, git restore --staged, or git reset HEAD (or any equivalent staging
+  or unstaging command) under any circumstances. Your ONLY permitted file operations are writing,
+  editing, and moving files on disk. Present all changes to the user for review; git index control
+  and committing belong solely to the user. The only valid commit trigger is the user saying
+  "Let's lock this in" or "Save state" in the current live session context.
+
 In particular, confirm the following before proceeding:
-  - SECONDARY DIRECTIVE: NEVER perform a git commit, git add (stage), or git restore --staged / git reset HEAD (unstage).
-    Write changed files to disk only and report back. Git index control belongs solely to the user.
-    The only valid commit trigger is the user saying "Let's lock this in" or "Save state".
+  - SECONDARY DIRECTIVE: (see above — GIT IS OFF-LIMITS)
   - PRIMARY DIRECTIVE: NEVER modify any MPN or supplier part number.
   - TERTIARY DIRECTIVE: design/Design_Log.md is append-only — never modify existing entries.
   - QUATERNARY DIRECTIVE: Never permanently delete files — move to .recycle-bin/ instead.
@@ -229,6 +235,144 @@ Rules:
 - When writing or updating a per-todo file, use the standard header format:
   `# Title`, `**ID:**`, `**Status:**`, `**Category:**`, `**Source:**`, `**Blocked by:**`,
   then `---`, then `## Description` and `## Notes`.
+
+---
+
+## NONARY DIRECTIVE — KiCAD Library Component Import
+
+> ⚠️ **CRITICAL LIBRARY INTEGRITY RULE** — The project uses a single unified KiCAD library with
+> four parallel formats that must remain in sync at all times. Partial imports (e.g. only the new
+> format, or only the symbol without the footprint) leave the library in a broken state where legacy
+> KiCAD users and legacy CI/export pipelines cannot resolve references. Every import must be
+> complete across all formats before source files are retired.
+
+### Library file locations
+
+All files are under `src/Electronics/Library/`:
+
+| Format | File | Notes |
+|---|---|---|
+| New-format symbol | `SamacSys_Parts.kicad_sym` | KiCAD 6+ `(symbol …)` s-expressions |
+| Legacy symbol | `SamacSys_Parts.lib` | EESchema-LIBRARY V2.3, `DEF…ENDDEF` blocks |
+| Legacy component descriptions | `SamacSys_Parts.dcm` | `$CMP` blocks |
+| Legacy footprint library | `SamacSys_Parts.mod` | PCBNEW-LibModule-V1; has `$INDEX` section (lines ~4–90) + `$MODULE…$EndMODULE` blocks |
+| New-format footprint directory | `SamacSys_Parts.pretty/` | One `.kicad_mod` file per footprint |
+| 3D model (footprint ref) | `SamacSys_Parts.3dshapes/` | Use `.stp` extension; bare filename — no path prefix |
+| 3D model (reference copy) | `3D_Models/` | Use `.step` extension; same base name as `.stp` |
+
+### Source location
+
+Parts to import arrive as zip files in `src/Electronics/Library/temp/`. Each zip typically
+contains:
+- `KiCad/<PARTNAME>.kicad_sym` — new-format symbol
+- `KiCad/<PARTNAME>.kicad_mod` — new-format footprint
+- `3D/<PARTNAME>.stp` — 3D model
+
+### Import workflow (run for every part)
+
+**STEP A — Extract** the zip to `src/Electronics/Library/temp/_<source>_extracted/<ZIPNAME>/`.
+Do not flatten the extracted structure.
+
+**STEP B — Check what already exists** for this part:
+- Does a `(symbol "<PARTNAME>" …)` block exist in `SamacSys_Parts.kicad_sym`?
+- Does a `DEF <PARTNAME> …` block exist in `SamacSys_Parts.lib`?
+- Does a `<PARTNAME>.kicad_mod` (or equivalent) exist in `SamacSys_Parts.pretty/`?
+- Does the footprint already contain a `(model …)` ref?
+
+**STEP C — 3D model (always required):**
+1. Copy the `.stp` file to `SamacSys_Parts.3dshapes/<FILENAME>.stp` (keep original filename).
+2. Copy the `.stp` file to `3D_Models/<FILENAME>.step` (same base name, `.step` extension).
+3. If the footprint exists but has no model ref, add one. Model ref format (unquoted filename,
+   legacy style — used consistently across all existing footprints in this library):
+   ```
+     (model <FILENAME>.stp
+       (at (xyz 0 0 0))
+       (scale (xyz 1 1 1))
+       (rotate (xyz 0 0 0))
+     )
+   ```
+   Insert immediately before the final closing `)` of the `.kicad_mod` file.
+
+**STEP D — Symbol (conditional):**
+- If the part already has a symbol in **both** `SamacSys_Parts.kicad_sym` **and**
+  `SamacSys_Parts.lib`: **do NOT import the symbol**. Keep the existing entries.
+- If the part is new (no symbol in either): add the symbol from the zip to all three:
+  `SamacSys_Parts.kicad_sym`, `SamacSys_Parts.lib`, and `SamacSys_Parts.dcm`.
+
+**STEP E — Footprint (conditional):**
+- If a footprint already exists in `SamacSys_Parts.pretty/` matching the symbol's footprint
+  property: **do NOT replace it** — only add the model ref (STEP C). Replacement is forbidden
+  mid-design because pad-position changes break existing PCB layouts.
+- If no footprint exists: import the `.kicad_mod` from the zip into `SamacSys_Parts.pretty/`.
+  Also add the module to `SamacSys_Parts.mod`:
+  - Add the module name to the `$INDEX` section (before `$EndINDEX`).
+  - Append a `$MODULE <NAME>…$EndMODULE <NAME>` block before `$EndLIBRARY`, converted from
+    the new-format `.kicad_mod` pads using the legacy pad syntax below.
+  - Update the footprint property in the symbol (both `SamacSys_Parts.kicad_sym` and
+    `SamacSys_Parts.lib`) to reference `SamacSys_Parts:<FOOTPRINTNAME>`.
+
+### Legacy `.mod` pad syntax (for backport of new footprints)
+
+SMD rectangular pad:
+```
+$PAD
+Po <x> <y>
+Sh "<num>" R <width> <height> 0 0 0
+At SMD N 00888000
+Ne 0 ""
+$EndPAD
+```
+
+NPTH drill hole:
+```
+$PAD
+Po <x> <y>
+Sh "" C <diam> <diam> 0 0 900
+Dr <diam> 0 0
+At HOLE N 00E0FFFF
+$EndPAD
+```
+
+### Naming conventions
+
+- Footprint file names use the part's canonical name with no vendor prefix (e.g.
+  `ERM8-005-XX.X-X-DV-K-TR.kicad_mod`, not `SAMTEC_ERM8-005-XX.X-X-DV-K-TR.kicad_mod`).
+- Zip filenames sometimes use dashes where the library uses concatenated names (e.g.
+  `LIB_10164227-1004A1RLF.zip` → part `101642271004A1RLF`). Always search the library with
+  the normalised (no-dash) form.
+- The internal `fp_text value` of a `.kicad_mod` must match the file's base name.
+
+### Completeness gate and retirement
+
+A part import is **complete** when all of the following are true:
+1. Symbol is present in `SamacSys_Parts.kicad_sym` and `SamacSys_Parts.lib` / `.dcm`.
+2. Footprint `.kicad_mod` is present in `SamacSys_Parts.pretty/` with a valid `(model …)` ref.
+3. Footprint module is present in `SamacSys_Parts.mod` (index + `$MODULE` block).
+4. Both `SamacSys_Parts.3dshapes/<NAME>.stp` and `3D_Models/<NAME>.step` exist.
+5. `src/Electronics/Library/LIBRARY_NOTES.md` is updated — the component inventory table (Section 3) must reflect the new or removed part, and any new naming equivalences must be added to Section 2.
+
+**Only after all four conditions are verified** for a part: move its source zip (and any
+extracted files) from `temp/` to `.recycle-bin/library-retired-YYYYMMDD/`. Do **not** delete
+anything directly — use the QUATERNARY DIRECTIVE `.recycle-bin/` move.
+
+> ⚠️ **Never remove the `temp/` directory itself.** Only move its contents. The directory must
+> remain in place — population and download scripts depend on its existence.
+
+If a condition cannot be satisfied (e.g. no 3D model is available in the zip), document the
+gap clearly in the import summary and do **not** retire the zip until the gap is resolved.
+
+### Agent prompt preamble (SEPTENARY DIRECTIVE compliance)
+
+Every sub-agent prompt for a library import task **must** begin with the standard SEPTENARY
+DIRECTIVE preamble block (defined under the SEPTENARY DIRECTIVE heading in this file) before
+any task-specific instructions. The preamble must be followed immediately by a reference to
+this NONARY DIRECTIVE:
+
+```text
+Also read and apply the NONARY DIRECTIVE — KiCAD Library Component Import — from this file
+before importing any part. All four library formats must be kept in sync. Source files are
+retired to .recycle-bin/ only after a complete verified import.
+```
 
 ---
 

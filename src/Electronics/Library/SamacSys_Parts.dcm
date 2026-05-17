@@ -433,12 +433,6 @@ K
 F 
 $ENDCMP
 #
-$CMP ERF8-005-05.0-S-DV-L-K-TR
-D 10 Position, 0.80 mm Edge Rate&reg; Rugged High Speed Socket
-K
-F http://suddendocs.samtec.com/prints/erf8-xxx-xx.x-xxx-dv-xxxx-xx-mkt.pdf
-$ENDCMP
-#
 $CMP PH1-05-UA
 D Conn Unshrouded Header HDR 5 POS 2.54mm Solder ST Thru-Hole
 K

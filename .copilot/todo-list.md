@@ -78,7 +78,7 @@ Last updated: 2026-05-17 (added review-clean-passes-gate; consolidate-design-spe
 | `review-pass-8` | — | done | — |
 | `review-pass-9` | — | done | — |
 | `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | done | `review-pass-9` |
-| `download-missing-3d-models` | [download-missing-3d-models.md](todos/download-missing-3d-models.md) | pending | — |
+| `download-missing-3d-models` | — | done | — |
 | `review-pass-11` | [review-pass-11.md](todos/review-pass-11.md) | pending | `download-missing-3d-models`, `review-pass-10` |
 | `review-pass-12` | [review-pass-12.md](todos/review-pass-12.md) | pending | `review-pass-11` |
 | `review-clean-passes-gate` | [review-clean-passes-gate.md](todos/review-clean-passes-gate.md) | pending | all `review-pass-x` todos — update when new passes are added |
