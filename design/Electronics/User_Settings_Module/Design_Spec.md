@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 ---
 
@@ -255,6 +255,11 @@ Reads the 10 toggle-switch states and the active-low `CFG_APPLY_N` momentary but
 > **/RESET (pin 17, active-low):** R96 = 10 kΩ 0402 pull-up to 3V3_ENIG. Holds U1 in reset while
 > 3V3_ENIG is unpowered; de-asserts on rail rise for clean power-on sequencing. See DR-USM-13.
 >
+> **INTA / INTB (pins 11 / 10, open-drain):** NC by design. The MCP23017 interrupt outputs are
+> not connected. The CM5 daemon polls U1 via I²C on its main loop, which is sufficient for the
+> low-frequency configuration switch and button inputs; interrupt-driven notification would add CM5
+> GPIO routing and firmware complexity without meaningful benefit.
+>
 ### U2 - MCP23017T-E/SO @ 0x24
 
 Drives Bank 1 LED high-side switch trigger signals (1 source-status LED + 4 config LEDs) via dedicated
@@ -290,6 +295,9 @@ BSS138 NMOS pre-drivers (Q7-Q11), and Bank 1 RGB colour-rail low-side transistor
 > during GPIO Hi-Z at power-up, preventing spurious transistor turn-on.
 >
 > **/RESET (pin 17, active-low):** R97 = 10 kΩ 0402 pull-up to 3V3_ENIG. See DR-USM-13.
+>
+> **INTA / INTB (pins 11 / 10, open-drain):** NC by design. U2 is a pure output driver; no input
+> state changes occur on any port, so the interrupt outputs serve no function.
 >
 ### U3 - MCP23017T-E/SO @ 0x25
 
@@ -327,6 +335,9 @@ BSS138 NMOS pre-drivers (Q12-Q18), and Bank 2 RGB colour-rail low-side transisto
 > during GPIO Hi-Z at power-up, preventing spurious transistor turn-on.
 >
 > **/RESET (pin 17, active-low):** R98 = 10 kΩ 0402 pull-up to 3V3_ENIG. See DR-USM-13.
+>
+> **INTA / INTB (pins 11 / 10, open-drain):** NC by design. U3 is a pure output driver; no input
+> state changes occur on any port, so the interrupt outputs serve no function.
 >
 
 ---
@@ -525,8 +536,7 @@ JLCPCB PCBA and are excluded from the JLCPCB SMT assembly BOM.
 | **0402 Resistors (PMOS pull-up)** | 12 | R66-R77: KOA Speer SG73S1ERTTP4702D 47 kΩ ±0.5% PMOS gate pull-ups |
 | **0402 Resistors (BSS138 gate pull-down)** | 18 | R78-R95: 100kΩ Panasonic ERJ-2RKF1003X - holds gates LOW at power-up Hi-Z |
 | **0402 Resistors (MCP23017 /RESET pull-up)** | 3 | R96-R98: 10kΩ ERJ-2RKF1002X - /RESET to 3V3_ENIG for U1/U2/U3; see DR-USM-13 |
-| **0402 Capacitors (decoupling)** | 3 | 100nF X7R for 3x MCP23017s |
-| **0402 Capacitors (debounce)** | 1 | C4: 100nF X7R `CFG_APPLY_N` debounce |
+| **0402 Capacitors (bypass / debounce)** | 4 | C1-C3: MCP23017 VDD decoupling; C4: `CFG_APPLY_N` debounce (see §6) |
 | **0805 Capacitors (power-entry bulk)** | 10 | C5-C14: 10µF X7R 25V Samsung CL21B106KAYQNNE - 5x on `3V3_ENIG`, 5x on `5V_MAIN` power-entry nodes; satisfies §3 bulk-entry bank rule |
 | **JST PH Connectors** | 1 | J1: 6-pin B6B-PH-K-S(LF)(SN) to Stator |
 | **Pushbutton Switch** | 1 | SW11 - Omron B3F-1070 SPST NO through-hole tactile switch |

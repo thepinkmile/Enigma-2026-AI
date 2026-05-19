@@ -1,6 +1,7 @@
 # Enigma-NG — PoE Front-End Power Analysis: TDK B82806D0060A120 ACF Forward
 
 **Date:** 2026-05-10
+**Last Updated:** 2026-05-18
 **Status:** Active — TDK B82806D0060A120 selected; see DEC-062
 **Affected design document:** `design/Electronics/Controller/Design_Spec.md`
 **Prior analysis (Coilcraft / ACF Flyback):** `design/Electronics/Controller/PoE_Power_Analysis_Coilcraft_v2.md`
@@ -139,7 +140,7 @@ Where:
 
 - Llk = 0.18µH (worst-case MAX, TDK B82806D0060A120 datasheet)
 - Ipk = 1.375A (TPS23730RMTR current-limit threshold, SLVSER6B §8.3)
-- ΔVclamp = Vclamp − Vin_max = 61.14V − 57V = 4.14V (10% above Vin_max = 57V)
+- ΔVclamp = Vclamp − Vin_max = 61.14V (transient clamp peak during switch transition) − 57V = 4.14V (10% above Vin_max = 57V)
 
 ```text
 Cclamp_min = 0.18µH × 1.375² / 4.14² = 0.18 × 1.891 / 17.14 = 0.3403µJ / 17.14 = 19.9nF
@@ -150,7 +151,7 @@ Next E24 value above 19.9nF: **22nF**. ✔
 Voltage headroom check:
 
 ```text
-Vclamp_peak = Vin_max + ΔVclamp = 57 + 4.14 = 61.14V
+Vclamp_peak = Vin_max + ΔVclamp = 57 + 4.14 = 61.14V (transient clamp peak during switch transition)
 Vds_peak    = Vin_max + Vclamp_peak = 57 + 61.14 = 118.1V  (< 160V derating limit)
 ```
 
@@ -162,7 +163,7 @@ P_clamp = ½ × Llk × Ipk² × fsw = ½ × 0.18µH × 1.891 × 200kHz = 0.034W 
 
 Selected: **C17 = 22nF (Kemet C0805C223K2RACAUTO, 22nF X7R 200V 0805)**
 
-A 200V 0805 rating is required: worst-case Vclamp reaches 72V and X7R DC bias derating at 100V reduces effective capacitance below the 19.9nF minimum. See DR-CTL-18.
+A 200V 0805 rating is required: worst-case Vclamp reaches 72V (steady-state SMCJ36CA clamp per DEC-064) and X7R DC bias derating at 100V reduces effective capacitance below the 19.9nF minimum. See DR-CTL-18.
 
 See DR-CTL-18 for the design requirement. See `design/Electronics/Controller/Design_Spec.md` BOM for
 supplier PNs.
@@ -199,7 +200,7 @@ See DR-CTL-25 and `design/Electronics/Consolidated_BOM.md` for L1 details.
 Cout_min = ΔIL1 / (8 × fsw × Vripple) = 1.053 / (8 × 200kHz × 0.12V) = 1.053 / 192000 = 5.5µF
 ```
 
-Standard: 100µF / 25V minimum (highly conservative vs 5.5µF minimum; provides margin for DC-bias derating and long-term reliability). Selected: **4× TDK CGA9N3X7R1E476M230KB** (47µF × 4 = 188µF nominal).
+Standard: 100µF / 35V minimum (highly conservative vs 5.5µF minimum; provides margin for DC-bias derating and long-term reliability). Selected: **4× TDK CGA9N1X7R1V476M230KC** (47µF × 4 = 188µF nominal); see DEC-079.
 
 Effective worst-case capacitance (DC bias at 12V + ±20% tolerance + temperature): ≥103µF ✔
 ESR: ≤2.5mΩ total at 200kHz ✔. See DR-CTL-22.

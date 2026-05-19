@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 ## 1. Overview
 
@@ -204,6 +204,12 @@ Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`. For 
   Board upstream provides a fully-bypassed power rail. Per-IC decoupling per FT232H datasheet: C1-C4, C6-C9
   = 8x 100nF (one per FT232H supply pin: VCCA, VCORE, VCCD, VCCIOx3, VPLL, VPHY) plus a single 4.7µF
   entry filter (C5) on 5V_USB.
+* **UART/MPSSE Mode-Switch Contention (Informational):** The FT232H supports both UART and MPSSE modes.
+  During mode-switch transitions (e.g., when `ftdi_sio` loads before OpenOCD re-opens the device in MPSSE
+  mode), TX/RX lines briefly enter an undefined state. On the JM, FT232H UART lines (AD4/AD5) are not
+  externally connected to the JTAG chain, so this does not affect normal operation. If future firmware
+  exercises FT232H UART capability, the mode-switch sequence in FTDI Application Note AN_135 must be
+  followed to prevent false characters or bus glitches.
 * **FT232H REF Pin Biasing (DR-JM-21):** R8 (12 kΩ ±1%, ERJ-2RKF1202X) connected from FT232H REF (pin 5) to GND.
   The REF pin sets the USB 2.0 High-Speed PHY internal bias reference current. A precise 12 kΩ ±1% resistor
   is required per FTDI FT232H datasheet §3.5 and Application Note AN_146. Without R8, the HS PHY cannot
@@ -246,8 +252,8 @@ Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`. For 
 
 > **Signal Integrity note (JM as complete JTAG master):** The JM hosts all JTAG buffering and
 > termination for the system. U2 buffers TCK and TMS for the 37-device chain load. Series damping
-> (R2-R4) at 33 Ω matches the BtB trace impedance (50 Ω) per DEC-016. The Controller `J5` ↔ Stator
-> `J12` logic dock is a direct board-to-board connection (no cable) - 33 Ω applies throughout (not
+> (R2-R4) at 33 Ω matches the BtB trace impedance (50 Ω) per DEC-016. The Controller `J12` ↔ Stator
+> `J10` logic dock is a direct board-to-board connection (no cable) - 33 Ω applies throughout (not
 > the 75 Ω cable-driving rule).
 > The Controller board routes JTAG lines as pass-through without active components. See DEC-024.
 >

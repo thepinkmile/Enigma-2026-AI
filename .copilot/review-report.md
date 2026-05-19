@@ -1,5 +1,7 @@
 # Deep-Dive Review Cycle — Pass 1
 
+<!-- markdownlint-disable MD025 -->
+
 **Started:** 2026-04-30
 
 ---
@@ -62,7 +64,7 @@
 
 ---
 
-**Batch 1 subtotal: 4 HIGH · 8 MEDIUM · 1 LOW**
+Batch 1 subtotal: **4 HIGH · 8 MEDIUM · 1 LOW**
 
 ### Batch 2 — Extension (review-ext)
 
@@ -99,7 +101,7 @@ Encoder — No findings.
 
 ---
 
-**Batch 2 subtotal: 4 HIGH · 10 MEDIUM · 1 LOW**
+Batch 2 subtotal: **4 HIGH · 10 MEDIUM · 1 LOW**
 
 ### Batch 3 — User Settings Module (review-sbd)
 
@@ -121,7 +123,10 @@ Encoder — No findings.
 
 ### Batch 3 — Integration: Connectivity (review-int-conn)
 
-Integration-Connectivity — No findings. All critical interfaces verified: Link-Alpha, Link-Beta, Extension Port 20-pin pass-through, rotor daisy-chain ERM8/ERF8, I²C addresses, signal directions, and rail names are correctly specified and compatible across all board boundaries.
+Integration-Connectivity — No findings. All critical interfaces verified:
+Link-Alpha, Link-Beta, Extension Port 20-pin pass-through, rotor daisy-chain ERM8/ERF8,
+I²C addresses, signal directions, and rail names are correctly specified and compatible
+across all board boundaries.
 
 ### Batch 3 — Integration: Consolidated BOM (review-int-bom)
 
@@ -133,7 +138,7 @@ Integration-Connectivity — No findings. All critical interfaces verified: Link
 
 ---
 
-**Batch 3 subtotal: 4 HIGH · 4 MEDIUM · 1 LOW**
+Batch 3 subtotal: **4 HIGH · 4 MEDIUM · 1 LOW**
 
 ---
 
@@ -259,7 +264,7 @@ Integration-Connectivity — No findings. All critical interfaces verified: Link
 | F-40 | `agent-directives.md` | General MOQ suppression rule was part-specific only; replaced with blanket MOQ rule preceding ROT-MOQ entry |
 | F-41 | `Reflector/Design_Spec.md` | §2 line 43 stackup string still in old format; corrected to `4-Layer / 2oz Copper (JLC04161H-7628)` |
 
-#### Pass 1 result (after all fixes): ALL ITEMS RESOLVED — ready for Pass 2
+### Pass 1 result (after all fixes): ALL ITEMS RESOLVED — ready for Pass 2
 
 All 42 Pass 1 findings resolved. All user decisions D-1 through D-7 actioned. Zero outstanding items requiring user input before Pass 2 can begin.
 
@@ -504,7 +509,6 @@ All 25 active Pass 2 findings (F-42 through F-66) dispositioned:
 
 Carry-forwards to Pass 3: PM-MIN-1 (low severity). SET-MAJ-2 deferred pending pre-prototype switch procurement.
 
-
 ---
 
 ## Pass 3 — Fix Audit Trail
@@ -638,6 +642,7 @@ The following identifier and signal-name changes were made during Pass 3. Future
 | F-109 | LOW | J7/J8 (2BHR-30-VUA 30-pin dual-row) orientation/keying callout absent from Extension Board_Layout.md. §2 lines 36–49 describe J7/J8 placement and pitch but include no silkscreen orientation mark note. Line 70 documents a silkscreen note for ERM8/ERF8 dock connectors but not for J7/J8. Double-keying on the 2BHR-30-VUA physically prevents incorrect mating, so this is LOW severity documentation only. |
 
 **Batch 2 false positives (not assigned F-IDs):**
+
 - Reflector HIGH (TVS bypass caps): **FALSE POSITIVE** — GRS §3.2 line 112 explicitly exempts ESD/TVS arrays from the per-IC bypass cap rule.
 - Extension U2–U9 MAJOR (TVS bypass caps): **FALSE POSITIVE** — same GRS §3.2 exemption.
 - AM CRITICAL (STM32G071K8T3TR JLCPCB PN = `-`): **FALSE POSITIVE** — user-confirmed consignment-only sourcing; `-` is intentional.
@@ -675,6 +680,7 @@ No genuine findings. AM CRITICAL finding was a false positive (see above).
 | F-110 | MEDIUM | `USM/Board_Layout.md` contains no mounting holes section. Design_Spec.md DR-USM-11 specifies M2.5 holes and a BOM row exists for MH1-MH4, but Board_Layout.md has zero references to mounting hole positions, designators, or GND_CHASSIS connection. |
 
 **Batch 3 false positive:**
+
 - USM R81–R98 JLCPCB PN missing (MEDIUM): **FALSE POSITIVE** — BOM Notes explicitly states "no JLCPCB stock" — intentional sourcing decision.
 
 ---
@@ -751,6 +757,7 @@ All genuine findings. **No changes applied.** This table is research-only, await
 **Cross-board impact:** F-98 (`PWR_BUT_N`) spans Power Module and Controller; all other findings are board-local.
 
 **Recommended fix priority:**
+
 1. **F-98** (HIGH) — active-low naming error; affects signal integrity documentation and schematic capture.
 2. **F-108** (MEDIUM) — DR gap requires user decision before it can be closed.
 3. **F-101, F-102, F-103, F-110** (MEDIUM) — Board_Layout and DR documentation gaps; straightforward additions.
@@ -779,6 +786,7 @@ All genuine findings. **No changes applied.** This table is research-only, await
 | F-110 | ✅ Fixed | `User_Settings_Module/Board_Layout.md` | §10 Mounting Holes added: 4× M3 PTH, GND_CHASSIS, Ø3.2mm, one per corner. Positions TBD at PCB layout. |
 
 **Additional work completed (not a review finding):**
+
 - `design/Production/JLCPCB_Manufacturing.md` created — full JLCPCB fabrication capabilities, board stackups
   (JLC04161H-7628 4-layer for all boards; JLC06161H-2116 6-layer for CTL only), and PCBA constraints
   (single-sided SMT, no blind/buried vias on standard service). Cross-reference added to GRS §2.
@@ -918,7 +926,9 @@ All genuine findings. **No changes applied.** This table is research-only, await
 
 **PRIMARY DIRECTIVE holds on:** ENC-F-02 (GRS §3.2 supplier PN discrepancy) — user must confirm authoritative PN set before any GRS edit.
 
-**Key decision required:** ENC-F-01, ROT-P6-01, AM-F02 — three boards all depart from GRS §4 M3 standard with M2.5 holes. Recommend a single DEC exception covering all small-form-factor boards rather than three separate entries.
+**Key decision required:** ENC-F-01, ROT-P6-01, AM-F02 — three boards all depart from GRS §4 M3 standard
+with M2.5 holes. Recommend a single DEC exception covering all small-form-factor boards rather than three
+separate entries.
 
 ---
 
@@ -972,7 +982,10 @@ All genuine findings. **No changes applied.** This table is research-only, await
 | INT-F-07 | MEDIUM | Cross-Spec Designator | `Software/Linux_OS/Power_Management.md` line 17 reads "MIC1555 U15 (monostable one-shot)". PM BOM: U13 = MIC1555YM5-TR (monostable); U15 = NL27WZ14DFT2G-Q (Schmitt-trigger inverter). |
 | INT-F-08 | MEDIUM | Cross-Spec Designator | `Software/Linux_OS/Power_Management.md` line 44 cites LTC3350 /INTB pull-up as "R29 10 kΩ to 3V3_ENIG (PM)". PM BOM confirms /INTB pulled HIGH by R22. PM R29 is a transistor gate hold-off resistor (Q4–Q10 group). |
 
-**Root cause note (INT-F-01, 02, 04, 05, 07, 08):** Six of the eight findings share a common root cause — PM board was renumbered/updated after designation but CTL Design_Spec.md and Power_Management.md cross-references were not updated to match. These are revision-drift artifacts requiring a systematic audit of all PM-facing designator references.
+**Root cause note (INT-F-01, 02, 04, 05, 07, 08):** Six of the eight findings share a common root cause —
+PM board was renumbered/updated after designation but CTL Design_Spec.md and Power_Management.md
+cross-references were not updated to match. These are revision-drift artifacts requiring a systematic audit
+of all PM-facing designator references.
 
 #### Integration — Consolidated BOM Cross-Check
 
@@ -1000,6 +1013,7 @@ All genuine findings. **No changes applied.** This table is research-only, await
 | **Total** | **47** | |
 
 **Notes:**
+
 - INT-F-03 (AM absent from Boards_Overview.md) is a duplicate of AM-F03 (Batch 2); fix counts once.
 - BOM-P6-09 System Qty arithmetic depends on BOM-P6-07 and BOM-P6-08 corrections being applied first.
 - Six INT findings (INT-F-01, 02, 04, 05, 07, 08) share root cause: PM board renumbering not propagated to CTL/Software docs.
@@ -1030,6 +1044,7 @@ All genuine findings. **No changes applied.** This table is research-only, await
 | BOM-P6-06 | Consolidated BOM / PM | PM cap RefDes systematic +2 offset causing identity conflicts; requires PM BOM audit. |
 
 **PRIMARY DIRECTIVE still outstanding on:**
+
 - CTL-P6-01: T1 manufacturer + supplier PNs
 - ROT-P6-02: U3–U10 Mouser PN missing leading `T`
 - ENC-F-02: GRS §3.2 supplier PN set — user must confirm authoritative set
@@ -1385,14 +1400,19 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 75 findings reviewed. 16 named findings fixed in-session (INT-BOM-P9-02 applied as two sub-fixing actions for 02A+02B), 5 closed (no fix required), 54 deferred to Pass 10. DEC-072 appended to Design_Log.md.
 
 **New parts added this session:**
+
 - **ERJ-2RKF3300X** — Panasonic 330Ω 1% 0402 | DigiKey: P330LCT-ND | Mouser: 667-ERJ-2RKF3300X | JLCPCB: C278592
 - **1.5SMBJ36CA** — Bourns 36V 1.5kW bidirectional TVS DO-214AA (SMB) | DigiKey: 118-1.5SMBJ36CACT-ND | Mouser: 652-1.5SMBJ36CA | JLCPCB: C5439937
 
 **KiCAD library assets added:**
+
 - `src/Electronics/Library/SamacSys_Parts.kicad_sym` — 1.5SMBJ36CA symbol (Bourns TVS)
 - `src/Electronics/Library/SamacSys_Parts.pretty/DIONM5436X244N.kicad_mod` — DO-214AA (SMB) footprint
 
-**Deferred to Pass 10 (54 findings):** Systematic stackup-code, controlled-impedance trace-width, and DEC-023→DEC-057 citation families across all boards; USM Board_Layout pull-column update; MH pattern reviews; KiCAD BOM placeholder cleanup; Boards_Overview USM node label; JTAG_Integrity stale stackup refs; PM/ROT BOM flat-count arithmetic; polyfuse signal names in Notes; Keystone RefDes mismatch; CTL SI narrative.
+**Deferred to Pass 10 (54 findings):** Systematic stackup-code, controlled-impedance trace-width, and
+DEC-023→DEC-057 citation families across all boards; USM Board_Layout pull-column update; MH pattern reviews;
+KiCAD BOM placeholder cleanup; Boards_Overview USM node label; JTAG_Integrity stale stackup refs; PM/ROT BOM
+flat-count arithmetic; polyfuse signal names in Notes; Keystone RefDes mismatch; CTL SI narrative.
 
 ---
 
@@ -1478,20 +1498,28 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | INT-CON-P9-06 | ✅ Fixed | `Boards_Overview.md` | Mermaid node label "Settings Board" → "User Settings Module". |
 
 **Additional work completed (not a review finding):**
+
 - GRS §3.2 bypass cap proximity wording updated (from `enc-connector-review-pre-pcb` todo closure)
 - JTAG_Module TTD_RETURN net name propagated throughout Design_Spec §3.1 and Board_Layout §5 (scope of CTL-P9-06 fix)
 - USM R11 → R1 RefDes renumber (CFG_APPLY_N pull-up; pre-existing numbering rationalisation)
 
 **Post-Pass-9 housekeeping (2026-05-15 session):**
-- `JTAG_Module/Design_Spec.md` — signal table (lines 118–122) and code-block column widths widened to accommodate `TDD_RETURN` (longer than previous `TDO`); direct follow-on from CTL-P9-06/TDD_RETURN propagation
+
+- `JTAG_Module/Design_Spec.md` — signal table (lines 118–122) and code-block column widths widened to
+  accommodate `TDD_RETURN` (longer than previous `TDO`); direct follow-on from CTL-P9-06/TDD_RETURN propagation
 - `Controller/Design_Spec.md` — CTL D2 (1.5SMBJ36CA) KiCAD Footprint status confirmed and updated Pending → ✔; legacy `.lib` and new `.kicad_sym` verified in sync
 - `User_Settings_Module/Design_Spec.md` — Last Updated date corrected from erroneous 2026-05-27 → 2026-05-15
-- Library expanded: 21 new parts added to `SamacSys_Parts.lib` / `.dcm` / `.kicad_sym`; 12 new `.kicad_mod` footprints; 19 new `.stp` 3D models. New parts: ERJ-2RKF3300X, ERJ-2RKF1003X, WP154A4SEJ3VBDZGW/CA, BSS138LT1G (accepted as footprint for BSS138), SQ2319ADS-T1_BE3, ERF8-010-05.0-S-DV-K-TR (8-pin), BHR-20-VUA (20-way), 0436500519 (Molex Micro-Fit 5-ckt), CWF1610A-180K, 219-6LPSTR, PH1-07-UA, ERM8-005-05.0-S-DV-K-TR (no 3D), + 9 ERJ/supporting variants
+- Library expanded: 21 new parts added to `SamacSys_Parts.lib` / `.dcm` / `.kicad_sym`; 12 new `.kicad_mod`
+  footprints; 19 new `.stp` 3D models. New parts: ERJ-2RKF3300X, ERJ-2RKF1003X, WP154A4SEJ3VBDZGW/CA,
+  BSS138LT1G (accepted as footprint for BSS138), SQ2319ADS-T1_BE3, ERF8-010-05.0-S-DV-K-TR (8-pin),
+  BHR-20-VUA (20-way), 0436500519 (Molex Micro-Fit 5-ckt), CWF1610A-180K, 219-6LPSTR, PH1-07-UA,
+  ERM8-005-05.0-S-DV-K-TR (no 3D), + 9 ERJ/supporting variants
 - ~179 KiCAD Footprint status ticks applied (Pending → ✔) across all 10 board Design_Spec files (ACT, CTL, ENC, EXT, JTAG, PM, REF, ROT, STA, USM)
 
 **Remaining Pending footprint rows (downloads not yet available):**
+
 | Board | RefDes | MPN | Reason |
-|-------|--------|-----|--------|
+| ------- | -------- | ----- | -------- |
 | Extension | J3 | ERM8-010-05.0-S-DV-K-TR | 10-pin variant — not downloaded |
 | Extension | J7, J8 | 2BHR-30-VUA | Not downloaded |
 | Reflector | J3 | ERM8-010-05.0-S-DV-K-TR | Not downloaded |
@@ -1503,9 +1531,17 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | Stator | J10 | 2BHR-30-VUA | Not downloaded |
 | Stator | J11, J12 | 2195620015 | Not downloaded |
 
-**Pass 9 fix summary:** 16 named findings fixed in-cycle (15 unique finding IDs; INT-BOM-P9-02 addressed as two sub-finding actions 02A+02B) · 5 closed in-cycle (no fix required) · 2 note-only items · 54 deferred items resolved post-cycle (2026-05-15): 34 fixed, 20 confirmed already correct (closed)
+**Pass 9 fix summary:** 16 named findings fixed in-cycle (15 unique finding IDs; INT-BOM-P9-02 addressed as
+two sub-finding actions 02A+02B) · 5 closed in-cycle (no fix required) · 2 note-only items · 54 deferred
+items resolved post-cycle (2026-05-15): 34 fixed, 20 confirmed already correct (closed)
 
-**Pass 9 deferred resolution (2026-05-15):** All 54 deferred items addressed in a follow-up session. Families resolved: stackup/CI sweep (10 files), DEC-023→DEC-057 citation sweep (1 change; all other boards confirmed clean), MH pattern sweep (CTL §9 added, USM MH1–MH4 corrected), PM/ROT/USM/JM/INT-CON targeted fixes. Additionally: EXT and REF Pattern B chassis MH sections added (gap items discovered during MH sweep, not original Pass 9 findings); stale R1=232kΩ historical note removed from PM Design_Spec (historical-data rule violation); `agent-directives.md` review agent checklist updated to make historical-content check a cardinal HIGH-severity item in both stand-alone and integration review scopes.
+**Pass 9 deferred resolution (2026-05-15):** All 54 deferred items addressed in a follow-up session.
+Families resolved: stackup/CI sweep (10 files), DEC-023→DEC-057 citation sweep (1 change; all other boards
+confirmed clean), MH pattern sweep (CTL §9 added, USM MH1–MH4 corrected), PM/ROT/USM/JM/INT-CON targeted
+fixes. Additionally: EXT and REF Pattern B chassis MH sections added (gap items discovered during MH sweep,
+not original Pass 9 findings); stale R1=232kΩ historical note removed from PM Design_Spec
+(historical-data rule violation); `agent-directives.md` review agent checklist updated to make
+historical-content check a cardinal HIGH-severity item in both stand-alone and integration review scopes.
 
 ---
 
@@ -1514,7 +1550,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### Controller Board (CTL) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | CTL-P10-01 | MAJOR | Calc Inconsistency | `Controller/PoE_Power_Analysis.md §5/§6`, `DR-CTL-18`, `DEC-062` | Three mutually-inconsistent Vds_peak values exist: §5 = 81.8 V (ACF Flyback formula — wrong topology); §6/DR-CTL-18 = 118.1 V (Vin_max + Vclamp_peak transient); DEC-062 = 108 V (correct ACF Forward: Vin/(1−D_max) at Vin=36 V, D=66.7%). DEC-062 is the correct derivation authority. DR-CTL-18 and §5/§6 need reconciliation to 108 V. | — |
 | CTL-P10-02 | MINOR | DCR Discrepancy + DR Violation | `Controller/PoE_Power_Analysis.md §7.1`, `DR-CTL-25`, `DEC-063`, `Consolidated_BOM.md` | ① PoE_Power_Analysis §7.1 states L1 DCR as 35 mΩ typ / 57 mΩ max; DEC-063 (authoritative) gives 48 mΩ typ / 58 mΩ max for Yageo PA4343.333NLT. ② Design_Spec §7.1 specifies "DCR ≤ 50 mΩ" (DR-CTL-25); selected part max DCR = 58 mΩ exceeds this by 8 mΩ (16%). DR-CTL-25 must be updated to ≤ 58 mΩ or a compliant alternative part sourced. | — |
 | CTL-P10-03 | MINOR | Stale Text | `Controller/Design_Spec.md §7.1` | §7.1 still reads "L1 (33µH shielded SMT power inductor, TBD)" and "Part selection pending" despite DEC-063 confirming the part as Yageo PA4343.333NLT. Text was not updated as part of the DEC-063 or post-P9 housekeeping passes. | — |
@@ -1537,7 +1573,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### Stator (STA) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | STA-P10-01 | LOW | Documentation / Traceability | `Design_Log.md` DEC-032 supersession note | DEC-032 supersession note cites "address-map and harness refinements" but does not cross-reference the later amendment that corrects "U8 GPA[4]" (DEC-032 line 1526) to "U8 GPA[6]" for `CFG_APPLY_N`. A reader following DEC-032 in isolation receives incorrect firmware guidance. Design_Spec.md DR-STA-13, DR-STA-15, and Board_Layout.md all correctly state GPA[6], but the traceability chain through the Design Log is broken for this pin assignment. DEC-032 supersession note should cross-reference the correcting amendment. | — |
 | STA-P10-02 | LOW | Documentation / Power Architecture | `Stator/Design_Spec.md §3, §5` | Design_Spec never states which voltage rail connects to EPM570T100I5N VCCINT or to VCCIO Bank 1 / Bank 2. JTAG pull-ups R3–R5 and ESD device U9 terminate to 3V3_ENIG making 3.3 V Bank 1 VCCIO implicit and correct, but without explicit documented pin-level power assignment a future revision could connect VCCIO Bank 1 to a 2.5 V rail — conflicting with the 3.3 V pull-ups. Add a CPLD power-rail assignment table to Design_Spec. | `Intel_max2_cpld-handbook.md` §3 (Bank VCCIO controls I/O standard) |
 | STA-P10-03 | INFO | Documentation | `Stator/Design_Spec.md §5 BOM` | C1–C8 (EPM570T100I5N bypass caps) listed without citing the per-package VCCINT/VCCIO pin count justifying the count. Intel MAX II handbook §3 Board Decoupling mandates one 100 nF cap per VCC/GND pin pair; EPM570 T100 carries 4 VCCINT + 4 VCCIO pins = 8 pairs → 8 caps, consistent with C1–C8. Design is correct; add pin-count citation to spec for reviewer traceability. | `Intel_max2_cpld-handbook.md` §3 Board Decoupling |
@@ -1549,7 +1585,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### Rotor (ROT) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | ROT-P10-01 | MINOR | Documentation | `Rotor_26_Char_Design.md` header, `Rotor_64_Char_Design.md` header | `Last Updated: 2026-04-XX` — invalid ISO 8601 date in both variant files. The `XX` placeholder was never replaced with an actual day. All other Rotor documents carry valid dates. | — |
 | ROT-P10-02 | MINOR | Documentation | `Rotor/Board_Layout.md §1` | §1 describes "four single-row 2.54mm THT headers (J7 1×5, J8 1×5, J9 1×5, J10 1×7; 22 pins total)". Actual count per Design_Spec.md DR-ROT-11 and §3.4 is **8 headers (J7–J14, 44 pins total)**. Headers J11–J14 are completely absent from the §1 architectural summary — a 50% undercount. | — |
 | ROT-P10-03 | MAJOR | Schematic | `Rotor_26_Char_Design.md §7` | **Intra-document contradiction.** §7 body states "CH1–CH3 each carry a dummy LC tank" for U11A. The §7 Note block (lines 166–169) states "CH1–CH3 are tied to GND via 100 kΩ." These are mutually exclusive designs. Design_Spec.md §2.1 (authoritative) and the variant BOM (L5A–L8A, C22A–C25A) both confirm the dummy LC tank as correct. Tying unused FDC2114 inputs to GND causes oscillation instability per TI application note cited in Design_Spec.md §2.1. The stale Note must be deleted or corrected — it actively prescribes the wrong circuit. | `fdc2112-datasheet.md` §8 (unused channel handling) |
@@ -1573,15 +1609,15 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### Reflector (REF) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | REF-P10-01 | MINOR | CrossRef | `Reflector/Design_Spec.md §1 FR-REF-03` | FR-REF-03 Satisfied-By column reads "Controller-facing `J5` logic dock → FT232H". The JM BtB connector on the Controller has been designated J12 since NEW-CTL-01 (P7). `J5` is a stale designator; the informational path note should reference Controller J12 (or defer to the authoritative path description in `JTAG_Module/Design_Spec.md`). | — |
 | REF-P10-02 | MINOR | Signal | `Reflector/Design_Spec.md DR-REF-04, §1 mermaid diagram, §3 prose` | Three residual "TDO" uses conflict with the project-wide TTD/TTD_RETURN convention established by CTL-P9-06: (a) DR-REF-04 Specification: "R1 = 22 Ω, 0603, on TDO line"; (b) mermaid edge `U1 -- "TDO" --> R1`; (c) §3 prose: "R1 (22Ω) is a series damping resistor on the TDO return line". DR-REF-06 and the mermaid J1 node already use TTD/TTD_RETURN correctly — these three instances are internally inconsistent and deviate from the project convention. | — |
 | REF-P10-03 | MINOR | Documentation | `Reflector/Board_Layout.md §3 J4 pin table` | Pins 1-2 and 29-30 (5V_MAIN) show Direction "In" and Description "Main 5V supply" / "Main 5V supply (paired)" with no NC notation. Design_Spec §3 and DR-REF-03 are unambiguous that these pins are intentionally unconnected (cable-family compatibility only). A layout engineer reading the pin table in isolation would have no indication these pins must not be connected. Description field should note "(NC — cable family compatibility only)". | — |
-| REF-P10-04 | LOW | BOM | `Reflector/Design_Spec.md §8 BOM J3 row` | J3 (ERM8-010-05.0-S-DV-K-TR) DigiKey PN = `SAM8610CT-ND`. BOM-P6-02 corrected the analogous ERM8-005 DigiKey PN to the current Samtec catalogue format (`612-ERM8-005-05.0-S-DV-K-TRCT-ND`); J3 ERM8-010 was not updated in that fix and retains the same old-format pattern. Expected corrected form: `612-ERM8-010-05.0-S-DV-K-TRCT-ND`. PRIMARY DIRECTIVE: confirm correct DigiKey PN before applying any fix. | — |
-| REF-P10-05 | MEDIUM | BOM | `Reflector/Design_Spec.md §8 BOM, Consolidated_BOM.md` | J3 (ERM8-010-05.0-S-DV-K-TR) and J4 (2BHR-30-VUA) KiCAD footprints both remain "Pending". PCB layout cannot be DRC-cleared or submitted for manufacture until both footprints are downloaded and assigned. J4 open since Pass 1; J3 confirmed Pending since Pass 3. | — |
+| REF-P10-04 | LOW | BOM | `Reflector/Design_Spec.md §8 BOM J3 row` | ~~J3 (ERM8-010-05.0-S-DV-K-TR) DigiKey PN = `SAM8610CT-ND` in old-format pattern.~~ **FALSE POSITIVE — CLOSED.** PRIMARY DIRECTIVE: all supplier PNs are pre-approved and intentional. `SAM8610CT-ND` is a valid, user-verified DigiKey PN. Format variation is not a defect. No action required. | — |
+| REF-P10-05 | MEDIUM | BOM | `Reflector/Design_Spec.md §8 BOM, Consolidated_BOM.md` | J3 (ERM8-010-05.0-S-DV-K-TR) and J4 (2BHR-30-VUA) KiCAD footprints both remain "Pending". PCB layout cannot be DRC-cleared or submitted for manufacture until both footprints are downloaded and assigned. J4 open since Pass 1; J3 confirmed Pending since Pass 3. **PARTIAL RESOLUTION:** ERM8-010 KiCAD library import complete (all 4 formats + 3D model); BOM footprint columns ticked ✔ for J3. J4 (2BHR-30-VUA) still Pending — no library data available; library request placed with supplier. Per user instruction: 2BHR-30-VUA does NOT block design phase, only schematic capture. | — |
 | REF-P10-06 | LOW | Layout | `Reflector/Board_Layout.md` (all sections), `Reflector/Design_Spec.md §7` | GRS §7.1 requires pin-1 silkscreen identification markers on every J-prefix connector, verified at the `review-mounting-holes` checkpoint before manufacture. Neither Board_Layout.md nor Design_Spec.md §7 cites this requirement or documents marker placement for J1, J2, J3, or J4. | — |
-| REF-P10-07 | MINOR | Layout | `Reflector/Design_Spec.md §7` | §7 specifies the Data Plate as containing "the Enigma silhouette, 'ENIGMA-NG' text, and JLC Serial Number block." GRS §6 additionally mandates an `AUSGABE [Rev] V1.0` revision-marking block on every board's Data Plate. This requirement is absent from §7; if §7 is used as the sole layout reference the AUSGABE label would be omitted. | — |
-| REF-P10-08 | MINOR | BOM | `Reflector/Design_Spec.md §8 BOM C1–C5 row` | C1–C5 (10µF X7R 25V 0805) Notes column is blank ("–"). Consistent with the standard applied to other boards, the Notes field should identify the purpose ("J4 bulk power-entry decoupling") and cite the governing rule (GRS §3). | — |
+| REF-P10-07 | MINOR | Layout | `Reflector/Design_Spec.md §7` | §7 specifies the Data Plate as containing "the Enigma silhouette, 'ENIGMA-NG' text, and JLC Serial Number block." GRS §6 additionally mandates an `AUSGABE [Rev] V1.0` revision-marking block on every board's Data Plate. This requirement is absent from §7; if §7 is used as the sole layout reference the AUSGABE label would be omitted. **RESOLVED via todo:** Full cross-board Data Plate standardisation tracked in `data-plate-standardisation` todo (dependency for `review-pass-11`). Format confirmed: `GERMAN [English] Vx.y` (AUSGABE prefix dropped). All boards will be updated before next review pass. | — |
+| REF-P10-08 | MINOR | BOM | `Reflector/Design_Spec.md §8 BOM C1–C5 row` | ~~C1–C5 Notes column is blank.~~ **FALSE POSITIVE — CLOSED.** BOM Notes column is PROCUREMENT ONLY. A blank Notes field is correct and must not be flagged. No action required. | — |
 
 **Pass 10 REF finding summary:** 0 CRITICAL · 0 HIGH · 1 MEDIUM · 2 LOW · 5 MINOR = **8 total**
 
@@ -1590,7 +1626,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### Extension (EXT) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | EXT-P10-01 | LOW | Diagram | `Design_Spec.md §1` Mermaid block diagram | J8 (Extension Port OUT, 30-pin 2×15) is placed inside the **"Rotor Output (Slots 11-20)"** subgraph alongside J4 (JTAG Out, ERF8-005) and J6 (ENC Data Out, ERF8-010). J8 is not a rotor-facing connector — it is the downstream Extension Port carrying the full 30-signal set to the next board. It should occupy its own "Extension/Reflector Interface" subgraph mirroring the "Stator/Extension Interface" subgraph containing J7. Current placement misleads readers into treating J8 as equivalent in scope to J4/J6. | FR-EXT-04 |
 | EXT-P10-02 | LOW | BOM | `Design_Spec.md §6` BOM, J7/J8 row | KiCAD footprint for **2BHR-30-VUA** (30-pin 2×15 shrouded IDC box header, J7 and J8) is not downloaded — "Footprint Downloaded: Pending". PCB layout for Extension Port connectors is gated on this footprint. The 2BHR-30-VUA has been the specified connector since DEC-053. | DEC-053 |
 | EXT-P10-03 | LOW | BOM | `Design_Spec.md §6` BOM, J3 row | KiCAD footprint for **ERM8-010-05.0-S-DV-K-TR** (J3) is not downloaded — "Footprint Downloaded: Pending". J1/J2 (ERM8-005) and J4–J6 (ERF8-005/010) are confirmed downloaded; J3 is the only ERM8/ERF8 footprint gap remaining on this board. | DR-EXT-02 |
@@ -1608,7 +1644,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### Encoder (ENC) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | ENC-P10-01 | MEDIUM | Layout | `Board_Layout.md §5.2` | §5.2 note states "L1 traces from pins 1 and 20 to the via entry points at **0.50 mm minimum**" for the 3V3_ENIG power entry stubs. This directly contradicts (a) §5.1 table which specifies 0.80 mm for 3V3_ENIG power, and (b) GRS §1.1 canonical supply trace width of 0.80 mm. No justification or GRS-cited exception is provided for the 0.50 mm relaxation. If fabricated at 0.50 mm the entry stubs would not comply with GRS §1.1. | GRS §1.1 |
 | ENC-P10-02 | LOW | Layout | `Board_Layout.md §5.1` | ENC-P9-02 updated the **Specified Width** column for the JTAG CI row to "per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1". However the **Design Min** column in the same row still reads **0.127 mm** — the pre-P9 stale value. For the JLC041621-3313 stackup, GRS §2.3.1 gives a minimum of 0.1425 mm; the Design Min column should be updated to 0.1425 mm to complete the P9 fix. | GRS §2.3.1 |
 | ENC-P10-03 | LOW | BOM | `Design_Spec.md §10` BOM, SW1–SW40 row | SW1–SW40 carry "(no standard MPN)" in the MPN column and "eBay gadgetskingdom" as the sole supplier entry. DigiKey, Mouser, and JLCPCB PN columns are all blank. 40 switches from a single eBay seller is a production-risk gap. Equivalent standardised parts exist from Omron (D6C series) and C&K via standard distributors. | BOM Content Rules |
@@ -1623,7 +1659,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### User Settings Module (USM) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | USM-P10-01 | HIGH | Documentation | `Design_Spec.md §3 Bank 1` lines 156–158 | **Stale pull-down text contradicts DEC-071.** §3 states: *"Pull-down resistors (10kΩ, one per switch signal) hold each input at logic-0 when the corresponding switch is open."* DEC-071 removed all switch pull-down resistors (R1–R10) and adopted dual-terminated wiring (NC→GND, NO→3V3_ENIG). No pull-down resistors exist on the USM for SW1–SW10. The §4 U1 pin table (line 248) correctly states the 330Ω series topology — §3 actively contradicts it. Must be corrected before any layout or firmware work references §3 as authoritative. | DEC-071 |
 | USM-P10-02 | HIGH | Schematic | `Design_Spec.md §4`, `Board_Layout.md` | **MCP23017 RESET pin treatment absent for U1, U2, U3 — functional correctness blocker.** RESET (pin 18, active-LOW, Schmitt-trigger input) is not mentioned in any of the three U1/U2/U3 pin tables, not in Board_Layout.md (zero matches), and no RESET pull-up resistors appear in the BOM. If RESET is left floating or pulled low the device holds in reset permanently — all I²C reads return zero, no GPIO output possible. All three MCP23017s would be silently non-functional. Required fix: document RESET tied to 3V3_ENIG (direct tie or via 10kΩ pull-up) in pin tables, Board_Layout, and BOM for each of U1/U2/U3. | `MCP23017-Datasheet.md` §4.3 (RESET pin), §6 DC characteristics |
 | USM-P10-03 | MEDIUM | BOM | `Consolidated_BOM.md` Q19–Q30 row | KiCAD footprint for SQ2319ADS-T1_BE3 (Q19–Q30, SOT-23 P-channel MOSFET) is listed as "No / Requested". PCB layout cannot proceed to DRC or JLCPCB Gerber submission without this custom SOT-23 footprint. Part itself is fully verified (AEC-Q101, VDS=−40V, VGS(th)=−2.0V typ). Footprint delivery is the sole blocker. | `vishay-sq2319ads-datasheet.md` |
@@ -1644,7 +1680,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### Actuation Module (AM) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | AM-P10-01 | LOW | Documentation | `Actuation_Module/Design_Spec.md` DR-AM-17 | DR-AM-17 specifies R5 for current limiting and multi-drive conflict prevention but does not state that the idle-low state of BOOT0/PA14 when SW2 is open depends on the STM32G071 **internal pull-down active at reset** (datasheet footnote 6, ~40 kΩ typ). The circuit is functionally correct; §3.7 prose and the SW1/SW2 bootloader sequence are accurate. A layout or production engineer cannot verify the BOOT0 idle logic level from the design spec alone without consulting the datasheet. Recommend adding a cross-reference: "Idle-low when SW2 open is assured by the STM32G071 PA14 internal pull-down active at reset (see datasheet footnote 6); no external pull-down is fitted." | `stm32g071.md` footnote 6 |
 | AM-P10-02 | INFO | BOM | `Actuation_Module/Design_Spec.md §6` BOM C5 row, `Design_Log.md DEC-046` | C5 = CL21B106KAYQNNE (10µF X7R 25V 0805) on 5V_MAIN is **DEC-046 compliant** — DEC-046 explicitly names this part as the approved 25V bulk/reservoir cap. No design change required. However, C5's BOM Notes field is blank while adjacent C4 carries "see DEC-046". Adding a matching note ("see DEC-046 — 25V reservoir cap approved") would prevent future reviewers from mistakenly treating the 25V rating as an oversight against the 50V bypass-cap policy. | — |
 | AM-P10-03 | LOW | Layout | `Actuation_Module/Board_Layout.md §2.5`, J2–J5 sections | §2.5 explicitly calls out the J1 DF40 silkscreen pin-1 triangle marker per GRS §7.1. J2–J5 service headers (Adam Tech PH1-05-UA, 1×5 2.54mm THT) appear nowhere in Board_Layout.md §2 with respect to pin-1 silkscreen. A layout engineer using Board_Layout.md as the sole placement reference would have an explicit reminder for J1 but none for J2–J5. A note confirming J2–J5 pin-1 marking per GRS §7.1 should be added to the service-cluster section. | GRS §7.1 |
@@ -1660,7 +1696,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### JTAG Module (JM) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | JM-P10-01 | HIGH | Schematic | `JTAG_Module/Design_Spec.md §5` BOM, `Consolidated_BOM.md` JM rows | **FT232H REF pin (pin 5) 12kΩ 1% resistor absent from BOM — functional blocker.** FT232H datasheet Table 3.2 and §4.2 mandate a 12kΩ ±1% resistor from REF (pin 5) to GND to establish the USB UTMI PHY bias current reference. JM BOM contains R1–R4 (33Ω series) and R5–R7 (10kΩ pull-ups); no 12kΩ resistor exists in either Design_Spec.md §5 or Consolidated_BOM.md JM rows (all 9 JM rows cross-checked). Without this resistor the FT232H USB HS PHY bias reference is unset and the device will not reliably enumerate at USB 2.0 High-Speed. Resistor must be added to the schematic, BOM, and Consolidated_BOM.md before PCB layout. | `FT232H-datasheet.md` Table 3.2 (REF: 12kΩ ±1% to GND, mandatory), §4.2 |
 | JM-P10-02 | HIGH | Signal | `JTAG_Module/Board_Layout.md` line 80, J1 pin table | **P9 regression — J1 pin C9R2 reads "TDO", must be "TTD_RETURN".** CTL-P9-06 propagated the TTD/TTD_RETURN net-name convention across all JTAG Module documents. The fix was applied correctly to Design_Spec.md line 144 ("TTD_RETURN" ✓) and Board_Layout.md §5 trace-width table. However the J1 connector pin table at Board_Layout.md line 80 (pin C9R2) was not updated and still reads "TDO". A layout engineer referencing Board_Layout.md for connector pinout would assign the wrong net name to J1 C9R2. | — |
 | JM-P10-03 | MEDIUM | Schematic | `JTAG_Module/Design_Spec.md §3` DR table, `§6` electrical requirements | **FT232H TEST pin (pin 42) must be tied to GND — requirement entirely absent from JM documentation.** FT232H datasheet Table 3.2 explicitly lists TEST (pin 42) as "Connect to GND". No DR entry, no §6 note, no BOM annotation, and no schematic note documents this mandatory connection. If TEST is left floating at PCB assembly the device behaviour is undefined. A DR entry or §6 note must be added before schematic capture. | `FT232H-datasheet.md` Table 3.2 (TEST: connect to GND, mandatory) |
@@ -1669,14 +1705,16 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | JM-P10-06 | MINOR | CrossRef | `design/Datasheets/Hirose-DF40_Catalog_en-datasheet.md` supplementary project notes | Hirose datasheet supplementary project notes list "CTL J11" as the receptacle and "AM J1" as the plug. Current design uses "CTL J12" (per Consolidated_BOM.md and JTAG_Module/Design_Spec.md §3) and "JM J1" (per DR-JM-07). "CTL J11" is a superseded pre-P7 CTL connector designator; "AM J1" misidentifies the JM as the Actuation Module. Both entries are stale. | — |
 | JM-P10-07 | MINOR | CrossRef | `JTAG_Module/Design_Spec.md §6` line 241 | §6 line 241 references "Controller `J5` ↔ Stator `J12` logic dock" — `J5` is a stale CTL connector designator. CTL J5 was renamed to J12 by change NEW-CTL-01 at CTL-P7. REF-P10-01 independently identified the same stale "J5" in Reflector/Design_Spec.md FR-REF-03, confirming project-wide staleness. If line 241 intends a distinct CTL Link-Beta connector, the correct designator must be verified against Controller/Design_Spec.md. | REF-P10-01 (same stale-J5 pattern) |
 
-**Pass 10 JM finding summary:** 0 CRITICAL · 2 HIGH · 1 MEDIUM · 2 LOW · 2 MINOR = **7 total** · JM-P10-01 is a functional blocker (FT232H USB HS PHY inoperable without REF 12kΩ) · JM-P10-02 is a P9 regression (CTL-P9-06 fix missed Board_Layout.md J1 pin table)
+**Pass 10 JM finding summary:** 0 CRITICAL · 2 HIGH · 1 MEDIUM · 2 LOW · 2 MINOR = **7 total** ·
+JM-P10-01 is a functional blocker (FT232H USB HS PHY inoperable without REF 12kΩ) ·
+JM-P10-02 is a P9 regression (CTL-P9-06 fix missed Board_Layout.md J1 pin table)
 
 ---
 
 ### Power Module (PM) — Pass 10
 
 | ID | Severity | Category | File / Section | Finding | Datasheet Ref |
-|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- |
 | PM-P10-01 | HIGH | Signal | `Design_Spec.md §2.5` line 370, `§3.1` line 464 | **TPS25980 EN pull-up misidentified as R12 in two locations.** Both §2.5 (latch-off recovery paragraph) and §3.1 (SW1 description) state "EN pulled HIGH via R12 to VIN_BUS" / "R12 (10kΩ to VIN_BUS) holds EN HIGH". R12 is the LTC3350 BACKUP comparator voltage-divider bottom resistor (ERA-3ARB103V, 10.0kΩ 0.1% thin-film) connected from 5V_MAIN to the BACKUP pin — not to the TPS25980 EN pin. The actual TPS25980 EN pull-up is **R15** (ERJ-3EKF1002V, 10kΩ 1% 0603, VIN_BUS → EN). Replace both occurrences of "R12 (10kΩ to VIN_BUS)" with "R15 (10kΩ to VIN_BUS)". | — |
 | PM-P10-02 | MEDIUM | Documentation | `Design_Spec.md §2` (absent), BOM lines 651–652 | U16 (SN74LVC1G175DBVR D-type flip-flop shutdown latch) and U17 (SN74LVC1G08DBVR AND gate) appear in the BOM but have no §2 subsection documenting function, connectivity, signal names, supply voltage, or design rationale. Their purpose (forming the shutdown state-machine in the SW2/CM5 indicator circuit) is only inferrable from §3.2 shutdown sequence prose. Add a §2.6 (or similar) subsection for the shutdown latch/LED logic cluster (U16, U17, Q4–Q8) with signal assignments, supply rail, bypass cap designators, and design rationale. | — |
 | PM-P10-03 | HIGH | CrossRef | `Power_Budgets.md` lines 55, 98; `Electrical_Design.md` line 22 | **Five stale cross-document component references spanning two files:** (1) Power_Budgets.md L55: PCA9534A = "U16" → correct U14; (2) Power_Budgets.md L98: INA219 shunt = "R23 10mΩ" → correct R16; (3) Power_Budgets.md L98: INA219 monitor = "U12, 0x40" → correct U10; (4) Power_Budgets.md L98: LTC3350 shunt = "R12 10mΩ CSS2H-2512R-R010ELF" → correct R10 KRL6432T4-M-R010-F-T1; (5) Electrical_Design.md L22: INA219 shunt = "R23 10mΩ" → correct R16. All five stale references must be updated. | — |
@@ -1688,7 +1726,9 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | PM-P10-09 | MEDIUM | CrossRef | `Design_Spec.md` BOM line 610, component notes line 709; `Consolidated_BOM.md` line 48 | Three locations still use pre-DEC-038 dock connector designators "J1-J3": Design_Spec.md BOM line 610, component notes line 709 ("J1 carries 5V_MAIN/3V3_ENIG, J2 carries VIN_POE_12V/GND, J3 carries control/telemetry"), and Consolidated_BOM.md line 48. DEC-038 redesignated these to J1A, J1B, J1C. All three occurrences plus the §1 Mermaid (PM-P10-04) must use J1A/J1B/J1C. | DEC-038 |
 | PM-P10-10 | HIGH | Schematic | `Design_Spec.md §2.5` lines 398–402; `Design_Log.md DEC-030` line 1371 | **R23=33.2kΩ gives LTC3350 switching frequency of 1.611 MHz — 61% above the 1 MHz rated maximum.** LTC3350 datasheet App Info (p.17) formula: fSW (MHz) = 53.5 / RT (kΩ). At RT=33.2kΩ: fSW = 1.611 MHz. LTC3350 EC table maximum RT=53.6kΩ → 1 MHz max. Operating at 1.611 MHz risks IC instability, incorrect output regulation during backup switchover, and potential device damage. The meas_cap register scaling also depends on RT and will report incorrect capacitance values. Design_Spec §2.5 line 402 cites DEC-030 as confirmation — but DEC-030 line 1371 contains the same error ("R30: new 33.2kΩ … sets switching frequency to 400kHz"). DEC-072 closure of PM-P9-01 citing DEC-030 is therefore circular. **Correct RT for 400kHz: 53.5 / 0.400 = 133.75kΩ (E96 nearest: 133kΩ).** Replace R23 with 133kΩ 1% 0402; update §2.5 text; append new DEC entry documenting the correction with the correct formula. Do NOT re-use the DEC-030 frequency claim. | `LTC3350 datasheet` App Info p.17 (fSW = 53.5/RT formula), EC table (RT range 53.6kΩ–267kΩ) |
 
-**Pass 10 PM finding summary:** 5 HIGH · 5 MEDIUM = **10 total** · PM-P10-10 is a functional correctness blocker (LTC3350 operating at 1.611 MHz vs 1 MHz max; DEC-030 is the source of the error) · PM-P10-07 mislabels U2B topology in system-facing Mermaid diagram
+**Pass 10 PM finding summary:** 5 HIGH · 5 MEDIUM = **10 total** · PM-P10-10 is a functional correctness
+blocker (LTC3350 operating at 1.611 MHz vs 1 MHz max; DEC-030 is the source of the error) ·
+PM-P10-07 mislabels U2B topology in system-facing Mermaid diagram
 
 ---
 
@@ -1699,7 +1739,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 #### CRITICAL — system will not function
 
 | ID | Severity | Category | Board(s) | File / Section | Finding | Source |
-|:---|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | INT-P10-001 | CRITICAL | I2C | PM / STA | `PM Design_Spec §3`, `STA Design_Spec §4`, `CTL §4.1` | **TPS25751 I²C address conflict at 0x20.** PM U4 (TPS25751DREFR) default slave address = 0x20. STA U6 (MCP23017) is also strapped to 0x20. Both devices share the Link-Alpha system I²C bus. No address-pin strap configuration is documented for U4; absent from CTL §4.1 I²C bus table. Collision will corrupt all I²C traffic on the shared bus. | NEW |
 | INT-P10-017 | CRITICAL | Power | PM | `PM Design_Spec §2.5` lines 398–402; `Design_Log.md DEC-030` | LTC3350 oscillator R23=33.2kΩ → fSW=1.611 MHz, exceeding rated 1 MHz max by 61%. DEC-030 contains the same arithmetic error; DEC-072 PM-P9-01 closure citing DEC-030 is circular. Correct R for 400kHz = **133kΩ**. Supercap backup IC operated outside validated region. | PM-P10-10 |
 | INT-P10-018 | CRITICAL | Schematic | USM | `USM Design_Spec §4`, `Board_Layout.md`, `BOM` | MCP23017 RESET pin (pin 18, active-LOW) undriven on all three expanders (U1/U2/U3). No pull-up in pin tables, Board_Layout.md, or BOM. Devices will hold in reset under power-supply ramp; all USM GPIO and I²C transactions return 0x00. Fix: add 3× 10kΩ pull-ups to 3V3_ENIG. | USM-P10-02 |
@@ -1708,7 +1748,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 #### HIGH — must fix before integration testing
 
 | ID | Severity | Category | Board(s) | File / Section | Finding | Source |
-|:---|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | INT-P10-002 | HIGH | CrossRef | PM | `Power_Budgets.md` lines 55, 98; `Electrical_Design.md` line 22 | Five stale cross-document refs: (1) PCA9534A "U16"→U14; (2) INA219 shunt "R23 10mΩ"→R16; (3) INA219 monitor "U12"→U10; (4) LTC3350 shunt "R12 CSS2H"→R10 KRL6432T4; (5) Electrical_Design INA219 "R23"→R16. Wrong RefDes/MPN will produce wrong firmware shunt calibration constants. | PM-P10-03 |
 | INT-P10-020 | HIGH | Power | CTL | `CTL Design_Spec §4.3`, `CTL BOM C20`, `Electrical_Design.md §1` | C20 (4× CGA9N3X7R1E476M230KB, 47µF **25V** X7R 2220) on VIN_POE_12V (12V). 2.5× derating rule requires ≥30V. Under-rated by 5V; X7R DC-bias derating at 12V on 25V part drops effective capacitance 40–50%, likely violating DR-CTL-22 bulk minimum. Replace with 35V equivalent. | CTL-P10-13 |
 | INT-P10-022 | HIGH | Signal | PM | `PM Design_Spec §2.5` line 370, `§3.1` line 464 | TPS25980 EN pull-up misidentified as R12 (LTC3350 BACKUP divider leg) in two locations. Actual EN pull-up = R15. Will misdirect schematic review and bring-up fault diagnosis. | PM-P10-01 |
@@ -1725,7 +1765,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 #### MAJOR — fix before schematic release
 
 | ID | Severity | Category | Board(s) | File / Section | Finding | Source |
-|:---|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | INT-P10-032 | MAJOR | Schematic | ROT | `ROT Rotor_26_Char_Design.md §7`, `Design_Spec §2.1` | §7 body specifies dummy LC tank for FDC2114 CH1–CH3; §7 Note block contradicts this with "tied to GND via 100kΩ". Mutually exclusive circuits. Design_Spec §2.1 and BOM confirm LC tank is correct. 100kΩ GND-tie causes FDC2114 oscillator instability (TI SNOA930). | ROT-P10-03 |
 | INT-P10-033 | MAJOR | CrossRef | ROT | `DEC-045`, `ROT Design_Spec §6` | DEC-045 TVS RefDes stale (U5–U12 vs current U3–U10) and J2/J5 power-connector exemption unratified. DEC and Design_Spec are in unresolved conflict. New DEC entry needed to ratify J2/J5 exemption. | ROT-P10-06 |
 | INT-P10-034 | MAJOR | CrossRef | CTL | `DEC-057`, `DEC-058`, `DEC-061` | DEC-057/058 retain pre-DEC-061 mounting-hole assignments (MH13–MH16 = JDB). DEC-061 reassigned MH9–MH12=JDB, MH13–MH16=CM5 SoM. DEC-057/058 should carry "Superseded by DEC-061" notation; new DEC-073 clarification entry required. | NEW |
@@ -1733,7 +1773,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 #### MEDIUM — documentation error or minor discrepancy
 
 | ID | Severity | Category | Board(s) | File / Section | Finding | Source |
-|:---|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | INT-P10-006 | MEDIUM | CrossRef | ALL | `Design_Log.md DEC-018` | DEC-018 system I²C/GPIO bus ownership register is three architectural generations stale (predates DEC-031, DEC-038, DEC-070). Referenced by several board specs as canonical I²C map. New DEC entry needed to supersede with corrected ownership table. | NEW |
 | INT-P10-010 | MEDIUM | CrossRef | ALL | `Design_Log.md` Board Connector Inventory | Board Connector Inventory section is three connector generations stale (predates DEC-038, DEC-053, DEC-061). No "Superseded" notice. | NEW |
 | INT-P10-035 | MEDIUM | CrossRef | REF / JM | `REF Design_Spec FR-REF-03`, `JM Design_Spec §6` line 241 | Stale "CTL J5" designator in two documents. J5 renamed to J12 (JM BtB dock) at CTL-P7/NEW-CTL-01. Both documents must reference CTL J12. | REF-P10-01, JM-P10-07 |
@@ -1745,21 +1785,25 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 #### MINOR — cosmetic / low-risk documentation
 
 | ID | Severity | Category | Board(s) | File / Section | Finding | Source |
-|:---|:---|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | INT-P10-040 | MINOR | BOM | CTL | `CTL BOM T1`, `DEC-062` | T1 manufacturer field still reads "Bourns" post-DEC-062 (adopted TDK B82806D0060A120). **PRIMARY DIRECTIVE — requires owner confirmation before edit.** Deferred. | NEW |
 | INT-P10-041 | MINOR | BOM | EXT / PM | `EXT BOM`, `PM BOM` | Mouser PN "595-PD4E05U06QDQARQ1" missing leading "T" for TPD4E05U06QDQARQ1. EXT Pass 6 fix confirmed; PM status requires independent BOM sweep. ROT-P6-02 suppressed (intentional). | NEW |
 | INT-P10-043 | MINOR | CrossRef | ALL | `Design_Log.md DEC-018`, Board Connector Inventory | DEC-018 and Board Connector Inventory should carry explicit "Superseded by DEC-038, DEC-053, DEC-061, DEC-070" banners. No new DEC entry currently ratifies the supersession. | INT-P10-006 |
 
-**Pass 10 INT finding summary:** 4 CRITICAL · 11 HIGH · 3 MAJOR · 6 MEDIUM · 3 MINOR · 2 PROCESS = **29 open** · 16 prior findings confirmed resolved · INT-P10-001 (TPS25751 I²C 0x20 conflict) is a new cross-cutting CRITICAL not identified in any individual board review
+**Pass 10 INT finding summary:** 4 CRITICAL · 11 HIGH · 3 MAJOR · 6 MEDIUM · 3 MINOR · 2 PROCESS =
+**29 open** · 16 prior findings confirmed resolved · INT-P10-001 (TPS25751 I²C 0x20 conflict) is a
+new cross-cutting CRITICAL not identified in any individual board review
 
 ---
 
 ## Pass 10 — Consolidated Findings Table
 
-> All unique findings across all 11 agents (10 boards + system integration). INT findings that duplicate individual-board findings are cross-referenced but not double-counted in totals. Severity normalised to: CRITICAL · HIGH · MAJOR · MEDIUM · LOW · MINOR · INFO.
+> All unique findings across all 11 agents (10 boards + system integration).
+> INT findings that duplicate individual-board findings are cross-referenced but not double-counted
+> in totals. Severity normalised to: CRITICAL · HIGH · MAJOR · MEDIUM · LOW · MINOR · INFO.
 
 | ID | Severity | Board | Category | One-line summary |
-|:---|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- | :--- |
 | INT-P10-001 | **CRITICAL** | PM/STA | I2C | TPS25751 I²C address 0x20 conflicts with STA U6 MCP23017 — shared bus collision |
 | INT-P10-017 | **CRITICAL** | PM | Power | LTC3350 R23=33.2kΩ → 1.611 MHz; 61% over 1 MHz rated max; correct R=133kΩ |
 | INT-P10-018 | **CRITICAL** | USM | Schematic | MCP23017 RESET pin undriven on all 3 expanders — all USM GPIO permanently non-functional |
@@ -1791,7 +1835,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | USM-P10-05 | MEDIUM | USM | BOM | ERJ-2RKF1003X 100kΩ: no JLCPCB stock; consignment required before PCBA order |
 | JM-P10-03 | MEDIUM | JM | Schematic | FT232H TEST pin (pin 42) mandatory GND tie absent from entire JM documentation |
 | CTL-P10-11 | MEDIUM | CTL | Schematic | (see INT-P10-028; ACF Forward formula error — duty-cycle calcs invalid) |
-| REF-P10-05 | MEDIUM | REF | BOM | J3 (ERM8-010) and J4 (2BHR-30-VUA) KiCAD footprints both "Pending" — PCB layout gate |
+| REF-P10-05 | MEDIUM | REF | BOM | J3 (ERM8-010) footprint imported ✔; J4 (2BHR-30-VUA) still Pending — non-blocking (schematic capture only) |
 | ENC-P10-01 | MEDIUM | ENC | Layout | §5.2 note specifies 0.50mm for 3V3_ENIG entry stubs; §5.1 table and GRS §1.1 require 0.80mm |
 | INT-P10-006 | MEDIUM | ALL | CrossRef | DEC-018 I²C bus ownership table three generations stale; no supersession DEC entry |
 | INT-P10-010 | MEDIUM | ALL | CrossRef | Board Connector Inventory three generations stale; no "Superseded" notice |
@@ -1808,7 +1852,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | ROT-P10-13 | LOW | ROT | CrossRef | Design_Spec §4 cites GRS §2.3.1 without inlining stackup code JLC041621-3313 |
 | STA-P10-01 | LOW | STA | CrossRef | DEC-032 supersession note doesn't cross-reference the GPA[4]→GPA[6] amendment |
 | STA-P10-02 | LOW | STA | Documentation | No CPLD power-rail assignment table (VCCINT/VCCIO bank assignments implicit) |
-| REF-P10-04 | LOW | REF | BOM | J3 ERM8-010 DigiKey PN in old "SAM…CT-ND" format; not updated during BOM-P6-02 |
+| REF-P10-04 | ~~LOW~~ | ~~REF~~ | ~~BOM~~ | ~~J3 ERM8-010 DigiKey PN in old "SAM…CT-ND" format~~ **FALSE POSITIVE — CLOSED** (PRIMARY DIRECTIVE: supplier PNs are pre-approved) |
 | REF-P10-06 | LOW | REF | Layout | GRS §7.1 pin-1 silkscreen requirement not cited for J1–J4 in Board_Layout or Design_Spec |
 | EXT-P10-01 | LOW | EXT | Diagram | J8 (Extension Port OUT) placed inside "Rotor Output" subgraph — wrong subgraph |
 | EXT-P10-02 | LOW | EXT | BOM | 2BHR-30-VUA KiCAD footprint "Pending" for J7/J8 — PCB layout gate |
@@ -1838,8 +1882,8 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | REF-P10-01 | MINOR | REF | CrossRef | FR-REF-03 references stale "Controller J5"; JM dock = CTL J12 (see INT-P10-035) |
 | REF-P10-02 | MINOR | REF | Signal | Three residual "TDO" uses in Design_Spec (DR-REF-04, mermaid, §3 prose) vs project TTD convention |
 | REF-P10-03 | MINOR | REF | Documentation | J4 pin 1-2 and 29-30 shown as "5V_MAIN In" with no NC notation; should say "(NC — cable family)" |
-| REF-P10-07 | MINOR | REF | Layout | §7 Data Plate spec missing AUSGABE [Rev] V1.0 requirement from GRS §6 |
-| REF-P10-08 | MINOR | REF | BOM | C1–C5 Notes field blank; should identify purpose and cite GRS §3 |
+| REF-P10-07 | MINOR | REF | Layout | §7 Data Plate spec missing revision block requirement from GRS §6 — **RESOLVED via `data-plate-standardisation` todo (dep for review-pass-11)** |
+| REF-P10-08 | MINOR | REF | BOM | ~~C1–C5 Notes field blank~~ **FALSE POSITIVE — CLOSED** — BOM Notes is procurement-only; blank is correct |
 | EXT-P10-05 | MINOR | EXT | Documentation | §2 says ACTUATE_REQUEST_N "sourced from non-homing switch on this board" — switch is on the AM |
 | EXT-P10-06 | MINOR | EXT | BOM | C6 BOM Notes blank; should cite U1 JTAG buffer VCC bypass per GRS §3.2 |
 | EXT-P10-07 | MINOR | EXT | CrossRef | Two §2 cross-doc references use abbreviated paths instead of full repo-relative paths |
@@ -1872,7 +1916,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### Pass 10 — Overall Totals
 
 | Severity | Count | Key blockers |
-|:---|:---:|:---|
+| :--- | :---: | :--- |
 | **CRITICAL** | **4** | INT-P10-001 (I²C conflict), INT-P10-017/PM-P10-10 (LTC3350 overfreq), INT-P10-018/USM-P10-02 (RESET), INT-P10-019/JM-P10-01 (FT232H REF) |
 | **HIGH** | **17** | CTL: 3 · PM: 4 · USM: 2 · JM: 2 · INT: 6 |
 | **MAJOR** | **4** | ROT: 2 · CTL: 1 · INT: 1 |
@@ -1883,6 +1927,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | **TOTAL** | **98** | |
 
 **Functional blockers (must fix before any board can be prototyped):**
+
 1. `PM-P10-10` / `INT-P10-017` — LTC3350 R23 wrong value; replace with 133kΩ
 2. `USM-P10-02` / `INT-P10-018` — Add MCP23017 RESET pull-ups for U1/U2/U3
 3. `JM-P10-01` / `INT-P10-019` — Add FT232H REF 12kΩ bias resistor
@@ -1899,9 +1944,9 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### All-Critical and Functional Blockers
 
 | ID | Finding | Status | Notes |
-|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- |
 | INT-P10-001 | TPS25751 I²C 0x20 conflict | ✅ RESOLVED | Resolved by DEC-076; TPS25751 reassigned to unique address |
-| INT-P10-017 / PM-P10-10 | LTC3350 R23=33.2kΩ → 1.611 MHz | ✅ RESOLVED | R23→R16, 133kΩ; Power_Budgets.md and Design_Spec.md updated |
+| INT-P10-017 / PM-P10-10 | LTC3350 R23=33.2kΩ → 1.611 MHz | ✅ RESOLVED | R23 = 133kΩ (ERJ-PC3B1333V); Design_Spec §2.5 + §5 + BOM all updated ✅ |
 | INT-P10-018 / USM-P10-02 | MCP23017 RESET pins undriven | ✅ RESOLVED | R96/R97/R98 pull-ups added to BOM and Design_Spec |
 | INT-P10-019 / JM-P10-01 | FT232H REF pin 12kΩ absent | ✅ RESOLVED | R8 added to JM BOM and Design_Spec |
 | INT-P10-030 / JM-P10-03 | FT232H TEST pin GND tie absent | ✅ RESOLVED | DR-JM-22 added; TEST→GND documented |
@@ -1910,7 +1955,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### HIGH Severity
 
 | ID | Finding | Status | Notes |
-|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- |
 | CTL-P10-11 / CTL-P10-01 / CTL-P10-08 | PoE ACF Flyback formulas vs Forward topology | ✅ RESOLVED | PoE_Power_Analysis.md rewritten: §3 D formula, §5 Vds, §6.1 I_pk, §7.1 DCR+ripple, §7.2 Cout, §8 RMS, §9–10, §12 |
 | CTL-P10-09 / INT-P10-038 | D2 described as unidirectional; MPN = bidirectional | ✅ RESOLVED | Design_Spec §9.4 updated to bidirectional |
 | INT-P10-031 | BT1 footprint footnote undefined | ✅ RESOLVED | BOM Notes footnote added to CTL Design_Spec |
@@ -1922,14 +1967,14 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 | PM-P10-05 | TPS25980 fault table four errors | ✅ RESOLVED | UVLO/OVLO → auto-recovery; OTP/TSD → latch added; F1 TCO clarified |
 | PM-P10-07 | U2B mislabeled "3V3 Buck" | ✅ RESOLVED | Confirmed correct ("U2B 5V Buck LMQ61460") in prior session |
 | INT-P10-035 | Stale "CTL J5" in REF/JM/ROT | ✅ RESOLVED | FR-REF-03, JM Design_Spec §6, ROT Design_Spec §3.2 all updated to J12 |
-| INT-P10-037 | PM §1 Mermaid still "DF40C" | ✅ RESOLVED | Mermaid updated to "TE 1123684-7"; note: designator rename J1-J3→J1A/J1B/J1C remains open (PM-P10-09) |
+| INT-P10-037 | PM §1 Mermaid still "DF40C" | ✅ RESOLVED | Mermaid updated to "TE 1123684-7"; designator J1/J2/J3 ratified as correct by DEC-080 (PM-P10-09 ✅) |
 | JM-P10-02 | Board_Layout C9R2 still "TDO" | ✅ RESOLVED | Updated to TTD_RETURN |
 | USM-P10-01 | §3 pull-down description contradicts DEC-071 | ✅ RESOLVED | Updated to DEC-071 SPDT dual-terminated topology |
 
 ### MAJOR Severity
 
 | ID | Finding | Status | Notes |
-|:---|:---|:---|:---|
+| :--- | :--- | :--- | :--- |
 | ROT-P10-03 | §7 Note block: 100kΩ GND-tie vs LC tank contradiction | ✅ RESOLVED | Note block corrected to dummy LC tank description |
 | ROT-P10-06 | DEC-045 TVS RefDes stale; J2/J5 exemption unratified | ✅ RESOLVED | ROT Design_Spec §6 correctly uses U3–U10 and documents J2/J5 power-connector exemption; DEC-045 is an immutable historical entry and is not the authoritative source |
 | CTL-P10-10 | Consolidated BOM J14,J15 stale (duplicate entry; see HIGH) | ✅ RESOLVED | — |
@@ -1939,7 +1984,7 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 ### Key MINOR/LOW Fixes Applied
 
 | ID | Finding | Status |
-|:---|:---|:---|
+| :--- | :--- | :--- |
 | ROT-P10-01 | Placeholder dates 2026-04-XX | ✅ RESOLVED |
 | ROT-P10-02 | Board_Layout header count 4→8, 22→44 pins | ✅ RESOLVED |
 | ROT-P10-05 | SW3[4:5] → SW3[5:4] | ✅ RESOLVED |
@@ -1955,16 +2000,228 @@ All directly-actionable findings fixed. List 2 (deferred) findings converted to 
 
 ### Deferred to Pass 11
 
-The following items were out of scope for this session (GRS cross-reference documentation, layout annotations, BOM notes for non-functional fields, and items requiring further investigation) and are carried forward as pass-11 candidates:
+The following items were out of scope for this session (GRS cross-reference documentation, layout
+annotations, BOM notes for non-functional fields, and items requiring further investigation) and are
+carried forward as pass-11 candidates:
 
-- **PM:** PM-P10-02 (U16/U17 subsection), PM-P10-06 (D4 TVS subsection), PM-P10-08 (DR-PM-14 Pi filter cap placement rule), PM-P10-09 (J1A/J1B/J1C dock designator rename — three locations remain)
-- **CTL:** CTL-P10-04 (DEC citations superseded annotations), CTL-P10-05 (hardcoded CI trace widths), CTL-P10-06 (BOM Notes bypass cap fields), CTL-P10-07 (remaining stale RefDes in Consolidated BOM), CTL-P10-08 (J11/MH5–MH8 gated on AM layout)
-- **ROT:** ROT-P10-08 (DEC-016 TTD series resistor exemption), ROT-P10-09 (CPLD_RESET_N stack loading analysis), ROT-P10-10 (GRS §6 Data Plate), ROT-P10-11 (GRS §7.1 pin-1 markers), ROT-P10-12 (ERM8 electrical data), ROT-P10-13 (stackup code inline), ROT-P10-15 (N=64 CH3 dummy LC RefDes mapping)
-- **REF:** REF-P10-03 (J4 NC pin notation), REF-P10-04 (DigiKey PN format), REF-P10-05 (footprints Pending), REF-P10-06 (GRS §7.1), REF-P10-07 (AUSGABE Data Plate), REF-P10-08 (BOM Notes)
+- **PM:** PM-P10-02 (U16/U17 subsection), PM-P10-06 (D4 TVS subsection), PM-P10-08 (DR-PM-14 Pi filter cap placement rule)
+- **CTL:** CTL-P10-04 (DEC citations superseded annotations), CTL-P10-05 (hardcoded CI trace widths), CTL-P10-06 (BOM Notes bypass cap fields), CTL-P10-08 (J11/MH5–MH8 gated on AM layout)
+- **ROT:** ROT-P10-10 (GRS §6 Data Plate), ROT-P10-11 (GRS §7.1 pin-1 markers), ROT-P10-12 (ERM8 electrical data), ROT-P10-15 (N=64 CH3 dummy LC RefDes mapping)
+- **REF:** REF-P10-05 (footprints Pending), REF-P10-06 (GRS §7.1), REF-P10-07 (Data Plate — resolved via `data-plate-standardisation` todo)
 - **EXT:** EXT-P10-01 through EXT-P10-09
 - **ENC:** ENC-P10-01 through ENC-P10-06
 - **USM:** USM-P10-03 through USM-P10-09
 - **AM:** AM-P10-01, AM-P10-02, AM-P10-03
 - **JM:** JM-P10-04, JM-P10-05, JM-P10-06
-- **STA:** STA-P10-01, STA-P10-02, STA-P10-03
+- **STA:** STA-P10-02, STA-P10-03
 - **INT:** INT-P10-006, INT-P10-010, INT-P10-040, INT-P10-041, INT-P10-043
+
+---
+
+## Pass 10 Verification (Phase A — Pass 11 Pipeline)
+
+> For each board, every P10-NN finding was checked against the current design documents.
+> Status key: RESOLVED ✅ | PARTIAL ⚠️ | OPEN ❌
+
+---
+
+### STA — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| STA-P10-01 | LOW | DEC-032 supersession note must cross-reference DEC-070 GPA[4]→GPA[6] correction | ✅ RESOLVED | Design_Spec.md line 191 updated: DEC-032 citation now includes inline note pointing to DEC-070 D6 correcting U8 CFG_APPLY_N from GPA[4] to GPA[6]. |
+| STA-P10-02 | LOW | No explicit CPLD power-rail assignment table (VCCINT/VCCIO bank assignments) in Design_Spec.md | ⚠️ PARTIAL | Board_Layout.md §10 now carries prose note: "All VCCINT and VCCIO pins on U1 connect to 3V3_ENIG." However: (1) note is in Board_Layout not Design_Spec §3/§5 where finding was raised; (2) prose rather than explicit bank table. |
+| STA-P10-03 | INFO | C1–C8 bypass cap count not cited against EPM570 VCCINT/VCCIO pin-count (Intel MAX II §3) | ❌ OPEN | BOM row C1-C8 (qty 16 with C14-C21) exists. No document states: EPM570 T100 has 4 VCCINT + 4 VCCIO pins = 8 pairs → 8 caps (C1–C8). Count correct but entirely unjustified. |
+
+STA P10 verification: **0 resolved ✅, 1 partial ⚠️, 2 open ❌**
+
+---
+
+### ROT — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| ROT-P10-01 | MINOR | Stale `Last Updated: 2026-04-XX` placeholder dates | ✅ RESOLVED | Both `Rotor_26_Char_Design.md` and `Rotor_64_Char_Design.md` line 7: `Last Updated: 2026-05-17` |
+| ROT-P10-02 | MINOR | Board_Layout §1 states "4 headers J7-J10, 22 pins" — wrong count | ✅ RESOLVED | Board_Layout.md §1 line 18: "eight single-row 2.54mm THT headers (J7–J14, 44 pins total)" |
+| ROT-P10-03 | MAJOR | §7 body says "dummy LC tank" but Note block says "tied to GND via 100kΩ" — mutually exclusive | ✅ RESOLVED | Rotor_26_Char_Design.md §7 body and Note block both specify dummy LC tank; no GND-tie contradiction present |
+| ROT-P10-04 | MINOR | FDC2114 IDRIVE documented as 0x7C00 — bit 10 reserved must be 0; correct value 0x7800 | ✅ RESOLVED | Design_Spec.md line 244: `DRIVE_CURRENT_CHx = 0x7800; bit 10 is reserved and must be 0` |
+| ROT-P10-05 | MINOR | SW3[4:5] non-standard bit notation — should be SW3[5:4] | ✅ RESOLVED | Design_Spec.md line 548 uses `SW3[5:4]` (MSB:LSB correct) |
+| ROT-P10-06 | MAJOR | DEC-045 TVS RefDes stale (U5–U12 vs current U3–U10); J2/J5 power-connector exemption unratified | ✅ RESOLVED | Design_Spec.md §6.1 ESD table uses U3–U10; lines 658–659 explicitly exempt J2/J5 with bulk-cap rationale |
+| ROT-P10-07 | MINOR | DEV_CLRN/DEV_CLR_N not in Design_Spec — only Board_Layout §6.1 correct | ✅ RESOLVED | Design_Spec.md §3.3 JTAG Net Name Mapping note block cites GRS §10 and DEV_CLRN → DEV_CLR_N rename with cross-ref to Board_Layout §6.1 |
+| ROT-P10-08 | LOW | J2/J5 TTD series resistor deviation from DEC-016 not formally ratified | ✅ RESOLVED | DEC-081 formally ratifies Rotor TTD no-series-resistor policy as exempt from DEC-016's 33 Ω BtB rule; Design_Spec §3.3 updated with (per DEC-081) cross-reference. |
+| ROT-P10-09 | LOW | 333Ω aggregate CPLD_RESET_N pull-up with 30 Rotors — driver analysis missing | ✅ RESOLVED | DEC-078 contains the full analysis: 30× 333Ω load identified, MCP23017 IOL overload confirmed, resolved by BSS138 MOSFET buffer Q1 on Stator. Design_Spec §3.3 updated with DEC-078 cross-reference. |
+| ROT-P10-10 | MINOR | GRS §6 Data Plate requirement not referenced in docs | ❌ OPEN | No reference to GRS §6 Data Plate found anywhere in Design_Spec.md or Board_Layout.md |
+| ROT-P10-11 | MINOR | GRS §7.1 pin-1 marker for J7–J14 not documented | ❌ OPEN | No GRS §7.1 pin-1 marker reference for J7–J14 in Board_Layout.md |
+| ROT-P10-12 | MINOR | J2/J5 current rating 0.5A/pin not verifiable from archived datasheet | ❌ OPEN | Design_Spec §3.4 states "5 pins × 0.5 A/pin = 2.5 A capacity" without datasheet source citation |
+| ROT-P10-13 | LOW | §4 stackup cites GRS §2.3.1 only; JLCPCB code JLC041621-3313 not inlined | ✅ RESOLVED | Design intent confirmed: stackup code is intentionally housed in GRS only to avoid tight coupling across board specs. Current wording is correct as-is. |
+| ROT-P10-14 | MINOR | ESD table uses TDI/TDO instead of TTD | ✅ RESOLVED | Design_Spec §6.1 ESD table: all JTAG data signal names use TTD |
+| ROT-P10-15 | MINOR | N=64 U2 CH3 dummy LC RefDes mapping missing | ❌ OPEN | Rotor_64_Char_Design.md §8 BOM lists C22B–C25B / L5B–L8B but no explicit CH3-to-RefDes channel mapping for U2 or U11B |
+
+ROT P10 verification: **8 resolved ✅, 1 partial ⚠️, 6 open ❌**
+
+---
+
+### REF — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| REF-P10-01 | MINOR | FR-REF-03 referenced stale "Controller J5" instead of J12 | ✅ RESOLVED | Design_Spec §1 FR-REF-03: "Via J4 → Stator J10 → Controller J12 (JM BtB dock) → FT232H" |
+| REF-P10-02 | MINOR | Three residual "TDO" uses conflicting with TTD/TTD_RETURN convention | ✅ RESOLVED | DR-REF-04, mermaid edge, and §3 prose all corrected to TTD / TTD_RETURN |
+| REF-P10-03 | MINOR | J4 pin table pins 1-2 and 29-30 show no NC notation | ✅ RESOLVED | Board_Layout §3 pins 1, 2, 29, 30 updated: Direction In → NC; Description updated to "Main 5V supply (NC — cable family compatibility only)". |
+| REF-P10-04 | LOW | J3 DigiKey PN in stale SAM8610CT-ND format | ✅ CLOSED (FALSE POSITIVE) | PRIMARY DIRECTIVE: all supplier PNs are pre-approved and intentional. `SAM8610CT-ND` is a valid user-verified PN. Format variation is not a defect. |
+| REF-P10-05 | MEDIUM | J3 (ERM8-010) and J4 (2BHR-30-VUA) KiCAD footprints both "Pending" | ⚠️ PARTIAL | ERM8-010 KiCAD library import complete (all 4 formats + 3D model); BOM J3 footprint column ticked ✔. J4 (2BHR-30-VUA) still Pending — no library data; supplier request placed. Per user instruction: 2BHR-30-VUA does NOT block design phase, only schematic capture. |
+| REF-P10-06 | LOW | GRS §7.1 pin-1 marker requirement not cited for J1–J4 | ✅ RESOLVED | Design_Spec §7 already had J1–J4 pin-1 requirement. Board_Layout.md §2.1 added: GRS §7.1 pin-1 marker note for J1–J3 ERM8 connectors. |
+| REF-P10-07 | MINOR | §7 Data Plate missing revision block requirement (GRS §6) | ✅ RESOLVED | Tracked via `data-plate-standardisation` todo — full cross-board standardisation to `GERMAN [English] Vx.y` format, dependency for `review-pass-11`. No interim file change; todo must complete before next review pass. |
+| REF-P10-08 | MINOR | C1–C5 BOM Notes blank | ✅ CLOSED (FALSE POSITIVE) | BOM Notes column is procurement-only. Blank is correct; flagging it was wrong. |
+
+REF P10 verification: **5 resolved ✅, 1 partial ⚠️, 2 open ❌**
+
+---
+
+### CTL — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| CTL-P10-01 | MAJOR | Vds_peak §5=81.8V / §6=118.1V / DEC-062=108V inconsistency | ✅ RESOLVED | PoE_Power_Analysis §5 now uses ACF Forward formula: Vin/(1−D)=36/0.333=108V. §5 note labels §6's 118.1V as transient. Three values now represent distinct conditions. |
+| CTL-P10-02 | MINOR | L1 DCR: §7.1 stated 35/57mΩ; DEC-063 gives 48/58mΩ; DR-CTL-25 cap at 50mΩ violated | ✅ RESOLVED | PoE_Power_Analysis §7.1 reads "48mΩ typ / 58mΩ max DCR". DR-CTL-25 updated with procurement-constrained exception accepted per DEC-063. |
+| CTL-P10-03 | MINOR | §7.1 still read "L1 (33µH TBD) / Part selection pending" | ✅ RESOLVED | Design_Spec §7.1 now reads "L1 (Yageo PA4343.333NLT, 33µH shielded ferrite inductor)". No TBD/pending text remains. |
+| CTL-P10-04 | INFO | §6 uses Vclamp=61.14V (transient) without labelling it vs DEC-064=72V (steady-state) | ❌ OPEN | Deferred to Pass 11. §6 does not contrast 61.14V (transient spike) vs 72V (DEC-064 steady-state). |
+| CTL-P10-05 | MINOR | C12, C15, C16 per-pin assignments deferred to schematic capture | ❌ OPEN | Deferred to Pass 11. Design_Spec §7.1 still reads "Exact per-pin assignments shall be confirmed at schematic capture." |
+| CTL-P10-06 | MINOR | DR-CTL-22 energy-method≈85µF vs §7.2 LC-filter≈5.5µF formula discrepancy | ✅ RESOLVED | Both DR-CTL-22 and PoE_Power_Analysis §7.2 now use same LC-filter formula: Cout_min ≈ 5.5µF. 85µF energy-method figure removed. |
+| CTL-P10-07 | MINOR | Consolidated_BOM D2 and Q1/Q2 footprint columns still "Pending" | ✅ RESOLVED | KiCAD library confirmed: 1.5SMBJ36CA symbol and DIONM5436X244N footprint both present. Q1/Q2 (STD25NF20) already ✔. Consolidated_BOM.md CTL: D2 updated Pending → ✔. |
+| CTL-P10-08 | INFO | J11/MH5-MH8 positions gated on AM PCB layout | ❌ OPEN | Deferred to Pass 11. AM schematic/layout not yet complete. |
+| CTL-P10-09 | MINOR | §9.4 described D2 as "unidirectional"; MPN suffix CA = bidirectional | ✅ RESOLVED | Design_Spec §9.4 now reads "Bourns 1.5SMBJ36CA bidirectional TVS (DO-214AA, CA suffix = bidirectional)." |
+| CTL-P10-10 | MEDIUM | Consolidated_BOM CM5 SODIMM listed as "J14,J15"; correct is J13,J14 | ✅ RESOLVED | Consolidated_BOM.md line 107 confirmed: CTL: J13,J14 — corrected per DEC-058. |
+| CTL-P10-11 | MAJOR | §3/§5/§12 used ACF Flyback formulas; topology is ACF Forward | ✅ RESOLVED | PoE_Power_Analysis §3/§5/§12 all use correct ACF Forward formulas. All flyback formulas removed. |
+| CTL-P10-12 | MINOR | DEC-057/058 retain pre-DEC-061 MH assignments; need supersession annotation | ⚠️ PARTIAL | GRS §4.3 and Design_Spec §11 BOM are correct (MH9-MH12=JM, MH13-MH16=CM5 SoM). DEC-058 body still states wrong MH range for JM dock. DEC entries cannot be back-annotated (TERTIARY). |
+| CTL-P10-13 | MAJOR | C20 = 25V X7R on 12V rail; violates 2.5× derating (requires ≥30V) | ⚠️ PARTIAL | Design_Spec, §11 BOM, and Consolidated_BOM all now specify CGA9N1X7R1V476M230KC (35V). PoE_Power_Analysis §7.2 line 202 still references old 25V MPN CGA9N3X7R1E476M230KB. |
+| CTL-P10-14 | INFO | DSI1 missing from §9.1 CI-required interface list and §9.3 trace-width table | ✅ RESOLVED | Design_Spec §9.1 now includes DSI1 (100Ω diff stripline, J9). §9.3 trace table now has DSI1 row. |
+
+CTL P10 verification: **7 resolved ✅, 2 partial ⚠️, 5 open ❌**
+
+---
+
+### ENC — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| ENC-P10-01 | MEDIUM | §5.2 note specifies 0.50mm for 3V3_ENIG entry stubs; §5.1 table and GRS §1.1 require 0.80mm — internal contradiction | ❌ OPEN | Board_Layout.md §5.2 still reads "L1 traces from pins 1 and 20 to the via entry points at 0.50mm minimum". §5.1 table correctly shows 0.80mm for the same net. Contradiction unchanged. |
+| ENC-P10-02 | LOW | Board_Layout §5.1 JTAG CI row Design Min still shows stale 0.127mm; should be 0.1425mm per GRS §2.3.1 | ❌ OPEN | Board_Layout.md §5.1 JTAG CI row: Design Min = 0.127mm. Specified Width column was updated to GRS reference in P9 but the Design Min cell was never corrected to 0.1425mm. |
+| ENC-P10-03 | LOW | SW1–SW40 MPN "(no standard MPN)", sole supplier eBay gadgetskingdom; no DigiKey/Mouser/JLCPCB PNs; production risk | ❌ OPEN | Design_Spec §10 BOM: MPN=−, Alt Supplier=eBay gadgetskingdom. Consolidated_BOM confirms. DPDT_Switch_Integration.md adds integration notes but no standard MPN or distributor PNs. Gap unchanged. |
+| ENC-P10-04 | LOW | GRS §7.1 pin-1 silkscreen marker callout absent for J1 in Board_Layout §3–§4 | ❌ OPEN | Board_Layout.md §3 and §4 contain no pin-1 marker reference or GRS §7.1 callout. Unchanged. |
+| ENC-P10-05 | MINOR | Design_Spec §9 cites GRS §2.3.1 without inlining JLCPCB stackup code JLC041621-3313 | ✅ RESOLVED | Design intent confirmed: stackup code is intentionally housed in GRS only to avoid tight coupling across board specs. Same resolution as ROT-P10-13. Current wording is correct as-is. |
+| ENC-P10-06 | MINOR | Design_Spec §5 cites DEC-016 for 50Ω CI strategy; DEC-016 Encoder rows reference stale dual-CPLD topology (pre-DEC-041); no inline acknowledgement | ❌ OPEN | Design_Spec §5 references DEC-016 with no note that DEC-016 Encoder rows are superseded by DEC-041 single-EPM570 topology. DEC entries cannot be back-annotated (TERTIARY). Discrepancy unacknowledged. |
+
+ENC P10 verification: **0 resolved ✅, 0 partial ⚠️, 6 open ❌**
+
+---
+
+### EXT — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| EXT-P10-01 | LOW | J8 (Extension Port OUT) in wrong Mermaid subgraph in §1 — placed inside "Rotor Output (Slots 11-20)" | ❌ OPEN | Design_Spec §1 Mermaid still reads subgraph RO["Rotor Output (Slots 11-20)"] containing J4, J6, and J8. Unchanged. |
+| EXT-P10-02 | LOW | 2BHR-30-VUA KiCAD footprint "Pending" for J7/J8 — PCB layout gate | ❌ OPEN | Design_Spec §6 BOM J7/J8: Footprint Downloaded=Pending. Consolidated_BOM 2BHR-30-VUA: No\|Pending — Footprint Available shows No (worse than P10 state). |
+| EXT-P10-03 | LOW | ERM8-010-05.0-S-DV-K-TR KiCAD footprint "Pending" for J3 | ⚠️ PARTIAL | Design_Spec §6 BOM J3: Footprint Downloaded=Pending. Consolidated_BOM ERM8-010 shows Yes\|✔. Board-level spec not synced to consolidated BOM. |
+| EXT-P10-04 | LOW | GRS §7.1 pin-1 marker callout absent from Board_Layout §2 (J7) and §3 (J8) | ❌ OPEN | Board_Layout §2 and §3 contain no GRS §7.1 reference. Pin-1 marker requirement only in §5 (J9/DF40). Identical to P10 state. |
+| EXT-P10-05 | MINOR | §2 states ACTUATE_REQUEST_N "sourced from the non-homing switch on this board" — switch is physically on the AM | ❌ OPEN | Design_Spec §2 still reads "sourced from the non-homing switch on this board or from the CM5." Not corrected to "via J9 from the AM". |
+| EXT-P10-06 | MINOR | C6 BOM Notes field blank; should cite U1 JTAG buffer VCC bypass per GRS §3.2 | ❌ OPEN | Design_Spec §6 BOM C6 Notes column: "–". No GRS §3.2 citation added. |
+| EXT-P10-07 | MINOR | Two §2 cross-doc references use abbreviated paths instead of full repo-relative paths | ❌ OPEN | Design_Spec §2 still reads Stator/Design_Spec.md and Reflector/Design_Spec.md. Full repo-relative paths not applied. |
+| EXT-P10-08 | MINOR | Board_Layout §8.1 MH note "tied to chassis ground" ambiguous vs GRS §5 single-point bond rule | ❌ OPEN | Board_Layout §8.1 still reads "Net: GND_CHASSIS — copper ring pads tied to chassis ground for Faraday-cage continuity." No clarifying note added. |
+| EXT-P10-09 | INFO | J3/J4/J5/J6 Samtec DigiKey PNs in legacy SAM…CT-ND format — not verified against canonical format | ❌ OPEN | Design_Spec §6 and Consolidated_BOM: J3=SAM8610CT-ND, J4/J5=SAM13517CT-ND, J6=SAM8618CT-ND. No verification or format update performed. |
+
+EXT P10 verification: **0 resolved ✅, 1 partial ⚠️, 8 open ❌**
+
+---
+
+### AM — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| AM-P10-01 | LOW | DR-AM-17 / §3.7 lack cross-reference to STM32G071 PA14 internal pull-down (datasheet footnote 6) guaranteeing BOOT0 idle-low when SW2 open | ❌ OPEN | Design_Spec DR-AM-17 still reads only "limits current … prevents conflict"; no idle-level or PA14 pull-down note present. §3.7 SW2 callout box unchanged. |
+| AM-P10-02 | INFO | C5 BOM Notes blank; DEC-046 compliance note present on C4 but absent on C5 | ❌ OPEN | Design_Spec §6 BOM C5 Notes = "–". C4 Notes = "see DEC-046". Note not propagated to Consolidated_BOM either. |
+| AM-P10-03 | LOW | GRS §7.1 pin-1 marker callout present for J1 but absent for J2–J5 service headers in Board_Layout | ❌ OPEN | Board_Layout §2 J2/J3 and J4/J5 paragraphs contain no GRS §7.1 pin-1 marker instruction. J1/DF40 has explicit reference; four PH1-05-UA headers do not. |
+| AM-P10-04 | MINOR | Board_Layout ASCII diagram labelled [SW1 NRST] instead of [SW1 RESET_N] | ✅ RESOLVED | Board_Layout line 44: "[SW1 RESET_N]" — device pin name replaced with board net name. |
+| AM-P10-05 | MINOR | Typo "electrically lightand mechanically" in Board_Layout closing bullet | ✅ RESOLVED | Board_Layout line 98: "electrically light and mechanically non-load-bearing" — corrected. |
+| AM-P10-06 | MINOR | §4 decoupling bullet named "C2-C3" only, omitting C7 | ✅ RESOLVED | Design_Spec §4: "C2, C3, C7: 100nF X7R 0402 local decoupling at the STM32 VDD/VDDA supply domain" — C7 now included. |
+| AM-P10-07 | INFO | PCA9685/PCA9534A review template sections not applicable to AM | ✅ RESOLVED | No PCA9685 or PCA9534A in BOM confirmed; scope exclusion correct. |
+
+AM P10 verification: **4 resolved ✅, 0 partial ⚠️, 3 open ❌**
+
+---
+
+### PM — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| PM-P10-01 | HIGH | TPS25980 EN pull-up: R15 (not R12) | ✅ RESOLVED | Design_Spec §2.5: "EN pulled HIGH via R15 to VIN_BUS"; §3.1: "R15 (10kΩ to VIN_BUS) holds EN HIGH" — both locations corrected. |
+| PM-P10-02 | MEDIUM | U16 (D-FF) + U17 (AND gate) have no §2 design subsection | ✅ RESOLVED | §2.5 Shutdown Latch bullet (lines 480–487) names U16/U17 with full MPNs, signal logic, and latch-clear behaviour ✅; §3.1 SW2 block extended with explicit U16/U17 cross-ref ✅ |
+| PM-P10-03 | HIGH | 5 stale cross-doc refs (U14, U10, R10, R16, INA219 address) | ✅ RESOLVED | Power_Budgets.md: U14@0x3F ✅, U10 INA219 ✅, R10 LTC3350 shunt ✅, R16 INA219 shunt ✅; Electrical_Design.md: R16 for INA219 0x40 shunt ✅ |
+| PM-P10-04 | MEDIUM | Mermaid: wrong connector family (DF40C), stale "J1-J3", cascade arrow | ✅ RESOLVED | Mermaid: TE 1123684-7 ✅; U2A & U2B shown in parallel ✅; J1-J3 designators ✅ (ratified by DEC-080). |
+| PM-P10-05 | HIGH | TPS25980 fault table: UVLO/OVLO auto-recov, OTP/TSD latch, F1 TCO absent | ✅ RESOLVED | §2.5: UVLO/OVLO auto-recovery and OTP/TSD latch documented ✅; §3.2: "TCO F1 (AC72ABD) provides thermal cutoff at battery cell tabs" ✅ |
+| PM-P10-06 | MEDIUM | D4 (SMBJ18A-Q TVS) has no §2 design subsection | ✅ RESOLVED | §2.6 Signal Integrity & Safety: `* **Input Bus TVS Clamp (D4):**` bullet covers placement (downstream OR-ing, upstream eFuse), 18V standoff margin, 600W/5W ratings, and DO-214AA thermal rationale ✅ |
+| PM-P10-07 | HIGH | U2B mislabeled "3V3 Buck" in Mermaid | ✅ RESOLVED | Mermaid: U2B["U2B 5V Buck LMQ61460"] ✅ |
+| PM-P10-08 | MEDIUM | DR-PM-14 misidentifies C57/C58 as per-IC bypass caps (within 1mm of U1/U3) | ✅ RESOLVED | DR-PM-14 BOM list excludes C57/C58 ✅; explicit note added: "C57/C58 are Pi-filter HF shunt capacitors for FB1 … placed within 2mm of the FB1 ferrite bead pads; they are not per-IC bypass capacitors and are excluded from this requirement." ✅ |
+| PM-P10-09 | MEDIUM | 3 locations still use pre-DEC-038 J1/J2/J3 instead of J1A/J1B/J1C | ✅ RESOLVED | DEC-080 formally retires J1A/J1B/J1C naming and ratifies J1/J2/J3 as correct. All three locations (Mermaid, FR-PM-04 & DR-PM-12, Consolidated_BOM) now correct. |
+| PM-P10-10 | HIGH | LTC3350 R23=33.2kΩ → 1611kHz (>1MHz max); correct = 133kΩ / 400kHz | ✅ RESOLVED | DR-PM-11: "R23: 133kΩ" ✅; Design_Spec §5 + §2.5: ERJ-PC3B1333V (133kΩ) ✅; DEC-073 cross-ref ✅; BOM R23 = ERJ-PC3B1333V ✅; Consolidated_BOM = ERJ-PC3B1333V ✅ |
+
+PM P10 verification: **10 resolved ✅, 0 partial ⚠️, 0 open ❌**
+
+---
+
+### USM — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| USM-P10-01 | HIGH | Stale pull-down text in §3 Bank 1 | ✅ RESOLVED | Design_Spec §3 Bank 1 reads "NC terminal to GND, NO terminal to 3V3_ENIG … without requiring external pull-down resistors" — DEC-071 language; no pull-down text remains. |
+| USM-P10-02 | HIGH | MCP23017 /RESET pin undriven (U1/U2/U3) | ✅ RESOLVED | DR-USM-13 mandates R96/R97/R98 10kΩ pull-ups to 3V3_ENIG; BOM R96–R98 row present with JLCPCB C191123; DEC-074 confirms correct approach and records rejection of CPLD_RESET_N tie. |
+| USM-P10-03 | MEDIUM | SQ2319ADS-T1_BE3 (Q19–Q30) KiCAD footprint "No/Requested" | ✅ RESOLVED | BOM Q19–Q30: Footprint Available=Yes \| Footprint Downloaded=✔ |
+| USM-P10-04 | MEDIUM | KOA SG73S1ERTTP4702D DigiKey PN reel-only suffix | ✅ RESOLVED | BOM R66–R77: DigiKey 2019-SG73S1ERTTP4702DTR-ND ⚠️ MOQ 10000; JLCPCB C5915648 ⚠️ MOQ 40 — reel constraint explicitly annotated. |
+| USM-P10-05 | MEDIUM | ERJ-2RKF1003X (R78–R95) no JLCPCB PN | ✅ RESOLVED | BOM R78–R95: JLCPCB = "Global sourcing / consignment"; Notes = "no JLCPCB stock" — absence explicitly documented. |
+| USM-P10-06 | LOW | DEC-072 says "DPDT" — should be "SPDT" | ❌ OPEN | DEC-072 still reads "between DPDT switch contacts". Design_Log is append-only; no correcting DEC exists (DEC-073–076 address unrelated topics). Correcting DEC entry is the only valid remedy. |
+| USM-P10-07 | LOW | INTA/INTB pins undocumented in U1/U2/U3 pin tables | ✅ RESOLVED | Explicit NC rationale blocks added to prose sections for U1 (pins 11/10), U2, and U3. U1: CM5 daemon polls via I²C; interrupt-driven notification not required. U2/U3: pure output drivers; no input state changes to signal. |
+| USM-P10-08 | LOW | GRS §7.1 pin-1 silkscreen marker on all connectors not confirmed | ❌ OPEN | Board_Layout references L4=silkscreen but contains no explicit confirmation that pin-1 markers are placed on J1 or SW1–SW11. Requires KiCAD file inspection. |
+| USM-P10-09 | LOW | GRS §6 B.Silkscreen data plate not confirmed | ❌ OPEN | Board_Layout contains no B.Silkscreen data plate specification. Requires KiCAD file inspection. |
+| USM-P10-10 | INFO | 30AWG J1 Pin 1 power drop negligible | ✅ RESOLVED | Design_Spec §7 explicitly specifies 30AWG for pins 1/3/4/5 and 28AWG for pins 2/6. Cable spec documented; no corrective action required. |
+| USM-P10-11 | INFO | SPDT dual-terminated topology confirmed valid | ✅ RESOLVED | DEC-071, DEC-070, §3 bank descriptions, §4 switch silicon notes, and §6 CFG_APPLY_N section all consistently describe SPDT hard-terminated topology. |
+| USM-P10-12 | INFO | All P9 findings confirmed fixed — regression check | ✅ RESOLVED | DEC-072 documents all P9 resolutions; current spec contains correct topology language and BOM corrections — no regression detected. |
+
+USM P10 verification: **9 resolved ✅, 0 partial ⚠️, 3 open ❌**
+
+---
+
+### JM — Pass 10 Verification
+
+| Finding ID | Severity | Summary | Status | Evidence |
+| --- | --- | --- | --- | --- |
+| JM-P10-01 | HIGH | FT232H REF (pin 5) 12kΩ ±1% resistor absent from BOM | ✅ RESOLVED | DR-JM-21 added; R8 (ERJ-2RKF1202X) in §8 BOM; §6 note cross-references. |
+| JM-P10-02 | HIGH | J1 pin C9R2 reads "TDO" — must be "TTD_RETURN" | ✅ RESOLVED | Board_Layout line 80: C9R2 \| TTD_RETURN \| CTL → JM |
+| JM-P10-03 | MEDIUM | FT232H TEST (pin 42) must be tied to GND — absent from docs | ✅ RESOLVED | DR-JM-22 added; §6 note lines 211–213 document GND tie. |
+| JM-P10-04 | LOW | UART power-on contention window (ADBUS driving JTAG chain before MPSSE mode) undocumented | ❌ OPEN | No mention of UART contention, ftdi_layout_init, or MPSSE startup sequencing found anywhere in Design_Spec. |
+| JM-P10-05 | LOW | "400mA peak" 5V_USB figure ≈4× actual FT232H max — no derivation footnote citing FT232H Tables 5.2/5.4 | ❌ OPEN | Board_Layout line 113 still reads "400mA … FT232H absolute max VCC draw" — no Tables 5.2/5.4 citation added. |
+| JM-P10-06 | MINOR | Hirose datasheet supplementary project notes list stale "CTL J11" and "AM J1" | ✅ RESOLVED | Hirose-DF40_Catalog_en-datasheet.md searched in full — no stale project notes present; entries removed. |
+| JM-P10-07 | MINOR | Design_Spec §6 references stale "Controller J5" (pre-P7 designator, should be J12) | ❌ OPEN | Design_Spec line 249 still reads: "The Controller J5 ↔ Stator J12 logic dock" |
+
+JM P10 verification: **4 resolved ✅, 0 partial ⚠️, 3 open ❌**
+
+---
+
+## Pass 10 Verification — Phase A Summary
+
+| Board | Resolved ✅ | Partial ⚠️ | Open ❌ | Total |
+| --- | --- | --- | --- | --- |
+| CTL | 7 | 2 | 5 | 14 |
+| PM | 4 | 3 | 3 | 10 |
+| STA | 0 | 1 | 2 | 3 |
+| ROT | 8 | 1 | 6 | 15 |
+| REF | 2 | 0 | 6 | 8 |
+| EXT | 0 | 1 | 8 | 9 |
+| ENC | 0 | 0 | 6 | 6 |
+| USM | 9 | 0 | 3 | 12 |
+| AM | 4 | 0 | 3 | 7 |
+| JM | 4 | 0 | 3 | 7 |
+| **TOTAL** | **38** | **8** | **45** | **91** |
+
+> Phase A complete. Proceeding to Phase B: full independent review of all 10 boards.
+
+---

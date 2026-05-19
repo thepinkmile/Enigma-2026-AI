@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 This board implements our version of an Intel (Altera) USB Blaster II device for programming CPLDs.
 
@@ -110,12 +110,12 @@ See design/Standards/Global_Routing_Spec.md §1.1 for the full current-category 
 
 | Net | Peak Current | IPC Calc (2oz) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5V_USB (J1 C4R1 → FT232H VCC) | 400 mA | 0.06 mm | 0.50 mm | **0.50 mm** | L1 + L3 pour | FT232H absolute max VCC draw; power-rail minimum applies |
+| 5V_USB (J1 C4R1 → FT232H VCC) | ≤ 120 mA peak | 0.02 mm | 0.50 mm | **0.50 mm** | L1 + L3 pour | FT232H datasheet Table 5.2 (p.41): Ireg ≈ 54 mA + Iccphy ≈ 60 mA = 114 mA absolute max, rounded up to 120 mA for margin. Note: a legacy figure of 400 mA was ≈4× the actual device maximum and has been corrected. Power-rail minimum applies. |
 | 3V3_ENIG (J1 C7R1 → FT232H VCCIO) | 15 mA | 0.002 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | VCCIO domain; 3V3_ENIG canonical 0.80 mm (design/Standards/Global_Routing_Spec.md §1.1) |
 | JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **per GRS §2.3.2 / JLCPCB_Manufacturing.md §1.1** | L2 (inner) | JM inverted stackup (DEC-017): L2 buried microstrip immediately below L1 GND plane. 50 Ω controlled impedance per GRS §2.3.2 and JLCPCB_Manufacturing.md §1.1. Per DEC-016. |
 | USB D+ / D- differential pair | signal | — | see GRS §2.3 | **see `design/Production/JLCPCB_Manufacturing.md §1`** | L2 (inner) | 90 Ω differential USB 2.0; must be length-matched to within 0.1 mm; routed as a tightly-coupled pair |
 | GND pours (outer layers) | - | - | pour | **copper pour** | L1 + L4 | Both outer layers = solid GND; provides dual-sided shielding for L2 signals |
-| Power pours (inner power layer) | ≤ 400 mA | - | pour | **copper pour** | L3 | Separate pour zones for 5V_USB and 3V3_ENIG |
+| Power pours (inner power layer) | ≤ 120 mA | - | pour | **copper pour** | L3 | Separate pour zones for 5V_USB and 3V3_ENIG |
 
 ### 6.2 Notes
 

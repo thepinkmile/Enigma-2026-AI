@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 ## 1. Component Areas
 
@@ -69,6 +69,9 @@ the six matching headers on the Stator.
 | 19 | GND | - | Power return / trailing shield |
 | 20 | 3V3_ENIG | Stator->Encoder | Power supply |
 
+> **Pin-1 marker (per GRS §7.1):** J1 pin 1 shall be identified by a triangular silkscreen marker
+> adjacent to the pin-1 corner on L1 per `design/Standards/Global_Routing_Spec.md §7.1`.
+
 **Power capacity:** 2 x 3V3_ENIG pins x 1 A/pin = 2.0 A. One Encoder Module estimated load ~104 mA
 (1x EPM570 CPLD + 1x status LED + local margin) - substantial connector margin.
 
@@ -130,7 +133,7 @@ constraints. See `Global_Routing_Spec.md §1.1` for the full current-category ta
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | Signal (`ENC_DATA`, key lines, lamp lines, jack lines) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic; CPLD I/O; spade-terminal traces |
-| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016 |
+| JTAG signals: TCK, TMS, TDI, TDO (CI) | signal | - | 0.1425 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016 |
 | 3V3_ENIG power (J1 pin 1/20 -> CPLD + LED) | 104 mA | 0.016 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | Canonical 3V3_ENIG width |
 | 3V3_ENIG distribution (inner power pour) | 104 mA | - | pour | **copper pour** | L3 | Full uninterrupted 2oz plane |
 | GND return (inner GND pour) | - | - | pour | **copper pour** | L2 | Reference plane under all CI traces on L1 |
@@ -141,4 +144,4 @@ constraints. See `Global_Routing_Spec.md §1.1` for the full current-category ta
 * **Cable-output trace (U1 TDO -> R6 -> J1 pin 14):** R6 (75 Ω) is placed within 2 mm of U1 TDO;
   the post-R6 trace to the J1 connector pad should be kept short.
 * **3V3_ENIG power entry (J1 pins 1 and 20):** both power pins connect to the same L3 copper pour
-  via thermal vias; L1 traces from pins 1 and 20 to the via entry points at 0.50 mm minimum.
+  via thermal vias; L1 traces from pins 1 and 20 to the via entry points at 0.80 mm minimum.

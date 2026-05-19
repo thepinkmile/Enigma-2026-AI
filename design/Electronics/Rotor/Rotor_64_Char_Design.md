@@ -4,7 +4,7 @@
 **Project:** Enigma-NG
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-17
+**Last Updated:** 2026-05-18
 **Parent Document:** `design/Electronics/Rotor/Design_Spec.md`
 **Mechanical Spec:** `design/Mechanical/Rotor/Design_Spec.md §5.1` - encoder slot machining
 tolerances and shroud geometry
@@ -193,5 +193,14 @@ are listed in **`design/Electronics/Rotor/Design_Spec.md`** §5.
 | C20B | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | FDC2114 VDD bypass cap | Yes | Pending | 1 |
 | C21B | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | FDC2114 VDD bulk decoupling cap | Yes | Pending | 1 |
 | C22B-C25B | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
-| L5B-L8B | 18µH ±10% SRF 28MHz 0603 | CWF1610A-180K | Bourns | 118-CWF1610A-180KCT-ND | 652-CWF1610A-180K | - | Global sourcing | - | Yes | Pending | 4 |
+| L5B-L8B | 18µH ±10% SRF 28MHz 0603 | CWF1610A-180K | Bourns | 118-CWF1610A-180KCT-ND | 652-CWF1610A-180K | - | Global sourcing | U11B CH0–CH3 resonant tank inductors; includes one dummy LC for the unused channel | Yes | Pending | 4 |
 | U11B | 4-ch cap sensor I²C 0x2B 16-VQFN | FDC2114RGHR | Texas Instruments | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | - | JLCPCB MOQ 2 | Yes | Pending | 1 |
+
+### U11B FDC2114 Channel Assignment (N=64 Track B)
+
+| U11B Channel | Inductor | Capacitor | Sensor Electrode | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| CH0 | L5B | C22B | S3 (Gray bit 2) | Active |
+| CH1 | L6B | C23B | S4 (Gray bit 1) | Active |
+| CH2 | L7B | C24B | S5 (Gray bit 0) | Active |
+| CH3 | L8B | C25B | (dummy) | Dummy LC — no sensor electrode; terminated to suppress floating-input oscillation |

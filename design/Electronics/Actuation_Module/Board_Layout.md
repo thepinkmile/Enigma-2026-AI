@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-04-26
+**Last Updated:** 2026-05-18
 
 ## 1. Placement Intent
 
@@ -53,10 +53,12 @@ BOTTOM VIEW (L4 / header-maintenance side / exterior face)
   NPTH mounting holes with copper annular ring (MH1-MH4, `MountingHole_Pad` footprint, net = `GND`) mate with 3.5mm standoffs (9774035151R) on the host board.
 * J2 and J3 are bottom-edge manual-fit Dupont-style headers. They are intentionally excluded from the
   automated PCBA flow.
+  > Pin 1 is silkscreen-marked on J2 and J3 per GRS §7.1 pin-1 marker requirement.
 * J4 and J5 are manual-fit service headers. J4 is the primary SWD header and J5 is the separate
   UART/bootloader header; place them near U1, keep them adjacent, and keep both accessible before the
   module is installed on its host board. SW1 and SW2 should sit directly beside J5 so the two-button
   UART bootloader action (`BOOT0` held while reset is pressed) can be done directly at the AM.
+  > Pin 1 is silkscreen-marked on J4 and J5 per GRS §7.1 pin-1 marker requirement.
 * The upside-down mounting is driven by the single-side PCBA rule: the DF40 plug and SMT components are
   assembled on the enclosed connector-facing side, while the manually fitted loom / service headers stay on
   the opposite side for post-PCBA fitting and service access.

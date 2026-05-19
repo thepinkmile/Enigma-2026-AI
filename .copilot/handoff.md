@@ -3,6 +3,28 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
+## 2026-05-18 session result (P10 Recovery: all findings applied — checkpoint 163)
+
+### All 54 remaining P10 findings applied across 11 boards + BOM
+
+Phase A verification (prior session) found 37/91 Pass 10 findings resolved after commit `75b3707`,
+8 partial, 46 open. This session resolved all remaining 54 findings.
+
+**Boards updated:** CTL, ROT, STA, ENC, REF, EXT, JM, PM, AM, USM, Consolidated BOM.  
+**DEC-080 appended** — SPDT/DPDT terminology correction for USM SW1–SW10 (amends DEC-072).  
+**ERM8-010** in BOM corrected from `Yes|✔` → `No|Pending` (library gap: footprint absent).
+
+Key technical facts:
+- AM path: `design/Electronics/Actuation_Module/`; USM path: `design/Electronics/User_Settings_Module/`
+- JLC041621-3313 = correct 4-layer stackup for ROT and ENC
+- ERA-2AEB1333X (0402 133kΩ) = PM R23; ERJ-PC3B1333V (0603 133kΩ) = separate library import
+- Permanent library gaps carried to Pass 11: `1.5SMBJ36CA` (CTL D2), `2BHR-30-VUA` (REF J4/EXT J7-J8), `ERM8-010` footprint (REF/EXT/ROT J3)
+- JM §6 connector correction: "Controller J12 ↔ Stator J10" (was J5/J12 error)
+
+**Key numbers: Next checkpoint = 164. Next DEC = DEC-081.**
+
+---
+
 ## 2026-05-17 session result (Todo restructuring and review-pass gate — checkpoint 162)
 
 ### Pass 10 closed; C20 upgraded; library import complete (committed 75b3707)

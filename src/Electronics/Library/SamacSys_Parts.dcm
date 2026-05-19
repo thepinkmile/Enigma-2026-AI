@@ -744,4 +744,10 @@ K
 F http://suddendocs.samtec.com/prints/erm8-xxx-xx.x-xxx-dv-xxxx-xx-mkt.pdf
 $ENDCMP
 
+#
+$CMP ERM8-010-05.0-S-DV-K-TR
+D 20 Position Connector Header, Center Strip Contacts Surface Mount Gold
+K
+F http://suddendocs.samtec.com/prints/erm8-xxx-xx.x-xxx-dv-xxxx-xx-mkt.pdf
+$ENDCMP
 #End Doc Library

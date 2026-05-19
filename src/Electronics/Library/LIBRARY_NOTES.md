@@ -9,13 +9,13 @@
 ## Library File Structure
 
 | File / Directory | Format | Role |
-|---|---|---|
-| `SamacSys_Parts.kicad_sym` | KiCAD 6+ | Primary symbol library (new format). 68 symbols. |
-| `SamacSys_Parts.lib` | KiCAD 5 / EESchema | Legacy symbol library. 127 symbols. Superset of `.kicad_sym`. |
+| --- | --- | --- |
+| `SamacSys_Parts.kicad_sym` | KiCAD 6+ | Primary symbol library (new format). 69 symbols. |
+| `SamacSys_Parts.lib` | KiCAD 5 / EESchema | Legacy symbol library. 128 symbols. Superset of `.kicad_sym`. |
 | `SamacSys_Parts.dcm` | KiCAD 5 | Legacy symbol descriptions/keywords/datasheet URLs. |
 | `SamacSys_Parts.mod` | KiCAD 5 / PCBNEW | Legacy footprint library. Contains `$INDEX` section + `$MODULE` blocks. |
-| `SamacSys_Parts.pretty/` | KiCAD 6+ | New footprint directory. One `.kicad_mod` file per footprint. 92 files. |
-| `SamacSys_Parts.3dshapes/` | — | Part-specific 3D models in `.stp` format. 55 files. |
+| `SamacSys_Parts.pretty/` | KiCAD 6+ | New footprint directory. One `.kicad_mod` file per footprint. 93 files. |
+| `SamacSys_Parts.3dshapes/` | — | Part-specific 3D models in `.stp` format. 57 files. |
 | `3D_Models/` | — | Mirror of 3dshapes in `.step` format. Kept in sync with `.3dshapes/`. |
 | `temp/` | — | Drop zone for SamacSys/SnapMagic download zips. Not committed. |
 
@@ -37,22 +37,24 @@ wildcard-normalized footprint names. **Do not flag any entry in this table as an
 ### Footprint name differs from component MPN
 
 | Component MPN | Symbol Name | Footprint File (`.kicad_mod`) | Reason |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `B3F-1070` | `B3F-1070` | `B3F1060.kicad_mod` | SamacSys uses the same physical footprint for both the B3F-1060 and B3F-1070 Omron switch variants. Both zips ship `B3F1060.kicad_mod`. The 3D model is variant-specific (`B3F-1070.stp`). |
 | `CSD17578Q5A` | `CSD17578Q5A` | `CSD19531Q5AT.kicad_mod` | SamacSys assigns the `CSD19531Q5AT` SON-8 5×6mm package footprint to the CSD17578Q5A. Both are TI NexFET MOSFETs in the same package. The 3D model is part-specific (`CSD17578Q5A.stp`). |
 | `TPS75733KTTRG3` | `TPS75733KTTRG3` | `TPS75933KTTR.kicad_mod` | SamacSys uses a shared TO-263-5 LDO footprint for the TPS757xx/TPS759xx family. Only the packaging tape suffix and voltage differ. |
 | `TPD4E05U06QDQARQ1` | `TPD4E05U06QDQARQ1` | `DQA(R-PUSON-N10).kicad_mod` | `DQA` is Texas Instruments' internal package code for U-DFN-10. SamacSys names the footprint after the TI package designation rather than the component MPN. |
 | `ERM8-005-05.0-S-DV-K-TR` | `ERM8-005-05.0-S-DV-K-TR` | `ERM8-005-XX.X-X-DV-K-TR.kicad_mod` | Footprint name uses wildcard pattern to serve all pitch/length variants of the ERM8 Samtec connector family. The specific pitch (5.0mm) is encoded in the MPN but normalized in the footprint name. |
+| `ERM8-010-05.0-S-DV-K-TR` | `ERM8-010-05.0-S-DV-K-TR` | `SAMTEC_ERM8-010-XX.X-X-DV-XX.kicad_mod` | SnapMagic-sourced footprint; uses `SAMTEC_` prefix (vs SamacSys convention) and drops `-K-TR` tape suffix in footprint name. Same wildcard normalization as ERM8-005. Source: SnapMagic (no SamacSys data available). |
 | `ERF8-010-05.0-S-DV-K-TR` | `ERF8-010-05.0-S-DV-K-TR` | `ERF8-010-XX.X-XXX-DV-K-TR.kicad_mod` | Same wildcard normalization as ERM8. Mating receptacle to ERM8. |
 | `SM04B-SRSS-TB(LF)(SN)` | `SM04B-SRSS-TB_LF__SN_` | `SM04B-SRSS-TB(LFSN).kicad_mod` | SamacSys encodes the `(LF)(SN)` suffix with underscores in the symbol name, then drops the separator in the footprint name. All three representations refer to the same JST SH SMD connector. |
 | `CWF1610A-180K` | `CWF1610A-180K` | `CWF1610A100K.kicad_mod` | SamacSys omits the inductance value suffix from the footprint name. `CWF1610A100K` is the package footprint shared across the CWF1610A inductor series. |
 | `WP154A4SEJ3VBDZGW/CA` | `WP154A4SEJ3VBDZGW_CA` | `L-154A4SUREQBFZGEC.kicad_mod` | SamacSys assigned a different catalog/variant name to the footprint of this Kingbright LED. The footprint dimensions are correct for the WP154A4 package. |
 | `B82806D0060A120` | `B82806D0060A120` | `B82806D0060A033.kicad_mod` | SamacSys uses the A033 variant footprint (same Würth WE-CSB package) for the A120 inductance value. Package dimensions are identical across the B82806D0060Axxx series. |
+| `ERJ-PC3B1333V` | `ERJ-PC3B1333V` | `ERJPC3D9763V.kicad_mod` | SamacSys assigns a package-dimension code (`ERJPC3D9763V`) to the Panasonic ERJ-PC3 high-precision 0603 series. The footprint encodes pad dimensions rather than the component value; it is shared across the ERJ-PC3 series. The 3D model is part-specific (`ERJ-PC3B1333V.stp`). |
 
 ### 3D model name differs from footprint or MPN
 
 | Component MPN | Footprint File | 3D Model File | Reason |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `B3F-1070` | `B3F1060.kicad_mod` | `B3F-1070.stp` | Model is part-specific; footprint name reflects shared package (see above). |
 | `1-1674231-1` | `16742311.kicad_mod` | `1-1674231-1.stp` | Footprint name strips dashes; 3D model file retains original MPN formatting. |
 | `SRP1265A-100M` | `SRP1265A.kicad_mod` | `SRP1265A-100M.stp` | Footprint name omits inductance value suffix; 3D model retains it. |
@@ -64,7 +66,7 @@ SamacSys systematically strips punctuation from footprint file names. The follow
 footprints with dashes, dots, or spaces removed. These are all correct:
 
 | Component MPN | Footprint File |
-|---|---|
+| --- | --- |
 | `10164227-1004A1RLF` | `101642271004A1RLF.kicad_mod` |
 | `1-1674231-1` | `16742311.kicad_mod` |
 | `2007435-1` | `20074351.kicad_mod` |
@@ -91,7 +93,7 @@ from the standard library, not custom `.stp` files in `3dshapes/`. See
 [Generic IPC Footprints](#generic-ipc-footprints) below.
 
 | Symbol | Format | Footprint | 3D Model (.stp) | Notes |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | `0ZRB0600FF1A` | legacy | `0ZRB0600FF1A` | `0ZRB0600FF1A.stp` | Ferrite bead |
 | `1.5SMBJ36CA` | legacy | `DIONM5436X244N` | `1.5SMBJ36CA.stp` | TVS diode; generic IPC footprint |
 | `1.5SMBJ36CA-H` | legacy | `DIONM5436X244N` | `1.5SMBJ36CA.stp` | TVS diode high-temp variant; shares footprint |
@@ -169,12 +171,14 @@ from the standard library, not custom `.stp` files in `3dshapes/`. See
 | `ERJ-3EKF4701V` | new | `RESC1608X55N` | — | Panasonic resistor 0603; generic IPC |
 | `ERJ-3EKF7153V` | new | `RESC1608X55N` | — | Panasonic resistor 0603; generic IPC |
 | `ERJ-3EKF8662V` | new | `RESC1608X55N` | — | Panasonic resistor 0603; generic IPC |
+| `ERJ-PC3B1333V` | new | `ERJPC3D9763V` | `ERJ-PC3B1333V.stp` | Panasonic resistor 0603 133 kΩ 0.1% 0.2 W; ⚠️ see naming equivalences |
 | `ERJ2RKF1001X` | new | `ERJ2RKD1004X` | — | Panasonic resistor 0402 |
 | `ERJ2RKF1003X` | new | `ERJ2RKD1004X` | — | Panasonic resistor 0402 |
 | `ERJ2RKF10R0X` | new | `ERJ2RKD1004X` | — | Panasonic resistor 0402 |
 | `ERJ2RKF5232X` | new | `ERJ2RKD1004X` | — | Panasonic resistor 0402 |
 | `ERJ2RKF8202X` | new | `ERJ2RKD1004X` | — | Panasonic resistor 0402 |
 | `ERM8-005-05.0-S-DV-K-TR` | legacy | `ERM8-005-XX.X-X-DV-K-TR` | `ERM8-005-05.0-S-DV-K-TR.stp` | Samtec ERM8 plug; ⚠️ see naming equivalences |
+| `ERM8-010-05.0-S-DV-K-TR` | new | `SAMTEC_ERM8-010-XX.X-X-DV-XX` | `ERM8-010-05.0-S-DV-K-TR.stp` | Samtec ERM8 20-pos plug; SnapMagic source; ⚠️ see naming equivalences |
 | `F52Q-1A7H1-11015` | legacy | `F52Q1A7H111015` | `F52Q-1A7H1-11015.stp` | TE Connectivity connector |
 | `FDC2114RGHR` | new | `QFN50P400X400X80-17N` | — | TI capacitive sensor; generic IPC |
 | `FT232HL-REEL` | new | `QFP50P900X900X160-48N` | — | FTDI USB-UART; generic IPC QFP |
@@ -230,7 +234,7 @@ their 3D models from its built-in `Capacitor_SMD.3dshapes`, `Resistor_SMD.3dshap
 `Package_SO.3dshapes`, etc. libraries automatically.
 
 | IPC Footprint Name | Package Type | Used by |
-|---|---|---|
+| --- | --- | --- |
 | `CAPC1005X55N` | 0402 capacitor | C0402C101K3, C0402C103K1, CL05B103, CL05B104, KAM05CR71A |
 | `CAPC1608X90N` | 0603 capacitor | CL10B223 |
 | `CAPC2012X145N` | 0805 capacitor | CL21B106 |

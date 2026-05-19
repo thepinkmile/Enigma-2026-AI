@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 ---
 
@@ -40,6 +40,8 @@ TOP VIEW (L1) - 4-Layer / 2oz Copper / ENIG
 > Authoritative pinout per DEC-053: 30-pin 2x15 symmetric layout; `5V_MAIN` on pins 1-2 and 29-30,
 > `3V3_ENIG` on pins 3-4 and 27-28, `ENC_OUT_REF[5:0]` on pins 7-12, `ENC_IN_REF[5:0]` on pins 19-24,
 > `CPLD_RESET_N` on pin 15, `TTD_RETURN` on pin 16, and GND guard pairs on pins 5-6, 13-14, 17-18, 25-26.
+>
+> **Pin-1 Marker:** A silkscreen pin-1 marker (arrow, chamfer, or dot) is required on J7 per `design/Standards/Global_Routing_Spec.md §7.1`.
 
 ---
 
@@ -48,6 +50,8 @@ TOP VIEW (L1) - 4-Layer / 2oz Copper / ENIG
 > **Connector Definition Owner:** `Stator/Board_Layout.md - J10`.
 > This board uses the mating connector on J8. Carries the same signals as J7, passed through.
 > See BOM for part number.
+>
+> **Pin-1 Marker:** A silkscreen pin-1 marker (arrow, chamfer, or dot) is required on J8 per `design/Standards/Global_Routing_Spec.md §7.1`.
 
 ---
 
@@ -164,7 +168,7 @@ The Extension board uses 4x M3 PTH mounting holes for chassis attachment per DR-
 - **Count:** 4x M3 PTH
 - **Hole diameter:** Ø3.2mm (clearance for M3 fastener)
 - **Annular ring:** 6.0mm ENIG exposed pad (per GRS §4)
-- **Net:** `GND_CHASSIS` — copper ring pads tied to chassis ground for Faraday-cage continuity
+- **Net:** `GND_CHASSIS` — copper ring pads tied to chassis ground for Faraday-cage continuity. Per `design/Standards/Global_Routing_Spec.md §5`, MH1–MH4 form the local chassis bond for this board; the system single-point GND↔GND_CHASSIS bond is on the Power Module.
 - **BOM:** No BOM entry; these are plain chassis mounting holes with no fitted components
 
 ### 8.2 Positions

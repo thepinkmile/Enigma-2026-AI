@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 ---
 
@@ -65,6 +65,8 @@ TOP EDGE / ENCLOSURE PANEL FACE
 | 4 | `SDA` | Shared I2C-1 data |
 | 5 | `SCL` | Shared I2C-1 clock |
 | 6 | `GND` | Indicator-current return paired with pin 2 |
+
+> Pin 1 of J1 shall be silkscreen-marked per GRS §7.1 pin-1 marker requirement.
 
 > Use 28AWG for pins 2 and 6, and 30AWG for pins 1, 3, 4, and 5.
 
@@ -211,6 +213,8 @@ CM5 firmware normally selects one colour rail per bank at a time:
 | L2 | GND plane | Solid reference plane |
 | L3 | Power | `3V3_ENIG` and local `5V_MAIN` distribution |
 | L4 | Secondary routing + silkscreen | Low-speed routing only |
+
+> Per GRS §6, a data plate (board name, revision, fab date code) shall be placed on L4 silkscreen in an area visible post-assembly.
 
 ### 8.1 Routing guidance
 

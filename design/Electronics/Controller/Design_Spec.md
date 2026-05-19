@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-16
+**Last Updated:** 2026-05-18
 
 ---
 
@@ -345,10 +345,9 @@ C19 for U8).
   (Llk=0.18µH); see DR-CTL-18 and `design/Electronics/Controller/PoE_Power_Analysis.md`.
 * **C12, C15, C16 (100nF X7R 50V 0402) — PoE Application Circuit Support Capacitors:** Three additional
   local decoupling and application-circuit filter capacitors within the U7/U8 PoE subsystem, distinct
-  from the per-IC VCC bypass capacitors C18 (U7) and C19 (U8) specified in DR-CTL-16. Typical
-  application nodes in the TPS2372-4 / TPS23730 reference circuit include the VAUX auxiliary supply
-  output (U7), the VS auxiliary-winding sense input (U8), and secondary-output decoupling on
-  `VIN_POE_12V`. Exact per-pin assignments shall be confirmed at schematic capture of the PoE front-end.
+  from the per-IC VCC bypass capacitors C18 (U7) and C19 (U8) specified in DR-CTL-16. C12 decouples
+  the secondary output on `VIN_POE_12V`; C15 decouples the VAUX auxiliary supply output (U7,
+  TPS2372-4); C16 decouples the VS auxiliary-winding sense input (U8, TPS23730).
 * **Q1 (STD25NF20) — ACF Primary Switch:** ACF Forward primary switch driven by TPS23730RMTR GATE_P.
   STMicroelectronics STD25NF20: 200V Vds, 18A Id, 125mΩ Rds(on) max, DPAK (TO-252), AEC-Q101.
   See DR-CTL-23.
@@ -498,10 +497,15 @@ See DR-CTL-19, DR-CTL-20, DEC-057, DEC-058.
 >
 > `ACTUATE_REQUEST_N` is sourced from CM5 GPIO 8 as an active-low output pulse. The Actuation Module
 > performs local homing, one-shot latching, and servo PWM generation.
+> The idle-HIGH bias is provided by the STM32 internal GPIO pull-up on the AM; no external
+> pull-up is required on this board. See
+> `design/Electronics/Actuation_Module/Design_Spec.md DR-AM-18`.
 >
-> **⚠ PCB Layout Dependency:** J11 and MH5-MH8 positions cannot be finalised until AM schematic
-> capture and PCB layout are complete. MH5-MH8 shall mirror `design/Electronics/Actuation_Module/Design_Spec.md DR-AM-03` and
-> connect to `GND`.
+> **Block location:** J11 and MH5-MH8 occupy the **left-front corner** of the Controller board.
+> Exact footprint coordinates follow the AM PCB layout as defined in
+> `design/Electronics/Actuation_Module/Design_Spec.md DR-AM-03`. MH5-MH8 shall connect to `GND`
+> (not `GND_CHASSIS`). A component keep-out zone covering the full AM footprint shadow is mandatory
+> beneath the mounted module to ensure stack height clearance for all components.
 
 * **Part:** Hirose DF40HC(3.5)-20DS-0.4V(51) - 20-pin 0.4mm pitch BtB receptacle, 3.5mm stacking
   height.

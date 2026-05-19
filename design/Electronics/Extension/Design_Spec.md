@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 ## 1. Overview
 
@@ -59,30 +59,27 @@ group without Controller-side live servo control.
 
 ```mermaid
 flowchart TD
-  subgraph SEI["Stator / Extension Interface"]
-    J7["J7 — Ext Port IN<br>30-pin 2x15"]
-  end
-
   subgraph RI["Rotor Input"]
     J1["J1 — JTAG In<br>ERM8-005"]
     J2["J2 — Power In<br>ERM8-005, NC"]
     J3["J3 — ENC Data In<br>ERM8-010"]
   end
 
+  subgraph RO["Rotor Output"]
+    J4["J4 — JTAG Out<br>ERF8-005"]
+    J5["J5 — Power Out<br>ERF8-005"]
+    J6["J6 — ENC Data Out<br>ERF8-010"]
+  end
+
+  subgraph EXT["Extension Interface"]
+    J7["J7 — Ext Port IN<br>30-pin 2x15"]
+    J8["J8 — Ext Port OUT<br>30-pin 2x15"]
+  end
+
   subgraph SC["Signal Conditioning"]
     U1["U1 — JTAG Buffer<br>SN74LVC2G125DCUR"]
     ESD_IN["U2-U5 — ESD Arrays<br>Input-side"]
     ESD_OUT["U6-U9 — ESD Arrays<br>Output-side"]
-  end
-
-  subgraph RO["Rotor Output (Slots 11-20)"]
-    J4["J4 — JTAG Out<br>ERF8-005"]
-    J6["J6 — ENC Data Out<br>ERF8-010"]
-    J8["J8 — Ext Port OUT<br>30-pin 2x15"]
-  end
-
-  subgraph ERI["Extension / Reflector Interface"]
-    J5["J5 — Power Out<br>ERF8-005"]
   end
 
   subgraph AI["AM Interface"]
@@ -195,9 +192,12 @@ flowchart TD
   > | `GND` | `GND` |
   > | `ACTUATE_REQUEST_N` | `ACTUATE_REQUEST_N` |
   >
-  > `ACTUATE_REQUEST_N` is sourced from the non-homing switch on this board or from the CM5 on
-  > the Controller Board. Held HIGH by the STM32G071K8T3TR internal GPIO pull-up; no external
-  > pull-up fitted.
+  > `ACTUATE_REQUEST_N` is sourced from either the keyboard key press actuation mechanism
+  > (hardware-triggered) or the CM5 on the Controller Board (software-triggered actuation).
+  > Only one source asserts the signal at a time, determined by configuration.
+  > The idle-HIGH bias is provided by the STM32 internal GPIO pull-up on the AM; no external
+  > pull-up is required on this board. See
+  > `design/Electronics/Actuation_Module/Design_Spec.md DR-AM-18`.
   >
   > **⚠ PCB Layout Dependency:** J9 and MH5-MH8 positions cannot be finalised until AM schematic
   > capture and PCB layout are complete. MH5-MH8 shall mirror `AM Design_Spec.md DR-AM-03` and
@@ -211,8 +211,8 @@ flowchart TD
   DR-AM-03`; pads connected to `GND`; no-component placement zone (except J9, MH5-MH8, and routing)
 * **Cross-ref:** For interconnect pinouts on power (3V3_ENIG/GND), `ENC_OUT_REF` / `ENC_IN_REF`, and
   JTAG TTD_RETURN lines used for reflector loopback/plugboard mapping, See:
-  * `Stator/Design_Spec.md`
-  * `Reflector/Design_Spec.md`
+  * `design/Electronics/Stator/Design_Spec.md`
+  * `design/Electronics/Reflector/Design_Spec.md`
 
 ## 3. Branding
 
@@ -269,6 +269,6 @@ flowchart TD
 | J9 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack | DF40HC(3.5)-20DS-0.4V(51) | Hirose | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | Yes | ✔ | 1 |
 | MH5-MH8 | M2.5x3.5mm SMT standoff | 9774035151R | Wurth Elektronik | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | Yes | ✔ | 4 |
 | J6 | 20-pin 2x10 0.8mm female SMT | ERF8-010-05.0-S-DV-K-TR | Samtec | SAM8618CT-ND | 200-ERF8010050SDVKTR | C3646170 | - | - | Yes | ✔ | 1 |
-| J7, J8 | 30-pin 2x15 2.54mm shrouded box THT | 2BHR-30-VUA | Adam Tech | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | Per DEC-053 | Yes | Pending | 2 |
+| J7, J8 | 30-pin 2x15 2.54mm shrouded box THT | 2BHR-30-VUA | Adam Tech | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | Yes | Pending | 2 |
 | U1 | Dual 3-state buffer VSSOP-8 | SN74LVC2G125DCUR | Texas Instruments | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | Yes | ✔ | 1 |
 | U2-U9 | 4-ch bidirectional ESD array USON-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | ✔ | 8 |

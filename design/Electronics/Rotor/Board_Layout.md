@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 For mechanical tolerances and shroud assembly details, see
 `design/Mechanical/Rotor/Design_Spec.md`.
@@ -79,6 +79,9 @@ Board A faces the input (upstream) side of the rotor stack.
 | U5 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J3 ENC input ESD, array 2 of 3; ENC_IN[5:4], ENC_OUT[1:0] |
 | U6 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J3 ENC input ESD, array 3 of 3; ENC_OUT[5:2] |
 
+> **GRS §7.1 pin-1 markers:** J7, J8, J11, J14 (Board A inner-face THT headers) shall each have a
+> silkscreen triangular marker or dot at pin 1 per `design/Standards/Global_Routing_Spec.md §7.1`.
+
 ---
 
 ## 3. Board B - Output Side (Ø92mm)
@@ -131,6 +134,9 @@ Board B faces the output (downstream) side of the rotor stack.
 | U8 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J6 ENC output ESD, array 1 of 3; ENC_IN[3:0] |
 | U9 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J6 ENC output ESD, array 2 of 3; ENC_IN[5:4], ENC_OUT[1:0] |
 | U10 | TPD4E05U06QDQARQ1 - 4-ch ESD array | J6 ENC output ESD, array 3 of 3; ENC_OUT[5:2] |
+
+> **GRS §7.1 pin-1 markers:** J9, J10, J12, J13 (Board B inner-face THT headers) shall each have a
+> silkscreen triangular marker or dot at pin 1 per `design/Standards/Global_Routing_Spec.md §7.1`.
 
 ---
 
@@ -295,7 +301,9 @@ Board 3V3_ENIG trunk traces).
 * **JTAG CI traces:** 50 Ω controlled impedance on L1 over the L2 GND plane. Trace width per GRS §2.3.1 and `design/Production/JLCPCB_Manufacturing.md §1.1`.
 * **No series termination on BtB stack path.** 75 Ω series termination applies to the Stator ribbon
   cable ports only (see `Stator/Board_Layout.md §8`). Rotor-to-rotor BtB connectors (J4/J5) are
-  unterminated; no series termination resistor is used on this board.
+  unterminated; no series termination resistor is used on this board. (Per DEC-077: omission of the
+  DEC-016-mandated 33 Ω per-stub resistor at J2/J5 TTD junctions is intentional — stacking
+  30 × 33 Ω would accumulate 990 Ω and degrade JTAG signal integrity across the full rotor stack.)
 * **3V3_ENIG power rail:** The L3 copper pour is the primary current path. L1 surface traces at
   0.80 mm connect J2/J5 connector pads to the L3 pour via thermal vias. All rotor boards share
   the same PCB layout - the 0.80 mm canonical width provides substantial margin above the 275 mA
@@ -392,3 +400,9 @@ rings.
 | `design/Standards/Global_Routing_Spec.md §4` | Mechanical grounding, GND_CHASSIS bonding, ENIG annular ring spec |
 | `design/Electronics/Rotor/Design_Spec.md DR-ROT-08` | Design requirement — 4x mounting holes, inscribed square positions |
 | `design/Electronics/Rotor/Board_Layout.md §8.1` | Central shaft hole spec (separate from mounting holes) |
+
+---
+
+## 10. Silkscreen & Data Plate
+
+* **Silkscreen and data plate requirements:** Per `design/Electronics/Rotor/Design_Spec.md §7`.

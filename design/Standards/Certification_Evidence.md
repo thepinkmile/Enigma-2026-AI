@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-08
+**Last Updated:** 2026-05-18
 
 > **Document Status:** Draft - Power Module design rationale complete; additional sections to be added as design review progresses.
 >
@@ -605,7 +605,7 @@ Any replacement CPLD must be verified for:
 | --- | --- | --- |
 | DA-01 | If coupon-based diagnostic access is introduced, exposed ENIG pads must receive dedicated ESD protection or documented justification before production release and any classroom deployment. | Post-coupon diagnostic design |
 | DA-02 | ESD policy for classroom deployment variant - define which internal BtB-accessible connections require additional ESD protection when the device is used in an educational/student-access configuration. | Pre-production (classroom variant) |
-| DA-03 | Full consistency documentation pass - legacy Link-Alpha / Link-Beta references must remain historical-only after DEC-038. If further active docs are added, ensure they use the PM dock and Stator dock naming from the start. | Ongoing document maintenance |
+| DA-03 | Full consistency documentation pass - legacy Link-Alpha / Link-Beta references must remain historical-only after DEC-038. Dock connector designators are now formally ratified by DEC-080 (J1/J2/J3 on PM and CTL PM dock; J4/J5 on CTL Stator dock). If further active docs are added, ensure they use the PM dock and Stator dock naming from DEC-080 from the start. | Ongoing document maintenance |
 | DA-04 | Update Consolidated BOM with all locked Power Module components. Format: component description, specification, boards requiring, quantity, notes (no reference designators - these are per-board). | Post-eFuse part lock (OA-01) |
 
 ---

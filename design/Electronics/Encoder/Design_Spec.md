@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 ## 1. Overview
 
@@ -195,6 +195,8 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 - **Programming:** Supports in-system debugging via the CM5 GUI. Role is selected by the image
   programmed into the module based on its known JTAG-chain position; no local role switch or role-specific RC
   population is part of the active design.
+- **Controlled impedance stackup:** 50 Ω CI trace-width derivation is based on the 4-layer stackup
+  per `design/Standards/Global_Routing_Spec.md §2.3.1`.
 
 ## 6. Key Mapping (64-Character Code Space with 40-Position HID Layout)
 

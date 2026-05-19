@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-19
 
 ## 1. Component Areas
 
@@ -44,11 +44,18 @@ TOP VIEW (L1) - 4-Layer / 2oz Copper
 J4 uses the Adam Tech 2BHR-30-VUA 30-pin 2x15 shrouded IDC box header (2.54mm pitch),
 consistent with the Extension Port pinout defined in `Stator/Board_Layout.md §1 J10`.
 Odd pins are on row 1; even pins on row 2.
+Per `design/Standards/Global_Routing_Spec.md §7.1`, a silkscreen pin-1 marker (arrow, chamfer, or dot) is required on J4.
+
+## 2.1 ERM8 Connector Orientation (J1–J3)
+
+Per `design/Standards/Global_Routing_Spec.md §7.1`, silkscreen pin-1 markers (arrow, chamfer, or dot) are required on J1, J2,
+and J3. The ERM8 family uses asymmetric standoff patterns; the pin-1 marker is especially critical to prevent mis-seating
+during rotor insertion.
 
 | PIN | SIGNAL          | DIR (Reflector) | DESCRIPTION                                     |
 |-----|-----------------|-----------------|-------------------------------------------------|
-| 1   | 5V_MAIN         | In              | Main 5V supply                                  |
-| 2   | 5V_MAIN         | In              | Main 5V supply (paired)                         |
+| 1   | 5V_MAIN         | NC              | Main 5V supply (NC - cable family only)         |
+| 2   | 5V_MAIN         | NC              | Main 5V supply (NC - cable family only)         |
 | 3   | 3V3_ENIG        | In              | 3.3V logic supply                               |
 | 4   | 3V3_ENIG        | In              | 3.3V logic supply (paired)                      |
 | 5   | GND             | -               | Guard / return                                  |
@@ -75,8 +82,8 @@ Odd pins are on row 1; even pins on row 2.
 | 26  | GND             | -               | Guard / return                                  |
 | 27  | 3V3_ENIG        | In              | 3.3V logic supply (paired)                      |
 | 28  | 3V3_ENIG        | In              | 3.3V logic supply (paired)                      |
-| 29  | 5V_MAIN         | In              | Main 5V supply (paired)                         |
-| 30  | 5V_MAIN         | In              | Main 5V supply (paired)                         |
+| 29  | 5V_MAIN         | NC              | Main 5V supply (NC - cable family only)         |
+| 30  | 5V_MAIN         | NC              | Main 5V supply (NC - cable family only)         |
 
 ---
 

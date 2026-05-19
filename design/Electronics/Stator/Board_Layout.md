@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 ## 1. J10 - Reflector / Extension Link (30-pin, 2x15, 2.54mm Shrouded Box Header)
 
@@ -79,12 +79,12 @@ receptacles are Molex `2195630015` on `J4` / `J5`.
 ```text
 Bank 1 (HID)             Bank 2 (Plugboard Pass 1)    Bank 3 (Plugboard Pass 2)
 ┌────────────┐           ┌────────────┐               ┌────────────┐
-│    J4     │           │    J6     │               │    J8     │
+│    J4      │           │    J6      │               │    J8      │
 │  KBD_ENC   │           │PLG_PASS1_  │               │PLG_PASS2_  │
 │            │           │    DEC     │               │    DEC     │
 └────────────┘           └────────────┘               └────────────┘
 ┌────────────┐           ┌────────────┐               ┌────────────┐
-│    J5     │           │    J7     │                │    J9     │
+│    J5      │           │    J7      │               │    J9      │
 │  LBD_DEC   │           │PLG_PASS1_  │               │PLG_PASS2_  │
 │            │           │    ENC     │               │    ENC     │
 └────────────┘           └────────────┘               └────────────┘
@@ -183,6 +183,11 @@ within 1 mm of each VDD pin.
   drives `CM5_KEY_DATA[5:0]`, `KEY_CM5_ACTIVE` (keyboard source select), and `CPLD_RESET_N`
   broadcast to the CPLD and all downstream boards.
 
+> **Q1 / R41 — CPLD_RESET_N open-drain buffer (per DEC-078):** Q1 (BSS138 SOT-23) shall be placed
+> within 5 mm of U7. Gate: driven from U7 GPA[7] via R41 (100 Ω 0402). Drain: `CPLD_RESET_N` net
+> (J10 pin 15, broadcast to all Rotor boards). Source: GND. Without this buffer, 30 rotor pull-ups
+> × 330 µA would total 9.90 mA, exceeding the MCP23017 I/O sink limit of 8 mA/pin.
+
 ---
 
 ## 8. U4 / U5 - Keyboard Source MUX
@@ -219,6 +224,7 @@ R1 is on the 3V3\_ENIG entry trace; INA219 differential voltage sense pins strad
 > **CPLD power rails:** All VCCINT and VCCIO pins on U1 connect to `3V3_ENIG`. Refer to the
 > device datasheet for supply domain details including the MultiVolt core architecture.
 > **Reference datasheet:** `design/Datasheets/Intel-EPM570T100I5N-datasheet.md`
+> See also `Design_Spec.md §3 EPM570T100I5N Power Rail Assignments` table.
 
 ### 10.1 Dedicated device pins
 
@@ -277,7 +283,7 @@ plate.
 
 ### 11.2 Notes
 
-* **JTAG CI traces:** 50 Ω controlled impedance on L1 over the L2 GND plane. Trace width per GRS §2.3.1 and `design/Production/JLCPCB_Manufacturing.md §1.1`.
+- **JTAG CI traces:** 50 Ω controlled impedance on L1 over the L2 GND plane. Trace width per GRS §2.3.1 and `design/Production/JLCPCB_Manufacturing.md §1.1`.
 - **Encoder-port terminations:** provide one TCK and one TMS series resistor per encoder port plus
   one TDI-chain series resistor for each Stator-driven cable segment in the six-module chain.
 - **3V3_ENIG entry trace:** 0.80 mm remains the canonical trunk width for the 2.05 A design budget.

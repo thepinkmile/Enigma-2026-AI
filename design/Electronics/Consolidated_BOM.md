@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-16
+**Last Updated:** 2026-05-18
 
 ---
 
@@ -40,7 +40,7 @@
 | PM: D2 | TPD2E2U06DRLR | 296-38361-1-ND | 595-TPD2E2U06DRLR | C1972959 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | ESD SOT-553 [Texas Instruments] | Yes | ✔ |
 | PM: D3; CTL: U4-U6; STA: U9-U12; REF: U1-U4; EXT: U2-U9; ROT-26: U3-U10; ROT-64: U3-U10 | TPD4E05U06QDQARQ1 | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | 1 | 3 | - | - | - | - | 4 | 4 | 8 | 8 | 8 | 60 | 4-ch ESD ±15kV 0.5pF U-DFN-10 [Texas Instruments] | Yes | ✔ |
 | PM: D4 | SMBJ18A-Q | 118-SMBJ18A-QCT-ND | 652-SMBJ18A-Q | C1979859 (Extended) | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 18V 600W unidirectional TVS SMB (DO-214AA) [Bourns] | Yes | ✔ |
-| CTL: D2 | 1.5SMBJ36CA | 118-1.5SMBJ36CACT-ND | 652-1.5SMBJ36CA | C5439937 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 36V 1.5kW bidirectional TVS DO-214AA [Bourns] | Yes | Pending |
+| CTL: D2 | 1.5SMBJ36CA | 118-1.5SMBJ36CACT-ND | 652-1.5SMBJ36CA | C5439937 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 36V 1.5kW bidirectional TVS DO-214AA [Bourns] | Yes | ✔ |
 | PM: D5,D6; CTL: D1 | BAT54 | 4878-BAT54CT-ND | 637-BAT54 | C49435667 | - | 2 | 1 | - | - | - | - | - | - | - | - | - | 3 | Schottky SOT-23 [Diotec] | Yes | ✔ |
 | PM: F1 | AC72ABD | AC72ABD-ND | 652-AC72ABD | C17468669 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 72°C SMD Thermal Cutoff [Bourns]; No PCB footprint — component is laser/spot-welded to battery cell tabs; not suitable for PCB mounting per Bourns datasheet | No | N/A |
 | PM: F2,F3,F4 | 0ZRB0600FF1A | 5923-0ZRB0600FF1A-ND | 530-0ZRB0600FF1A | C3762696 | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | 6A hold / 12A trip THT AEC-Q200 polyfuse [Bel Fuse]; see DEC-069 | Yes | ✔ |
@@ -53,7 +53,7 @@
 | PM: Q1-Q3 | CSD17578Q5A | 296-48512-1-ND | 595-CSD17578Q5A | C2871447 | - | 3 | - | - | - | - | - | - | - | - | - | - | 3 | N-ch MOSFET 30V 25A 5.9mΩ SON-8 5x6mm [Texas Instruments] | Yes | ✔ |
 | PM: Q4-Q11; USM: Q1-Q18 | BSS138 | BSS138CT-ND | 512-BSS138 | C52895 | - | 8 | - | - | 18 | - | - | - | - | - | - | - | 26 | N-ch MOSFET 50V 200mA SOT-23 [onsemi] | Yes | ✔ |
 | PM: Q12a,Q12b | DMP3028LK3Q-13 | 31-DMP3028LK3Q-13CT-ND | 621-DMP3028LK3Q-13 | C3281294 | - | 2 | - | - | - | - | - | - | - | - | - | - | 2 | P-ch MOSFET -30V -3.2A TO-252 AEC-Q101 [Diodes Inc]; see DEC-076 | No | No (pending) |
-| CTL: Q1,Q2 | STD25NF20 | 497-13749-1-ND | 511-STD25NF20 | C388326 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | N-ch MOSFET 200V 18A DPAK [STMicroelectronics] | Yes | Pending |
+| CTL: Q1,Q2 | STD25NF20 | 497-13749-1-ND | 511-STD25NF20 | C388326 | - | - | 2 | - | - | - | - | - | - | - | - | - | 2 | N-ch MOSFET 200V 18A DPAK [STMicroelectronics] | Yes | ✔ |
 | PM: R1 | ERJ-3EKF2263V | P226KHCT-ND | 667-ERJ-3EKF2263V | C403081 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 226kΩ 1% 0603 [Panasonic]; see DEC-069 | Yes | ✔ |
 | PM: R2 | ERJ-3EKF2872V | P28.7KHCT-ND | 667-ERJ-3EKF2872V | C403135 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 28.7kΩ 1% 0603 [Panasonic] | Yes | ✔ |
 | PM: R3 | ERA-3VEB2100V | 10-ERA-3VEB2100VCT-ND | 667-ERA-3VEB2100V | C1861624 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 210Ω 0.1% 0603 [Panasonic] | Yes | ✔ |
@@ -68,7 +68,7 @@
 | PM: R18,R20,R27-R29,R32-R33,R36-R37; JM: R5-R7; ENC: R2-R5; AM: R4,R5; STA: R2-R6,R13-R23,R36-R38; ROT-26: R1-R4; ROT-64: R1-R4 | ERJ-2RKF1002X | P10.0KLCT-ND | 667-ERJ-2RKF1002X | C191123 | - | 9 | - | 3 | - | 4 | 2 | 19 | - | - | 4 | 4 | 57 | 10kΩ 1% 0402 [Panasonic] | Yes | ✔ |
 | PM: R19 | ERJ-2RKF8202X | P82.0KLCT-ND | 667-ERJ-2RKF8202X | C400641 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 82.0kΩ 1% 0402 [Panasonic] | Yes | ✔ |
 | PM: R21 | ERJ-3EKF2743V | P274KHCT-ND | 667-ERJ-3EKF2743V | C403126 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 274kΩ 1% 0603 [Panasonic] | Yes | ✔ |
-| PM: R23 | ERA-2AEB3322X | P33.2KDCCT-ND | 667-ERA-2AEB3322X | C2087909 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 33.2kΩ 1% 0402 [Panasonic] | Yes | ✔ |
+| PM: R23 | ERJ-PC3B1333V | 10-ERJ-PC3B1333VTR-ND | 667-ERJ-PC3B1333V | Global sourcing / consignment | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | 133kΩ 0.1% ±25PPM/°C 0603 Thick-Film [Panasonic]; corrected from 33.2kΩ, see DEC-073 | Yes | ✔ |
 | PM: R24-R26,R30-R31; USM: R12-R17,R54-R65 | ERJ-2RKF1001X | P1.00KLCT-ND | 667-ERJ-2RKF1001X | C242161 | - | 5 | - | - | 18 | - | - | - | - | - | - | - | 23 | 1kΩ 1% Thick-Film 0402 [Panasonic] | Yes | ✔ |
 | PM: R34-R35 | ERJ-2RKF5232X | P52.3KLCT-ND | 667-ERJ-2RKF5232X | - | Global sourcing | 2 | - | - | - | - | - | - | - | - | - | - | 2 | 52.3kΩ 1% 0402 [Panasonic] | Yes | ✔ |
 | PM: R38-R41; USM: R78-R95 | ERJ-2RKF1003X | P100KLCT-ND | 667-ERJ-2RKF1003X | - | Global sourcing | 4 | - | - | 18 | - | - | - | - | - | - | - | 22 | 100kΩ 1% 0402; no JLCPCB stock [Panasonic] | Yes | ✔ |
@@ -122,7 +122,7 @@
 | JM: Y1 | 435F12012IET | 110-435F12012IETTR-ND | 774-435F12012IET | C19766404 (Extended) | - | - | - | 1 | - | - | - | - | - | - | - | - | 1 | 12MHz 20pF ±20ppm crystal SMD-5032 (5.0×3.2×1.1mm); see DEC-022 [CTS]; BOM description corrected from SMD-3225 to SMD-5032 per CTS 435 datasheet; unofficial footprint adapted from KiCAD 10.0 Crystal_SMD_5032-4Pin standard; 3D model approximated from 2-pin 5032 STEP (same body) | Yes* | Yes* |
 | USM: D1-D12 | WP154A4SEJ3VBDZGW/CA | 754-2029-ND | 604-WP154A43VBDZGWCA | C7151795 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 5mm common-anode RGB THT [Kingbright] | Yes | ✔ |
 | USM: J1; STA: J13 | B6B-PH-K-S(LF)(SN) | 455-1708-ND | 306-B6B-PH-K-SLFSN | C131342 | - | - | - | - | 1 | - | - | 1 | - | - | - | - | 2 | 6-pin JST PH 2.0mm THT [JST] | Yes | ✔ |
-| USM: Q19-Q30 | SQ2319ADS-T1_BE3 | 742-SQ2319ADS-T1_BE3CT-ND | 78-SQ2319ADS-T1_BE3 | C3280190 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | P-MOSFET AEC-Q101 SOT-23 [Vishay] | No | Requested |
+| USM: Q19-Q30 | SQ2319ADS-T1_BE3 | 742-SQ2319ADS-T1_BE3CT-ND | 78-SQ2319ADS-T1_BE3 | C3280190 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | P-MOSFET AEC-Q101 SOT-23 [Vishay] | Yes | ✔ |
 | USM: R18-R29 | ERJ-3EKF1500V | P150HCT-ND | 667-ERJ-3EKF1500V | C400650 | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 150Ω 1% 0603 [Panasonic] | Yes | ✔ |
 | USM: R30-R53 | ERJ-3EKF1000V | P100HCT-ND | 667-ERJ-3EKF1000V | C193336 | - | - | - | - | 24 | - | - | - | - | - | - | - | 24 | 100Ω 1% 0603 [Panasonic] | Yes | ✔ |
 | USM: R66-R77 | SG73S1ERTTP4702D | 2019-SG73S1ERTTP4702DTR-ND | 660-SG73S1ERTTP4702D | C5915648 (MOQ 40) | - | - | - | - | 12 | - | - | - | - | - | - | - | 12 | 47kΩ ±0.5% AEC-Q200 0402; JLCPCB MOQ 40 [KOA Speer] | Yes | ✔ |
@@ -146,7 +146,7 @@
 | STA: J11,J12 | 2195620015 | 900-2195620015-ND | 538-219562-0015 | - | Global sourcing | - | - | - | - | - | - | 2 | - | - | - | - | 2 | 5-pwr+15-sig hybrid plug [Molex] | Yes | ✔ |
 | STA: L1-L4 | HI1206P121R-10 | 240-2410-1-ND | 875-HI1206P121R-10 | C2442103 | - | - | - | - | - | - | - | 4 | - | - | - | - | 4 | 120Ω @100MHz 4.0A 1206 ferrite bead [Laird Performance Materials] | Yes | ✔ |
 | STA: U4,U5 | 74HC157PW-Q100,118 | 1727-74HC157PW-Q100,118CT-ND | 771-74HC157PWQ100118 | C546614 | - | - | - | - | - | - | - | 2 | - | - | - | - | 2 | Quad 2-to-1 mux TSSOP-16 [Nexperia] | Yes | ✔ |
-| REF: J3; EXT: J3; ROT-26: J3; ROT-64: J3 | ERM8-010-05.0-S-DV-K-TR | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | - | - | - | - | - | - | - | - | 1 | 1 | 1 | 1 | 7 | 20-pin 2x10 0.8mm male SMT [Samtec] | Yes | ✔ |
+| REF: J3; EXT: J3; ROT-26: J3; ROT-64: J3 | ERM8-010-05.0-S-DV-K-TR | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | - | - | - | - | - | - | - | - | 1 | 1 | 1 | 1 | 7 | 20-pin 2x10 0.8mm male SMT [Samtec] | No | ✔ |
 | REF: R1 | ERJ-3EKF2200V | P220HCT-ND | 667-ERJ-3EKF2200V | C403073 | - | - | - | - | - | - | - | - | 1 | - | - | - | 1 | 22Ω 1% 0603 [Panasonic] | Yes | ✔ |
 | ROT-26: C15,C21A; ROT-64: C15,C21B | KAM05CR71A105KH | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | - | - | - | - | - | - | - | - | - | 2 | 2 | 10 | 1µF X7R ±10% 10V AEC-Q200 0402 [Kyocera AVX] | Yes | ✔ |
 | ROT-26: C16-C19,C22A-C25A; ROT-64: C16-C19,C22B-C25B | AC0402FRNPO9BN330 | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | - | - | - | - | - | - | - | - | 8 | 8 | 40 | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 [YAGEO] | Yes | ✔ |

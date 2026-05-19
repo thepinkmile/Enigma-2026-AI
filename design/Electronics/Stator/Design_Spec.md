@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 The Stator Board is the mechanical and electrical backbone of the rotor stack. It provides the high-current distribution and signal routing for the 30 modular rotors.
 
@@ -56,6 +56,7 @@ The Stator Board is the mechanical and electrical backbone of the rotor stack. I
 | DR-STA-15 | `CFG_APPLY_N` signal | `CFG_APPLY_N` = active-low Stator-only apply/reset pulse from U8 GPA[6]; combined with `CPLD_RESET_N` through U3 (`SN74LVC1G08DBVR`) so either signal can assert the Stator CPLD reset path; forcing `CFG_APPLY_N` LOW reloads `CFG_ROUTE[3:0]` and `CFG_REFMAP[5:0]` without resetting the wider system; R17 (10kΩ pull-up to 3V3_ENIG) holds `CFG_APPLY_N` deasserted at power-up when U8 is uninitialised | BOM U8, U3, R17; §3 Configuration Bank 1 (Routing) |
 | DR-STA-16 | ESD protection - rotor-facing BtB connectors | U9 (J1 JTAG, 1x TPD4E05U06QDQARQ1 covering TCK, TMS, TTD, CPLD_RESET_N) + U10-U12 (J3 ENC, 3x TPD4E05U06QDQARQ1 covering ENC_IN[5:0] + ENC_OUT[5:0]); placed within 3mm of connector mating edge per DEC-048 | §8 Thermal & ESD; BOM U9-U12 |
 | DR-STA-17 | Mounting holes | MH1–MH4 shall be 4× M3 PTH (Ø3.2 mm drill) mounting holes tied to `GND_CHASSIS` per GRS §4; ENIG annular ring per GRS §4. Placement follows GRS §4.3 Pattern B (D-shaped board): MH1 bottom-left corner, MH2 bottom-right corner, MH3 board-centre, MH4 top-centre arc midpoint — all at 7 mm inset from nearest edge. No BOM entry — plain chassis mounting holes, no components to fit. Exact XY coordinates TBD at PCB layout. | §2 (GND_CHASSIS bond note); `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Stator/Board_Layout.md §12` |
+| DR-STA-18 | CPLD_RESET_N open-drain buffer | Q1 = BSS138 N-ch MOSFET SOT-23; gate resistor R41 = 100 Ω 0402; drain = `CPLD_RESET_N` net; source = GND; driven by U7 GPA[7] (MCP23017, I²C addr 0x21); per DEC-078; prevents MCP23017 IOL overload from 30-rotor pull-up stack (30 × 330 µA = 9.90 mA > 8 mA I/O sink limit) | Q1, R41 BOM entries; §3 U7 description; `Stator/Board_Layout.md §7` |
 
 ### Component Block Diagram
 
@@ -187,7 +188,7 @@ service aliases that map onto the remote Encoder board's generic `ENC_DATA[5:0]`
 `J10` aliases are Stator-local names only; the downstream Rotor / Extension / Reflector chain keeps
 its own generic `ENC_IN[5:0]` and `ENC_OUT[5:0]` definitions. The active insertion positions are
 determined by the VHDL routing case statement selected by U8 GPA[3:0] written by the CM5 daemon
-(see §3 Panel Switch Configuration and DEC-032).
+(see §3 Panel Switch Configuration and DEC-032; note: DEC-070 D6 corrects DEC-032 bullet 4 — CFG_APPLY_N is U8 GPA[6], not GPA[4]).
 
 `ENC_ACTIVE_N` is intentionally **not** part of the wider cipher routing matrix. It is a HID-local
 sideband only: the selected keyboard-source activity state is forwarded to `LBD_DEC` so the
@@ -391,6 +392,20 @@ I/O budget (see §3 Device-to-Design Net Name Mapping for `DEV_CLR_N` details).
 > * J6–J9 signal groups use port role names (`PLG_PASS1_DEC`, etc.); the downstream `ENC_DATA[5:0]`
 >   alias on the connected Encoder board is generic and is not the same bus name.
 
+### EPM570T100I5N Power Rail Assignments
+
+The EPM570T100I5N TQFP-100 has two supply domains; on the Stator both connect to `3V3_ENIG`:
+
+| Domain | Description | Pin count (TQFP-100) | Connected to | Bypass caps |
+| :--- | :--- | :--- | :--- | :--- |
+| VCCINT | Core supply (3.3 V MultiVolt) | 8 | `3V3_ENIG` | C1–C8 (100 nF 0402 × 8, one per pin) |
+| VCCIO | I/O supply (3.3 V) | 8 | `3V3_ENIG` | C14–C21 (100 nF 0402 × 8, one per pin) |
+
+> All bypass capacitors shall be placed within 1 mm of their respective supply pin per GRS §3.2.
+> Both supply domains connect to the same `3V3_ENIG` rail; the Intel MAX II EPM570T100I5N
+> MultiVolt core can operate with VCCINT = 3.3 V. Exact TQFP-100 package pin numbers: see
+> `design/Datasheets/Intel-EPM570T100I5N-datasheet.md`.
+
 ## 4. Interconnects
 
 * **Controller Dock:** The Stator plugs into the Controller through two Molex EXTreme Guardian HD hybrid connectors.
@@ -498,7 +513,7 @@ full-system I²C allocation is defined in `Controller/Design_Spec.md §4.1`.
 | :--- | :--- | :--- |
 | MCP23017 | U6 | ENC service-bus monitoring (16 GPIO) |
 | MCP23017 | U7 | `CM5_KEY_DATA[5:0]`, `KEY_CM5_ACTIVE`, `CPLD_RESET_N`, `CM5_KEY_ACTIVE_N`, `KEY_SRC_ACTIVE_N`, spare GPIO (16 GPIO) |
-| MCP23017 | U8 | CPLD configuration output driver: `CFG_ROUTE[3:0]` + `CFG_REFMAP[5:0]` + `CFG_APPLY_N` (16 GPIO) (per DEC-032) |
+| MCP23017 | U8 | CPLD configuration output driver: `CFG_ROUTE[3:0]` + `CFG_REFMAP[5:0]` + `CFG_APPLY_N` (16 GPIO) (per DEC-070) |
 | INA219 | U2 | Rotor stack current/power telemetry |
 
 ### U6 - MCP23017T-E/SO @ 0x20
@@ -564,7 +579,8 @@ Handles CM5 virtual-key injection into the keyboard-source mux, mux-select contr
 
 CPLD configuration output driver: delivers final routing configuration (`CFG_ROUTE[3:0]`), reflector
 substitution map (`CFG_REFMAP[5:0]`), and configuration apply pulse (`CFG_APPLY_N`) to the Stator CPLD
-(per DEC-032). Pull-down resistors R13–R16 (`CFG_ROUTE`) and R18–R23 (`CFG_REFMAP`) hold CPLD inputs at
+(per DEC-070).
+Pull-down resistors R13–R16 (`CFG_ROUTE`) and R18–R23 (`CFG_REFMAP`) hold CPLD inputs at
 logic-0 when U8 is uninitialised; pull-up R17 holds `CFG_APPLY_N` deasserted at power-up.
 
 **Address:** 0x22 — MCP23017 base 0x20; A2=LOW, A1=HIGH, A0=LOW → 0x20 | 0b010 = 0x22
@@ -650,7 +666,7 @@ logic-0 when U8 is uninitialised; pull-up R17 holds `CFG_APPLY_N` deasserted at 
 | J1, J2 | 10-pin 2x5 0.8mm female SMT | ERF8-005-05.0-S-DV-K-TR | Samtec | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | - | - | Yes | ✔ | 2 |
 | J3 | 20-pin 2x10 0.8mm female SMT | ERF8-010-05.0-S-DV-K-TR | Samtec | SAM8618CT-ND | 200-ERF8010050SDVKTR | C3646170 | - | - | Yes | ✔ | 1 |
 | J4-J9 | 20-pin 2x10 2.54mm shrouded THT | BHR-20-VUA | Adam Tech | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | Yes | ✔ | 6 |
-| J10 | 30-pin 2x15 2.54mm shrouded THT | 2BHR-30-VUA | Adam Tech | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | Per DEC-053 | Yes | Pending | 1 |
+| J10 | 30-pin 2x15 2.54mm shrouded THT | 2BHR-30-VUA | Adam Tech | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | Yes | Pending | 1 |
 | J11, J12 | 5 power + 15 signal hybrid plug | 2195620015 | Molex | 900-2195620015-ND | 538-219562-0015 | - | Global sourcing | - | Yes | Pending | 2 |
 | J13 | 6-pin JST PH 2.0mm THT | B6B-PH-K-S(LF)(SN) | JST | 455-1708-ND | 306-B6B-PH-K-SLFSN | C131342 | - | - | Yes | ✔ | 1 |
 | L1-L4 | 120Ω @100MHz 4.0A 1206 | HI1206P121R-10 | Laird Performance Materials | 240-2410-1-ND | 875-HI1206P121R-10 | C2442103 | - | - | Yes | ✔ | 4 |
@@ -664,3 +680,5 @@ logic-0 when U8 is uninitialised; pull-up R17 holds `CFG_APPLY_N` deasserted at 
 | U4, U5 | Quad 2-to-1 mux TSSOP-16 | 74HC157PW-Q100,118 | Nexperia | 1727-74HC157PW-Q100,118CT-ND | 771-74HC157PWQ100118 | C546614 | - | - | Yes | ✔ | 2 |
 | U6-U8 | I²C GPIO expander SOIC-28 | MCP23017T-E/SO | Microchip Technology | MCP23017T-E/SOCT-ND | 579-MCP23017T-E/SO | C47023 | - | - | Yes | ✔ | 3 |
 | U9-U12 | 4-ch unidirectional ESD array USON-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | ✔ | 4 |
+| Q1 | BSS138 N-ch MOSFET SOT-23 | BSS138LT1G | ON Semiconductor | BSS138LT1GOSCT-ND | 863-BSS138LT1G | C6568483 | - | - | Yes | Pending | 1 |
+| R41 | 100 Ω 1% 0402 | ERJ-2RKF1000X | Panasonic | P100LCT-ND | 667-ERJ-2RKF1000X | C25190 | - | - | Yes | Pending | 1 |

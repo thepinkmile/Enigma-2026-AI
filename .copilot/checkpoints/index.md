@@ -166,3 +166,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 160 | Library import (Hirose + TPS), todo sync, directives hardened | 160-library-import-todo-sync-directives-hardened.md |
 | 161 | TPS25751 EEPROM Option C implementation complete | 161-tps25751-eeprom-option-c-complete.md |
 | 162 | Todo restructuring and review-pass gate | 162-todo-restructuring-review-gates.md |
+| 163 | P10 Recovery: all remaining 54 findings applied across 11 boards + BOM; DEC-080 appended | 163-p10-recovery-complete.md |

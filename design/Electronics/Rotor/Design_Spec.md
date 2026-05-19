@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-15
+**Last Updated:** 2026-05-18
 
 ## 1. Overview
 
@@ -380,7 +380,7 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
 * **TTD path policy:** The rotor-stack `TTD` path is a direct board-to-board chain. No series resistor is
   placed at each rotor hop; `TTD` exits the CPLD and continues straight to J4 pin 6. Cable-driving
   damping is reserved for the ribbon-port interfaces on the Stator / Encoder boards, while the
-  Reflector retains the single 22 Ω end-of-chain damping resistor on `TTD_RETURN`.
+  Reflector retains the single 22 Ω end-of-chain damping resistor on `TTD_RETURN` (per DEC-081).
 * **Pull Resistors (R1-R4, 10kΩ, per CPLD):**
   * **TMS (R1):** 10kΩ pull-up to 3V3_ENIG - ensures JTAG TAP resets to Test-Logic-Reset on power-up.
   * **TDI (R2):** 10kΩ pull-up to 3V3_ENIG - holds TDI at logic-1 (BYPASS) when not actively driven.
@@ -388,6 +388,10 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
   * **SYS\_RESET\_N (R4):** 10kΩ pull-up to 3V3_ENIG - active-low; pull-up holds CPLD out of reset by default.
   These are present on every rotor board. With 30 rotors, 30 sets of pull resistors exist in the full stack;
   this is intentional and consistent with making each rotor independently safe in any stack position.
+  The aggregate 30× 10kΩ parallel load on `CPLD_RESET_N` (333Ω effective) was analysed in DEC-078,
+  which identified a GPIO overload condition and resolved it by adding a BSS138 MOSFET buffer (Q1) on
+  the Stator — the `CPLD_RESET_N` net is driven by Q1's drain, with the 3V3_ENIG rail providing
+  pull-high via the distributed rotor pull-ups. No change to individual Rotor pull-up values is required.
 * **Shielding:** 4-layer PCB with solid GND plane (L2) to isolate digital switching from the high-accuracy capacitive encoder.
 
 #### JTAG Net Name Mapping
@@ -403,10 +407,14 @@ the full net-naming convention.
 | TDO | Out — J4 pin 6 | `TTD` | Outgoing serial data to the next board's TDI input |
 | TCK | In/pass-through — J1 pin 2 → J4 pin 2 | `TCK` | JTAG clock; unmodified throughout the chain |
 | TMS | In/pass-through — J1 pin 4 → J4 pin 4 | `TMS` | JTAG mode select; unmodified throughout the chain |
-| TRST (optional) | In — J1 pin 8 | `CPLD_RESET_N` | System-wide active-low reset; also resets the JTAG TAP; ESD-protected via U3 ch4 (Board A) and U7 ch4 (Board B) |
+| TRST (optional) | In — J1 pin 8 | `CPLD_RESET_N` | System-wide active-low reset; also resets the JTAG TAP; ESD-protected via U3 ch4 (Board A) and U7 ch4 (Board B); driven via Q1 (BSS138) open-drain buffer on Stator per DEC-078 (see `Stator/Design_Spec.md §3`) |
 
-> **Vendor pin name note — `DEV_CLRN` → `DEV_CLR_N`:** The Intel MAX II EPM570T100I5N vendor pin name for the device-clear input is `DEV_CLRN` (no underscore separator). Per `design/Standards/Global_Routing_Spec.md §10`, this is renamed to `DEV_CLR_N` in the Enigma-NG net-naming convention. On the Rotor, this net is further labelled `CPLD_RESET_N` to distinguish it as a system-level reset signal. Cross-reference: `design/Electronics/Rotor/Board_Layout.md §6.1`.
-
+> **Vendor pin name note — `DEV_CLRN` → `DEV_CLR_N`:** The Intel MAX II EPM570T100I5N vendor pin name for the
+> device-clear input is `DEV_CLRN` (no underscore separator). Per `design/Standards/Global_Routing_Spec.md §10`,
+> this is renamed to `DEV_CLR_N` in the Enigma-NG net-naming convention. On the Rotor, this net is further
+> labelled `CPLD_RESET_N` to distinguish it as a system-level reset signal.
+> Cross-reference: `design/Electronics/Rotor/Board_Layout.md §6.1`.
+>
 > **TTD inter-board net name:** `TTD` (JTAG Transmission Data) is the net name for the
 > TDO-to-TDI board-to-board trace. Because the trace is simultaneously the TDO output of one
 > Rotor board and the TDI input of the next, neither `TDI` nor `TDO` alone correctly describes it.
@@ -444,7 +452,7 @@ the full net-naming convention.
 | 7 | 3V3\_ENIG | 8 | GND |
 | 9 | 3V3\_ENIG | 10 | GND |
 
-> 5 pins x 0.5 A/pin = **2.5 A capacity** - far exceeds the 50 mA/rotor requirement.
+> 5 pins x 0.5 A/pin = **2.5 A capacity** - far exceeds the 50 mA/rotor requirement. (Samtec ERM8-005 datasheet: 1.0 A/pin rated; 0.5 A/pin de-rated in this design.)
 > 5 power + 5 GND ensures fully balanced current return paths.
 >
 #### J3 - Encoder Data Interface (ERM8-010, 20-pin 2x10, 0.8mm pitch)
@@ -596,7 +604,7 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 
 * **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`.
 * **Finish:** ENIG (Gold) for the edge-rate connector pads.
-* **Aesthetics:** Dark Green Solder Mask with Typewriter font labeling (e.g., "WALZE I").
+* **Aesthetics:** Dark Green Solder Mask with Typewriter font labeling (e.g., `WALZE-64`).
 
 ---
 
@@ -682,3 +690,14 @@ no new part numbers required. Placement per `Global_Routing_Spec.md §9` with DE
 | U8 | B | J6 encoder output (array 1 of 3) | `ENC_IN[3:0]` |
 | U9 | B | J6 encoder output (array 2 of 3) | `ENC_IN[5:4]`, `ENC_OUT[1:0]` |
 | U10 | B | J6 encoder output (array 3 of 3) | `ENC_OUT[5:2]` |
+
+---
+
+## 7. Mechanical & Silkscreen
+
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6`.
+* **Label:** `WALZE-{variant}` [Rotor] in ALL-CAPS German typewriter font, where `{variant}` is the
+  rotor variant suffix (`26` for the 26-character variant; `64` for the 64-character variant) —
+  e.g. `WALZE-26` or `WALZE-64`. The suffix `-A` or `-B` may be appended to distinguish Board A
+  from Board B within the same assembly (e.g. `WALZE-64-A` / `WALZE-64-B`) if board-level
+  identification is required.
