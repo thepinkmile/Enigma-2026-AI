@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-20
+**Last Updated:** 2026-05-22
 
 ## 1. Overview
 
@@ -181,6 +181,7 @@ remains on the Power Module at the common power-entry point immediately before t
   Mounting hole positions (MH1–MH4) are defined relative to the JM board edge; final CTL board
   locations are deferred to PCB layout. See `design/Standards/Global_Routing_Spec.md §4` for module
   mounting hole specification rules.
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L4, Revision Block text: `PROGRAMMIERWERK [JTAG Module] V1.0`.
 
 ## 5. PCB Fabrication & Stackup
 

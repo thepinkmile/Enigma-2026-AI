@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 ## 1. Overview
 
@@ -217,7 +217,7 @@ flowchart TD
 
 ## 3. Branding
 
-* **Identity:** 2oz Copper / Inverted White Data Plate (V1.0 traceability).
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L4, Revision Block text: `ERWEITERUNG [Extension] V1.0`.
 
 ## 4. PCB Fabrication & Stackup
 

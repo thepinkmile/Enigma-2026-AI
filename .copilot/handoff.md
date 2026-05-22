@@ -3,7 +3,48 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
-## 2026-05-22 session result (INT MINOR/MEDIUM findings closed; full parallel audit confirmed)
+## 2026-05-22 session result (data-plate-standardisation complete; checkpoint 167)
+
+### What happened
+
+`data-plate-standardisation` workstream completed. All 10 board Design_Spec.md files now carry a
+standard Data Plate bullet. GRS §6 metadata format formalised. USM Board_Layout.md errant blockquote
+removed. USM-P10-09 closed RESOLVED.
+
+German board names agreed and applied:
+
+| Board | Revision Block Text | Layer |
+|-------|---------------------|-------|
+| Rotor | `WALZE-{variant} [Rotor] V1.0` | L4 |
+| Reflector | `REFLEKTOR [Reflector] V1.0` | L4 |
+| Controller | `LEITWERK [Controller] V1.0` | L6 |
+| Extension | `ERWEITERUNG [Extension] V1.0` | L4 |
+| Stator | `STATOR [Stator] V1.0` | L4 |
+| Power Module | `STROMVERSORGUNG [Power Module] V1.0` | L4 |
+| Actuation Module | `STELLWERK [Actuation Module] V1.0` | L4 |
+| User Settings Module | `EINSTELLWERK [Settings] V1.0` | L4 |
+| JTAG Module | `PROGRAMMIERWERK [JTAG Module] V1.0` | L4 |
+| Encoder | `KODIERWERK [Encoder] V1.0` | L4 |
+
+Also fixed CTL §10.2 orphaned continuation line (duplicate GRS §6 reference from old Branding bullet).
+
+### Key numbers
+
+- **Next checkpoint = 168**
+- **Next DEC = DEC-084**
+- **Pass-10:** 91/91 board findings resolved ✅; all INT MINOR/MEDIUM findings closed ✅
+- **review-pass-11** blocked by: `design-log-restructure`, `copilot-dir-restructure` (both pending)
+
+### Files changed this session
+
+**Design files:** `design/Standards/Global_Routing_Spec.md` (§6 metadata format) · all 10 board
+`Design_Spec.md` files (Data Plate bullets) · `User_Settings_Module/Board_Layout.md` (blockquote
+removed) · All Last Updated → 2026-05-22
+
+**Session tracking:** `.copilot/review-report.md` (USM-P10-09 RESOLVED) · `.copilot/plan.md` ·
+`.copilot/handoff.md` (this entry) · `.copilot/todos/data-plate-standardisation.md` (status → done)
+
+
 
 ### What happened
 

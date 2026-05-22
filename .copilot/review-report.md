@@ -1864,7 +1864,7 @@ new cross-cutting CRITICAL not identified in any individual board review
 | USM-P10-06 | LOW | USM | Documentation | DEC-072 says "DPDT" for SW1–SW10; correct = SPDT (200MSP1T2B4M2QE is SPDT MSP1) |
 | USM-P10-07 | LOW | USM | Documentation | MCP23017 INTA/INTB pins not documented as NC or disabled in any U1/U2/U3 pin table |
 | USM-P10-08 | LOW | USM | Layout | GRS §7.1 J1 pin-1 marker compliance not confirmed in Board_Layout |
-| USM-P10-09 | LOW | USM | Layout | GRS §6 B.Silkscreen data plate not mentioned in Board_Layout |
+| ~~USM-P10-09~~ | ~~LOW~~ | ~~USM~~ | ~~Layout~~ | ~~GRS §6 B.Silkscreen data plate not mentioned in Board_Layout~~ **RESOLVED — Board_Layout.md blockquote removed (Board_Layout files are visualisation-only); standard Data Plate bullet added to Design_Spec.md §8; GRS §6 metadata format updated to `GERMAN [English] Vx.y`** |
 | AM-P10-01 | LOW | AM | Documentation | DR-AM-17 lacks cross-reference to STM32G071 internal pull-down footnote for BOOT0 idle-low |
 | AM-P10-03 | LOW | AM | Layout | GRS §7.1 pin-1 marker callout absent for J2–J5 service headers in Board_Layout §2 |
 | JM-P10-04 | LOW | JM | Documentation | FT232H UART power-on contention window (TCK/TMS driven before MPSSE mode) undocumented |
@@ -2013,7 +2013,7 @@ Items previously listed here that are now ✅ in the verification tables have be
 - **ENC:** ✅ All 6 findings resolved
 - **EXT:** EXT-P10-01 (J8 wrong Mermaid subgraph), EXT-P10-02 (2BHR-30-VUA footprint — blocked on supplier), EXT-P10-03 (ERM8-010 footprint sync to board spec), EXT-P10-04 (J7/J8 pin-1 markers), EXT-P10-05 (ACTUATE_REQUEST_N source), EXT-P10-06 (C6 BOM Notes), EXT-P10-07 (abbreviated cross-doc paths), EXT-P10-08 (chassis GND ambiguity), EXT-P10-09 (DigiKey PN format — PRIMARY DIRECTIVE applies)
 - **AM:** AM-P10-01 (PA14 pull-down cross-ref), AM-P10-02 (C5 BOM Notes), AM-P10-03 (J2–J5 pin-1 markers)
-- **USM:** USM-P10-06 (DEC-072 "DPDT" → "SPDT" — needs new DEC), USM-P10-08 (J1/SW1–SW11 pin-1 marker — needs KiCAD), USM-P10-09 (data plate — needs KiCAD)
+- **USM:** USM-P10-06 (DEC-072 "DPDT" → "SPDT" — needs new DEC), USM-P10-08 (J1/SW1–SW11 pin-1 marker — needs KiCAD)
 - **JM:** ✅ All 7 findings resolved
 - **INT:** ✅ All tracked INT MINOR and INT MEDIUM findings closed — INT-P10-006 ✅ RESOLVED, INT-P10-010 ❌ INVALID, INT-P10-040 ✅ RESOLVED, INT-P10-041 ❌ INVALID, INT-P10-043 ❌ INVALID
 
@@ -2182,7 +2182,7 @@ PM P10 verification: **10 resolved ✅, 0 partial ⚠️, 0 open ❌**
 | USM-P10-06 | LOW | DEC-072 says "DPDT" — should be "SPDT" | ✅ RESOLVED | Full-file search of Design_Log.md confirms "DPDT" does not appear anywhere. USM Design_Spec.md uses "SPDT" consistently throughout. Finding was stale or already corrected manually. No DEC entry required. |
 | USM-P10-07 | LOW | INTA/INTB pins undocumented in U1/U2/U3 pin tables | ✅ RESOLVED | Explicit NC rationale blocks added to prose sections for U1 (pins 11/10), U2, and U3. U1: CM5 daemon polls via I²C; interrupt-driven notification not required. U2/U3: pure output drivers; no input state changes to signal. |
 | USM-P10-08 | LOW | GRS §7.1 pin-1 silkscreen marker on all connectors not confirmed | ✅ RESOLVED | Board_Layout.md line 69 reads `> Pin 1 of J1 shall be silkscreen-marked per GRS §7.1 pin-1 marker requirement.` J1 is the only external connector on the USM. SW1–SW11 are non-polarised switches with no pin-1 convention. Callout already present; finding was not previously checked off. |
-| USM-P10-09 | LOW | GRS §6 B.Silkscreen data plate not confirmed | ✅ RESOLVED (deferred) | Board_Layout.md line 217 contains a data plate requirement blockquote that must be removed (Board_Layout files are visualisation-only) and the standard Data Plate bullet added to Design_Spec.md. Full details and corrective actions are tracked in `.copilot/todos/data-plate-standardisation.md` §3 and §4. Deferred to `data-plate-standardisation` workstream. |
+| USM-P10-09 | LOW | GRS §6 B.Silkscreen data plate not confirmed | ✅ RESOLVED | Board_Layout.md blockquote removed; standard `Data Plate: EINSTELLWERK [Settings] V1.0` bullet added to Design_Spec.md §8; GRS §6 metadata format updated to `GERMAN [English] Vx.y`; all 10 boards standardised as part of `data-plate-standardisation`. |
 | USM-P10-10 | INFO | 30AWG J1 Pin 1 power drop negligible | ✅ RESOLVED | Design_Spec §7 explicitly specifies 30AWG for pins 1/3/4/5 and 28AWG for pins 2/6. Cable spec documented; no corrective action required. |
 | USM-P10-11 | INFO | SPDT dual-terminated topology confirmed valid | ✅ RESOLVED | DEC-071, DEC-070, §3 bank descriptions, §4 switch silicon notes, and §6 CFG_APPLY_N section all consistently describe SPDT hard-terminated topology. |
 | USM-P10-12 | INFO | All P9 findings confirmed fixed — regression check | ✅ RESOLVED | DEC-072 documents all P9 resolutions; current spec contains correct topology language and BOM corrections — no regression detected. |

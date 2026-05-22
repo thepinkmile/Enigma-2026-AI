@@ -170,3 +170,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 164 | PM Pass-10 all resolved; DEC-073 violation fix; ROT-P10-10/11 resolved | 164-pm-all-resolved-rot-progress.md |
 | 165 | Samsung 50V cap complete; all_boards_bom.json retired; DEC-082/083; KiCAD import | 165-samsung-50v-cap-complete-bom-json-retired.md |
 | 166 | AM/USM P10 findings closed; review-report Phase A audit corrected; two new todos | 166-am-usm-p10-closed-report-audit-corrected.md |
+| 167 | data-plate-standardisation complete; all 10 boards standardised; USM-P10-09 resolved | 167-data-plate-standardisation-complete.md |

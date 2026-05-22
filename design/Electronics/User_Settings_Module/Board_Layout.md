@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-22
 
 ---
 
@@ -213,8 +213,6 @@ CM5 firmware normally selects one colour rail per bank at a time:
 | L2 | GND plane | Solid reference plane |
 | L3 | Power | `3V3_ENIG` and local `5V_MAIN` distribution |
 | L4 | Secondary routing + silkscreen | Low-speed routing only |
-
-> Per GRS §6, a data plate (board name, revision, fab date code) shall be placed on L4 silkscreen in an area visible post-assembly.
 
 ### 8.1 Routing guidance
 

@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 ## 1. Overview
 
@@ -262,9 +262,7 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 - **Aesthetics:** dark green solder mask; typewriter font (all-caps German where applicable).
 - **Placement:** one CPLD centred behind the 64-line terminal bank; J1 kept on the service edge for
   direct ribbon access.
-- **Board Identification (Silkscreen):** the PCB **shall** identify itself as `ENCODER MODULE`. Encode
-  vs decode role identification is not a silkscreen requirement because role is defined by the
-  programmed CPLD image.
+- **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L4, Revision Block text: `KODIERWERK [Encoder] V1.0`.
 
 ---
 

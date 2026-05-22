@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 ## 1. Overview
 
@@ -871,3 +871,7 @@ Estimated PM-local power dissipation at system peak load:
 >   Parallel gate switch: source=3V3_MAIN, drain=3V3_ENIG, gate=ROTOR_EN_N. Effective RDS(on)≈23mΩ at 3A.
 >   Dedicated copper pour recommended beneath both devices per DEC-076. Footprint pending creation.
 >   Mouser: `621-DMP3028LK3Q-13`; DigiKey: `31-DMP3028LK3Q-13CT-ND`; JLCPCB: `C3281294`.
+
+## 6. Mechanical & Silkscreen
+
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L4, Revision Block text: `STROMVERSORGUNG [Power Module] V1.0`.

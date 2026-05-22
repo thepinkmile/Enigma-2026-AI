@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 The Stator Board is the mechanical and electrical backbone of the rotor stack. It provides the high-current distribution and signal routing for the 30 modular rotors.
 
@@ -635,6 +635,7 @@ logic-0 when U8 is uninitialised; pull-up R17 holds `CFG_APPLY_N` deasserted at 
   cable clamping or shielding features remain within the signal/power GND domain unless a later
   EMC-focused decision explicitly introduces a justified exception.
 * **Clamping:** Dual 3.2mm PTH anchors per cable for Galvanised Steel Bar compression.
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L4, Revision Block text: `STATOR [Stator] V1.0`.
 
 ---
 

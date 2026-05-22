@@ -79,10 +79,10 @@ Last updated: 2026-05-22 (design-log-restructure + copilot-dir-restructure added
 | `review-pass-9` | — | done | — |
 | `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | done | `review-pass-9` |
 | `download-missing-3d-models` | — | done | — |
-| `data-plate-standardisation` | [data-plate-standardisation.md](todos/data-plate-standardisation.md) | pending | `review-pass-10` |
+| `data-plate-standardisation` | — | done | `review-pass-10` |
 | `design-log-restructure` | [design-log-restructure.md](todos/design-log-restructure.md) | pending | — |
 | `copilot-dir-restructure` | [copilot-dir-restructure.md](todos/copilot-dir-restructure.md) | pending | — |
-| `review-pass-11` | [review-pass-11.md](todos/review-pass-11.md) | pending | `download-missing-3d-models`, `review-pass-10`, `data-plate-standardisation`, `design-log-restructure`, `copilot-dir-restructure` |
+| `review-pass-11` | [review-pass-11.md](todos/review-pass-11.md) | pending | `download-missing-3d-models`, `review-pass-10`, `design-log-restructure`, `copilot-dir-restructure` |
 | `review-pass-12` | [review-pass-12.md](todos/review-pass-12.md) | pending | `review-pass-11` |
 | `review-clean-passes-gate` | [review-clean-passes-gate.md](todos/review-clean-passes-gate.md) | pending | all `review-pass-x` todos — update when new passes are added |
 | `ascii-to-mermaid-diagrams` | — | done | — |
@@ -257,7 +257,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'blocked'),
 ('tps25751-i2c-review',                      'Review TPS25751 I2C connectivity for runtime PDO configuration',                             'done'),
 ('rename-sys-reset-n',                       'Rename SYS_RESET_N signal to CPLD_RESET_N across all design files',                          'done'),
-('data-plate-standardisation',               'Standardise Data Plate entries across all board Design_Spec.md files',                         'pending'),
+('data-plate-standardisation',               'Standardise Data Plate entries across all board Design_Spec.md files',                         'done'),
 ('design-log-restructure',                   'Restructure Design Log into per-DEC files with index',                                           'pending'),
 ('copilot-dir-restructure',                  'Restructure .copilot/ directory for context efficiency',                                          'pending'),
 ('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'done'),
@@ -424,7 +424,6 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('review-pass-10',            'review-pass-9'),
 ('review-pass-11',            'download-missing-3d-models'),
 ('review-pass-11',            'review-pass-10'),
-('review-pass-11',            'data-plate-standardisation'),
 ('review-pass-11',            'design-log-restructure'),
 ('review-pass-11',            'copilot-dir-restructure'),
 ('review-pass-12',            'review-pass-11'),
@@ -453,7 +452,6 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('interim-electronics-review-1', 'tps25751-i2c-review'),
 -- rename-sys-reset-n should be done before review-pass-11
 ('review-pass-11',               'rename-sys-reset-n'),
-('review-pass-11',            'data-plate-standardisation'),
 -- emc/environmental testing need prototype hardware
 ('emc-testing',               'prototype-pcb-manufacturing'),
 ('environmental-testing',     'prototype-pcb-manufacturing'),

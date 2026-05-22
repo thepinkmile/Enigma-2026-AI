@@ -6,11 +6,9 @@
 
 ---
 
-## Current Status (as of 2026-05-22 — post-checkpoint 166, INT findings closed)
+## Current Status (as of 2026-05-22 — post-checkpoint 167, data-plate-standardisation complete)
 
-Pass-10 fully resolved. All 91 board findings closed (91 resolved, 0 partial). REF-P10-05 resolved: 2BHR-30-VUA uses standard KiCAD built-in `Connector_IDC:IDC-Header_2x15_P2.54mm_Vertical` footprint — no supplier library required.
-
-All tracked INT MINOR and INT MEDIUM findings also closed: INT-P10-006 ✅ RESOLVED (CTL §4.1 I²C map authoritative), INT-P10-040 ✅ RESOLVED (T1 = TDK confirmed), INT-P10-010 ❌ INVALID, INT-P10-041 ❌ INVALID (PRIMARY DIRECTIVE — Mouser abbreviation correct), INT-P10-043 ❌ INVALID (append-only Design_Log policy).
+Pass-10 fully resolved. All 91 board findings closed (91 resolved, 0 partial). All INT MINOR and MEDIUM findings closed. `data-plate-standardisation` workstream complete — all 10 boards now have a standard `* **Data Plate:** Per GRS §6 on Layer [n], Revision Block text: \`GERMAN [English] V1.0\`` bullet; GRS §6 metadata format formalised; USM Board_Layout.md errant blockquote removed.
 
 Samsung CL31B106KBK6PJE selected as the standard 10µF 50V 1206 AEC-Q200 bulk reservoir cap for
 all boards (DEC-082). All 87 placements updated across 11 boards. KiCAD library import complete in
@@ -42,12 +40,12 @@ All 91 Pass-10 findings are resolved. REF-P10-05 closed: 2BHR-30-VUA uses KiCAD 
 ### Immediate (resume here)
 
 1. **Pass-10 complete ✅** — 91 resolved, 0 partial = 91 total
-2. **Review Pass 11** (`review-pass-11`) — blocked by `data-plate-standardisation`, `design-log-restructure`, `copilot-dir-restructure` (all pending)
+2. **Review Pass 11** (`review-pass-11`) — blocked by `design-log-restructure`, `copilot-dir-restructure` (both pending); `data-plate-standardisation` ✅ complete
    - Once pass 11 and pass 12 are both clean → `review-clean-passes-gate` can be closed
 
 ### Deferred / Blocked
 
-- `data-plate-standardisation` — blocking review-pass-11; no ETA
+- `data-plate-standardisation` ✅ DONE (2026-05-22)
 - `battery-connector-final-review` — blocked: awaiting supplier response
 - `jdb-ft232h-3v3-vregin` — blocked (v2.0), pending FT232H Rev C availability
 - `display-addon-board`, `cpld-production-replacement`, `display-aperture` — blocked (v2.0)
@@ -98,6 +96,6 @@ Read these files in order:
 1. `.copilot/agent-directives.md` (always first — then seed session DB immediately)
 2. This `plan.md`
 3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/166-am-usm-p10-closed-report-audit-corrected.md`
-5. `.copilot/review-report.md` (Pass-10 fully closed — Phase A: 91 resolved, 0 partial, 0 open; all INT MINOR/MEDIUM findings closed)
+4. `.copilot/checkpoints/167-data-plate-standardisation-complete.md`
+5. `.copilot/review-report.md` (Pass-10 fully closed; USM-P10-09 RESOLVED; data-plate-standardisation done)
 

@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 ## 1. Overview
 
@@ -695,9 +695,4 @@ no new part numbers required. Placement per `Global_Routing_Spec.md §9` with DE
 
 ## 7. Mechanical & Silkscreen
 
-* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6`.
-* **Label:** `WALZE-{variant}` [Rotor] in ALL-CAPS German typewriter font, where `{variant}` is the
-  rotor variant suffix (`26` for the 26-character variant; `64` for the 64-character variant) —
-  e.g. `WALZE-26` or `WALZE-64`. The suffix `-A` or `-B` may be appended to distinguish Board A
-  from Board B within the same assembly (e.g. `WALZE-64-A` / `WALZE-64-B`) if board-level
-  identification is required.
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L4, Revision Block text: `WALZE-{variant} [Rotor] V1.0` where `{variant}` is the rotor variant suffix (`26` for the 26-character variant; `64` for the 64-character variant), e.g. `WALZE-26 [Rotor] V1.0` or `WALZE-64 [Rotor] V1.0`. The suffix `-A` or `-B` may be appended at board level if required, e.g. `WALZE-64-A [Rotor] V1.0`.

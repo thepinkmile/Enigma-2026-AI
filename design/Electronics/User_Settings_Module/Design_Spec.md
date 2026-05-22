@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 ---
 
@@ -445,6 +445,7 @@ automatic polling intervals.
 
 * **Stackup:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`. Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`.
 * **JTAG chain:** None — User Settings Module is not in any JTAG chain.
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L4, Revision Block text: `EINSTELLWERK [Settings] V1.0`.
 
 ### 8.1 Manually Fitted Components
 

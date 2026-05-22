@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 ---
 
@@ -632,8 +632,8 @@ Estimated Controller-local power dissipation at system peak load:
 ### 10.2. Aesthetics
 
 * **Silkscreen:** Dark Green mask with White Bilingual Typewriter font. Silkscreen legend must label each pad individually.
-* **Branding:** Top-left 10mm "Enigma-NG" shielded gold emblem (Exposed ENIG Gold tied to GND_CHASSIS). Inverted Master Data Plate (Silhouette + JLC Serial Block) on L6 (Bottom).
-  See `design/Standards/Global_Routing_Spec.md §6` for full branding specification.
+* **Branding:** Top-left 10mm "Enigma-NG" shielded gold emblem (Exposed ENIG Gold tied to GND_CHASSIS).
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L6, Revision Block text: `LEITWERK [Controller] V1.0`.
 
 ## 11. Bill of Materials
 

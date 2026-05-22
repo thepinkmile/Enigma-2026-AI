@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 ## 1. Overview
 
@@ -362,3 +362,7 @@ by the host mechanical assembly rather than as AM PCB-fitted BOM rows.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.
 * **ESD - J2-J5 (manual-fit loom/service headers, no TVS required):** All remaining connectors (Adam Tech PH1-05-UA) are internal assembly headers; not accessible under live conditions.
   No TVS required per `design/Standards/Global_Routing_Spec.md §9`.
+
+## 8. Mechanical & Silkscreen
+
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L4, Revision Block text: `STELLWERK [Actuation Module] V1.0`.

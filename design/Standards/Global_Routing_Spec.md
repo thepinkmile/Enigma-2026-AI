@@ -3,7 +3,7 @@
 **Status:** Draft
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 ## 1. Trace & Via Geometry
 
@@ -303,7 +303,7 @@ To maintain a unified "Museum-Grade" look, every board must feature the V1.0 Dat
 * **Background:** Inverted solid white silkscreen rectangular block on the bottom layer.
 * **Graphic:** The Enigma silhouette and "ENIGMA-NG" text, knocked out of the white block, revealing the dark green solder mask.
 * **Serial Number:** A clear zone within the white block containing the string `JLCJLCJLCJLC` for the JLCPCB automated serial numbering service.
-* **Metadata:** Must include `AUSGABE [Rev] V1.0` in ALL-CAPS German typewriter font.
+* **Metadata:** Revision block text in the format `GERMAN-NAME [English Name] Vx.y` — board-specific ALL-CAPS German name followed by the English name in square brackets and the version number; e.g. `WALZE-26 [Rotor] V1.0`.
 * **Placement:** Positioned in a "Quiet Zone" on the bottom layer, away from critical test points.
 
 ## 7. Silkscreen Standards

@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-21
+**Last Updated:** 2026-05-22
 
 ## 1. Overview
 
@@ -198,8 +198,7 @@ Reflector.
 
 ## 7. Branding & Traceability
 
-* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6`.
-* **Label:** `REFLEKTOR-EINHEIT [Reflector Unit]` in ALL-CAPS German typewriter font.
+* **Data Plate:** Per `design/Standards/Global_Routing_Spec.md §6` on Layer L4, Revision Block text: `REFLEKTOR [Reflector] V1.0`.
 * **Connector Pin-1 Markers:** J1–J4 silkscreen pin-1 markers (arrow, chamfer, or dot) are required per `design/Standards/Global_Routing_Spec.md §7.1`.
 
 ## 8. Bill of Materials
