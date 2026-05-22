@@ -107,6 +107,7 @@ from the standard library, not custom `.stp` files in `3dshapes/`. See
 | `200MSP1T2B4M2QE` | legacy | `200MSP1T2B4M2QE` | `200MSP1T2B4M2QE.stp` | C&K slide switch |
 | `219-6LPST` | legacy | `2196LPST` | `219-6LPST.stp` | Keystone test point |
 | `2195630015` | legacy | `2195630015` | `2195630015.stp` | Molex Micro-Lock Plus connector |
+| `2BHR-30-VUA` | new | `Connector_IDC:IDC-Header_2x15_P2.54mm_Vertical` | — | Adam Tech 2×15 30-pin shrouded box header; standard KiCAD library footprint |
 | `3034TR` | legacy | `3034TR` | — | Keystone THT test point |
 | `43650-0519` | new | `43650-05YY_18192063` | `43650-0519.stp` | Molex KK 254 5-pos connector |
 | `43650-0619` | legacy | `43650-06YY_18192063` | `43650-0619.stp` | Molex KK 254 6-pos connector |

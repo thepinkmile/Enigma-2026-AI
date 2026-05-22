@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-20
 
 ## 1. J10 - Reflector / Extension Link (30-pin, 2x15, 2.54mm Shrouded Box Header)
 
@@ -273,11 +273,11 @@ plate.
 
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Signal (Encoder `ENC_DATA` aliases, `ENC_IN_REF`/`ENC_OUT_REF`, `CPLD_RESET_N`, `CFG_APPLY_N`, I2C) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic signals |
-| JTAG signals: TCK, TMS, TDI, TDO, TTD_RETURN (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane |
-| JTAG fan-out to encoder ports (L1, cable-drive side) | signal | - | 0.20 mm | **0.20 mm** | L1 | Traces from series resistors to encoder-port connector pads |
-| 3V3_ENIG entry trace (`J12` dock -> shunt R1) | 2.05 A | 0.31 mm | 0.80 mm | **0.80 mm** | L1 | Carries full rotor-stack + encoder load |
-| 3V3_ENIG fan-out (post-shunt -> L3 pour via-down) | 2.05 A | 0.31 mm | 0.80 mm | **0.80 mm** | L1 | Entry to inner power pour via thermal via cluster |
+| Signal (Encoder `ENC_DATA` aliases, `ENC_IN_REF`/`ENC_OUT_REF`, `CPLD_RESET_N`, `CFG_APPLY_N`, I2C) | < 5 mA | < 0.001 mm | per GRS §1.1 | **per GRS §1.1** | L1 | 3.3 V logic signals |
+| JTAG signals: TCK, TMS, TDI, TDO, TTD_RETURN (CI) | signal | - | per GRS §2.3.1 | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane |
+| JTAG fan-out to encoder ports (L1, cable-drive side) | signal | - | per GRS §1.1 | **per GRS §1.1** | L1 | Traces from series resistors to encoder-port connector pads |
+| 3V3_ENIG entry trace (`J12` dock -> shunt R1) | 2.05 A | 0.31 mm | per GRS §1.1 | **per GRS §1.1** | L1 | Carries full rotor-stack + encoder load |
+| 3V3_ENIG fan-out (post-shunt -> L3 pour via-down) | 2.05 A | 0.31 mm | per GRS §1.1 | **per GRS §1.1** | L1 | Entry to inner power pour via thermal via cluster |
 | 3V3_ENIG distribution (inner power pour) | 2.05 A | - | pour | **copper pour** | L3 | Full uninterrupted 2oz plane |
 | GND return (inner GND pour) | - | - | pour | **copper pour** | L2 | Solid GND reference plane |
 
@@ -286,7 +286,7 @@ plate.
 - **JTAG CI traces:** 50 Ω controlled impedance on L1 over the L2 GND plane. Trace width per GRS §2.3.1 and `design/Production/JLCPCB_Manufacturing.md §1.1`.
 - **Encoder-port terminations:** provide one TCK and one TMS series resistor per encoder port plus
   one TDI-chain series resistor for each Stator-driven cable segment in the six-module chain.
-- **3V3_ENIG entry trace:** 0.80 mm remains the canonical trunk width for the 2.05 A design budget.
+- **3V3_ENIG entry trace:** The canonical trunk width per GRS §1.1 remains appropriate for the 2.05 A design budget.
 
 ---
 

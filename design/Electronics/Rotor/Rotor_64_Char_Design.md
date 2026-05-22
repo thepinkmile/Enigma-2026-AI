@@ -4,7 +4,7 @@
 **Project:** Enigma-NG
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-20
 **Parent Document:** `design/Electronics/Rotor/Design_Spec.md`
 **Mechanical Spec:** `design/Mechanical/Rotor/Design_Spec.md §5.1` - encoder slot machining
 tolerances and shroud geometry
@@ -195,6 +195,17 @@ are listed in **`design/Electronics/Rotor/Design_Spec.md`** §5.
 | C22B-C25B | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
 | L5B-L8B | 18µH ±10% SRF 28MHz 0603 | CWF1610A-180K | Bourns | 118-CWF1610A-180KCT-ND | 652-CWF1610A-180K | - | Global sourcing | U11B CH0–CH3 resonant tank inductors; includes one dummy LC for the unused channel | Yes | Pending | 4 |
 | U11B | 4-ch cap sensor I²C 0x2B 16-VQFN | FDC2114RGHR | Texas Instruments | FDC2114RGHR-ND | 595-FDC2114RGHR | C2652079 | - | JLCPCB MOQ 2 | Yes | Pending | 1 |
+
+### U2 FDC2114 Channel Assignment (N=64 Track A)
+
+| U2 Channel | Inductor | Capacitor | Sensor Electrode | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| CH0 | L1 | C16 | S0 (Gray bit 5) | Active |
+| CH1 | L2 | C17 | S1 (Gray bit 4) | Active |
+| CH2 | L3 | C18 | S2 (Gray bit 3) | Active |
+| CH3 | L4 | C19 | (dummy) | Dummy LC — no sensor electrode; terminated to suppress floating-input oscillation |
+
+> L1–L4 and C16–C19 are common BOM components listed in `Design_Spec.md` §5.
 
 ### U11B FDC2114 Channel Assignment (N=64 Track B)
 

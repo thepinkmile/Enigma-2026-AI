@@ -720,6 +720,12 @@ K
 F https://datasheet.datasheetarchive.com/originals/distributors/Datasheets_SAMA/695a8166aa40898d0a6b5857fa89f6fe.pdf
 $ENDCMP
 
+$CMP 2BHR-30-VUA
+D Conn Shrouded Header (4 Sides) HDR 30 POS 2.54mm Solder ST Top Entry Thru-Hole
+K
+F https://app.adam-tech.com/products/download/data_sheet/201605/2bhr-xx-vua-data-sheet.pdf
+$ENDCMP
+
 $CMP CWF1610A-180K
 D Ind,1.6x1x1mm,18uH+/-10%,0.22A,
 K
@@ -750,4 +756,10 @@ D 20 Position Connector Header, Center Strip Contacts Surface Mount Gold
 K
 F http://suddendocs.samtec.com/prints/erm8-xxx-xx.x-xxx-dv-xxxx-xx-mkt.pdf
 $ENDCMP
+$CMP CL31B106KBK6PJE
+D Multilayer Ceramic Capacitors MLCC - SMD/SMT 1206/3216,10uF,X7R,50Vdc,+/-10%
+K
+F https://product.samsungsem.com/mlcc/CL31B106KBK6PJ.do
+$ENDCMP
+#
 #End Doc Library

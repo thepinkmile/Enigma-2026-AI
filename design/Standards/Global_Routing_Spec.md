@@ -3,7 +3,7 @@
 **Status:** Draft
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-14
+**Last Updated:** 2026-05-21
 
 ## 1. Trace & Via Geometry
 
@@ -134,11 +134,11 @@ Reference: DEC-016, DEC-065.
 These rules apply to all boards in the Enigma-NG system unless a board's design spec explicitly documents an exemption.
 
 * **CPLD Decoupling Rule:** All Intel MAX II TQFP-100 CPLDs (EPM240T100I5N and EPM570T100I5N) require **8x 100nF (0.1µF) X7R** decoupling capacitors, one per VCC pin, placed within 2 mm of each pin.
-* **Bulk Entry Bank Rule:** All boards must place **5x 10µF X7R 25V (0805)** bulk decoupling
+* **Bulk Entry Bank Rule:** All boards must place **5x 10µF X7R 50V (1206)** bulk decoupling
   capacitors **per board, per power rail** (one 5-cap bank per distinct power rail present on the
   board), placed at the rail entry point in a **Symmetrical Star/Spoke pattern**.
-  Standard part: Samsung CL21B106KAYQNNE (10µF ±10% X7R 25V 0805; Mouser 187-CL21B106KAYQNNE; DigiKey 1276-CL21B106KAYQNNECT-ND; JLCPCB C3039694).
-  Voltage derating: 25V ÷ 3.3V ≈ 7.6x (3V3\_ENIG) and 25V ÷ 5.0V = 5.0x (5V\_MAIN) - both exceed the mandatory 2x minimum.
+  Standard part: Samsung CL31B106KBK6PJE (10µF ±10% X7R 50V 1206; DigiKey: 1276-CL31B106KBK6PJECT-ND; Mouser: 187-CL31B106KBK6PJE; JLCPCB: C43935922).
+  Voltage derating: 50V ÷ 3.3V ≈ 15.2x (3V3\_ENIG) and 50V ÷ 5.0V = 10.0x (5V\_MAIN) - both exceed the mandatory 2x minimum.
   * Exception: The JTAG Module is exempt from this rule - see `design/Electronics/JTAG_Module/Design_Spec.md` DR-JM-09.
 
 ### 3.1. Common RGB Sink-Stage Pattern

@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-21
 
 ## 1. Overview
 
@@ -182,8 +182,8 @@ Each CPLD provides enough user I/O for one 64-line interface bank plus JTAG, sta
 
 - **Entry/Exit:** JTAG enters and exits via the IDC ribbon cable connection (J1) to the Stator.
 - **Local Chain:** one JTAG device per Encoder Module: U1 only.
-- **Trace Width:** all JTAG signal traces on L1 shall be routed at **0.1425 mm (5.61 mil)** over the L2
-  GND plane, targeting **50 Ω controlled impedance** per DEC-016. See
+- **Trace Width:** all JTAG signal traces on L1 shall be routed at the CI width specified in
+  `design/Standards/Global_Routing_Spec.md §2.3.1`, targeting **50 Ω controlled impedance**. See
   `design/Electronics/JTAG_Module/JTAG_Integrity.md`.
 - **Pull Resistors (x4, placed near U1):**
   - **TMS:** 10 kΩ pull-up to 3V3_ENIG (R2)
@@ -274,7 +274,7 @@ must preserve the generic one-CPLD module footprint and the unchanged 20-pin IDC
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | J2-J65 | 6.35mm PCB spade blade terminals THT vertical | 1285-ST | Keystone Electronics | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | Yes | ✔ | 64 |
 | C1-C8 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | ✔ | 8 |
-| C9-C13 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 5 |
+| C9-C13 | 10µF X7R 50V 1206 | CL31B106KBK6PJE | Samsung | 1276-CL31B106KBK6PJECT-ND | 187-CL31B106KBK6PJE | C43935922 | – | – | Yes | ✔ | 5 |
 | D1 | Green SMD LED Vf≈2.0V 0603 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | Yes | ✔ | 1 |
 | J1 | 20-pin 2x10 2.54mm shrouded THT | BHR-20-VUA | Adam Tech | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | Yes | ✔ | 1 |
 | R1 | 330Ω 1% 0402 | ERJ-2RKF3300X | Panasonic | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | Yes | ✔ | 1 |

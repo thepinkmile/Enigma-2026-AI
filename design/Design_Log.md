@@ -4049,7 +4049,7 @@ decisions made at the time. All live design documents use the new naming.
 | **Status** | Confirmed |
 | **Date** | 2026-05-08 |
 | **Author** | Izzyonstage & Copilot (session a38ceaab) |
-| **Amends** | See also: DEC-057 |
+| **Amends** | Supersedes MH13–MH16 = JDB assignment in DEC-057 and DEC-058; correct mapping per this DEC: MH9–MH12 = JM dock standoffs, MH13–MH16 = CM5 SoM standoffs. |
 
 ### Context
 
@@ -5600,3 +5600,117 @@ Reflector is the architecturally correct approach for a stacked direct-mated top
 
 - **DEC-016** — this entry extends DEC-016's coverage to explicitly include the Rotor Board
   with an exempt status. All other DEC-016 decisions and rules remain unaffected.
+
+---
+
+## DEC-082 - 10µF Bulk Reservoir Capacitor Upgrade: 25V 0805 → 50V 1206, All Boards
+
+| Field | Value |
+| :--- | :--- |
+| **Decision ID** | DEC-082 |
+| **Status** | Confirmed |
+| **Date** | 2026-05-21 |
+| **Author** | Izzyonstage & GitHub Copilot |
+| **Amends** | DEC-068 (Q2/Q3 bulk output cap spec only) |
+
+### Context
+
+All boards in the system carry 10µF X7R bulk/reservoir capacitors at power-entry nodes per
+`design/Standards/Global_Routing_Spec.md §3.2`. At the time of initial BOM population these were
+specified as Samsung CL21B106KAYQNNE (10µF X7R 25V 0805), which was the smallest cost-effective
+part available. A total of 87 placements exist across 11 boards (PM, CTL, USM, ENC, AM, STA, REF,
+EXT, ROT-26, ROT-64).
+
+DEC-046 established that bypass/decoupling capacitors (100nF, 1µF) must be rated 50V on all
+non-PM boards. The bulk/reservoir capacitors were categorised separately and retained at 25V under
+DEC-068's derating justification (5× at 5V_MAIN, 7.6× at 3V3_ENIG). While that derating is
+technically adequate, it differs from the 50V standard applied to all bypass/decoupling caps.
+
+### Decision
+
+Standardise all 10µF X7R bulk/reservoir capacitors across all boards to:
+
+**Samsung CL31B106KBK6PJE — 10µF X7R 50V ±10% 1206 (AEC-Q200, Pb-free Ni/Sn termination)**
+
+Datasheet: `design/Datasheets/Samsung-CL31B106KBK6PJ-datasheet.md`
+
+This part replaces CL21B106KAYQNNE at all 87 positions on all 11 boards. No change to capacitor
+value, tolerance, or temperature characteristic (X7R, −55°C to +125°C, ±15%).
+
+### Rationale
+
+- Brings all bulk/reservoir caps into the same 50V voltage-rating family as bypass/decoupling caps,
+  eliminating the rating inconsistency flagged during Pass-10 review.
+- Improved derating: 50V rated at 5V = 10×; at 3.3V = 15.2× (vs 5× / 7.6× previously).
+- Samsung CL31B106KBK6PJE carries an explicit Pb-free Ni/Sn termination declaration (RoHS) and
+  AEC-Q200 automotive qualification — equivalent or better than the outgoing part.
+- Package-size change (0805 → 1206) is not a blocking concern per project convention: schematic
+  capture and PCB layout have not started; footprint selection is deferred to layout.
+- Stays within the Samsung MLCC family already used across the BOM.
+
+### Impact
+
+- Consolidated BOM row updated: CL21B106KAYQNNE → CL31B106KBK6PJE, spec 10µF X7R 25V 0805 →
+  10µF X7R 50V 1206.
+- All 11 board Design_Spec.md BOM tables updated accordingly.
+- DR-PM-17 and DR-PM-18 derating figures updated: 5× → 10× and 7.6× → 15.2× respectively.
+- Supplier part numbers (DigiKey, Mouser, JLCPCB) to be confirmed at procurement.
+
+### Amends / Supersedes
+
+- **DEC-068** — Q2 (5V_MAIN output bulk, C68-C72) and Q3 (3V3_ENIG output bulk, C73-C77) part
+  specifications are superseded by this entry. Q1 (pre-OR-ing per-input bulk, C59-C67,
+  CL32B226KAJNNNE 22µF X7R 25V 1210) is unaffected.
+
+## DEC-083 - Retire `all_boards_bom.json`; Consolidate BOM Authority in Design_Spec Files and Consolidated_BOM
+
+| Field | Value |
+| :--- | :--- |
+| **Decision ID** | DEC-083 |
+| **Status** | Confirmed |
+| **Date** | 2026-05-21 |
+| **Author** | Izzyonstage & GitHub Copilot |
+| **Supersedes** | DEC-047 (Impact line re `all_boards_bom.json`); DEC-051 (Impact line re `all_boards_bom.json`) |
+
+### Context
+
+`design/Electronics/all_boards_bom.json` was created at an early stage of the project as a
+machine-readable mirror of the cross-board BOM data. A full audit conducted on 2026-05-21 found
+the file had never been actively used and had diverged significantly from the authoritative board
+`Design_Spec.md` BOM tables — 43 missing entries, ~60 RefDes mismatches, 11 wrong MPNs, 2 wrong
+electrical values, and 7 extra entries not present in any board spec. The discrepancies confirmed
+it had not been kept in sync with design changes.
+
+### Decision
+
+Retire `all_boards_bom.json` permanently. The file has been moved to `.recycle-bin/` (not
+committed). BOM authority is defined as follows:
+
+- **System-level BOM source of truth:** `design/Electronics/Consolidated_BOM.md`
+  — cross-board summary of all components; updated whenever a board BOM changes.
+- **Board-level BOM source of truth:** each board's `Design_Spec.md` BOM table
+  — the primary editable record for that board's components.
+- The Consolidated BOM is derived from the board Design_Spec files and must always reflect them.
+  It is never edited as a primary source.
+
+### Rationale
+
+The JSON file added maintenance overhead without providing value — no tooling, scripts, or
+processes consumed it. Retaining an incorrect parallel source of truth is a procurement and design
+risk. The markdown BOM tables in Design_Spec files are human-readable, version-controlled, and
+already the de-facto primary sources; formalising this removes ambiguity.
+
+### Impact
+
+- `design/Electronics/all_boards_bom.json` moved to `.recycle-bin/` (retired, not deleted).
+- `.copilot/agent-directives.md` BOM Authority Rules section updated to remove reference to the
+  JSON and formally state the Consolidated_BOM / board Design_Spec authority hierarchy.
+- Historical Impact entries in DEC-047 and DEC-051 that mention `all_boards_bom.json` are
+  superseded by this decision; the file they reference no longer exists.
+
+### Amends / Supersedes
+
+- **DEC-047** (Impact only) — the line "all_boards_bom.json: Updated accordingly" is superseded;
+  the file no longer exists.
+- **DEC-051** (Impact only) — the line "all_boards_bom.json: all `"board": "Settings Board"`
+  entries updated" is superseded; the file no longer exists.

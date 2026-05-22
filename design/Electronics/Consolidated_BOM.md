@@ -7,7 +7,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-20
 
 ---
 
@@ -94,7 +94,7 @@
 | PM: U19 | 74LVC2G3157DP-Q10J | 1727-8684-1-ND | 771-4LVC2G3157DPQ10J | C548631 | - | 1 | - | - | - | - | - | - | - | - | - | - | 1 | Dual SPDT I2C MUX TSSOP-10 [Nexperia]; see DR-PM-21, DEC-076 | Yes | ✔ |
 | CTL: BT1 | 3034TR | 36-3034CT-ND | 534-3034TR | C5213768 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | CR2032 holder SMD horizontal [Keystone Electronics]; Footprint adapted from KiCAD 10.0 standard library (unofficial, not manufacturer-supplied) | Yes* | Yes* |
 | CTL: C17 | C0805C223K2RACAUTO | 399-17630-1-ND | 80-C0805C223K2RAUTO | C3843023 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | 22nF 200V X7R 0805 [Kemet]; supersedes C0402C103K1RACAUTO (10nF 100V 0402) | Yes | Pending |
-| PM: C20,C68-C77; CTL: C1-C5,C7-C11; USM: C5-C14; ENC: C9-C13; AM: C5; STA: C9-C13,C22-C26; REF: C1-C5; EXT: C1-C5,C7-C11; ROT-26: C10-C14; ROT-64: C10-C14 | CL21B106KAYQNNE | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | 11 | 10 | - | 10 | 5 | 1 | 10 | 5 | 10 | 5 | 5 | 87 | 10µF X7R 25V 0805 [Samsung] | Yes | ✔ |
+| PM: C20,C68-C77; CTL: C1-C5,C7-C11; USM: C5-C14; ENC: C9-C13; AM: C5; STA: C9-C13,C22-C26; REF: C1-C5; EXT: C1-C5,C7-C11; ROT-26: C10-C14; ROT-64: C10-C14 | CL31B106KBK6PJE | 1276-CL31B106KBK6PJECT-ND | 187-CL31B106KBK6PJE | C43935922 | – | 11 | 10 | – | 10 | 5 | 1 | 10 | 5 | 10 | 5 | 5 | 87 | 10µF X7R 50V 1206 [Samsung] | Yes | ✔ |
 | CTL: J1-J3 | 1-1674231-1 | A119250-ND | 571-1-1674231-1 | C3683260 | - | - | 3 | - | - | - | - | - | - | - | - | - | 3 | 10-pos 2.5mm receptacle vertical [TE Connectivity] | Yes | ✔ |
 | CTL: J4,J5 | 2195630015 | 900-2195630015-ND | 538-219563-0015 | - | Global sourcing | - | 2 | - | - | - | - | - | - | - | - | - | 2 | 5-pwr+15-sig press-fit receptacle hybrid [Molex] | Yes | ✔ |
 | CTL: J6 | 48406-0003 | WM10420-ND | 538-48406-0003 | C565298 | - | - | 1 | - | - | - | - | - | - | - | - | - | 1 | USB 3.0 Type-A dual-stack [Molex] | Yes | ✔ |
@@ -132,7 +132,7 @@
 | ENC: J2-J65 | 1285-ST | 36-1285-ST-ND | 534-1285-ST | C5370868 | - | - | - | - | - | 64 | - | - | - | - | - | - | 64 | 6.35mm PCB spade blade terminals THT vertical [Keystone Electronics] | Yes | ✔ |
 | ENC: D1; AM: D1-D3 | 150060VS75000 | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | - | - | - | 1 | 3 | - | - | - | - | - | 4 | Green SMD LED Vf≈2.0V 0603 [Wurth Elektronik] | Yes | ✔ |
 | ENC: J1; STA: J4-J9 | BHR-20-VUA | 2057-BHR-20-VUA-ND | 737-BHR-20-VUA | C17340054 | - | - | - | - | - | 1 | - | 6 | - | - | - | - | 7 | 20-pin 2x10 2.54mm shrouded box THT [Adam Tech] | Yes | ✔ |
-| STA: J10; REF: J4; EXT: J7,J8 | 2BHR-30-VUA | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | - | - | - | - | - | 1 | 1 | 2 | - | - | 4 | 30-pin 2x15 2.54mm shrouded box THT [Adam Tech]. Per DEC-053 | No | Pending |
+| STA: J10; REF: J4; EXT: J7,J8 | 2BHR-30-VUA | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | - | - | - | - | - | 1 | 1 | 2 | - | - | 4 | 30-pin 2x15 2.54mm shrouded box THT [Adam Tech]. Per DEC-053 | Yes | ✔ |
 | ENC: R1; USM: R2-R11; AM: R1-R3 | ERJ-2RKF3300X | P330LCT-ND | 667-ERJ-2RKF3300X | C278592 | - | - | - | - | 10 | 1 | 3 | - | - | - | - | - | 14 | 330Ω 1% 0402 [Panasonic] | Yes | ✔ |
 | ENC: R6; STA: R7-R12,R24-R35 | ERJ-2RKF75R0X | P75.0LCT-ND | 667-ERJ-2RKF75R0X | C413061 | - | - | - | - | - | 1 | - | 18 | - | - | - | - | 19 | 75Ω 1% 0402 [Panasonic] | Yes | ✔ |
 | ENC: SW1-SW40 | (no standard MPN) | - | - | - | eBay gadgetskingdom | - | - | - | - | 40 | - | - | - | - | - | - | 40 | DPDT 6-pin momentary switches panel-mount [generic]; eBay gadgetskingdom | N/A | N/A |
@@ -146,7 +146,7 @@
 | STA: J11,J12 | 2195620015 | 900-2195620015-ND | 538-219562-0015 | - | Global sourcing | - | - | - | - | - | - | 2 | - | - | - | - | 2 | 5-pwr+15-sig hybrid plug [Molex] | Yes | ✔ |
 | STA: L1-L4 | HI1206P121R-10 | 240-2410-1-ND | 875-HI1206P121R-10 | C2442103 | - | - | - | - | - | - | - | 4 | - | - | - | - | 4 | 120Ω @100MHz 4.0A 1206 ferrite bead [Laird Performance Materials] | Yes | ✔ |
 | STA: U4,U5 | 74HC157PW-Q100,118 | 1727-74HC157PW-Q100,118CT-ND | 771-74HC157PWQ100118 | C546614 | - | - | - | - | - | - | - | 2 | - | - | - | - | 2 | Quad 2-to-1 mux TSSOP-16 [Nexperia] | Yes | ✔ |
-| REF: J3; EXT: J3; ROT-26: J3; ROT-64: J3 | ERM8-010-05.0-S-DV-K-TR | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | - | - | - | - | - | - | - | - | 1 | 1 | 1 | 1 | 7 | 20-pin 2x10 0.8mm male SMT [Samtec] | No | ✔ |
+| REF: J3; EXT: J3; ROT-26: J3; ROT-64: J3 | ERM8-010-05.0-S-DV-K-TR | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | - | - | - | - | - | - | - | - | 1 | 1 | 1 | 1 | 7 | 20-pin 2x10 0.8mm male SMT [Samtec] | Yes | ✔ |
 | REF: R1 | ERJ-3EKF2200V | P220HCT-ND | 667-ERJ-3EKF2200V | C403073 | - | - | - | - | - | - | - | - | 1 | - | - | - | 1 | 22Ω 1% 0603 [Panasonic] | Yes | ✔ |
 | ROT-26: C15,C21A; ROT-64: C15,C21B | KAM05CR71A105KH | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | - | - | - | - | - | - | - | - | - | 2 | 2 | 10 | 1µF X7R ±10% 10V AEC-Q200 0402 [Kyocera AVX] | Yes | ✔ |
 | ROT-26: C16-C19,C22A-C25A; ROT-64: C16-C19,C22B-C25B | AC0402FRNPO9BN330 | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | - | - | - | - | - | - | - | - | 8 | 8 | 40 | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 [YAGEO] | Yes | ✔ |

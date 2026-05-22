@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-21
 
 ## 1. Overview
 
@@ -374,9 +374,9 @@ A **6-position DIP switch** is mounted on each face of the rotor PCB for cipher 
 * **Impedance:** 50Ω single-ended traces for JTAG and data lines to prevent reflections.
 * **Layer Stack:** 4-layer standard per `design/Standards/Global_Routing_Spec.md §2.3.1`; layer
   assignments as defined there.
-* **JTAG Trace Width Rule:** All JTAG signal traces on L1 shall be routed at **0.1425 mm (5.61 mil)**
-  width over the L2 GND plane, targeting **50 Ω controlled impedance** per `design/Standards/Global_Routing_Spec.md §2.3.1`
-  (physical properties in `design/Production/JLCPCB_Manufacturing.md §1.1`). See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1` and DEC-016.
+* **JTAG Trace Width Rule:** All JTAG signal traces on L1 shall be routed at the CI width specified in
+  `design/Standards/Global_Routing_Spec.md §2.3.1`, targeting **50 Ω controlled impedance**
+  (physical properties in `design/Production/JLCPCB_Manufacturing.md §1.1`). See `design/Electronics/JTAG_Module/JTAG_Integrity.md §3.1`.
 * **TTD path policy:** The rotor-stack `TTD` path is a direct board-to-board chain. No series resistor is
   placed at each rotor hop; `TTD` exits the CPLD and continues straight to J4 pin 6. Cable-driving
   damping is reserved for the ribbon-port interfaces on the Stator / Encoder boards, while the
@@ -613,7 +613,7 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | C1-C9 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | see GRS §3.2 | Yes | ✔ | 9 |
-| C10-C14 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | see GRS §3.2 | Yes | ✔ | 5 |
+| C10-C14 | 10µF X7R 50V 1206 | CL31B106KBK6PJE | Samsung | 1276-CL31B106KBK6PJECT-ND | 187-CL31B106KBK6PJE | C43935922 | – | see GRS §3.2 | Yes | ✔ | 5 |
 | C15 | 1µF X7R ±10% 10V AEC-Q200 0402 | KAM05CR71A105KH | Kyocera AVX | 478-KAM05CR71A105KHCT-ND | 581-KAM05CR71A105KH | - | Global sourcing | see GRS §3.2 | Yes | ✔ | 1 |
 | C16-C19 | 33pF C0G/NP0 ±1% 50V AEC-Q200 0402 | AC0402FRNPO9BN330 | YAGEO | 13-AC0402FRNPO9BN330CT-ND | 603-0402FRNPO9BN330 | C1852937 | - | - | Yes | Pending | 4 |
 | J1-J2 | 10-pin 2x5 0.8mm male SMT | ERM8-005-05.0-S-DV-K-TR | Samtec | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | Yes | ✔ | 2 |

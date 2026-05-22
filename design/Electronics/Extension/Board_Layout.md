@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-20
 
 ---
 
@@ -125,13 +125,13 @@ supported). All Extension boards share an identical PCB layout; traces are sized
 
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Signal (ENC_IN/OUT, CPLD_RESET_N, ACTUATE_REQUEST_N) | < 5 mA | < 0.001 mm | 0.20 mm | **0.20 mm** | L1 | 3.3 V logic signals; pass-through from J7 to J8 and local AM trigger routing |
-| JTAG signals: TTD_RETURN (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. See `JTAG_Integrity.md`. |
-| 3V3_ENIG J7 entry trunk (J7 → L3 pour → J5 and J8) | 1.65 A (design budget; 30 rotors x 55 mA) | 0.25 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | 3V3_ENIG canonical 0.80 mm (Global_Routing_Spec §1.1); conservative full-system budget; resolved by DEC-053 (4 dedicated pins for 0.41 A/conductor) |
-| 3V3_ENIG J5 output (J5 → downstream mini-stack J2) | 275 mA (5-rotor mini-stack worst case) | 0.04 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | Canonical 0.80 mm minimum; 275 mA = Rotor 1 of downstream mini-stack |
-| 3V3_ENIG local draw (J7 → U1 VCC) | ≤ 10 mA | 0.002 mm | 0.80 mm | **0.80 mm** | L1 | Buffer IC supply; 3V3_ENIG canonical 0.80 mm minimum |
+| Signal (ENC_IN/OUT, CPLD_RESET_N, ACTUATE_REQUEST_N) | < 5 mA | < 0.001 mm | per GRS §1.1 | **per GRS §1.1** | L1 | 3.3 V logic signals; pass-through from J7 to J8 and local AM trigger routing |
+| JTAG signals: TTD_RETURN (CI) | signal | - | per GRS §2.3.1 | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. See `JTAG_Integrity.md`. |
+| 3V3_ENIG J7 entry trunk (J7 → L3 pour → J5 and J8) | 1.65 A (design budget; 30 rotors x 55 mA) | 0.25 mm | per GRS §1.1 | **per GRS §1.1** | L1 + L3 pour | 3V3_ENIG canonical width per GRS §1.1; conservative full-system budget; resolved by DEC-053 (4 dedicated pins for 0.41 A/conductor) |
+| 3V3_ENIG J5 output (J5 → downstream mini-stack J2) | 275 mA (5-rotor mini-stack worst case) | 0.04 mm | per GRS §1.1 | **per GRS §1.1** | L1 + L3 pour | Canonical minimum per GRS §1.1; 275 mA = Rotor 1 of downstream mini-stack |
+| 3V3_ENIG local draw (J7 → U1 VCC) | ≤ 10 mA | 0.002 mm | per GRS §1.1 | **per GRS §1.1** | L1 | Buffer IC supply; 3V3_ENIG canonical minimum per GRS §1.1 |
 | 3V3_ENIG distribution (inner power pour) | 1.65 A (J7 design budget) | - | pour | **copper pour** | L3 | Full uninterrupted 2oz plane; primary distribution |
-| 5V_MAIN to AM host dock (J7 → J9) | 0.50 A | 0.08 mm | 0.80 mm | **0.80 mm** | L1 | Local Extension actuation supply path |
+| 5V_MAIN to AM host dock (J7 → J9) | 0.50 A | 0.08 mm | per GRS §1.1 | **per GRS §1.1** | L1 | Local Extension actuation supply path |
 | GND return (inner GND pour) | - | - | pour | **copper pour** | L2 | Reference plane; must be solid and uninterrupted under all CI traces on L1 |
 
 ### 6.2 Notes
@@ -144,7 +144,7 @@ supported). All Extension boards share an identical PCB layout; traces are sized
 * **Extension Port 3V3_ENIG pin count:** Resolved by DEC-053 - the 2BHR-30-VUA 30-pin connector
   provides 4 dedicated `3V3_ENIG` pins (pins 3-4 and 27-28), distributing 1.65 A across 4 conductors
   for 0.41 A/conductor - well within the 28 AWG IDC ribbon limit of ~1 A/conductor. The trace and
-  copper pour widths (0.80 mm / L3 pour) are unaffected by this change.
+  copper pour widths (per GRS §1.1 / L3 pour) are unaffected by this change.
 
 ---
 

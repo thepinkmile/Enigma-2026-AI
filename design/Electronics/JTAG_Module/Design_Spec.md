@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-20
 
 ## 1. Overview
 
@@ -247,8 +247,8 @@ Physical properties: see `design/Production/JLCPCB_Manufacturing.md §1.1`. For 
   * **R3 (33Ω):** Series damping on U2 TMS output - same function as R2 (TCK). Placed before J1 (TMS pin, C2R2).
   * **Pull Resistors:** TMS 10kΩ pull-up (R6) and TCK 10kΩ pull-down (R7) near J1 connector to hold JTAG TAP in defined state
     when idle (see §5 and JTAG best-practice note in `design/Electronics/JTAG_Module/JTAG_Integrity.md`).
-  * **Trace Width Rule:** All JTAG signal traces on L2 (signal layer) shall be routed at **0.1478 mm (5.82 mil)** over the L1 GND reference plane,
-    targeting **50 Ω controlled impedance** per `design/Standards/Global_Routing_Spec.md §2.3.2` (inner stripline). See DEC-016.
+  * **Trace Width Rule:** All JTAG signal traces on L2 (signal layer) shall be routed at the CI width specified in
+    `design/Standards/Global_Routing_Spec.md §2.3.2` (inner stripline), targeting **50 Ω controlled impedance**.
 
 > **Signal Integrity note (JM as complete JTAG master):** The JM hosts all JTAG buffering and
 > termination for the system. U2 buffers TCK and TMS for the 37-device chain load. Series damping

@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-21
 
 ---
 
@@ -572,17 +572,17 @@ JLCPCB CI service is **required** for all production runs of the Controller Boar
 
 | Net Class | Target Impedance | Trace Width | Spacing | Layer | Type |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **3V3_ENIG power** | N/A (Power) | 0.80 mm (31.5 mil) | — | L1 + L6 copper fill | Power trace |
-| **5V_MAIN power rail** | N/A (Power) | 2.00 mm (78.7 mil) min | — | L1 + L6 copper fill | Power trace |
-| **USB 3.0 SS diff pairs (Port 1)** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L2 | Diff stripline |
-| **Ethernet BI_DB diff pairs** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L2 | Diff stripline |
-| **USB 2.0 D+/D−** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L3 | Diff stripline |
-| **HDMI diff pairs** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L3 | Diff stripline |
-| **USB 3.0 SS diff pairs (Port 2)** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L5 | Diff stripline |
-| **Ethernet BI_DC diff pairs** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L5 | Diff stripline |
-| **DSI1 diff pairs (J9)** | 100Ω Differential | **0.1123 mm (4.42 mil)** | **0.2032 mm (8.00 mil)** | L3/L4 | Diff stripline |
-| **JTAG signals** | 50Ω Single-ended | **0.1425 mm (5.61 mil)** | — | L6 (outer) | Microstrip |
-| **Logic / I2C** | N/A | 0.20 mm (7.87 mil) | — | L1 | General routing |
+| **3V3_ENIG power** | N/A (Power) | per GRS §1.1 | — | L1 + L6 copper fill | Power trace |
+| **5V_MAIN power rail** | N/A (Power) | per GRS §1.1 | — | L1 + L6 copper fill | Power trace |
+| **USB 3.0 SS diff pairs (Port 1)** | 100Ω Differential | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | L2 | Diff stripline |
+| **Ethernet BI_DB diff pairs** | 100Ω Differential | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | L2 | Diff stripline |
+| **USB 2.0 D+/D−** | 100Ω Differential | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | L3 | Diff stripline |
+| **HDMI diff pairs** | 100Ω Differential | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | L3 | Diff stripline |
+| **USB 3.0 SS diff pairs (Port 2)** | 100Ω Differential | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | L5 | Diff stripline |
+| **Ethernet BI_DC diff pairs** | 100Ω Differential | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | L5 | Diff stripline |
+| **DSI1 diff pairs (J9)** | 100Ω Differential | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | **per GRS §2.3.3 / JLCPCB_Manufacturing.md §1.2** | L3/L4 | Diff stripline |
+| **JTAG signals** | 50Ω Single-ended | **per GRS §2.3.1** | — | L6 (outer) | Microstrip |
+| **Logic / I2C** | N/A | per GRS §1.1 | — | L1 | General routing |
 
 ### 9.4. Via Design Rules
 
@@ -640,7 +640,7 @@ Estimated Controller-local power dissipation at system peak load:
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | BT1 | CR2032 holder SMD horizontal | 3034TR | Keystone Electronics | 36-3034CT-ND | 534-3034TR | C5213768 | - | - | Yes* | Yes* | 1 |
-| C1-C5, C7-C11 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 10 |
+| C1-C5, C7-C11 | 10µF X7R 50V 1206 | CL31B106KBK6PJE | Samsung | 1276-CL31B106KBK6PJECT-ND | 187-CL31B106KBK6PJE | C43935922 | – | – | Yes | ✔ | 10 |
 | C6, C12-C16, C18, C19 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | ✔ | 8 |
 | C17 | 22nF 200V X7R 0805 | C0805C223K2RACAUTO | Kemet | 399-17630-1-ND | 80-C0805C223K2RAUTO | C3843023 | - | Supersedes C0402C103K1RACAUTO (10nF 100V 0402). Package/voltage upgraded 0402/100V→0805/200V for DC bias derating margin. See DR-CTL-18, DEC-064. | Yes | ✔ | 1 |
 | C20 | 47µF 35V X7R 2220 | CGA9N1X7R1V476M230KC | TDK | 445-CGA9N1X7R1V476M230KCCT-ND | 810-CGA9N1X7R1V476M2 | C3873016 | - | 4× in parallel for ACF output filter — see DR-CTL-22. | Yes | ✔ | 4 |

@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-21
 
 ## 1. Overview
 
@@ -33,7 +33,7 @@ group without Controller-side live servo control.
 | FR-EXT-03 | Pass 3V3_ENIG power and encoder data bus transparently between rotor groups | Power: J7 → J5 (J2 power pins NC); ENC data: J3/J6 pass-through | §2 Connectivity; BOM J5 (ERF8-005), J3, J6 (ERM8/ERF8-010) |
 | FR-EXT-04 | Connect on the input side to a Stator or upstream rotor group | J1-J3 (ERM8 male input headers) | §2 Connectivity; BOM J1-J3 (ERM8-005/010) |
 | FR-EXT-05 | Connect on the output side to a downstream rotor group | J4-J6 (ERF8 female output sockets) | §2 Connectivity; BOM J4-J6 (ERF8-005/010) |
-| FR-EXT-06 | Host one Actuation Module to regenerate an Extension-boundary carry event into one local servo step | J9 = single 20-pin DF40HC(3.5) AM host dock; non-homing switch (or CM5 GPIO) asserts `ACTUATE_REQUEST_N` into the AM | §2 Connectivity; BOM J9 |
+| FR-EXT-06 | Host one Actuation Module to regenerate an Extension-boundary carry event into one local servo step | J9 = single 20-pin DF40HC(3.5) AM host dock; `ACTUATE_REQUEST_N` sourced from either an external hardware trigger (arriving via pin header) or CM5 GPIO (arriving via J9 Hirose connector); sources are mutually exclusive | §2 Connectivity; BOM J9 |
 | FR-EXT-07 | Protect rotor-facing BtB connectors (J1/J3 in, J4/J6 out) from ESD during live rotor swap | TVS/ESD arrays on all 4 rotor-facing connectors per DEC-048 | §5 Thermal & ESD; BOM U2-U9 |
 
 #### Design Requirements
@@ -108,6 +108,7 @@ flowchart TD
   > `TTD_RETURN` on pin 16, GND guard pairs on pins 5-6, 13-14, 17-18, 25-26.
   > **Per DEC-043 then DEC-053:** The Extension Port was first widened from 16-pin to 20-pin (DEC-043)
   > and then from 20-pin to 30-pin (DEC-053) to resolve a power current budget violation.
+  > **KiCAD footprint:** `Connector_IDC:IDC-Header_2x15_P2.54mm_Vertical` (standard KiCAD library — no separate download required).
 * **Rotor Interface Connectors(3 per rotor-facing side x 2 sides = 6 connectors total):**
   The Extension board provides ERM8 male headers on the **input side** (J1-J3, plugging into the
   previous rotor group's last rotor J4/J5/J6 ERF8 output sockets) and ERF8 female sockets on the
@@ -224,9 +225,9 @@ flowchart TD
 * **Finish:** ENIG (Gold) for connector surfaces.
 * **Aesthetics:** Dark Green Solder Mask; Typewriter font (ALL-CAPS GERMAN).
 * **JTAG Trace Width Rule:** The Extension board carries only the **TTD_RETURN** signal on its J7/J8 pass-through path
-  (TCK, TMS, and TDI travel to the rotor stack via Stator J1-J3, not via the Extension Port). TTD_RETURN traces on L1 shall be routed at **0.1425 mm (5.61 mil)**
-  over the L2 GND plane, targeting **50 Ω controlled impedance** per `design/Standards/Global_Routing_Spec.md §2.3.1`. See
-  `design/Electronics/JTAG_Module/JTAG_Integrity.md` and DEC-016.
+  (TCK, TMS, and TDI travel to the rotor stack via Stator J1-J3, not via the Extension Port). TTD_RETURN traces on L1 shall be routed at
+  the CI width specified in `design/Standards/Global_Routing_Spec.md §2.3.1`, targeting **50 Ω controlled impedance**. See
+  `design/Electronics/JTAG_Module/JTAG_Integrity.md`.
 * **U1 Bypass:** C6 (100nF) shall be placed per GRS §3.2 bypass capacitor proximity requirements.
 
 ## 5. Thermal & ESD
@@ -261,14 +262,14 @@ flowchart TD
 
 | RefDes | Specification | MPN | Manufacturer | DigiKey PN | Mouser PN | JLCPCB PN | Alt Supplier + PN | Notes | Footprint Available | Footprint Downloaded | Qty |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| C1-C5, C7-C11 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 10 |
+| C1-C5, C7-C11 | 10µF X7R 50V 1206 | CL31B106KBK6PJE | Samsung | 1276-CL31B106KBK6PJECT-ND | 187-CL31B106KBK6PJE | C43935922 | – | – | Yes | ✔ | 10 |
 | C6 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | Yes | ✔ | 1 |
 | J1, J2 | 10-pin 2x5 0.8mm male SMT | ERM8-005-05.0-S-DV-K-TR | Samtec | 612-ERM8-005-05.0-S-DV-K-TRCT-ND | 200-ERM8005050SDVKTR | C3649741 | - | - | Yes | ✔ | 2 |
-| J3 | 20-pin 2x10 0.8mm male SMT | ERM8-010-05.0-S-DV-K-TR | Samtec | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | - | - | Yes | Pending | 1 |
+| J3 | 20-pin 2x10 0.8mm male SMT | ERM8-010-05.0-S-DV-K-TR | Samtec | SAM8610CT-ND | 200-ERM8010050SDVKTR | C374877 | - | - | Yes | ✔ | 1 |
 | J4, J5 | 10-pin 2x5 0.8mm female SMT | ERF8-005-05.0-S-DV-K-TR | Samtec | SAM13517CT-ND | 200-ERF8005050SDVKTR | C7273978 | - | - | Yes | ✔ | 2 |
 | J9 | 20-pin 0.4mm pitch BtB receptacle 3.5mm stack | DF40HC(3.5)-20DS-0.4V(51) | Hirose | 26-DF40HC(3.5)-20DS-0.4V(51)CT-ND | 798-DF40HC3520DS04V5 | C3644774 | - | - | Yes | ✔ | 1 |
 | MH5-MH8 | M2.5x3.5mm SMT standoff | 9774035151R | Wurth Elektronik | 732-9774035151RCT-ND | 710-9774035151R | C22367582 | - | - | Yes | ✔ | 4 |
 | J6 | 20-pin 2x10 0.8mm female SMT | ERF8-010-05.0-S-DV-K-TR | Samtec | SAM8618CT-ND | 200-ERF8010050SDVKTR | C3646170 | - | - | Yes | ✔ | 1 |
-| J7, J8 | 30-pin 2x15 2.54mm shrouded box THT | 2BHR-30-VUA | Adam Tech | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | Yes | Pending | 2 |
+| J7, J8 | 30-pin 2x15 2.54mm shrouded box THT | 2BHR-30-VUA | Adam Tech | 2057-2BHR-30-VUA-ND | 737-2BHR-30-VUA | C17346400 | - | - | Yes | ✔ | 2 |
 | U1 | Dual 3-state buffer VSSOP-8 | SN74LVC2G125DCUR | Texas Instruments | 296-SN74LVC2G125DCURCT-ND | 595-SN74LVC2G125DCUR | C21404 | - | - | Yes | ✔ | 1 |
 | U2-U9 | 4-ch bidirectional ESD array USON-10 | TPD4E05U06QDQARQ1 | Texas Instruments | 296-40696-1-ND | 595-PD4E05U06QDQARQ1 | C81353 | - | - | Yes | ✔ | 8 |

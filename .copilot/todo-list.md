@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-19 (added data-plate-standardisation; wired as dependency for review-pass-11)
+Last updated: 2026-05-21 (download-missing-3d-models → done; tps25751-i2c-review INSERT corrected to done; all_boards_bom.json retired per DEC-083)
 
 ---
 
@@ -216,7 +216,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('review-pass-8',                     'Design review pass 8',                        'done'),
 ('review-pass-9',                     'Design review pass 9',                        'done'),
 ('review-pass-10',                    'Design review pass 10',                       'done'),
-('download-missing-3d-models',        'Download remaining 3D models for library parts', 'pending'),
+('download-missing-3d-models',        'Download remaining 3D models for library parts', 'done'),
 ('review-pass-11',                    'Design review pass 11',                       'pending'),
 ('review-pass-12',                    'Design review pass 12',                       'pending'),
 -- Review clean passes gate: manually closed when 2 consecutive clean passes achieved
@@ -253,7 +253,7 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 -- T1 transformer analysis todos
 ('ctl-t1-bourns-component-analysis',          'Analyse supporting component changes for Bourns POE060-FD20120S T1 replacement',             'done'),  -- superseded by TDK decision
 ('ctl-t1-coilcraft-v2-review',                'v2: Review Coilcraft POE600F-12L production readiness',                                     'blocked'),
-('tps25751-i2c-review',                      'Review TPS25751 I2C connectivity for runtime PDO configuration',                             'blocked'),
+('tps25751-i2c-review',                      'Review TPS25751 I2C connectivity for runtime PDO configuration',                             'done'),
 ('rename-sys-reset-n',                       'Rename SYS_RESET_N signal to CPLD_RESET_N across all design files',                          'done'),
 ('data-plate-standardisation',               'Standardise Data Plate entries across all board Design_Spec.md files',                         'pending'),
 ('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'done'),

@@ -442,9 +442,10 @@ for user review rather than silently substituting an alternative.
 ## BOM Authority Rules
 
 - Individual board `Design_Spec.md` files are the **authoritative source** for all component data.
-- `design/Electronics/Consolidated_BOM.md` is a **derived document** — always rebuilt from board
-  specs via `design/Electronics/all_boards_bom.json`. Never edit the consolidated BOM as a primary
-  source and then work backwards.
+- `design/Electronics/Consolidated_BOM.md` is a **derived document** — always updated to reflect
+  changes made to individual board `Design_Spec.md` BOM tables. Never edit the consolidated BOM as a
+  primary source and then work backwards. (`all_boards_bom.json` was retired 2026-05-21 — it was
+  never actively used and had diverged significantly from the board specs.)
 - Supplier PN conventions confirmed by the user:
   - `TPD4E05U06QDQARQ1` → Mouser `595-PD4E05U06QDQARQ1` (drops leading `T`)
   - `LMQ61460AFSQRJRRQ1` → Mouser `595-Q61460AFSQRJRRQ1` (drops leading `LM`)

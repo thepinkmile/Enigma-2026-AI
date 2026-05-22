@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-18
+**Last Updated:** 2026-05-21
 
 ## 1. Overview
 
@@ -58,7 +58,7 @@ diagnostics.
 | DR-AM-14 | Local `BOOT0` button | SW2 = Omron B3F-1070 or equivalent SPST NO through-hole tactile switch, wired to assert `BOOT0` HIGH while pressed and placed adjacent to J5 / SW1 for convenient UART bootloader entry | §3.7; BOM SW2 |
 | DR-AM-15 | Local decoupling and reservoir caps | AM is exempt from the full 5x bulk-entry-bank rule used on larger boards, but it shall still include local STM32 supply decoupling plus compact 3V3/5V reservoir caps: C2-C3 = 100nF X7R 0402 at the STM32 VDD/VDDA supply domain (pin 4, combined VDD/VDDA in LQFP-32), C7 = 100nF X7R 0402 also at STM32 VDD/VDDA (pin 4, combined VDD/VDDA in LQFP-32; multiple caps per datasheet decoupling guidance), C4 = 4.7uF X7R on `3V3_ENIG`, C5 = 10uF X7R on `5V_MAIN` near the servo/power entry region. Per GRS §3.2 per-IC bypass capacitor requirement. | §4; BOM C2-C3, C5, C7; `Board_Layout.md` |
 | DR-AM-16 | RESET_N filter capacitor | An external 100 nF X7R filter capacitor (C6) shall be placed between the MCU NRST pin and GND per STM32G071 datasheet Figure 23 to suppress voltage spikes on the reset line | §3.6; BOM C6; `Board_Layout.md` |
-| DR-AM-17 | BOOT0 series protection resistor | A 10 kΩ series resistor (R5) shall be placed between the SW2 / J5 pin 5 shared node and the MCU BOOT0 pin to limit current during BOOT0 assertion and protect the pin from conflict when the external harness and SW2 are both driven. STM32G071 BOOT0 shares the PA14/JTCK-SWCLK pin after first reset; a 10kΩ pull-down on PA14 prevents JTAG lock-out. Per DEC-047. | §3.7; BOM R5; `Board_Layout.md` |
+| DR-AM-17 | BOOT0 series protection resistor | A 10 kΩ series resistor (R5) shall be placed between the SW2 / J5 pin 5 shared node and the MCU BOOT0 pin to limit current during BOOT0 assertion and protect the pin from conflict when the external harness and SW2 are both driven. STM32G071 BOOT0 shares the PA14/JTCK-SWCLK pin after first reset; the STM32G071 activates an internal pull-down on PA14 upon reset (datasheet footnote 6), guaranteeing BOOT0 idles LOW when SW2 is open — no external pull-down is required. Per DEC-047. | §3.7; BOM R5; `Board_Layout.md` |
 | DR-AM-18 | `ACTUATE_REQUEST_N` pull-up policy | The `ACTUATE_REQUEST_N` signal on `J1 pin 15` shall be held HIGH by the STM32G071K8T3TR internal GPIO pull-up (PUPDR = `0b01`) only; no external pull-up resistor shall be fitted on the AM hardware | §3.1 J1 pin 15; BOM (no external pull-up component) |
 | DR-AM-19 | STM32G071K8T3TR LQFP-32 supply topology | The LQFP-32 package has a single combined VDD/VDDA pin (pin 4); all decoupling caps C2, C3, and C7 shall target pin 4 exclusively; no separate VDDA pin exists in this package | §4; BOM C2-C3, C7 |
 
@@ -248,6 +248,8 @@ SW1 so the two-button UART bootloader action is simple and repeatable:
 > **BOOT0 series resistor (R5):** SW2 and J5 pin 5 share a common node that connects to the MCU `BOOT0` pin via
 > series resistor R5 (10 kΩ). R5 limits current during `BOOT0` assertion and prevents conflict if the external
 > harness and SW2 are operated simultaneously. R5 uses the same approved part as R4.
+> The STM32G071 internal pull-down on PA14 (datasheet footnote 6) guarantees `BOOT0` idles LOW when SW2 is open;
+> no external pull-down resistor is required.
 
 This gives the same effect as holding `BOOT0` HIGH on J5 pin 5 during reset, but without needing a
 temporary jumper or second hand on the header itself.
@@ -339,8 +341,8 @@ pinouts, mechanical constraints, and BOM.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | C1 | 1µF X7R 50V 0805 | C0805C105K5RACTU | Kemet | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | - | ✔ | ✔ | 1 |
 | C2-C3, C6-C7 | 100nF X7R 50V 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | - | ✔ | ✔ | 4 |
-| C4 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | see DEC-046 | ✔ | ✔ | 1 |
-| C5 | 10µF X7R 25V 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | see DEC-046 | ✔ | ✔ | 1 |
+| C4 | 4.7µF X7R 50V 1210 | CGA6P3X7R1H475K250AD | TDK | 445-10040-1-ND | 810-CGA6P3X7R1H475KD | C3877549 | - | - | ✔ | ✔ | 1 |
+| C5 | 10µF X7R 50V 1206 | CL31B106KBK6PJE | Samsung | 1276-CL31B106KBK6PJECT-ND | 187-CL31B106KBK6PJE | C43935922 | – | – | ✔ | ✔ | 1 |
 | D1-D3 | Green SMD LED diagnostic 0603 | 150060VS75000 | Wurth Elektronik | 732-4980-1-ND | 710-150060VS75000 | C6848499 | - | - | ✔ | ✔ | 3 |
 | J1 | 20-pin 0.4mm pitch BtB plug | DF40C-20DP-0.4V(51) | Hirose | H11618CT-ND | 798-DF40C20DP0.4V51 | C424637 | - | Mouser lists as DF40C-20DP-0.4V(51) — search by Mouser PN 798-DF40C20DP0.4V51 | ✔ | ✔ | 1 |
 | J2-J5 | 1x5 2.54mm male THT | PH1-05-UA | Adam Tech | 2057-PH1-05-UA-ND | 737-PH1-05-UA | C5374051 | - | manually-fit | ✔ | ✔ | 4 |

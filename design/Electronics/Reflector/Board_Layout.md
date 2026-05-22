@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-19
+**Last Updated:** 2026-05-20
 
 ## 1. Component Areas
 
@@ -100,9 +100,9 @@ See Global_Routing_Spec.md §1.1 for the full current-category table.
 
 | Net | Peak Current | IPC Calc (2oz ext) | Design Min | **Specified Width** | Layer | Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Signal (`ENC_OUT_REF`/`ENC_IN_REF`, `CPLD_RESET_N`) | < 5 mA | < 0.001 mm | 0.20 mm | **0.254 mm** | L1 | 3.3 V passive loopback logic signals (10 mil per Design_Spec §3) |
-| JTAG signals: TTD_RETURN (CI) | signal | - | 0.127 mm | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. See `JTAG_Integrity.md`. |
-| 3V3_ENIG power (J4 pin 1 → bulk caps only) | ≤ 200 mA | 0.030 mm | 0.80 mm | **0.80 mm** | L1 + L3 pour | 3V3_ENIG canonical 0.80 mm (Global_Routing_Spec §1.1); passive board - minimal local draw; J2 power pins NC |
+| Signal (`ENC_OUT_REF`/`ENC_IN_REF`, `CPLD_RESET_N`) | < 5 mA | < 0.001 mm | per GRS §1.1 | **per Design_Spec §3** | L1 | 3.3 V passive loopback logic signals (per Design_Spec §3) |
+| JTAG signals: TTD_RETURN (CI) | signal | - | per GRS §2.3.1 | **per GRS §2.3.1 / JLCPCB_Manufacturing.md §1.1** | L1 (external) | 50 Ω controlled impedance over L2 GND plane; per DEC-016. External layer - no inner-layer minimum conflict. See `JTAG_Integrity.md`. |
+| 3V3_ENIG power (J4 pin 1 → bulk caps only) | ≤ 200 mA | 0.030 mm | per GRS §1.1 | **per GRS §1.1** | L1 + L3 pour | 3V3_ENIG canonical width per GRS §1.1; passive board - minimal local draw; J2 power pins NC |
 | 3V3_ENIG distribution (inner power pour) | ≤ 200 mA | - | pour | **copper pour** | L3 | Full uninterrupted 2oz plane |
 | GND return (inner GND pour) | - | - | pour | **copper pour** | L2 | Reference plane; must be solid and uninterrupted under all CI traces on L1 |
 
@@ -111,7 +111,7 @@ See Global_Routing_Spec.md §1.1 for the full current-category table.
 * **JTAG CI traces:** 50 Ω controlled impedance on L1 over the L2 GND plane. Trace width per GRS §2.3.1 and `design/Production/JLCPCB_Manufacturing.md §1.1`.
 * **3V3_ENIG entry:** Power received at J4 pin 3 (3V3_ENIG) and distributed to bulk caps (C1-C5) only.
   J2 power pins are NC - no distribution to the rotor chain from this board.
-  0.80 mm is the system-wide canonical minimum for all 3V3_ENIG surface traces.
+  The system-wide canonical minimum for all 3V3_ENIG surface traces is per GRS §1.1.
 
 ---
 

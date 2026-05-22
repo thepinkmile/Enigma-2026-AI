@@ -3,6 +3,58 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
+## 2026-05-21 session result (Samsung 50V cap complete; BOM JSON retired — checkpoint 165)
+
+### What happened
+
+This session continued Pass-10 findings resolution (EXT fully closed 9/9; STA closed 3/3; AM
+partially closed 2/3) then branched into two significant side-tasks:
+
+1. **Samsung CL31B106KBK6PJE standardisation (DEC-082)** — 87 bulk reservoir cap placements across
+   11 boards upgraded from 25V 0805 to 50V 1206 AEC-Q200. Full KiCAD library import in all 4
+   formats + 3D models completed. Supplier PNs (`DigiKey: 1276-CL31B106KBK6PJECT-ND`,
+   `Mouser: 187-CL31B106KBK6PJE`, `JLCPCB: C43935922`) propagated to all 13 BOM rows,
+   `Consolidated_BOM.md`, and `Global_Routing_Spec.md` §3.2. `DR-PM-17/18` updated with new
+   derating figures.
+
+2. **`all_boards_bom.json` retired (DEC-083)** — full audit revealed 43 missing entries, ~60
+   RefDes mismatches, 11 wrong MPNs. File moved to `.recycle-bin/`; `agent-directives.md` BOM
+   Authority Rules updated. `bom_audit_report.md` also retired.
+
+Checkpoint 165 written. `todo-list.md` synced (INSERTs corrected for `download-missing-3d-models`
+→ `done` and `tps25751-i2c-review` → `done`).
+
+### Key numbers
+
+- **Next checkpoint = 166**
+- **Next DEC = DEC-084**
+- **Review pass 10 fully closed.** Review pass 11 blocked by `data-plate-standardisation` (pending).
+
+### Pass-10 open findings (6 remaining)
+
+| Finding | Sev | Board | Summary |
+|---------|-----|-------|---------|
+| AM-P10-03 | LOW | AM | Board_Layout §2: J2–J5 missing GRS §7.1 pin-1 marker callout — **next up** |
+| USM-P10-06 | LOW | USM | DEC-072 says "DPDT" — correct = SPDT; append DEC-084 (amends DEC-080) |
+| USM-P10-08 | LOW | USM | Board_Layout: GRS §7.1 pin-1 marker compliance not confirmed |
+| USM-P10-09 | LOW | USM | Board_Layout: GRS §6 data plate not mentioned |
+| JM-P10-04 | LOW | JM | Design_Spec §6: UART power-on contention window undocumented |
+| JM-P10-05 | LOW | JM | Board_Layout §5: "400mA peak" 5V_USB ≈4× actual; no derivation footnote |
+
+### Files changed this session
+
+`design/Design_Log.md` (DEC-082, DEC-083 appended) ·
+`design/Datasheets/Samsung-CL31B106KBK6PJ-datasheet.md` (created) ·
+`design/Electronics/Consolidated_BOM.md` · `design/Standards/Global_Routing_Spec.md` §3.2 ·
+All 11 board `Design_Spec.md` BOM tables · `src/Electronics/Library/` (all 4 KiCAD formats + 3D) ·
+`.copilot/agent-directives.md` · `.copilot/todo-list.md` ·
+`.copilot/checkpoints/165-samsung-50v-cap-complete-bom-json-retired.md` ·
+`.copilot/checkpoints/index.md`
+
+Retired: `design/Electronics/all_boards_bom.json` · `.copilot/bom_audit_report.md`
+
+---
+
 ## 2026-05-18 session result (P10 Recovery: all findings applied — checkpoint 163)
 
 ### All 54 remaining P10 findings applied across 11 boards + BOM
@@ -17,11 +69,11 @@ Phase A verification (prior session) found 37/91 Pass 10 findings resolved after
 Key technical facts:
 - AM path: `design/Electronics/Actuation_Module/`; USM path: `design/Electronics/User_Settings_Module/`
 - JLC041621-3313 = correct 4-layer stackup for ROT and ENC
-- ERA-2AEB1333X (0402 133kΩ) = PM R23; ERJ-PC3B1333V (0603 133kΩ) = separate library import
+- ERA-2AEB1333X (0402 133kΩ) was the **wrong** MPN in DEC-073 — corrected in-place to ERJ-PC3B1333V (0603 133kΩ thick-film) this session
 - Permanent library gaps carried to Pass 11: `1.5SMBJ36CA` (CTL D2), `2BHR-30-VUA` (REF J4/EXT J7-J8), `ERM8-010` footprint (REF/EXT/ROT J3)
 - JM §6 connector correction: "Controller J12 ↔ Stator J10" (was J5/J12 error)
 
-**Key numbers: Next checkpoint = 164. Next DEC = DEC-081.**
+**Key numbers: Next checkpoint = 165. Next DEC = DEC-082.**
 
 ---
 

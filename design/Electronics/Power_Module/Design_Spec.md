@@ -5,7 +5,7 @@
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
 **Associated Hardware Revision:** Rev A
-**Last Updated:** 2026-05-19
+**Last Updated:** 2026-05-21
 
 ## 1. Overview
 
@@ -68,8 +68,8 @@ It is sequenced on only after CM5 has fully booted and explicitly enables the ro
 | DR-PM-14 | Per-IC bypass capacitors | All ICs shall have a dedicated 100nF X7R 50V 0402 bypass capacitor on each VCC/VCCIO/VCC_IO pin, placed within 1mm of the IC per `design/Standards/Global_Routing_Spec.md §3.2`. BOM: C26-C30, C31-C37, C41-C48, C50, C56. C57 and C58 are Pi-filter HF shunt capacitors for FB1 (single-point GND bond ferrite bead) and shall be placed within 2mm of the FB1 ferrite bead pads; they are not per-IC bypass capacitors and are excluded from this requirement. | BOM C26-C30, C31-C37, C41-C48, C50, C56; C57/C58 see Pi-filter placement note |
 | DR-PM-15 | Mounting holes | MH1-MH4 shall be M3 PTH (Ø3.2 mm drill) mounting holes bonded to `GND_CHASSIS` per `design/Standards/Global_Routing_Spec.md §4`. Placement follows GRS §4.3 Pattern A (rectangular board): MH1 bottom-left, MH2 bottom-right, MH3 top-right, MH4 top-left - all at 7 mm inset from both nearest edges. No purchasable BOM entry - plain chassis mounting holes; no components to fit. Exact XY positions TBD at PCB layout. | §1 PCB Architecture (Mounting Holes); `design/Standards/Global_Routing_Spec.md §4.3`; `design/Electronics/Power_Module/Board_Layout.md §7` |
 | DR-PM-16 | Pre-OR-ing per-input bulk capacitors | Each of the three power inputs shall have a tight parallel cluster of 3× Samsung CL32B226KAJNNNE (22µF X7R 25V 1210) placed adjacent to the corresponding LM74700 OR-ing controller ANODE pin (C59-C67, 9 caps total). Three-cap banks use a tight parallel cluster to minimise loop inductance; the GRS §3 five-cap star formation does not apply to three-cap banks. Voltage derating: 25V rated at 11-16.9V = 1.5-2.3×. See DEC-068. | BOM C59-C67; DEC-068 |
-| DR-PM-17 | 5V_MAIN output bulk capacitor bank | A bank of 5× Samsung CL21B106KAYQNNE (10µF X7R 25V 0805) shall be placed adjacent to the J1 dock connector 5V_MAIN output pins (C68-C72). Placement and purpose are distinct from C14/C15 (LTC3350 backup-switchover energy storage per DEC-030). Voltage derating: 25V rated at 5V = 5×. See DEC-068. | BOM C68-C72; DEC-068; DEC-030 |
-| DR-PM-18 | 3V3_ENIG output bulk capacitor bank | A bank of 5× Samsung CL21B106KAYQNNE (10µF X7R 25V 0805) shall be placed adjacent to the J1 dock connector 3V3_ENIG output pins (C73-C77). Placement and purpose are distinct from C23 (TPS75733 LDO minimum-stability capacitor). Voltage derating: 25V rated at 3.3V = 7.6×. See DEC-068. | BOM C73-C77; DEC-068 |
+| DR-PM-17 | 5V_MAIN output bulk capacitor bank | A bank of 5× Samsung CL31B106KBK6PJE (10µF X7R 50V 1206) shall be placed adjacent to the J1 dock connector 5V_MAIN output pins (C68-C72). Placement and purpose are distinct from C14/C15 (LTC3350 backup-switchover energy storage per DEC-030). Voltage derating: 50V rated at 5V = 10×. See DEC-068, DEC-082. | BOM C68-C72; DEC-068; DEC-082; DEC-030 |
+| DR-PM-18 | 3V3_ENIG output bulk capacitor bank | A bank of 5× Samsung CL31B106KBK6PJE (10µF X7R 50V 1206) shall be placed adjacent to the J1 dock connector 3V3_ENIG output pins (C73-C77). Placement and purpose are distinct from C23 (TPS75733 LDO minimum-stability capacitor). Voltage derating: 50V rated at 3.3V = 15.2×. See DEC-068, DEC-082. | BOM C73-C77; DEC-068; DEC-082 |
 | DR-PM-19 | Per-input polyfuse protection | Each of the three power inputs (VIN_POE_12V, USB-C, Battery) shall have a Bel Fuse 0ZRB0600FF1A (6 A hold / 12 A trip, THT, AEC-Q200 qualified, ≤40 mΩ hold resistance) placed series upstream of the corresponding LM74700 OR-ing controller. F2 = VIN_POE_12V path, F3 = Battery path, F4 = USB-C path. Required for CE/UKCA compliance. F1 (AC72ABD) is the battery-cell thermal cutoff (non-PCB, welded to cell tabs) and is unaffected. See DEC-069. | BOM F2, F3, F4 (0ZRB0600FF1A); DEC-069 |
 | DR-PM-20 | TPS25751 PD profile EEPROM | U18 (M24512-RDW6TP, 64 KB SO8N) shall be connected on the U4 I2Cc bus (I2Cc_SCL ↔ U18 SCL, I2Cc_SDA ↔ U18 SDA) at I²C address 0x50 (E2=E1=E0=GND per M24512 datasheet DS6520 §2.3/Table 3, page 9). R47/R48 (4.7 kΩ to 3V3_MAIN) are the I2Cc SCL/SDA pull-ups (TPS25751 §8.3.11 requires external pull-ups to VCCIO). U18 WC pin shall be tied to GND (writes always enabled; programming is controlled via TPS25751 I2Ct protocol). C78 (100 nF, 50V X7R 0402) required on U18 VCC per DS6520 §2.6.1 (page 4). | BOM U18, R47, R48, C78; DEC-075; [TPS25751 datasheet §8.3.11, Table 8-4](../../Datasheets/tps25751-datasheet.md); [M24512 datasheet DS6520 §2.3/Table 3, §2.6.1](../../Datasheets/STM-M24512-RDW6TP-datasheet.md) |
 | DR-PM-21 | TPS25751 I2Ct field-programming interface | The I2Ct bus shall be switched via U19 (74LVC2G3157DP-Q10J dual SPDT I2C MUX). Both U19 nS pins are tied to `PROG_EN_N` (J4 pin 6, active-LOW with 10 kΩ pull-up to 3V3_MAIN). **nS=HIGH (normal operation):** U19 routes J4 SMBUS (I2Ct) → I2C-1 (SmartBattery path). **nS=LOW (programming mode):** U19 routes J4 SMBUS (I2Ct) → TPS25751 I2Ct port (0x20) for NVM profile update. R49/R50 (4.7 kΩ to 3V3_MAIN) are the I2Ct SCL/SDA pull-ups. **J6 is removed.** Programming is performed by fitting a PROG_EN_N assertion wire to J4 pin 6 per Maintenance_Guide.md §5. **Power-up safety (verified):** U19 VCC is supplied by 3V3_MAIN. Before 3V3_MAIN is available (startup steps 1-5), U19 is unpowered (VCC=0). Per 74LVC2G3157-Q100 datasheet Table 10, analog switch channels present high impedance at VCC=0 (no gate-drive path; switch transistors off); nS input leakage is ±1 μA max. The break-before-make switching characteristic prevents any momentary cross-connection during VCC ramp. No SMBUS traffic originates from J4 or the CM5 before 3V3_MAIN is available, so no inadvertent routing to TPS25751 I2Ct can occur. This power-up behaviour is confirmed safe and requires no additional protection components. | BOM U19, J4 (pin 6), R49, R50; DEC-076; [TPS25751 datasheet §8.3.11, Tables 8-4/8-5](../../Datasheets/tps25751-datasheet.md); [74LVC2G3157-Q100 datasheet Table 10](../../Datasheets/Nexperia-74LVC2G3157_Q100-datasheet.md); [Maintenance_Guide.md §5](../../Guides/Maintenance_Guide.md) |
@@ -323,7 +323,7 @@ GND ------+---------------------------------------------------+---------------+-
 * **L3** - Bourns `SRP1265A-100M`: 10µH, 15.5A I_sat, 10A I_rms, DCR = 16.5mΩ max, 13.5x12.5x6.2mm shielded molded SMD.
 * **C1-C15** - 22µF, 25V, X7R, 1210 (Samsung CL32B226KAJNNNE or equiv).
 * **C16-C19** - 47µF, 25V, X7R, 2220 (TDK CGA9N3X7R1E476M230KB).
-* **C20** - 10µF, 25V, X7R, 0805 (Samsung CL21B106KAYQNNE).
+* **C20** - 10µF, 50V, X7R, 1206 (Samsung CL31B106KBK6PJE).
 * **C21-C23** - 1µF, 50V, X7R, 0805 (Kemet C0805C105K5RACTU or equiv).
 * **C26-C37, C57, C58** - 100nF, 50V, X7R, 0402 (Samsung CL05B104KB5NNNC or equiv). (C57/C58: Pi-filter input/output shunt caps; C26-C37: per-IC bypass caps.)
 
@@ -659,10 +659,10 @@ Estimated PM-local power dissipation at system peak load:
 | C1-C13 | 22µF 25V X7R 1210 | CL32B226KAJNNNE | Samsung | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | - | Yes | ✔ | 13 |
 | C14, C15 | 22µF 25V X7R 1210 | CL32B226KAJNNNE | Samsung | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | see DEC-030 | Yes | ✔ | 2 |
 | C16-C19 | 47µF 25V X7R 2220 | CGA9N3X7R1E476M230KB | TDK | 445-174773-1-ND | 810-A9N3X7476M23KB | C2182815 | - | - | Yes | ✔ | 4 |
-| C20 | 10µF 25V X7R 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | - | Yes | ✔ | 1 |
+| C20 | 10µF 50V X7R 1206 | CL31B106KBK6PJE | Samsung | 1276-CL31B106KBK6PJECT-ND | 187-CL31B106KBK6PJE | C43935922 | – | – | Yes | ✔ | 1 |
 | C59-C67 | 22µF 25V X7R 1210 | CL32B226KAJNNNE | Samsung | 1276-3392-1-ND | 187-CL32B226KAJNNNE | C309062 | - | see DEC-068 | Yes | ✔ | 9 |
-| C68-C72 | 10µF 25V X7R 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | see DEC-068 | Yes | ✔ | 5 |
-| C73-C77 | 10µF 25V X7R 0805 | CL21B106KAYQNNE | Samsung | 1276-CL21B106KAYQNNECT-ND | 187-CL21B106KAYQNNE | C3039694 | - | see DEC-068 | Yes | ✔ | 5 |
+| C68-C72 | 10µF 50V X7R 1206 | CL31B106KBK6PJE | Samsung | 1276-CL31B106KBK6PJECT-ND | 187-CL31B106KBK6PJE | C43935922 | – | – | Yes | ✔ | 5 |
+| C73-C77 | 10µF 50V X7R 1206 | CL31B106KBK6PJE | Samsung | 1276-CL31B106KBK6PJECT-ND | 187-CL31B106KBK6PJE | C43935922 | – | – | Yes | ✔ | 5 |
 | C21-C23, C51, C53-C55 | 1µF 50V X7R 0805 | C0805C105K5RACTU | Kemet | 399-C0805C105K5RACTUCT-ND | 80-C0805C105K5R | C3018567 | - | - | Yes | ✔ | 7 |
 | C26-C30, C31-C37, C41-C48, C50, C56, C57, C58, C78, C79 | 100nF 50V X7R 0402 | CL05B104KB5NNNC | Samsung | 1276-CL05B104KB5NNNCCT-ND | 187-CL05B104KB5NNNC | C960916 | - | C78 = U18 VCC; C79 = U19 VCC; see DR-PM-20/21 | Yes | ✔ | 26 |
 | C38 | 100pF X7R 25V 0402 | C0402C101K3RACAUTO | Kemet | 399-C0402C101K3RACAUTOCT-ND | 80-C0402C101K3RAUTO | C5272912 | - | - | Yes | ✔ | 1 |
@@ -820,7 +820,7 @@ Estimated PM-local power dissipation at system peak load:
 > (Mouser 810-A9N3X7476M23KB; DigiKey 445-174773-1-ND; JLCPCB C2182815).
 > C13 (3V3_ENIG bus) remains single.
 > BOM total for CL32B226KAJNNNE is now **13 units** per PM: 6 positions x 2 + 1 single (C13).
-> C20 uses Samsung CL21B106KAYQNNE (10µF 25V X7R 0805).
+> C20 uses Samsung CL31B106KBK6PJE (10µF 50V X7R 1206).
 > DigiKey 1276-3392-1-ND; JLCPCB C309062 (confirmed - Samsung CL32B226KAJNNNE 22µF 25V X7R 1210).
 > * **Timing/bypass caps (C21-C56, C57, C58)** - C21/C22/C23 and C51/C53/C54/C55 (1µF) share the same Kemet
 >   C0805C105K5RACTU: Pi-filter mid-frequency bypass, U9 timer cap, LTC3350 INTVCC/VCC2P5 bypass,

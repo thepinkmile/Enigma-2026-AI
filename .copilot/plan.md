@@ -6,56 +6,55 @@
 
 ---
 
-## Current Status (as of checkpoint 162)
+## Current Status (as of checkpoint 165 — 2026-05-21)
 
-Pass 10 complete and all 38 findings resolved (commit `75b3707`). C20 upgraded to TDK
-CGA9N1X7R1V476M230KC (47µF 35V). Library imported. Temp directory cleaned.
+Pass-10 findings resolution in progress. 6 findings remain open across AM, USM, and JM.
+**Next immediate task: AM-P10-03** — add GRS §7.1 pin-1 marker callout for J2–J5 in
+`design/Electronics/Actuation_Module/Board_Layout.md` §2 (J1 already has the callout).
 
-This session focused on todo dependency restructuring:
-- `review-clean-passes-gate` added — aggregates all review-pass-x; manually closed when 2 consecutive clean passes achieved
-- `review-pass-12` added (pass 10 was not clean; two more passes needed)
-- `bom-pre-prototype-check` now also gates on `consolidate-design-spec-content`
-- `bom-pre-production-check` now also gates on all four testing todos
-- `consolidate-design-spec-content` deps on `review-clean-passes-gate` (not interim-electronics-review-3)
-- `system-config-variants-diagrams` now gates on `prototype-pcb-manufacturing`
-- `interim-electronics-review-1` restored dep on `consolidate-design-spec-content` (safe: circular dep resolved)
-
-Session DB: 113 todos — 34 pending, 72 done, 7 blocked (seeded from todo-list.md Agent SQL block).
+Samsung CL31B106KBK6PJE selected as the standard 10µF 50V 1206 AEC-Q200 bulk reservoir cap for
+all boards (DEC-082). All 87 placements updated across 11 boards. KiCAD library import complete in
+all 4 formats. `all_boards_bom.json` retired (DEC-083) — it had completely diverged and was never
+actively used.
 
 ## Board Design Status
 
 | Board | Status | Notes |
 |-------|--------|-------|
-| Power Module (PM) | In Review | |
-| Controller Board (CTL) | In Review | T1 decision complete (DEC-067) |
-| Stator | In Review | |
-| Rotor (26-char) | In Review | |
-| Rotor (64-char) | In Review | |
-| Reflector | In Review | |
-| Extension Board (EXT) | Draft | consolidate-design-spec-content todo pending |
-| JTAG Module (JM) | In Review | |
-| User Settings Module (USM) | In Review | |
-| Encoder (ENC) | In Review | |
-| Actuation Module (AM) | In Review | |
+| Power Module (PM) | In Review | All P10 findings closed |
+| Controller Board (CTL) | In Review | T1 decision complete (DEC-067); all P10 closed |
+| Stator | In Review | All P10 findings closed |
+| Rotor (26-char) | In Review | All P10 findings closed |
+| Rotor (64-char) | In Review | All P10 findings closed |
+| Reflector | In Review | All P10 findings closed |
+| Extension Board (EXT) | In Review | All P10 findings closed |
+| JTAG Module (JM) | In Review | 2 findings open (P10-04, P10-05) |
+| User Settings Module (USM) | In Review | 3 findings open (P10-06, P10-08, P10-09) |
+| Encoder (ENC) | In Review | All P10 findings closed |
+| Actuation Module (AM) | In Review | 1 finding open (P10-03) |
+
+## Open Pass-10 Findings (6 remaining — do in order)
+
+| # | Finding | Board | File | Action |
+|---|---------|-------|------|--------|
+| 1 | AM-P10-03 | AM | `Board_Layout.md` §2 | Add GRS §7.1 pin-1 marker callout for J2–J5 — **NEXT UP** |
+| 2 | USM-P10-06 | USM | `Design_Spec.md` + `Design_Log.md` | Append DEC-084 amending DEC-080: "DPDT" → "SPDT" |
+| 3 | USM-P10-08 | USM | `Board_Layout.md` | Add/confirm GRS §7.1 pin-1 marker compliance note |
+| 4 | USM-P10-09 | USM | `Board_Layout.md` | Add GRS §6 data plate entry |
+| 5 | JM-P10-04 | JM | `Design_Spec.md` §6 | Document UART power-on contention window |
+| 6 | JM-P10-05 | JM | `Board_Layout.md` §5 | Add derivation footnote for 5V_USB 80–110mA figure |
 
 ## Open Workstreams
 
-### Immediate (next session start)
+### Immediate (resume here)
 
-1. **Download remaining 3D models** (`download-missing-3d-models`) — READY
-   - 33 parts still need STP files; drop zips into `src\Electronics\Library\temp\` and import
-   - See `.copilot/todos/download-missing-3d-models.md` for full part list (13 generic IPC + 20 part-specific)
-   - Generic IPC models (13): use KiCAD standard library refs; part-specific (20): need SamacSys zips from user
-
-2. **Extension interconnect architecture review** (`extension-mechanical-usage`) — READY
-   - See `.copilot/todos/extension-mechanical-usage.md`
-
-3. **Review Pass 11** (`review-pass-11`) — blocked by `download-missing-3d-models`
+1. **Finish remaining 6 P10 findings** — see table above
+2. **Review Pass 11** (`review-pass-11`) — blocked by `data-plate-standardisation` (pending)
    - Once pass 11 and pass 12 are both clean → `review-clean-passes-gate` can be closed
-   - See `.copilot/todos/review-pass-11.md`
 
 ### Deferred / Blocked
 
+- `data-plate-standardisation` — blocking review-pass-11; no ETA
 - `battery-connector-final-review` — blocked: awaiting supplier response
 - `jdb-ft232h-3v3-vregin` — blocked (v2.0), pending FT232H Rev C availability
 - `display-addon-board`, `cpld-production-replacement`, `display-aperture` — blocked (v2.0)
@@ -65,35 +64,39 @@ Session DB: 113 todos — 34 pending, 72 done, 7 blocked (seeded from todo-list.
 
 | Entry | Summary |
 |-------|---------|
-| DEC-068 | PM bulk-cap placement (pre-OR-ing, 5V_MAIN, 3V3_ENIG) |
-| DEC-069 | PM per-input polyfuse (F2/F3/F4) + UVLO recalculation (R1 → ERJ-3EKF2263V) |
-| DEC-070 | MCP23017 GPA[7]/GPB[7] output-only restriction; CFG_APPLY_N reassigned USM U1 GPB[7]→GPA[6] |
-| DEC-071 | USM switch topology: dual-terminated (NC→GND, NO→3V3_ENIG); R1–R10 removed |
-| DEC-072 | Pass 9 resolutions (see Design_Log.md) |
-| DEC-073 | LTC3350 RT resistor correction (R23 → ERA-2AEB1333X 133kΩ; fSW = 402kHz) |
-| DEC-074 | Rename CPLD reset signal SYS_RESET_N → CPLD_RESET_N across all boards |
-| DEC-075 | TPS25751 Option C: SafeMode + M24512 EEPROM U18 + J6 I2Ct debug header on PM |
-| DEC-076 | TPS25751 I2C address conflict resolution (I2C1 address 0x20; EEPROM U18 at 0x50 on isolated I2Cc) |
+| DEC-076 | TPS25751 I2C address conflict resolution (I2C1 0x20; EEPROM U18 at 0x50 on isolated I2Cc) |
+| DEC-077 | CPLD_RESET_N renamed SYS_RESET_N across all boards |
+| DEC-078 | Trace-width convention: GRS §6 standardised |
+| DEC-079 | data-plate-standardisation (pending) |
+| DEC-080 | SPDT/DPDT terminology correction for USM SW1–SW10 (amends DEC-072) |
+| DEC-081 | SPDT formalisation (2026-05-18) |
+| DEC-082 | 10µF bulk cap upgrade: 25V 0805 → 50V 1206 AEC-Q200; Samsung CL31B106KBK6PJE adopted |
+| DEC-083 | `all_boards_bom.json` retired; BOM authority = Consolidated_BOM.md + board Design_Spec.md |
 
 ## Library Status
 
 | File | Status |
 |------|--------|
-| `SamacSys_Parts.kicad_sym` | CGA9N1X7R1V476M230KC added (commit 75b3707) |
-| `SamacSys_Parts.mod` | CGA9N1X7R1V476M230KC SHAPE3D added ✅ |
-| `SamacSys_Parts.3dshapes/` | 33 STP files; 33 additional parts still pending download |
-| `src/Electronics/Library/temp/` | Empty — ready for next batch of zips |
+| `SamacSys_Parts.kicad_sym` | CL31B106KBK6PJE appended ✅ |
+| `SamacSys_Parts.lib` / `.dcm` | CL31B106KBK6PJE appended ✅ |
+| `SamacSys_Parts.pretty/` | `CAPC3216X190N.kicad_mod` added ✅ |
+| `SamacSys_Parts.mod` | `CAPC3216X190N` in `$INDEX` + `$MODULE` ✅ |
+| `SamacSys_Parts.3dshapes/` | `CL31B106KBK6PJE.stp` added ✅ |
+| `3D_Models/` | `CL31B106KBK6PJE.stp` added ✅ |
+| `src/Electronics/Library/temp/` | LIB_CL31B106KBK6PJE extracted; safe to clean after user review |
 
 ## Critical Standing Rules
 
-- **NEVER commit** without "Let's lock this in" or "Save state" from user
-- **Design_Log.md is append-only** — next entry = DEC-077; never modify existing entries
-- **PRIMARY DIRECTIVE**: Never modify any MPN/supplier part numbers
+- **NEVER commit** without "Let's lock this in" or "Save state" from user in live session
+- **Design_Log.md is append-only** — next entry = **DEC-084**; never modify existing entries
+- **PRIMARY DIRECTIVE**: Never modify any MPN/supplier part numbers without explicit user confirmation
 - **Last Updated** dates must be updated on every content change; **Version** is user-only
-- All board statuses: "In Review" (EXT = "Draft")
-- Move unwanted files to `.recycle-bin/`; never delete
+- Move unwanted files to `.recycle-bin/`; never delete permanently
 - **OCTONARY**: Seed session DB from `todo-list.md` Agent SQL block as MANDATORY FIRST ACTION
-- **review-clean-passes-gate**: when adding a new `review-pass-x`, add it as a dep on the gate in todo-list.md AND the gate detail file AND session DB
+- **review-clean-passes-gate**: when adding a new `review-pass-x`, add it as a dep on the gate
+- **Board_Layout.md files are visualisation-only** — no design narrative or spec prose
+- **BOM Notes are procurement-only** — no function descriptions, signal names, or design rationale
+- **BOM authority**: `Consolidated_BOM.md` = system; board `Design_Spec.md` = board (per DEC-083)
 
 ## Next Session Start Point
 
@@ -102,6 +105,6 @@ Read these files in order:
 1. `.copilot/agent-directives.md` (always first — then seed session DB immediately)
 2. This `plan.md`
 3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/index.md` → checkpoint 162
-5. Relevant todos from `.copilot/todos/` (see Open Workstreams above)
+4. `.copilot/checkpoints/165-samsung-50v-cap-complete-bom-json-retired.md`
+5. `.copilot/review-report.md` (open findings: AM lines ~2137, USM/JM lines ~2172)
 
