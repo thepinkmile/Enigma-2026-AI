@@ -29,4 +29,4 @@
 | 0x45 | INA219 | Stator | Rotor stack power telemetry (CSS2H-2512R-R010ELF 10mΩ shunt R1) |
 
 > **Note:** This document captures global electrical design rules. Board-specific design rules are in each board's Design_Spec.md.
-> Full design decision history: See `design/Design_Log.md`.
+> Full design decision history: See `design/Design_Log/index.md`.

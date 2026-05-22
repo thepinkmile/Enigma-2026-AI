@@ -17,7 +17,7 @@ Run the same review agent pattern as previous passes against all design files:
 - All Board_Layout.md files
 - Consolidated_BOM.md
 - Global_Routing_Spec.md
-- Design_Log.md
+- design/Design_Log/ (all DEC-NNN_*.md files and index.md)
 - All variant spec files within each board folder (treat all files in a board folder as part of that board's spec)
 
 Review findings should be recorded in the same format as previous passes (review-report.md).

@@ -274,7 +274,7 @@ flowchart BT
 * **Encoder CPLDs:** Provide the encode / decode logic used by the keyboard, lightboard, and both
   plugboard passes.
 * **Status:** Board-level hardware architecture is defined in the active design specs; implementation
-  planning and pseudo-code remain tracked as open work in `design/Design_Log.md`.
+  planning and pseudo-code remain tracked as open work in `design/Design_Log/index.md`.
 
 ---
 

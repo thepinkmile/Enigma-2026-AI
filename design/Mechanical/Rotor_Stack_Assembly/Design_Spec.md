@@ -83,7 +83,7 @@ mechanical design validation.
 
 The following lead-style variants exist in the Samtec ERM8/ERF8 family. Increasing the stack height
 requires changing one or both connector MPNs; this must be formally recorded as a **DEFECT-DEC**
-(amendment decision entry in `design/Design_Log.md`) before any part number changes are made.
+(amendment decision entry in `design/Design_Log/index.md`) before any part number changes are made.
 
 | ERM8 Lead Style | ERF8 Lead Style | Total Stack Height |
 | :--- | :--- | :--- |
@@ -157,4 +157,4 @@ stack-up. It must not be used as a design constraint until formally verified.
 | `design/Electronics/Rotor/Design_Spec.md` | Rotor electrical spec: ERM8/ERF8 connector pinout (J1–J6), BOM |
 | `design/Datasheets/erm8-xxx-xx.x-xxx-dv-xxxx-xx-mkt-datasheet.md` | Samtec ERM8 lead style definitions and dimensions |
 | `design/Datasheets/erf8-xxx-xx.x-xxx-dv-xxxx-xx-mkt-datasheet.md` | Samtec ERF8 lead style definitions and dimensions |
-| `design/Design_Log.md` | DEC-059 (ERM8/ERF8 -05.0 stack height confirmation) |
+| `design/Design_Log/DEC-059_erm8erf8-stacking-height-confirmed-rotor-stack-assembly-specification-created.md` | DEC-059 (ERM8/ERF8 -05.0 stack height confirmation) |

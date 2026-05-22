@@ -650,7 +650,7 @@ are reserved so the same 1x5 keyed header footprint can be retained across both 
 ### 6.1. ESD Protection - Samtec ERM8/ERF8 Connectors
 
 The Samtec ERM8/ERF8 rotor connectors (`J1`-`J3` on Board A, `J4`-`J6` on Board B) are external,
-hot-swappable interfaces per **DEC-045** (see `design/Design_Log.md`). All signal lines entering or
+hot-swappable interfaces per **DEC-045** (see `design/Design_Log/DEC-045_rotor-samtec-erm8erf8-connectors-require-esd-protection.md`). All signal lines entering or
 leaving the board via these connectors must be ESD-protected with TVS arrays placed close to the
 connector body, before any series resistors or downstream logic (see `Global_Routing_Spec.md §9`).
 

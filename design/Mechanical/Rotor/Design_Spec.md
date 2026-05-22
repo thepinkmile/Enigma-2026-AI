@@ -212,4 +212,4 @@ keep-out zone.
 | `design/Electronics/Rotor/Rotor_64_Char_Design.md` | N=64 encoder track pattern and geometry |
 | `design/Mechanical/Rotor_Actuation_Assembly/Design_Spec.md` | Shaft diameter, retention, and carry mechanism |
 | `design/Mechanical/Rotor_Stack_Assembly/Design_Spec.md` | Mini-stack grouping, inter-rotor connector gap (10mm), clearance requirements, total depth |
-| `design/Design_Log.md` | DEC-026 (capacitive encoder), DEC-028 (split-board architecture) |
+| `design/Design_Log/index.md` | DEC-026 (capacitive encoder), DEC-028 (split-board architecture) |

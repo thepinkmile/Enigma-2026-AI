@@ -372,7 +372,7 @@ this, it requires more careful design of output filtering stages.
 
 **Option A - ACF Flyback with Coilcraft POE600F-12L - selected (original).**
 
-See `design/Design_Log.md — DEC-019` for the formal original decision record.
+See `design/Design_Log/DEC-019_poe-transformer-topology-acf-option-a-selected.md` for the formal original decision record.
 
 **Rationale summary:**
 
@@ -532,7 +532,7 @@ production-ready, the following design changes are needed:
 
 - `design/Electronics/Controller/PoE_Power_Analysis.md` — Current TDK B82806D0060A120 ACF Forward analysis
 - `design/Electronics/Controller/Design_Spec.md` — CTL BOM (T1, L1, C17, C20, Q1, Q2 rows)
-- `design/Design_Log.md` — DEC-019 (original Coilcraft decision); DEC-062 (TDK selection)
+- `design/Design_Log/index.md` — DEC-019 (original Coilcraft decision); DEC-062 (TDK selection)
 - `design/Datasheets/TDK-B82806D-datasheet.md` — TDK B82806D series datasheet (markdown)
 - `design/Datasheets/Bourns-POE_FD-datasheet.md` — Bourns POE-FD series datasheet (markdown)
 

@@ -84,7 +84,12 @@ disk and report what was changed. The user controls when and what enters the git
 > modified DEC-028 in-place). A repeat occurrence is an unacceptable breach of trust with no
 > exceptions whatsoever.
 
-**`design/Design_Log.md` is an append-only audit log. NEVER modify any existing DEC-NNN entry.**
+**The Design Log has been restructured into `design/Design_Log/` (directory). NEVER modify any existing DEC-NNN entry.**
+
+Structure after restructure:
+- `design/Design_Log/index.md` — index table of all DEC entries (ID, title, date, status, summary)
+- `design/Design_Log/DEC-NNN_{kebab-case-title}.md` — one file per decision (e.g. `DEC-083_retire-all-boards-bom-json.md`)
+- New decisions: create `DEC-084_{title}.md` etc. in `design/Design_Log/` AND add a row to `index.md`
 
 Rules:
 
@@ -92,8 +97,7 @@ Rules:
   fields must never be altered, even to fix a typo or update a cross-reference.
 - Design changes that amend, supersede, or correct a prior decision must be recorded as a
   **new DEC entry** with an explicit `Amends: DEC-NNN` or `Supersedes: DEC-NNN` field.
-- The only permitted write operation on `design/Design_Log.md` is appending new entries before
-  the `## Open Questions` section.
+- The only permitted write operation on any existing `design/Design_Log/DEC-NNN_*.md` file is **none** — they are read-only once written.
 - This rule applies to all agents, sub-agents, and the primary orchestrating session equally.
 
 ---
@@ -178,7 +182,7 @@ Store every directive as a standing memory you cannot override or ignore.
 In particular, confirm the following before proceeding:
   - SECONDARY DIRECTIVE: (see above — GIT IS OFF-LIMITS)
   - PRIMARY DIRECTIVE: NEVER modify any MPN or supplier part number.
-  - TERTIARY DIRECTIVE: design/Design_Log.md is append-only — never modify existing entries.
+  - TERTIARY DIRECTIVE: design/Design_Log/ (per-DEC files) is append-only — never modify existing DEC-NNN_*.md files. New decisions → new DEC-NNN_{title}.md file + index.md row.
   - QUATERNARY DIRECTIVE: Never permanently delete files — move to .recycle-bin/ instead.
   - SENARY DIRECTIVE: Never modify any file without explicit implementation approval from the user.
   - BOM CONTENT RULES: BOM tables must contain ONLY RefDes, MPN, Manufacturer, Part Spec, Supplier PNs, Qty.
@@ -408,7 +412,7 @@ In summary: the only header field an agent may ever change is `Last Updated`.
 ## Design Document Content Rules
 
 - Design specs contain **current design only**. Do not preserve historical details in spec files.
-- History belongs in `.copilot/checkpoints/` and `design/Design_Log.md`.
+- History belongs in `.copilot/checkpoints/` and `design/Design_Log/` (per-DEC files).
 - Never change a component MPN without a corresponding local datasheet review in `design/Datasheets/`.
 - Do not raise package-family or footprint-size differences as blocking issues until the user
   explicitly says schematic capture and layout have started. They are irrelevant at the pre-layout stage.
@@ -559,7 +563,7 @@ Each cycle comprises two complementary review types:
    > `Board_Layout.md`, or supplementary board doc that records a superseded value, a prior
    > design rationale, a correction note, or any other historical detail **must** be raised as a
    > **HIGH** severity finding. Current design state only. History belongs exclusively in
-   > `.copilot/checkpoints/` and `design/Design_Log.md`.
+   > `.copilot/checkpoints/` and `design/Design_Log/` (per-DEC files).
 
 2. **Integration review** — all boards are reviewed together using a single agent that reads the
    GRS first, then every board's `Design_Spec.md` and `Board_Layout.md`, and then all
@@ -600,7 +604,7 @@ Each cycle comprises two complementary review types:
    - No `Design_Spec.md`, `Board_Layout.md`, supplementary board doc, or top-level design document
      may contain superseded values, prior design rationale, correction notes, or any other
      historical detail. These belong exclusively in `.copilot/checkpoints/` and
-     `design/Design_Log.md`. Any violation must be raised as a **HIGH** severity finding.
+     `design/Design_Log/` (per-DEC files). Any violation must be raised as a **HIGH** severity finding.
 
 ### Agent execution model
 

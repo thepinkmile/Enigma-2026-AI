@@ -3,7 +3,46 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
-## 2026-05-22 session result (data-plate-standardisation complete; checkpoint 167)
+## 2026-05-22 session result (design-log-restructure complete; checkpoint 168)
+
+### What happened
+
+`design-log-restructure` workstream completed. The monolithic `design/Design_Log.md` (83 DEC entries,
+~295 KB) split into `design/Design_Log/` — 83 per-DEC files (`DEC-NNN_{kebab-title}.md`) plus
+`index.md` (preamble + full DEC table). Original retired to `.recycle-bin/`. One-time split script
+also retired.
+
+Also corrected `todo-list.md` SQL blocks for `data-plate-standardisation` (status → done; dep rows
+removed from review-pass-11). Committed as `cad6a88`.
+
+`extension-mechanical-usage` marked as in-progress (ongoing tracked discussion).
+
+### Key numbers
+
+- **Next checkpoint = 169**
+- **Next DEC = DEC-084** — create as `design/Design_Log/DEC-084_{kebab-title}.md` + row in `index.md`
+- **Pass-10:** 91/91 board findings resolved ✅; all INT MINOR/MEDIUM findings closed ✅
+- **review-pass-11** blocked by: `copilot-dir-restructure` only (design-log-restructure ✅ done)
+
+### Files changed this session
+
+**New directory:** `design/Design_Log/` — 83 DEC files + `index.md` (84 files total)
+
+**Moved to .recycle-bin/:** `design/Design_Log.md` · `.copilot/todos/design-log-restructure.md` ·
+`.copilot/scripts/split_design_log.py`
+
+**Updated:** `.github/copilot-instructions.md` · `README.md` · `.copilot/agent-directives.md` ·
+`.copilot/plan.md` · `.copilot/todo-list.md` · `.copilot/todos/review-pass-11.md` ·
+`.copilot/todos/review-pass-12.md` · `design/Electronics/Controller/PoE_Power_Analysis_Coilcraft_v2.md` ·
+`design/Electronics/Electrical_Design.md` · `design/Electronics/Extension/Design_Spec.md` ·
+`design/Electronics/JTAG_Module/JTAG_Integrity.md` · `design/Electronics/Rotor/Design_Spec.md` ·
+`design/Mechanical/Rotor/Design_Spec.md` ·
+`design/Mechanical/Rotor_Stack_Assembly/Design_Spec.md` ·
+`design/Software/CPLD_Logic/Rotor_Logic.md`
+
+---
+
+
 
 ### What happened
 

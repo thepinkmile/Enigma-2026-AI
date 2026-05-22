@@ -42,7 +42,7 @@ and the checkpoints in the checkpoints subdirectory.
   `Author`, `Version`, `Associated Hardware Revision`, `Last Updated`)
   followed by requirement tables with IDs like `FR-CTL-01` and `DR-STA-07`.
   Preserve those IDs and cross-references instead of renumbering them casually.
-- Architectural decisions are tracked centrally in `design\Design_Log.md` as
+- Architectural decisions are tracked centrally in `design\Design_Log\` (per-DEC files, index at `design\Design_Log\index.md`) as
   `DEC-NNN` entries. If a change alters a design rationale or reverses an
   established choice, update the affected `Design_Spec.md` file and the
   decision log together.

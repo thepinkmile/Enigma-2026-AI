@@ -6,9 +6,9 @@
 
 ---
 
-## Current Status (as of 2026-05-22 — post-checkpoint 167, data-plate-standardisation complete)
+## Current Status (as of 2026-05-22 — post-checkpoint 168, design-log-restructure complete)
 
-Pass-10 fully resolved. All 91 board findings closed (91 resolved, 0 partial). All INT MINOR and MEDIUM findings closed. `data-plate-standardisation` workstream complete — all 10 boards now have a standard `* **Data Plate:** Per GRS §6 on Layer [n], Revision Block text: \`GERMAN [English] V1.0\`` bullet; GRS §6 metadata format formalised; USM Board_Layout.md errant blockquote removed.
+Pass-10 fully resolved. All 91 board findings closed (91 resolved, 0 partial). All INT MINOR and MEDIUM findings closed. `data-plate-standardisation` complete ✅. `design-log-restructure` complete ✅ — `design/Design_Log.md` split into `design/Design_Log/` (83 per-DEC files + `index.md`).
 
 Samsung CL31B106KBK6PJE selected as the standard 10µF 50V 1206 AEC-Q200 bulk reservoir cap for
 all boards (DEC-082). All 87 placements updated across 11 boards. KiCAD library import complete in
@@ -40,12 +40,13 @@ All 91 Pass-10 findings are resolved. REF-P10-05 closed: 2BHR-30-VUA uses KiCAD 
 ### Immediate (resume here)
 
 1. **Pass-10 complete ✅** — 91 resolved, 0 partial = 91 total
-2. **Review Pass 11** (`review-pass-11`) — blocked by `design-log-restructure`, `copilot-dir-restructure` (both pending); `data-plate-standardisation` ✅ complete
+2. **Review Pass 11** (`review-pass-11`) — blocked by `copilot-dir-restructure` (pending); `data-plate-standardisation` ✅ complete; `design-log-restructure` ✅ complete
    - Once pass 11 and pass 12 are both clean → `review-clean-passes-gate` can be closed
 
 ### Deferred / Blocked
 
 - `data-plate-standardisation` ✅ DONE (2026-05-22)
+- `design-log-restructure` ✅ DONE (2026-05-22)
 - `battery-connector-final-review` — blocked: awaiting supplier response
 - `jdb-ft232h-3v3-vregin` — blocked (v2.0), pending FT232H Rev C availability
 - `display-addon-board`, `cpld-production-replacement`, `display-aperture` — blocked (v2.0)
@@ -79,7 +80,7 @@ All 91 Pass-10 findings are resolved. REF-P10-05 closed: 2BHR-30-VUA uses KiCAD 
 ## Critical Standing Rules
 
 - **NEVER commit** without "Let's lock this in" or "Save state" from user in live session
-- **Design_Log.md is append-only** — next entry = **DEC-084**; never modify existing entries
+- **Design Log restructured** — `design/Design_Log/` (per-DEC files); next entry = **DEC-084** as `DEC-084_{title}.md` + `index.md` row; NEVER modify existing DEC files; NEVER create as `design/Design_Log.md`
 - **PRIMARY DIRECTIVE**: Never modify any MPN/supplier part numbers without explicit user confirmation
 - **Last Updated** dates must be updated on every content change; **Version** is user-only
 - Move unwanted files to `.recycle-bin/`; never delete permanently
@@ -96,6 +97,6 @@ Read these files in order:
 1. `.copilot/agent-directives.md` (always first — then seed session DB immediately)
 2. This `plan.md`
 3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/167-data-plate-standardisation-complete.md`
+4. `.copilot/checkpoints/168-design-log-restructure-complete.md`
 5. `.copilot/review-report.md` (Pass-10 fully closed; USM-P10-09 RESOLVED; data-plate-standardisation done)
 

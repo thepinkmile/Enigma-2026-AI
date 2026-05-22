@@ -61,7 +61,7 @@ internal oscillator (~43.35 MHz). Reasons for this choice:
   (presence/absence of aluminium shroud segment) is sufficient for Gray-code position decoding.
 - Confirmed viable by TI FDC2114 datasheet §8 (internal oscillator specification).
 
-Design decision recorded in `design/Design_Log.md` as **DEC-044**.
+Design decision recorded in `design/Design_Log/DEC-044_fdc2114-internal-oscillator-selected-clkin-gnd.md` as **DEC-044**.
 
 ---
 

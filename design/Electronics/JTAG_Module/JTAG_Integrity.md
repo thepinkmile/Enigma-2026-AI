@@ -1,6 +1,6 @@
 # JTAG Signal Integrity - Analysis and Design Decision
 
-**Status:** Adopted - see DEC-016 in `design/Design_Log.md`
+**Status:** Adopted - see DEC-016 in `design/Design_Log/DEC-016_jtag-controlled-impedance-and-series-termination.md`
 **Project:** Enigma-NG
 **Author:** Izzyonstage & GitHub Copilot
 **Version:** v.0.1.0
@@ -522,4 +522,4 @@ distance on the trace.
 
 ---
 
-*Decision formally recorded as DEC-016 in `design/Design_Log.md`.*
+*Decision formally recorded as DEC-016 in `design/Design_Log/DEC-016_jtag-controlled-impedance-and-series-termination.md`.*
