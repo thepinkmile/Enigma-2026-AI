@@ -9,7 +9,7 @@
 > **Design Log Open Questions** are tracked separately in `design/Design_Log.md` under `## Open Questions`.
 > Do not duplicate them here — that file is the authoritative source for formally raised design questions.
 
-Last updated: 2026-05-21 (download-missing-3d-models → done; tps25751-i2c-review INSERT corrected to done; all_boards_bom.json retired per DEC-083)
+Last updated: 2026-05-22 (design-log-restructure + copilot-dir-restructure added as review-pass-11 blockers)
 
 ---
 
@@ -80,7 +80,9 @@ Last updated: 2026-05-21 (download-missing-3d-models → done; tps25751-i2c-revi
 | `review-pass-10` | [review-pass-10.md](todos/review-pass-10.md) | done | `review-pass-9` |
 | `download-missing-3d-models` | — | done | — |
 | `data-plate-standardisation` | [data-plate-standardisation.md](todos/data-plate-standardisation.md) | pending | `review-pass-10` |
-| `review-pass-11` | [review-pass-11.md](todos/review-pass-11.md) | pending | `download-missing-3d-models`, `review-pass-10`, `data-plate-standardisation` |
+| `design-log-restructure` | [design-log-restructure.md](todos/design-log-restructure.md) | pending | — |
+| `copilot-dir-restructure` | [copilot-dir-restructure.md](todos/copilot-dir-restructure.md) | pending | — |
+| `review-pass-11` | [review-pass-11.md](todos/review-pass-11.md) | pending | `download-missing-3d-models`, `review-pass-10`, `data-plate-standardisation`, `design-log-restructure`, `copilot-dir-restructure` |
 | `review-pass-12` | [review-pass-12.md](todos/review-pass-12.md) | pending | `review-pass-11` |
 | `review-clean-passes-gate` | [review-clean-passes-gate.md](todos/review-clean-passes-gate.md) | pending | all `review-pass-x` todos — update when new passes are added |
 | `ascii-to-mermaid-diagrams` | — | done | — |
@@ -256,6 +258,8 @@ INSERT OR IGNORE INTO todos (id, title, status) VALUES
 ('tps25751-i2c-review',                      'Review TPS25751 I2C connectivity for runtime PDO configuration',                             'done'),
 ('rename-sys-reset-n',                       'Rename SYS_RESET_N signal to CPLD_RESET_N across all design files',                          'done'),
 ('data-plate-standardisation',               'Standardise Data Plate entries across all board Design_Spec.md files',                         'pending'),
+('design-log-restructure',                   'Restructure Design Log into per-DEC files with index',                                           'pending'),
+('copilot-dir-restructure',                  'Restructure .copilot/ directory for context efficiency',                                          'pending'),
 ('ctl-t1-tdk-a120-component-analysis',        'Analyse supporting component changes for TDK B82806D0060A120 T1 option (12V)',               'done'),
 ('ctl-t1-tdk-library-import',                 'Import TDK B82806D footprint zip and add 3D model to legacy library',                       'done'),
 ('ctl-t1-tdk-topology-confirm',               'Contact TDK apps engineering — B82806D0060A120 topology confirmation',                      'done'),
@@ -420,6 +424,9 @@ INSERT OR IGNORE INTO todo_deps (todo_id, depends_on) VALUES
 ('review-pass-10',            'review-pass-9'),
 ('review-pass-11',            'download-missing-3d-models'),
 ('review-pass-11',            'review-pass-10'),
+('review-pass-11',            'data-plate-standardisation'),
+('review-pass-11',            'design-log-restructure'),
+('review-pass-11',            'copilot-dir-restructure'),
 ('review-pass-12',            'review-pass-11'),
 -- review-clean-passes-gate: depends on ALL review passes
 -- *** When adding a new review-pass-x todo, add a dep here too ***

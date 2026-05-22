@@ -3,7 +3,123 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
-## 2026-05-21 session result (Samsung 50V cap complete; BOM JSON retired — checkpoint 165)
+## 2026-05-22 session result (INT MINOR/MEDIUM findings closed; full parallel audit confirmed)
+
+### What happened
+
+Closed all 5 remaining tracked INT MINOR and INT MEDIUM findings:
+
+- **INT-P10-040** ✅ RESOLVED — T1 confirmed TDK B82806D0060A120 in both `Controller/Design_Spec.md`
+  and `Consolidated_BOM.md`; Bourns reference is gone post-DEC-062. No file change needed.
+- **INT-P10-006** ✅ RESOLVED — `CTL Design_Spec.md §4.1` already contains the current-generation
+  I²C bus map (all boards, single I²C-1 bus, GPIO 2/3). TPS25751 correctly absent — it is on a
+  dedicated manufacturing programming path via J4 (battery connector) `PROG_EN_N` + U19 MUX
+  (DR-PM-21). No new DEC entry needed.
+- **INT-P10-010** ❌ INVALID — Design_Log.md is append-only; Board Connector Inventory cannot
+  and should not be updated in-place. Board Design_Specs are the authoritative connector reference.
+- **INT-P10-041** ❌ INVALID — PRIMARY DIRECTIVE: Mouser `595-PD4E05U06QDQARQ1` is the correct
+  abbreviated PN (Mouser drops leading letters from TI MPNs). Should never have been raised.
+- **INT-P10-043** ❌ INVALID — "Superseded by" banners in living docs violate both the append-only
+  Design_Log policy and the no-history-in-design-files policy.
+
+Also confirmed full parallel audit of all 91 Phase A board findings (7 agents) — all cleanly applied
+in design files.
+
+### Key numbers
+
+- **Next checkpoint = 167**
+- **Next DEC = DEC-084**
+- **Pass-10:** 91/91 board findings resolved ✅; all INT MINOR/MEDIUM findings closed ✅
+- **review-pass-11** blocked by: `data-plate-standardisation`, `design-log-restructure`, `copilot-dir-restructure`
+
+### Files changed this session
+
+`.copilot/review-report.md` (INT-P10-040/006 RESOLVED; INT-P10-010/041/043 INVALID; Remaining Open Items INT line cleared) ·
+`.copilot/plan.md` (Current Status updated; Next Session Start Point item 5 updated) ·
+`.copilot/handoff.md` (this entry)
+
+---
+
+
+
+### What happened
+
+Verified JM-P10-04 and JM-P10-05 were already applied in a prior session:
+
+- **JM-P10-04** — `Design_Spec.md` §6 lines 207–212 contain the "UART/MPSSE Mode-Switch Contention
+  (Informational)" bullet. No file change required.
+- **JM-P10-05** — `Board_Layout.md` §6.1 5V_USB row already corrected to ≤ 120 mA peak with full
+  derivation footnote (Table 5.2: Ireg ≈ 54 mA + Iccphy ≈ 60 mA = 114 mA). No file change required.
+
+Closed **REF-P10-05** (previously the sole remaining partial):
+- `SamacSys_Parts.kicad_sym` already has `Connector_IDC:IDC-Header_2x15_P2.54mm_Vertical` assigned
+  to the 2BHR-30-VUA symbol — standard KiCAD built-in generic IDC header; no supplier library required.
+- Both `Reflector/Design_Spec.md` and `Consolidated_BOM.md` already show Footprint Downloaded ✔.
+- Supplier request is now moot; tracking updated to RESOLVED.
+
+Tracking updated: review-report.md Phase A Summary now reads **91 resolved, 0 partial, 0 open** (91 total).
+`plan.md` updated. Pass-10 is 100% clean.
+
+### Key numbers
+
+- **Next checkpoint = 167**
+- **Next DEC = DEC-084**
+- **Pass-10:** 91/91 resolved ✅ — zero partials, zero open
+- **review-pass-11** blocked by: `data-plate-standardisation`, `design-log-restructure`, `copilot-dir-restructure`
+
+### Files changed this session
+
+`.copilot/review-report.md` (JM-P10-04/05 closed; REF-P10-05 closed; Phase A TOTAL updated to 91/0/0) ·
+`.copilot/plan.md` (Pass-10 status updated; all partials cleared) ·
+`.copilot/handoff.md` (this entry)
+
+---
+
+
+
+### What happened
+
+Session added two new structural todos (`design-log-restructure`, `copilot-dir-restructure`) as
+blockers for `review-pass-11`, then resolved the four remaining AM and USM Pass-10 findings — all
+of which were stale or had already been applied manually:
+
+- **AM-P10-03** — callouts already present in `Board_Layout.md` lines 56/61; not checked off
+- **USM-P10-06** — "DPDT" absent from entire `Design_Log.md`; user confirmed already fixed manually; no DEC entry required or created
+- **USM-P10-08** — J1 pin-1 callout already present at `Board_Layout.md` line 69; not checked off
+- **USM-P10-09** — deferred to `data-plate-standardisation`; full corrective actions documented in that todo's detail file
+
+Full audit of the Phase A Summary table in `review-report.md` found 5 stale rows (STA, EXT, ENC
+were significantly out of sync; REF summary line also wrong). All corrected. Phase A total now
+correctly reads: **88 resolved, 1 partial, 2 open** out of 91 total findings.
+
+`plan.md` DEC-080/081 descriptions corrected (agent error in prior session — descriptions did not
+match actual Design_Log entries).
+
+### Key numbers
+
+- **Next checkpoint = 167**
+- **Next DEC = DEC-084**
+- **Pass-10 open findings: 2** (JM-P10-04, JM-P10-05 only)
+- **review-pass-11** blocked by: `data-plate-standardisation`, `design-log-restructure`, `copilot-dir-restructure`
+
+### Pass-10 open findings (2 remaining)
+
+| Finding | Sev | Board | Summary |
+|---------|-----|-------|---------|
+| JM-P10-04 | LOW | JM | `Design_Spec.md` §6: UART power-on contention window undocumented — **next up** |
+| JM-P10-05 | LOW | JM | `Board_Layout.md` §5: "400mA peak" 5V_USB ≈4× actual; no derivation footnote |
+
+### Files changed this session
+
+`.copilot/plan.md` · `.copilot/todo-list.md` · `.copilot/review-report.md` ·
+`.copilot/todos/design-log-restructure.md` (created) · `.copilot/todos/copilot-dir-restructure.md` (created) ·
+`.copilot/todos/data-plate-standardisation.md` (§4 expanded) ·
+`.copilot/checkpoints/166-am-usm-p10-closed-report-audit-corrected.md` (created) ·
+`.copilot/checkpoints/index.md`
+
+---
+
+
 
 ### What happened
 

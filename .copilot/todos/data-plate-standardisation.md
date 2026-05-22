@@ -85,10 +85,18 @@ Design_Spec entries can be written.
 
 ### 4. Board_Layout cleanup
 
-- `design/Electronics/User_Settings_Module/Board_Layout.md` line 217 contains spec text
-  (`Per GRS §6, a data plate (board name, revision, fab date code) shall be placed on L4…`).
-  This must be **removed** from Board_Layout (visualisation-only) and the intent moved to
-  `User_Settings_Module/Design_Spec.md`.
+- `design/Electronics/User_Settings_Module/Board_Layout.md` line 217 contains a design
+  requirement blockquote that belongs in `Design_Spec.md`, not `Board_Layout.md`
+  (Board_Layout files are visualisation-only). The exact text to remove is:
+
+  ```
+  > Per GRS §6, a data plate (board name, revision, fab date code) shall be placed on L4 silkscreen in an area visible post-assembly.
+  ```
+
+  Remove this blockquote from `Board_Layout.md`. The equivalent standard Data Plate bullet
+  will be added to `User_Settings_Module/Design_Spec.md` as part of §3 above, once the
+  German board name for the USM is agreed (see §2).
+
 - All other Board_Layout files show `[ DATA PLATE ]` in ASCII art diagrams only — correct,
   no change needed.
 

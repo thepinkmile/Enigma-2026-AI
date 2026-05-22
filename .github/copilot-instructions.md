@@ -1,5 +1,10 @@
 # Copilot Instructions
 
+## Initialization
+
+Please load session state from the repo-local `.copilot` directory starting with committing the agent-directives to memory, then plan.md and handoff.md
+and the checkpoints in the checkpoints subdirectory.
+
 ## Build, test, and lint
 
 - From the repo root, lint Markdown with `.\node_modules\.bin\markdownlint.cmd "design/**/*.md"`. To lint a single file, run `.\node_modules\.bin\markdownlint.cmd .\README.md`.

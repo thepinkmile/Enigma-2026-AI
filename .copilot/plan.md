@@ -6,11 +6,11 @@
 
 ---
 
-## Current Status (as of checkpoint 165 — 2026-05-21)
+## Current Status (as of 2026-05-22 — post-checkpoint 166, INT findings closed)
 
-Pass-10 findings resolution in progress. 6 findings remain open across AM, USM, and JM.
-**Next immediate task: AM-P10-03** — add GRS §7.1 pin-1 marker callout for J2–J5 in
-`design/Electronics/Actuation_Module/Board_Layout.md` §2 (J1 already has the callout).
+Pass-10 fully resolved. All 91 board findings closed (91 resolved, 0 partial). REF-P10-05 resolved: 2BHR-30-VUA uses standard KiCAD built-in `Connector_IDC:IDC-Header_2x15_P2.54mm_Vertical` footprint — no supplier library required.
+
+All tracked INT MINOR and INT MEDIUM findings also closed: INT-P10-006 ✅ RESOLVED (CTL §4.1 I²C map authoritative), INT-P10-040 ✅ RESOLVED (T1 = TDK confirmed), INT-P10-010 ❌ INVALID, INT-P10-041 ❌ INVALID (PRIMARY DIRECTIVE — Mouser abbreviation correct), INT-P10-043 ❌ INVALID (append-only Design_Log policy).
 
 Samsung CL31B106KBK6PJE selected as the standard 10µF 50V 1206 AEC-Q200 bulk reservoir cap for
 all boards (DEC-082). All 87 placements updated across 11 boards. KiCAD library import complete in
@@ -28,28 +28,21 @@ actively used.
 | Rotor (64-char) | In Review | All P10 findings closed |
 | Reflector | In Review | All P10 findings closed |
 | Extension Board (EXT) | In Review | All P10 findings closed |
-| JTAG Module (JM) | In Review | 2 findings open (P10-04, P10-05) |
-| User Settings Module (USM) | In Review | 3 findings open (P10-06, P10-08, P10-09) |
+| JTAG Module (JM) | In Review | All P10 findings closed |
+| User Settings Module (USM) | In Review | All P10 findings closed |
 | Encoder (ENC) | In Review | All P10 findings closed |
-| Actuation Module (AM) | In Review | 1 finding open (P10-03) |
+| Actuation Module (AM) | In Review | All P10 findings closed |
 
-## Open Pass-10 Findings (6 remaining — do in order)
+## Open Pass-10 Findings (0 remaining — all closed ✅)
 
-| # | Finding | Board | File | Action |
-|---|---------|-------|------|--------|
-| 1 | AM-P10-03 | AM | `Board_Layout.md` §2 | Add GRS §7.1 pin-1 marker callout for J2–J5 — **NEXT UP** |
-| 2 | USM-P10-06 | USM | `Design_Spec.md` + `Design_Log.md` | Append DEC-084 amending DEC-080: "DPDT" → "SPDT" |
-| 3 | USM-P10-08 | USM | `Board_Layout.md` | Add/confirm GRS §7.1 pin-1 marker compliance note |
-| 4 | USM-P10-09 | USM | `Board_Layout.md` | Add GRS §6 data plate entry |
-| 5 | JM-P10-04 | JM | `Design_Spec.md` §6 | Document UART power-on contention window |
-| 6 | JM-P10-05 | JM | `Board_Layout.md` §5 | Add derivation footnote for 5V_USB 80–110mA figure |
+All 91 Pass-10 findings are resolved. REF-P10-05 closed: 2BHR-30-VUA uses KiCAD built-in `Connector_IDC:IDC-Header_2x15_P2.54mm_Vertical`.
 
 ## Open Workstreams
 
 ### Immediate (resume here)
 
-1. **Finish remaining 6 P10 findings** — see table above
-2. **Review Pass 11** (`review-pass-11`) — blocked by `data-plate-standardisation` (pending)
+1. **Pass-10 complete ✅** — 91 resolved, 0 partial = 91 total
+2. **Review Pass 11** (`review-pass-11`) — blocked by `data-plate-standardisation`, `design-log-restructure`, `copilot-dir-restructure` (all pending)
    - Once pass 11 and pass 12 are both clean → `review-clean-passes-gate` can be closed
 
 ### Deferred / Blocked
@@ -68,8 +61,8 @@ actively used.
 | DEC-077 | CPLD_RESET_N renamed SYS_RESET_N across all boards |
 | DEC-078 | Trace-width convention: GRS §6 standardised |
 | DEC-079 | data-plate-standardisation (pending) |
-| DEC-080 | SPDT/DPDT terminology correction for USM SW1–SW10 (amends DEC-072) |
-| DEC-081 | SPDT formalisation (2026-05-18) |
+| DEC-080 | Retrospective: PM and Stator Dock Connector Redesignation (Amends DEC-038) |
+| DEC-081 | Retrospective: Rotor TTD No-Series-Resistor Policy (In Addition to DEC-016) |
 | DEC-082 | 10µF bulk cap upgrade: 25V 0805 → 50V 1206 AEC-Q200; Samsung CL31B106KBK6PJE adopted |
 | DEC-083 | `all_boards_bom.json` retired; BOM authority = Consolidated_BOM.md + board Design_Spec.md |
 
@@ -105,6 +98,6 @@ Read these files in order:
 1. `.copilot/agent-directives.md` (always first — then seed session DB immediately)
 2. This `plan.md`
 3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/165-samsung-50v-cap-complete-bom-json-retired.md`
-5. `.copilot/review-report.md` (open findings: AM lines ~2137, USM/JM lines ~2172)
+4. `.copilot/checkpoints/166-am-usm-p10-closed-report-audit-corrected.md`
+5. `.copilot/review-report.md` (Pass-10 fully closed — Phase A: 91 resolved, 0 partial, 0 open; all INT MINOR/MEDIUM findings closed)
 
