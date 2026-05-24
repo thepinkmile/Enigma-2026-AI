@@ -1,0 +1,255 @@
+<mxfile host="Electron" modified="2026-05-24T13:30:00.000Z" version="26.0.0">
+  <diagram id="shell-collapsed" name="State 1 — Collapsed Rail (Dashboard Active)">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Nav Rail background -->
+        <mxCell id="c-rail-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#003530;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="72" height="1040" as="geometry" />
+        </mxCell>
+
+        <!-- Toggle button -->
+        <mxCell id="c-toggle" value="&#9776;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005D4F;strokeColor=#006655;fontColor=#FFFFFF;fontSize=18;align=center;" vertex="1" parent="1">
+          <mxGeometry x="12" y="12" width="48" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Dashboard (active) -->
+        <mxCell id="c-nav-dash-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="72" width="72" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="c-nav-dash-icon" value="&#9635;" style="text;strokeColor=none;fillColor=none;fontSize=24;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="76" width="72" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c-nav-dash-lbl" value="Dashboard" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#000000;align=center;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="0" y="108" width="72" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Hardware (inactive) -->
+        <mxCell id="c-nav-hw-icon" value="&#9881;" style="text;strokeColor=none;fillColor=none;fontSize=24;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="152" width="72" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c-nav-hw-lbl" value="Hardware" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="184" width="72" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Educational (inactive) -->
+        <mxCell id="c-nav-edu-icon" value="&#9741;" style="text;strokeColor=none;fillColor=none;fontSize=24;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="216" width="72" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c-nav-edu-lbl" value="Educational" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="248" width="72" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Settings (near bottom) -->
+        <mxCell id="c-nav-set-icon" value="&#9881;" style="text;strokeColor=none;fillColor=none;fontSize=24;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="900" width="72" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c-nav-set-lbl" value="Settings" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="932" width="72" height="16" as="geometry" />
+        </mxCell>
+
+        <!-- Logo + version (bottom of rail) -->
+        <mxCell id="c-logo" value="[Logo]&#xa;v0.1.0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003530;strokeColor=none;fontColor=#607D8B;fontSize=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="984" width="72" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- Top Header -->
+        <mxCell id="c-header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=#002B22;" vertex="1" parent="1">
+          <mxGeometry x="72" y="0" width="1848" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="c-hdr-title" value="Dashboard" style="text;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;fontColor=#FFFFFF;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="92" y="6" width="400" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c-hdr-strap" value="System power, telemetry and hardware status" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="92" y="38" width="600" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Content Area -->
+        <mxCell id="c-content" value="Content Area&#xa;(Active view renders here)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=#004D40;fontColor=#3D6B60;fontSize=18;verticalAlign=middle;align=center;" vertex="1" parent="1">
+          <mxGeometry x="72" y="64" width="1848" height="976" as="geometry" />
+        </mxCell>
+
+        <!-- Status Bar -->
+        <mxCell id="c-status-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#001F18;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="1040" width="1920" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c-s-dt" value="24 May 2026  13:30:00" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="10" y="1048" width="190" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c-s-sep1" value="|" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;align=center;" vertex="1" parent="1">
+          <mxGeometry x="204" y="1048" width="12" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c-s-net" value="192.168.1.50  —  PoE+ Active" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="220" y="1048" width="240" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c-s-sep2" value="|" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;align=center;" vertex="1" parent="1">
+          <mxGeometry x="464" y="1048" width="12" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c-s-cfg" value="Active Config:  Enigma I — Wehrmacht 1930" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#FFB300;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="480" y="1048" width="340" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c-s-prog-lbl" value="Ready" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=right;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1620" y="1048" width="80" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="c-s-prog-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#003530;strokeColor=#004D40;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="1053" width="200" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="c-s-prog-fill" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3D6B60;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="1053" width="20" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="c-s-prog-note" value="idle" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#3D6B60;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="1053" width="200" height="14" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="shell-expanded" name="State 2 — Expanded Rail (Hardware Active)">
+    <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Nav Rail background (expanded 240px) -->
+        <mxCell id="e-rail-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#003530;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="240" height="1040" as="geometry" />
+        </mxCell>
+
+        <!-- Collapse toggle -->
+        <mxCell id="e-toggle" value="&#9668;  Collapse" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005D4F;strokeColor=#006655;fontColor=#FFFFFF;fontSize=13;align=left;" vertex="1" parent="1">
+          <mxGeometry x="10" y="12" width="220" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Dashboard (inactive) -->
+        <mxCell id="e-nav-dash" value="&#9635;   Dashboard" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=14;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="72" width="240" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- Hardware (active) -->
+        <mxCell id="e-nav-hw" value="&#9881;   Hardware" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=none;fontColor=#000000;fontSize=14;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="120" width="240" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- Sub-items -->
+        <mxCell id="e-sub-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="168" width="240" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sub-custom" value="    &#9670;  Custom..." style="text;strokeColor=none;fillColor=none;fontSize=13;fontColor=#FFB300;align=left;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="0" y="172" width="240" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sub-sep" value="" style="line;strokeColor=#005D4F;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="208" width="200" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sub-e1" value="    ○  Enigma I — Wehrmacht" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="214" width="240" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sub-e2" value="    ○  Enigma M4 — Kriegsmarine" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="246" width="240" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sub-e3" value="    ○  TypeX — RAF" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="278" width="240" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sub-e4" value="    ○  SIGABA — US Army/Navy" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="310" width="240" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sub-more" value="    &#8942;  (scroll for more)" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;align=left;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="0" y="342" width="240" height="28" as="geometry" />
+        </mxCell>
+
+        <!-- Divider before Educational -->
+        <mxCell id="e-div1" value="" style="line;strokeColor=#005D4F;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="410" width="200" height="10" as="geometry" />
+        </mxCell>
+
+        <!-- Educational (inactive) -->
+        <mxCell id="e-nav-edu" value="&#9741;   Educational" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=14;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="418" width="240" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- Settings (bottom) -->
+        <mxCell id="e-nav-set" value="&#9881;   Settings" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=14;align=left;" vertex="1" parent="1">
+          <mxGeometry x="0" y="900" width="240" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- Logo + version -->
+        <mxCell id="e-logo" value="[ENIGMA-NG LOGO]&#xa;v0.1.0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003530;strokeColor=none;fontColor=#607D8B;fontSize=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="984" width="240" height="56" as="geometry" />
+        </mxCell>
+
+        <!-- Top Header -->
+        <mxCell id="e-header" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=#002B22;" vertex="1" parent="1">
+          <mxGeometry x="240" y="0" width="1680" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="e-hdr-title" value="Hardware — Custom Configuration" style="text;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;fontColor=#FFFFFF;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="260" y="6" width="700" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="e-hdr-strap" value="Configure rotors, plugboard and reflector for your custom Enigma-NG build" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="260" y="38" width="800" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Content Area background -->
+        <mxCell id="e-content-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="240" y="64" width="1680" height="976" as="geometry" />
+        </mxCell>
+
+        <!-- Tab strip -->
+        <mxCell id="e-tab-strip" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="240" y="64" width="1680" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tab-hist" value="History" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=none;fontColor=#80CBC4;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="240" y="64" width="180" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tab-conf-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="420" y="64" width="180" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tab-conf" value="Configuration" style="text;strokeColor=none;fillColor=none;fontSize=14;fontStyle=1;fontColor=#FFB300;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="420" y="64" width="180" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tab-ind" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="420" y="108" width="180" height="4" as="geometry" />
+        </mxCell>
+        <mxCell id="e-tab-live" value="Live Model" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=none;fontColor=#80CBC4;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="600" y="64" width="180" height="48" as="geometry" />
+        </mxCell>
+
+        <!-- Content placeholder -->
+        <mxCell id="e-content-placeholder" value="Tab content renders here" style="text;strokeColor=none;fillColor=none;fontSize=16;fontColor=#3D6B60;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="240" y="112" width="1680" height="928" as="geometry" />
+        </mxCell>
+
+        <!-- Status Bar -->
+        <mxCell id="e-status-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#001F18;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="1040" width="1920" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e-s-dt" value="24 May 2026  13:30:00" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="10" y="1048" width="190" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e-s-sep1" value="|" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;" vertex="1" parent="1">
+          <mxGeometry x="204" y="1048" width="12" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e-s-net" value="192.168.1.50  —  PoE+ Active" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="220" y="1048" width="240" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e-s-sep2" value="|" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;" vertex="1" parent="1">
+          <mxGeometry x="464" y="1048" width="12" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e-s-cfg" value="Active Config:  Custom..." style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#FFB300;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="480" y="1048" width="280" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e-s-prog-lbl" value="Programming rotors: 47%" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=right;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1490" y="1048" width="210" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="e-s-prog-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#003530;strokeColor=#004D40;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="1053" width="200" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="e-s-prog-fill" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1710" y="1053" width="94" height="14" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

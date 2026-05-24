@@ -1,0 +1,114 @@
+<mxfile host="Electron" modified="2025-01-01T00:00:00.000Z" version="26.0.0">
+  <diagram name="Main Hardware Dashboard" id="main-dashboard">
+    <mxGraphModel dx="1920" dy="1080" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="d1-title" value="Enigma-NG — Main Hardware Dashboard" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="400" y="5" width="1120" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-nav-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#002D28;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="80" height="1080" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-nav-dashboard" value="⬛
+Dashboard" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=#FF8F00;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="80" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-nav-rotor" value="⚙
+Rotor Config" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="170" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-nav-codebook" value="📋
+Codebook" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="260" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-nav-timeline" value="📅
+Timeline" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="350" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-nav-map" value="🗺
+Map" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="440" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-nav-profiles" value="👤
+Profiles" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="530" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-nav-configs" value="🔧
+Configs" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="620" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-topbar" value="ENIGMA-NG — Hardware Dashboard        [DEUTSCH | ENGLISH]        ● CONNECTED" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#002D28;fontColor=#FFFFFF;align=left;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="80" y="0" width="1840" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-enigma-card" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;" vertex="1" parent="1">
+          <mxGeometry x="96" y="80" width="640" height="900" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-enigma-title" value="30-Rotor Stack" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="110" y="90" width="300" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-lampboard" value="LAMPBOARD
+30 indicator lights
+(output display)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F0F0F0;strokeColor=#AAAAAA;" vertex="1" parent="1">
+          <mxGeometry x="110" y="130" width="612" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-signal-path" value="SIGNAL PATH
+12-bit signal trace
+Keyboard → Plugboard → Rotors 1–30 → Reflector → Return
+(animated light trail in production)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#A5D6A7;" vertex="1" parent="1">
+          <mxGeometry x="110" y="340" width="612" height="380" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-keyboard" value="KEYBOARD
+30-key input matrix" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F0F0F0;strokeColor=#AAAAAA;" vertex="1" parent="1">
+          <mxGeometry x="110" y="740" width="612" height="220" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-telemetry-panel" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;" vertex="1" parent="1">
+          <mxGeometry x="752" y="80" width="600" height="900" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-tel-title" value="Live Telemetry" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;fontSize=12;align=left;" vertex="1" parent="1">
+          <mxGeometry x="760" y="90" width="200" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-tel-card1" value="Rotor Stack Power — INA219 @ 0x45
+Voltage: 3.32 V  |  Current: 1.80 A
+Power: 5.98 W  |  Status: ✓ Normal" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="768" y="130" width="568" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-tel-card2" value="Power Module — INA219 @ 0x40
+5V_MAIN Rail: 5.02 V
+▓▓▓▓▓▓░░░ 78%  |  Status: ✓ Normal" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="768" y="320" width="568" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-tel-card3" value="Thermal Monitor
+CPU: 52°C  |  eFuse: 48°C
+⚠ WARM — Monitor temperature" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="768" y="510" width="568" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-tel-card4" value="Signal Encoder Status
+CPLD: OK  |  JTAG: 37 devices connected
+Last encode: 12ms ago  |  ✓ All systems nominal" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="768" y="700" width="568" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-sources-card" value="Power Sources
+⚡ PoE+ 802.3bt Active
+   Input: 48V / 0.8A = 38.4W
+🔌 USB-C Standby
+   5V / available
+🔋 Battery 87%
+   Time to Empty: 4h 22m
+   Charge rate: — (on PoE+)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1368" y="80" width="536" height="540" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-activity-card" value="Recent Activity
+12:00:01 — Rotor 04 position updated
+11:59:45 — Telemetry poll OK (250ms)
+11:59:30 — JTAG scan: 37 devices
+11:58:00 — Machine powered on" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1368" y="636" width="536" height="344" as="geometry"/>
+        </mxCell>
+        <mxCell id="d1-statusbar" value="● I²C Bus: OK  |  JTAG: 37 devices  |  Last poll: 250ms  |  Encoding: ACTIVE                    2025-01-01  12:00:05 UTC" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#002D28;fontColor=#FFFFFF;align=left;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="80" y="1040" width="1840" height="40" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

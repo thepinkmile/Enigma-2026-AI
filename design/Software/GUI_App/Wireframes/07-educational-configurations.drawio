@@ -1,0 +1,124 @@
+<mxfile host="Electron" modified="2025-01-01T00:00:00.000Z" version="26.0.0">
+  <diagram name="Educational Configurations" id="educational-configurations">
+    <mxGraphModel dx="1920" dy="1080" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="d7-title" value="Enigma-NG — Cipher Machine Configurations" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="400" y="5" width="1120" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-nav-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#002D28;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="80" height="1080" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-nav-dashboard" value="Dashboard" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="0" y="80" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-nav-rotor" value="Rotor Config" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="0" y="170" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-nav-codebook" value="Codebook" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="0" y="260" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-nav-timeline" value="Timeline" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="0" y="350" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-nav-map" value="Map" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="0" y="440" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-nav-profiles" value="Profiles" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="0" y="530" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-nav-configs" value="🔧
+Configs" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=#FF8F00;" vertex="1" parent="1">
+          <mxGeometry x="0" y="620" width="80" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-topbar" value="Historical Cipher Machine Configurations" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#002D28;fontColor=#FFFFFF;align=left;spacingLeft=16;" vertex="1" parent="1">
+          <mxGeometry x="80" y="0" width="1840" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-filter" value="[All ✓]  [Axis]  [Allied]  [Custom]                Sort: [Name]  [Year]  [Country]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#CCCCCC;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="80" y="64" width="1360" height="56" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-list-panel" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="1360" height="920" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-col-headers" value="Machine Name         |  Country  |  Years          |  Rotors  |  Plugboard  |  Status" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#002D28;fontColor=#FFFFFF;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="88" y="128" width="1344" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-row1" value="Enigma I (Wehrmacht)  |  🇩🇪  |  1930–1945  |  3 + reflector  |  Yes (10 pairs)  |  [BROKEN]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="88" y="176" width="1344" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-row1-expand" value="  ▼ Rotors: I–V (3 selected), Reflector: UKW-B/C, Key Space: ~10¹⁶, Used by: German Army, Luftwaffe" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#CCCCCC;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="88" y="254" width="1344" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-row2" value="Enigma M4 (Kriegsmarine)  |  🇩🇪  |  1942–1945  |  4 + reflector  |  Yes (10 pairs)  |  [BROKEN]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="88" y="342" width="1344" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-row3" value="TypeX (RAF)  |  🇬🇧  |  1937–1956  |  5  |  No  |  [UNBROKEN]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="88" y="420" width="1344" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-row4" value="SIGABA (US Army/Navy)  |  🇺🇸  |  1943–1959  |  15  |  No  |  [UNBROKEN]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="88" y="498" width="1344" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-row5" value="NEMA (Switzerland)  |  🇨🇭  |  1947–1976  |  10  |  No  |  [UNKNOWN]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="88" y="576" width="1344" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-row6" value="Lorenz SZ-42  |  🇩🇪  |  1942–1945  |  12  |  No  |  [BROKEN]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="88" y="654" width="1344" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-row7" value="Purple (Japan)  |  🇯🇵  |  1939–1945  |  6  |  No  |  [BROKEN]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="88" y="732" width="1344" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-row-scroll" value="↓ More configurations (scroll)..." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F0F0F0;strokeColor=#AAAAAA;" vertex="1" parent="1">
+          <mxGeometry x="88" y="820" width="1344" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-chip1" value="BROKEN" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1338" y="186" width="88" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-chip2" value="BROKEN" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1338" y="352" width="88" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-chip3" value="UNBROKEN" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1338" y="430" width="100" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-chip4" value="UNBROKEN" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1338" y="508" width="100" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-chip5" value="UNKNOWN" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1338" y="586" width="88" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-chip6" value="BROKEN" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1338" y="664" width="88" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-chip7" value="BROKEN" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1338" y="742" width="88" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d7-detail-pane" value="Enigma I — Wehrmacht
+[BROKEN / Operational 1930–1945]
+[ Image Placeholder — 480 × 180 ]
+Specifications:
+Rotors:     3 (from set I–V)
+Reflector:  UKW-B or UKW-C
+Plugboard:  Yes (10 letter pairs)
+Notches:    One per rotor
+Key Space:  ~10¹⁶
+Country:    Germany 🇩🇪
+Years:      1930–1945
+Historical Usage:
+Standard German Army and Luftwaffe
+field cipher from 1930. Used on all
+fronts throughout WWII. Daily keys
+changed at midnight. Broken by
+Polish cryptanalysts 1932–1939,
+then by Bletchley Park continuously.
+Related Profiles:
+[Arthur Scherbius]  [Alan Turing]
+[Marian Rejewski]
+Related Events:
+[Enigma Patent 1918]
+[Bombe Operational 1940]" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="64" width="480" height="1016" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
