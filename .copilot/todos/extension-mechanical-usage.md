@@ -1,7 +1,7 @@
 # Extension interconnect architecture review
 
 **ID:** `extension-mechanical-usage`
-**Status:** pending
+**Status:** in-progress
 **Category:** Electronics
 **Source:** `plan.md`
 **Blocked by:** None

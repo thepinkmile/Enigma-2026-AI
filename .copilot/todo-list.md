@@ -147,7 +147,7 @@ dependencies reference done todos that are not inserted into the `todos` table (
 ```sql
 INSERT OR IGNORE INTO todos (id, title, status) VALUES
 -- Open Workstreams
-('extension-mechanical-usage',        'Extension interconnect architecture review',    'pending'),
+('extension-mechanical-usage',        'Extension interconnect architecture review',    'in-progress'),
 ('coupon-testing-review',             'Board-level coupon & PAS test coverage',        'pending'),
 ('battery-connector-final-review',    'Battery connector final review',                'blocked'),
 ('general-pin-mapping-schematic-capture', 'General pin mapping / schematic capture',  'done'),
