@@ -172,3 +172,4 @@ Checkpoints are listed in chronological order. Checkpoint 1 is the oldest, highe
 | 166 | AM/USM P10 findings closed; review-report Phase A audit corrected; two new todos | 166-am-usm-p10-closed-report-audit-corrected.md |
 | 167 | data-plate-standardisation complete; all 10 boards standardised; USM-P10-09 resolved | 167-data-plate-standardisation-complete.md |
 | 168 | Design Log restructure complete | 168-design-log-restructure-complete.md |
+| 169 | Copilot directory restructure complete | 169-copilot-dir-restructure-complete.md |

@@ -3,7 +3,38 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
-## 2026-05-22 session result (design-log-restructure complete; checkpoint 168)
+## 2026-05-25 session result (copilot-dir-restructure complete; checkpoint 169)
+
+### What happened
+
+`copilot-dir-restructure` workstream completed. The monolithic `.copilot/agent-directives.md`
+(~38 KB) and `.copilot/todo-list.md` (~37 KB) split into focused per-topic files.
+
+New structure:
+- `.copilot/directives/` — 14 files (index.md + one file per directive/rule group)
+- `.copilot/todos/index.md` — summary table only (replaces todo-list.md)
+- `.copilot/todos/todos.sql` — Agent SQL INSERT block for todos
+- `.copilot/todos/deps.sql` — Agent SQL INSERT block for dependencies
+- `.copilot/SESSION_START.md` — generic session bootstrap (load directives → seed DB → read plan/handoff)
+
+Old files retired to `.recycle-bin/`: `agent-directives.md`, `todo-list.md`.
+`copilot-dir-restructure` detail file also retired.
+
+### Key numbers
+
+- **Next checkpoint = 169**
+- **Next DEC = DEC-084**
+- **review-pass-11** is now unblocked (`copilot-dir-restructure` done)
+
+### Files changed this session
+
+**New directory:** `.copilot/directives/` — 14 files  
+**New files:** `.copilot/todos/index.md` · `.copilot/todos/todos.sql` · `.copilot/todos/deps.sql` · `.copilot/SESSION_START.md`  
+**Updated:** `.copilot/plan.md` · `.copilot/handoff.md` · `.github/copilot-instructions.md` · `.copilot/todos/copilot-dir-restructure.md` (status → done)  
+**Moved to .recycle-bin/:** `.copilot/agent-directives.md` · `.copilot/todo-list.md` · `.copilot/todos/copilot-dir-restructure.md`
+
+---
+
 
 ### What happened
 

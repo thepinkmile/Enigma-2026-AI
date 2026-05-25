@@ -1,12 +1,12 @@
 # Enigma-NG Session Plan
 
 > Canonical state: `.copilot/plan.md` in the repository root (tracked in git).
-> At the start of a new session, read this file, `.copilot/handoff.md`,
-> `.copilot/agent-directives.md`, and the latest relevant checkpoint(s) in `.copilot/checkpoints/`.
+> At the start of a new session, read `.copilot/SESSION_START.md` and follow its steps,
+> then this file and `.copilot/handoff.md`, then the latest relevant checkpoint(s) in `.copilot/checkpoints/`.
 
 ---
 
-## Current Status (as of 2026-05-22 — post-checkpoint 168, design-log-restructure complete)
+## Current Status (as of 2026-05-25 — post-checkpoint 169, copilot-dir-restructure complete)
 
 Pass-10 fully resolved. All 91 board findings closed (91 resolved, 0 partial). All INT MINOR and MEDIUM findings closed. `data-plate-standardisation` complete ✅. `design-log-restructure` complete ✅ — `design/Design_Log.md` split into `design/Design_Log/` (83 per-DEC files + `index.md`).
 
@@ -84,7 +84,7 @@ All 91 Pass-10 findings are resolved. REF-P10-05 closed: 2BHR-30-VUA uses KiCAD 
 - **PRIMARY DIRECTIVE**: Never modify any MPN/supplier part numbers without explicit user confirmation
 - **Last Updated** dates must be updated on every content change; **Version** is user-only
 - Move unwanted files to `.recycle-bin/`; never delete permanently
-- **OCTONARY**: Seed session DB from `todo-list.md` Agent SQL block as MANDATORY FIRST ACTION
+- **OCTONARY**: Seed session DB from `todos/todos.sql` + `todos/deps.sql` as MANDATORY FIRST ACTION
 - **review-clean-passes-gate**: when adding a new `review-pass-x`, add it as a dep on the gate
 - **Board_Layout.md files are visualisation-only** — no design narrative or spec prose
 - **BOM Notes are procurement-only** — no function descriptions, signal names, or design rationale
@@ -92,11 +92,12 @@ All 91 Pass-10 findings are resolved. REF-P10-05 closed: 2BHR-30-VUA uses KiCAD 
 
 ## Next Session Start Point
 
-Read these files in order:
+Follow `.copilot/SESSION_START.md` — it lists the canonical bootstrap order.
+In brief:
 
-1. `.copilot/agent-directives.md` (always first — then seed session DB immediately)
-2. This `plan.md`
-3. `.copilot/handoff.md` (latest section first)
-4. `.copilot/checkpoints/168-design-log-restructure-complete.md`
-5. `.copilot/review-report.md` (Pass-10 fully closed; USM-P10-09 RESOLVED; data-plate-standardisation done)
+1. `.copilot/SESSION_START.md` → load all directives from `.copilot/directives/` as memories
+2. Seed session DB from `.copilot/todos/todos.sql` + `.copilot/todos/deps.sql`
+3. This `plan.md`
+4. `.copilot/handoff.md` (latest section first)
+5. `.copilot/checkpoints/169-copilot-dir-restructure-complete.md`
 

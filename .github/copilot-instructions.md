@@ -2,8 +2,11 @@
 
 ## Initialization
 
-Please load session state from the repo-local `.copilot` directory starting with committing the agent-directives to memory, then plan.md and handoff.md
-and the checkpoints in the checkpoints subdirectory.
+Please load session state from the repo-local `.copilot` directory by reading
+`.copilot/SESSION_START.md` and following its steps exactly:
+1. Load all directives from `.copilot/directives/` and store as persistent memories
+2. Seed session DB from `.copilot/todos/todos.sql` and `.copilot/todos/deps.sql`
+3. Read `.copilot/plan.md`, then `.copilot/handoff.md`, then relevant checkpoints
 
 ## Build, test, and lint
 
