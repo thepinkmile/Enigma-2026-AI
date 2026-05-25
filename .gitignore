@@ -428,3 +428,6 @@ src/Electronics/Library/temp/
 
 # Local CLI / tool cache files
 *.lscache
+
+# Wireframe render previews — committed to repo
+# design/Software/GUI_App/Wireframes/renders/

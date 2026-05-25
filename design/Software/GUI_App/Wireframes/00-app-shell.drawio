@@ -4,6 +4,8 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="p1-canvas-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="0" y="0" width="1920" height="1080" as="geometry"/></mxCell>
+
 
         <!-- Nav Rail background -->
         <mxCell id="c-rail-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#003530;" vertex="1" parent="1">
@@ -51,7 +53,7 @@
         </mxCell>
 
         <!-- Logo + version (bottom of rail) -->
-        <mxCell id="c-logo" value="[Logo]&#xa;v0.1.0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003530;strokeColor=none;fontColor=#607D8B;fontSize=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+        <mxCell id="c-logo" value="[Logo]&#xa;v0.1.0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#607D8B;fontSize=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="0" y="984" width="72" height="56" as="geometry" />
         </mxCell>
 
@@ -112,6 +114,8 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="p2-canvas-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="0" y="0" width="1920" height="1080" as="geometry"/></mxCell>
+
 
         <!-- Nav Rail background (expanded 240px) -->
         <mxCell id="e-rail-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#003530;" vertex="1" parent="1">
@@ -119,17 +123,17 @@
         </mxCell>
 
         <!-- Collapse toggle -->
-        <mxCell id="e-toggle" value="&#9668;  Collapse" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005D4F;strokeColor=#006655;fontColor=#FFFFFF;fontSize=13;align=left;" vertex="1" parent="1">
+        <mxCell id="e-toggle" value="&#9668;  Collapse" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005D4F;strokeColor=#006655;fontColor=#FFFFFF;fontSize=13;align=left;spacingLeft=8;" vertex="1" parent="1">
           <mxGeometry x="10" y="12" width="220" height="40" as="geometry" />
         </mxCell>
 
         <!-- Dashboard (inactive) -->
-        <mxCell id="e-nav-dash" value="&#9635;   Dashboard" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=14;align=left;" vertex="1" parent="1">
+        <mxCell id="e-nav-dash" value="&#9635;   Dashboard" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=14;align=left;spacingLeft=8;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="72" width="240" height="48" as="geometry" />
         </mxCell>
 
         <!-- Hardware (active) -->
-        <mxCell id="e-nav-hw" value="&#9881;   Hardware" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=none;fontColor=#000000;fontSize=14;fontStyle=1;align=left;" vertex="1" parent="1">
+        <mxCell id="e-nav-hw" value="&#9881;   Hardware" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=none;fontColor=#000000;fontSize=14;fontStyle=1;align=left;spacingLeft=8;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="120" width="240" height="48" as="geometry" />
         </mxCell>
 
@@ -137,25 +141,25 @@
         <mxCell id="e-sub-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="0" y="168" width="240" height="240" as="geometry" />
         </mxCell>
-        <mxCell id="e-sub-custom" value="    &#9670;  Custom..." style="text;strokeColor=none;fillColor=none;fontSize=13;fontColor=#FFB300;align=left;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="e-sub-custom" value="&#9670;  Custom..." style="text;strokeColor=none;fillColor=none;fontSize=13;fontColor=#FFB300;align=left;fontStyle=1;spacingLeft=20;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="172" width="240" height="36" as="geometry" />
         </mxCell>
         <mxCell id="e-sub-sep" value="" style="line;strokeColor=#005D4F;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="20" y="208" width="200" height="10" as="geometry" />
         </mxCell>
-        <mxCell id="e-sub-e1" value="    ○  Enigma I — Wehrmacht" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+        <mxCell id="e-sub-e1" value="○  Enigma I — Wehrmacht" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;spacingLeft=20;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="214" width="240" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="e-sub-e2" value="    ○  Enigma M4 — Kriegsmarine" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+        <mxCell id="e-sub-e2" value="○  Enigma M4 — Kriegsmarine" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;spacingLeft=20;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="246" width="240" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="e-sub-e3" value="    ○  TypeX — RAF" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+        <mxCell id="e-sub-e3" value="○  TypeX — RAF" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;spacingLeft=20;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="278" width="240" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="e-sub-e4" value="    ○  SIGABA — US Army/Navy" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+        <mxCell id="e-sub-e4" value="○  SIGABA — US Army/Navy" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;spacingLeft=20;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="310" width="240" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="e-sub-more" value="    &#8942;  (scroll for more)" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;align=left;fontStyle=2;" vertex="1" parent="1">
+        <mxCell id="e-sub-more" value="&#8942;  (scroll for more)" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;align=left;fontStyle=2;spacingLeft=20;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="342" width="240" height="28" as="geometry" />
         </mxCell>
 
@@ -165,18 +169,24 @@
         </mxCell>
 
         <!-- Educational (inactive) -->
-        <mxCell id="e-nav-edu" value="&#9741;   Educational" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=14;align=left;" vertex="1" parent="1">
+        <mxCell id="e-nav-edu" value="&#9741;   Educational" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=14;align=left;spacingLeft=8;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="418" width="240" height="48" as="geometry" />
         </mxCell>
 
         <!-- Settings (bottom) -->
-        <mxCell id="e-nav-set" value="&#9881;   Settings" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=14;align=left;" vertex="1" parent="1">
+        <mxCell id="e-nav-set" value="&#9881;   Settings" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=14;align=left;spacingLeft=8;spacingRight=8;" vertex="1" parent="1">
           <mxGeometry x="0" y="900" width="240" height="48" as="geometry" />
         </mxCell>
 
-        <!-- Logo + version -->
-        <mxCell id="e-logo" value="[ENIGMA-NG LOGO]&#xa;v0.1.0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#003530;strokeColor=none;fontColor=#607D8B;fontSize=10;align=center;verticalAlign=middle;" vertex="1" parent="1">
+        <!-- Logo + version (expanded — shows logo image, version number and Git SHA) -->
+        <mxCell id="e-logo" value="[ENIGMA-NG LOGO]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#80CBC4;fontSize=12;align=center;verticalAlign=top;spacingTop=6;" vertex="1" parent="1">
           <mxGeometry x="0" y="984" width="240" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="e-ver" value="v0.1.0" style="text;strokeColor=none;fillColor=none;fontSize=10;fontColor=#607D8B;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="1012" width="240" height="14" as="geometry" />
+        </mxCell>
+        <mxCell id="e-sha" value="git: ab12cd3" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#3D6B60;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="1026" width="240" height="14" as="geometry" />
         </mxCell>
 
         <!-- Top Header -->

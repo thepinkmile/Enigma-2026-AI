@@ -1,113 +1,367 @@
-<mxfile host="Electron" modified="2025-01-01T00:00:00.000Z" version="26.0.0">
+<mxfile host="Electron" modified="2026-05-24T14:54:00.000Z" version="26.0.0">
   <diagram name="Main Hardware Dashboard" id="main-dashboard">
     <mxGraphModel dx="1920" dy="1080" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
-        <mxCell id="d1-title" value="Enigma-NG — Main Hardware Dashboard" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
-          <mxGeometry x="400" y="5" width="1120" height="30" as="geometry"/>
+        <mxCell id="p1-canvas-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="0" y="0" width="1920" height="1080" as="geometry"/></mxCell>
+
+
+        <!-- NAV RAIL -->
+        <mxCell id="nav-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#003530;" vertex="1" parent="1">
+          <mxGeometry x="0" y="0" width="72" height="1040" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-nav-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#002D28;" vertex="1" parent="1">
-          <mxGeometry x="0" y="0" width="80" height="1080" as="geometry"/>
+        <mxCell id="nav-toggle" value="&#9776;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#005D4F;strokeColor=#006655;fontColor=#FFFFFF;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="12" y="12" width="48" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-nav-dashboard" value="⬛
-Dashboard" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=#FF8F00;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="0" y="80" width="80" height="80" as="geometry"/>
+        <mxCell id="nav-dash-bg" value="" style="rounded=0;fillColor=#FFB300;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="72" width="72" height="64" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-nav-rotor" value="⚙
-Rotor Config" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="0" y="170" width="80" height="80" as="geometry"/>
+        <mxCell id="nav-dash-icon" value="&#9635;" style="text;strokeColor=none;fillColor=none;fontSize=22;fontColor=#000000;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="76" width="72" height="30" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-nav-codebook" value="📋
-Codebook" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="0" y="260" width="80" height="80" as="geometry"/>
+        <mxCell id="nav-dash-lbl" value="Dashboard" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#000000;align=center;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="0" y="106" width="72" height="16" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-nav-timeline" value="📅
-Timeline" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="0" y="350" width="80" height="80" as="geometry"/>
+        <mxCell id="nav-hw-icon" value="&#9881;" style="text;strokeColor=none;fillColor=none;fontSize=22;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="152" width="72" height="30" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-nav-map" value="🗺
-Map" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="0" y="440" width="80" height="80" as="geometry"/>
+        <mxCell id="nav-hw-lbl" value="Hardware" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="182" width="72" height="16" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-nav-profiles" value="👤
-Profiles" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="0" y="530" width="80" height="80" as="geometry"/>
+        <mxCell id="nav-edu-icon" value="&#9741;" style="text;strokeColor=none;fillColor=none;fontSize=22;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="214" width="72" height="30" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-nav-configs" value="🔧
-Configs" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1A6654;strokeColor=#004D40;fontColor=#FFFFFF;align=center;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="0" y="620" width="80" height="80" as="geometry"/>
+        <mxCell id="nav-edu-lbl" value="Educational" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="244" width="72" height="16" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-topbar" value="ENIGMA-NG — Hardware Dashboard        [DEUTSCH | ENGLISH]        ● CONNECTED" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#002D28;fontColor=#FFFFFF;align=left;spacingLeft=16;" vertex="1" parent="1">
-          <mxGeometry x="80" y="0" width="1840" height="64" as="geometry"/>
+        <mxCell id="nav-set-icon" value="&#9881;" style="text;strokeColor=none;fillColor=none;fontSize=22;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="900" width="72" height="30" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-enigma-card" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;" vertex="1" parent="1">
-          <mxGeometry x="96" y="80" width="640" height="900" as="geometry"/>
+        <mxCell id="nav-set-lbl" value="Settings" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="0" y="930" width="72" height="16" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-enigma-title" value="30-Rotor Stack" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;fontSize=12;align=left;" vertex="1" parent="1">
-          <mxGeometry x="110" y="90" width="300" height="30" as="geometry"/>
+        <mxCell id="nav-logo" value="[Logo]&#xa;v0.1.0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=none;fontColor=#607D8B;fontSize=8;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="0" y="984" width="72" height="56" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-lampboard" value="LAMPBOARD
-30 indicator lights
-(output display)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F0F0F0;strokeColor=#AAAAAA;" vertex="1" parent="1">
-          <mxGeometry x="110" y="130" width="612" height="190" as="geometry"/>
+
+        <!-- HEADER -->
+        <mxCell id="header-bg" value="" style="rounded=0;fillColor=#003D33;strokeColor=#002B22;" vertex="1" parent="1">
+          <mxGeometry x="72" y="0" width="1848" height="64" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-signal-path" value="SIGNAL PATH
-12-bit signal trace
-Keyboard → Plugboard → Rotors 1–30 → Reflector → Return
-(animated light trail in production)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#A5D6A7;" vertex="1" parent="1">
-          <mxGeometry x="110" y="340" width="612" height="380" as="geometry"/>
+        <mxCell id="hdr-title" value="Dashboard" style="text;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;fontColor=#FFFFFF;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="92" y="6" width="400" height="32" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-keyboard" value="KEYBOARD
-30-key input matrix" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F0F0F0;strokeColor=#AAAAAA;" vertex="1" parent="1">
-          <mxGeometry x="110" y="740" width="612" height="220" as="geometry"/>
+        <mxCell id="hdr-strap" value="System power, telemetry and hardware status" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="92" y="38" width="600" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-telemetry-panel" value="" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;" vertex="1" parent="1">
-          <mxGeometry x="752" y="80" width="600" height="900" as="geometry"/>
+
+        <!-- CONTENT BG -->
+        <mxCell id="content-bg" value="" style="rounded=0;fillColor=#002B22;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="72" y="64" width="1848" height="976" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-tel-title" value="Live Telemetry" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;fontSize=12;align=left;" vertex="1" parent="1">
-          <mxGeometry x="760" y="90" width="200" height="30" as="geometry"/>
+
+        <!-- ===== POWER SOURCES PANEL (left col, top) ===== -->
+        <!-- x=88, y=76, w=1048, h=210 -->
+        <mxCell id="pwr-panel" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=#005D4F;" vertex="1" parent="1">
+          <mxGeometry x="88" y="76" width="1048" height="210" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-tel-card1" value="Rotor Stack Power — INA219 @ 0x45
-Voltage: 3.32 V  |  Current: 1.80 A
-Power: 5.98 W  |  Status: ✓ Normal" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="768" y="130" width="568" height="170" as="geometry"/>
+        <mxCell id="pwr-title" value="Power Sources" style="text;strokeColor=none;fillColor=none;fontSize=13;fontStyle=1;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="104" y="84" width="200" height="24" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-tel-card2" value="Power Module — INA219 @ 0x40
-5V_MAIN Rail: 5.02 V
-▓▓▓▓▓▓░░░ 78%  |  Status: ✓ Normal" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="768" y="320" width="568" height="170" as="geometry"/>
+
+        <!-- Column dividers (vertical edges) -->
+        <mxCell id="pwr-div1" value="" style="edgeStyle=none;html=1;endArrow=none;startArrow=none;strokeColor=#005D4F;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="442" y="100" as="sourcePoint"/>
+            <mxPoint x="442" y="270" as="targetPoint"/>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="d1-tel-card3" value="Thermal Monitor
-CPU: 52°C  |  eFuse: 48°C
-⚠ WARM — Monitor temperature" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="768" y="510" width="568" height="170" as="geometry"/>
+        <mxCell id="pwr-div2" value="" style="edgeStyle=none;html=1;endArrow=none;startArrow=none;strokeColor=#005D4F;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="780" y="100" as="sourcePoint"/>
+            <mxPoint x="780" y="270" as="targetPoint"/>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="d1-tel-card4" value="Signal Encoder Status
-CPLD: OK  |  JTAG: 37 devices connected
-Last encode: 12ms ago  |  ✓ All systems nominal" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="768" y="700" width="568" height="170" as="geometry"/>
+
+        <!-- PoE+ column (ACTIVE) — col1 center x=273 -->
+        <!-- LED amber glow ring -->
+        <mxCell id="led-poe-glow" value="" style="ellipse;fillColor=none;strokeColor=#FFB300;strokeWidth=1;opacity=50;" vertex="1" parent="1">
+          <mxGeometry x="254" y="101" width="38" height="38" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-sources-card" value="Power Sources
-⚡ PoE+ 802.3bt Active
-   Input: 48V / 0.8A = 38.4W
-🔌 USB-C Standby
-   5V / available
-🔋 Battery 87%
-   Time to Empty: 4h 22m
-   Charge rate: — (on PoE+)" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="1368" y="80" width="536" height="540" as="geometry"/>
+        <!-- LED amber filled -->
+        <mxCell id="led-poe" value="" style="ellipse;fillColor=#FFB300;strokeColor=#FF8F00;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="261" y="108" width="24" height="24" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-activity-card" value="Recent Activity
-12:00:01 — Rotor 04 position updated
-11:59:45 — Telemetry poll OK (250ms)
-11:59:30 — JTAG scan: 37 devices
-11:58:00 — Machine powered on" style="rounded=1;arcSize=4;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="1368" y="636" width="536" height="344" as="geometry"/>
+        <mxCell id="poe-name" value="PoE+ 802.3bt" style="text;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;fontColor=#FFFFFF;align=center;" vertex="1" parent="1">
+          <mxGeometry x="104" y="150" width="338" height="20" as="geometry"/>
         </mxCell>
-        <mxCell id="d1-statusbar" value="● I²C Bus: OK  |  JTAG: 37 devices  |  Last poll: 250ms  |  Encoding: ACTIVE                    2025-01-01  12:00:05 UTC" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#004D40;strokeColor=#002D28;fontColor=#FFFFFF;align=left;spacingLeft=16;" vertex="1" parent="1">
-          <mxGeometry x="80" y="1040" width="1840" height="40" as="geometry"/>
+        <mxCell id="poe-detail" value="48V / 0.8A = 38.4W" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="104" y="172" width="338" height="18" as="geometry"/>
         </mxCell>
+        <mxCell id="poe-status" value="&#9679; ACTIVE" style="text;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#FFB300;align=center;" vertex="1" parent="1">
+          <mxGeometry x="104" y="194" width="338" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- USB-C column (STANDBY) — col2 center x=611 -->
+        <mxCell id="led-usb" value="" style="ellipse;fillColor=#3D4040;strokeColor=#5D6060;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="599" y="108" width="24" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="usb-name" value="USB-C" style="text;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="442" y="150" width="338" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="usb-detail" value="5V / Available" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="442" y="172" width="338" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="usb-status" value="&#9675; Standby" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;align=center;" vertex="1" parent="1">
+          <mxGeometry x="442" y="194" width="338" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Battery column (MONITORING) — col3 center x=949 -->
+        <mxCell id="led-bat" value="" style="ellipse;fillColor=#1A3B1A;strokeColor=#2E7D32;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="937" y="108" width="24" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="bat-name" value="Battery" style="text;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="780" y="150" width="338" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="bat-detail" value="87%  &#x2014;  4h 22m remaining" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="780" y="172" width="338" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="bat-status" value="&#9675; Monitoring" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;align=center;" vertex="1" parent="1">
+          <mxGeometry x="780" y="194" width="338" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== LIVE TELEMETRY DIALS PANEL (left col, below power) ===== -->
+        <!-- x=88, y=298, w=1048, h=526 => bottom y=824 -->
+        <mxCell id="dial-panel" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=#005D4F;" vertex="1" parent="1">
+          <mxGeometry x="88" y="298" width="1048" height="526" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial-title" value="Live Telemetry" style="text;strokeColor=none;fillColor=none;fontSize=13;fontStyle=1;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="104" y="306" width="200" height="24" as="geometry"/>
+        </mxCell>
+
+        <!-- Dial 1: Rotor Stack Power — center (350, 468) -->
+        <!-- Outer ring (amber) -->
+        <mxCell id="dial1-outer" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=#FFB300;strokeWidth=14;" vertex="1" parent="1">
+          <mxGeometry x="230" y="348" width="240" height="240" as="geometry"/>
+        </mxCell>
+        <!-- Inner overlay to complete donut -->
+        <mxCell id="dial1-inner" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="275" y="393" width="150" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial1-value" value="5.98W" style="text;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;fontColor=#FFB300;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="280" y="445" width="140" height="34" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial1-sub" value="3.32V / 1.80A" style="text;strokeColor=none;fillColor=none;fontSize=10;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="280" y="481" width="140" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial1-lbl" value="Rotor Stack Power" style="text;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;fontColor=#E0E0E0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="230" y="600" width="240" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial1-addr" value="INA219 @ 0x45" style="text;strokeColor=none;fillColor=none;fontSize=10;fontColor=#3D6B60;align=center;" vertex="1" parent="1">
+          <mxGeometry x="230" y="622" width="240" height="18" as="geometry"/>
+        </mxCell>
+
+        <!-- Dial 2: Power Module — center (874, 468) -->
+        <!-- Outer ring (teal) -->
+        <mxCell id="dial2-outer" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=#80CBC4;strokeWidth=14;" vertex="1" parent="1">
+          <mxGeometry x="754" y="348" width="240" height="240" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial2-inner" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="799" y="393" width="150" height="150" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial2-value" value="78%" style="text;strokeColor=none;fillColor=none;fontSize=22;fontStyle=1;fontColor=#80CBC4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="804" y="445" width="140" height="34" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial2-sub" value="5.02V  &#x2014;  5V_MAIN Rail" style="text;strokeColor=none;fillColor=none;fontSize=10;fontColor=#80CBC4;align=center;" vertex="1" parent="1">
+          <mxGeometry x="799" y="481" width="150" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial2-lbl" value="Power Module" style="text;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;fontColor=#E0E0E0;align=center;" vertex="1" parent="1">
+          <mxGeometry x="754" y="600" width="240" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="dial2-addr" value="INA219 @ 0x40" style="text;strokeColor=none;fillColor=none;fontSize=10;fontColor=#3D6B60;align=center;" vertex="1" parent="1">
+          <mxGeometry x="754" y="622" width="240" height="18" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== SIGNAL ENCODER PANEL (right col, top) ===== -->
+        <!-- x=1152, y=76, w=728, h=374 => bottom y=450 -->
+        <mxCell id="enc-panel" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#1A2E1A;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1152" y="76" width="728" height="374" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-title" value="Signal Encoder" style="text;strokeColor=none;fillColor=none;fontSize=13;fontStyle=1;fontColor=#A5D6A7;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1168" y="84" width="200" height="24" as="geometry"/>
+        </mxCell>
+        <!-- Overall status badge -->
+        <mxCell id="enc-status-badge" value="&#10003;  All Systems Nominal" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#1B5E20;strokeColor=#2E7D32;fontColor=#A5D6A7;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1168" y="116" width="240" height="36" as="geometry"/>
+        </mxCell>
+        <!-- CPLD -->
+        <mxCell id="enc-cpld-lbl" value="CPLD" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1168" y="168" width="100" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-cpld-val" value="OK" style="rounded=1;arcSize=50;whiteSpace=wrap;html=1;fillColor=#1B5E20;strokeColor=#2E7D32;fontColor=#A5D6A7;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="168" width="60" height="24" as="geometry"/>
+        </mxCell>
+        <!-- JTAG -->
+        <mxCell id="enc-jtag-lbl" value="JTAG Devices" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1168" y="204" width="120" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-jtag-val" value="37" style="text;strokeColor=none;fillColor=none;fontSize=20;fontStyle=1;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="196" width="50" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-jtag-unit" value="connected" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1344" y="204" width="90" height="24" as="geometry"/>
+        </mxCell>
+        <!-- Last encode -->
+        <mxCell id="enc-last-lbl" value="Last Encode" style="text;strokeColor=none;fillColor=none;fontSize=12;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1168" y="240" width="120" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-last-val" value="12ms ago" style="text;strokeColor=none;fillColor=none;fontSize=14;fontStyle=1;fontColor=#A5D6A7;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="238" width="130" height="24" as="geometry"/>
+        </mxCell>
+        <!-- Signal flow diagram -->
+        <mxCell id="enc-flow-hdr" value="Signal Flow" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1168" y="278" width="100" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-f-kbd" value="KBD" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=#005D4F;fontColor=#80CBC4;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1168" y="304" width="60" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-f-a1" value="&#8594;" style="text;strokeColor=none;fillColor=none;fontSize=16;fontColor=#005D4F;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1232" y="306" width="24" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-f-cpld" value="CPLD" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#1B5E20;strokeColor=#2E7D32;fontColor=#A5D6A7;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="304" width="60" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-f-a2" value="&#8594;" style="text;strokeColor=none;fillColor=none;fontSize=16;fontColor=#005D4F;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1324" y="306" width="24" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-f-rotors" value="30 Rotors" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=#005D4F;fontColor=#80CBC4;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1352" y="304" width="80" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-f-a3" value="&#8594;" style="text;strokeColor=none;fillColor=none;fontSize=16;fontColor=#005D4F;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1436" y="306" width="24" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-f-lamp" value="LAMP" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#002B22;strokeColor=#005D4F;fontColor=#80CBC4;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1464" y="304" width="60" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="enc-jtag-note" value="JTAG scan: 37 devices  &#x2190; Link-Beta" style="text;strokeColor=none;fillColor=none;fontSize=10;fontColor=#3D6B60;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1168" y="346" width="680" height="18" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== THERMAL MONITOR PANEL (right col, below encoder) ===== -->
+        <!-- x=1152, y=462, w=728, h=362 => bottom y=824 -->
+        <mxCell id="therm-panel" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#3D2800;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1152" y="462" width="728" height="362" as="geometry"/>
+        </mxCell>
+        <mxCell id="therm-title" value="Thermal Monitor" style="text;strokeColor=none;fillColor=none;fontSize=13;fontStyle=1;fontColor=#FFB300;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1168" y="470" width="200" height="24" as="geometry"/>
+        </mxCell>
+        <mxCell id="therm-warn" value="&#9888; WARM &#x2014; Monitor temperatures" style="text;strokeColor=none;fillColor=none;fontSize=11;fontStyle=1;fontColor=#FFB300;align=right;" vertex="1" parent="1">
+          <mxGeometry x="1500" y="470" width="360" height="24" as="geometry"/>
+        </mxCell>
+
+        <!-- Graph area -->
+        <mxCell id="therm-graph-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2B1800;strokeColor=#5D3A00;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="500" width="620" height="258" as="geometry"/>
+        </mxCell>
+
+        <!-- Y-axis labels: 80°C=y500, 70=y564, 60=y629, 50=y693, 40=y757 -->
+        <mxCell id="ty80" value="80&#xB0;C" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#FFB300;align=right;" vertex="1" parent="1"><mxGeometry x="1166" y="496" width="40" height="14" as="geometry"/></mxCell>
+        <mxCell id="ty70" value="70&#xB0;C" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#FFB300;align=right;" vertex="1" parent="1"><mxGeometry x="1166" y="560" width="40" height="14" as="geometry"/></mxCell>
+        <mxCell id="ty60" value="60&#xB0;C" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#FFB300;align=right;" vertex="1" parent="1"><mxGeometry x="1166" y="625" width="40" height="14" as="geometry"/></mxCell>
+        <mxCell id="ty50" value="50&#xB0;C" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#FFB300;align=right;" vertex="1" parent="1"><mxGeometry x="1166" y="689" width="40" height="14" as="geometry"/></mxCell>
+        <mxCell id="ty40" value="40&#xB0;C" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#FFB300;align=right;" vertex="1" parent="1"><mxGeometry x="1166" y="753" width="40" height="14" as="geometry"/></mxCell>
+
+        <!-- Grid lines (horizontal, at each 10°C) -->
+        <mxCell id="tg1" value="" style="edgeStyle=none;html=1;endArrow=none;startArrow=none;strokeColor=#5D3A00;strokeWidth=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1210" y="503" as="sourcePoint"/><mxPoint x="1830" y="503" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="tg2" value="" style="edgeStyle=none;html=1;endArrow=none;startArrow=none;strokeColor=#5D3A00;strokeWidth=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1210" y="567" as="sourcePoint"/><mxPoint x="1830" y="567" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="tg3" value="" style="edgeStyle=none;html=1;endArrow=none;startArrow=none;strokeColor=#5D3A00;strokeWidth=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1210" y="631" as="sourcePoint"/><mxPoint x="1830" y="631" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="tg4" value="" style="edgeStyle=none;html=1;endArrow=none;startArrow=none;strokeColor=#5D3A00;strokeWidth=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1210" y="695" as="sourcePoint"/><mxPoint x="1830" y="695" as="targetPoint"/></mxGeometry></mxCell>
+
+        <!-- X-axis labels -->
+        <mxCell id="tx1" value="-5m" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#8D6E63;align=center;" vertex="1" parent="1"><mxGeometry x="1208" y="760" width="30" height="14" as="geometry"/></mxCell>
+        <mxCell id="tx2" value="-4m" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#8D6E63;align=center;" vertex="1" parent="1"><mxGeometry x="1332" y="760" width="30" height="14" as="geometry"/></mxCell>
+        <mxCell id="tx3" value="-3m" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#8D6E63;align=center;" vertex="1" parent="1"><mxGeometry x="1450" y="760" width="30" height="14" as="geometry"/></mxCell>
+        <mxCell id="tx4" value="-2m" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#8D6E63;align=center;" vertex="1" parent="1"><mxGeometry x="1572" y="760" width="30" height="14" as="geometry"/></mxCell>
+        <mxCell id="tx5" value="-1m" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#8D6E63;align=center;" vertex="1" parent="1"><mxGeometry x="1693" y="760" width="30" height="14" as="geometry"/></mxCell>
+        <mxCell id="tx6" value="now" style="text;strokeColor=none;fillColor=none;fontSize=9;fontColor=#8D6E63;align=center;" vertex="1" parent="1"><mxGeometry x="1808" y="760" width="30" height="14" as="geometry"/></mxCell>
+
+        <!-- CPU line (amber) ~52°C => y=680, variation ±5 -->
+        <mxCell id="cpu-line" value="" style="edgeStyle=none;html=1;endArrow=none;startArrow=none;strokeColor=#FFB300;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1210" y="684" as="sourcePoint"/>
+            <mxPoint x="1830" y="681" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1272" y="682"/>
+              <mxPoint x="1334" y="677"/>
+              <mxPoint x="1396" y="685"/>
+              <mxPoint x="1458" y="680"/>
+              <mxPoint x="1520" y="683"/>
+              <mxPoint x="1582" y="677"/>
+              <mxPoint x="1644" y="682"/>
+              <mxPoint x="1706" y="678"/>
+              <mxPoint x="1768" y="681"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- eFuse line (teal) ~48°C => y=706, variation ±3 -->
+        <mxCell id="efuse-line" value="" style="edgeStyle=none;html=1;endArrow=none;startArrow=none;strokeColor=#80CBC4;strokeWidth=2;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1210" y="708" as="sourcePoint"/>
+            <mxPoint x="1830" y="706" as="targetPoint"/>
+            <Array as="points">
+              <mxPoint x="1272" y="707"/>
+              <mxPoint x="1334" y="709"/>
+              <mxPoint x="1396" y="706"/>
+              <mxPoint x="1458" y="704"/>
+              <mxPoint x="1520" y="707"/>
+              <mxPoint x="1582" y="706"/>
+              <mxPoint x="1644" y="709"/>
+              <mxPoint x="1706" y="705"/>
+              <mxPoint x="1768" y="706"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="tl-cpu-dot" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFB300;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="1168" y="782" width="12" height="12" as="geometry"/></mxCell>
+        <mxCell id="tl-cpu-lbl" value="CPU: 52&#xB0;C" style="text;strokeColor=none;fillColor=none;fontSize=10;fontColor=#FFB300;align=left;" vertex="1" parent="1"><mxGeometry x="1184" y="780" width="80" height="16" as="geometry"/></mxCell>
+        <mxCell id="tl-ef-dot" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#80CBC4;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="1278" y="782" width="12" height="12" as="geometry"/></mxCell>
+        <mxCell id="tl-ef-lbl" value="eFuse: 48&#xB0;C" style="text;strokeColor=none;fillColor=none;fontSize=10;fontColor=#80CBC4;align=left;" vertex="1" parent="1"><mxGeometry x="1294" y="780" width="90" height="16" as="geometry"/></mxCell>
+
+        <!-- ===== RECENT ACTIVITY PANEL (full width, bottom) ===== -->
+        <!-- x=88, y=836, w=1792, h=192 => bottom y=1028 -->
+        <mxCell id="act-panel" value="" style="rounded=1;arcSize=2;whiteSpace=wrap;html=1;fillColor=#003D33;strokeColor=#005D4F;" vertex="1" parent="1">
+          <mxGeometry x="88" y="836" width="1792" height="192" as="geometry"/>
+        </mxCell>
+        <mxCell id="act-title" value="Recent Activity" style="text;strokeColor=none;fillColor=none;fontSize=13;fontStyle=1;fontColor=#80CBC4;align=left;" vertex="1" parent="1">
+          <mxGeometry x="104" y="844" width="200" height="24" as="geometry"/>
+        </mxCell>
+        <!-- Left column of log entries -->
+        <mxCell id="act-e1" value="13:30:01  &#x2014;  Rotor 04 position updated" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;" vertex="1" parent="1"><mxGeometry x="104" y="874" width="440" height="18" as="geometry"/></mxCell>
+        <mxCell id="act-e2" value="13:29:45  &#x2014;  Telemetry poll OK (250ms cycle)" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;" vertex="1" parent="1"><mxGeometry x="104" y="896" width="440" height="18" as="geometry"/></mxCell>
+        <mxCell id="act-e3" value="13:29:30  &#x2014;  JTAG scan: 37 devices confirmed" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;" vertex="1" parent="1"><mxGeometry x="104" y="918" width="440" height="18" as="geometry"/></mxCell>
+        <mxCell id="act-e4" value="&#9888; 13:28:10  &#x2014;  Thermal: CPU 54&#xB0;C (threshold 60&#xB0;C)" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#FFB300;align=left;" vertex="1" parent="1"><mxGeometry x="104" y="940" width="480" height="18" as="geometry"/></mxCell>
+        <mxCell id="act-e5" value="13:26:00  &#x2014;  Machine powered on via PoE+" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;" vertex="1" parent="1"><mxGeometry x="104" y="962" width="440" height="18" as="geometry"/></mxCell>
+        <!-- Right column of log entries -->
+        <mxCell id="act-e6" value="13:30:00  &#x2014;  Config: Enigma I Wehrmacht loaded" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;" vertex="1" parent="1"><mxGeometry x="660" y="874" width="460" height="18" as="geometry"/></mxCell>
+        <mxCell id="act-e7" value="13:29:55  &#x2014;  INA219 @ 0x45: 5.98W nominal" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;" vertex="1" parent="1"><mxGeometry x="660" y="896" width="460" height="18" as="geometry"/></mxCell>
+        <mxCell id="act-e8" value="13:29:40  &#x2014;  Battery: 87% &#x2014; not charging (on PoE+)" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;" vertex="1" parent="1"><mxGeometry x="660" y="918" width="460" height="18" as="geometry"/></mxCell>
+        <mxCell id="act-e9" value="13:28:00  &#x2014;  CPLD firmware CRC OK" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;" vertex="1" parent="1"><mxGeometry x="660" y="940" width="460" height="18" as="geometry"/></mxCell>
+
+        <!-- STATUS BAR -->
+        <mxCell id="status-bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#001F18;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="0" y="1040" width="1920" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="s-dt" value="24 May 2026  13:30:00" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="10" y="1048" width="190" height="24" as="geometry"/></mxCell>
+        <mxCell id="s-sep1" value="|" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;" vertex="1" parent="1"><mxGeometry x="204" y="1048" width="12" height="24" as="geometry"/></mxCell>
+        <mxCell id="s-net" value="192.168.1.50  &#x2014;  PoE+ Active" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=left;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="220" y="1048" width="240" height="24" as="geometry"/></mxCell>
+        <mxCell id="s-sep2" value="|" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#3D6B60;" vertex="1" parent="1"><mxGeometry x="464" y="1048" width="12" height="24" as="geometry"/></mxCell>
+        <mxCell id="s-cfg" value="Active Config:  Enigma I &#x2014; Wehrmacht 1930" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#FFB300;align=left;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="480" y="1048" width="340" height="24" as="geometry"/></mxCell>
+        <mxCell id="s-ready" value="Ready" style="text;strokeColor=none;fillColor=none;fontSize=11;fontColor=#80CBC4;align=right;verticalAlign=middle;" vertex="1" parent="1"><mxGeometry x="1620" y="1048" width="80" height="24" as="geometry"/></mxCell>
+        <mxCell id="s-prog-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#003530;strokeColor=#004D40;" vertex="1" parent="1"><mxGeometry x="1710" y="1053" width="200" height="14" as="geometry"/></mxCell>
+        <mxCell id="s-prog-fill" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3D6B60;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="1710" y="1053" width="20" height="14" as="geometry"/></mxCell>
       </root>
     </mxGraphModel>
   </diagram>
