@@ -42,6 +42,7 @@ All 91 Pass-10 findings are resolved. REF-P10-05 closed: 2BHR-30-VUA uses KiCAD 
 1. **Pass-10 complete ✅** — 91 resolved, 0 partial = 91 total
 2. **Review Pass 11** (`review-pass-11`) — blocked by `copilot-dir-restructure` (pending); `data-plate-standardisation` ✅ complete; `design-log-restructure` ✅ complete
    - Once pass 11 and pass 12 are both clean → `review-clean-passes-gate` can be closed
+3. **Extension mechanical usage (Entry 10)** — Entry 10 (2026-05-26) synced: 20-pin Stack-Input power mapping published (pins 1,3,5,7,9 = 5V_MAIN; pins 11–14 = 3V3_ENIG; pins 2,4,6,8,10,15–18 = GND; pin 19 = ENC_ACTIVE_N; pin 20 = CPLD_RESET_N). Rear-top-left updated to include ENC_DATA return + TTD_RETURN. Plan and handoff updated.
 
 ### Deferred / Blocked
 

@@ -3,6 +3,52 @@
 This file is the generic repo-local handoff note for session-to-session context that is useful to
 keep near the design docs but is **not** itself a source of design truth.
 
+---
+
+## ⏭️ Next Session — Start Here
+
+**Continue with:** `extension-mechanical-usage` discussion (todo: in-progress)
+
+The user ended the previous session intending to **describe the next additions to the architecture
+in their head** when they return. Start by presenting the summary below so they can immediately
+continue where they left off.
+
+### Discussion summary to present at session start
+
+**Discussion file:** `.copilot/discussions/extension-mechanical-usage.md` (last updated 2026-05-26, entry 10) — Entry 10 includes user-approved 20-pin power/GND mapping, ENC_DATA return on rear-top-left, and reserved pins converted to GND. See `.copilot/discussions/extension-mechanical-usage.md` Entry 10 for full pin table and routing notes.
+
+**6 new boards defined** (no design files changed yet — all pre-decision):
+
+| New Board | Replaces | Key facts |
+| :--- | :--- | :--- |
+| **Cypher Board** | STA + REF + JM | Central backplane; 6-layer; 4 ENC module mounts + spade tabs on back; BtB to CTL / Input-Cypher / Output-Cypher; PCBWay likely prototype manufacturer |
+| **Stack-Input Board** | EXT (input half) | AM circuits native (STM32G071 + motor driver); 5V_MAIN + 3V3_ENIG via stacking connectors; male front / female back; right edge = front |
+| **Stack-Output Board** | EXT (output half) | 3V3_ENIG only via stacking connectors; male front / female back; left edge = front |
+| **Stack-Blanking Board** | *(new)* | Passive/near-passive; male at all 4 positions; terminates last mini-stack or connects directly to Cypher Board for transport |
+| **Input-Cypher Board** | ENC (keyboard role) | 1 ENC module via Hirose BtB + MX-style keyboard buttons on opposite face |
+| **Output-Cypher Board** | ENC (lightboard role) | 1 ENC module via Hirose BtB + LEDs on opposite face |
+
+**Stacking connector topology locked:**
+
+- Stack-Input front (right edge): **male**, bottom + just above centre
+- Stack-Output front (left edge): **male**, top + just below centre
+- Positional keying prevents swap errors — no mechanical key feature needed
+- Power: 5V_MAIN + 3V3_ENIG on Stack-Input stacking connectors; 3V3_ENIG only on Stack-Output
+- ENC_DATA carried separately on **ribbon cable IDC** (not on stacking connectors)
+
+**Major open items still to be defined by user (30 of 38 questions open):**
+
+1. Full signal assignment — Cypher Board ↔ Stack-Input and Cypher Board ↔ Stack-Output (drives connector pin count and mechanical geometry)
+2. Stacking connector type — exact part, pitch, pin count
+3. How many ROT boards per mini-stack
+4. 5V_MAIN propagation — passes through stacking connectors stack-to-stack, or each stack sources its own?
+5. Input-Cypher / Output-Cypher chaining connector and protocol (deferred by user)
+6. AM MCU — same STM32G071 or different part for native integration?
+
+**No design files have been touched yet.**
+
+---
+
 ## 2026-05-25 session result (copilot-dir-restructure complete; checkpoint 169)
 
 ### What happened
@@ -22,7 +68,7 @@ Old files retired to `.recycle-bin/`: `agent-directives.md`, `todo-list.md`.
 
 ### Key numbers
 
-- **Next checkpoint = 169**
+- **Next checkpoint = 170**
 - **Next DEC = DEC-084**
 - **review-pass-11** is now unblocked (`copilot-dir-restructure` done)
 
