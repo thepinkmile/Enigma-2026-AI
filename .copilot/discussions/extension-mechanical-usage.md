@@ -33,33 +33,40 @@ All design implications, component requirements, and open questions should be ca
 
 The Rotor Mini-Stack is the assembly unit consisting of:
 
-- **Stack-Input Board** (front: connects to Cypher Board or previous mini-stack rear; rear: input mating connectors to first ROT board)
+- **Stack-Input Board** (front: connects to Cypher Board or previous mini-stack rear; rear: connects to next mini-stack or blanking biard; surface Samtec connectors; connect to the input mating connectors of first ROT board)
 - **ROT boards** (5 per mini-stack — one per rotor position in the stack; maximum 6 mini-stacks in the system = 30 rotor positions total)
-- **Stack-Output Board** (rear: output mating connectors from last ROT board; front: connects to next mini-stack front or Cypher Board)
+- **Stack-Output Board** (rear: connects to next mini-stack or blanking board; surface Samtec connectors: connect to output mating connectors from last ROT board; front: connects to previous mini-stack rear or Cypher Board)
 - **Stack-Blanking Board** (fitted to the rear of the last mini-stack only — terminates the chain)
 
 #### Stacking Connector Topology
 
 ```text
-                         [Cypher Board]
-                        /              \
-          (female, bottom +         (female, top +
-           above-centre)             below-centre)
-                |                         |
-   RIGHT EDGE = FRONT          LEFT EDGE = FRONT
-   [Stack-Input Board]          [Stack-Output Board]
-   LEFT EDGE = BACK             RIGHT EDGE = BACK
-                |                         |
-          (female, bottom +         (female, top +
-           above-centre)             below-centre)
-                |                         |
-          ←—— ROT boards ————————————————→
+                              [Cypher Board]
+                       (STA side)         (REF side)
+                          /                    \
+                         /                      \
+                        /                        \
+          (female, bottom +                      (female, top +
+           above-centre)                          below-centre)
+                |                                     |
+   RIGHT EDGE = FRONT                             LEFT EDGE = FRONT
+   [Stack-Input Board]     ←—— ROT boards ——→     [Stack-Output Board]
+   LEFT EDGE = BACK                               RIGHT EDGE = BACK
+                |                                    |
+          (female, bottom +                    (female, top +
+           above-centre)                        below-centre)
+                 \                                   /
+                  \                                 /
+                   \                               /
+                    \                             /
+                [            Blanking Board           ]
 ```
 
 **Mini-stack front/back orientation:**
 
 - **Stack-Input front** = RIGHT edge; **Stack-Input back** = LEFT edge
 - **Stack-Output front** = LEFT edge; **Stack-Output back** = RIGHT edge
+- The Stack-Input and Stack-Output boards stand either side of the mini-stack facing in towards each other
 - The mini-stack "front face" is the right edge of Stack-Input + left edge of Stack-Output (both facing the Cypher Board / previous mini-stack)
 - The mini-stack "back face" is the left edge of Stack-Input + right edge of Stack-Output (facing the next mini-stack or Stack-Blanking Board)
 
@@ -67,25 +74,25 @@ The Rotor Mini-Stack is the assembly unit consisting of:
 
 | Board | Edge | Gender | Connector 1 position | Connector 2 position |
 | --- | --- | --- | --- | --- |
-| Cypher Board | Stack-Input side | **Female** | Bottom | Just above centre |
-| Cypher Board | Stack-Output side | **Female** | Top | Just below centre |
+| Cypher Board | Stack-Input (STA) side | **Female** | Bottom | Just above centre |
+| Cypher Board | Stack-Output (REF) side | **Female** | Top | Just below centre |
 | Stack-Input | Front (right edge) | **Male** | Bottom | Just above centre |
 | Stack-Input | Back (left edge) | **Female** | Bottom | Just above centre |
 | Stack-Output | Front (left edge) | **Male** | Top | Just below centre |
 | Stack-Output | Back (right edge) | **Female** | Top | Just below centre |
-| Stack-Blanking Board | (single face) | **Male** | All four positions | (matches Stack-Input back + Stack-Output back females) |
+| Stack-Blanking Board | (single face) | **Male** | (matches both Stack-Output back females) | (matches both Stack-Input back females) |
 
 **Positional keying logic:**
 
 - Stack-Input front males (bottom + above-centre) can **only** mate with female connectors at those same positions (Cypher Board Stack-Input side, or previous mini-stack Stack-Input back)
 - Stack-Output front males (top + below-centre) can **only** mate with female connectors at those positions (Cypher Board Stack-Output side, or previous mini-stack Stack-Output back)
-- It is physically impossible to insert a Stack-Input where a Stack-Output belongs (connector positions do not match) — positional keying replaces mechanical key features
+- It is physically impossible to insert a Stack-Input where a Stack-Output belongs (connector positions do not match)
 
 **Daisy-chain:**
 Each successive mini-stack's front males (Stack-Input right edge + Stack-Output left edge) mate with the previous mini-stack's back females (Stack-Input left edge + Stack-Output right edge):
 
 ```text
-[Cypher Board females] ←→ [Mini-stack 1 front males] ... [Mini-stack 1 back females] ←→ [Mini-stack 2 front males] ... → [Stack-Blanking Board males]
+[Cypher Board females] ←→ [Mini-stack 1 front males] ... [Mini-stack 1 back females] ←→ [Mini-stack 2 front males] ... [Mini-stack 2 back females] ←→ [Stack-Blanking Board males]
 ```
 
 **Stack-Blanking Board:**
@@ -100,7 +107,7 @@ Each successive mini-stack's front males (Stack-Input right edge + Stack-Output 
 | --- | --- | --- | --- |
 | Stack-Input | ✅ Yes | ✅ Yes | AM motor driver requires 5V_MAIN; logic uses 3V3_ENIG. Both rails received on front-bottom-right and passed through to rear-bottom-right for next mini-stack. |
 | Stack-Output | ❌ No | ✅ Yes | Logic only — no 5V_MAIN required |
-| Stack-Blanking Board | TBD | TBD | Near-passive; no active ICs expected. Contains internal routing traces for signal return (see Q41). |
+| Stack-Blanking Board | ❌ No | ✅ Yes | Near-passive; no active ICs expected. Contains internal routing traces for signal return (see Q41). |
 
 **8-connector signal assignment (assembly-level view, from 2026-05-26):**
 
@@ -136,7 +143,7 @@ These connectors are distinct from the face-mounted ROT-board Samtec BtB connect
 6. Stack-Output connects via ribbon cable IDC back to Stack-Input — returning ENC_DATA and JTAG TTD back-path
 7. Stack-Input maps ribbon return to **rear-top-right** and forwards to next mini-stack or blanking board
 8. Power and ENC_ACTIVE_N pass straight through Stack-Input: **front-bottom-right** → **rear-bottom-right** (3V3_ENIG, 5V_MAIN, and ENC_ACTIVE_N all pass through;
-   each Stack-Input taps ENC_ACTIVE_N locally for its AM circuit)
+   each Stack-Input taps ENC_ACTIVE_N and 5V_MAIN locally for its AM circuit)
 9. At the last mini-stack: blanking board routes TTD_RETURN to Stack-Output **rear-top-left**; every Stack-Output board has an internal **rear-top-left → front-top-left** passthrough;
    TTD_RETURN daisy-chains forward through all Stack-Output boards back to Cypher Board
 10. ENC_DATA return path routes via blanking board back to **front-bottom-left** (Stack-Output) and on to Cypher Board CPLD *(exact chain path for intermediate stacks — see Q45)*
@@ -151,23 +158,23 @@ These connectors are distinct from the face-mounted ROT-board Samtec BtB connect
 | **STA** — Stator | CPLD-based signal switching backplane | ➜ Circuits migrate to **Cypher Board**; standalone board retired |
 | **REF** — Reflector | Signal reflection path | ➜ Circuits migrate to **Cypher Board**; standalone board retired |
 | **EXT** — Extension | Sits at every 5th position in rotor chain; signal extension + 5V/3V3_ENIG regeneration | ➜ Split into **Stack-Input** (input side) and **Stack-Output** (output side); standalone board retired |
-| **AM** — Actuation Module | Separate plug-in module on CTL (STM32G071, motor driver) | ➜ Integrated **natively** into **Stack-Input Board** (not as an attached sub-module). Each mini-stack has its own AM circuits. Standalone AM module board retired. AM attachment point on CTL removed entirely. |
-| **CTL** — Controller | Hosts JM and AM connection points | ➜ Modified: loses JTAG Module circuit and AM attachment connector (J11 DF40); **no AM of any form remains on CTL**; gains BtB connection to Cypher Board |
+| **AM** — Actuation Module | Separate plug-in module on CTL & EXT (STM32G071, motor driver) | ➜ Integrated **natively** into **Stack-Input Board** (not as an attached sub-module). Each mini-stack has its own AM circuits. Standalone AM module board retired. AM attachment point on CTL removed entirely. |
+| **CTL** — Controller | Hosts JM and AM connection points | ➜ Modified: loses JTAG Module circuit and AM attachment connector (J11 DF40); **no AM of any form remains on CTL**; gains BtB connection to Cypher Board replacing the Link-Beta connector to STA |
 | **JM** — JTAG Module | Currently a module board on CTL | ➜ Moves to **Cypher Board** |
-| **ENC** — Encoder | Standalone keyboard/encoder interface board | ➜ Becomes a **module-style board** that plugs into Input-Cypher Board and/or Output-Cypher Board via Hirose-style BtB connectors; current SW1–SW40 keyboard switches may become obsolete |
+| **ENC** — Encoder | Standalone keyboard/encoder interface board | ➜ Becomes a **module-style board** that plugs into Cypher Board (or Plugboard) Input-Cypher Board and/or Output-Cypher Board via Hirose-style BtB connectors; current SW1–SW40 keyboard switches may become obsolete |
 | **ROT** — Rotor | Individual rotor sense boards | ➜ Unchanged (connects within mini-stack between Stack-Input and Stack-Output) |
-| **USM** — User Settings | User configuration module | ➜ No change expected |
+| **USM** — User Settings | User configuration module | Possibly replace IDC connector with Dual Samtec-style connector(s) to attach to right side of Input-Cypher and Output-Cypher Boards |
 | **PM** — Power Module | Power supply | ➜ No change expected |
 
-> **New boards summary:** Cypher Board, Stack-Input Board, Stack-Output Board, **Stack-Blanking Board**, Input-Cypher Board, Output-Cypher Board — 6 new boards total.
+> **New boards summary:** Cypher Board, Stack-Input Board, Stack-Output Board, Stack-Blanking Board, Input-Cypher Board, Output-Cypher Board — 6 new boards total.
 
 Additional impact areas to consider:
 
 - Rotor chain physical geometry (Cypher Board as central backplane changes mechanical topology)
 - Power distribution along the chain (Stack-Input/Stack-Output replace EXT power regeneration)
 - Link-Beta interface (currently CTL→STA): now CTL→Cypher Board via BtB
-- BtB interfaces: Cypher Board ↔ CTL, Cypher Board ↔ Input-Cypher Board, Cypher Board ↔ Output-Cypher Board (all Hirose DF40 style — TBC)
-- ENC module connector: ENC boards now plug into Input-Cypher and Output-Cypher via Hirose-style BtB (TBC)
+- BtB interfaces: Cypher Board ↔ CTL, Cypher Board ↔ Input-Cypher Board, Cypher Board ↔ Output-Cypher Board (all Samtec-style)
+- ENC module connector: ENC boards now plug into Cypher, Input-Cypher and Output-Cypher via Hirose-style BtB
 - AM-CTL interface (currently DF40 J1/J11): removed from CTL entirely
 - JM-CTL interface: removed from CTL; JM now on Cypher Board
 - Mechanical enclosure constraints
@@ -200,8 +207,9 @@ a new physical assembly concept — the **Rotor Mini-Stack** — centred around 
 - **Spade tab connectors on the back** — jack plug harnesses attach here (moved from ENC board); trace routing to/from these is done within the Cypher Board layers
 - **6-layer stackup** expected (departure from standard 4-layer; driven by routing density of combined STA+REF+spade-tab traces)
 - **Manufacturer note:** JLCPCB 6-layer capability is a known constraint; prototype manufacture may be done by **PCBWay** due to 6-layer board + double-sided assembly requirement
-- Exact connector strategy for rotor mini-stack attachment: **TBD**
-- BtB connectors to CTL, Input-Cypher Board, and Output-Cypher Board: **TBD**
+- Exact connector strategy for rotor mini-stack attachment: see Entry 10 and Entry 11
+- BtB connector to CTL same as defined for the original STA Link-Beta connector
+- BtB connectors to Input-Cypher Board and Output-Cypher Board: Samtec-style connectors to match Stack-Input and Stack-Output connector family
 
 #### Stack-Input Board
 
@@ -212,9 +220,9 @@ a new physical assembly concept — the **Rotor Mini-Stack** — centred around 
 - Each mini-stack therefore has its own independent actuation capability via its Stack-Input Board (STM32G071-equivalent + motor driver, or equivalent circuits)
 - AM functionality is native (on-board circuit), NOT an attached sub-module
 - Carries a **ribbon cable IDC connector** for return signals — connects to Stack-Output; carries ENC_DATA (ENC_IN/OUT processed by 5 ROTs) and JTAG TTD (last ROT TDO) back to Stack-Input;
-  power is not on this IDC
+  power is not on this IDC but GND is used for shielding signals
 - Stacking connectors are keyed — only one valid orientation
-- Exact connector type, pin count, and signal/power assignment: **TBD**
+- Exact connector type, pin count, and signal/power assignment: see Entry 10 and Entry 11
 
 #### Stack-Output Board
 
@@ -223,20 +231,20 @@ a new physical assembly concept — the **Rotor Mini-Stack** — centred around 
 - **Front side** (2 keyed stacking connectors): connects to the next mini-stack front, or to the Stack-Blanking Board on the last stack
 - Carries a **ribbon cable IDC connector** for return signals back to Stack-Input (ENC_DATA + JTAG TTD from last ROT TDO)
 - Stacking connectors are keyed — only one valid orientation
-- Exact connector type, pin count, and signal/power assignment: **TBD**
+- Exact connector type, pin count, and signal/power assignment: see Entry 10 and Entry 11
 
 #### Stack-Blanking Board (new)
 
 - Passive (or near-passive) termination board
 - Fits on the **rear of the last Rotor Mini-Stack** in the chain
 - Completes all required system wiring (signal terminations, power rails, etc.)
-- Exact content: **TBD** (depends on what the stacking connectors carry)
+- Exact content: maps ENC_DATA and TTD_RETURN from top-right connector (rear-top-right of last mini-stack) to top-left (rear-top-left of last mini-stack).
 
 #### CTL Board Changes
 
 - JTAG Module circuit removed (moves to Cypher Board)
 - AM attachment connector (currently J11, DF40) removed — **no AM of any form remains on CTL**
-- Link-Beta now targets Cypher Board instead of STA
+- Link-Beta now targets Cypher Board instead of STA and includes the USB2.0 data traces for the JM on Cypher Board
 - All other CTL functionality unchanged
 
 #### Input-Cypher Board (new)
