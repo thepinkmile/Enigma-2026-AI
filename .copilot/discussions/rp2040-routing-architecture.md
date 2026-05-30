@@ -85,3 +85,49 @@ Keypress on Keyboard Matrix
        ├──► Previous Mini-Stack Module Input Header
        └──► Output Lampboard Driver Matrix ──► Illuminates Target Enigma Lamp
 ~~~
+
+---
+
+## Technical Supplement Addendum: Concurrent Dual-Bus SPI Interleaving Architecture
+
+### 1. Concurrency Model Overview
+
+To minimize propagation delay across the modular subsystem, the Layer 2 native C++ daemon replaces single-threaded execution with a dual-threaded, asynchronous pipelined architecture. The system exploits the physical detachment of the Forward and Return hardware signal paths by assigning each to an isolated kernel thread bound to dedicated hardware processor cores.
+
+### 2. Pipelined Interleaving Mechanics
+
+The communication infrastructure uses two distinct hardware SPI controllers on the CM5 host operating in parallel:
+- Forward Bus Thread: Anchored to Core 2 (SCHED_FIFO, Priority 85). Natively polls all Egress RP2040 nodes, capturing forward cryptographic transformations from the fifth rotor of the active mini-stacks.
+- Return Bus Thread: Anchored to Core 3 (SCHED_FIFO, Priority 85). Natively polls all Ingress RP2040 nodes, injecting inverted data back down the return path toward plugboard passes and the lampboard driver matrix.
+
+Data exchange between the two threads occurs via a lock-free, single-producer single-consumer (SPSC) atomic memory ring buffer located entirely within local host RAM. When the Forward Thread reads a transformation snapshot, it writes the 6-bit token into the atomic channel. The Return Thread picks up the token on its next interleaved clock phase. This local memory boundary handover bypasses the Docker container bridge and Linux network layer entirely during mid-flight routing steps, preserving sub-millisecond round-trip latencies.
+
+### 3. Hardware and Layout Constraints
+
+- Spatial Shielding: Forward and Return SPI signal lines must be completely isolated on Inner Layer 3 by an unbroken Digital Ground (GND) shield trace to prevent high-frequency capacitive crosstalk or clock edge bleeding at 25 MHz operating frequencies.
+- Core Affinity Binding: Strict implementation of pthread_setaffinity_np is mandatory to prevent the Linux kernel scheduler from migrating threads across CPU cores, completely neutralizing context-switch jitter anomalies.
+
+---
+
+## Technical Supplement Addendum: Synchronized CPLD-Driven Hardware Sequencing
+
+### 1. Hardware-Triggered Actuation Isolation
+
+The architecture eliminates JTAG bus contention and OS-level race conditions by delegating the initial step sequence entirely to direct, high-speed combinatorial hardware loops managed by the Altera MAX II EPM570 CPLD. 
+
+The global ENC_ACTIVE_N interrupt line is driven as a direct I/O signal from the keyboard matrix into the CPLD. The boundary RP2040 microcontrollers treat this line as a dedicated hardware input interrupt. 
+
+### 2. Deterministic Execution Sequence
+
+When a key is depressed, the system executes according to the following strict timeline:
+
+- Time 0ms: ENC_ACTIVE_N falls low via direct I/O. The CPLD instantly reflects this state change to all stacked modules. The RP2040 microcontrollers detect this edge and instantly trigger the local 5V MOSFET actuator circuits to fire the rotor servos. No data is read or shifted on the SPI or JTAG lines during this transition.
+- Time 0ms to 45ms (Mechanical Window): The servos physically translate the rotors into position. High-current inductive noise on the 9A power rails peaks and completely dampens out. Both the SPI and JTAG lines remain completely quiet.
+- Time 45ms (Capture Window): The mechanical step is complete, and electrical rails have returned to a stable, quiet state. 
+- Time 45.1ms (Parallel Execution): The CM5 or hardware JTAG master initiates the JTAG SAMPLE Boundary Scan, shifting out the absolute Gray-code positions of all rotors via TDO in a single pass. In parallel, the first Ingress RP2040 injects the initial ENC_IN character data array into the first rotor of the first mini-stack.
+
+### 3. Engineering Advantages
+
+This topology guarantees that the edge-sensitive JTAG Test Access Port (TAP) data lines (TCK, TMS, TDO) never toggle while 9A servo switching spikes are present on the board. Alignment verification and initial cryptographic data injection happen under ideal, electrically quiet conditions.
+
+---
