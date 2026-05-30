@@ -1,0 +1,3 @@
+- Task 1: Map out the Yocto device tree overlays to configure all 6 independent hardware SPI buses on the CM5 pinout.
+- Task 2: Design the updated Protobuf message schemas to handle the new Keyboard, Lampboard, and Plugboard bus streams over gRPC.
+- Task 3: Establish the C# shared domain library project structure to facilitate model sharing between the Docker engine and the Avalonia POS GUI.
